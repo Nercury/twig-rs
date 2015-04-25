@@ -42,12 +42,76 @@ impl Options {
 
 pub struct Lexer {
     options: Options,
+    lex_var: Regex,
+    lex_block: Regex,
+    lex_raw_data: Regex,
+    lex_comment: Regex,
+    lex_block_raw: Regex,
+    lex_block_line: Regex,
     lex_tokens_start: Regex,
+    interpolation_start: Regex,
+    interpolation_end: Regex,
 }
 
 impl Lexer {
     pub fn default() -> Lexer {
         let options = Options::default();
+
+        let lex_var = Regex::new(
+            &format!(
+                r#"^\s*{}{}\s*|\s*{}"#,
+                &quote(&options.whitespace_trim),
+                &quote(&options.tag_variable.end),
+                &quote(&options.tag_variable.end)
+            )
+        ).ok().expect("Failed to init lex_var");
+
+        let lex_block = Regex::new(
+            &format!(
+                r#"^\s*(?:{}{}\s*|\s*{})\n?"#,
+                &quote(&options.whitespace_trim),
+                &quote(&options.tag_block.end),
+                &quote(&options.tag_block.end)
+            )
+        ).ok().expect("Failed to init lex_block");
+
+        let lex_raw_data = Regex::new(
+            &format!(
+                r#"(?s)({}{}|{})\s*(?:end%s)\s*(?:{}{}\s*|\s*{})"#,
+                &quote(&options.tag_block.start),
+                &quote(&options.whitespace_trim),
+                &quote(&options.tag_block.start),
+                &quote(&options.whitespace_trim),
+                &quote(&options.tag_block.end),
+                &quote(&options.tag_block.end)
+            )
+        ).ok().expect("Failed to init lex_raw_data");
+
+        let lex_comment = Regex::new(
+            &format!(
+                r#"(?s)(?:{}{}\s*|{})\n?"#,
+                &quote(&options.whitespace_trim),
+                &quote(&options.tag_comment.end),
+                &quote(&options.tag_comment.end)
+            )
+        ).ok().expect("Failed to init lex_comment");
+
+        let lex_block_raw = Regex::new(
+            &format!(
+                r#"^(?s)\s*(raw|verbatim)\s*(?:{}{}\s*|\s*{})"#,
+                &quote(&options.whitespace_trim),
+                &quote(&options.tag_block.end),
+                &quote(&options.tag_block.end)
+            )
+        ).ok().expect("Failed to init lex_block_raw");
+
+        let lex_block_line = Regex::new(
+            &format!(
+                r#"^(?s)\s*line\s+(\d+)\s*{}"#,
+                &quote(&options.tag_block.end)
+            )
+        ).ok().expect("Failed to init lex_block_line");
+
         let lex_tokens_start = Regex::new(
             &format!(
                 r#"(?s)({}|{}|{})({})?"#,
@@ -58,9 +122,31 @@ impl Lexer {
             )
         ).ok().expect("Failed to init lex_tokens_start");
 
+        let interpolation_start = Regex::new(
+            &format!(
+                r#"^{}\s*"#,
+                &quote(&options.interpolation.start)
+            )
+        ).ok().expect("Failed to init interpolation_start");
+
+        let interpolation_end = Regex::new(
+            &format!(
+                r#"^\s*{}"#,
+                &quote(&options.interpolation.end)
+            )
+        ).ok().expect("Failed to init interpolation_end");
+
         Lexer {
             options: options,
-            lex_tokens_start: lex_tokens_start
+            lex_var: lex_var,
+            lex_block: lex_block,
+            lex_raw_data: lex_raw_data,
+            lex_comment: lex_comment,
+            lex_block_raw: lex_block_raw,
+            lex_block_line: lex_block_line,
+            lex_tokens_start: lex_tokens_start,
+            interpolation_start: interpolation_start,
+            interpolation_end: interpolation_end,
         }
     }
 
@@ -117,7 +203,7 @@ pub struct Iter<'iteration, 'code> {
 
     state: State,
 
-    line_num: u32,
+    line_num: usize,
 }
 
 impl<'iteration, 'code> Iter<'iteration, 'code> {
@@ -203,6 +289,24 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             }
         );
         self.move_cursor(text_content.len() + position.all_len);
+
+        match position.value {
+            TokenValue::CommentStart => self.lex_comment(),
+            TokenValue::BlockStart => {
+                let loc = self.cursor;
+                // raw data?
+                if let Some(captures) = self.lexer.lex_block_raw.captures(&self.code[loc ..]) {
+                    println!("match raw");
+                    if let Some((start, end)) = captures.pos(0) {
+                        if let Some(tag) = captures.at(1) {
+                            self.move_cursor(end - start);
+                            self.lex_raw_data(tag);
+                        }
+                    }
+                }
+            },
+            _ => (),
+        }
     }
 
     fn lex_block(&mut self) {
@@ -221,6 +325,17 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
     }
 
+    fn lex_comment(&mut self) {
+
+    }
+
+    fn lex_raw_data(&mut self, tag: &'code str) {
+        let pos = self.cursor;
+        let code_at_cursor = &self.code[pos..];
+
+        //if !self.lexer.lex_block_raw
+    }
+
     fn push_token(&mut self, token_value: TokenValue<'code>) {
         println!("push_token {:?}", token_value);
 
@@ -235,8 +350,11 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         self.tokens.push_back(Token { value: token_value, line_num: self.line_num });
     }
 
-    fn move_cursor(&mut self) {
-        
+    fn move_cursor(&mut self, offset: usize) {
+        let prev_loc = self.cursor;
+
+        self.cursor += offset;
+        self.line_num += self.code[prev_loc .. prev_loc + offset].lines().count();
     }
 }
 

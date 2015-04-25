@@ -19,7 +19,7 @@ pub enum Value<'a> {
 #[derive(Debug, Clone)]
 pub struct Token<'a> {
     pub value: Value<'a>,
-    pub line_num: u32,
+    pub line_num: usize,
 }
 
 #[derive(Debug)]
