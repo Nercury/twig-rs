@@ -2,6 +2,8 @@
 
 name = "twig"
 version = "0.0.1"
+description = "Twig templating engine for Rust; work in progress."
+repository = "https://github.com/Nercury/twig-rs"
 authors = [
     "Nerijus Arlauskas <nercury@gmail.com>"
 ]
