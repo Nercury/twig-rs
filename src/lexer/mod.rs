@@ -206,6 +206,13 @@ pub struct Iter<'iteration, 'code> {
     line_num: usize,
 }
 
+/// Iterator over stuff.
+///
+/// ## Example
+///
+/// ```
+/// let x = "a";
+/// ```
 impl<'iteration, 'code> Iter<'iteration, 'code> {
     pub fn new<'caller>(lexer: &'caller Lexer, code: &'code str) -> Iter<'caller, 'code> {
         // find all token starts in one go
