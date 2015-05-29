@@ -28,7 +28,7 @@ pub struct Unexpected<'a> {
     pub message: Option<&'a str>,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub enum State {
     Data,
     Block,

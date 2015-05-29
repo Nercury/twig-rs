@@ -5,6 +5,7 @@ use std::collections::VecDeque;
 use token::Token;
 use token::State;
 use token::Value as TokenValue;
+use error::{ Result, Error };
 
 pub struct Delimiters {
     pub start: String,
@@ -19,6 +20,8 @@ impl Delimiters {
         }
     }
 }
+
+struct Brackets;
 
 pub struct Options {
     pub tag_comment: Delimiters,
@@ -179,7 +182,7 @@ impl<'code> Position<'code> {
                 s if s == options.tag_variable.start => TokenValue::VarStart,
                 s if s == options.tag_block.start => TokenValue::BlockStart,
                 s if s == options.tag_comment.start => TokenValue::CommentStart,
-                _ => panic!("Unexpected capture!"),
+                _ => unreachable!("Unexpected capture!"),
             },
             ws_trim: match second {
                 Some(_) => true,
@@ -193,7 +196,7 @@ pub struct Iter<'iteration, 'code> {
     lexer: &'iteration Lexer,
 
     code: &'code str,
-    tokens: VecDeque<Token<'code>>,
+    tokens: VecDeque<Result<Token<'code>>>,
     position: usize,
     positions: Vec<Position<'code>>,
 
@@ -202,7 +205,11 @@ pub struct Iter<'iteration, 'code> {
     finished: bool,
 
     state: State,
+    states: Vec<State>,
 
+    brackets: Vec<Brackets>,
+
+    current_var_block_line: Option<usize>,
     line_num: usize,
 }
 
@@ -214,6 +221,9 @@ pub struct Iter<'iteration, 'code> {
 /// let x = "a";
 /// ```
 impl<'iteration, 'code> Iter<'iteration, 'code> {
+    /// Create the iterator.
+    ///
+    /// > Compatible with `tokenize`.
     pub fn new<'caller>(lexer: &'caller Lexer, code: &'code str) -> Iter<'caller, 'code> {
         // find all token starts in one go
         let positions = lexer.lex_tokens_start.captures_iter(code)
@@ -229,9 +239,12 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             lexer: lexer,
             code: code,
             cursor: 0,
+            current_var_block_line: None,
             line_num: 1,
             end: code_len,
             state: State::Data,
+            states: Vec::new(),
+            brackets: Vec::new(),
             position: 0,
             positions: positions,
             tokens: VecDeque::new(),
@@ -241,8 +254,10 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         iter
     }
 
+    /// When we run out of tokens, we call this function to buffer more.
+    /// > Compatible with `tokenize`.
     fn collect_tokens(&mut self) {
-        println!("collect_tokens");
+        println!("> collect_tokens");
         if self.cursor < self.end {
             // dispatch to the lexing functions depending
             // on the current state
@@ -262,7 +277,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     }
 
     fn lex_data(&mut self) {
-        println!("lex_data");
+        println!(">> lex_data");
         let positions_len = self.positions.len();
 
         // if no matches are left we return the rest of the template as simple text token
@@ -287,7 +302,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         // push the template text first
         let loc = self.cursor;
         let text_content = &self.code[loc .. position.loc - loc];
-        println!("text_content {}", text_content);
+        println!("   text_content {}", text_content);
         self.push_token(
             if position.ws_trim {
                 TokenValue::Text(text_content.trim_right())
@@ -297,64 +312,153 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         );
         self.move_cursor(text_content.len() + position.all_len);
 
+        println!("   match position.value {:?}", position.value);
+
         match position.value {
+
+            // `case $this->options['tag_comment'][0]:`
             TokenValue::CommentStart => self.lex_comment(),
+
+            // `case $this->options['tag_block'][0]:`
             TokenValue::BlockStart => {
                 let loc = self.cursor;
                 // raw data?
                 if let Some(captures) = self.lexer.lex_block_raw.captures(&self.code[loc ..]) {
-                    println!("match raw");
+                    println!("      lex_block_raw");
                     if let Some((start, end)) = captures.pos(0) {
                         if let Some(tag) = captures.at(1) {
                             self.move_cursor(end - start);
                             self.lex_raw_data(tag);
+                            return;
                         }
                     }
                 }
+                // {% line \d+ %}
+                if let Some(captures) = self.lexer.lex_block_line.captures(&self.code[loc ..]) {
+                    println!("      lex_block_line");
+                    unimplemented!();
+                }
+
+                println!("      push block start");
+                self.push_token(TokenValue::BlockStart);
+                self.push_state(State::Block);
+                self.current_var_block_line = Some(self.line_num);
             },
-            _ => (),
+
+            // `case $this->options['tag_variable'][0]:`
+
+            _ => unreachable!("lex_data match position.value"),
         }
     }
 
     fn lex_block(&mut self) {
+        println!(">> lex_block");
 
+        if 0 == self.brackets.len() {
+            println!("      no brackets");
+            let loc = self.cursor;
+
+            if let Some(captures) = self.lexer.lex_block.captures(&self.code[loc ..]) {
+                println!("      lex_block");
+                if let Some((start, end)) = captures.pos(0) {
+                    self.push_token(TokenValue::BlockEnd);
+                    self.move_cursor(end - start);
+                    self.pop_state();
+
+                    return;
+                } else {
+                    unreachable!("captured lex_block but no capture data");
+                }
+            }
+        }
+
+        self.lex_expression();
     }
 
     fn lex_var(&mut self) {
+        println!(">> lex_var");
 
+        if 0 == self.brackets.len() {
+            println!("      no brackets");
+            let loc = self.cursor;
+
+            if let Some(captures) = self.lexer.lex_var.captures(&self.code[loc ..]) {
+                println!("      lex_var");
+                if let Some((start, end)) = captures.pos(0) {
+                    self.push_token(TokenValue::VarEnd);
+                    self.move_cursor(end - start);
+                    self.pop_state();
+
+                    return;
+                } else {
+                    unreachable!("captured lex_var but no capture data");
+                }
+            }
+        }
+
+        self.lex_expression();
+    }
+
+    fn lex_expression(&mut self) {
+        println!(">> lex_expression");
+        unimplemented!();
     }
 
     fn lex_string(&mut self) {
-
+        println!(">> lex_string");
+        unimplemented!();
     }
 
     fn lex_interpolation(&mut self) {
-
+        println!(">> lex_interpolation");
+        unimplemented!();
     }
 
     fn lex_comment(&mut self) {
-
+        println!("   > lex_comment");
+        unimplemented!();
     }
 
     fn lex_raw_data(&mut self, tag: &'code str) {
+        println!("   > lex_raw_data");
         let pos = self.cursor;
         let code_at_cursor = &self.code[pos..];
 
+        unimplemented!();
         //if !self.lexer.lex_block_raw
     }
 
     fn push_token(&mut self, token_value: TokenValue<'code>) {
-        println!("push_token {:?}", token_value);
+        println!("<- push_token {:?}", token_value);
 
         // do not push empty text tokens
         if let TokenValue::Text(ref text) = token_value {
             if text.len() == 0 {
-                println!("text.len() == 0, ignore");
                 return;
             }
         }
 
-        self.tokens.push_back(Token { value: token_value, line_num: self.line_num });
+        self.tokens.push_back(Ok(Token { value: token_value, line_num: self.line_num }));
+    }
+
+    fn push_error(&mut self, error: Error) {
+        self.tokens.push_back(Err(error));
+    }
+
+    fn push_state(&mut self, state: State) {
+        println!("<- push state {:?}", state);
+        self.states.push(state);
+        self.state = state;
+    }
+
+    fn pop_state(&mut self) {
+        match self.states.pop() {
+            Some(state) => {
+                println!("<- pop state {:?}", state);
+                self.state = state;
+            },
+            None => panic!("Cannot pop state without a previous state"),
+        }
     }
 
     fn move_cursor(&mut self, offset: usize) {
@@ -366,15 +470,15 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 }
 
 impl<'iteration, 'code> Iterator for Iter<'iteration, 'code> {
-    type Item = Token<'code>;
+    type Item = Result<Token<'code>>;
 
-    fn next(&mut self) -> Option<Token<'code>> {
-        println!("next");
+    fn next(&mut self) -> Option<Result<Token<'code>>> {
+        println!("<- next");
         if self.tokens.len() == 0 {
             self.collect_tokens();
         }
 
-        println!("pop");
+        println!("<- pop");
         self.tokens.pop_front()
     }
 }
