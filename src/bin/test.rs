@@ -1,5 +1,6 @@
 extern crate twig;
 
+use twig::environment::{ Environment };
 use twig::lexer::{ Lexer };
 
 fn main() {
@@ -10,10 +11,10 @@ fn main() {
         {% endblock %}\n
         The end.
     "#;
-    let lexer = Lexer::default();
-    let mut stream = lexer.tokenize(template);
+    let lexer = Lexer::default(&Environment::default());
+    let mut stream = lexer.tokens(template);
 
     for i in stream {
-        println!("{:?}", i);
+        println!("TOKEN {:?}", i);
     }
 }

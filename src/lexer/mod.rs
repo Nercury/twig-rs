@@ -2,6 +2,7 @@ use regex::{ Regex, Captures, quote };
 use std::iter::{ Iterator };
 use std::collections::VecDeque;
 
+use environment::Environment;
 use token::Token;
 use token::State;
 use token::Value as TokenValue;
@@ -45,9 +46,11 @@ impl Options {
 
 pub struct Lexer {
     options: Options,
+    whitespace: Regex,
     lex_var: Regex,
     lex_block: Regex,
     lex_raw_data: Regex,
+    operator: Regex,
     lex_comment: Regex,
     lex_block_raw: Regex,
     lex_block_line: Regex,
@@ -57,8 +60,18 @@ pub struct Lexer {
 }
 
 impl Lexer {
-    pub fn default() -> Lexer {
+    fn get_operator_regex() -> Regex {
+        Regex::new(
+            r#"^\s+"#
+        ).ok().expect("Failed to init whitespace")
+    }
+
+    pub fn default(env: &Environment) -> Lexer {
         let options = Options::default();
+
+        let whitespace = Regex::new(
+            r#"^\s+"#
+        ).ok().expect("Failed to init whitespace");
 
         let lex_var = Regex::new(
             &format!(
@@ -89,6 +102,8 @@ impl Lexer {
                 &quote(&options.tag_block.end)
             )
         ).ok().expect("Failed to init lex_raw_data");
+
+        let operator = Lexer::get_operator_regex();
 
         let lex_comment = Regex::new(
             &format!(
@@ -141,9 +156,11 @@ impl Lexer {
 
         Lexer {
             options: options,
+            whitespace: whitespace,
             lex_var: lex_var,
             lex_block: lex_block,
             lex_raw_data: lex_raw_data,
+            operator: operator,
             lex_comment: lex_comment,
             lex_block_raw: lex_block_raw,
             lex_block_line: lex_block_line,
@@ -153,7 +170,7 @@ impl Lexer {
         }
     }
 
-    pub fn tokenize<'r>(&'r self, code: &'r str) -> Iter
+    pub fn tokens<'r>(&'r self, code: &'r str) -> Iter
     {
         Iter::new(self, code)
     }
@@ -401,6 +418,36 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
     fn lex_expression(&mut self) {
         println!(">> lex_expression");
+
+        // whitespace
+        let loc = self.cursor;
+        if let Some(captures) = self.lexer.whitespace.captures(&self.code[loc ..]) {
+            println!("      expression whitespace");
+            if let Some((start, end)) = captures.pos(0) {
+                self.move_cursor(end - start);
+                if self.cursor >= self.end {
+                    let var_line = self.current_var_block_line;
+                    self.push_error(
+                        format!(
+                            "Unclosed \"{}\"",
+                            match self.state {
+                                State::Block => "block",
+                                State::Var => "variable",
+                                _ => unreachable!("expected state at block or variable, but other state found"),
+                            }
+                        ),
+                        var_line
+                    );
+                    return;
+                }
+            } else {
+                unreachable!("captured whitespace but no capture data");
+            }
+        }
+
+        // operators
+        let loc = self.cursor;
+
         unimplemented!();
     }
 
@@ -441,8 +488,13 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         self.tokens.push_back(Ok(Token { value: token_value, line_num: self.line_num }));
     }
 
-    fn push_error(&mut self, error: Error) {
-        self.tokens.push_back(Err(error));
+    fn push_error<M: Into<String>>(&mut self, message: M, line_num: Option<usize>) {
+        self.tokens.push_back(Err(
+            Error::new(message, match line_num {
+                Some(line) => line,
+                None => unreachable!("Error should not be pushed without a line number"),
+            })
+        ));
     }
 
     fn push_state(&mut self, state: State) {
@@ -487,12 +539,13 @@ impl<'iteration, 'code> Iterator for Iter<'iteration, 'code> {
 mod test {
     use super::*;
     use token::*;
+    use environment::Environment;
 
     #[test]
     fn name_label_for_tag() {
         let template = "{% § %}";
-        let lexer = Lexer::default();
-        let mut stream = lexer.tokenize(template);
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(template);
 
         //expect(&mut stream, Value::Eof);
     }
