@@ -232,6 +232,39 @@ mod test {
         stream = expect(stream, Value::Name("§"));
     }
 
+    #[test]
+    fn test_name_label_for_function() {
+        let template = "{{ §() }}";
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(template);
+
+        stream = expect(stream, Value::VarStart);
+        stream = expect(stream, Value::Name("§"));
+    }
+
+    #[test]
+    fn test_brackets_nesting() {
+        let template = r#"{{ {"a":{"b":"c"}} }}"#;
+
+        assert_eq!(2, count_token(template, Value::Punctuation('{')));
+        assert_eq!(2, count_token(template, Value::Punctuation('}')));
+    }
+
+    fn count_token(template: &'static str, token_value: Value) -> u32 {
+        let lexer = Lexer::default(&Environment::default());
+        let mut count = 0;
+
+        for maybe_token in lexer.tokens(template) {
+            if let Ok(token) = maybe_token {
+                if token.value == token_value {
+                    count += 1;
+                }
+            }
+        }
+
+        count
+    }
+
     fn expect<'i, 'c>(mut stream: Iter<'i, 'c>, token_value: Value) -> Iter<'i, 'c> {
         match stream.next() {
             Some(Ok(token)) => if token.value != token_value {

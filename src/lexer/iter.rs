@@ -3,7 +3,7 @@ use std::collections::{ VecDeque, HashMap };
 
 use super::Lexer;
 use error::{ Result, Error };
-use token::{ Token, TwigNumber };
+use token::{ Token, TwigNumber, TwigString };
 use token::State;
 use token::Value as TokenValue;
 use lexer::options::Options;
@@ -20,7 +20,26 @@ struct Position<'code> {
     ws_trim: bool,
 }
 
-struct Brackets;
+struct Bracket {
+    open: char,
+    close: char,
+    line_num: usize,
+}
+
+impl Bracket {
+    fn new(open_char: char, line_num: usize) -> Bracket {
+        Bracket {
+            open: open_char,
+            close: match open_char {
+                '(' => ')',
+                '[' => ']',
+                '{' => '}',
+                _ => unreachable!("twig bug: unknown bracket {:?}", open_char),
+            },
+            line_num: line_num,
+        }
+    }
+}
 
 impl<'code> Position<'code> {
     fn from_capture(options: &Options, code: &'code str, c: Captures<'code>) -> Position<'code> {
@@ -61,7 +80,7 @@ pub struct Iter<'iteration, 'code> {
     state: State,
     states: Vec<State>,
 
-    brackets: Vec<Brackets>,
+    brackets: Vec<Bracket>,
 
     current_var_block_line: Option<usize>,
     line_num: usize,
@@ -344,17 +363,47 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             if PUNCTUATION.contains(c) {
                 println!("      punctuation {:?}", c);
 
+                let line_num = self.line_num;
+
                 // opening bracket
                 if "([{".contains(c) {
-                    unimplemented!();
+                    self.brackets.push(Bracket::new(c, line_num));
                 } else if ")]}".contains(c) {
-                    unimplemented!();
+                    match self.brackets.pop() {
+                        Some(expect) => {
+                            if expect.close != c {
+                                self.push_error(format!(r#"Unclosed "{}""#, expect.open), Some(expect.line_num));
+                                return;
+                            }
+                        },
+                        None => {
+                            self.push_error(format!(r#"Unexpected "{}""#, c), Some(line_num));
+                            return;
+                        }
+                    }
                 }
 
                 self.push_token(TokenValue::Punctuation(c));
                 self.move_cursor(1);
 
                 return;
+            } else {
+                println!("      not in punctuation {:?}", c);
+            }
+        }
+
+        // string
+        let loc = self.cursor;
+        if let Some(captures) = self.lexer.regex_string.captures(&self.code[loc ..]) {
+            if let Some((start, end)) = captures.pos(0) {
+                self.push_token(TokenValue::String(TwigString::new(
+                    &self.code[loc + start + 1 .. loc + end - 1]
+                )));
+                self.move_cursor(end - start);
+
+                return;
+            } else {
+                unreachable!("twig bug: captured regex_string but no capture data");
             }
         }
 
@@ -386,7 +435,8 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
                 }
             },
             None => {
-                self.push_error("Unclosed comment", Some(loc));
+                let line_num = self.line_num;
+                self.push_error("Unclosed comment", Some(line_num));
             }
         };
     }

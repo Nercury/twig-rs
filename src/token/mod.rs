@@ -4,6 +4,15 @@ pub enum TwigNumber {
     Int(u64),
 }
 
+#[derive(Eq, PartialEq, Debug, Copy, Clone)]
+pub struct TwigString<'a>(&'a str);
+
+impl<'a> TwigString<'a> {
+    pub fn new<'r>(source: &'r str) -> TwigString<'r> {
+        TwigString(source)
+    }
+}
+
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum Value<'a> {
     Eof,
@@ -14,7 +23,7 @@ pub enum Value<'a> {
     VarEnd,
     Name(&'a str),
     Number(TwigNumber),
-    String,
+    String(TwigString<'a>),
     Operator,
     Punctuation(char),
     InterpolationStart,
