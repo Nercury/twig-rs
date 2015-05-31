@@ -5,10 +5,10 @@ use twig::lexer::{ Lexer };
 
 fn main() {
     let template = r#"
-        {% block test %}\n
-            Some text <hml>{{- output | raw }}</htm>\n
-            {# some comment #}\n
-        {% endblock %}\n
+        {% block test %}
+            Some text <hml>{{- output | raw }}</htm>
+            {# some comment #}
+        {% endblock %}
         The end.
     "#;
     let lexer = Lexer::default(&Environment::default());

@@ -20,6 +20,9 @@ use self::iter::Iter;
 pub struct Lexer {
     options: Options,
     whitespace: Regex,
+    regex_name: Regex,
+    regex_number: Regex,
+    regex_string: Regex,
     lex_var: Regex,
     lex_block: Regex,
     lex_raw_data: Regex,
@@ -40,13 +43,28 @@ impl Lexer {
             options: options,
             whitespace: {
                 Regex::new(
-                    r#"^\s+"#
+                    r#"\A\s+"#
                 ).ok().expect("Failed to init whitespace")
+            },
+            regex_name: {
+                Regex::new(
+                    r#"\A[a-zA-Z_][a-zA-Z0-9_]*"#
+                ).ok().expect("Failed to init regex_name")
+            },
+            regex_number: {
+                Regex::new(
+                    r#"\A[0-9]+(?:\.[0-9]+)?"#
+                ).ok().expect("Failed to init regex_number")
+            },
+            regex_string: {
+                Regex::new(
+                    r#"\A(?s:"([^#"\\]*(?:\\.[^#"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)')"#
+                ).ok().expect("Failed to init regex_string")
             },
             lex_var: {
                 Regex::new(
                     &format!(
-                        r#"^\s*{}{}\s*|\s*{}"#,
+                        r#"\A(?:\s*{}{}\s*|\s*{})"#,
                         &quote(&options.whitespace_trim),
                         &quote(&options.tag_variable.end),
                         &quote(&options.tag_variable.end)
@@ -56,7 +74,7 @@ impl Lexer {
             lex_block: {
                 Regex::new(
                     &format!(
-                        r#"^\s*(?:{}{}\s*|\s*{})\n?"#,
+                        r#"\A\s*(?:{}{}\s*|\s*{})\n?"#,
                         &quote(&options.whitespace_trim),
                         &quote(&options.tag_block.end),
                         &quote(&options.tag_block.end)
@@ -93,7 +111,7 @@ impl Lexer {
             lex_block_raw: {
                 Regex::new(
                     &format!(
-                        r#"^(?s)\s*(raw|verbatim)\s*(?:{}{}\s*|\s*{})"#,
+                        r#"\A(?s)\s*(raw|verbatim)\s*(?:{}{}\s*|\s*{})"#,
                         &quote(&options.whitespace_trim),
                         &quote(&options.tag_block.end),
                         &quote(&options.tag_block.end)
@@ -103,7 +121,7 @@ impl Lexer {
             lex_block_line: {
                 Regex::new(
                     &format!(
-                        r#"^(?s)\s*line\s+(\d+)\s*{}"#,
+                        r#"\A(?s)\s*line\s+(\d+)\s*{}"#,
                         &quote(&options.tag_block.end)
                     )
                 ).ok().expect("Failed to init lex_block_line")
@@ -122,7 +140,7 @@ impl Lexer {
             interpolation_start: {
                 Regex::new(
                     &format!(
-                        r#"^{}\s*"#,
+                        r#"\A{}\s*"#,
                         &quote(&options.interpolation.start)
                     )
                 ).ok().expect("Failed to init interpolation_start")
@@ -130,7 +148,7 @@ impl Lexer {
             interpolation_end: {
                 Regex::new(
                     &format!(
-                        r#"^\s*{}"#,
+                        r#"\A\s*{}"#,
                         &quote(&options.interpolation.end)
                     )
                 ).ok().expect("Failed to init interpolation_end")
@@ -166,12 +184,12 @@ impl Lexer {
             // a whitespace or a parenthesis
             let mut r = match operator.chars().last() {
                 Some(c) if c.is_alphabetic() => format!(
-                    "({}){}",
+                    "{}{}",
                     quote(operator),
                     r#"[\s()]"#
                 ),
                 _ => format!(
-                    "({})",
+                    "{}",
                     quote(operator)
                 ),
             };
@@ -181,7 +199,7 @@ impl Lexer {
             regex_items.push(r);
         }
 
-        let regex_string = format!(r#"^{}"#, &regex_items.connect("|"));
+        let regex_string = format!("\\A(?:{})", &regex_items.connect("|"));
 
         match Regex::new(
             &regex_string,

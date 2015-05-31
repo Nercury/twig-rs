@@ -1,4 +1,10 @@
-#[derive(Eq, PartialEq, Debug, Copy, Clone)]
+#[derive(PartialEq, Debug, Copy, Clone)]
+pub enum TwigNumber {
+    Float(f64),
+    Int(u64),
+}
+
+#[derive(PartialEq, Debug, Copy, Clone)]
 pub enum Value<'a> {
     Eof,
     Text(&'a str),
@@ -6,8 +12,8 @@ pub enum Value<'a> {
     VarStart,
     BlockEnd,
     VarEnd,
-    Name,
-    Number,
+    Name(&'a str),
+    Number(TwigNumber),
     String,
     Operator,
     Punctuation,

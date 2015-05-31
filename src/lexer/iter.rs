@@ -3,10 +3,11 @@ use std::collections::{ VecDeque, HashMap };
 
 use super::Lexer;
 use error::{ Result, Error };
-use token::Token;
+use token::{ Token, TwigNumber };
 use token::State;
 use token::Value as TokenValue;
 use lexer::options::Options;
+use std::u64;
 
 #[derive(Debug, Copy, Clone)]
 struct Position<'code> {
@@ -21,19 +22,19 @@ struct Brackets;
 
 impl<'code> Position<'code> {
     fn from_capture(options: &Options, code: &'code str, c: Captures<'code>) -> Position<'code> {
-        let (all_start, all_end) = c.pos(0).expect("Expected full capture");
-        let (first_start, first_end) = c.pos(1).expect("Expected at least one subcapture");
+        let (all_start, all_end) = c.pos(0).expect("twig bug: expected full capture when collecting positions");
+        let (first_start, first_end) = c.pos(1).expect("twig bug: expected at least one subcapture (start, end) when collecting positions");
         let second = c.pos(2);
 
         Position {
             loc: all_start,
             len: first_end - first_start,
             all_len: all_end - all_start,
-            value: match c.at(1).expect("Expected at least one subcapture") {
+            value: match c.at(1).expect("twig bug: expected at least one subcapture (text) when collecting positions") {
                 s if s == options.tag_variable.start => TokenValue::VarStart,
                 s if s == options.tag_block.start => TokenValue::BlockStart,
                 s if s == options.tag_comment.start => TokenValue::CommentStart,
-                _ => unreachable!("Unexpected capture!"),
+                _ => unreachable!("twig bug: unexpected capture when collecting positions"),
             },
             ws_trim: match second {
                 Some(_) => true,
@@ -143,16 +144,21 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
         // Find the first token after the current cursor
         let mut position = self.positions[self.position].clone(); self.position += 1;
+        println!("-- MOVE POSITION --");
+        self.output_pos(position.loc);
         while position.loc < self.cursor {
             if self.position == positions_len {
                 return;
             }
             position = self.positions[self.position].clone(); self.position += 1;
+            println!("-- MOVE POSITION --");
+            self.output_pos(position.loc);
         }
 
         // push the template text first
         let loc = self.cursor;
-        let text_content = &self.code[loc .. position.loc - loc];
+        let text_content = &self.code[loc .. position.loc];
+        println!("Text is {:?}", text_content);
         self.push_token(
             if position.ws_trim {
                 TokenValue::Text(text_content.trim_right())
@@ -165,11 +171,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         println!("   match position.value {:?}", position.value);
 
         match position.value {
-
-            // `case $this->options['tag_comment'][0]:`
             TokenValue::CommentStart => self.lex_comment(),
-
-            // `case $this->options['tag_block'][0]:`
             TokenValue::BlockStart => {
                 let loc = self.cursor;
                 // raw data?
@@ -194,10 +196,12 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
                 self.push_state(State::Block);
                 self.current_var_block_line = Some(self.line_num);
             },
-
-            // `case $this->options['tag_variable'][0]:`
-
-            _ => unreachable!("lex_data match position.value"),
+            TokenValue::VarStart => {
+                self.push_token(TokenValue::VarStart);
+                self.push_state(State::Var);
+                self.current_var_block_line = Some(self.line_num);
+            },
+            _ => unreachable!("twig bug: lex_data match position.value"),
         }
     }
 
@@ -217,7 +221,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
                     return;
                 } else {
-                    unreachable!("captured lex_block but no capture data");
+                    unreachable!("twig bug: captured lex_block but no capture data");
                 }
             }
         }
@@ -241,7 +245,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
                     return;
                 } else {
-                    unreachable!("captured lex_var but no capture data");
+                    unreachable!("twig bug: captured lex_var but no capture data");
                 }
             }
         }
@@ -266,7 +270,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
                             match self.state {
                                 State::Block => "block",
                                 State::Var => "variable",
-                                _ => unreachable!("expected state at block or variable, but other state found"),
+                                _ => unreachable!("twig bug: expected state at block or variable, but other state found"),
                             }
                         ),
                         var_line
@@ -274,7 +278,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
                     return;
                 }
             } else {
-                unreachable!("captured whitespace but no capture data");
+                unreachable!("twig bug: captured whitespace but no capture data");
             }
         }
 
@@ -288,12 +292,49 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
                 return;
             } else {
-                unreachable!("captured lex_operator but no capture data");
+                // Just skip, it is not op.
             }
         }
 
         // names
         let loc = self.cursor;
+        if let Some(captures) = self.lexer.regex_name.captures(&self.code[loc ..]) {
+            println!("      regex_name {:?}", captures.at(0));
+            if let Some((start, end)) = captures.pos(0) {
+                self.push_token(TokenValue::Name(&self.code[loc + start .. loc + end]));
+                self.move_cursor(end - start);
+
+                return;
+            } else {
+                unreachable!("twig bug: captured regex_name but no capture data");
+            }
+        }
+
+        // numbers
+        let loc = self.cursor;
+        if let Some(captures) = self.lexer.regex_number.captures(&self.code[loc ..]) {
+            println!("      regex_number {:?}", captures.at(0));
+            if let Some((start, end)) = captures.pos(0) {
+                let string = captures.at(0).unwrap(); // we checked that (0) exists above.
+                let number: f64 = match string.parse() {
+                    Ok(number) => number,
+                    _ => unreachable!("twig bug: expected that anything matched by regex_number can be parsed as 64-bit float"),
+                };
+                let int = number as u64;
+                let twig_number = if string.chars().all(|c| c.is_digit(10)) && int <= u64::MAX {
+                    TwigNumber::Int(int)
+                } else {
+                    TwigNumber::Float(number)
+                };
+
+                self.push_token(TokenValue::Number(twig_number));
+                self.move_cursor(end - start);
+
+                return;
+            } else {
+                unreachable!("twig bug: captured regex_number but no capture data");
+            }
+        }
 
         unimplemented!();
     }
@@ -339,14 +380,14 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         self.tokens.push_back(Err(
             Error::new(message, match line_num {
                 Some(line) => line,
-                None => unreachable!("Error should not be pushed without a line number"),
+                None => unreachable!("twig bug: error should not be pushed without a line number"),
             })
         ));
     }
 
     fn push_state(&mut self, state: State) {
         println!("<- push state {:?}", state);
-        self.states.push(state);
+        self.states.push(self.state);
         self.state = state;
     }
 
@@ -356,17 +397,12 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
                 println!("<- pop state {:?}", state);
                 self.state = state;
             },
-            None => panic!("Cannot pop state without a previous state"),
+            None => panic!("twig bug: cannot pop state without a previous state"),
         }
     }
 
-    fn move_cursor(&mut self, offset: usize) {
-        let prev_loc = self.cursor;
-
-        self.cursor += offset;
-        self.line_num += self.code[prev_loc .. prev_loc + offset].lines().count();
-
-        let mut line_start_offset = self.cursor;
+    fn output_pos(&self, pos: usize) {
+        let mut line_start_offset = pos;
         while line_start_offset > 0 {
             if self.code.chars().take(line_start_offset).last().unwrap() == '\n' {
                 break;
@@ -375,7 +411,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             line_start_offset -= 1;
         }
 
-        let mut line_end_offset = self.cursor;
+        let mut line_end_offset = pos;
         while line_end_offset < self.code.len() {
             if self.code.chars().skip(line_end_offset - 1).next().unwrap() == '\n' {
                 break;
@@ -384,11 +420,24 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             line_end_offset += 1;
         }
 
-        let line_cursor = self.cursor - line_start_offset;
+        let line_cursor = pos - line_start_offset;
+        let mut line = &self.code[line_start_offset .. line_end_offset];
+        if line.len() > 0 {
+            line = &line[0..line.len()-1];
+        }
 
-        println!("-------------------------------------------------------------------------");
-        println!("{}", &self.code[line_start_offset .. line_end_offset - 1]);
+        println!("{}", line);
         println!("{}^", "-".to_string().chars().cycle().take(line_cursor).map(|c| c.to_string()).collect::<Vec<_>>().concat());
+    }
+
+    fn move_cursor(&mut self, offset: usize) {
+        let prev_loc = self.cursor;
+
+        self.cursor += offset;
+        self.line_num += self.code[prev_loc .. self.cursor].lines().count() - 1;
+
+        println!("-- CURSOR --");
+        self.output_pos(self.cursor);
     }
 }
 
