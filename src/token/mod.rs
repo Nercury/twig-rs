@@ -1,4 +1,4 @@
-#[derive(Eq, PartialEq, Debug, Clone)]
+#[derive(Eq, PartialEq, Debug, Copy, Clone)]
 pub enum Value<'a> {
     Eof,
     Text(&'a str),

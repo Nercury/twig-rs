@@ -1,34 +1,40 @@
 use regex::{ Regex, Captures, quote };
 use std::iter::{ Iterator };
-use std::collections::VecDeque;
+use std::collections::{ VecDeque, HashMap };
 
-use environment::Environment;
+use environment::{
+    Environment,
+    UnaryOperator,
+    BinaryOperator
+};
 use token::Token;
 use token::State;
 use token::Value as TokenValue;
 use error::{ Result, Error };
 
+#[derive(Copy, Clone)]
 pub struct Delimiters {
-    pub start: String,
-    pub end: String,
+    pub start: &'static str,
+    pub end: &'static str,
 }
 
 impl Delimiters {
-    pub fn new(start: &str, end: &str) -> Delimiters {
+    pub fn new(start: &'static str, end: &'static str) -> Delimiters {
         Delimiters {
-            start: start.to_string(),
-            end: end.to_string(),
+            start: start,
+            end: end,
         }
     }
 }
 
 struct Brackets;
 
+#[derive(Copy, Clone)]
 pub struct Options {
     pub tag_comment: Delimiters,
     pub tag_block: Delimiters,
     pub tag_variable: Delimiters,
-    pub whitespace_trim: String,
+    pub whitespace_trim: &'static str,
     pub interpolation: Delimiters,
 }
 
@@ -38,7 +44,7 @@ impl Options {
             tag_comment: Delimiters::new("{#", "#}"),
             tag_block: Delimiters::new("{%", "%}"),
             tag_variable: Delimiters::new("{{", "}}"),
-            whitespace_trim: "-".to_string(),
+            whitespace_trim: "-",
             interpolation: Delimiters::new("#{", "}"),
         }
     }
@@ -60,113 +66,161 @@ pub struct Lexer {
 }
 
 impl Lexer {
-    fn get_operator_regex() -> Regex {
-        Regex::new(
-            r#"^\s+"#
-        ).ok().expect("Failed to init whitespace")
-    }
-
     pub fn default(env: &Environment) -> Lexer {
         let options = Options::default();
 
-        let whitespace = Regex::new(
-            r#"^\s+"#
-        ).ok().expect("Failed to init whitespace");
-
-        let lex_var = Regex::new(
-            &format!(
-                r#"^\s*{}{}\s*|\s*{}"#,
-                &quote(&options.whitespace_trim),
-                &quote(&options.tag_variable.end),
-                &quote(&options.tag_variable.end)
-            )
-        ).ok().expect("Failed to init lex_var");
-
-        let lex_block = Regex::new(
-            &format!(
-                r#"^\s*(?:{}{}\s*|\s*{})\n?"#,
-                &quote(&options.whitespace_trim),
-                &quote(&options.tag_block.end),
-                &quote(&options.tag_block.end)
-            )
-        ).ok().expect("Failed to init lex_block");
-
-        let lex_raw_data = Regex::new(
-            &format!(
-                r#"(?s)({}{}|{})\s*(?:end%s)\s*(?:{}{}\s*|\s*{})"#,
-                &quote(&options.tag_block.start),
-                &quote(&options.whitespace_trim),
-                &quote(&options.tag_block.start),
-                &quote(&options.whitespace_trim),
-                &quote(&options.tag_block.end),
-                &quote(&options.tag_block.end)
-            )
-        ).ok().expect("Failed to init lex_raw_data");
-
-        let operator = Lexer::get_operator_regex();
-
-        let lex_comment = Regex::new(
-            &format!(
-                r#"(?s)(?:{}{}\s*|{})\n?"#,
-                &quote(&options.whitespace_trim),
-                &quote(&options.tag_comment.end),
-                &quote(&options.tag_comment.end)
-            )
-        ).ok().expect("Failed to init lex_comment");
-
-        let lex_block_raw = Regex::new(
-            &format!(
-                r#"^(?s)\s*(raw|verbatim)\s*(?:{}{}\s*|\s*{})"#,
-                &quote(&options.whitespace_trim),
-                &quote(&options.tag_block.end),
-                &quote(&options.tag_block.end)
-            )
-        ).ok().expect("Failed to init lex_block_raw");
-
-        let lex_block_line = Regex::new(
-            &format!(
-                r#"^(?s)\s*line\s+(\d+)\s*{}"#,
-                &quote(&options.tag_block.end)
-            )
-        ).ok().expect("Failed to init lex_block_line");
-
-        let lex_tokens_start = Regex::new(
-            &format!(
-                r#"(?s)({}|{}|{})({})?"#,
-                &quote(&options.tag_variable.start),
-                &quote(&options.tag_block.start),
-                &quote(&options.tag_comment.start),
-                &quote(&options.whitespace_trim)
-            )
-        ).ok().expect("Failed to init lex_tokens_start");
-
-        let interpolation_start = Regex::new(
-            &format!(
-                r#"^{}\s*"#,
-                &quote(&options.interpolation.start)
-            )
-        ).ok().expect("Failed to init interpolation_start");
-
-        let interpolation_end = Regex::new(
-            &format!(
-                r#"^\s*{}"#,
-                &quote(&options.interpolation.end)
-            )
-        ).ok().expect("Failed to init interpolation_end");
-
         Lexer {
             options: options,
-            whitespace: whitespace,
-            lex_var: lex_var,
-            lex_block: lex_block,
-            lex_raw_data: lex_raw_data,
-            operator: operator,
-            lex_comment: lex_comment,
-            lex_block_raw: lex_block_raw,
-            lex_block_line: lex_block_line,
-            lex_tokens_start: lex_tokens_start,
-            interpolation_start: interpolation_start,
-            interpolation_end: interpolation_end,
+            whitespace: {
+                Regex::new(
+                    r#"^\s+"#
+                ).ok().expect("Failed to init whitespace")
+            },
+            lex_var: {
+                Regex::new(
+                    &format!(
+                        r#"^\s*{}{}\s*|\s*{}"#,
+                        &quote(&options.whitespace_trim),
+                        &quote(&options.tag_variable.end),
+                        &quote(&options.tag_variable.end)
+                    )
+                ).ok().expect("Failed to init lex_var")
+            },
+            lex_block: {
+                Regex::new(
+                    &format!(
+                        r#"^\s*(?:{}{}\s*|\s*{})\n?"#,
+                        &quote(&options.whitespace_trim),
+                        &quote(&options.tag_block.end),
+                        &quote(&options.tag_block.end)
+                    )
+                ).ok().expect("Failed to init lex_block")
+            },
+            lex_raw_data: {
+                Regex::new(
+                    &format!(
+                        r#"(?s)({}{}|{})\s*(?:end%s)\s*(?:{}{}\s*|\s*{})"#,
+                        &quote(&options.tag_block.start),
+                        &quote(&options.whitespace_trim),
+                        &quote(&options.tag_block.start),
+                        &quote(&options.whitespace_trim),
+                        &quote(&options.tag_block.end),
+                        &quote(&options.tag_block.end)
+                    )
+                ).ok().expect("Failed to init lex_raw_data")
+            },
+            operator: Lexer::get_operator_regex(
+                &env.unary_operators,
+                &env.binary_operators
+            ),
+            lex_comment: {
+                Regex::new(
+                    &format!(
+                        r#"(?s)(?:{}{}\s*|{})\n?"#,
+                        &quote(&options.whitespace_trim),
+                        &quote(&options.tag_comment.end),
+                        &quote(&options.tag_comment.end)
+                    )
+                ).ok().expect("Failed to init lex_comment")
+            },
+            lex_block_raw: {
+                Regex::new(
+                    &format!(
+                        r#"^(?s)\s*(raw|verbatim)\s*(?:{}{}\s*|\s*{})"#,
+                        &quote(&options.whitespace_trim),
+                        &quote(&options.tag_block.end),
+                        &quote(&options.tag_block.end)
+                    )
+                ).ok().expect("Failed to init lex_block_raw")
+            },
+            lex_block_line: {
+                Regex::new(
+                    &format!(
+                        r#"^(?s)\s*line\s+(\d+)\s*{}"#,
+                        &quote(&options.tag_block.end)
+                    )
+                ).ok().expect("Failed to init lex_block_line")
+            },
+            lex_tokens_start: {
+                Regex::new(
+                    &format!(
+                        r#"(?s)({}|{}|{})({})?"#,
+                        &quote(&options.tag_variable.start),
+                        &quote(&options.tag_block.start),
+                        &quote(&options.tag_comment.start),
+                        &quote(&options.whitespace_trim)
+                    )
+                ).ok().expect("Failed to init lex_tokens_start")
+            },
+            interpolation_start: {
+                Regex::new(
+                    &format!(
+                        r#"^{}\s*"#,
+                        &quote(&options.interpolation.start)
+                    )
+                ).ok().expect("Failed to init interpolation_start")
+            },
+            interpolation_end: {
+                Regex::new(
+                    &format!(
+                        r#"^\s*{}"#,
+                        &quote(&options.interpolation.end)
+                    )
+                ).ok().expect("Failed to init interpolation_end")
+            },
+        }
+    }
+
+    fn get_operator_regex(
+        unary_operators: &HashMap<&'static str, UnaryOperator>,
+        binary_operators: &HashMap<&'static str, BinaryOperator>
+    ) -> Regex {
+        let mut all: Vec<_> = Some("=").into_iter()
+            .chain(
+                unary_operators.keys()
+                    .map(|&v| v)
+            )
+            .chain(
+                binary_operators.keys()
+                    .map(|&v| v)
+            )
+            .collect();
+
+        all.sort_by(|a, b| b.len().cmp(&a.len()));
+
+        let mut regex_items = Vec::new();
+
+        for operator in all {
+            let length = operator.len();
+
+            assert!(length > 0);
+
+            // an operator that ends with a character must be followed by
+            // a whitespace or a parenthesis
+            let mut r = match operator.chars().last() {
+                Some(c) if c.is_alphabetic() => format!(
+                    "({}){}",
+                    quote(operator),
+                    r#"[\s()]"#
+                ),
+                _ => format!(
+                    "({})",
+                    quote(operator)
+                ),
+            };
+
+            r = r.replace(" ", "\\s+");
+
+            regex_items.push(r);
+        }
+
+        let regex_string = format!(r#"^{}"#, &regex_items.connect("|"));
+
+        match Regex::new(
+            &regex_string,
+        ) {
+            Ok(regex) => regex,
+            Err(e) => panic!("Failed to init operator_regex \n{}\n{:?}", regex_string, e),
         }
     }
 
@@ -176,7 +230,7 @@ impl Lexer {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Copy, Clone)]
 struct Position<'code> {
     loc: usize,
     len: usize,
