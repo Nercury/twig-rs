@@ -127,6 +127,10 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         iter
     }
 
+    pub fn get_line_num(&self) -> usize {
+        self.line_num
+    }
+
     /// When we run out of tokens, we call this function to buffer more.
     /// > Compatible with `tokenize`.
     fn collect_tokens(&mut self) {
@@ -204,12 +208,28 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
                             self.lex_raw_data(tag);
                             return;
                         }
+                    } else {
+                        unreachable!("twig bug: captured lex_block_raw but no capture data");
                     }
                 }
                 // {% line \d+ %}
                 if let Some(captures) = self.lexer.lex_block_line.captures(&self.code[loc ..]) {
                     println!("      lex_block_line");
-                    unimplemented!();
+                    let maybe_start_and_end = captures.pos(0);
+                    let maybe_line_num = captures.at(1);
+
+                    match (maybe_start_and_end, maybe_line_num) {
+                        (Some((start, end)), Some(line_num)) => {
+                            self.move_cursor(end - start);
+                            self.line_num = line_num.parse()
+                                .ok()
+                                .expect("twig bug: expected regexp matched as digit to be parseable as line number");
+                            return;
+                        },
+                        _ => {
+                            unreachable!("twig bug: captured lex_block_line but no capture data");
+                        }
+                    }
                 }
 
                 println!("      push block start");
@@ -451,14 +471,14 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     }
 
     fn push_token(&mut self, token_value: TokenValue<'code>) {
-        println!("<- push_token {:?}", token_value);
-
         // do not push empty text tokens
         if let TokenValue::Text(ref text) = token_value {
             if text.len() == 0 {
                 return;
             }
         }
+
+        println!("<- push_token {:?}, line_num {:?}", token_value, self.line_num);
 
         self.tokens.push_back(Ok(Token { value: token_value, line_num: self.line_num }));
     }
@@ -522,6 +542,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
         self.cursor += offset;
         self.line_num += self.code[prev_loc .. self.cursor].lines().count() - 1;
+        println!("line num is {}", self.line_num);
 
         println!("-- CURSOR --");
         self.output_pos(self.cursor);

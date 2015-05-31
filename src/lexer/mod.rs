@@ -219,6 +219,7 @@ impl Lexer {
 mod test {
     use super::*;
     use token::*;
+    use error::Result;
     use lexer::iter::Iter;
     use environment::Environment;
 
@@ -250,6 +251,30 @@ mod test {
         assert_eq!(2, count_token(template, Value::Punctuation('}')));
     }
 
+    #[test]
+    fn test_line_directive() {
+        let template = [
+            "foo",
+            "bar",
+            "{% line 10 %}",
+            "{{",
+            "baz",
+            "}}",
+        ].connect("\n");
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        // foo\nbar\n
+        stream = expect_with_line(stream, Value::Text("foo\nbar\n"), 1);
+        // \n (after {% line %})
+        stream = expect_with_line(stream, Value::Text("\n"), 10);
+        // {{
+        stream = expect_with_line(stream, Value::VarStart, 11);
+        // baz
+        stream = expect_with_line(stream, Value::Name("baz"), 12);
+    }
+
     fn count_token(template: &'static str, token_value: Value) -> u32 {
         let lexer = Lexer::default(&Environment::default());
         let mut count = 0;
@@ -265,14 +290,28 @@ mod test {
         count
     }
 
+    fn expect_with_line<'i, 'c>(mut stream: Iter<'i, 'c>, token_value: Value, line_num: usize) -> Iter<'i, 'c> {
+        let maybe_token = stream.next();
+        let token = assert_token_value(maybe_token, token_value);
+        assert_eq!(token.line_num, line_num);
+        stream
+    }
+
     fn expect<'i, 'c>(mut stream: Iter<'i, 'c>, token_value: Value) -> Iter<'i, 'c> {
-        match stream.next() {
+        let maybe_token = stream.next();
+        assert_token_value(maybe_token, token_value);
+        stream
+    }
+
+    fn assert_token_value<'c>(maybe_token: Option<Result<Token<'c>>>, token_value: Value<'c>) -> Token<'c> {
+        match maybe_token {
             Some(Ok(token)) => if token.value != token_value {
                 panic!("expected token {:?} but received {:?}", token_value, token.value);
+            } else {
+                token
             },
             Some(Err(e)) => panic!("expected token {:?} but received error {:?}", token_value, e),
             None => panic!("expected token {:?} but received end of stream", token_value),
-        };
-        stream
+        }
     }
 }
