@@ -48,7 +48,7 @@ impl Lexer {
             },
             regex_name: {
                 Regex::new(
-                    r#"\A[a-zA-Z_][a-zA-Z0-9_]*"#
+                    r#"\A[a-zA-Z_\x7F-\xFF][a-zA-Z0-9_\x7F-\xFF]*"#
                 ).ok().expect("Failed to init regex_name")
             },
             regex_number: {
