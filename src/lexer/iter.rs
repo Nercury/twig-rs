@@ -441,7 +441,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     fn output_pos(&self, pos: usize) {
         let mut line_start_offset = pos;
         while line_start_offset > 0 {
-            if self.code.chars().take(line_start_offset).last().unwrap() == '\n' {
+            if self.code.chars().take(line_start_offset).last().expect("not empty last") == '\n' {
                 break;
             }
 
@@ -450,7 +450,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
         let mut line_end_offset = pos;
         while line_end_offset < self.code.len() {
-            if self.code.chars().skip(line_end_offset - 1).next().unwrap() == '\n' {
+            if line_end_offset > 0 && self.code.chars().skip(line_end_offset - 1).next().expect("not empty next") == '\n' {
                 break;
             }
 

@@ -219,6 +219,7 @@ impl Lexer {
 mod test {
     use super::*;
     use token::*;
+    use lexer::iter::Iter;
     use environment::Environment;
 
     #[test]
@@ -227,12 +228,18 @@ mod test {
         let lexer = Lexer::default(&Environment::default());
         let mut stream = lexer.tokens(template);
 
-        //expect(&mut stream, Value::Eof);
+        stream = expect(stream, Value::BlockStart);
+        stream = expect(stream, Value::Name("§"));
     }
 
-    // fn expect<'r>(stream: &'r mut Iter<'r>, token_value: Value) {
-    //     if let Err(unexpection) = stream.expect(token_value, None) {
-    //         panic!("bad token: {:?}", unexpection);
-    //     }
-    // }
+    fn expect<'i, 'c>(mut stream: Iter<'i, 'c>, token_value: Value) -> Iter<'i, 'c> {
+        match stream.next() {
+            Some(Ok(token)) => if token.value != token_value {
+                panic!("expected token {:?} but received {:?}", token_value, token.value);
+            },
+            Some(Err(e)) => panic!("expected token {:?} but received error {:?}", token_value, e),
+            None => panic!("expected token {:?} but received end of stream", token_value),
+        };
+        stream
+    }
 }
