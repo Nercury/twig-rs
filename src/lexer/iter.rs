@@ -9,6 +9,8 @@ use token::Value as TokenValue;
 use lexer::options::Options;
 use std::u64;
 
+const PUNCTUATION: &'static str = "()[]{}?:.,|";
+
 #[derive(Debug, Copy, Clone)]
 struct Position<'code> {
     loc: usize,
@@ -336,6 +338,26 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             }
         }
 
+        // punctuation
+        let loc = self.cursor;
+        if let Some(c) = self.code[loc..].chars().next() {
+            if PUNCTUATION.contains(c) {
+                println!("      punctuation {:?}", c);
+
+                // opening bracket
+                if "([{".contains(c) {
+                    unimplemented!();
+                } else if ")]}".contains(c) {
+                    unimplemented!();
+                }
+
+                self.push_token(TokenValue::Punctuation(c));
+                self.move_cursor(1);
+
+                return;
+            }
+        }
+
         unimplemented!();
     }
 
@@ -351,7 +373,22 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
     fn lex_comment(&mut self) {
         println!("   > lex_comment");
-        unimplemented!();
+
+        let loc = self.cursor;
+        let maybe_captures = self.lexer.lex_comment.captures(&self.code[loc ..]);
+
+        match maybe_captures {
+            Some(captures) => {
+                if let Some((start, end)) = captures.pos(0) {
+                    self.move_cursor(end);
+                } else {
+                    unreachable!("twig bug: captured lex_comment but no capture data");
+                }
+            },
+            None => {
+                self.push_error("Unclosed comment", Some(loc));
+            }
+        };
     }
 
     fn lex_raw_data(&mut self, tag: &'code str) {

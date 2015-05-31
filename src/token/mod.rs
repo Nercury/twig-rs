@@ -16,7 +16,7 @@ pub enum Value<'a> {
     Number(TwigNumber),
     String,
     Operator,
-    Punctuation,
+    Punctuation(char),
     InterpolationStart,
     InterpolationEnd,
     CommentStart, // Not in vanilla Twig.
