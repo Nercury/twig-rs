@@ -145,7 +145,9 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
                 State::String => self.lex_string(),
                 State::Interpolation => self.lex_interpolation(),
             }
-        } else {
+        }
+
+        if self.cursor == self.end {
             if !self.finished {
                 self.push_token(TokenValue::Eof);
                 self.finished = true;
@@ -463,11 +465,39 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
     fn lex_raw_data(&mut self, tag: &'code str) {
         println!("   > lex_raw_data");
-        let pos = self.cursor;
-        let code_at_cursor = &self.code[pos..];
+        let loc = self.cursor;
+        let maybe_captures = {
+            match tag {
+                "raw" => self.lexer.lex_raw_data.captures(&self.code[loc ..]),
+                "verbatim" => self.lexer.lex_raw_data.captures(&self.code[loc ..]),
+                _ => unreachable!("twig bug: expected raw or verbatim tag, but got {}", tag),
+            }
+        };
 
-        unimplemented!();
-        //if !self.lexer.lex_block_raw
+        match maybe_captures {
+            Some(captures) => {
+                let maybe_full = captures.pos(0);
+                let maybe_end = captures.at(1);
+
+                match (maybe_full, maybe_end) {
+                    (Some((start, end)), Some(end_text)) => {
+                        let mut text = &self.code[loc..loc + start];
+                        self.move_cursor(end - start);
+
+                        if end_text.contains("-") {
+                            text = text.trim_right()
+                        }
+
+                        self.push_token(TokenValue::Text(text));
+                    },
+                    _ => unreachable!("twig bug: captured lex_raw_data but no capture data"),
+                }
+            },
+            None => {
+                let line_num = self.line_num;
+                self.push_error(format!("Unexpected end of file: Unclosed \"{}\" block", tag), Some(line_num));
+            }
+        };
     }
 
     fn push_token(&mut self, token_value: TokenValue<'code>) {
@@ -509,32 +539,32 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     }
 
     fn output_pos(&self, pos: usize) {
-        let mut line_start_offset = pos;
-        while line_start_offset > 0 {
-            if self.code.chars().take(line_start_offset).last().expect("not empty last") == '\n' {
-                break;
-            }
-
-            line_start_offset -= 1;
-        }
-
-        let mut line_end_offset = pos;
-        while line_end_offset < self.code.len() {
-            if line_end_offset > 0 && self.code.chars().skip(line_end_offset - 1).next().expect("not empty next") == '\n' {
-                break;
-            }
-
-            line_end_offset += 1;
-        }
-
-        let line_cursor = pos - line_start_offset;
-        let mut line = &self.code[line_start_offset .. line_end_offset];
-        if line.len() > 0 {
-            line = &line[0..line.len()-1];
-        }
-
-        println!("{}", line);
-        println!("{}^", "-".to_string().chars().cycle().take(line_cursor).map(|c| c.to_string()).collect::<Vec<_>>().concat());
+        // let mut line_start_offset = pos;
+        // while line_start_offset > 0 {
+        //     if self.code.chars().take(line_start_offset).last().expect("not empty last") == '\n' {
+        //         break;
+        //     }
+        //
+        //     line_start_offset -= 1;
+        // }
+        //
+        // let mut line_end_offset = pos;
+        // while line_end_offset < self.code.len() {
+        //     if line_end_offset > 0 && self.code.chars().skip(line_end_offset - 1).next().expect("not empty next") == '\n' {
+        //         break;
+        //     }
+        //
+        //     line_end_offset += 1;
+        // }
+        //
+        // let line_cursor = pos - line_start_offset;
+        // let mut line = &self.code[line_start_offset .. line_end_offset];
+        // if line.len() > 0 {
+        //     line = &line[0..line.len()-1];
+        // }
+        //
+        // println!("{}", line);
+        // println!("{}^", "-".to_string().chars().cycle().take(line_cursor).map(|c| c.to_string()).collect::<Vec<_>>().concat());
     }
 
     fn move_cursor(&mut self, offset: usize) {

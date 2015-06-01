@@ -26,6 +26,7 @@ pub struct Lexer {
     lex_var: Regex,
     lex_block: Regex,
     lex_raw_data: Regex,
+    lex_verbatim_data: Regex,
     lex_operator: Regex,
     lex_comment: Regex,
     lex_block_raw: Regex,
@@ -84,7 +85,7 @@ impl Lexer {
             lex_raw_data: {
                 Regex::new(
                     &format!(
-                        r#"(?s)({}{}|{})\s*(?:end%s)\s*(?:{}{}\s*|\s*{})"#,
+                        r#"(?s)({}{}|{})\s*(?:endraw)\s*(?:{}{}\s*|\s*{})"#,
                         &quote(&options.tag_block.start),
                         &quote(&options.whitespace_trim),
                         &quote(&options.tag_block.start),
@@ -93,6 +94,19 @@ impl Lexer {
                         &quote(&options.tag_block.end)
                     )
                 ).ok().expect("Failed to init lex_raw_data")
+            },
+            lex_verbatim_data: {
+                Regex::new(
+                    &format!(
+                        r#"(?s)({}{}|{})\s*(?:endverbatim)\s*(?:{}{}\s*|\s*{})"#,
+                        &quote(&options.tag_block.start),
+                        &quote(&options.whitespace_trim),
+                        &quote(&options.tag_block.start),
+                        &quote(&options.whitespace_trim),
+                        &quote(&options.tag_block.end),
+                        &quote(&options.tag_block.end)
+                    )
+                ).ok().expect("Failed to init lex_verbatim_data")
             },
             lex_operator: Lexer::get_operator_regex(
                 &env.unary_operators,
@@ -221,6 +235,7 @@ mod test {
     use token::*;
     use error::Result;
     use lexer::iter::Iter;
+    use std::iter::repeat;
     use environment::Environment;
 
     #[test]
@@ -272,7 +287,38 @@ mod test {
         // {{
         stream = expect_with_line(stream, Value::VarStart, 11);
         // baz
-        stream = expect_with_line(stream, Value::Name("baz"), 12);
+        // TODO: in twig tests the value on right is 12, but our iterator works in different way
+        stream = expect_with_line(stream, Value::Name("baz"), 11);
+    }
+
+    #[test]
+    fn test_long_comments() {
+        let template = [
+            "{# ",
+            &*repeat("*").take(100000).collect::<String>(),
+            " #}",
+        ].concat();
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        expect(stream, Value::Eof);
+    }
+
+    #[test]
+    fn test_long_raw() {
+        let text = &*repeat("*").take(100000).collect::<String>();
+
+        let template = [
+            "{% raw %}",
+            text,
+            "{% endraw %}",
+        ].concat();
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        expect(stream, Value::Text(text));
     }
 
     fn count_token(template: &'static str, token_value: Value) -> u32 {

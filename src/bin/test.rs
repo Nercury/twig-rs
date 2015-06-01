@@ -5,6 +5,7 @@ use twig::lexer::{ Lexer };
 
 fn main() {
     let template = r#"
+        {% raw %}baaaaaaah{% endraw %}
         {% block test %}
             Some text <hml>{{- output | raw }}</htm>
             {# some comment #}
