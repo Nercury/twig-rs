@@ -469,7 +469,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         let maybe_captures = {
             match tag {
                 "raw" => self.lexer.lex_raw_data.captures(&self.code[loc ..]),
-                "verbatim" => self.lexer.lex_raw_data.captures(&self.code[loc ..]),
+                "verbatim" => self.lexer.lex_verbatim_data.captures(&self.code[loc ..]),
                 _ => unreachable!("twig bug: expected raw or verbatim tag, but got {}", tag),
             }
         };
@@ -495,7 +495,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             },
             None => {
                 let line_num = self.line_num;
-                self.push_error(format!("Unexpected end of file: Unclosed \"{}\" block", tag), Some(line_num));
+                self.push_error(format!(r#"Unexpected end of file: Unclosed "{}" block"#, tag), Some(line_num));
             }
         };
     }

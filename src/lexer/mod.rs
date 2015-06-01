@@ -306,6 +306,42 @@ mod test {
     }
 
     #[test]
+    fn test_raw() {
+        let template = [
+            "{% raw %}aaa{% endraw %}",
+        ].concat();
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        expect(stream, Value::Text("aaa"));
+    }
+
+    #[test]
+    fn test_raw_trim() {
+        let template = [
+            "{% raw %}aaa  {%- endraw %}",
+        ].concat();
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        expect(stream, Value::Text("aaa"));
+    }
+
+    #[test]
+    fn test_verbatim() {
+        let template = [
+            "{% verbatim %}bbb{% endverbatim %}",
+        ].concat();
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        expect(stream, Value::Text("bbb"));
+    }
+
+    #[test]
     fn test_long_raw() {
         let text = &*repeat("*").take(100000).collect::<String>();
 
