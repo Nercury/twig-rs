@@ -424,6 +424,22 @@ mod test {
         stream = expect(stream, Value::Number(TwigNumber::Float(92233720368547.33)));
     }
 
+    #[test]
+    fn test_string_with_escaped_delimiter() {
+        let templates = [
+            (r#"{{ 'foo \' bar' }}"#, r#"foo \' bar"#),
+            (r#"{{ "foo \" bar" }}"#, r#"foo \" bar"#),
+        ];
+
+        let lexer = Lexer::default(&Environment::default());
+
+        for &(template, expected) in &templates {
+            let mut stream = lexer.tokens(&template);
+            stream = expect(stream, Value::VarStart);
+            stream = expect(stream, Value::String(TwigString::new(expected)));
+        }
+    }
+
     fn count_token(template: &'static str, token_value: Value) -> u32 {
         let lexer = Lexer::default(&Environment::default());
         let mut count = 0;

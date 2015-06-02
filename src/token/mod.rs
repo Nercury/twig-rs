@@ -1,3 +1,5 @@
+use std::fmt;
+
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum TwigNumber<'a> {
     Big(&'a str),
@@ -5,12 +7,19 @@ pub enum TwigNumber<'a> {
     Int(u64),
 }
 
-#[derive(Eq, PartialEq, Debug, Copy, Clone)]
+#[derive(Eq, PartialEq, Copy, Clone)]
 pub struct TwigString<'a>(&'a str);
 
 impl<'a> TwigString<'a> {
     pub fn new<'r>(source: &'r str) -> TwigString<'r> {
         TwigString(source)
+    }
+}
+
+impl<'a> fmt::Debug for TwigString<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        let &TwigString(ref v) = self;
+        write!(f, "{}", v)
     }
 }
 

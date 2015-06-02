@@ -10,7 +10,7 @@ fn main() {
             Some text <hml>{{- output | raw }}</htm>
             {# some comment #}
         {% endblock %}
-        The end.
+        The end {{ "hello \" aa" }}.
     "#;
     let lexer = Lexer::default(&Environment::default());
     let mut stream = lexer.tokens(template);
