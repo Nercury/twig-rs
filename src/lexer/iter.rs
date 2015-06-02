@@ -360,18 +360,25 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             if let Some((start, end)) = captures.pos(0) {
                 let string = captures.at(0).unwrap(); // we checked that (0) exists above.
 
-                let number: f64 = match string.parse() {
-                    Ok(number) => number,
-                    _ => unreachable!("twig bug: expected that anything matched by regex_number can be parsed as 64-bit float"),
-                };
-
-                let int = number as u64;
-                let twig_number = if number.is_infinite() {
-                    TwigNumber::Big(string)
-                } else if string.chars().all(|c| c.is_digit(10)) && int <= u64::MAX {
-                    TwigNumber::Int(int)
+                let all_chars_are_digits = string.chars().all(|c| c.is_digit(10));
+                let twig_number = if all_chars_are_digits {
+                    let maybe_int = string.parse();
+                    match maybe_int {
+                        Ok(int) => TwigNumber::Int(int),
+                        _ => TwigNumber::Big(string),
+                    }
                 } else {
-                    TwigNumber::Float(number)
+                    let maybe_float = string.parse::<f64>();
+                    match maybe_float {
+                        Ok(float) => {
+                            if float.is_finite() {
+                                TwigNumber::Float(float)
+                            } else {
+                                TwigNumber::Big(string)
+                            }
+                        },
+                        _ => TwigNumber::Big(string),
+                    }
                 };
 
                 self.push_token(TokenValue::Number(twig_number));
