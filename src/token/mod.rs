@@ -1,5 +1,6 @@
 #[derive(PartialEq, Debug, Copy, Clone)]
-pub enum TwigNumber {
+pub enum TwigNumber<'a> {
+    Big(&'a str),
     Float(f64),
     Int(u64),
 }
@@ -22,7 +23,7 @@ pub enum Value<'a> {
     BlockEnd,
     VarEnd,
     Name(&'a str),
-    Number(TwigNumber),
+    Number(TwigNumber<'a>),
     String(TwigString<'a>),
     Operator,
     Punctuation(char),

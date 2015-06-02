@@ -357,6 +357,73 @@ mod test {
         expect(stream, Value::Text(text));
     }
 
+    #[test]
+    fn test_long_var() {
+        let text = &*repeat("x").take(100000).collect::<String>();
+
+        let template = [
+            "{{ ",
+            text,
+            " }}",
+        ].concat();
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        stream = expect(stream, Value::VarStart);
+        stream = expect(stream, Value::Name(text));
+    }
+
+    #[test]
+    fn test_long_block() {
+        let text = &*repeat("x").take(100000).collect::<String>();
+
+        let template = [
+            "{% ",
+            text,
+            " %}",
+        ].concat();
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        stream = expect(stream, Value::BlockStart);
+        stream = expect(stream, Value::Name(text));
+    }
+
+    #[test]
+    fn test_big_numbers() {
+        let template = "{{ 922337203685477580700 }}";
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        stream.next();
+        stream = expect(stream, Value::Number(TwigNumber::Big("922337203685477580700")));
+    }
+
+    #[test]
+    fn test_int_numbers() {
+        let template = "{{ 922337203685477 }}";
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        stream.next();
+        stream = expect(stream, Value::Number(TwigNumber::Int(922337203685477)));
+    }
+
+    #[test]
+    fn test_float_numbers() {
+        let template = "{{ 92233720368547.33 }}";
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        stream.next();
+        stream = expect(stream, Value::Number(TwigNumber::Float(92233720368547.33)));
+    }
+
     fn count_token(template: &'static str, token_value: Value) -> u32 {
         let lexer = Lexer::default(&Environment::default());
         let mut count = 0;

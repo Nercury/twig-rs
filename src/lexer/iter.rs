@@ -359,12 +359,16 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             println!("      regex_number {:?}", captures.at(0));
             if let Some((start, end)) = captures.pos(0) {
                 let string = captures.at(0).unwrap(); // we checked that (0) exists above.
+
                 let number: f64 = match string.parse() {
                     Ok(number) => number,
                     _ => unreachable!("twig bug: expected that anything matched by regex_number can be parsed as 64-bit float"),
                 };
+
                 let int = number as u64;
-                let twig_number = if string.chars().all(|c| c.is_digit(10)) && int <= u64::MAX {
+                let twig_number = if number.is_infinite() {
+                    TwigNumber::Big(string)
+                } else if string.chars().all(|c| c.is_digit(10)) && int <= u64::MAX {
                     TwigNumber::Int(int)
                 } else {
                     TwigNumber::Float(number)
