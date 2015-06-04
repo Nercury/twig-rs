@@ -8,8 +8,83 @@ use token::State;
 use token::Value as TokenValue;
 use lexer::options::Options;
 use std::u64;
+use std::fmt;
 
 const PUNCTUATION: &'static str = "()[]{}?:.,|";
+
+enum MatchMode {
+    Normal,
+    Escape,
+    MaybeInterpolation(usize),
+}
+
+/// If matches strign contents up to #{, return pos as (start, end).
+///
+/// This is /[^#"\\]*(?:(?:\\.|#(?!\{))[^#"\\]*)*/As regular expression written
+/// manually.
+fn match_regex_dq_string_part(code: &str) -> (usize, usize) {
+    let mut index = 0;
+    let mut mode = MatchMode::Normal;
+
+    for c in code.chars() {
+        match mode {
+            MatchMode::Normal => {
+                match c {
+                    '\\' => mode = MatchMode::Escape,
+                    '#' => mode = MatchMode::MaybeInterpolation(index),
+                    '"' => return (0, index),
+                    _ => (),
+                };
+            },
+            MatchMode::Escape => mode = MatchMode::Normal,
+            MatchMode::MaybeInterpolation(started_at) => {
+                match c {
+                    '{' => return (0, started_at),
+                    _ => mode = MatchMode::Normal,
+                };
+            }
+        };
+
+        index += 1;
+    }
+
+    (0, index)
+}
+
+#[cfg(test)]
+mod test_match_regex_dq_string_part {
+    use super::match_regex_dq_string_part;
+
+    #[test]
+    fn should_match_full_str_with_first_esc_char() {
+        assert_eq!((0, 2), match_regex_dq_string_part("##"))
+    }
+
+    #[test]
+    fn should_match_empty_str() {
+        assert_eq!((0, 0), match_regex_dq_string_part(""))
+    }
+
+    #[test]
+    fn should_match_up_to_str_end() {
+        assert_eq!((0, 2), match_regex_dq_string_part(r#"##"foo"#))
+    }
+
+    #[test]
+    fn should_skip_escaped_str_end() {
+        assert_eq!((0, 7), match_regex_dq_string_part(r#"##\"foo"#))
+    }
+
+    #[test]
+    fn should_match_up_to_interpolation_start() {
+        assert_eq!((0, 3), match_regex_dq_string_part(r#"aa #{ foo"#))
+    }
+
+    #[test]
+    fn should_skip_escaped_interpolation_start() {
+        assert_eq!((0, 10), match_regex_dq_string_part(r#"aa \#{ foo"#))
+    }
+}
 
 #[derive(Debug, Copy, Clone)]
 struct Position<'code> {
@@ -20,24 +95,47 @@ struct Position<'code> {
     ws_trim: bool,
 }
 
+#[derive(Debug, Eq, PartialEq, Copy, Clone)]
+enum BracketSymbol {
+    Char(char),
+    IntStart,
+    IntEnd,
+}
+
+impl fmt::Display for BracketSymbol {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            BracketSymbol::Char(c) => fmt::Display::fmt(&c.to_string(), f),
+            BracketSymbol::IntStart => fmt::Display::fmt(r#"#{"#, f),
+            BracketSymbol::IntEnd => fmt::Display::fmt(r#"}"#, f),
+        }
+    }
+}
+
 struct Bracket {
-    open: char,
-    close: char,
+    open: BracketSymbol,
+    close: BracketSymbol,
     line_num: usize,
 }
 
 impl Bracket {
-    fn new(open_char: char, line_num: usize) -> Bracket {
+    fn new(open_char: BracketSymbol, line_num: usize) -> Bracket {
         Bracket {
             open: open_char,
             close: match open_char {
-                '(' => ')',
-                '[' => ']',
-                '{' => '}',
+                BracketSymbol::Char('(') => BracketSymbol::Char(')'),
+                BracketSymbol::Char('[') => BracketSymbol::Char(']'),
+                BracketSymbol::Char('{') => BracketSymbol::Char('}'),
+                BracketSymbol::Char('"') => BracketSymbol::Char('"'),
+                BracketSymbol::IntStart => BracketSymbol::IntEnd,
                 _ => unreachable!("twig bug: unknown bracket {:?}", open_char),
             },
             line_num: line_num,
         }
+    }
+
+    fn from_char(open_char: char, line_num: usize) -> Bracket {
+        Bracket::new(BracketSymbol::Char(open_char), line_num)
     }
 }
 
@@ -135,7 +233,11 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     /// > Compatible with `tokenize`.
     fn collect_tokens(&mut self) {
         println!("> collect_tokens");
-        if self.cursor < self.end {
+        loop {
+            if self.cursor == self.end || self.tokens.len() > 0 {
+                break;
+            }
+
             // dispatch to the lexing functions depending
             // on the current state
             match self.state {
@@ -400,11 +502,11 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
                 // opening bracket
                 if "([{".contains(c) {
-                    self.brackets.push(Bracket::new(c, line_num));
+                    self.brackets.push(Bracket::from_char(c, line_num));
                 } else if ")]}".contains(c) {
                     match self.brackets.pop() {
                         Some(expect) => {
-                            if expect.close != c {
+                            if expect.close != BracketSymbol::Char(c) {
                                 self.push_error(format!(r#"Unclosed "{}""#, expect.open), Some(expect.line_num));
                                 return;
                             }
@@ -425,7 +527,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             }
         }
 
-        // string
+        // strings
         let loc = self.cursor;
         if let Some(captures) = self.lexer.regex_string.captures(&self.code[loc ..]) {
             if let Some((start, end)) = captures.pos(0) {
@@ -440,11 +542,51 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             }
         }
 
+        // opening double quoted string
+        let loc = self.cursor;
+        if let Some(captures) = self.lexer.regex_dq_string_delim.captures(&self.code[loc ..]) {
+            if let Some((start, end)) = captures.pos(0) {
+                self.brackets.push(Bracket::from_char('"', self.line_num));
+                self.push_state(State::String);
+                self.move_cursor(1);
+
+                return;
+            } else {
+                unreachable!("twig bug: captured regex_string but no capture data");
+            }
+        }
+
+        println!("else");
+
         unimplemented!();
     }
 
     fn lex_string(&mut self) {
         println!(">> lex_string");
+
+        let loc = self.cursor;
+        if let Some(captures) = self.lexer.interpolation_start.captures(&self.code[loc ..]) {
+            println!("      interpolation_start {:?}", captures.at(1));
+            if let Some((start, end)) = captures.pos(0) {
+                self.brackets.push(Bracket::new(BracketSymbol::IntStart, self.line_num));
+                self.push_token(TokenValue::InterpolationStart);
+                self.push_state(State::Interpolation);
+
+                return;
+            } else {
+                unreachable!("twig bug: captured interpolation_start but no capture data");
+            }
+        }
+
+        let (_, part_end) = match_regex_dq_string_part(&self.code[loc ..]);
+        if part_end > 0 {
+            self.push_token(TokenValue::String(TwigString::new(
+                &self.code[loc .. loc + part_end]
+            )));
+            self.move_cursor(part_end);
+
+            return;
+        }
         unimplemented!();
     }
 

@@ -23,6 +23,7 @@ pub struct Lexer {
     regex_name: Regex,
     regex_number: Regex,
     regex_string: Regex,
+    regex_dq_string_delim: Regex,
     lex_var: Regex,
     lex_block: Regex,
     lex_raw_data: Regex,
@@ -62,6 +63,12 @@ impl Lexer {
                     r#"\A(?s:"([^#"\\]*(?:\\.[^#"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)')"#
                 ).ok().expect("Failed to init regex_string")
             },
+            regex_dq_string_delim: {
+                Regex::new(
+                    r#"\A""#
+                ).ok().expect("Failed to init regex_dq_string_delim")
+            },
+            // regex_dq_string_part - no negative forward lookup in rust regex lib
             lex_var: {
                 Regex::new(
                     &format!(
@@ -438,6 +445,20 @@ mod test {
             stream = expect(stream, Value::VarStart);
             stream = expect(stream, Value::String(TwigString::new(expected)));
         }
+    }
+
+    #[test]
+    fn test_string_with_interpolation() {
+        let template = r#"foo {{ "bar #{ baz + 1 }" }}"#;
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        stream = expect(stream, Value::Text("foo "));
+        stream = expect(stream, Value::VarStart);
+        stream = expect(stream, Value::String(TwigString::new("bar ")));
+        stream = expect(stream, Value::InterpolationStart);
+        // TODO: stream = expect(stream, Value::Name("baz"));
     }
 
     fn count_token(template: &'static str, token_value: Value) -> u32 {
