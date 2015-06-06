@@ -458,7 +458,11 @@ mod test {
         stream = expect(stream, Value::VarStart);
         stream = expect(stream, Value::String(TwigString::new("bar ")));
         stream = expect(stream, Value::InterpolationStart);
-        // TODO: stream = expect(stream, Value::Name("baz"));
+        stream = expect(stream, Value::Name("baz"));
+        stream = expect(stream, Value::Operator("+"));
+        stream = expect(stream, Value::Number(TwigNumber::Int(1)));
+        stream = expect(stream, Value::InterpolationEnd);
+        stream = expect(stream, Value::VarEnd);
     }
 
     fn count_token(template: &'static str, token_value: Value) -> u32 {

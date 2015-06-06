@@ -112,6 +112,7 @@ impl fmt::Display for BracketSymbol {
     }
 }
 
+#[derive(Debug, Copy, Clone)]
 struct Bracket {
     open: BracketSymbol,
     close: BracketSymbol,
@@ -430,9 +431,9 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         // operators
         let loc = self.cursor;
         if let Some(captures) = self.lexer.lex_operator.captures(&self.code[loc ..]) {
-            println!("      lex_operator {:?}", captures.at(1));
-            if let Some((start, end)) = captures.pos(1) {
-                self.push_token(TokenValue::Operator);
+            println!("      lex_operator {:?}", captures.at(0));
+            if let Some((start, end)) = captures.pos(0) {
+                self.push_token(TokenValue::Operator(&self.code[loc + start .. loc + end]));
                 self.move_cursor(end - start);
 
                 return;
@@ -565,11 +566,13 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         println!(">> lex_string");
 
         let loc = self.cursor;
+
         if let Some(captures) = self.lexer.interpolation_start.captures(&self.code[loc ..]) {
             println!("      interpolation_start {:?}", captures.at(1));
             if let Some((start, end)) = captures.pos(0) {
                 self.brackets.push(Bracket::new(BracketSymbol::IntStart, self.line_num));
                 self.push_token(TokenValue::InterpolationStart);
+                self.move_cursor(end - start);
                 self.push_state(State::Interpolation);
 
                 return;
@@ -587,12 +590,53 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
             return;
         }
-        unimplemented!();
+
+        if let Some(captures) = self.lexer.regex_dq_string_delim.captures(&self.code[loc ..]) {
+            if let Some((start, end)) = captures.pos(0) {
+                let last_bracket = self.brackets.pop();
+
+                match last_bracket {
+                    Some(Bracket { close: BracketSymbol::Char('"'), .. }) => {
+                        self.pop_state();
+                        self.move_cursor(1);
+                    },
+                    Some(other_bracket) => {
+                        self.push_error(format!(r#"Unclosed "{}""#, other_bracket.open), Some(other_bracket.line_num));
+                    },
+                    None => unreachable!("twig bug: expected bracket when lexng string end"),
+                }
+            } else {
+                unreachable!("twig bug: captured regex_dq_string_delim but no capture data");
+            }
+        }
     }
 
     fn lex_interpolation(&mut self) {
         println!(">> lex_interpolation");
-        unimplemented!();
+
+        let in_interpolation = match self.brackets.last() {
+            Some(bracket) if bracket.open == BracketSymbol::IntStart => true,
+            _ => false,
+        };
+
+        if in_interpolation {
+            let loc = self.cursor;
+            if let Some(captures) = self.lexer.interpolation_end.captures(&self.code[loc ..]) {
+                println!("      interpolation_end {:?}", captures.at(1));
+                if let Some((start, end)) = captures.pos(0) {
+                    self.brackets.pop();
+                    self.push_token(TokenValue::InterpolationEnd);
+                    self.move_cursor(end - start);
+                    self.pop_state();
+
+                    return;
+                } else {
+                    unreachable!("twig bug: captured interpolation_end but no capture data");
+                }
+            }
+        }
+
+        self.lex_expression();
     }
 
     fn lex_comment(&mut self) {

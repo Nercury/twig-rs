@@ -34,7 +34,7 @@ pub enum Value<'a> {
     Name(&'a str),
     Number(TwigNumber<'a>),
     String(TwigString<'a>),
-    Operator,
+    Operator(&'a str),
     Punctuation(char),
     InterpolationStart,
     InterpolationEnd,
