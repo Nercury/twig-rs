@@ -292,8 +292,7 @@ mod test {
         // {{
         _s = expect_with_line(_s, Value::VarStart, 11);
         // baz
-        // TODO: in twig tests the value on right is 12, but our iterator works in different way
-        _s = expect_with_line(_s, Value::Name("baz"), 11);
+        _s = expect_with_line(_s, Value::Name("baz"), 12);
     }
 
     #[test]

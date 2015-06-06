@@ -2,20 +2,24 @@ extern crate twig;
 
 use twig::environment::{ Environment };
 use twig::lexer::{ Lexer };
+use std::fs::File;
+use std::io::Read;
+use std::env;
 
 fn main() {
-    let template = r#"
-        {% raw %}baaaaaaah{% endraw %}
-        {% block test %}
-            Some text <hml>{{- output | raw }}</htm>
-            {# some comment #}
-        {% endblock %}
-        The end {{ "hello \" aa" }}.
-    "#;
-    let lexer = Lexer::default(&Environment::default());
-    let mut stream = lexer.tokens(template);
+    let mut path = env::current_dir().unwrap();
+    path.push("templates/fos_login.html.twig");
 
-    for i in stream {
+    println!("Open {:?}", path);
+
+    let mut f = File::open(path)
+        .unwrap_or_else(|e| panic!("{}", e));
+    let mut template = String::new();
+    f.read_to_string(&mut template);
+
+    let lexer = Lexer::default(&Environment::default());
+
+    for i in lexer.tokens(&template) {
         println!("TOKEN {:?}", i);
     }
 }

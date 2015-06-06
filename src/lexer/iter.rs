@@ -713,7 +713,15 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         let prev_loc = self.cursor;
 
         self.cursor += offset;
-        self.line_num += self.code[prev_loc .. self.cursor].lines().count() - 1;
+
+        let mut lines = 0;
+        for c in self.code[prev_loc .. self.cursor].chars() {
+            if c == '\n' {
+                lines += 1;
+            }
+        }
+
+        self.line_num += lines;
     }
 }
 
