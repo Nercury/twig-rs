@@ -572,9 +572,9 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             }
         }
 
-        println!("else");
-
-        unimplemented!();
+        let next_char = &self.code[loc .. loc + 1];
+        let line_num = self.line_num;
+        self.push_error(format!(r#"Unexpected character "{}""#, next_char), Some(line_num));
     }
 
     fn lex_string(&mut self) {
