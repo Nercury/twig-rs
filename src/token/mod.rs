@@ -46,12 +46,6 @@ pub struct Token<'a> {
     pub line_num: usize,
 }
 
-#[derive(Debug)]
-pub struct Unexpected<'a> {
-    pub token: Option<Token<'a>>,
-    pub message: Option<&'a str>,
-}
-
 #[derive(Debug, Copy, Clone)]
 pub enum State {
     Data,
