@@ -25,7 +25,6 @@ impl<'a> fmt::Debug for TwigString<'a> {
 
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum Value<'a> {
-    Eof,
     Text(&'a str),
     BlockStart,
     VarStart,

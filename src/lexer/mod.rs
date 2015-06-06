@@ -309,7 +309,7 @@ mod test {
         let lexer = Lexer::default(&Environment::default());
         let mut stream = lexer.tokens(&template);
 
-        expect(stream, Value::Eof);
+        expect_end(stream);
     }
 
     #[test]
@@ -465,6 +465,40 @@ mod test {
         stream = expect(stream, Value::VarEnd);
     }
 
+    #[test]
+    fn test_string_with_escaped_interpolation() {
+        let template = r#"{{ "bar \#{baz+1}" }}"#;
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        stream = expect(stream, Value::VarStart);
+        stream = expect(stream, Value::String(TwigString::new(r#"bar \#{baz+1}"#)));
+        stream = expect(stream, Value::VarEnd);
+    }
+
+    #[test]
+    fn test_string_with_hash() {
+        let template = r#"{{ "bar # baz" }}"#;
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        stream = expect(stream, Value::VarStart);
+        stream = expect(stream, Value::String(TwigString::new("bar # baz")));
+        stream = expect(stream, Value::VarEnd);
+    }
+
+    #[test]
+    fn test_string_with_unterminated_interpolation() {
+        let template = r#"{{ "bar #{x" }}"#;
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        expect_error(stream, r#"Unclosed """"#);
+    }
+
     fn count_token(template: &'static str, token_value: Value) -> u32 {
         let lexer = Lexer::default(&Environment::default());
         let mut count = 0;
@@ -491,6 +525,31 @@ mod test {
         let maybe_token = stream.next();
         assert_token_value(maybe_token, token_value);
         stream
+    }
+
+    /// Runs iterator until it returns error and then checks if error string matches.
+    fn expect_error<'i, 'c>(mut stream: Iter<'i, 'c>, text: &'i str) {
+        let mut next = stream.next();
+        loop {
+            match next {
+                None => panic!("expected error, but reached the end of token stream"),
+                Some(Err(ref e)) => {
+                    assert_eq!(e.get_message(), text);
+                    return;
+                },
+                Some(Ok(_)) => next = stream.next(),
+            };
+        }
+        unreachable!();
+    }
+
+    /// Runs iterator and expects that it is at the end.
+    fn expect_end<'i, 'c>(mut stream: Iter<'i, 'c>) {
+        let mut next = stream.next();
+        match next {
+            Some(other) => panic!("expected the stream to be at the end, but got {:?}", other),
+            _ => (),
+        }
     }
 
     fn assert_token_value<'c>(maybe_token: Option<Result<Token<'c>>>, token_value: Value<'c>) -> Token<'c> {

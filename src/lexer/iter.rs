@@ -175,6 +175,7 @@ pub struct Iter<'iteration, 'code> {
     cursor: usize,
     end: usize,
     finished: bool,
+    is_error: bool,
 
     state: State,
     states: Vec<State>,
@@ -220,6 +221,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             position: 0,
             positions: positions,
             tokens: VecDeque::new(),
+            is_error: false,
             finished: false,
         };
 
@@ -235,7 +237,25 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     fn collect_tokens(&mut self) {
         println!("> collect_tokens");
         loop {
-            if self.cursor == self.end || self.tokens.len() > 0 {
+            if self.is_error {
+                self.finished = true;
+                break;
+            }
+
+            if self.cursor == self.end {
+                match self.brackets.pop() {
+                    Some(bracket) => {
+                        self.push_error(format!(r#"Unclosed "{}""#, bracket.open), Some(bracket.line_num));
+                        break;
+                    },
+                    _ => (),
+                };
+
+                self.finished = true;
+                break;
+            }
+
+            if self.tokens.len() > 0 {
                 break;
             }
 
@@ -247,13 +267,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
                 State::Var => self.lex_var(),
                 State::String => self.lex_string(),
                 State::Interpolation => self.lex_interpolation(),
-            }
-        }
-
-        if self.cursor == self.end {
-            if !self.finished {
-                self.push_token(TokenValue::Eof);
-                self.finished = true;
             }
         }
     }
@@ -717,6 +730,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
                 None => unreachable!("twig bug: error should not be pushed without a line number"),
             })
         ));
+        self.is_error = true;
     }
 
     fn push_state(&mut self, state: State) {
@@ -781,6 +795,11 @@ impl<'iteration, 'code> Iterator for Iter<'iteration, 'code> {
 
     fn next(&mut self) -> Option<Result<Token<'code>>> {
         println!("<- next");
+
+        if self.finished {
+            return None;
+        }
+
         if self.tokens.len() == 0 {
             self.collect_tokens();
         }

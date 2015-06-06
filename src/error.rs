@@ -15,6 +15,10 @@ impl Error {
             previous: None,
         }
     }
+
+    pub fn get_message(&self) -> &str {
+        &self.raw_message
+    }
 }
 
 pub type Result<T> = result::Result<T, Error>;
