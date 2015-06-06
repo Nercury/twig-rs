@@ -16,8 +16,29 @@ impl Error {
         }
     }
 
-    pub fn get_message(&self) -> &str {
-        &self.raw_message
+    pub fn get_message(&self) -> String {
+
+        let ends_with_dot = {
+            let len = self.raw_message.len();
+            if len > 0 {
+                if &self.raw_message[len - 1 ..] == "." {
+                    true
+                } else {
+                    false
+                }
+            } else {
+                false
+            }
+        };
+
+        if ends_with_dot {
+            let len = self.raw_message.len();
+            let without_dot = &self.raw_message[0 .. len - 1];
+
+            format!("{} at line {}.", without_dot, self.line_num)
+        } else {
+            format!("{} at line {}", self.raw_message, self.line_num)
+        }
     }
 }
 

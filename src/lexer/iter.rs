@@ -446,7 +446,9 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         if let Some(captures) = self.lexer.lex_operator.captures(&self.code[loc ..]) {
             println!("      lex_operator {:?}", captures.at(0));
             if let Some((start, end)) = captures.pos(0) {
-                self.push_token(TokenValue::Operator(&self.code[loc + start .. loc + end]));
+                let op_str = self.code[loc + start .. loc + end].trim_right();
+
+                self.push_token(TokenValue::Operator(op_str));
                 self.move_cursor(end - start);
 
                 return;

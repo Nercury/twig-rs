@@ -496,7 +496,90 @@ mod test {
         let lexer = Lexer::default(&Environment::default());
         let mut stream = lexer.tokens(&template);
 
-        expect_error(stream, r#"Unclosed """"#);
+        expect_error(stream, r#"Unclosed """ at line 1"#);
+    }
+
+    #[test]
+    fn test_string_with_nested_interpolations() {
+        let template = r#"{{ "bar #{ "foo#{bar}" }" }}"#;
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        stream = expect(stream, Value::VarStart);
+        stream = expect(stream, Value::String(TwigString::new(r#"bar "#)));
+        stream = expect(stream, Value::InterpolationStart);
+        stream = expect(stream, Value::String(TwigString::new(r#"foo"#)));
+        stream = expect(stream, Value::InterpolationStart);
+        stream = expect(stream, Value::Name("bar"));
+        stream = expect(stream, Value::InterpolationEnd);
+        stream = expect(stream, Value::InterpolationEnd);
+        stream = expect(stream, Value::VarEnd);
+    }
+
+    #[test]
+    fn test_string_with_nested_interpolations_in_block() {
+        let template = r#"{% foo "bar #{ "foo#{bar}" }" %}"#;
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        stream = expect(stream, Value::BlockStart);
+        stream = expect(stream, Value::Name("foo"));
+        stream = expect(stream, Value::String(TwigString::new(r#"bar "#)));
+        stream = expect(stream, Value::InterpolationStart);
+        stream = expect(stream, Value::String(TwigString::new(r#"foo"#)));
+        stream = expect(stream, Value::InterpolationStart);
+        stream = expect(stream, Value::Name("bar"));
+        stream = expect(stream, Value::InterpolationEnd);
+        stream = expect(stream, Value::InterpolationEnd);
+        stream = expect(stream, Value::BlockEnd);
+    }
+
+    #[test]
+    fn test_operator_ending_with_a_letter_at_the_end_of_a_line() {
+        let template = "{{ 1 and\n0}}";
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        stream = expect(stream, Value::VarStart);
+        stream = expect(stream, Value::Number(TwigNumber::Int(1)));
+        stream = expect(stream, Value::Operator("and"));
+    }
+
+    #[test]
+    fn test_unterminated_variable() {
+        let template = "
+
+{{
+
+bar
+
+
+";
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        expect_error(stream, "Unclosed \"variable\" at line 3");
+    }
+
+    #[test]
+    fn test_unterminated_block() {
+        let template = "
+
+{%
+
+bar
+
+
+";
+
+        let lexer = Lexer::default(&Environment::default());
+        let mut stream = lexer.tokens(&template);
+
+        expect_error(stream, "Unclosed \"block\" at line 3");
     }
 
     fn count_token(template: &'static str, token_value: Value) -> u32 {
