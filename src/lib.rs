@@ -5,3 +5,4 @@ pub mod token;
 pub mod error;
 pub mod environment;
 pub mod extension;
+pub mod parser;
