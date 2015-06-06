@@ -2,18 +2,16 @@ pub mod delimiters;
 pub mod options;
 pub mod iter;
 
-use regex::{ Regex, Captures, quote };
+use regex::{ Regex, quote };
 use std::iter::{ Iterator };
-use std::collections::{ VecDeque, HashMap };
+use std::collections::{ HashMap };
 
 use environment::{
     Environment,
     UnaryOperator,
     BinaryOperator
 };
-use error::{ Result, Error };
 
-use self::delimiters::Delimiters;
 use self::options::Options;
 use self::iter::Iter;
 
@@ -249,20 +247,20 @@ mod test {
     fn name_label_for_tag() {
         let template = "{% § %}";
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(template);
+        let mut _s = lexer.tokens(template);
 
-        stream = expect(stream, Value::BlockStart);
-        stream = expect(stream, Value::Name("§"));
+        _s = expect(_s, Value::BlockStart);
+        _s = expect(_s, Value::Name("§"));
     }
 
     #[test]
     fn test_name_label_for_function() {
         let template = "{{ §() }}";
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(template);
+        let mut _s = lexer.tokens(template);
 
-        stream = expect(stream, Value::VarStart);
-        stream = expect(stream, Value::Name("§"));
+        _s = expect(_s, Value::VarStart);
+        _s = expect(_s, Value::Name("§"));
     }
 
     #[test]
@@ -285,17 +283,17 @@ mod test {
         ].connect("\n");
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
         // foo\nbar\n
-        stream = expect_with_line(stream, Value::Text("foo\nbar\n"), 1);
+        _s = expect_with_line(_s, Value::Text("foo\nbar\n"), 1);
         // \n (after {% line %})
-        stream = expect_with_line(stream, Value::Text("\n"), 10);
+        _s = expect_with_line(_s, Value::Text("\n"), 10);
         // {{
-        stream = expect_with_line(stream, Value::VarStart, 11);
+        _s = expect_with_line(_s, Value::VarStart, 11);
         // baz
         // TODO: in twig tests the value on right is 12, but our iterator works in different way
-        stream = expect_with_line(stream, Value::Name("baz"), 11);
+        _s = expect_with_line(_s, Value::Name("baz"), 11);
     }
 
     #[test]
@@ -307,9 +305,9 @@ mod test {
         ].concat();
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        expect_end(stream);
+        expect_end(_s);
     }
 
     #[test]
@@ -319,9 +317,9 @@ mod test {
         ].concat();
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        expect(stream, Value::Text("aaa"));
+        expect(_s, Value::Text("aaa"));
     }
 
     #[test]
@@ -331,9 +329,9 @@ mod test {
         ].concat();
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        expect(stream, Value::Text("aaa"));
+        expect(_s, Value::Text("aaa"));
     }
 
     #[test]
@@ -343,9 +341,9 @@ mod test {
         ].concat();
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        expect(stream, Value::Text("bbb"));
+        expect(_s, Value::Text("bbb"));
     }
 
     #[test]
@@ -359,9 +357,9 @@ mod test {
         ].concat();
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        expect(stream, Value::Text(text));
+        expect(_s, Value::Text(text));
     }
 
     #[test]
@@ -375,10 +373,10 @@ mod test {
         ].concat();
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        stream = expect(stream, Value::VarStart);
-        stream = expect(stream, Value::Name(text));
+        _s = expect(_s, Value::VarStart);
+        _s = expect(_s, Value::Name(text));
     }
 
     #[test]
@@ -392,10 +390,10 @@ mod test {
         ].concat();
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        stream = expect(stream, Value::BlockStart);
-        stream = expect(stream, Value::Name(text));
+        _s = expect(_s, Value::BlockStart);
+        _s = expect(_s, Value::Name(text));
     }
 
     #[test]
@@ -403,10 +401,10 @@ mod test {
         let template = "{{ 922337203685477580700 }}";
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        stream.next();
-        stream = expect(stream, Value::Number(TwigNumber::Big("922337203685477580700")));
+        _s.next();
+        _s = expect(_s, Value::Number(TwigNumber::Big("922337203685477580700")));
     }
 
     #[test]
@@ -414,10 +412,10 @@ mod test {
         let template = "{{ 922337203685477 }}";
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        stream.next();
-        stream = expect(stream, Value::Number(TwigNumber::Int(922337203685477)));
+        _s.next();
+        _s = expect(_s, Value::Number(TwigNumber::Int(922337203685477)));
     }
 
     #[test]
@@ -425,10 +423,10 @@ mod test {
         let template = "{{ 92233720368547.33 }}";
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        stream.next();
-        stream = expect(stream, Value::Number(TwigNumber::Float(92233720368547.33)));
+        _s.next();
+        _s = expect(_s, Value::Number(TwigNumber::Float(92233720368547.33)));
     }
 
     #[test]
@@ -441,9 +439,9 @@ mod test {
         let lexer = Lexer::default(&Environment::default());
 
         for &(template, expected) in &templates {
-            let mut stream = lexer.tokens(&template);
-            stream = expect(stream, Value::VarStart);
-            stream = expect(stream, Value::String(TwigString::new(expected)));
+            let mut _s = lexer.tokens(&template);
+            _s = expect(_s, Value::VarStart);
+            _s = expect(_s, Value::String(TwigString::new(expected)));
         }
     }
 
@@ -452,17 +450,17 @@ mod test {
         let template = r#"foo {{ "bar #{ baz + 1 }" }}"#;
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        stream = expect(stream, Value::Text("foo "));
-        stream = expect(stream, Value::VarStart);
-        stream = expect(stream, Value::String(TwigString::new("bar ")));
-        stream = expect(stream, Value::InterpolationStart);
-        stream = expect(stream, Value::Name("baz"));
-        stream = expect(stream, Value::Operator("+"));
-        stream = expect(stream, Value::Number(TwigNumber::Int(1)));
-        stream = expect(stream, Value::InterpolationEnd);
-        stream = expect(stream, Value::VarEnd);
+        _s = expect(_s, Value::Text("foo "));
+        _s = expect(_s, Value::VarStart);
+        _s = expect(_s, Value::String(TwigString::new("bar ")));
+        _s = expect(_s, Value::InterpolationStart);
+        _s = expect(_s, Value::Name("baz"));
+        _s = expect(_s, Value::Operator("+"));
+        _s = expect(_s, Value::Number(TwigNumber::Int(1)));
+        _s = expect(_s, Value::InterpolationEnd);
+        _s = expect(_s, Value::VarEnd);
     }
 
     #[test]
@@ -470,11 +468,11 @@ mod test {
         let template = r#"{{ "bar \#{baz+1}" }}"#;
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        stream = expect(stream, Value::VarStart);
-        stream = expect(stream, Value::String(TwigString::new(r#"bar \#{baz+1}"#)));
-        stream = expect(stream, Value::VarEnd);
+        _s = expect(_s, Value::VarStart);
+        _s = expect(_s, Value::String(TwigString::new(r#"bar \#{baz+1}"#)));
+        _s = expect(_s, Value::VarEnd);
     }
 
     #[test]
@@ -482,11 +480,11 @@ mod test {
         let template = r#"{{ "bar # baz" }}"#;
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        stream = expect(stream, Value::VarStart);
-        stream = expect(stream, Value::String(TwigString::new("bar # baz")));
-        stream = expect(stream, Value::VarEnd);
+        _s = expect(_s, Value::VarStart);
+        _s = expect(_s, Value::String(TwigString::new("bar # baz")));
+        _s = expect(_s, Value::VarEnd);
     }
 
     #[test]
@@ -494,9 +492,9 @@ mod test {
         let template = r#"{{ "bar #{x" }}"#;
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        expect_error(stream, r#"Unclosed """ at line 1"#);
+        expect_error(_s, r#"Unclosed """ at line 1"#);
     }
 
     #[test]
@@ -504,17 +502,17 @@ mod test {
         let template = r#"{{ "bar #{ "foo#{bar}" }" }}"#;
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        stream = expect(stream, Value::VarStart);
-        stream = expect(stream, Value::String(TwigString::new(r#"bar "#)));
-        stream = expect(stream, Value::InterpolationStart);
-        stream = expect(stream, Value::String(TwigString::new(r#"foo"#)));
-        stream = expect(stream, Value::InterpolationStart);
-        stream = expect(stream, Value::Name("bar"));
-        stream = expect(stream, Value::InterpolationEnd);
-        stream = expect(stream, Value::InterpolationEnd);
-        stream = expect(stream, Value::VarEnd);
+        _s = expect(_s, Value::VarStart);
+        _s = expect(_s, Value::String(TwigString::new(r#"bar "#)));
+        _s = expect(_s, Value::InterpolationStart);
+        _s = expect(_s, Value::String(TwigString::new(r#"foo"#)));
+        _s = expect(_s, Value::InterpolationStart);
+        _s = expect(_s, Value::Name("bar"));
+        _s = expect(_s, Value::InterpolationEnd);
+        _s = expect(_s, Value::InterpolationEnd);
+        _s = expect(_s, Value::VarEnd);
     }
 
     #[test]
@@ -522,18 +520,18 @@ mod test {
         let template = r#"{% foo "bar #{ "foo#{bar}" }" %}"#;
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        stream = expect(stream, Value::BlockStart);
-        stream = expect(stream, Value::Name("foo"));
-        stream = expect(stream, Value::String(TwigString::new(r#"bar "#)));
-        stream = expect(stream, Value::InterpolationStart);
-        stream = expect(stream, Value::String(TwigString::new(r#"foo"#)));
-        stream = expect(stream, Value::InterpolationStart);
-        stream = expect(stream, Value::Name("bar"));
-        stream = expect(stream, Value::InterpolationEnd);
-        stream = expect(stream, Value::InterpolationEnd);
-        stream = expect(stream, Value::BlockEnd);
+        _s = expect(_s, Value::BlockStart);
+        _s = expect(_s, Value::Name("foo"));
+        _s = expect(_s, Value::String(TwigString::new(r#"bar "#)));
+        _s = expect(_s, Value::InterpolationStart);
+        _s = expect(_s, Value::String(TwigString::new(r#"foo"#)));
+        _s = expect(_s, Value::InterpolationStart);
+        _s = expect(_s, Value::Name("bar"));
+        _s = expect(_s, Value::InterpolationEnd);
+        _s = expect(_s, Value::InterpolationEnd);
+        _s = expect(_s, Value::BlockEnd);
     }
 
     #[test]
@@ -541,11 +539,11 @@ mod test {
         let template = "{{ 1 and\n0}}";
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        stream = expect(stream, Value::VarStart);
-        stream = expect(stream, Value::Number(TwigNumber::Int(1)));
-        stream = expect(stream, Value::Operator("and"));
+        _s = expect(_s, Value::VarStart);
+        _s = expect(_s, Value::Number(TwigNumber::Int(1)));
+        _s = expect(_s, Value::Operator("and"));
     }
 
     #[test]
@@ -560,9 +558,9 @@ bar
 ";
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        expect_error(stream, "Unclosed \"variable\" at line 3");
+        expect_error(_s, "Unclosed \"variable\" at line 3");
     }
 
     #[test]
@@ -577,9 +575,9 @@ bar
 ";
 
         let lexer = Lexer::default(&Environment::default());
-        let mut stream = lexer.tokens(&template);
+        let mut _s = lexer.tokens(&template);
 
-        expect_error(stream, "Unclosed \"block\" at line 3");
+        expect_error(_s, "Unclosed \"block\" at line 3");
     }
 
     fn count_token(template: &'static str, token_value: Value) -> u32 {
@@ -623,13 +621,11 @@ bar
                 Some(Ok(_)) => next = stream.next(),
             };
         }
-        unreachable!();
     }
 
     /// Runs iterator and expects that it is at the end.
     fn expect_end<'i, 'c>(mut stream: Iter<'i, 'c>) {
-        let mut next = stream.next();
-        match next {
+        match stream.next() {
             Some(other) => panic!("expected the stream to be at the end, but got {:?}", other),
             _ => (),
         }

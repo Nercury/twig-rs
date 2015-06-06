@@ -1,5 +1,5 @@
-use regex::{ Regex, Captures, quote };
-use std::collections::{ VecDeque, HashMap };
+use regex::{ Captures };
+use std::collections::{ VecDeque };
 
 use super::Lexer;
 use error::{ Result, Error };
@@ -7,7 +7,6 @@ use token::{ Token, TwigNumber, TwigString };
 use token::State;
 use token::Value as TokenValue;
 use lexer::options::Options;
-use std::u64;
 use std::fmt;
 
 const PUNCTUATION: &'static str = "()[]{}?:.,|";
@@ -141,7 +140,7 @@ impl Bracket {
 }
 
 impl<'code> Position<'code> {
-    fn from_capture(options: &Options, code: &'code str, c: Captures<'code>) -> Position<'code> {
+    fn from_capture(options: &Options, c: Captures<'code>) -> Position<'code> {
         let (all_start, all_end) = c.pos(0).expect("twig bug: expected full capture when collecting positions");
         let (first_start, first_end) = c.pos(1).expect("twig bug: expected at least one subcapture (start, end) when collecting positions");
         let second = c.pos(2);
@@ -202,13 +201,13 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         let positions = lexer.lex_tokens_start.captures_iter(code)
             .filter_map(|c| match c.is_empty() {
                 true => None,
-                false => Some(Position::from_capture(&lexer.options, code, c)),
+                false => Some(Position::from_capture(&lexer.options, c)),
             })
             .collect::<Vec<Position>>();
 
         let code_len = code.len();
 
-        let mut iter = Iter {
+        let iter = Iter {
             lexer: lexer,
             code: code,
             cursor: 0,
@@ -235,7 +234,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     /// When we run out of tokens, we call this function to buffer more.
     /// > Compatible with `tokenize`.
     fn collect_tokens(&mut self) {
-        println!("> collect_tokens");
         loop {
             if self.is_error {
                 self.finished = true;
@@ -272,7 +270,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     }
 
     fn lex_data(&mut self) {
-        println!(">> lex_data");
+
         let positions_len = self.positions.len();
 
         // if no matches are left we return the rest of the template as simple text token
@@ -287,21 +285,18 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
         // Find the first token after the current cursor
         let mut position = self.positions[self.position].clone(); self.position += 1;
-        println!("-- MOVE POSITION --");
-        self.output_pos(position.loc);
+
         while position.loc < self.cursor {
             if self.position == positions_len {
                 return;
             }
             position = self.positions[self.position].clone(); self.position += 1;
-            println!("-- MOVE POSITION --");
-            self.output_pos(position.loc);
         }
 
         // push the template text first
         let loc = self.cursor;
         let text_content = &self.code[loc .. position.loc];
-        println!("Text is {:?}", text_content);
+
         self.push_token(
             if position.ws_trim {
                 TokenValue::Text(text_content.trim_right())
@@ -311,15 +306,12 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         );
         self.move_cursor(text_content.len() + position.all_len);
 
-        println!("   match position.value {:?}", position.value);
-
         match position.value {
             TokenValue::CommentStart => self.lex_comment(),
             TokenValue::BlockStart => {
                 let loc = self.cursor;
                 // raw data?
                 if let Some(captures) = self.lexer.lex_block_raw.captures(&self.code[loc ..]) {
-                    println!("      lex_block_raw");
                     if let Some((start, end)) = captures.pos(0) {
                         if let Some(tag) = captures.at(1) {
                             self.move_cursor(end - start);
@@ -332,7 +324,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
                 }
                 // {% line \d+ %}
                 if let Some(captures) = self.lexer.lex_block_line.captures(&self.code[loc ..]) {
-                    println!("      lex_block_line");
                     let maybe_start_and_end = captures.pos(0);
                     let maybe_line_num = captures.at(1);
 
@@ -350,7 +341,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
                     }
                 }
 
-                println!("      push block start");
                 self.push_token(TokenValue::BlockStart);
                 self.push_state(State::Block);
                 self.current_var_block_line = Some(self.line_num);
@@ -365,14 +355,13 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     }
 
     fn lex_block(&mut self) {
-        println!(">> lex_block");
 
         if 0 == self.brackets.len() {
-            println!("      no brackets");
+
             let loc = self.cursor;
 
             if let Some(captures) = self.lexer.lex_block.captures(&self.code[loc ..]) {
-                println!("      lex_block");
+
                 if let Some((start, end)) = captures.pos(0) {
                     self.push_token(TokenValue::BlockEnd);
                     self.move_cursor(end - start);
@@ -389,14 +378,13 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     }
 
     fn lex_var(&mut self) {
-        println!(">> lex_var");
 
         if 0 == self.brackets.len() {
-            println!("      no brackets");
+
             let loc = self.cursor;
 
             if let Some(captures) = self.lexer.lex_var.captures(&self.code[loc ..]) {
-                println!("      lex_var");
+
                 if let Some((start, end)) = captures.pos(0) {
                     self.push_token(TokenValue::VarEnd);
                     self.move_cursor(end - start);
@@ -413,12 +401,10 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     }
 
     fn lex_expression(&mut self) {
-        println!(">> lex_expression");
 
         // whitespace
         let loc = self.cursor;
         if let Some(captures) = self.lexer.whitespace.captures(&self.code[loc ..]) {
-            println!("      expression whitespace");
             if let Some((start, end)) = captures.pos(0) {
                 self.move_cursor(end - start);
                 if self.cursor >= self.end {
@@ -444,7 +430,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         // operators
         let loc = self.cursor;
         if let Some(captures) = self.lexer.lex_operator.captures(&self.code[loc ..]) {
-            println!("      lex_operator {:?}", captures.at(0));
             if let Some((start, end)) = captures.pos(0) {
                 let op_str = self.code[loc + start .. loc + end].trim_right();
 
@@ -460,7 +445,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         // names
         let loc = self.cursor;
         if let Some(captures) = self.lexer.regex_name.captures(&self.code[loc ..]) {
-            println!("      regex_name {:?}", captures.at(0));
             if let Some((start, end)) = captures.pos(0) {
                 self.push_token(TokenValue::Name(&self.code[loc + start .. loc + end]));
                 self.move_cursor(end - start);
@@ -474,7 +458,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         // numbers
         let loc = self.cursor;
         if let Some(captures) = self.lexer.regex_number.captures(&self.code[loc ..]) {
-            println!("      regex_number {:?}", captures.at(0));
             if let Some((start, end)) = captures.pos(0) {
                 let string = captures.at(0).unwrap(); // we checked that (0) exists above.
 
@@ -512,7 +495,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         let loc = self.cursor;
         if let Some(c) = self.code[loc..].chars().next() {
             if PUNCTUATION.contains(c) {
-                println!("      punctuation {:?}", c);
 
                 let line_num = self.line_num;
 
@@ -538,8 +520,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
                 self.move_cursor(1);
 
                 return;
-            } else {
-                println!("      not in punctuation {:?}", c);
             }
         }
 
@@ -560,16 +540,12 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
         // opening double quoted string
         let loc = self.cursor;
-        if let Some(captures) = self.lexer.regex_dq_string_delim.captures(&self.code[loc ..]) {
-            if let Some((start, end)) = captures.pos(0) {
-                self.brackets.push(Bracket::from_char('"', self.line_num));
-                self.push_state(State::String);
-                self.move_cursor(1);
+        if self.lexer.regex_dq_string_delim.is_match(&self.code[loc ..]) {
+            self.brackets.push(Bracket::from_char('"', self.line_num));
+            self.push_state(State::String);
+            self.move_cursor(1);
 
-                return;
-            } else {
-                unreachable!("twig bug: captured regex_string but no capture data");
-            }
+            return;
         }
 
         let next_char = &self.code[loc .. loc + 1];
@@ -578,12 +554,10 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     }
 
     fn lex_string(&mut self) {
-        println!(">> lex_string");
 
         let loc = self.cursor;
 
         if let Some(captures) = self.lexer.interpolation_start.captures(&self.code[loc ..]) {
-            println!("      interpolation_start {:?}", captures.at(1));
             if let Some((start, end)) = captures.pos(0) {
                 self.brackets.push(Bracket::new(BracketSymbol::IntStart, self.line_num));
                 self.push_token(TokenValue::InterpolationStart);
@@ -606,28 +580,23 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             return;
         }
 
-        if let Some(captures) = self.lexer.regex_dq_string_delim.captures(&self.code[loc ..]) {
-            if let Some((start, end)) = captures.pos(0) {
-                let last_bracket = self.brackets.pop();
+        if self.lexer.regex_dq_string_delim.is_match(&self.code[loc ..]) {
+            let last_bracket = self.brackets.pop();
 
-                match last_bracket {
-                    Some(Bracket { close: BracketSymbol::Char('"'), .. }) => {
-                        self.pop_state();
-                        self.move_cursor(1);
-                    },
-                    Some(other_bracket) => {
-                        self.push_error(format!(r#"Unclosed "{}""#, other_bracket.open), Some(other_bracket.line_num));
-                    },
-                    None => unreachable!("twig bug: expected bracket when lexng string end"),
-                }
-            } else {
-                unreachable!("twig bug: captured regex_dq_string_delim but no capture data");
+            match last_bracket {
+                Some(Bracket { close: BracketSymbol::Char('"'), .. }) => {
+                    self.pop_state();
+                    self.move_cursor(1);
+                },
+                Some(other_bracket) => {
+                    self.push_error(format!(r#"Unclosed "{}""#, other_bracket.open), Some(other_bracket.line_num));
+                },
+                None => unreachable!("twig bug: expected bracket when lexng string end"),
             }
         }
     }
 
     fn lex_interpolation(&mut self) {
-        println!(">> lex_interpolation");
 
         let in_interpolation = match self.brackets.last() {
             Some(bracket) if bracket.open == BracketSymbol::IntStart => true,
@@ -637,7 +606,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         if in_interpolation {
             let loc = self.cursor;
             if let Some(captures) = self.lexer.interpolation_end.captures(&self.code[loc ..]) {
-                println!("      interpolation_end {:?}", captures.at(1));
                 if let Some((start, end)) = captures.pos(0) {
                     self.brackets.pop();
                     self.push_token(TokenValue::InterpolationEnd);
@@ -655,18 +623,13 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     }
 
     fn lex_comment(&mut self) {
-        println!("   > lex_comment");
 
         let loc = self.cursor;
-        let maybe_captures = self.lexer.lex_comment.captures(&self.code[loc ..]);
+        let maybe_found = self.lexer.lex_comment.find(&self.code[loc ..]);
 
-        match maybe_captures {
-            Some(captures) => {
-                if let Some((start, end)) = captures.pos(0) {
-                    self.move_cursor(end);
-                } else {
-                    unreachable!("twig bug: captured lex_comment but no capture data");
-                }
+        match maybe_found {
+            Some((_, end)) => {
+                self.move_cursor(end);
             },
             None => {
                 let line_num = self.line_num;
@@ -676,7 +639,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     }
 
     fn lex_raw_data(&mut self, tag: &'code str) {
-        println!("   > lex_raw_data");
         let loc = self.cursor;
         let maybe_captures = {
             match tag {
@@ -720,8 +682,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
             }
         }
 
-        println!("<- push_token {:?}, line_num {:?}", token_value, self.line_num);
-
         self.tokens.push_back(Ok(Token { value: token_value, line_num: self.line_num }));
     }
 
@@ -736,7 +696,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     }
 
     fn push_state(&mut self, state: State) {
-        println!("<- push state {:?}", state);
         self.states.push(self.state);
         self.state = state;
     }
@@ -744,40 +703,10 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     fn pop_state(&mut self) {
         match self.states.pop() {
             Some(state) => {
-                println!("<- pop state {:?}", state);
                 self.state = state;
             },
             None => panic!("twig bug: cannot pop state without a previous state"),
         }
-    }
-
-    fn output_pos(&self, pos: usize) {
-        // let mut line_start_offset = pos;
-        // while line_start_offset > 0 {
-        //     if self.code.chars().take(line_start_offset).last().expect("not empty last") == '\n' {
-        //         break;
-        //     }
-        //
-        //     line_start_offset -= 1;
-        // }
-        //
-        // let mut line_end_offset = pos;
-        // while line_end_offset < self.code.len() {
-        //     if line_end_offset > 0 && self.code.chars().skip(line_end_offset - 1).next().expect("not empty next") == '\n' {
-        //         break;
-        //     }
-        //
-        //     line_end_offset += 1;
-        // }
-        //
-        // let line_cursor = pos - line_start_offset;
-        // let mut line = &self.code[line_start_offset .. line_end_offset];
-        // if line.len() > 0 {
-        //     line = &line[0..line.len()-1];
-        // }
-        //
-        // println!("{}", line);
-        // println!("{}^", "-".to_string().chars().cycle().take(line_cursor).map(|c| c.to_string()).collect::<Vec<_>>().concat());
     }
 
     fn move_cursor(&mut self, offset: usize) {
@@ -785,10 +714,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
         self.cursor += offset;
         self.line_num += self.code[prev_loc .. self.cursor].lines().count() - 1;
-        println!("line num is {}", self.line_num);
-
-        println!("-- CURSOR --");
-        self.output_pos(self.cursor);
     }
 }
 
@@ -796,7 +721,6 @@ impl<'iteration, 'code> Iterator for Iter<'iteration, 'code> {
     type Item = Result<Token<'code>>;
 
     fn next(&mut self) -> Option<Result<Token<'code>>> {
-        println!("<- next");
 
         if self.finished {
             return None;
@@ -806,7 +730,6 @@ impl<'iteration, 'code> Iterator for Iter<'iteration, 'code> {
             self.collect_tokens();
         }
 
-        println!("<- pop");
         self.tokens.pop_front()
     }
 }
