@@ -124,11 +124,15 @@ pub struct StagedEnvironment {
 }
 
 impl StagedEnvironment {
-    pub fn new() -> StagedEnvironment {
-        StagedEnvironment {
+    pub fn default() -> StagedEnvironment {
+        let mut staged = StagedEnvironment {
             binary_operators: Vec::new(),
             unary_operators: Vec::new(),
-        }
+        };
+
+        CoreExtension::apply(&mut staged);
+
+        staged
     }
 
     pub fn init(self) -> Environment {
@@ -154,12 +158,14 @@ pub struct Environment {
 
 impl Environment {
 
-    pub fn default() -> Environment {
-        let mut staged = StagedEnvironment::new();
-
-        CoreExtension::apply(&mut staged);
-
+    pub fn new(staged: StagedEnvironment) -> Environment {
         staged.init()
+    }
+
+    pub fn default() -> Environment {
+        Environment::new(
+            StagedEnvironment::default()
+        )
     }
 }
 
