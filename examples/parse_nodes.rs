@@ -2,11 +2,11 @@ extern crate twig;
 
 use twig::environment::{ Environment };
 use twig::lexer::{ Lexer };
+use twig::ast::{ Module };
 use std::fs::File;
 use std::io::Read;
 use std::env;
 
-/// Tokenises twig template and prints the tokens.
 fn main() {
     let example_template_file = "templates/fos_login.html.twig";
     let mut path = env::current_dir().unwrap();
@@ -18,9 +18,7 @@ fn main() {
     let mut template = String::new();
     f.read_to_string(&mut template).unwrap();
 
-    let lexer = Lexer::default(&Environment::default());
-
-    for token in lexer.tokens(&template) {
-        println!("{:?}", token);
-    }
+    let env = Environment::default();
+    let lexer = Lexer::default(&env);
+    let maybe_module = Module::from_tokens(lexer.tokens(&template));
 }
