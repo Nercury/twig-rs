@@ -1,4 +1,4 @@
-# Twig templating engine for Rust.
+# Twig templating engine for Rust
 
 Flexible, fast, secure templating engine for Rust.
 The aim is to be 100% syntactically compatible with [Twig for PHP][twig-for-php].
