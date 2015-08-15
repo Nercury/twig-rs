@@ -7,6 +7,7 @@ repository = "https://github.com/Nercury/twig-rs"
 authors = [
     "Nerijus Arlauskas <nercury@gmail.com>"
 ]
+license = "MIT"
 
 [dependencies]
 regex = "*"
