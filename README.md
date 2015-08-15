@@ -7,12 +7,23 @@ and customize templating with extensions.
 
 Note that at this moment this is very much work in progress, and is not usable.
 
+The goal of 1.0 version is to pass test suite functionally equivalent to Twig 2.0 (issue #1).
+
 [twig-for-php]: http://twig.sensiolabs.org/
 
 ## Motivation
 
 - Designers are familiar with Twig.
 - Reuse existing IDE support for Twig.
+
+## Short-term goals
+
+- At least a basic parser implementation is needed, with extendable AST (issue #3).
+- Fixture runner is needed (issue #2). However, it requires finished #3.
+
+## Long-term goals
+
+- LLTL (low level template language) #4.
 
 # Example of working lexer
 
