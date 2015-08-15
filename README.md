@@ -7,7 +7,7 @@ and customize templating with extensions.
 
 Note that at this moment this is very much work in progress, and is not usable.
 
-The goal of 1.0 version is to pass test suite functionally equivalent to Twig 2.0 (issue #1).
+The goal of 1.0 version is to pass test suite functionally equivalent to Twig 2.0 ([issue #1](https://github.com/Nercury/twig-rs/issues/1)).
 
 [twig-for-php]: http://twig.sensiolabs.org/
 
@@ -18,12 +18,12 @@ The goal of 1.0 version is to pass test suite functionally equivalent to Twig 2.
 
 ## Short-term goals
 
-- At least a basic parser implementation is needed, with extendable AST (issue #3).
-- Fixture runner is needed (issue #2). However, it requires finished #3.
+- At least a basic parser implementation is needed, with extendable AST ([issue #3](https://github.com/Nercury/twig-rs/issues/3)).
+- Fixture runner is needed ([issue #2](https://github.com/Nercury/twig-rs/issues/2)). However, it requires finished [#3](https://github.com/Nercury/twig-rs/issues/3).
 
 ## Long-term goals
 
-- LLTL (low level template language) #4.
+- LLTL (low level template language), [issue #4](https://github.com/Nercury/twig-rs/issues/4).
 
 # Example of working lexer
 
