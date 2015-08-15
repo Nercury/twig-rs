@@ -9,6 +9,11 @@ Note that at this moment this is very much work in progress, and is not usable.
 
 [twig-for-php]: http://twig.sensiolabs.org/
 
+## Motivation
+
+- Designers are familiar with Twig.
+- Reuse existing IDE support for Twig.
+
 # Example of working lexer
 
 Run example that iterates over template in [templates/fos_login.html.twig][tmp]:
