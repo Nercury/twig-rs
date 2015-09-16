@@ -9,10 +9,12 @@
 
 extern crate regex;
 
+mod token;
 pub mod lexer;
-pub mod token;
-pub mod error;
+mod error;
 pub mod environment;
-pub mod extension;
+mod extension;
 pub mod parser;
 pub mod node;
+
+pub use extension::Extension;

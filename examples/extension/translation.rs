@@ -1,10 +1,10 @@
-use twig::extension::Apply;
-use twig::environment::{ ExtendEnvironment };
+use twig::Extension;
+use twig::environment::{ StagedEnvironment };
 
 pub struct TranslationExtension;
 
-impl Apply for TranslationExtension {
-    fn apply<E: ExtendEnvironment>(env: &mut E) {
-        
+impl Extension for TranslationExtension {
+    fn apply(env: &mut StagedEnvironment) {
+
     }
 }

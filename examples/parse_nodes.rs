@@ -3,7 +3,7 @@ extern crate twig;
 use twig::environment::{ StagedEnvironment, Environment };
 use twig::lexer::{ Lexer };
 use twig::node::{ Module };
-use twig::extension::Apply;
+use twig::Extension;
 
 use std::fs::File;
 use std::io::Read;

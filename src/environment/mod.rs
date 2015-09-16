@@ -3,7 +3,7 @@ use std::convert::From;
 use std::collections::HashMap;
 
 use extension::core::CoreExtension;
-use extension::Apply;
+use Extension;
 
 pub struct Container<T>(Vec<T>);
 
@@ -113,11 +113,6 @@ impl BinaryOperator {
     }
 }
 
-pub trait ExtendEnvironment {
-    fn push_binary_operators<L: Into<Container<BinaryOperator>>>(&mut self, ops: L);
-    fn push_unary_operators<L: Into<Container<UnaryOperator>>>(&mut self, ops: L);
-}
-
 pub struct StagedEnvironment {
     pub binary_operators: Vec<BinaryOperator>,
     pub unary_operators: Vec<UnaryOperator>,
@@ -149,6 +144,16 @@ impl StagedEnvironment {
             }
         }
     }
+
+    pub fn push_binary_operators<L: Into<Container<BinaryOperator>>>(&mut self, ops: L) {
+        let Container(items) = ops.into();
+        self.binary_operators.extend(items);
+    }
+
+    pub fn push_unary_operators<L: Into<Container<UnaryOperator>>>(&mut self, ops: L) {
+        let Container(items) = ops.into();
+        self.unary_operators.extend(items);
+    }
 }
 
 pub struct Environment {
@@ -166,19 +171,6 @@ impl Environment {
         Environment::new(
             StagedEnvironment::default()
         )
-    }
-}
-
-impl ExtendEnvironment for StagedEnvironment {
-
-    fn push_binary_operators<L: Into<Container<BinaryOperator>>>(&mut self, ops: L) {
-        let Container(items) = ops.into();
-        self.binary_operators.extend(items);
-    }
-
-    fn push_unary_operators<L: Into<Container<UnaryOperator>>>(&mut self, ops: L) {
-        let Container(items) = ops.into();
-        self.unary_operators.extend(items);
     }
 }
 
