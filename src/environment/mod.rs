@@ -163,14 +163,9 @@ pub struct Environment {
 
 impl Environment {
 
-    pub fn new(staged: StagedEnvironment) -> Environment {
-        staged.init()
-    }
-
     pub fn default() -> Environment {
-        Environment::new(
-            StagedEnvironment::default()
-        )
+        StagedEnvironment::default()
+            .init()
     }
 }
 

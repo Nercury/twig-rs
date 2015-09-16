@@ -12,9 +12,10 @@ extern crate regex;
 mod token;
 pub mod lexer;
 mod error;
-pub mod environment;
+mod environment;
 mod extension;
 pub mod parser;
 pub mod node;
 
 pub use extension::Extension;
+pub use environment::{ Environment, StagedEnvironment };

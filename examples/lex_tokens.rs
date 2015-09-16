@@ -1,6 +1,6 @@
 extern crate twig;
 
-use twig::environment::{ Environment };
+use twig::Environment;
 use twig::lexer::{ Lexer };
 use std::fs::File;
 use std::io::Read;

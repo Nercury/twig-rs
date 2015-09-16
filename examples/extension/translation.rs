@@ -1,5 +1,5 @@
 use twig::Extension;
-use twig::environment::{ StagedEnvironment };
+use twig::StagedEnvironment;
 
 pub struct TranslationExtension;
 
