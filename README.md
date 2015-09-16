@@ -20,13 +20,10 @@ The goal of 1.0 version is to pass test suite functionally equivalent to Twig 2.
 - Designers are familiar with Twig.
 - Reuse existing IDE support for Twig.
 
-## Short-term goals
+## TODO list
 
 - At least a basic parser implementation is needed, with extendable AST ([issue #3](https://github.com/Nercury/twig-rs/issues/3)).
 - Fixture runner is needed ([issue #2](https://github.com/Nercury/twig-rs/issues/2)). However, it requires finished [#3](https://github.com/Nercury/twig-rs/issues/3).
-
-## Long-term goals
-
 - LLTL (low level template language), [issue #4](https://github.com/Nercury/twig-rs/issues/4).
 
 # Example of working lexer
