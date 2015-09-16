@@ -130,8 +130,8 @@ impl StagedEnvironment {
         staged
     }
 
-    pub fn init(self) -> Environment {
-        Environment {
+    pub fn init(self) -> CompiledEnvironment {
+        CompiledEnvironment {
             binary_operators: {
                 self.binary_operators.iter()
                     .map(|i| (i.chars, *i))
@@ -156,14 +156,14 @@ impl StagedEnvironment {
     }
 }
 
-pub struct Environment {
+pub struct CompiledEnvironment {
     pub binary_operators: HashMap<&'static str, BinaryOperator>,
     pub unary_operators: HashMap<&'static str, UnaryOperator>,
 }
 
-impl Environment {
+impl CompiledEnvironment {
 
-    pub fn default() -> Environment {
+    pub fn default() -> CompiledEnvironment {
         StagedEnvironment::default()
             .init()
     }

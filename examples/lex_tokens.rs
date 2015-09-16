@@ -1,6 +1,6 @@
 extern crate twig;
 
-use twig::Environment;
+use twig::CompiledEnvironment;
 use twig::lexer::{ Lexer };
 use std::fs::File;
 use std::io::Read;
@@ -18,7 +18,7 @@ fn main() {
     let mut template = String::new();
     f.read_to_string(&mut template).unwrap();
 
-    let lexer = Lexer::default(&Environment::default());
+    let lexer = Lexer::default(&CompiledEnvironment::default());
 
     for token in lexer.tokens(&template) {
         println!("{:?}", token);
