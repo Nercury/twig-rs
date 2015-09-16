@@ -113,14 +113,14 @@ impl BinaryOperator {
     }
 }
 
-pub struct StagedEnvironment {
+pub struct Environment {
     pub binary_operators: Vec<BinaryOperator>,
     pub unary_operators: Vec<UnaryOperator>,
 }
 
-impl StagedEnvironment {
-    pub fn default() -> StagedEnvironment {
-        let mut staged = StagedEnvironment {
+impl Environment {
+    pub fn default() -> Environment {
+        let mut staged = Environment {
             binary_operators: Vec::new(),
             unary_operators: Vec::new(),
         };
@@ -164,7 +164,7 @@ pub struct CompiledEnvironment {
 impl CompiledEnvironment {
 
     pub fn default() -> CompiledEnvironment {
-        StagedEnvironment::default()
+        Environment::default()
             .init()
     }
 }

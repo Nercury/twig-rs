@@ -1,7 +1,7 @@
 pub mod core;
 
-use environment::StagedEnvironment;
+use Environment;
 
 pub trait Extension {
-    fn apply(env: &mut StagedEnvironment);
+    fn apply(env: &mut Environment);
 }

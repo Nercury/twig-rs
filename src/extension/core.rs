@@ -1,10 +1,10 @@
 use Extension;
-use environment::{ StagedEnvironment, Associativity };
+use environment::{ Environment, Associativity };
 
 pub struct CoreExtension;
 
 impl Extension for CoreExtension {
-    fn apply(env: &mut StagedEnvironment) {
+    fn apply(env: &mut Environment) {
         env.push_unary_operators(&[
             ("not", 50),
             ("-", 500),

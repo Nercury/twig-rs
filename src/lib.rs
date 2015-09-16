@@ -18,4 +18,4 @@ pub mod parser;
 pub mod node;
 
 pub use extension::Extension;
-pub use environment::{ CompiledEnvironment, StagedEnvironment };
+pub use environment::{ CompiledEnvironment, Environment };

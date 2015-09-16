@@ -1,6 +1,6 @@
 extern crate twig;
 
-use twig::StagedEnvironment;
+use twig::Environment;
 use twig::lexer::{ Lexer };
 use twig::node::{ Module };
 use twig::Extension;
@@ -22,7 +22,7 @@ fn main() {
     let mut template = String::new();
     f.read_to_string(&mut template).unwrap();
 
-    let mut staged = StagedEnvironment::default();
+    let mut staged = Environment::default();
     extension::TranslationExtension::apply(&mut staged);
     let env = staged.init();
 
