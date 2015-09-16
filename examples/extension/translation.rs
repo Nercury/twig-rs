@@ -4,7 +4,7 @@ use twig::Environment;
 pub struct TranslationExtension;
 
 impl Extension for TranslationExtension {
-    fn apply(env: &mut Environment) {
+    fn apply(_env: &mut Environment) {
 
     }
 }

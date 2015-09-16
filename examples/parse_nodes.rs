@@ -27,5 +27,5 @@ fn main() {
     let env = staged.init();
 
     let lexer = Lexer::default(&env);
-    let maybe_module = Module::from_tokens(lexer.tokens(&template));
+    let _maybe_module = Module::from_tokens(lexer.tokens(&template));
 }

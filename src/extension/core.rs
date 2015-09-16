@@ -1,5 +1,8 @@
-use Extension;
-use environment::{ Environment, Associativity };
+use {
+    Extension,
+    Environment,
+    Associativity
+};
 
 pub struct CoreExtension;
 

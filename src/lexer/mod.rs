@@ -6,9 +6,8 @@ use regex::{ Regex, quote };
 use std::iter::{ Iterator };
 use std::collections::{ HashMap };
 
-use CompiledEnvironment;
-
-use environment::{
+use {
+    CompiledEnvironment,
     UnaryOperator,
     BinaryOperator
 };
