@@ -1,5 +1,9 @@
 # Twig templating engine for Rust
 
+[![Build Status](https://travis-ci.org/Nercury/twig-rs.svg)](https://travis-ci.org/Nercury/twig-rs)
+
+[Read `twig-rs` library docs](http://nercury.github.io/twig-rs)
+
 Flexible, fast, secure templating engine for Rust.
 The aim is to be 100% syntactically compatible with [Twig for PHP][twig-for-php].
 The secondary aim is to provide functionally equivalent ways to extend
