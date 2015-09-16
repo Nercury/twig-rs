@@ -1,14 +1,15 @@
 [package]
 
 name = "twig"
-version = "0.0.1"
+version = "0.0.2"
 description = "Twig templating engine for Rust; work in progress."
 documentation = "http://nercury.github.io/twig-rs/twig/index.html"
 repository = "https://github.com/Nercury/twig-rs"
 authors = [
+    "Rust Twig Team",
     "Nerijus Arlauskas <nercury@gmail.com>"
 ]
-license = "MIT"
+license = "BSD-3-Clause"
 
 [dependencies]
 regex = "*"
