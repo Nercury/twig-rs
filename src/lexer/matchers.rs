@@ -164,6 +164,45 @@ impl Matchers {
         }
     }
 
+    /// If matches strign contents up to #{, return pos as (start, end).
+    ///
+    /// This is /[^#"\\]*(?:(?:\\.|#(?!\{))[^#"\\]*)*/As regular expression written
+    /// manually.
+    pub fn match_regex_dq_string_part(&self, code: &str) -> (usize, usize) {
+        enum MatchMode {
+            Normal,
+            Escape,
+            MaybeInterpolation(usize),
+        }
+
+        let mut index = 0;
+        let mut mode = MatchMode::Normal;
+
+        for c in code.chars() {
+            match mode {
+                MatchMode::Normal => {
+                    match c {
+                        '\\' => mode = MatchMode::Escape,
+                        '#' => mode = MatchMode::MaybeInterpolation(index),
+                        '"' => return (0, index),
+                        _ => (),
+                    };
+                },
+                MatchMode::Escape => mode = MatchMode::Normal,
+                MatchMode::MaybeInterpolation(started_at) => {
+                    match c {
+                        '{' => return (0, started_at),
+                        _ => mode = MatchMode::Normal,
+                    };
+                }
+            };
+
+            index += 1;
+        }
+
+        (0, index)
+    }
+
     fn get_operator_regex(
         unary_operators: &HashMap<&'static str, UnaryOperator>,
         binary_operators: &HashMap<&'static str, BinaryOperator>
@@ -215,5 +254,51 @@ impl Matchers {
             Ok(regex) => regex,
             Err(e) => panic!("Failed to init operator_regex \n{}\n{:?}", regex_string, e),
         }
+    }
+}
+
+#[cfg(test)]
+mod test_match_regex_dq_string_part {
+    use std::collections::HashMap;
+    use lexer::options::Options;
+    use super::Matchers;
+
+    #[test]
+    fn should_match_full_str_with_first_esc_char() {
+        assert_eq!((0, 2), matchers().match_regex_dq_string_part("##"))
+    }
+
+    #[test]
+    fn should_match_empty_str() {
+        assert_eq!((0, 0), matchers().match_regex_dq_string_part(""))
+    }
+
+    #[test]
+    fn should_match_up_to_str_end() {
+        assert_eq!((0, 2), matchers().match_regex_dq_string_part(r#"##"foo"#))
+    }
+
+    #[test]
+    fn should_skip_escaped_str_end() {
+        assert_eq!((0, 7), matchers().match_regex_dq_string_part(r#"##\"foo"#))
+    }
+
+    #[test]
+    fn should_match_up_to_interpolation_start() {
+        assert_eq!((0, 3), matchers().match_regex_dq_string_part(r#"aa #{ foo"#))
+    }
+
+    #[test]
+    fn should_skip_escaped_interpolation_start() {
+        assert_eq!((0, 10), matchers().match_regex_dq_string_part(r#"aa \#{ foo"#))
+    }
+
+    fn matchers() -> Matchers {
+        let options = Options::default();
+        Matchers::new(
+            &options,
+            &HashMap::new(),
+            &HashMap::new()
+        )
     }
 }
