@@ -13,6 +13,7 @@ matrix:
       env: DOC=true
     - rust: beta
     - rust: stable
+    - rust: 1.2.0
     - rust: 1.1.0
     - rust: 1.0.0
 
