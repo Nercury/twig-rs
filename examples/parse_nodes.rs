@@ -1,7 +1,7 @@
 extern crate twig;
 
 use twig::Environment;
-use twig::lexer::{ Lexer };
+use twig::Lexer;
 use twig::node::{ Module };
 use twig::Extension;
 

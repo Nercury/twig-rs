@@ -10,7 +10,7 @@
 extern crate regex;
 
 mod token;
-pub mod lexer;
+mod lexer;
 mod error;
 mod environment;
 mod extension;
@@ -18,6 +18,7 @@ pub mod parser;
 pub mod node;
 
 pub use extension::Extension;
+pub use lexer::{ Lexer };
 pub use environment::{ CompiledEnvironment, Environment };
 pub use environment::operators::{ UnaryOperator, BinaryOperator, Associativity };
 

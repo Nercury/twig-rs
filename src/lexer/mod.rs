@@ -12,8 +12,8 @@ use {
     BinaryOperator
 };
 
-use self::options::Options;
-use self::iter::Iter;
+use lexer::options::Options;
+use lexer::iter::Iter;
 
 pub struct Lexer {
     options: Options,
