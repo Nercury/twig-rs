@@ -3,20 +3,20 @@ pub mod options;
 pub mod iter;
 pub mod matchers;
 
-use {
-    CompiledEnvironment,
-};
+use CompiledEnvironment;
 
 use lexer::matchers::Matchers;
 use lexer::options::Options;
 use lexer::iter::Iter;
 
+/// Parses template file and converts it to a stream of tokens.
 pub struct Lexer {
     options: Options,
     matchers: Matchers,
 }
 
 impl Lexer {
+    /// Initialize default lexer with default options.
     pub fn default(env: &CompiledEnvironment) -> Lexer {
         let options = Options::default();
 
@@ -30,6 +30,7 @@ impl Lexer {
         }
     }
 
+    /// Convert provided template into a token stream.
     pub fn tokens<'r>(&'r self, code: &'r str) -> Iter
     {
         Iter::new(self, code)

@@ -1,5 +1,6 @@
 use lexer::delimiters::Delimiters;
 
+/// Twig options.
 #[derive(Copy, Clone)]
 pub struct Options {
     pub tag_comment: Delimiters,
