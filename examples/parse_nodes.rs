@@ -2,7 +2,7 @@ extern crate twig;
 
 use twig::Environment;
 use twig::Lexer;
-use twig::node::{ Module };
+use twig::Module;
 use twig::Extension;
 
 use std::fs::File;

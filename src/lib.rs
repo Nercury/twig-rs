@@ -14,13 +14,14 @@ mod lexer;
 mod error;
 mod environment;
 mod extension;
-pub mod parser;
-pub mod node;
+mod parser;
+mod node;
 
 pub use extension::Extension;
 pub use lexer::{ Lexer };
 pub use environment::{ CompiledEnvironment, Environment };
 pub use environment::operators::{ UnaryOperator, BinaryOperator, Associativity };
+pub use node::Module;
 
 pub struct Container<T>(Vec<T>);
 

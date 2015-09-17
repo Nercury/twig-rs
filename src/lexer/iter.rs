@@ -111,7 +111,24 @@ pub struct Iter<'iteration, 'code> {
     line_num: usize,
 }
 
-/// Iterator over stuff.
+impl<'iteration, 'code> Iterator for Iter<'iteration, 'code> {
+    type Item = Result<Token<'code>>;
+
+    fn next(&mut self) -> Option<Result<Token<'code>>> {
+
+        if self.finished {
+            return None;
+        }
+
+        if self.tokens.len() == 0 {
+            self.collect_tokens();
+        }
+
+        self.tokens.pop_front()
+    }
+}
+
+/// Iterator over tokens.
 ///
 /// ## Example
 ///
@@ -119,9 +136,8 @@ pub struct Iter<'iteration, 'code> {
 /// let x = "a";
 /// ```
 impl<'iteration, 'code> Iter<'iteration, 'code> {
+
     /// Create the iterator.
-    ///
-    /// > Compatible with `tokenize`.
     pub fn new<'caller>(lexer: &'caller Lexer, code: &'code str) -> Iter<'caller, 'code> {
         // find all token starts in one go
         let positions = lexer.matchers.lex_tokens_start.captures_iter(code)
@@ -154,7 +170,6 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
     }
 
     /// When we run out of tokens, we call this function to buffer more.
-    /// > Compatible with `tokenize`.
     fn collect_tokens(&mut self) {
         loop {
             if self.is_error {
@@ -644,22 +659,5 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
         }
 
         self.line_num += lines;
-    }
-}
-
-impl<'iteration, 'code> Iterator for Iter<'iteration, 'code> {
-    type Item = Result<Token<'code>>;
-
-    fn next(&mut self) -> Option<Result<Token<'code>>> {
-
-        if self.finished {
-            return None;
-        }
-
-        if self.tokens.len() == 0 {
-            self.collect_tokens();
-        }
-
-        self.tokens.pop_front()
     }
 }
