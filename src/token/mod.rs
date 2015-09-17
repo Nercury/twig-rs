@@ -1,11 +1,13 @@
 use std::fmt;
 
+/// Lexer output token, lexer's output and parser's input.
 #[derive(Debug, Clone)]
 pub struct Token<'a> {
     pub value: Value<'a>,
     pub line_num: usize,
 }
 
+/// Parsed twig number representation.
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum TwigNumber<'a> {
     Big(&'a str),
@@ -13,6 +15,7 @@ pub enum TwigNumber<'a> {
     Int(u64),
 }
 
+/// Parsed Twig string representation.
 #[derive(Eq, PartialEq, Copy, Clone)]
 pub struct TwigString<'a>(&'a str);
 
@@ -29,6 +32,7 @@ impl<'a> fmt::Debug for TwigString<'a> {
     }
 }
 
+/// Token value.
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum Value<'a> {
     Text(&'a str),
@@ -44,13 +48,4 @@ pub enum Value<'a> {
     InterpolationStart,
     InterpolationEnd,
     CommentStart, // Not in vanilla Twig.
-}
-
-#[derive(Debug, Copy, Clone)]
-pub enum State {
-    Data,
-    Block,
-    Var,
-    String,
-    Interpolation,
 }

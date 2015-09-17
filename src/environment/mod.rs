@@ -10,6 +10,7 @@ use {
     Container,
 };
 
+/// Project configuration container.
 pub struct Environment {
     pub binary_operators: Vec<BinaryOperator>,
     pub unary_operators: Vec<UnaryOperator>,
@@ -53,6 +54,7 @@ impl Environment {
     }
 }
 
+/// Project configuration container with all extensions applied.
 pub struct CompiledEnvironment {
     pub binary_operators: HashMap<&'static str, BinaryOperator>,
     pub unary_operators: HashMap<&'static str, UnaryOperator>,

@@ -1,5 +1,6 @@
 use std::cmp::Ordering;
 
+/// Single argument operator, i.e negation.
 #[derive(Copy, Clone)]
 pub struct UnaryOperator {
     pub chars: &'static str,
@@ -28,6 +29,7 @@ impl UnaryOperator {
     }
 }
 
+/// Two argument operator, i.e sum.
 #[derive(Copy, Clone)]
 pub struct BinaryOperator {
     pub chars: &'static str,
@@ -70,6 +72,7 @@ impl BinaryOperator {
     }
 }
 
+/// Operator associativity.
 #[derive(Copy, Clone, Eq, PartialEq)]
 pub enum Associativity {
     Left,

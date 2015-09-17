@@ -4,13 +4,27 @@ use std::collections::{ VecDeque };
 use super::Lexer;
 use error::{ Result, Error };
 use token::{ Token, TwigNumber, TwigString };
-use token::State;
 use token::Value as TokenValue;
 use lexer::options::Options;
 use std::fmt;
 
 const PUNCTUATION: &'static str = "()[]{}?:.,|";
 
+/// Iteration state.
+#[derive(Debug, Copy, Clone)]
+pub enum State {
+    Data,
+    Block,
+    Var,
+    String,
+    Interpolation,
+}
+
+/// Block position.
+///
+/// At start, Twig runs regexp that finds all interesting block starts, like {{ or {%.
+/// If nothing like that is found, no parsing occurs. Otherwise, it uses this position
+/// to divide parsing in kind of "chunks".
 #[derive(Debug, Copy, Clone)]
 struct Position<'code> {
     loc: usize,
@@ -18,51 +32,6 @@ struct Position<'code> {
     all_len: usize,
     value: TokenValue<'code>,
     ws_trim: bool,
-}
-
-#[derive(Debug, Eq, PartialEq, Copy, Clone)]
-enum BracketSymbol {
-    Char(char),
-    IntStart,
-    IntEnd,
-}
-
-impl fmt::Display for BracketSymbol {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match *self {
-            BracketSymbol::Char(c) => fmt::Display::fmt(&c.to_string(), f),
-            BracketSymbol::IntStart => fmt::Display::fmt(r#"#{"#, f),
-            BracketSymbol::IntEnd => fmt::Display::fmt(r#"}"#, f),
-        }
-    }
-}
-
-#[derive(Debug, Copy, Clone)]
-struct Bracket {
-    open: BracketSymbol,
-    close: BracketSymbol,
-    line_num: usize,
-}
-
-impl Bracket {
-    fn new(open_char: BracketSymbol, line_num: usize) -> Bracket {
-        Bracket {
-            open: open_char,
-            close: match open_char {
-                BracketSymbol::Char('(') => BracketSymbol::Char(')'),
-                BracketSymbol::Char('[') => BracketSymbol::Char(']'),
-                BracketSymbol::Char('{') => BracketSymbol::Char('}'),
-                BracketSymbol::Char('"') => BracketSymbol::Char('"'),
-                BracketSymbol::IntStart => BracketSymbol::IntEnd,
-                _ => unreachable!("twig bug: unknown bracket {:?}", open_char),
-            },
-            line_num: line_num,
-        }
-    }
-
-    fn from_char(open_char: char, line_num: usize) -> Bracket {
-        Bracket::new(BracketSymbol::Char(open_char), line_num)
-    }
 }
 
 impl<'code> Position<'code> {
@@ -86,6 +55,58 @@ impl<'code> Position<'code> {
                 _ => false,
             },
         }
+    }
+}
+
+/// Twig has different brackets: (, {, [, etc.
+/// The "interpolation" bracket is memorized as `IntStart` and `IntEnd` and looks
+/// like "#{ blah }".
+#[derive(Debug, Eq, PartialEq, Copy, Clone)]
+enum BracketSymbol {
+    Char(char),
+    IntStart,
+    IntEnd,
+}
+
+impl fmt::Display for BracketSymbol {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            BracketSymbol::Char(c) => fmt::Display::fmt(&c.to_string(), f),
+            BracketSymbol::IntStart => fmt::Display::fmt(r#"#{"#, f),
+            BracketSymbol::IntEnd => fmt::Display::fmt(r#"}"#, f),
+        }
+    }
+}
+
+/// We memorize started brackets using this struct.
+#[derive(Debug, Copy, Clone)]
+struct Bracket {
+    open: BracketSymbol,
+    close: BracketSymbol,
+    line_num: usize,
+}
+
+impl Bracket {
+    /// When creating bracket from the starting bracket, immediately set the
+    /// kind of bracket that is oposite to starting one, so we don't have to do
+    /// it in the iterator.
+    fn new(open_char: BracketSymbol, line_num: usize) -> Bracket {
+        Bracket {
+            open: open_char,
+            close: match open_char {
+                BracketSymbol::Char('(') => BracketSymbol::Char(')'),
+                BracketSymbol::Char('[') => BracketSymbol::Char(']'),
+                BracketSymbol::Char('{') => BracketSymbol::Char('}'),
+                BracketSymbol::Char('"') => BracketSymbol::Char('"'),
+                BracketSymbol::IntStart => BracketSymbol::IntEnd,
+                _ => unreachable!("twig bug: unknown bracket {:?}", open_char),
+            },
+            line_num: line_num,
+        }
+    }
+
+    fn from_char(open_char: char, line_num: usize) -> Bracket {
+        Bracket::new(BracketSymbol::Char(open_char), line_num)
     }
 }
 

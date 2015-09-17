@@ -3,6 +3,7 @@ use token::Token;
 
 pub struct Module;
 
+/// Root Twig AST node.
 impl Module {
     pub fn from_tokens<'code, I>(tokens: I)
         -> Result<Module>
