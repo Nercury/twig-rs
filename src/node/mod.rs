@@ -6,6 +6,7 @@ pub struct Block;
 pub struct Macro;
 pub struct Trait;
 pub struct AnyNode;
+pub struct EmbededTemplate; // reference to another module
 
 pub struct Module {
     // Sub nodes.
@@ -17,7 +18,7 @@ pub struct Module {
     // Attributes.
     file_id: Option<String>, // this must NOT be treated as file name
     index: i32, // TODO: wtf is this
-    embedded_templates: Vec<()>, // TODO: should this be here
+    embedded_templates: Vec<EmbededTemplate>,
 
     // TODO: check usage of things bellow
     display_start: AnyNode,
