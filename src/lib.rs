@@ -22,13 +22,13 @@ mod error;
 mod environment;
 mod extension;
 mod parser;
-mod node;
+
+pub mod node;
 
 pub use extension::Extension;
 pub use lexer::{ Lexer };
 pub use environment::{ CompiledEnvironment, Environment };
 pub use environment::operators::{ UnaryOperator, BinaryOperator, Associativity };
-pub use node::Module;
 
 pub struct Container<T>(Vec<T>);
 
