@@ -55,12 +55,11 @@ impl<'a> Module<'a> {
         }
     }
 
-    pub fn from_tokens<'code, I>(tokens: I)
+    pub fn from_tokens<'code, I>(mut tokens: I)
         -> Result<Module<'code>>
-            where I: IntoIterator<Item=Result<Token<'code>>>
+            where I: Iterator<Item=Result<Token<'code>>>
     {
-        let mut i = tokens.into_iter();
-        i.next();
+        tokens.next();
         Ok(Module::new())
     }
 }

@@ -31,7 +31,7 @@ impl Lexer {
     }
 
     /// Convert provided template into a token stream.
-    pub fn tokens<'r>(&'r self, code: &'r str) -> Iter
+    pub fn tokens<'r, 'code>(&'r self, code: &'code str) -> Iter<'r, 'code>
     {
         Iter::new(self, code)
     }
