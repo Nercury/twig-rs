@@ -4,6 +4,7 @@ use node::Expr;
 pub enum BodyNode<'a> {
     Expr(Expr<'a>),
     List(Vec<BodyNode<'a>>),
+    Text(&'a str, usize),
 }
 
 impl<'a> BodyNode<'a> {

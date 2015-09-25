@@ -3,6 +3,7 @@ mod body_node;
 mod expr;
 
 use error::Result;
+use token;
 use token::Token;
 
 pub use self::body::Body;
@@ -59,7 +60,29 @@ impl<'a> Module<'a> {
         -> Result<Module<'code>>
             where I: Iterator<Item=Result<Token<'code>>>
     {
-        tokens.next();
-        Ok(Module::new())
+        let mut module = Module::new();
+
+        let mut maybe_token = tokens.next();
+        let mut line_num = match maybe_token {
+            Some(Ok(ref token)) => token.line_num,
+            None => 1,
+            Some(Err(e)) => return Err(e),
+        };
+        let mut rv = Vec::new();
+
+        loop {
+            match maybe_token {
+                Some(Ok(ref token)) => match token.value {
+                    token::Value::Text(t) => rv.push(BodyNode::Text(t, token.line_num)),
+                    _ => (),
+                },
+                None => break,
+                Some(Err(e)) => return Err(e),
+            };
+
+            maybe_token = tokens.next();
+        }
+
+        Ok(module)
     }
 }
