@@ -1,5 +1,4 @@
 mod body;
-mod body_node;
 mod expr;
 
 use error::Result;
@@ -7,7 +6,6 @@ use token;
 use token::Token;
 
 pub use self::body::Body;
-pub use self::body_node::BodyNode;
 pub use self::expr::Expr;
 
 pub struct Block;
@@ -28,11 +26,11 @@ pub struct Module<'a> {
     embedded_templates: Vec<EmbededTemplate>,
 
     // TODO: check usage of things bellow
-    display_start: BodyNode<'a>,
-    display_end: BodyNode<'a>,
-    constructor_start: BodyNode<'a>,
-    constructor_end: BodyNode<'a>,
-    class_end: BodyNode<'a>,
+    display_start: Body<'a>,
+    display_end: Body<'a>,
+    constructor_start: Body<'a>,
+    constructor_end: Body<'a>,
+    class_end: Body<'a>,
 }
 
 /// Root Twig AST node.
@@ -48,11 +46,11 @@ impl<'a> Module<'a> {
             index: 0,
             embedded_templates: vec![],
 
-            display_start: BodyNode::new(),
-            display_end: BodyNode::new(),
-            constructor_start: BodyNode::new(),
-            constructor_end: BodyNode::new(),
-            class_end: BodyNode::new(),
+            display_start: Body::new(),
+            display_end: Body::new(),
+            constructor_start: Body::new(),
+            constructor_end: Body::new(),
+            class_end: Body::new(),
         }
     }
 
@@ -73,7 +71,7 @@ impl<'a> Module<'a> {
         loop {
             match maybe_token {
                 Some(Ok(ref token)) => match token.value {
-                    token::Value::Text(t) => rv.push(BodyNode::Text(t, token.line_num)),
+                    token::Value::Text(t) => rv.push(Body::Text(t, token.line_num)),
                     _ => (),
                 },
                 None => break,

@@ -11,7 +11,7 @@ fn test_string_expression() {
         let env = Environment::default().init();
         let lexer = Lexer::default(&env);
         let module = Module::from_tokens(lexer.tokens(&template)).ok().expect("parse template");
-        assert_eq!(module.body[0].expect_expr(), &expected);
+        assert_eq!(module.body.expect_list()[0].expect_expr(), &expected);
     }
 }
 

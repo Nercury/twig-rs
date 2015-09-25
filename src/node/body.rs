@@ -1,22 +1,28 @@
-use std::ops::Index;
-use node::BodyNode;
+use node::Expr;
 
-pub struct Body<'a> {
-    items: Vec<BodyNode<'a>>,
+#[derive(Debug)]
+pub enum Body<'a> {
+    Expr(Expr<'a>),
+    List(Vec<Body<'a>>),
+    Text(&'a str, usize),
 }
 
 impl<'a> Body<'a> {
     pub fn new() -> Body<'a> {
-        Body {
-            items: Vec::new(),
+        Body::List(Vec::new())
+    }
+
+    pub fn expect_expr<'r>(&'a self) -> &'r Expr<'a> {
+        match *self {
+            Body::Expr(ref e) => e,
+            ref what => panic!("Expected expect_expr to return Expr but received {:?}", what),
         }
     }
-}
 
-impl<'a> Index<usize> for Body<'a> {
-    type Output = BodyNode<'a>;
-
-    fn index(&self, index: usize) -> &Self::Output {
-        &self.items[index]
+    pub fn expect_list<'r>(&'a self) -> &'r Vec<Body<'a>> {
+        match *self {
+            Body::List(ref list) => list,
+            ref what => panic!("Expected expect_list to return Vec but received {:?}", what),
+        }
     }
 }
