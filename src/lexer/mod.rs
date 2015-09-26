@@ -7,7 +7,7 @@ use CompiledEnvironment;
 
 use lexer::matchers::Matchers;
 use lexer::options::Options;
-use lexer::iter::Iter;
+use lexer::iter::TokenIter;
 
 /// Parses template file and converts it to a stream of tokens.
 pub struct Lexer {
@@ -31,9 +31,9 @@ impl Lexer {
     }
 
     /// Convert provided template into a token stream.
-    pub fn tokens<'r, 'code>(&'r self, code: &'code str) -> Iter<'r, 'code>
+    pub fn tokens<'r, 'code>(&'r self, code: &'code str) -> TokenIter<'r, 'code>
     {
-        Iter::new(self, code)
+        TokenIter::new(self, code)
     }
 }
 
@@ -42,7 +42,7 @@ mod test {
     use super::*;
     use token::*;
     use error::Result;
-    use lexer::iter::Iter;
+    use lexer::iter::TokenIter;
     use std::iter::repeat;
     use CompiledEnvironment;
     use Expect;
@@ -398,7 +398,7 @@ bar
         count
     }
 
-    fn expect_with_line<'i, 'c>(mut stream: Iter<'i, 'c>, token_value: Value<'c>, line_num: usize) -> Iter<'i, 'c> {
+    fn expect_with_line<'i, 'c>(mut stream: TokenIter<'i, 'c>, token_value: Value<'c>, line_num: usize) -> TokenIter<'i, 'c> {
         match stream.expect(token_value) {
             Ok(token) => assert_eq!(token.line_num, line_num),
             Err(e) => panic!("Received error {:?}", e),
@@ -406,7 +406,7 @@ bar
         stream
     }
 
-    fn expect<'i, 'c>(mut stream: Iter<'i, 'c>, token_value: Value<'c>) -> Iter<'i, 'c> {
+    fn expect<'i, 'c>(mut stream: TokenIter<'i, 'c>, token_value: Value<'c>) -> TokenIter<'i, 'c> {
         if let Err(e) = stream.expect(token_value) {
             panic!("Received error {:?}", e);
         }
@@ -414,7 +414,7 @@ bar
     }
 
     /// Runs iterator until it returns error and then checks if error string matches.
-    fn expect_error<'i, 'c>(mut stream: Iter<'i, 'c>, text: &'i str) {
+    fn expect_error<'i, 'c>(mut stream: TokenIter<'i, 'c>, text: &'i str) {
         let mut next = stream.next();
         loop {
             match next {
@@ -429,7 +429,7 @@ bar
     }
 
     /// Runs iterator and expects that it is at the end.
-    fn expect_end<'i, 'c>(mut stream: Iter<'i, 'c>) {
+    fn expect_end<'i, 'c>(mut stream: TokenIter<'i, 'c>) {
         match stream.next() {
             Some(other) => panic!("expected the stream to be at the end, but got {:?}", other),
             _ => (),

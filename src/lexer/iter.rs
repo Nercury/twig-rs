@@ -111,7 +111,7 @@ impl Bracket {
     }
 }
 
-pub struct Iter<'iteration, 'code> {
+pub struct TokenIter<'iteration, 'code> {
     lexer: &'iteration Lexer,
 
     code: &'code str,
@@ -133,7 +133,7 @@ pub struct Iter<'iteration, 'code> {
     line_num: usize,
 }
 
-impl<'iteration, 'code> Iterator for Iter<'iteration, 'code> {
+impl<'iteration, 'code> Iterator for TokenIter<'iteration, 'code> {
     type Item = Result<Token<'code>>;
 
     fn next(&mut self) -> Option<Result<Token<'code>>> {
@@ -172,16 +172,10 @@ impl<'code, T> Expect<TokenValue<'code>> for T where T: Iterator<Item=Result<Tok
 }
 
 /// Iterator over tokens.
-///
-/// ## Example
-///
-/// ```
-/// let x = "a";
-/// ```
-impl<'iteration, 'code> Iter<'iteration, 'code> {
+impl<'iteration, 'code> TokenIter<'iteration, 'code> {
 
     /// Create the iterator.
-    pub fn new<'caller>(lexer: &'caller Lexer, code: &'code str) -> Iter<'caller, 'code> {
+    pub fn new<'caller>(lexer: &'caller Lexer, code: &'code str) -> TokenIter<'caller, 'code> {
         // find all token starts in one go
         let positions = lexer.matchers.lex_tokens_start.captures_iter(code)
             .filter_map(|c| match c.is_empty() {
@@ -192,7 +186,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
         let code_len = code.len();
 
-        let iter = Iter {
+        let iter = TokenIter {
             lexer: lexer,
             code: code,
             cursor: 0,
