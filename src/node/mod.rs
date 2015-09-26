@@ -61,7 +61,7 @@ impl<'a> Module<'a> {
     {
         let mut module = Module::new();
 
-        module.body = try!(Self::parse_body(&mut tokens));
+        module.body = try!(Module::parse_body(&mut tokens));
 
         Ok(module)
     }
@@ -83,7 +83,7 @@ impl<'a> Module<'a> {
                 Some(Ok(ref token)) => match token.value {
                     token::Value::Text(t) => rv.push(Body::Text(t, token.line_num)),
                     token::Value::VarStart => {
-                        let expr = try!(Self::parse_expr(tokens));
+                        let expr = try!(Module::parse_expr(tokens));
                         try!(tokens.expect(token::Value::VarEnd));
                         rv.push(Body::Print(expr, token.line_num));
                     },
@@ -107,7 +107,6 @@ impl<'a> Module<'a> {
         -> Result<Expr<'code>>
             where I: Iterator<Item=Result<Token<'code>>>
     {
-        unimplemented!();
         Ok(Expr::Constant("", 1))
     }
 }
