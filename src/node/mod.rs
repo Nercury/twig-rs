@@ -61,46 +61,9 @@ impl<'a> Module<'a> {
     {
         let mut module = Module::new();
 
-        module.body = try!(Module::parse_body(&mut tokens));
+        module.body = try!(Body::from_tokens(&mut tokens));
 
         Ok(module)
-    }
-
-    fn parse_body<'code, I>(tokens: &mut I)
-        -> Result<Body<'code>>
-            where I: Iterator<Item=Result<Token<'code>>>
-    {
-        let mut maybe_token = tokens.next();
-        let mut line_num = match maybe_token {
-            Some(Ok(ref token)) => token.line_num,
-            None => 1,
-            Some(Err(e)) => return Err(e),
-        };
-        let mut rv = Vec::new();
-
-        loop {
-            match maybe_token {
-                Some(Ok(ref token)) => match token.value {
-                    token::Value::Text(t) => rv.push(Body::Text(t, token.line_num)),
-                    token::Value::VarStart => {
-                        let expr = try!(Module::parse_expr(tokens));
-                        try!(tokens.expect(token::Value::VarEnd));
-                        rv.push(Body::Print(expr, token.line_num));
-                    },
-                    _ => unimplemented!(),
-                },
-                None => break,
-                Some(Err(e)) => return Err(e),
-            };
-
-            maybe_token = tokens.next();
-        }
-
-        if rv.len() == 1 {
-            Ok(rv.remove(0))
-        } else {
-            Ok(Body::List(rv))
-        }
     }
 
     fn parse_expr<'code, I>(tokens: &mut I)
