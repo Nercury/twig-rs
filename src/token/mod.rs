@@ -1,4 +1,6 @@
 use std::fmt;
+use ExpectNext;
+use Error;
 
 /// Lexer output token, lexer's output and parser's input.
 #[derive(Debug, Clone)]

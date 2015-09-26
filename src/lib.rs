@@ -25,6 +25,7 @@ mod parser;
 
 pub mod node;
 
+pub use error::{ Error, Result };
 pub use extension::Extension;
 pub use lexer::{ Lexer };
 pub use environment::{ CompiledEnvironment, Environment };
@@ -40,4 +41,10 @@ impl<T: Clone, I: Into<T>, C: IntoIterator<Item=I>> From<C> for Container<T> {
                 .collect()
         )
     }
+}
+
+pub trait ExpectNext<V> {
+    type Output;
+
+    fn expect(&mut self, expected: V) -> Self::Output;
 }

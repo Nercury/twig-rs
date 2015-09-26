@@ -60,6 +60,15 @@ impl<'a> Module<'a> {
     {
         let mut module = Module::new();
 
+        module.body = try!(Self::parse_body(&mut tokens));
+
+        Ok(module)
+    }
+
+    fn parse_body<'code, I>(tokens: &mut I)
+        -> Result<Body<'code>>
+            where I: Iterator<Item=Result<Token<'code>>>
+    {
         let mut maybe_token = tokens.next();
         let mut line_num = match maybe_token {
             Some(Ok(ref token)) => token.line_num,
@@ -72,7 +81,11 @@ impl<'a> Module<'a> {
             match maybe_token {
                 Some(Ok(ref token)) => match token.value {
                     token::Value::Text(t) => rv.push(Body::Text(t, token.line_num)),
-                    _ => (),
+                    token::Value::VarStart => {
+                        Self::parse_expr(tokens);
+                        println!("var start");
+                    },
+                    _ => unimplemented!(),
                 },
                 None => break,
                 Some(Err(e)) => return Err(e),
@@ -81,6 +94,17 @@ impl<'a> Module<'a> {
             maybe_token = tokens.next();
         }
 
-        Ok(module)
+        if rv.len() == 1 {
+            Ok(rv.remove(0))
+        } else {
+            Ok(Body::List(rv))
+        }
+    }
+
+    fn parse_expr<'code, I>(tokens: &mut I)
+        -> Result<Expr<'code>>
+            where I: Iterator<Item=Result<Token<'code>>>
+    {
+        Ok(Expr::Constant("", 1))
     }
 }

@@ -45,6 +45,7 @@ mod test {
     use lexer::iter::Iter;
     use std::iter::repeat;
     use CompiledEnvironment;
+    use ExpectNext;
 
     #[test]
     fn name_label_for_tag() {
@@ -397,16 +398,18 @@ bar
         count
     }
 
-    fn expect_with_line<'i, 'c>(mut stream: Iter<'i, 'c>, token_value: Value, line_num: usize) -> Iter<'i, 'c> {
-        let maybe_token = stream.next();
-        let token = assert_token_value(maybe_token, token_value);
-        assert_eq!(token.line_num, line_num);
+    fn expect_with_line<'i, 'c>(mut stream: Iter<'i, 'c>, token_value: Value<'c>, line_num: usize) -> Iter<'i, 'c> {
+        match stream.expect(token_value) {
+            Ok(token) => assert_eq!(token.line_num, line_num),
+            Err(e) => panic!("Received error {:?}", e),
+        };
         stream
     }
 
-    fn expect<'i, 'c>(mut stream: Iter<'i, 'c>, token_value: Value) -> Iter<'i, 'c> {
-        let maybe_token = stream.next();
-        assert_token_value(maybe_token, token_value);
+    fn expect<'i, 'c>(mut stream: Iter<'i, 'c>, token_value: Value<'c>) -> Iter<'i, 'c> {
+        if let Err(e) = stream.expect(token_value) {
+            panic!("Received error {:?}", e);
+        }
         stream
     }
 
@@ -430,18 +433,6 @@ bar
         match stream.next() {
             Some(other) => panic!("expected the stream to be at the end, but got {:?}", other),
             _ => (),
-        }
-    }
-
-    fn assert_token_value<'c>(maybe_token: Option<Result<Token<'c>>>, token_value: Value<'c>) -> Token<'c> {
-        match maybe_token {
-            Some(Ok(token)) => if token.value != token_value {
-                panic!("expected token {:?} but received {:?}", token_value, token.value);
-            } else {
-                token
-            },
-            Some(Err(e)) => panic!("expected token {:?} but received error {:?}", token_value, e),
-            None => panic!("expected token {:?} but received end of stream", token_value),
         }
     }
 }

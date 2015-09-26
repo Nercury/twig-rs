@@ -2,9 +2,9 @@ use node::Expr;
 
 #[derive(Debug)]
 pub enum Body<'a> {
-    Expr(Expr<'a>),
     List(Vec<Body<'a>>),
     Text(&'a str, usize),
+    Print(Expr<'a>)
 }
 
 impl<'a> Body<'a> {
@@ -12,10 +12,10 @@ impl<'a> Body<'a> {
         Body::List(Vec::new())
     }
 
-    pub fn expect_expr<'r>(&'a self) -> &'r Expr<'a> {
+    pub fn expect_print<'r>(&'a self) -> &'r Expr<'a> {
         match *self {
-            Body::Expr(ref e) => e,
-            ref what => panic!("Expected expect_expr to return Expr but received {:?}", what),
+            Body::Print(ref e) => e,
+            ref what => panic!("Expected expect_print to return Expr but received {:?}", what),
         }
     }
 

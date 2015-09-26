@@ -2,11 +2,12 @@ use regex::{ Captures };
 use std::collections::{ VecDeque };
 
 use super::Lexer;
-use error::{ Result, Error };
+use { Result, Error };
 use token::{ Token, TwigNumber, TwigString };
 use token::Value as TokenValue;
 use lexer::options::Options;
 use std::fmt;
+use { ExpectNext };
 
 const PUNCTUATION: &'static str = "()[]{}?:.,|";
 
@@ -146,6 +147,27 @@ impl<'iteration, 'code> Iterator for Iter<'iteration, 'code> {
         }
 
         self.tokens.pop_front()
+    }
+}
+
+impl<'code, T> ExpectNext<TokenValue<'code>> for T where T: Iterator<Item=Result<Token<'code>>> {
+    type Output = Result<Token<'code>>;
+
+    fn expect(&mut self, expected: TokenValue<'code>) -> Self::Output {
+        let maybe_token = self.next();
+        match (maybe_token, expected) {
+            (None, _) => return Err(
+                Error::new(format!("Expected token {:?} but received the end of stream", expected))
+            ),
+            (Some(Ok(token)), expected) => if token.value == expected {
+                Ok(token)
+            } else {
+                return Err(
+                    Error::new_at(format!("Expected token {:?} but received {:?}", expected, token.value), token.line_num)
+                );
+            },
+            (Some(error), _) => error,
+        }
     }
 }
 
@@ -645,7 +667,7 @@ impl<'iteration, 'code> Iter<'iteration, 'code> {
 
     fn push_error<M: Into<String>>(&mut self, message: M, line_num: Option<usize>) {
         self.tokens.push_back(Err(
-            Error::new(message, match line_num {
+            Error::new_at(message, match line_num {
                 Some(line) => line,
                 None => unreachable!("twig bug: error should not be pushed without a line number"),
             })
