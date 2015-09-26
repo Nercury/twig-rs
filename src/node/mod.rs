@@ -83,9 +83,9 @@ impl<'a> Module<'a> {
                 Some(Ok(ref token)) => match token.value {
                     token::Value::Text(t) => rv.push(Body::Text(t, token.line_num)),
                     token::Value::VarStart => {
-                        Self::parse_expr(tokens);
+                        let expr = try!(Self::parse_expr(tokens));
                         try!(tokens.expect(token::Value::VarEnd));
-                        println!("var start");
+                        rv.push(Body::Print(expr, token.line_num));
                     },
                     _ => unimplemented!(),
                 },
@@ -107,6 +107,7 @@ impl<'a> Module<'a> {
         -> Result<Expr<'code>>
             where I: Iterator<Item=Result<Token<'code>>>
     {
+        unimplemented!();
         Ok(Expr::Constant("", 1))
     }
 }

@@ -4,7 +4,7 @@ use node::Expr;
 pub enum Body<'a> {
     List(Vec<Body<'a>>),
     Text(&'a str, usize),
-    Print(Expr<'a>)
+    Print(Expr<'a>, usize),
 }
 
 impl<'a> Body<'a> {
@@ -14,7 +14,7 @@ impl<'a> Body<'a> {
 
     pub fn expect_print<'r>(&'a self) -> &'r Expr<'a> {
         match *self {
-            Body::Print(ref e) => e,
+            Body::Print(ref e, _) => e,
             ref what => panic!("Expected expect_print to return Expr but received {:?}", what),
         }
     }
