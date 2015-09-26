@@ -45,7 +45,7 @@ mod test {
     use lexer::iter::Iter;
     use std::iter::repeat;
     use CompiledEnvironment;
-    use ExpectNext;
+    use Expect;
 
     #[test]
     fn name_label_for_tag() {

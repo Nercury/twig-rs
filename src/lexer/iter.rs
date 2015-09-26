@@ -7,7 +7,7 @@ use token::{ Token, TwigNumber, TwigString };
 use token::Value as TokenValue;
 use lexer::options::Options;
 use std::fmt;
-use { ExpectNext };
+use Expect;
 
 const PUNCTUATION: &'static str = "()[]{}?:.,|";
 
@@ -150,7 +150,7 @@ impl<'iteration, 'code> Iterator for Iter<'iteration, 'code> {
     }
 }
 
-impl<'code, T> ExpectNext<TokenValue<'code>> for T where T: Iterator<Item=Result<Token<'code>>> {
+impl<'code, T> Expect<TokenValue<'code>> for T where T: Iterator<Item=Result<Token<'code>>> {
     type Output = Result<Token<'code>>;
 
     fn expect(&mut self, expected: TokenValue<'code>) -> Self::Output {

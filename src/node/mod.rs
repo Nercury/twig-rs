@@ -1,9 +1,10 @@
 mod body;
 mod expr;
 
-use error::Result;
 use token;
 use token::Token;
+use Result;
+use Expect;
 
 pub use self::body::Body;
 pub use self::expr::Expr;
@@ -83,6 +84,7 @@ impl<'a> Module<'a> {
                     token::Value::Text(t) => rv.push(Body::Text(t, token.line_num)),
                     token::Value::VarStart => {
                         Self::parse_expr(tokens);
+                        try!(tokens.expect(token::Value::VarEnd));
                         println!("var start");
                     },
                     _ => unimplemented!(),

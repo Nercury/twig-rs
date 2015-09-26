@@ -43,7 +43,8 @@ impl<T: Clone, I: Into<T>, C: IntoIterator<Item=I>> From<C> for Container<T> {
     }
 }
 
-pub trait ExpectNext<V> {
+/// Returns different output based on expected value.
+pub trait Expect<V> {
     type Output;
 
     fn expect(&mut self, expected: V) -> Self::Output;
