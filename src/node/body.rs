@@ -34,7 +34,7 @@ impl<'a> Body<'a> {
                 Some(Ok(ref token)) => match token.value {
                     TokenValue::Text(t) => rv.push(Body::Text(t, token.line_num)),
                     TokenValue::VarStart => {
-                        let expr = try!(Module::parse_expr(tokens));
+                        let expr = try!(Expr::from_tokens(tokens));
                         try!(tokens.expect(TokenValue::VarEnd));
                         rv.push(Body::Print(expr, token.line_num));
                     },
