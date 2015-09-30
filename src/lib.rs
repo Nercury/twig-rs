@@ -21,7 +21,6 @@ mod lexer;
 mod error;
 mod environment;
 mod extension;
-mod parser;
 
 pub mod node;
 
