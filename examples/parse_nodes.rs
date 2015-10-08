@@ -4,6 +4,8 @@ use twig::Environment;
 use twig::Lexer;
 use twig::node::Module;
 use twig::Extension;
+use twig::parser::Context as ParserContext;
+use twig::parser::Parse;
 
 use std::fs::File;
 use std::io::Read;
@@ -27,5 +29,7 @@ fn main() {
     let env = staged.init();
 
     let lexer = Lexer::default(&env);
-    let _maybe_module = Module::from_tokens(lexer.tokens(&template));
+    let _maybe_module = Module::parse(
+        &mut ParserContext::new(&env, &mut lexer.tokens(&template))
+    );
 }

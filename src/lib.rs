@@ -23,6 +23,7 @@ mod environment;
 mod extension;
 
 pub mod node;
+pub mod parser;
 
 pub use error::{ Error, Result };
 pub use extension::Extension;

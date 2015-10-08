@@ -54,15 +54,4 @@ impl<'a> Module<'a> {
             class_end: Body::new(),
         }
     }
-
-    pub fn from_tokens<'code, I>(mut tokens: I)
-        -> Result<Module<'code>>
-            where I: Iterator<Item=Result<Token<'code>>>
-    {
-        let mut module = Module::new();
-
-        module.body = try!(Body::from_tokens(&mut tokens));
-
-        Ok(module)
-    }
 }
