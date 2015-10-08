@@ -18,7 +18,8 @@ fn main() {
     let mut template = String::new();
     f.read_to_string(&mut template).unwrap();
 
-    let lexer = Lexer::default(&Environment::default().init());
+    let env = Environment::default().init();
+    let lexer = Lexer::default(&env);
 
     for token in lexer.tokens(&template) {
         println!("{:?}", token);

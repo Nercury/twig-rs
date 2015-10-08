@@ -34,6 +34,12 @@ impl<'a> fmt::Debug for TwigString<'a> {
     }
 }
 
+#[derive(PartialEq, Debug, Copy, Clone)]
+pub enum OperatorKind {
+    Unary,
+    Binary,
+}
+
 /// Token value.
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum Value<'a> {
@@ -45,7 +51,7 @@ pub enum Value<'a> {
     Name(&'a str),
     Number(TwigNumber<'a>),
     String(TwigString<'a>),
-    Operator(&'a str),
+    Operator { value: &'a str, kind: OperatorKind },
     Punctuation(char),
     InterpolationStart,
     InterpolationEnd,
@@ -63,7 +69,7 @@ impl<'a> Into<DebugValue> for Value<'a> {
             Value::Name(n) => DebugValue::Name(n.to_string()),
             Value::Number(n) => DebugValue::Number(n.into()),
             Value::String(s) => DebugValue::String(s.into()),
-            Value::Operator(s) => DebugValue::Operator(s.into()),
+            Value::Operator { value: s, kind: k } => DebugValue::Operator { value: s.into(), kind: k },
             Value::Punctuation(s) => DebugValue::Punctuation(s.into()),
             Value::InterpolationStart => DebugValue::InterpolationStart,
             Value::InterpolationEnd => DebugValue::InterpolationEnd,
@@ -111,7 +117,7 @@ pub enum DebugValue {
     Name(String),
     Number(DebugTwigNumber),
     String(DebugTwigString),
-    Operator(String),
+    Operator { value: String, kind: OperatorKind },
     Punctuation(char),
     InterpolationStart,
     InterpolationEnd,

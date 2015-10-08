@@ -3,7 +3,7 @@ use std::collections::{ VecDeque };
 
 use super::Lexer;
 use { Result, Error };
-use token::{ Token, TwigNumber, TwigString };
+use token::{ Token, TwigNumber, TwigString, OperatorKind };
 use token::Value as TokenValue;
 use lexer::options::Options;
 use std::fmt;
@@ -113,7 +113,7 @@ impl Bracket {
 }
 
 pub struct TokenIter<'iteration, 'code> {
-    lexer: &'iteration Lexer,
+    lexer: &'iteration Lexer<'iteration>,
 
     code: &'code str,
     tokens: VecDeque<Result<Token<'code>>>,
@@ -419,7 +419,15 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
             if let Some((start, end)) = captures.pos(0) {
                 let op_str = self.code[loc + start .. loc + end].trim_right();
 
-                self.push_token(TokenValue::Operator(op_str));
+                self.push_token(TokenValue::Operator { value: op_str, kind: {
+                    if self.lexer.binary_operators.contains_key(op_str) {
+                        OperatorKind::Binary
+                    } else if self.lexer.unary_operators.contains_key(op_str) {
+                        OperatorKind::Unary
+                    } else {
+                        unreachable!("twig bug: expected operator to exists in either binary or unary list, but it was not found there")
+                    }
+                }});
                 self.move_cursor(end - start);
 
                 return;
