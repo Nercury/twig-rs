@@ -76,6 +76,7 @@ mod test {
     }
 
     #[test]
+    #[allow(deprecated)]
     fn test_line_directive() {
         let template = [
             "foo",

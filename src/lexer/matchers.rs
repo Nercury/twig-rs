@@ -203,6 +203,7 @@ impl Matchers {
         (0, index)
     }
 
+    #[allow(deprecated)]
     fn get_operator_regex(
         unary_operators: &HashMap<&'static str, UnaryOperator>,
         binary_operators: &HashMap<&'static str, BinaryOperator>
