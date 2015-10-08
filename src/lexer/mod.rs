@@ -398,9 +398,9 @@ bar
         count
     }
 
-    fn expect_with_line<'i, 'c>(mut stream: TokenIter<'i, 'c>, token_value: Value<'c>, line_num: usize) -> TokenIter<'i, 'c> {
+    fn expect_with_line<'i, 'c>(mut stream: TokenIter<'i, 'c>, token_value: Value<'c>, line: usize) -> TokenIter<'i, 'c> {
         match stream.expect(token_value) {
-            Ok(token) => assert_eq!(token.line_num, line_num),
+            Ok(token) => assert_eq!(token.line, line),
             Err(e) => panic!("Received error {:?}", e),
         };
         stream

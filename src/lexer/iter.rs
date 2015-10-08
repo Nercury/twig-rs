@@ -172,7 +172,7 @@ impl<'code, T> Expect<TokenValue<'code>> for T where T: Iterator<Item=Result<Tok
                         ErrorMessage::ExpectedTokenButReceived(
                             (expected.into(), Received::Token(token.value.into()))
                         ),
-                        token.line_num
+                        token.line
                     )
                 );
             },
@@ -693,7 +693,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
             }
         }
 
-        self.tokens.push_back(Ok(Token { value: token_value, line_num: self.line_num }));
+        self.tokens.push_back(Ok(Token { value: token_value, line: self.line_num }));
     }
 
     fn push_error(&mut self, message: ErrorMessage, line_num: Option<usize>) {

@@ -14,7 +14,7 @@ impl<'a, 'code> Parse<'code> for Body<'a> {
     {
         let mut maybe_token = parser.tokens.next();
         let _line_num = match maybe_token {
-            Some(Ok(ref token)) => token.line_num,
+            Some(Ok(ref token)) => token.line,
             None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
             Some(Err(e)) => return Err(e),
         };
@@ -23,11 +23,11 @@ impl<'a, 'code> Parse<'code> for Body<'a> {
         loop {
             match maybe_token {
                 Some(Ok(ref token)) => match token.value {
-                    TokenValue::Text(t) => rv.push(Body::Text { value: t, line: token.line_num }),
+                    TokenValue::Text(t) => rv.push(Body::Text { value: t, line: token.line }),
                     TokenValue::VarStart => {
                         let expr = try!(Expr::parse(parser));
                         try!(parser.tokens.expect(TokenValue::VarEnd));
-                        rv.push(Body::Print { expr: expr, line: token.line_num });
+                        rv.push(Body::Print { expr: expr, line: token.line });
                     },
                     _ => unimplemented!(),
                 },

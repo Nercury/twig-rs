@@ -6,7 +6,7 @@ use Error;
 #[derive(Debug, Clone)]
 pub struct Token<'a> {
     pub value: Value<'a>,
-    pub line_num: usize,
+    pub line: usize,
 }
 
 /// Parsed twig number representation.
