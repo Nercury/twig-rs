@@ -20,6 +20,6 @@ fn test_string_expression() {
 
 fn get_tests_for_string<'r>() -> Vec<(&'static str, Expr<'r>)> {
     vec![
-        (r#"{{ "foo" }}"#, Expr::Constant("foo", 1))
+        (r#"{{ "foo" }}"#, Expr::Constant { value: "foo", line: 1 })
     ]
 }

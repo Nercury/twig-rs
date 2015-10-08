@@ -40,5 +40,5 @@ fn parse_primary<'r, 'c, I>(parser: &mut Context<'r, I>)
     };
 
     println!("parse_primary");
-    Ok(Expr::Constant("", 1))
+    Ok(Expr::Constant { value: "", line: 1 })
 }
