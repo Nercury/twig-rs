@@ -23,11 +23,11 @@ impl<'a, 'code> Parse<'code> for Body<'a> {
         loop {
             match maybe_token {
                 Some(Ok(ref token)) => match token.value {
-                    TokenValue::Text(t) => rv.push(Body::Text(t, token.line_num)),
+                    TokenValue::Text(t) => rv.push(Body::Text { value: t, line: token.line_num }),
                     TokenValue::VarStart => {
                         let expr = try!(Expr::parse(parser));
                         try!(parser.tokens.expect(TokenValue::VarEnd));
-                        rv.push(Body::Print(expr, token.line_num));
+                        rv.push(Body::Print { expr: expr, line: token.line_num });
                     },
                     _ => unimplemented!(),
                 },
@@ -41,7 +41,7 @@ impl<'a, 'code> Parse<'code> for Body<'a> {
         if rv.len() == 1 {
             Ok(rv.remove(0))
         } else {
-            Ok(Body::List(rv))
+            Ok(Body::List { items: rv })
         }
     }
 }

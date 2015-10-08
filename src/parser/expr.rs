@@ -34,8 +34,9 @@ fn parse_primary<'r, 'c, I>(parser: &mut Context<'r, I>)
         I: Iterator<Item=Result<Token<'c>>>
 {
     let token = match parser.tokens.next() {
+        Some(Ok(t)) => t,
         None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
-        Some(t) => t,
+        Some(Err(e)) => return Err(e),
     };
 
     println!("parse_primary");
