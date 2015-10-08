@@ -1,7 +1,8 @@
 use node::{ Body, Expr };
 use parser::{ Parse, Context };
 use { Token, TokenValue };
-use { Result, Expect };
+use { Result, Error, Expect };
+use error::{ ErrorMessage };
 
 impl<'a, 'code> Parse<'code> for Body<'a> {
     type Output = Body<'code>;
@@ -12,9 +13,9 @@ impl<'a, 'code> Parse<'code> for Body<'a> {
         I: Iterator<Item=Result<Token<'code>>>
     {
         let mut maybe_token = parser.tokens.next();
-        let mut line_num = match maybe_token {
+        let _line_num = match maybe_token {
             Some(Ok(ref token)) => token.line_num,
-            None => 1,
+            None => return Err(Error::new_at(ErrorMessage::UnexpectedEndOfTemplate, 1)),
             Some(Err(e)) => return Err(e),
         };
         let mut rv = Vec::new();
@@ -24,7 +25,7 @@ impl<'a, 'code> Parse<'code> for Body<'a> {
                 Some(Ok(ref token)) => match token.value {
                     TokenValue::Text(t) => rv.push(Body::Text(t, token.line_num)),
                     TokenValue::VarStart => {
-                        let expr = try!(Expr::from_tokens(parser.tokens));
+                        let expr = try!(Expr::parse(parser));
                         try!(parser.tokens.expect(TokenValue::VarEnd));
                         rv.push(Body::Print(expr, token.line_num));
                     },

@@ -420,7 +420,7 @@ bar
             match next {
                 None => panic!("expected error, but reached the end of token stream"),
                 Some(Err(ref e)) => {
-                    assert_eq!(e.get_message(), text);
+                    assert_eq!(format!("{:?}", e), text);
                     return;
                 },
                 Some(Ok(_)) => next = stream.next(),

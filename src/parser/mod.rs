@@ -3,6 +3,7 @@ use CompiledEnvironment;
 use Result;
 
 mod body;
+mod expr;
 mod module;
 
 pub trait Parse<'code> {

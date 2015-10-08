@@ -13,7 +13,7 @@ fn test_string_expression() {
         let lexer = Lexer::default(&env);
         let mut tokens = lexer.tokens(&template);
         let mut context = Context::new(&env, &mut tokens);
-        //let module = Module::parse(&mut context).ok().expect("parse template");
+        // let module = Module::parse(&mut context).ok().expect("parse template");
         // assert_eq!(module.body.expect_list()[0].expect_print(), &expected);
     }
 }

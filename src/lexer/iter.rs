@@ -8,6 +8,7 @@ use token::Value as TokenValue;
 use lexer::options::Options;
 use std::fmt;
 use Expect;
+use error::{ ErrorMessage, Received };
 
 const PUNCTUATION: &'static str = "()[]{}?:.,|";
 
@@ -157,13 +158,22 @@ impl<'code, T> Expect<TokenValue<'code>> for T where T: Iterator<Item=Result<Tok
         let maybe_token = self.next();
         match (maybe_token, expected) {
             (None, _) => return Err(
-                Error::new(format!("Expected token {:?} but received the end of stream", expected))
+                Error::new(
+                    ErrorMessage::ExpectedTokenButReceived(
+                        (expected.into(), Received::EndOfStream)
+                    )
+                )
             ),
             (Some(Ok(token)), expected) => if token.value == expected {
                 Ok(token)
             } else {
                 return Err(
-                    Error::new_at(format!("Expected token {:?} but received {:?}", expected, token.value), token.line_num)
+                    Error::new_at(
+                        ErrorMessage::ExpectedTokenButReceived(
+                            (expected.into(), Received::Token(token.value.into()))
+                        ),
+                        token.line_num
+                    )
                 );
             },
             (Some(error), _) => error,
@@ -217,7 +227,10 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
             if self.cursor == self.end {
                 match self.brackets.pop() {
                     Some(bracket) => {
-                        self.push_error(format!(r#"Unclosed "{}""#, bracket.open), Some(bracket.line_num));
+                        self.push_error(
+                            ErrorMessage::Unclosed(format!("{}", bracket.open)),
+                            Some(bracket.line_num)
+                        );
                         break;
                     },
                     _ => (),
@@ -384,13 +397,12 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                 if self.cursor >= self.end {
                     let var_line = self.current_var_block_line;
                     self.push_error(
-                        format!(
-                            "Unclosed \"{}\"",
+                        ErrorMessage::Unclosed(
                             match self.state {
                                 State::Block => "block",
                                 State::Var => "variable",
                                 _ => unreachable!("twig bug: expected state at block or variable, but other state found"),
-                            }
+                            }.into()
                         ),
                         var_line
                     );
@@ -479,12 +491,22 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                     match self.brackets.pop() {
                         Some(expect) => {
                             if expect.close != BracketSymbol::Char(c) {
-                                self.push_error(format!(r#"Unclosed "{}""#, expect.open), Some(expect.line_num));
+                                self.push_error(
+                                    ErrorMessage::Unclosed(
+                                        format!("{}", expect.open)
+                                    ),
+                                    Some(expect.line_num)
+                                );
                                 return;
                             }
                         },
                         None => {
-                            self.push_error(format!(r#"Unexpected "{}""#, c), Some(line_num));
+                            self.push_error(
+                                ErrorMessage::Unexpected(
+                                    format!("{}", c)
+                                ),
+                                Some(line_num)
+                            );
                             return;
                         }
                     }
@@ -524,7 +546,12 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
 
         let next_char = &self.code[loc .. loc + 1];
         let line_num = self.line_num;
-        self.push_error(format!(r#"Unexpected character "{}""#, next_char), Some(line_num));
+        self.push_error(
+            ErrorMessage::UnexpectedCharacter(
+                format!("{}", next_char)
+            ),
+            Some(line_num)
+        );
     }
 
     fn lex_string(&mut self) {
@@ -563,7 +590,12 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                     self.move_cursor(1);
                 },
                 Some(other_bracket) => {
-                    self.push_error(format!(r#"Unclosed "{}""#, other_bracket.open), Some(other_bracket.line_num));
+                    self.push_error(
+                        ErrorMessage::Unclosed(
+                            format!("{}", other_bracket.open)
+                        ),
+                        Some(other_bracket.line_num)
+                    );
                 },
                 None => unreachable!("twig bug: expected bracket when lexng string end"),
             }
@@ -607,7 +639,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
             },
             None => {
                 let line_num = self.line_num;
-                self.push_error("Unclosed comment", Some(line_num));
+                self.push_error(ErrorMessage::UnclosedComment, Some(line_num));
             }
         };
     }
@@ -643,7 +675,12 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
             },
             None => {
                 let line_num = self.line_num;
-                self.push_error(format!(r#"Unexpected end of file: Unclosed "{}" block"#, tag), Some(line_num));
+                self.push_error(
+                    ErrorMessage::UnclosedBlock(
+                        format!("{}", tag)
+                    ),
+                    Some(line_num)
+                );
             }
         };
     }
@@ -659,7 +696,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
         self.tokens.push_back(Ok(Token { value: token_value, line_num: self.line_num }));
     }
 
-    fn push_error<M: Into<String>>(&mut self, message: M, line_num: Option<usize>) {
+    fn push_error(&mut self, message: ErrorMessage, line_num: Option<usize>) {
         self.tokens.push_back(Err(
             Error::new_at(message, match line_num {
                 Some(line) => line,
