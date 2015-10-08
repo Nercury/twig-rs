@@ -15,7 +15,7 @@ impl<'a, 'code> Parse<'code> for Body<'a> {
         let mut maybe_token = parser.tokens.next();
         let _line_num = match maybe_token {
             Some(Ok(ref token)) => token.line_num,
-            None => return Err(Error::new_at(ErrorMessage::UnexpectedEndOfTemplate, 1)),
+            None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
             Some(Err(e)) => return Err(e),
         };
         let mut rv = Vec::new();

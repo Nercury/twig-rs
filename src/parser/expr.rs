@@ -2,6 +2,8 @@ use node::{ Expr };
 use parser::{ Parse, Context };
 use { Token };
 use Result;
+use Error;
+use error::ErrorMessage;
 
 impl<'a, 'code> Parse<'code> for Expr<'a> {
     type Output = Expr<'code>;
@@ -31,7 +33,11 @@ fn parse_primary<'r, 'c, I>(parser: &mut Context<'r, I>)
     where
         I: Iterator<Item=Result<Token<'c>>>
 {
-    let token = parser.tokens.next();
+    let token = match parser.tokens.next() {
+        None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
+        Some(t) => t,
+    };
+
     println!("parse_primary");
     Ok(Expr::Constant("", 1))
 }
