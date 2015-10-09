@@ -1,6 +1,6 @@
 use std::fmt;
 use Error;
-use value::{ TwigNumber, TwigString, DebugTwigNumber, DebugTwigString };
+use value::{ TwigValue, OwnedTwigValue };
 
 /// Lexer output token, lexer's output and parser's input.
 #[derive(Debug, Clone)]
@@ -24,8 +24,7 @@ pub enum Value<'a> {
     BlockEnd,
     VarEnd,
     Name(&'a str),
-    Number(TwigNumber<'a>),
-    String(TwigString<'a>),
+    Value(TwigValue<'a>),
     Operator { value: &'a str, kind: OperatorKind },
     Punctuation(char),
     InterpolationStart,
@@ -42,8 +41,7 @@ impl<'a> Into<DebugValue> for Value<'a> {
             Value::BlockEnd => DebugValue::BlockEnd,
             Value::VarEnd => DebugValue::VarEnd,
             Value::Name(n) => DebugValue::Name(n.to_string()),
-            Value::Number(n) => DebugValue::Number(n.into()),
-            Value::String(s) => DebugValue::String(s.into()),
+            Value::Value(v) => DebugValue::Value(v.into()),
             Value::Operator { value: s, kind: k } => DebugValue::Operator { value: s.into(), kind: k },
             Value::Punctuation(s) => DebugValue::Punctuation(s.into()),
             Value::InterpolationStart => DebugValue::InterpolationStart,
@@ -62,8 +60,7 @@ pub enum DebugValue {
     BlockEnd,
     VarEnd,
     Name(String),
-    Number(DebugTwigNumber),
-    String(DebugTwigString),
+    Value(OwnedTwigValue),
     Operator { value: String, kind: OperatorKind },
     Punctuation(char),
     InterpolationStart,

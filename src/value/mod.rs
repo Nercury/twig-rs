@@ -1,5 +1,44 @@
 use std::fmt;
 
+#[derive(PartialEq, Debug, Copy, Clone)]
+pub enum TwigValue<'a> {
+    Num(TwigNumber<'a>),
+    Str(&'a str),
+}
+
+impl<'a> TwigValue<'a> {
+    pub fn new_big_num<'c>(num: &'c str) -> TwigValue<'c> {
+        TwigValue::Num(TwigNumber::Big(num))
+    }
+
+    pub fn new_float<'c>(num: f64) -> TwigValue<'c> {
+        TwigValue::Num(TwigNumber::Float(num))
+    }
+
+    pub fn new_int<'c>(num: u64) -> TwigValue<'c> {
+        TwigValue::Num(TwigNumber::Int(num))
+    }
+
+    pub fn new_str<'c>(s: &'c str) -> TwigValue<'c> {
+        TwigValue::Str(s)
+    }
+}
+
+impl<'a> Into<OwnedTwigValue> for TwigValue<'a> {
+    fn into(self) -> OwnedTwigValue {
+        match self {
+            TwigValue::Num(n) => OwnedTwigValue::Num(n.into()),
+            TwigValue::Str(s) => OwnedTwigValue::Str(s.into()),
+        }
+    }
+}
+
+#[derive(PartialEq, Debug, Clone)]
+pub enum OwnedTwigValue {
+    Num(OwnedTwigNumber),
+    Str(String),
+}
+
 /// Parsed twig number representation.
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum TwigNumber<'a> {
@@ -8,47 +47,20 @@ pub enum TwigNumber<'a> {
     Int(u64),
 }
 
-/// Parsed Twig string representation.
-#[derive(Eq, PartialEq, Copy, Clone)]
-pub struct TwigString<'a>(&'a str);
-
-impl<'a> TwigString<'a> {
-    pub fn new<'r>(source: &'r str) -> TwigString<'r> {
-        TwigString(source)
-    }
-}
-
-impl<'a> fmt::Debug for TwigString<'a> {
-    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-        let &TwigString(ref v) = self;
-        write!(f, "{}", v)
-    }
-}
-
 /// Parsed twig number representation.
 #[derive(PartialEq, Debug, Clone)]
-pub enum DebugTwigNumber {
+pub enum OwnedTwigNumber {
     Big(String),
     Float(f64),
     Int(u64),
 }
 
-impl<'a> Into<DebugTwigNumber> for TwigNumber<'a> {
-    fn into(self) -> DebugTwigNumber {
+impl<'a> Into<OwnedTwigNumber> for TwigNumber<'a> {
+    fn into(self) -> OwnedTwigNumber {
         match self {
-            TwigNumber::Big(n) => DebugTwigNumber::Big(n.to_string()),
-            TwigNumber::Float(v) => DebugTwigNumber::Float(v),
-            TwigNumber::Int(v) => DebugTwigNumber::Int(v),
+            TwigNumber::Big(n) => OwnedTwigNumber::Big(n.to_string()),
+            TwigNumber::Float(v) => OwnedTwigNumber::Float(v),
+            TwigNumber::Int(v) => OwnedTwigNumber::Int(v),
         }
-    }
-}
-
-/// Parsed Twig string representation.
-#[derive(Eq, PartialEq, Debug, Clone)]
-pub struct DebugTwigString(String);
-
-impl<'a> Into<DebugTwigString> for TwigString<'a> {
-    fn into(self) -> DebugTwigString {
-        DebugTwigString(self.0.to_string())
     }
 }

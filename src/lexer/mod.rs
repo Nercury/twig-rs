@@ -46,7 +46,7 @@ mod test {
     use token::*;
     use error::Result;
     use lexer::iter::TokenIter;
-    use value::{ TwigNumber, TwigString };
+    use value::TwigValue;
     use std::iter::repeat;
     use CompiledEnvironment;
     use Expect;
@@ -223,7 +223,7 @@ mod test {
         let mut _s = lexer.tokens(&template);
 
         _s.next();
-        _s = expect(_s, Value::Number(TwigNumber::Big("922337203685477580700")));
+        _s = expect(_s, Value::Value(TwigValue::new_big_num("922337203685477580700")));
     }
 
     #[test]
@@ -235,7 +235,7 @@ mod test {
         let mut _s = lexer.tokens(&template);
 
         _s.next();
-        _s = expect(_s, Value::Number(TwigNumber::Int(922337203685477)));
+        _s = expect(_s, Value::Value(TwigValue::new_int(922337203685477)));
     }
 
     #[test]
@@ -247,7 +247,7 @@ mod test {
         let mut _s = lexer.tokens(&template);
 
         _s.next();
-        _s = expect(_s, Value::Number(TwigNumber::Float(92233720368547.33)));
+        _s = expect(_s, Value::Value(TwigValue::new_float(92233720368547.33)));
     }
 
     #[test]
@@ -263,7 +263,7 @@ mod test {
         for &(template, expected) in &templates {
             let mut _s = lexer.tokens(&template);
             _s = expect(_s, Value::VarStart);
-            _s = expect(_s, Value::String(TwigString::new(expected)));
+            _s = expect(_s, Value::Value(TwigValue::new_str(expected)));
         }
     }
 
@@ -277,11 +277,11 @@ mod test {
 
         _s = expect(_s, Value::Text("foo "));
         _s = expect(_s, Value::VarStart);
-        _s = expect(_s, Value::String(TwigString::new("bar ")));
+        _s = expect(_s, Value::Value(TwigValue::new_str("bar ")));
         _s = expect(_s, Value::InterpolationStart);
         _s = expect(_s, Value::Name("baz"));
         _s = expect(_s, Value::Operator { value: "+", kind: OperatorKind::Binary });
-        _s = expect(_s, Value::Number(TwigNumber::Int(1)));
+        _s = expect(_s, Value::Value(TwigValue::new_int(1)));
         _s = expect(_s, Value::InterpolationEnd);
         _s = expect(_s, Value::VarEnd);
     }
@@ -295,7 +295,7 @@ mod test {
         let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, Value::VarStart);
-        _s = expect(_s, Value::String(TwigString::new(r#"bar \#{baz+1}"#)));
+        _s = expect(_s, Value::Value(TwigValue::new_str(r#"bar \#{baz+1}"#)));
         _s = expect(_s, Value::VarEnd);
     }
 
@@ -308,7 +308,7 @@ mod test {
         let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, Value::VarStart);
-        _s = expect(_s, Value::String(TwigString::new("bar # baz")));
+        _s = expect(_s, Value::Value(TwigValue::new_str("bar # baz")));
         _s = expect(_s, Value::VarEnd);
     }
 
@@ -332,9 +332,9 @@ mod test {
         let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, Value::VarStart);
-        _s = expect(_s, Value::String(TwigString::new(r#"bar "#)));
+        _s = expect(_s, Value::Value(TwigValue::new_str(r#"bar "#)));
         _s = expect(_s, Value::InterpolationStart);
-        _s = expect(_s, Value::String(TwigString::new(r#"foo"#)));
+        _s = expect(_s, Value::Value(TwigValue::new_str(r#"foo"#)));
         _s = expect(_s, Value::InterpolationStart);
         _s = expect(_s, Value::Name("bar"));
         _s = expect(_s, Value::InterpolationEnd);
@@ -352,9 +352,9 @@ mod test {
 
         _s = expect(_s, Value::BlockStart);
         _s = expect(_s, Value::Name("foo"));
-        _s = expect(_s, Value::String(TwigString::new(r#"bar "#)));
+        _s = expect(_s, Value::Value(TwigValue::new_str(r#"bar "#)));
         _s = expect(_s, Value::InterpolationStart);
-        _s = expect(_s, Value::String(TwigString::new(r#"foo"#)));
+        _s = expect(_s, Value::Value(TwigValue::new_str(r#"foo"#)));
         _s = expect(_s, Value::InterpolationStart);
         _s = expect(_s, Value::Name("bar"));
         _s = expect(_s, Value::InterpolationEnd);
@@ -371,7 +371,7 @@ mod test {
         let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, Value::VarStart);
-        _s = expect(_s, Value::Number(TwigNumber::Int(1)));
+        _s = expect(_s, Value::Value(TwigValue::new_int(1)));
         _s = expect(_s, Value::Operator { value: "and", kind: OperatorKind::Binary });
     }
 
