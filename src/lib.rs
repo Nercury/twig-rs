@@ -25,6 +25,7 @@ mod extension;
 pub mod node;
 pub mod parser;
 pub mod operator;
+pub mod value;
 
 pub use error::{ Error, Result };
 pub use extension::Extension;

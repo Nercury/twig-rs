@@ -46,6 +46,7 @@ mod test {
     use token::*;
     use error::Result;
     use lexer::iter::TokenIter;
+    use value::{ TwigNumber, TwigString };
     use std::iter::repeat;
     use CompiledEnvironment;
     use Expect;
