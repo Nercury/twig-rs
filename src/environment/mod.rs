@@ -5,22 +5,19 @@ use std::collections::HashMap;
 use extension::core::CoreExtension;
 use {
     Extension,
-    UnaryOperator,
-    BinaryOperator,
+    Operator,
     Container,
 };
 
 /// Project configuration container.
 pub struct Environment {
-    pub binary_operators: Vec<BinaryOperator>,
-    pub unary_operators: Vec<UnaryOperator>,
+    pub operators: Vec<Operator>,
 }
 
 impl Environment {
     pub fn default() -> Environment {
         let mut staged = Environment {
-            binary_operators: Vec::new(),
-            unary_operators: Vec::new(),
+            operators: Vec::new(),
         };
 
         CoreExtension::apply(&mut staged);
@@ -30,34 +27,23 @@ impl Environment {
 
     pub fn init(self) -> CompiledEnvironment {
         CompiledEnvironment {
-            binary_operators: {
-                self.binary_operators.iter()
-                    .map(|i| (i.chars, *i))
+            operators: {
+                self.operators.iter()
+                    .map(|i| (i.value(), *i))
                     .collect()
             },
-            unary_operators: {
-                self.unary_operators.iter()
-                    .map(|i| (i.chars, *i))
-                    .collect()
-            }
         }
     }
 
-    pub fn push_binary_operators<L: Into<Container<BinaryOperator>>>(&mut self, ops: L) {
+    pub fn push_operators<L: Into<Container<Operator>>>(&mut self, ops: L) {
         let Container(items) = ops.into();
-        self.binary_operators.extend(items);
-    }
-
-    pub fn push_unary_operators<L: Into<Container<UnaryOperator>>>(&mut self, ops: L) {
-        let Container(items) = ops.into();
-        self.unary_operators.extend(items);
+        self.operators.extend(items);
     }
 }
 
 /// Project configuration container with all extensions applied.
 pub struct CompiledEnvironment {
-    pub binary_operators: HashMap<&'static str, BinaryOperator>,
-    pub unary_operators: HashMap<&'static str, UnaryOperator>,
+    pub operators: HashMap<&'static str, Operator>,
 }
 
 impl CompiledEnvironment {

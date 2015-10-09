@@ -30,7 +30,7 @@ pub use extension::Extension;
 pub use lexer::{ Lexer };
 pub use lexer::iter::TokenIter;
 pub use environment::{ CompiledEnvironment, Environment };
-pub use environment::operators::{ UnaryOperator, BinaryOperator, Associativity };
+pub use environment::operators::{ Operator, Associativity };
 pub use token::Token;
 pub use token::Value as TokenValue;
 

@@ -6,7 +6,7 @@ pub mod matchers;
 use std::collections::HashMap;
 
 use CompiledEnvironment;
-use { BinaryOperator, UnaryOperator };
+use Operator;
 use lexer::matchers::Matchers;
 use lexer::options::Options;
 use lexer::iter::TokenIter;
@@ -15,8 +15,7 @@ use lexer::iter::TokenIter;
 pub struct Lexer<'a> {
     options: Options,
     matchers: Matchers,
-    unary_operators: &'a HashMap<&'static str, UnaryOperator>,
-    binary_operators: &'a HashMap<&'static str, BinaryOperator>
+    operators: &'a HashMap<&'static str, Operator>,
 }
 
 impl<'a> Lexer<'a> {
@@ -28,11 +27,9 @@ impl<'a> Lexer<'a> {
             options: options,
             matchers: Matchers::new(
                 &options,
-                &env.unary_operators,
-                &env.binary_operators
+                &env.operators
             ),
-            unary_operators: &env.unary_operators,
-            binary_operators: &env.binary_operators
+            operators: &env.operators,
         }
     }
 

@@ -1,73 +1,54 @@
 use std::cmp::Ordering;
 
-/// Single argument operator, i.e negation.
 #[derive(Copy, Clone)]
-pub struct UnaryOperator {
-    pub chars: &'static str,
-    pub precedence: u16,
+pub enum Operator {
+    /// Single argument operator, i.e negation.
+    Unary {
+        value: &'static str,
+        precedence: u16
+    },
+    /// Two argument operator, i.e sum.
+    Binary {
+        value: &'static str,
+        precedence: u16,
+        associativity: Associativity,
+    }
 }
 
-impl<'s> Into<UnaryOperator> for &'s UnaryOperator {
-    fn into(self) -> UnaryOperator {
+impl<'s> Into<Operator> for &'s Operator {
+    fn into(self) -> Operator {
         self.clone()
     }
 }
 
-impl<'s> Into<UnaryOperator> for &'s (&'static str, u16) {
-    fn into(self) -> UnaryOperator {
-        let &(chars, p) = self;
-        UnaryOperator::new(chars, p)
-    }
-}
-
-impl UnaryOperator {
-    pub fn new(chars: &'static str, precedence: u16) -> UnaryOperator {
-        UnaryOperator {
-            chars: chars,
-            precedence: precedence,
+impl Operator {
+    pub fn value(&self) -> &'static str {
+        match *self {
+            Operator::Binary { value, .. } => value,
+            Operator::Unary { value, .. } => value,
         }
     }
-}
 
-/// Two argument operator, i.e sum.
-#[derive(Copy, Clone)]
-pub struct BinaryOperator {
-    pub chars: &'static str,
-    pub precedence: u16,
-    pub associativity: Associativity,
-}
-
-impl<'s> Into<BinaryOperator> for &'s BinaryOperator {
-    fn into(self) -> BinaryOperator {
-        self.clone()
-    }
-}
-
-impl<'s> Into<BinaryOperator> for &'s (&'static str, u16, Associativity) {
-    fn into(self) -> BinaryOperator {
-        let &(chars, p, a) = self;
-        BinaryOperator {
-            chars: chars,
-            precedence: p,
-            associativity: a,
-        }
-    }
-}
-
-impl BinaryOperator {
-    pub fn new_left(chars: &'static str, precedence: u16) -> BinaryOperator {
-        BinaryOperator {
-            chars: chars,
+    pub fn new_binary_left(chars: &'static str, precedence: u16) -> Operator {
+        Operator::Binary {
+            value: chars,
             precedence: precedence,
             associativity: Associativity::Left,
         }
     }
 
-    pub fn new_right(chars: &'static str, precedence: u16) -> BinaryOperator {
-        BinaryOperator {
-            chars: chars,
+    pub fn new_binary_right(chars: &'static str, precedence: u16) -> Operator {
+        Operator::Binary {
+            value: chars,
             precedence: precedence,
             associativity: Associativity::Right,
+        }
+    }
+
+    pub fn new_unary(chars: &'static str, precedence: u16) -> Operator {
+        Operator::Unary {
+            value: chars,
+            precedence: precedence,
         }
     }
 }

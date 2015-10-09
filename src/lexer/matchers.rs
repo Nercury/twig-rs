@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use regex::{ Regex, quote };
 
 use lexer::options::Options;
-use { UnaryOperator, BinaryOperator };
+use Operator;
 
 pub struct Matchers {
     pub whitespace: Regex,
@@ -26,8 +26,7 @@ pub struct Matchers {
 impl Matchers {
     pub fn new(
         options: &Options,
-        unary_operators: &HashMap<&'static str, UnaryOperator>,
-        binary_operators: &HashMap<&'static str, BinaryOperator>
+        operators: &HashMap<&'static str, Operator>
     ) -> Matchers {
         Matchers {
             whitespace: {
@@ -103,8 +102,7 @@ impl Matchers {
                 ).ok().expect("Failed to init lex_verbatim_data")
             },
             lex_operator: Self::get_operator_regex(
-                unary_operators,
-                binary_operators
+                operators
             ),
             lex_comment: {
                 Regex::new(
@@ -205,16 +203,11 @@ impl Matchers {
 
     #[allow(deprecated)]
     fn get_operator_regex(
-        unary_operators: &HashMap<&'static str, UnaryOperator>,
-        binary_operators: &HashMap<&'static str, BinaryOperator>
+        operators: &HashMap<&'static str, Operator>
     ) -> Regex {
         let mut all: Vec<_> = Some("=").into_iter()
             .chain(
-                unary_operators.keys()
-                    .map(|&v| v)
-            )
-            .chain(
-                binary_operators.keys()
+                operators.keys()
                     .map(|&v| v)
             )
             .collect();
@@ -298,7 +291,6 @@ mod test_match_regex_dq_string_part {
         let options = Options::default();
         Matchers::new(
             &options,
-            &HashMap::new(),
             &HashMap::new()
         )
     }

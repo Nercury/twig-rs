@@ -2,7 +2,7 @@ use regex::{ Captures };
 use std::collections::{ VecDeque };
 
 use super::Lexer;
-use { Result, Error };
+use { Result, Error, Operator };
 use token::{ Token, TwigNumber, TwigString, OperatorKind };
 use token::Value as TokenValue;
 use lexer::options::Options;
@@ -420,12 +420,10 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                 let op_str = self.code[loc + start .. loc + end].trim_right();
 
                 self.push_token(TokenValue::Operator { value: op_str, kind: {
-                    if self.lexer.binary_operators.contains_key(op_str) {
-                        OperatorKind::Binary
-                    } else if self.lexer.unary_operators.contains_key(op_str) {
-                        OperatorKind::Unary
-                    } else {
-                        unreachable!("twig bug: expected operator to exists in either binary or unary list, but it was not found there")
+                    match self.lexer.operators.get(op_str) {
+                        Some(&Operator::Binary { .. }) => OperatorKind::Binary,
+                        Some(&Operator::Unary { .. }) => OperatorKind::Unary,
+                        _ => unreachable!("twig bug: expected operator to exists in either binary or unary list, but it was not found there"),
                     }
                 }});
                 self.move_cursor(end - start);
