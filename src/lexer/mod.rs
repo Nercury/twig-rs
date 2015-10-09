@@ -6,7 +6,7 @@ pub mod matchers;
 use std::collections::HashMap;
 
 use CompiledEnvironment;
-use Operator;
+use operator::Operator;
 use lexer::matchers::Matchers;
 use lexer::options::Options;
 use lexer::iter::TokenIter;

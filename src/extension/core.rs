@@ -1,9 +1,8 @@
 use {
     Extension,
     Environment,
-    Associativity,
-    Operator
 };
+use operator::{ Operator };
 
 pub struct CoreExtension;
 
@@ -13,9 +12,7 @@ impl Extension for CoreExtension {
             Operator::new_unary("not", 50),
             Operator::new_unary("-", 500),
             Operator::new_unary("+", 500),
-        ]);
 
-        env.push_operators(&[
             Operator::new_binary_left("or"         , 10),
             Operator::new_binary_left("and"        , 15),
             Operator::new_binary_left("b-or"       , 16),
@@ -42,6 +39,7 @@ impl Extension for CoreExtension {
             Operator::new_binary_left("%"          , 60),
             Operator::new_binary_left("is"         , 100),
             Operator::new_binary_left("is not"     , 100),
+
             Operator::new_binary_right("**"         , 200),
         ]);
     }

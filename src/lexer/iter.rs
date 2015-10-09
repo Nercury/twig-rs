@@ -2,7 +2,8 @@ use regex::{ Captures };
 use std::collections::{ VecDeque };
 
 use super::Lexer;
-use { Result, Error, Operator };
+use { Result, Error };
+use operator::{ Operator };
 use token::{ Token, TwigNumber, TwigString, OperatorKind };
 use token::Value as TokenValue;
 use lexer::options::Options;

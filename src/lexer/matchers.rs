@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use regex::{ Regex, quote };
 
 use lexer::options::Options;
-use Operator;
+use operator::Operator;
 
 pub struct Matchers {
     pub whitespace: Regex,

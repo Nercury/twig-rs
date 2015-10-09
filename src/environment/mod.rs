@@ -1,11 +1,9 @@
-pub mod operators;
-
 use std::collections::HashMap;
 
 use extension::core::CoreExtension;
+use operator::{ Operator };
 use {
     Extension,
-    Operator,
     Container,
 };
 
