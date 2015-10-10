@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use regex::{ Regex, quote };
 
 use lexer::options::Options;
-use operator::Operator;
+use operator::OperatorKind;
 
 pub struct Matchers {
     pub whitespace: Regex,
@@ -26,7 +26,7 @@ pub struct Matchers {
 impl Matchers {
     pub fn new(
         options: &Options,
-        operators: &HashMap<&'static str, Operator>
+        operators: &HashMap<&'static str, OperatorKind>
     ) -> Matchers {
         Matchers {
             whitespace: {
@@ -203,7 +203,7 @@ impl Matchers {
 
     #[allow(deprecated)]
     fn get_operator_regex(
-        operators: &HashMap<&'static str, Operator>
+        operators: &HashMap<&'static str, OperatorKind>
     ) -> Regex {
         let mut all: Vec<_> = Some("=").into_iter()
             .chain(

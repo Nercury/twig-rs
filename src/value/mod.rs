@@ -1,5 +1,3 @@
-use std::fmt;
-
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum TwigValue<'a> {
     Num(TwigNumber<'a>),

@@ -1,7 +1,7 @@
 use node::{ Expr };
 use parser::{ Parse, Context };
 use { Token, TokenValue };
-use token::{ OperatorKind };
+use operator::{ OperatorKind };
 use Result;
 use Error;
 use error::ErrorMessage;

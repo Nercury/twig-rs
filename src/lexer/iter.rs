@@ -3,8 +3,8 @@ use std::collections::{ VecDeque };
 
 use super::Lexer;
 use { Result, Error };
-use operator::{ Operator };
-use token::{ Token, OperatorKind };
+use operator::{ Operator, OperatorKind };
+use token::{ Token };
 use value::{ TwigNumber, TwigValue };
 use token::Value as TokenValue;
 use lexer::options::Options;
@@ -423,9 +423,8 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
 
                 self.push_token(TokenValue::Operator { value: op_str, kind: {
                     match self.lexer.operators.get(op_str) {
-                        Some(&Operator::Binary { .. }) => OperatorKind::Binary,
-                        Some(&Operator::Unary { .. }) => OperatorKind::Unary,
-                        _ => unreachable!("twig bug: expected operator to exists in either binary or unary list, but it was not found there"),
+                        Some(kind) => *kind,
+                        _ => unreachable!("twig bug: operator not found when lexing"),
                     }
                 }});
                 self.move_cursor(end - start);

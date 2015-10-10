@@ -1,18 +1,11 @@
-use std::fmt;
-use Error;
 use value::{ TwigValue, OwnedTwigValue };
+use operator::OperatorKind;
 
 /// Lexer output token, lexer's output and parser's input.
 #[derive(Debug, Clone)]
 pub struct Token<'a> {
     pub value: Value<'a>,
     pub line: usize,
-}
-
-#[derive(PartialEq, Debug, Copy, Clone)]
-pub enum OperatorKind {
-    Unary,
-    Binary,
 }
 
 /// Token value.

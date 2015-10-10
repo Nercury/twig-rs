@@ -1,10 +1,9 @@
 use std::collections::HashMap;
 
 use extension::core::CoreExtension;
-use operator::{ Operator };
+use operator::{ Operator, OperatorKind };
 use {
     Extension,
-    Container,
 };
 
 /// Project configuration container.
@@ -27,21 +26,20 @@ impl Environment {
         CompiledEnvironment {
             operators: {
                 self.operators.iter()
-                    .map(|i| (i.value(), *i))
+                    .map(|i| (i.options.value, i.options.kind))
                     .collect()
             },
         }
     }
 
-    pub fn push_operators<L: Into<Container<Operator>>>(&mut self, ops: L) {
-        let Container(items) = ops.into();
-        self.operators.extend(items);
+    pub fn push_operators<I: IntoIterator<Item=Operator>>(&mut self, ops: I) {
+        self.operators.extend(ops);
     }
 }
 
 /// Project configuration container with all extensions applied.
 pub struct CompiledEnvironment {
-    pub operators: HashMap<&'static str, Operator>,
+    pub operators: HashMap<&'static str, OperatorKind>,
 }
 
 impl CompiledEnvironment {

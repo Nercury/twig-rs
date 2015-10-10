@@ -6,7 +6,7 @@ pub mod matchers;
 use std::collections::HashMap;
 
 use CompiledEnvironment;
-use operator::Operator;
+use operator::OperatorKind;
 use lexer::matchers::Matchers;
 use lexer::options::Options;
 use lexer::iter::TokenIter;
@@ -15,7 +15,7 @@ use lexer::iter::TokenIter;
 pub struct Lexer<'a> {
     options: Options,
     matchers: Matchers,
-    operators: &'a HashMap<&'static str, Operator>,
+    operators: &'a HashMap<&'static str, OperatorKind>,
 }
 
 impl<'a> Lexer<'a> {
@@ -47,6 +47,7 @@ mod test {
     use error::Result;
     use lexer::iter::TokenIter;
     use value::TwigValue;
+    use operator::OperatorKind;
     use std::iter::repeat;
     use CompiledEnvironment;
     use Expect;
@@ -280,7 +281,7 @@ mod test {
         _s = expect(_s, Value::Value(TwigValue::new_str("bar ")));
         _s = expect(_s, Value::InterpolationStart);
         _s = expect(_s, Value::Name("baz"));
-        _s = expect(_s, Value::Operator { value: "+", kind: OperatorKind::Binary });
+        _s = expect(_s, Value::Operator { value: "+", kind: OperatorKind::new_binary_left() });
         _s = expect(_s, Value::Value(TwigValue::new_int(1)));
         _s = expect(_s, Value::InterpolationEnd);
         _s = expect(_s, Value::VarEnd);
@@ -372,7 +373,7 @@ mod test {
 
         _s = expect(_s, Value::VarStart);
         _s = expect(_s, Value::Value(TwigValue::new_int(1)));
-        _s = expect(_s, Value::Operator { value: "and", kind: OperatorKind::Binary });
+        _s = expect(_s, Value::Operator { value: "and", kind: OperatorKind::new_binary_left() });
     }
 
     #[test]

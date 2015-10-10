@@ -1,60 +1,102 @@
 use std::cmp::Ordering;
+use value::TwigValue;
+use runtime;
+
+#[derive(PartialEq, Debug, Copy, Clone)]
+pub enum OperatorKind {
+    /// Single argument operator, i.e negation.
+    Unary,
+    /// Two argument operator, i.e sum.
+    Binary(Associativity)
+}
+
+impl OperatorKind {
+    pub fn new_binary_left() -> OperatorKind {
+        OperatorKind::Binary(Associativity::Left)
+    }
+
+    pub fn new_binary_right() -> OperatorKind {
+        OperatorKind::Binary(Associativity::Right)
+    }
+
+    pub fn new_unary() -> OperatorKind {
+        OperatorKind::Unary
+    }
+}
 
 #[derive(Copy, Clone)]
-pub enum Operator {
-    /// Single argument operator, i.e negation.
-    Unary {
-        value: &'static str,
-        precedence: u16
-    },
-    /// Two argument operator, i.e sum.
-    Binary {
-        value: &'static str,
-        precedence: u16,
-        associativity: Associativity,
-    }
+pub struct OperatorOptions {
+    pub value: &'static str,
+    pub precedence: u16,
+    pub kind: OperatorKind,
 }
 
-impl<'s> Into<Operator> for &'s Operator {
-    fn into(self) -> Operator {
-        self.clone()
-    }
-}
+impl OperatorOptions {
 
-impl Operator {
-    pub fn value(&self) -> &'static str {
-        match *self {
-            Operator::Binary { value, .. } => value,
-            Operator::Unary { value, .. } => value,
+    pub fn new_binary_left(chars: &'static str, precedence: u16) -> OperatorOptions {
+        OperatorOptions {
+            value: chars,
+            precedence: precedence,
+            kind: OperatorKind::new_binary_left(),
         }
     }
 
-    pub fn new_binary_left(chars: &'static str, precedence: u16) -> Operator {
-        Operator::Binary {
+    pub fn new_binary_right(chars: &'static str, precedence: u16) -> OperatorOptions {
+        OperatorOptions {
             value: chars,
             precedence: precedence,
-            associativity: Associativity::Left,
+            kind: OperatorKind::new_binary_right(),
+        }
+    }
+
+    pub fn new_unary(chars: &'static str, precedence: u16) -> OperatorOptions {
+        OperatorOptions {
+            value: chars,
+            precedence: precedence,
+            kind: OperatorKind::new_unary(),
+        }
+    }
+}
+
+pub struct Operator {
+    pub options: OperatorOptions,
+    pub callable: Box<
+        for<'e, 'r> Fn(&'e [TwigValue<'r>]) -> runtime::Result<TwigValue<'r>>
+    >,
+}
+
+impl Operator {
+
+    pub fn new_binary_left<'r>(chars: &'static str, precedence: u16) -> Operator {
+        Operator {
+            options: OperatorOptions::new_binary_left(chars, precedence),
+            callable: Box::new(
+                |_: &[TwigValue]| Err(runtime::Error::new(runtime::ErrorMessage::Poop))
+            ),
         }
     }
 
     pub fn new_binary_right(chars: &'static str, precedence: u16) -> Operator {
-        Operator::Binary {
-            value: chars,
-            precedence: precedence,
-            associativity: Associativity::Right,
+        Operator {
+            options: OperatorOptions::new_binary_right(chars, precedence),
+            callable: Box::new(
+                |_| Err(runtime::Error::new(runtime::ErrorMessage::Poop))
+            ),
         }
     }
 
     pub fn new_unary(chars: &'static str, precedence: u16) -> Operator {
-        Operator::Unary {
-            value: chars,
-            precedence: precedence,
+        Operator {
+            options: OperatorOptions::new_unary(chars, precedence),
+            callable: Box::new(
+                |_| Err(runtime::Error::new(runtime::ErrorMessage::Poop))
+            ),
         }
     }
 }
 
 /// Operator associativity.
-#[derive(Copy, Clone, Eq, PartialEq)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum Associativity {
     Left,
     Right,

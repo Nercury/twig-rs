@@ -8,8 +8,8 @@ pub struct CoreExtension;
 
 impl Extension for CoreExtension {
     fn apply(env: &mut Environment) {
-        env.push_operators(&[
-            Operator::new_unary("not", 50),
+        env.push_operators(vec![
+            Operator::new_unary("not", 50),//, |value| Ok(!value)),
             Operator::new_unary("-", 500),
             Operator::new_unary("+", 500),
 
