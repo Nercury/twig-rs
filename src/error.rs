@@ -17,6 +17,7 @@ pub enum ErrorMessage {
     UnclosedBlock(String),
     Unexpected(String),
     UnexpectedCharacter(String),
+    ParenthesisNotClosed,
 }
 
 impl fmt::Display for ErrorMessage {
@@ -32,6 +33,7 @@ impl fmt::Display for ErrorMessage {
             ErrorMessage::UnclosedBlock(ref s) => write!(f, "Unexpected end of file: Unclosed \"{}\" block", s),
             ErrorMessage::Unexpected(ref s) => write!(f, "Unexpected \"{}\"", s),
             ErrorMessage::UnexpectedCharacter(ref s) => write!(f, "Unexpected character \"{}\"", s),
+            ErrorMessage::ParenthesisNotClosed => write!(f, "An opened parenthesis is not properly closed"),
         }
     }
 }
