@@ -253,14 +253,14 @@ mod test {
 
     #[test]
     fn test_float_numbers() {
-        let template = "{{ 9223372036854775807.33 }}";
+        let template = "{{ 92233.33 }}";
 
         let env = CompiledEnvironment::default();
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         _s.next();
-        _s = expect(_s, Value::Value(TwigValue::new_float(9223372036854775807.33)));
+        _s = expect(_s, Value::Value(TwigValue::new_float(92233.33)));
     }
 
     #[test]

@@ -3,7 +3,6 @@ use std::collections::{ VecDeque };
 
 use super::Lexer;
 use { Result, Error };
-use operator::{ Operator };
 use token::{ Token };
 use value::{ TwigNumber, TwigValue };
 use token::Value as TokenValue;
