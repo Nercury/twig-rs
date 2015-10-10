@@ -1,6 +1,7 @@
 use Token;
-use CompiledEnvironment;
+use environment::ParsingEnvironment;
 use Result;
+use operator::OperatorOptions;
 
 mod body;
 mod expr;
@@ -17,18 +18,24 @@ pub trait Parse<'code> {
 
 pub struct Context<'a, I: 'a>
 {
-    pub env: &'a CompiledEnvironment,
+    pub env: &'a ParsingEnvironment,
     pub tokens: &'a mut I,
 }
 
 impl<'a, I: 'a> Context<'a, I> {
     pub fn new<'r>(
-        env: &'r CompiledEnvironment,
+        env: &'r ParsingEnvironment,
         tokens: &'r mut I
     ) -> Context<'r, I> {
         Context {
             env: env,
             tokens: tokens,
         }
+    }
+
+    pub fn get_operator_options(&'a self, op_str: &'a str) -> &'a OperatorOptions {
+        self.env.operators
+            .get(op_str)
+            .expect("twig bug: operator that was lexed was not found when parsing")
     }
 }

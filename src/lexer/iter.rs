@@ -421,12 +421,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
             if let Some((start, end)) = captures.pos(0) {
                 let op_str = self.code[loc + start .. loc + end].trim_right();
 
-                self.push_token(TokenValue::Operator { value: op_str, kind: {
-                    match self.lexer.operators.get(op_str) {
-                        Some(kind) => *kind,
-                        _ => unreachable!("twig bug: operator not found when lexing"),
-                    }
-                }});
+                self.push_token(TokenValue::Operator(op_str));
                 self.move_cursor(end - start);
 
                 return;

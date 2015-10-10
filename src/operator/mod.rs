@@ -28,7 +28,7 @@ impl OperatorKind {
     }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct OperatorOptions {
     pub value: &'static str,
     pub precedence: u16,

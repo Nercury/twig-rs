@@ -1,8 +1,7 @@
-use std::collections::HashMap;
+use std::collections::HashSet;
 use regex::{ Regex, quote };
 
 use lexer::options::Options;
-use operator::OperatorKind;
 
 pub struct Matchers {
     pub whitespace: Regex,
@@ -26,7 +25,7 @@ pub struct Matchers {
 impl Matchers {
     pub fn new(
         options: &Options,
-        operators: &HashMap<&'static str, OperatorKind>
+        operators: &HashSet<&'static str>
     ) -> Matchers {
         Matchers {
             whitespace: {
@@ -203,12 +202,12 @@ impl Matchers {
 
     #[allow(deprecated)]
     fn get_operator_regex(
-        operators: &HashMap<&'static str, OperatorKind>
+        operators: &HashSet<&'static str>
     ) -> Regex {
         let mut all: Vec<_> = Some("=").into_iter()
             .chain(
-                operators.keys()
-                    .map(|&v| v)
+                operators.iter()
+                    .map(|v| *v)
             )
             .collect();
 
@@ -253,7 +252,7 @@ impl Matchers {
 
 #[cfg(test)]
 mod test_match_regex_dq_string_part {
-    use std::collections::HashMap;
+    use std::collections::HashSet;
     use lexer::options::Options;
     use super::Matchers;
 
@@ -291,7 +290,7 @@ mod test_match_regex_dq_string_part {
         let options = Options::default();
         Matchers::new(
             &options,
-            &HashMap::new()
+            &HashSet::new()
         )
     }
 }

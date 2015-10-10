@@ -3,9 +3,9 @@ pub mod options;
 pub mod iter;
 pub mod matchers;
 
-use std::collections::HashMap;
+use std::collections::HashSet;
 
-use CompiledEnvironment;
+use environment::LexingEnvironment;
 use operator::OperatorKind;
 use lexer::matchers::Matchers;
 use lexer::options::Options;
@@ -15,12 +15,12 @@ use lexer::iter::TokenIter;
 pub struct Lexer<'a> {
     options: Options,
     matchers: Matchers,
-    operators: &'a HashMap<&'static str, OperatorKind>,
+    operators: &'a HashSet<&'static str>,
 }
 
 impl<'a> Lexer<'a> {
     /// Initialize default lexer with default options.
-    pub fn default(env: &CompiledEnvironment) -> Lexer {
+    pub fn default(env: &LexingEnvironment) -> Lexer {
         let options = Options::default();
 
         Lexer {
@@ -56,7 +56,7 @@ mod test {
     fn name_label_for_tag() {
         let template = "{% § %}";
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(template);
 
         _s = expect(_s, Value::BlockStart);
@@ -67,7 +67,7 @@ mod test {
     fn test_name_label_for_function() {
         let template = "{{ §() }}";
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(template);
 
         _s = expect(_s, Value::VarStart);
@@ -95,7 +95,7 @@ mod test {
         ].connect("\n");
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         // foo\nbar\n
@@ -117,7 +117,7 @@ mod test {
         ].concat();
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         expect_end(_s);
@@ -130,7 +130,7 @@ mod test {
         ].concat();
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         expect(_s, Value::Text("aaa"));
@@ -143,7 +143,7 @@ mod test {
         ].concat();
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         expect(_s, Value::Text("aaa"));
@@ -156,7 +156,7 @@ mod test {
         ].concat();
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         expect(_s, Value::Text("bbb"));
@@ -173,7 +173,7 @@ mod test {
         ].concat();
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         expect(_s, Value::Text(text));
@@ -190,7 +190,7 @@ mod test {
         ].concat();
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, Value::VarStart);
@@ -208,7 +208,7 @@ mod test {
         ].concat();
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, Value::BlockStart);
@@ -220,7 +220,7 @@ mod test {
         let template = "{{ 922337203685477580700 }}";
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         _s.next();
@@ -232,7 +232,7 @@ mod test {
         let template = "{{ 9223372036854775807 }}";
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         _s.next();
@@ -244,7 +244,7 @@ mod test {
         let template = "{{ 9223372036854775808 }}";
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         _s.next();
@@ -256,7 +256,7 @@ mod test {
         let template = "{{ 9223372036854775807.33 }}";
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         _s.next();
@@ -271,7 +271,7 @@ mod test {
         ];
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
 
         for &(template, expected) in &templates {
             let mut _s = lexer.tokens(&template);
@@ -285,7 +285,7 @@ mod test {
         let template = r#"foo {{ "bar #{ baz + 1 }" }}"#;
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, Value::Text("foo "));
@@ -293,7 +293,7 @@ mod test {
         _s = expect(_s, Value::Value(TwigValue::new_str("bar ")));
         _s = expect(_s, Value::InterpolationStart);
         _s = expect(_s, Value::Name("baz"));
-        _s = expect(_s, Value::Operator { value: "+", kind: OperatorKind::new_binary_left() });
+        _s = expect(_s, Value::Operator("+"));
         _s = expect(_s, Value::Value(TwigValue::new_int(1)));
         _s = expect(_s, Value::InterpolationEnd);
         _s = expect(_s, Value::VarEnd);
@@ -304,7 +304,7 @@ mod test {
         let template = r#"{{ "bar \#{baz+1}" }}"#;
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, Value::VarStart);
@@ -317,7 +317,7 @@ mod test {
         let template = r#"{{ "bar # baz" }}"#;
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, Value::VarStart);
@@ -330,7 +330,7 @@ mod test {
         let template = r#"{{ "bar #{x" }}"#;
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         expect_error(_s, r#"Unclosed """ at line 1"#);
@@ -341,7 +341,7 @@ mod test {
         let template = r#"{{ "bar #{ "foo#{bar}" }" }}"#;
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, Value::VarStart);
@@ -360,7 +360,7 @@ mod test {
         let template = r#"{% foo "bar #{ "foo#{bar}" }" %}"#;
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, Value::BlockStart);
@@ -380,12 +380,12 @@ mod test {
         let template = "{{ 1 and\n0}}";
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, Value::VarStart);
         _s = expect(_s, Value::Value(TwigValue::new_int(1)));
-        _s = expect(_s, Value::Operator { value: "and", kind: OperatorKind::new_binary_left() });
+        _s = expect(_s, Value::Operator("and"));
     }
 
     #[test]
@@ -400,7 +400,7 @@ bar
 ";
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         expect_error(_s, "Unclosed \"variable\" at line 3");
@@ -418,7 +418,7 @@ bar
 ";
 
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
         expect_error(_s, "Unclosed \"block\" at line 3");
@@ -426,7 +426,7 @@ bar
 
     fn count_token(template: &'static str, token_value: Value) -> u32 {
         let env = CompiledEnvironment::default();
-        let lexer = Lexer::default(&env);
+        let lexer = Lexer::default(&env.lexing);
         let mut count = 0;
 
         for maybe_token in lexer.tokens(template) {

@@ -1,7 +1,6 @@
 use node::{ Expr };
 use parser::{ Parse, Context };
 use { Token, TokenValue };
-use operator::{ OperatorKind };
 use Result;
 use Error;
 use error::ErrorMessage;
@@ -40,7 +39,9 @@ fn parse_primary<'r, 'c, I>(parser: &mut Context<'r, I>, token: Token<'c>)
         I: Iterator<Item=Result<Token<'c>>>
 {
     match token.value {
-        TokenValue::Operator { kind: OperatorKind::Unary, .. } => {
+        TokenValue::Operator(op_str) => {
+            let op_options = parser.get_operator_options(op_str);
+
             unimplemented!()
         },
         TokenValue::Punctuation('(') => {

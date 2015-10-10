@@ -1,7 +1,8 @@
 use std::collections::HashMap;
+use std::collections::HashSet;
 
 use extension::core::CoreExtension;
-use operator::{ Operator, OperatorKind };
+use operator::{ Operator, OperatorOptions };
 use {
     Extension,
 };
@@ -22,13 +23,10 @@ impl Environment {
         staged
     }
 
-    pub fn init(self) -> CompiledEnvironment {
+    pub fn init_all(self) -> CompiledEnvironment {
         CompiledEnvironment {
-            operators: {
-                self.operators.iter()
-                    .map(|i| (i.options.value, i.options.kind))
-                    .collect()
-            },
+            lexing: LexingEnvironment::new(&self),
+            parsing: ParsingEnvironment::new(&self),
         }
     }
 
@@ -37,15 +35,48 @@ impl Environment {
     }
 }
 
+pub struct LexingEnvironment {
+    pub operators: HashSet<&'static str>,
+}
+
+impl LexingEnvironment {
+    pub fn new(env: &Environment) -> LexingEnvironment {
+        LexingEnvironment {
+            operators: {
+                env.operators.iter()
+                    .map(|i| i.options.value)
+                    .collect()
+            },
+        }
+    }
+}
+
+pub struct ParsingEnvironment {
+    pub operators: HashMap<&'static str, OperatorOptions>,
+}
+
+impl ParsingEnvironment {
+    pub fn new(env: &Environment) -> ParsingEnvironment {
+        ParsingEnvironment {
+            operators: {
+                env.operators.iter()
+                    .map(|i| (i.options.value, i.options))
+                    .collect()
+            },
+        }
+    }
+}
+
 /// Project configuration container with all extensions applied.
 pub struct CompiledEnvironment {
-    pub operators: HashMap<&'static str, OperatorKind>,
+    pub lexing: LexingEnvironment,
+    pub parsing: ParsingEnvironment,
 }
 
 impl CompiledEnvironment {
 
     pub fn default() -> CompiledEnvironment {
         Environment::default()
-            .init()
+            .init_all()
     }
 }

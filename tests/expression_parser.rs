@@ -9,10 +9,10 @@ use twig::parser::{ Context, Parse };
 #[test]
 fn test_string_expression() {
     for (template, expected) in get_tests_for_string() {
-        let env = Environment::default().init();
-        let lexer = Lexer::default(&env);
+        let env = Environment::default().init_all();
+        let lexer = Lexer::default(&env.lexing);
         let mut tokens = lexer.tokens(&template);
-        let mut context = Context::new(&env, &mut tokens);
+        let mut context = Context::new(&env.parsing, &mut tokens);
         // let module = Module::parse(&mut context).ok().expect("parse template");
         // assert_eq!(module.body.expect_list()[0].expect_print(), &expected);
     }

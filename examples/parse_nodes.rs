@@ -26,10 +26,10 @@ fn main() {
 
     let mut staged = Environment::default();
     extension::TranslationExtension::apply(&mut staged);
-    let env = staged.init();
+    let env = staged.init_all();
 
-    let lexer = Lexer::default(&env);
+    let lexer = Lexer::default(&env.lexing);
     let _maybe_module = Module::parse(
-        &mut ParserContext::new(&env, &mut lexer.tokens(&template))
+        &mut ParserContext::new(&env.parsing, &mut lexer.tokens(&template))
     );
 }
