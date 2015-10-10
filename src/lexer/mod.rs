@@ -229,26 +229,38 @@ mod test {
 
     #[test]
     fn test_int_numbers() {
-        let template = "{{ 922337203685477 }}";
+        let template = "{{ 9223372036854775807 }}";
 
         let env = CompiledEnvironment::default();
         let lexer = Lexer::default(&env);
         let mut _s = lexer.tokens(&template);
 
         _s.next();
-        _s = expect(_s, Value::Value(TwigValue::new_int(922337203685477)));
+        _s = expect(_s, Value::Value(TwigValue::new_int(9223372036854775807)));
+    }
+
+    #[test]
+    fn test_int_numbers2() {
+        let template = "{{ 9223372036854775808 }}";
+
+        let env = CompiledEnvironment::default();
+        let lexer = Lexer::default(&env);
+        let mut _s = lexer.tokens(&template);
+
+        _s.next();
+        _s = expect(_s, Value::Value(TwigValue::new_big_num("9223372036854775808")));
     }
 
     #[test]
     fn test_float_numbers() {
-        let template = "{{ 92233720368547.33 }}";
+        let template = "{{ 9223372036854775807.33 }}";
 
         let env = CompiledEnvironment::default();
         let lexer = Lexer::default(&env);
         let mut _s = lexer.tokens(&template);
 
         _s.next();
-        _s = expect(_s, Value::Value(TwigValue::new_float(92233720368547.33)));
+        _s = expect(_s, Value::Value(TwigValue::new_float(9223372036854775807.33)));
     }
 
     #[test]

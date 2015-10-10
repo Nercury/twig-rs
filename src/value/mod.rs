@@ -13,7 +13,7 @@ impl<'a> TwigValue<'a> {
         TwigValue::Num(TwigNumber::Float(num))
     }
 
-    pub fn new_int<'c>(num: u64) -> TwigValue<'c> {
+    pub fn new_int<'c>(num: i64) -> TwigValue<'c> {
         TwigValue::Num(TwigNumber::Int(num))
     }
 
@@ -42,7 +42,7 @@ pub enum OwnedTwigValue {
 pub enum TwigNumber<'a> {
     Big(&'a str),
     Float(f64),
-    Int(u64),
+    Int(i64),
 }
 
 /// Parsed twig number representation.
@@ -50,7 +50,7 @@ pub enum TwigNumber<'a> {
 pub enum OwnedTwigNumber {
     Big(String),
     Float(f64),
-    Int(u64),
+    Int(i64),
 }
 
 impl<'a> Into<OwnedTwigNumber> for TwigNumber<'a> {
