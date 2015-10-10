@@ -1,11 +1,8 @@
 use std::collections::HashMap;
 use std::collections::HashSet;
 
-use extension::core::CoreExtension;
+use extension::{ Extension, CoreExtension };
 use operator::{ Operator, OperatorOptions };
-use {
-    Extension,
-};
 
 /// Project configuration container.
 pub struct Environment {

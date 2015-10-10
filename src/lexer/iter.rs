@@ -114,7 +114,7 @@ impl Bracket {
 }
 
 pub struct TokenIter<'iteration, 'code> {
-    lexer: &'iteration Lexer<'iteration>,
+    lexer: &'iteration Lexer,
 
     code: &'code str,
     tokens: VecDeque<Result<Token<'code>>>,

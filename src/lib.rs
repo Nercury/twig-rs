@@ -20,8 +20,8 @@ mod token;
 mod lexer;
 mod error;
 mod environment;
-mod extension;
 
+pub mod extension;
 pub mod node;
 pub mod parser;
 pub mod operator;
@@ -29,7 +29,6 @@ pub mod value;
 pub mod runtime;
 
 pub use error::{ Error, Result };
-pub use extension::Extension;
 pub use lexer::{ Lexer };
 pub use lexer::iter::TokenIter;
 pub use environment::{ CompiledEnvironment, Environment };

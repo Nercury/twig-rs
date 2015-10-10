@@ -1,8 +1,6 @@
-use {
-    Extension,
-    Environment,
-};
-use operator::{ Operator };
+use Environment;
+use extension::Extension;
+use operator::Operator;
 
 pub struct CoreExtension;
 

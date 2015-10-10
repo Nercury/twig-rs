@@ -3,22 +3,18 @@ pub mod options;
 pub mod iter;
 pub mod matchers;
 
-use std::collections::HashSet;
-
 use environment::LexingEnvironment;
-use operator::OperatorKind;
 use lexer::matchers::Matchers;
 use lexer::options::Options;
 use lexer::iter::TokenIter;
 
 /// Parses template file and converts it to a stream of tokens.
-pub struct Lexer<'a> {
+pub struct Lexer {
     options: Options,
     matchers: Matchers,
-    operators: &'a HashSet<&'static str>,
 }
 
-impl<'a> Lexer<'a> {
+impl Lexer {
     /// Initialize default lexer with default options.
     pub fn default(env: &LexingEnvironment) -> Lexer {
         let options = Options::default();
@@ -29,7 +25,6 @@ impl<'a> Lexer<'a> {
                 &options,
                 &env.operators
             ),
-            operators: &env.operators,
         }
     }
 

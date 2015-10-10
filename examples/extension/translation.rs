@@ -1,4 +1,4 @@
-use twig::Extension;
+use twig::extension::Extension;
 use twig::Environment;
 
 pub struct TranslationExtension;

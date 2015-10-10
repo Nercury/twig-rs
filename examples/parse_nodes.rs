@@ -3,7 +3,7 @@ extern crate twig;
 use twig::Environment;
 use twig::Lexer;
 use twig::node::Module;
-use twig::Extension;
+use twig::extension::Extension;
 use twig::parser::Context as ParserContext;
 use twig::parser::Parse;
 

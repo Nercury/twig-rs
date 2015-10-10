@@ -1,5 +1,4 @@
 use value::{ TwigValue, OwnedTwigValue };
-use operator::OperatorKind;
 
 /// Lexer output token, lexer's output and parser's input.
 #[derive(Debug, Clone)]
