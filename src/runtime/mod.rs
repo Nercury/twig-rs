@@ -23,12 +23,14 @@ impl Location {
 }
 
 #[derive(Debug)]
+/// Runtime error message.
 pub enum ErrorMessage {
+    /// Callable invoked with argument count that does not match defined count.
     InvalidArgumentCount { expected: usize, found: usize },
 }
 
+/// Runtime error with stack trace.
 pub struct Error {
-    pub line: Option<usize>,
     pub message: ErrorMessage,
     pub stack_trace: Vec<TraceEntry>,
 }
@@ -36,15 +38,6 @@ pub struct Error {
 impl Error {
     pub fn new(message: ErrorMessage) -> Error {
         Error {
-            line: None,
-            message: message,
-            stack_trace: Vec::new(),
-        }
-    }
-
-    pub fn new_at(message: ErrorMessage, line: usize) -> Error {
-        Error {
-            line: Some(line),
             message: message,
             stack_trace: Vec::new(),
         }
@@ -57,4 +50,5 @@ impl fmt::Debug for Error {
     }
 }
 
+/// Runtime operation result.
 pub type Result<T> = result::Result<T, Error>;
