@@ -2,13 +2,13 @@ use std::result;
 use std::fmt;
 use token::DebugValue;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Received {
     Token(DebugValue),
     EndOfStream,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum ErrorMessage {
     UnexpectedEndOfTemplate,
     ExpectedTokenButReceived((DebugValue, Received)),
@@ -36,6 +36,7 @@ impl fmt::Display for ErrorMessage {
     }
 }
 
+#[derive(Clone)]
 pub struct Error {
     line_num: Option<usize>,
     message: Box<ErrorMessage>,

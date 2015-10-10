@@ -1,8 +1,8 @@
 use node::{ Body, Block, Macro, Trait, EmbededTemplate };
 
-pub struct Module<'a> {
+pub struct Module<'c> {
     // Sub nodes.
-    pub body: Body<'a>,
+    pub body: Body<'c>,
     pub blocks: Vec<Block>,
     pub macros: Vec<Macro>,
     pub traits: Vec<Trait>,
@@ -13,16 +13,16 @@ pub struct Module<'a> {
     embedded_templates: Vec<EmbededTemplate>,
 
     // TODO: check usage of things bellow
-    display_start: Body<'a>,
-    display_end: Body<'a>,
-    constructor_start: Body<'a>,
-    constructor_end: Body<'a>,
-    class_end: Body<'a>,
+    display_start: Body<'c>,
+    display_end: Body<'c>,
+    constructor_start: Body<'c>,
+    constructor_end: Body<'c>,
+    class_end: Body<'c>,
 }
 
 /// Root Twig AST node.
-impl<'a> Module<'a> {
-    pub fn new() -> Module<'a> {
+impl<'c> Module<'c> {
+    pub fn new() -> Module<'c> {
         Module {
             body: Body::new(),
             blocks: vec![],

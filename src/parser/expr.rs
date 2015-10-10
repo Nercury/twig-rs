@@ -4,37 +4,44 @@ use { Token, TokenValue };
 use operator::{ OperatorOptions, OperatorKind };
 use Result;
 
-impl<'a, 'code> Parse<'code> for Expr<'a> {
-    type Output = Expr<'code>;
+impl<'c> Parse<'c> for Expr<'c> {
+    type Output = Expr<'c>;
 
     fn parse<'r, I>(parser: &mut Context<'r, I>)
-        -> Result<Expr<'code>>
+        -> Result<Expr<'c>>
     where
-        I: Iterator<Item=Result<Token<'code>>>
+        I: Iterator<Item=Result<Token<'c>>>
     {
-        let token = try!(parser.next());
-        parse_with_precedence(parser, token, 0)
+        parse_with_precedence(parser, 0)
     }
 }
 
-fn parse_with_precedence<'r, 'c, I>(parser: &mut Context<'r, I>, token: Token<'c>, precedence: u16)
+fn parse_with_precedence<'p, 'c, I>(parser: &mut Context<'p, I>, precedence: u16)
     -> Result<Expr<'c>>
     where
         I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_with_precedence_0");
-    parse_primary(parser, token)
+    get_primary(parser)
 }
 
 /// Parses expression and returns handle to one that should be executed first.
-fn parse_primary<'r, 'c, I>(parser: &mut Context<'r, I>, token: Token<'c>)
+fn get_primary<'p, 'c, I>(parser: &mut Context<'p, I>)
     -> Result<Expr<'c>>
     where
         I: Iterator<Item=Result<Token<'c>>>
 {
+    let token = try!(parser.current());
     if let TokenValue::Operator(op_str) = token.value {
         if let OperatorOptions { kind: OperatorKind::Unary, precedence, .. } = *parser.get_operator_options(op_str) {
-            let next_token = try!(parser.next());
+            try!(parser.next());
+            let expr = try!(parse_with_precedence(parser, precedence));
+            let parsed_expr = Expr::Operator {
+                value: op_str,
+                expr: Box::new(expr),
+                line: token.line
+            };
+            return parse_postfix_expression(parser, parsed_expr);
         }
     }
 
@@ -42,15 +49,25 @@ fn parse_primary<'r, 'c, I>(parser: &mut Context<'r, I>, token: Token<'c>)
 
     }
 
-    parse_primary_expression(parser, token)
+    parse_primary_expression(parser)
 }
 
 /// Parses expression and returns handle to one that should be executed first.
-fn parse_primary_expression<'r, 'c, I>(parser: &mut Context<'r, I>, token: Token<'c>)
+fn parse_primary_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
     -> Result<Expr<'c>>
     where
         I: Iterator<Item=Result<Token<'c>>>
 {
-    println!("parse_primary");
+    println!("parse_primary_expression");
+    Ok(Expr::Constant { value: "", line: 1 })
+}
+
+/// Parses expression and returns handle to one that should be executed first.
+fn parse_postfix_expression<'p, 'c, I>(parser: &mut Context<'p, I>, expr: Expr<'c>)
+    -> Result<Expr<'c>>
+    where
+        I: Iterator<Item=Result<Token<'c>>>
+{
+    println!("parse_postfix_expression");
     Ok(Expr::Constant { value: "", line: 1 })
 }

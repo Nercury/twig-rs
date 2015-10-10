@@ -3,13 +3,13 @@ use parser::{ Parse, Context };
 use { Token };
 use Result;
 
-impl<'a, 'code> Parse<'code> for Module<'a> {
-    type Output = Module<'code>;
+impl<'c> Parse<'c> for Module<'c> {
+    type Output = Module<'c>;
 
     fn parse<'r, I>(parser: &mut Context<'r, I>)
-        -> Result<Module<'code>>
+        -> Result<Module<'c>>
     where
-        I: Iterator<Item=Result<Token<'code>>>
+        I: Iterator<Item=Result<Token<'c>>>
     {
         let mut module = Module::new();
 

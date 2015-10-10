@@ -4,13 +4,13 @@ use { Token, TokenValue };
 use { Result, Error, Expect };
 use error::{ ErrorMessage };
 
-impl<'a, 'code> Parse<'code> for Body<'a> {
-    type Output = Body<'code>;
+impl<'c> Parse<'c> for Body<'c> {
+    type Output = Body<'c>;
 
     fn parse<'r, I>(parser: &mut Context<'r, I>)
-        -> Result<Body<'code>>
+        -> Result<Body<'c>>
     where
-        I: Iterator<Item=Result<Token<'code>>>
+        I: Iterator<Item=Result<Token<'c>>>
     {
         let mut maybe_token = parser.tokens.next();
         let _line_num = match maybe_token {
@@ -27,7 +27,7 @@ impl<'a, 'code> Parse<'code> for Body<'a> {
                     TokenValue::VarStart => {
                         let expr = try!(Expr::parse(parser));
                         try!(parser.tokens.expect(TokenValue::VarEnd));
-                        rv.push(Body::Print { expr: expr, line: token.line });
+                        rv.push(Body::Print { expr: Box::new(expr), line: token.line });
                     },
                     _ => unimplemented!(),
                 },
