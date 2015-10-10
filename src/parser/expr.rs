@@ -1,9 +1,8 @@
 use node::{ Expr };
 use parser::{ Parse, Context };
 use { Token, TokenValue };
+use operator::{ OperatorOptions, OperatorKind };
 use Result;
-use Error;
-use error::ErrorMessage;
 
 impl<'a, 'code> Parse<'code> for Expr<'a> {
     type Output = Expr<'code>;
@@ -13,17 +12,12 @@ impl<'a, 'code> Parse<'code> for Expr<'a> {
     where
         I: Iterator<Item=Result<Token<'code>>>
     {
-        let token = match parser.tokens.next() {
-            Some(Ok(t)) => t,
-            None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
-            Some(Err(e)) => return Err(e),
-        };
-
-        parse_with_precedence_0(parser, token)
+        let token = try!(parser.next());
+        parse_with_precedence(parser, token, 0)
     }
 }
 
-fn parse_with_precedence_0<'r, 'c, I>(parser: &mut Context<'r, I>, token: Token<'c>)
+fn parse_with_precedence<'r, 'c, I>(parser: &mut Context<'r, I>, token: Token<'c>, precedence: u16)
     -> Result<Expr<'c>>
     where
         I: Iterator<Item=Result<Token<'c>>>
@@ -38,17 +32,17 @@ fn parse_primary<'r, 'c, I>(parser: &mut Context<'r, I>, token: Token<'c>)
     where
         I: Iterator<Item=Result<Token<'c>>>
 {
-    match token.value {
-        TokenValue::Operator(op_str) => {
-            let op_options = parser.get_operator_options(op_str);
-
-            unimplemented!()
-        },
-        TokenValue::Punctuation('(') => {
-            unimplemented!()
-        },
-        _ => parse_primary_expression(parser, token),
+    if let TokenValue::Operator(op_str) = token.value {
+        if let OperatorOptions { kind: OperatorKind::Unary, precedence, .. } = *parser.get_operator_options(op_str) {
+            let next_token = try!(parser.next());
+        }
     }
+
+    if let TokenValue::Punctuation('(') = token.value {
+
+    }
+
+    parse_primary_expression(parser, token)
 }
 
 /// Parses expression and returns handle to one that should be executed first.

@@ -1,6 +1,7 @@
 use Token;
 use environment::ParsingEnvironment;
 use Result;
+use error::{ Error, ErrorMessage };
 use operator::OperatorOptions;
 
 mod body;
@@ -31,6 +32,17 @@ impl<'a, I: 'a> Context<'a, I> {
             env: env,
             tokens: tokens,
         }
+    }
+
+    pub fn next<'code>(&mut self) -> Result<Token<'code>>
+        where
+            I: Iterator<Item=Result<Token<'code>>>
+    {
+        Ok(match self.tokens.next() {
+            Some(Ok(t)) => t,
+            None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
+            Some(Err(e)) => return Err(e),
+        })
     }
 
     pub fn get_operator_options(&'a self, op_str: &'a str) -> &'a OperatorOptions {
