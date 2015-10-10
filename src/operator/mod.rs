@@ -11,6 +11,10 @@ pub enum OperatorKind {
 }
 
 impl OperatorKind {
+    pub fn new_binary(associativity: Associativity) -> OperatorKind {
+        OperatorKind::Binary(associativity)
+    }
+
     pub fn new_binary_left() -> OperatorKind {
         OperatorKind::Binary(Associativity::Left)
     }
@@ -33,20 +37,20 @@ pub struct OperatorOptions {
 
 impl OperatorOptions {
 
-    pub fn new_binary_left(chars: &'static str, precedence: u16) -> OperatorOptions {
+    pub fn new_binary(chars: &'static str, precedence: u16, associativity: Associativity) -> OperatorOptions {
         OperatorOptions {
             value: chars,
             precedence: precedence,
-            kind: OperatorKind::new_binary_left(),
+            kind: OperatorKind::new_binary(associativity),
         }
     }
 
+    pub fn new_binary_left(chars: &'static str, precedence: u16) -> OperatorOptions {
+        OperatorOptions::new_binary(chars, precedence, Associativity::Left)
+    }
+
     pub fn new_binary_right(chars: &'static str, precedence: u16) -> OperatorOptions {
-        OperatorOptions {
-            value: chars,
-            precedence: precedence,
-            kind: OperatorKind::new_binary_right(),
-        }
+        OperatorOptions::new_binary(chars, precedence, Associativity::Right)
     }
 
     pub fn new_unary(chars: &'static str, precedence: u16) -> OperatorOptions {
@@ -61,36 +65,101 @@ impl OperatorOptions {
 pub struct Operator {
     pub options: OperatorOptions,
     pub callable: Box<
-        for<'e, 'r> Fn(&'e [TwigValue<'r>]) -> runtime::Result<TwigValue<'r>>
+        for<'e, 'z> Fn(&'e [TwigValue<'z>]) -> runtime::Result<TwigValue<'z>>
     >,
 }
 
 impl Operator {
 
-    pub fn new_binary_left<'r>(chars: &'static str, precedence: u16) -> Operator {
+    pub fn new_binary<F: 'static>(
+        chars: &'static str,
+        precedence: u16,
+        associativity: Associativity,
+        callable: F
+    )
+        -> Operator
+    where
+        F: for<'e, 'z> Fn(&'e TwigValue<'z>, &'e TwigValue<'z>) -> runtime::Result<TwigValue<'z>>
+    {
         Operator {
-            options: OperatorOptions::new_binary_left(chars, precedence),
-            callable: Box::new(
-                |_: &[TwigValue]| Err(runtime::Error::new(runtime::ErrorMessage::Poop))
-            ),
+            options: OperatorOptions::new_binary(chars, precedence, associativity),
+            callable: Box::new(move |args| {
+                if args.len() != 2 {
+                    return Err(runtime::Error::new(
+                        runtime::ErrorMessage::InvalidArgumentCount {
+                            expected: 2,
+                            found: args.len()
+                        }
+                    ))
+                }
+
+                callable(
+                    unsafe { args.get_unchecked(0) },
+                    unsafe { args.get_unchecked(1) }
+                )
+            }),
         }
     }
 
-    pub fn new_binary_right(chars: &'static str, precedence: u16) -> Operator {
-        Operator {
-            options: OperatorOptions::new_binary_right(chars, precedence),
-            callable: Box::new(
-                |_| Err(runtime::Error::new(runtime::ErrorMessage::Poop))
-            ),
-        }
+    pub fn new_binary_left<F: 'static>(
+        chars: &'static str,
+        precedence: u16,
+        callable: F
+    )
+        -> Operator
+    where
+        F: for<'e, 'z> Fn(&'e TwigValue<'z>, &'e TwigValue<'z>) -> runtime::Result<TwigValue<'z>>
+    {
+        Operator::new_binary(
+            chars,
+            precedence,
+            Associativity::Left,
+            callable
+        )
     }
 
-    pub fn new_unary(chars: &'static str, precedence: u16) -> Operator {
+    pub fn new_binary_right<F: 'static>(
+        chars: &'static str,
+        precedence: u16,
+        callable: F
+    )
+        -> Operator
+    where
+        F: for<'e, 'z> Fn(&'e TwigValue<'z>, &'e TwigValue<'z>) -> runtime::Result<TwigValue<'z>>
+    {
+        Operator::new_binary(
+            chars,
+            precedence,
+            Associativity::Right,
+            callable
+        )
+    }
+
+    pub fn new_unary<F: 'static>(
+        chars: &'static str,
+        precedence: u16,
+        callable: F
+    )
+        -> Operator
+    where
+        F: for<'e, 'z> Fn(&'e TwigValue<'z>) -> runtime::Result<TwigValue<'z>>
+    {
         Operator {
             options: OperatorOptions::new_unary(chars, precedence),
-            callable: Box::new(
-                |_| Err(runtime::Error::new(runtime::ErrorMessage::Poop))
-            ),
+            callable: Box::new(move |args| {
+                if args.len() != 1 {
+                    return Err(runtime::Error::new(
+                        runtime::ErrorMessage::InvalidArgumentCount {
+                            expected: 1,
+                            found: args.len()
+                        }
+                    ))
+                }
+
+                callable(
+                    unsafe { args.get_unchecked(0) }
+                )
+            }),
         }
     }
 }

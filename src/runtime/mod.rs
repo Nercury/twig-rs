@@ -24,7 +24,7 @@ impl Location {
 
 #[derive(Debug)]
 pub enum ErrorMessage {
-    Poop,
+    InvalidArgumentCount { expected: usize, found: usize },
 }
 
 pub struct Error {
