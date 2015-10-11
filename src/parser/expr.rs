@@ -1,4 +1,4 @@
-use node::{ Expr, ExprValue };
+use node::{ Expr, ExprValue, ExprConstant };
 use parser::{ Parse, Context };
 use { Token, TokenValue };
 use operator::{ OperatorOptions, OperatorKind, Associativity };
@@ -98,6 +98,16 @@ fn get_primary<'p, 'c, I>(parser: &mut Context<'p, I>)
 }
 
 /// Parses expression and returns handle to one that should be executed first.
+fn get_function_node<'p, 'c, I>(parser: &mut Context<'p, I>, name: &'c str, line: usize)
+    -> Result<Expr<'c>>
+    where
+        I: Iterator<Item=Result<Token<'c>>>
+{
+    println!("get_function_node");
+    unimplemented!();
+}
+
+/// Parses expression and returns handle to one that should be executed first.
 fn parse_primary_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
     -> Result<Expr<'c>>
     where
@@ -107,7 +117,24 @@ fn parse_primary_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
     let token = try!(parser.current());
 
     let expr = match token.value {
-        TokenValue::Name(_) => unreachable!("TokenValue::Name"),
+        TokenValue::Name(name) => {
+            try!(parser.next());
+            match name {
+                "true" | "TRUE" =>
+                    Expr::new_at(ExprValue::Constant(ExprConstant::Bool(true)), token.line),
+                "false" | "FALSE" =>
+                    Expr::new_at(ExprValue::Constant(ExprConstant::Bool(false)), token.line),
+                "none" | "NONE" | "null" | "NULL" =>
+                    Expr::new_at(ExprValue::Constant(ExprConstant::Null), token.line),
+                name => {
+                    let current_token = try!(parser.current());
+                    match current_token.value {
+                        TokenValue::Punctuation('(') => try!(get_function_node(parser, name, token.line)),
+                        _ => Expr::new_at(ExprValue::Name(name), token.line),
+                    }
+                },
+            }
+        },
         TokenValue::Value(ref value) => match *value {
             TwigValueRef::Num(_) => unreachable!("TwigValueRef::Num"),
             TwigValueRef::Str(_) => try!(parse_string_expression(parser)),
@@ -142,7 +169,7 @@ fn parse_string_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
         if let (true, TokenValue::Value(TwigValueRef::Str(value))) = (next_can_be_string, token.value) {
             try!(parser.next());
             nodes.push_back(Expr::new_at(
-                ExprValue::Constant(value),
+                ExprValue::Constant(ExprConstant::Str(value)),
                 token.line
             ));
             next_can_be_string = false;
@@ -233,7 +260,7 @@ fn parse_conditional_expression<'p, 'c, I>(parser: &mut Context<'p, I>, mut expr
                     (expr2, try!(parse_expression(parser, 0)))
                 } else {
                     (expr2, Expr::new_at(
-                        ExprValue::Constant(""),
+                        ExprValue::Constant(ExprConstant::Str("")),
                         try!(parser.current()).line
                     ))
                 }
