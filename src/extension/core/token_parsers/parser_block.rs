@@ -13,7 +13,7 @@ impl Block {
 
 impl TokenParserExtension for Block {
     fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>)
-        -> Result<Body<'c>>
+        -> Result<Option<Body<'c>>>
     {
         unreachable!("not implemented Block::parse")
     }

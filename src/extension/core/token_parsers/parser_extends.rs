@@ -13,7 +13,7 @@ impl Extends {
 
 impl TokenParserExtension for Extends {
     fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>)
-        -> Result<Body<'c>>
+        -> Result<Option<Body<'c>>>
     {
         unreachable!("not implemented Extends::parse")
     }

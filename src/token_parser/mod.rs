@@ -6,7 +6,7 @@ pub trait TokenParserExtension
 {
     fn get_tag(&self) -> &'static str;
     fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>)
-        -> Result<Body<'c>>;
+        -> Result<Option<Body<'c>>>;
 }
 
 pub struct TokenParser {

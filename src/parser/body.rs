@@ -37,7 +37,15 @@ impl<'c> Parse<'c> for Body<'c> {
                         _ => return Err(Error::new_at(ErrorMessage::MustStartWithTagName, token.line)),
                     };
 
-                    // TODO: subparse test, callable parser
+                    let subparser = match parser.env.handlers.get(tag_name) {
+                        Some(sp) => sp,
+                        None => {
+                            unreachable!("errors when subparser not found not implemented")
+                        }
+                    };
+
+                    let node = try!(subparser.parse(parser));
+                    try!(parser.next());
 
                     unreachable!("token parsers not implemented")
                 },

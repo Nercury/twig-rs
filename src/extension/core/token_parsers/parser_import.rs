@@ -13,7 +13,7 @@ impl Import {
 
 impl TokenParserExtension for Import {
     fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>)
-        -> Result<Body<'c>>
+        -> Result<Option<Body<'c>>>
     {
         unreachable!("not implemented Import::parse")
     }

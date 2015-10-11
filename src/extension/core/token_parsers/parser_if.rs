@@ -13,7 +13,7 @@ impl If {
 
 impl TokenParserExtension for If {
     fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>)
-        -> Result<Body<'c>>
+        -> Result<Option<Body<'c>>>
     {
         unreachable!("not implemented If::parse")
     }

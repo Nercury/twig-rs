@@ -13,7 +13,7 @@ impl Spaceless {
 
 impl TokenParserExtension for Spaceless {
     fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>)
-        -> Result<Body<'c>>
+        -> Result<Option<Body<'c>>>
     {
         unreachable!("not implemented Spaceless::parse")
     }

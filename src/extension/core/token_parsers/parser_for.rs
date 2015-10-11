@@ -13,7 +13,7 @@ impl For {
 
 impl TokenParserExtension for For {
     fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>)
-        -> Result<Body<'c>>
+        -> Result<Option<Body<'c>>>
     {
         unreachable!("not implemented For::parse")
     }
