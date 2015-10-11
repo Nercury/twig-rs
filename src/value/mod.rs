@@ -22,17 +22,17 @@ impl<'a> TwigValueRef<'a> {
     }
 }
 
-impl<'a> Into<OwnedTwigValue> for TwigValueRef<'a> {
-    fn into(self) -> OwnedTwigValue {
+impl<'a> Into<TwigValue> for TwigValueRef<'a> {
+    fn into(self) -> TwigValue {
         match self {
-            TwigValueRef::Num(n) => OwnedTwigValue::Num(n.into()),
-            TwigValueRef::Str(s) => OwnedTwigValue::Str(s.into()),
+            TwigValueRef::Num(n) => TwigValue::Num(n.into()),
+            TwigValueRef::Str(s) => TwigValue::Str(s.into()),
         }
     }
 }
 
 #[derive(PartialEq, Debug, Clone)]
-pub enum OwnedTwigValue {
+pub enum TwigValue {
     Num(OwnedTwigNumber),
     Str(String),
 }
