@@ -26,6 +26,12 @@ pub struct Context<'p, I: 'p>
     pub tokens: Peekable<&'p mut I>,
 }
 
+/// Helpers for manipulating and inspecting token iterators when creating AST.
+///
+/// Has methods to inspect state, like "current" token, and advance to next.
+///
+/// Current token is actually implemented as "peekable" next token. However,
+/// in all parsing code this "peekable" becomes "current".
 impl<'p, I: 'p> Context<'p, I>
     where
         I: Iterator
@@ -42,6 +48,11 @@ impl<'p, I: 'p> Context<'p, I>
         }
     }
 
+    /// Get current token or fail.
+    ///
+    /// Returns current token, does not modify iterator position.
+    /// Expects current token to exist, and if it is not (the end of file), returns
+    /// UnexpectedEndOfTemplate error.
     pub fn current<'r, 'c>(&'r mut self) -> Result<Token<'c>>
         where I: Iterator<Item=Result<Token<'c>>>
     {
@@ -52,6 +63,10 @@ impl<'p, I: 'p> Context<'p, I>
         })
     }
 
+    /// Get current token or the end of stream.
+    ///
+    /// Returns current token, does not modify iterator position.
+    /// If the end of stream, returns None.
     pub fn maybe_current<'r, 'c>(&'r mut self) -> Result<Option<Token<'c>>>
         where I: Iterator<Item=Result<Token<'c>>>
     {
@@ -62,6 +77,10 @@ impl<'p, I: 'p> Context<'p, I>
         })
     }
 
+    /// Advances to the next token and returns previous.
+    ///
+    /// Expects the next token to exist. If it does not exist (the end of file), returns
+    /// UnexpectedEndOfTemplate error.
     pub fn next<'r, 'c>(&'r mut self) -> Result<Token<'c>>
         where I: Iterator<Item=Result<Token<'c>>>
     {
@@ -80,6 +99,11 @@ impl<'p, I: 'p> Context<'p, I>
         Ok(token)
     }
 
+    /// Advances to the next token if expected token value is the same as current and
+    /// returns current.
+    ///
+    /// Expects these tokens to exist. If they do not exist (the end of file), returns
+    /// UnexpectedEndOfTemplate error.
     pub fn skip_to_next_if<'r, 'c>(&'r mut self, expected: TokenValue<'c>) -> Result<bool>
         where I: Iterator<Item=Result<Token<'c>>>
     {
@@ -98,6 +122,10 @@ impl<'p, I: 'p> Context<'p, I>
         }
     }
 
+    /// Expects the current token to match value and advances to next token.
+    ///
+    /// Expects these tokens to exist. If they do not exist (the end of file), returns
+    /// UnexpectedEndOfTemplate error.
     pub fn expect<'r, 'c>(&'r mut self, expected: TokenValue<'c>) -> Result<Token<'c>>
         where I: Iterator<Item=Result<Token<'c>>>
     {
@@ -115,6 +143,9 @@ impl<'p, I: 'p> Context<'p, I>
         Ok(token)
     }
 
+    /// Returns options structure for specified operator.
+    ///
+    /// Operator must exist in environment, otherwise panics.
     pub fn get_operator_options<'r, 'c>(&'r self, op_str: &'c str) -> &'r OperatorOptions {
         self.env.operators
             .get(op_str)
