@@ -3,7 +3,7 @@ mod expr;
 mod module;
 
 pub use self::body::Body;
-pub use self::expr::{ Expr };
+pub use self::expr::{ Expr, ExprValue };
 pub use self::module::Module;
 
 pub struct Block;

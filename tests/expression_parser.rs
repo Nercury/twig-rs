@@ -1,6 +1,6 @@
 extern crate twig;
 
-use twig::node::Expr;
+use twig::node::{ Expr, ExprValue };
 use twig::Environment;
 use twig::Lexer;
 use twig::node::Module;
@@ -20,6 +20,6 @@ fn test_string_expression() {
 
 fn get_tests_for_string<'r>() -> Vec<(&'static str, Expr<'r>)> {
     vec![
-        (r#"{{ "foo" }}"#, Expr::Constant { value: "foo", line: 1 })
+        (r#"{{ "foo" }}"#, Expr::new_at(ExprValue::Constant { value: "foo" }, 1))
     ]
 }

@@ -1,10 +1,11 @@
-use node::{ Expr };
+use node::{ Expr, ExprValue };
 use parser::{ Parse, Context };
 use { Token, TokenValue };
 use operator::{ OperatorOptions, OperatorKind, Associativity };
 use error::{ Error, ErrorMessage };
 use { Result, Expect };
 use value::{ TwigValueRef, TwigNumberRef };
+use std::collections::VecDeque;
 
 impl<'c> Parse<'c> for Expr<'c> {
     type Output = Expr<'c>;
@@ -41,12 +42,11 @@ fn parse_expression<'p, 'c, I>(parser: &mut Context<'p, I>, min_precedence: u16)
                         Associativity::Left => precedence + 1,
                         Associativity::Right => precedence,
                     }));
-                    expr = Expr::BinaryOperator {
+                    expr = Expr::new_at(ExprValue::BinaryOperator {
                         value: op_str,
                         left: Box::new(expr.clone()),
                         right: Box::new(expr1),
-                        line: token.line
-                    };
+                    }, token.line);
                     // endif
 
                     token = try!(parser.current());
@@ -77,11 +77,10 @@ fn get_primary<'p, 'c, I>(parser: &mut Context<'p, I>)
         if let OperatorOptions { kind: OperatorKind::Unary, precedence, .. } = *parser.get_operator_options(op_str) {
             try!(parser.next());
             let expr = try!(parse_expression(parser, precedence));
-            let parsed_expr = Expr::UnaryOperator {
+            let parsed_expr = Expr::new_at(ExprValue::UnaryOperator {
                 value: op_str,
                 expr: Box::new(expr),
-                line: token.line
-            };
+            }, token.line);
             return parse_postfix_expression(parser, parsed_expr);
         }
     }
@@ -133,7 +132,44 @@ fn parse_string_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
         I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_string_expression");
-    unimplemented!()
+
+    let mut nodes = VecDeque::new();
+    let mut next_can_be_string = true;
+
+    loop {
+        let token = try!(parser.current());
+
+        if let (true, TokenValue::Value(TwigValueRef::Str(value))) = (next_can_be_string, token.value) {
+            nodes.push_back(Expr::new_at(
+                ExprValue::Constant { value: value },
+                token.line
+            ));
+            next_can_be_string = false;
+            continue;
+        }
+
+        if let TokenValue::InterpolationStart = token.value {
+            nodes.push_back(try!(parse_expression(parser, 0)));
+            try!(parser.tokens.expect(TokenValue::InterpolationEnd));
+            next_can_be_string = true;
+            continue;
+        }
+
+        break;
+    }
+
+    let mut expr = nodes.pop_front()
+        .expect("twig bug: expected first node to be string when in parse_string_expression state");
+
+    for node in nodes {
+        let line = node.line;
+        expr = Expr::new_at(
+            ExprValue::Concat { left: Box::new(expr), right: Box::new(node) },
+            line
+        );
+    }
+
+    Ok(expr)
 }
 
 /// Parses expression and returns handle to one that should be executed first.
