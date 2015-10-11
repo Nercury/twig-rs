@@ -1,20 +1,20 @@
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum TwigValueRef<'a> {
-    Num(TwigNumber<'a>),
+    Num(TwigNumberRef<'a>),
     Str(&'a str),
 }
 
 impl<'a> TwigValueRef<'a> {
     pub fn new_big_num<'c>(num: &'c str) -> TwigValueRef<'c> {
-        TwigValueRef::Num(TwigNumber::Big(num))
+        TwigValueRef::Num(TwigNumberRef::Big(num))
     }
 
     pub fn new_float<'c>(num: f64) -> TwigValueRef<'c> {
-        TwigValueRef::Num(TwigNumber::Float(num))
+        TwigValueRef::Num(TwigNumberRef::Float(num))
     }
 
     pub fn new_int<'c>(num: i64) -> TwigValueRef<'c> {
-        TwigValueRef::Num(TwigNumber::Int(num))
+        TwigValueRef::Num(TwigNumberRef::Int(num))
     }
 
     pub fn new_str<'c>(s: &'c str) -> TwigValueRef<'c> {
@@ -39,7 +39,7 @@ pub enum OwnedTwigValue {
 
 /// Parsed twig number representation.
 #[derive(PartialEq, Debug, Copy, Clone)]
-pub enum TwigNumber<'a> {
+pub enum TwigNumberRef<'a> {
     Big(&'a str),
     Float(f64),
     Int(i64),
@@ -53,12 +53,12 @@ pub enum OwnedTwigNumber {
     Int(i64),
 }
 
-impl<'a> Into<OwnedTwigNumber> for TwigNumber<'a> {
+impl<'a> Into<OwnedTwigNumber> for TwigNumberRef<'a> {
     fn into(self) -> OwnedTwigNumber {
         match self {
-            TwigNumber::Big(n) => OwnedTwigNumber::Big(n.to_string()),
-            TwigNumber::Float(v) => OwnedTwigNumber::Float(v),
-            TwigNumber::Int(v) => OwnedTwigNumber::Int(v),
+            TwigNumberRef::Big(n) => OwnedTwigNumber::Big(n.to_string()),
+            TwigNumberRef::Float(v) => OwnedTwigNumber::Float(v),
+            TwigNumberRef::Int(v) => OwnedTwigNumber::Int(v),
         }
     }
 }

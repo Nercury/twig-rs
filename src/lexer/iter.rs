@@ -4,7 +4,7 @@ use std::collections::{ VecDeque };
 use super::Lexer;
 use { Result, Error };
 use token::{ Token };
-use value::{ TwigNumber, TwigValueRef };
+use value::{ TwigNumberRef, TwigValueRef };
 use token::Value as TokenValue;
 use lexer::options::Options;
 use std::fmt;
@@ -452,20 +452,20 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                 let twig_number = if all_chars_are_digits {
                     let maybe_int = string.parse();
                     match maybe_int {
-                        Ok(int) => TwigNumber::Int(int),
-                        _ => TwigNumber::Big(string),
+                        Ok(int) => TwigNumberRef::Int(int),
+                        _ => TwigNumberRef::Big(string),
                     }
                 } else {
                     let maybe_float = string.parse::<f64>();
                     match maybe_float {
                         Ok(float) => {
                             if float.is_finite() {
-                                TwigNumber::Float(float)
+                                TwigNumberRef::Float(float)
                             } else {
-                                TwigNumber::Big(string)
+                                TwigNumberRef::Big(string)
                             }
                         },
-                        _ => TwigNumber::Big(string),
+                        _ => TwigNumberRef::Big(string),
                     }
                 };
 
