@@ -113,7 +113,10 @@ fn parse_primary_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
         TokenValue::Operator(_) => unreachable!("TokenValue::Operator"),
         TokenValue::Punctuation('[') => unreachable!("TokenValue::Punctuation('[')"),
         TokenValue::Punctuation('{') => unreachable!("TokenValue::Punctuation('{')"),
-        _ => panic!("uncovered choice! baaah!"),
+        other => return Err(Error::new_at(
+            ErrorMessage::UnexpectedToken(other.into()),
+            token.line
+        )),
     }
     unimplemented!()
 }
