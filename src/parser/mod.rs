@@ -18,6 +18,12 @@ pub trait Parse<'c> {
         I: Iterator<Item=Result<Token<'c>>>;
 }
 
+/// Helpers for manipulating and inspecting token iterators when creating AST.
+///
+/// Has methods to inspect state, like "current" token, and advance to next.
+///
+/// Current token is actually implemented as "peekable" next token. However,
+/// in all parsing code this "peekable" becomes "current".
 pub struct Context<'p, I: 'p>
     where
         I: Iterator
@@ -26,12 +32,6 @@ pub struct Context<'p, I: 'p>
     pub tokens: Peekable<&'p mut I>,
 }
 
-/// Helpers for manipulating and inspecting token iterators when creating AST.
-///
-/// Has methods to inspect state, like "current" token, and advance to next.
-///
-/// Current token is actually implemented as "peekable" next token. However,
-/// in all parsing code this "peekable" becomes "current".
 impl<'p, I: 'p> Context<'p, I>
     where
         I: Iterator
