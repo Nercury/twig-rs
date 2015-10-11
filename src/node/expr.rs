@@ -15,7 +15,8 @@ impl<'c> Expr<'c> {
 
 #[derive(Debug, Eq, PartialEq, Clone)]
 pub enum ExprValue<'c> {
-    Constant { value: &'c str },
+    Constant(&'c str),
+    Name(&'c str),
     UnaryOperator { value: &'c str, expr: Box<Expr<'c>> },
     BinaryOperator { value: &'c str, left: Box<Expr<'c>>, right: Box<Expr<'c>> },
     Concat { left: Box<Expr<'c>>, right: Box<Expr<'c>> },

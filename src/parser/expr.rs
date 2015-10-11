@@ -142,7 +142,7 @@ fn parse_string_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
         if let (true, TokenValue::Value(TwigValueRef::Str(value))) = (next_can_be_string, token.value) {
             try!(parser.next());
             nodes.push_back(Expr::new_at(
-                ExprValue::Constant { value: value },
+                ExprValue::Constant(value),
                 token.line
             ));
             next_can_be_string = false;
@@ -233,7 +233,7 @@ fn parse_conditional_expression<'p, 'c, I>(parser: &mut Context<'p, I>, mut expr
                     (expr2, try!(parse_expression(parser, 0)))
                 } else {
                     (expr2, Expr::new_at(
-                        ExprValue::Constant { value: "" },
+                        ExprValue::Constant(""),
                         try!(parser.current()).line
                     ))
                 }
