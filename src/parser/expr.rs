@@ -1,6 +1,6 @@
 use node::{ Expr, ExprValue };
 use parser::{ Parse, Context };
-use { Token, TokenValue };
+use TokenValue;
 use operator::{ OperatorOptions, OperatorKind, Associativity };
 use error::{ Error, ErrorMessage };
 use { Result, Expect };
@@ -10,19 +10,15 @@ use std::collections::VecDeque;
 impl<'c> Parse<'c> for Expr<'c> {
     type Output = Expr<'c>;
 
-    fn parse<'r, I>(parser: &mut Context<'r, I>)
+    fn parse<'r>(parser: &mut Context<'r, 'c>)
         -> Result<Expr<'c>>
-    where
-        I: Iterator<Item=Result<Token<'c>>>
     {
         parse_expression(parser, 0)
     }
 }
 
-fn parse_expression<'p, 'c, I>(parser: &mut Context<'p, I>, min_precedence: u16)
+fn parse_expression<'p, 'c>(parser: &mut Context<'p, 'c>, min_precedence: u16)
     -> Result<Expr<'c>>
-    where
-        I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_expression");
 
@@ -66,10 +62,8 @@ fn parse_expression<'p, 'c, I>(parser: &mut Context<'p, I>, min_precedence: u16)
 }
 
 /// Parses expression and returns handle to one that should be executed first.
-fn get_primary<'p, 'c, I>(parser: &mut Context<'p, I>)
+fn get_primary<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
-    where
-        I: Iterator<Item=Result<Token<'c>>>
 {
     let token = try!(parser.current());
 
@@ -98,20 +92,16 @@ fn get_primary<'p, 'c, I>(parser: &mut Context<'p, I>)
 }
 
 /// Parses expression and returns handle to one that should be executed first.
-fn get_function_node<'p, 'c, I>(parser: &mut Context<'p, I>, name: &'c str, line: usize)
+fn get_function_node<'p, 'c>(parser: &mut Context<'p, 'c>, name: &'c str, line: usize)
     -> Result<Expr<'c>>
-    where
-        I: Iterator<Item=Result<Token<'c>>>
 {
     println!("get_function_node");
     unimplemented!();
 }
 
 /// Parses expression and returns handle to one that should be executed first.
-fn parse_primary_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
+fn parse_primary_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
-    where
-        I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_primary_expression");
     let token = try!(parser.current());
@@ -153,10 +143,8 @@ fn parse_primary_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
 }
 
 /// Parses expression and returns handle to one that should be executed first.
-fn parse_string_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
+fn parse_string_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
-    where
-        I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_string_expression");
 
@@ -199,10 +187,8 @@ fn parse_string_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
 }
 
 /// Parses expression and returns handle to one that should be executed first.
-fn parse_postfix_expression<'p, 'c, I>(parser: &mut Context<'p, I>, mut node: Expr<'c>)
+fn parse_postfix_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut node: Expr<'c>)
     -> Result<Expr<'c>>
-    where
-        I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_postfix_expression");
 
@@ -224,28 +210,22 @@ fn parse_postfix_expression<'p, 'c, I>(parser: &mut Context<'p, I>, mut node: Ex
     Ok(node)
 }
 
-fn parse_subscript_expression<'p, 'c, I>(parser: &mut Context<'p, I>, expr: Expr<'c>)
+fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, expr: Expr<'c>)
     -> Result<Expr<'c>>
-    where
-        I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_subscript_expression");
     unimplemented!()
 }
 
-fn parse_filter_expression<'p, 'c, I>(parser: &mut Context<'p, I>, expr: Expr<'c>)
+fn parse_filter_expression<'p, 'c>(parser: &mut Context<'p, 'c>, expr: Expr<'c>)
     -> Result<Expr<'c>>
-    where
-        I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_filter_expression");
     unimplemented!()
 }
 
-fn parse_conditional_expression<'p, 'c, I>(parser: &mut Context<'p, I>, mut expr: Expr<'c>)
+fn parse_conditional_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut expr: Expr<'c>)
     -> Result<Expr<'c>>
-    where
-        I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_conditional_expression");
 

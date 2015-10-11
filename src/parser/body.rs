@@ -1,16 +1,14 @@
 use node::{ Body, Expr };
 use parser::{ Parse, Context };
-use { Token, TokenValue };
+use TokenValue;
 use { Result, Expect };
 use error::{ Error, ErrorMessage };
 
 impl<'c> Parse<'c> for Body<'c> {
     type Output = Body<'c>;
 
-    fn parse<'r, I>(parser: &mut Context<'r, I>)
+    fn parse<'r>(parser: &mut Context<'r, 'c>)
         -> Result<Body<'c>>
-    where
-        I: Iterator<Item=Result<Token<'c>>>
     {
         let mut maybe_line = None;
         let mut rv = Vec::new();

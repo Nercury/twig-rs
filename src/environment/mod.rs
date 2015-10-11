@@ -3,16 +3,19 @@ use std::collections::HashSet;
 
 use extension::{ Extension, CoreExtension };
 use operator::{ Operator, OperatorOptions };
+use token_parser::{ TokenParser };
 
 /// Project configuration container.
 pub struct Environment {
     pub operators: Vec<Operator>,
+    pub token_parsers: Vec<TokenParser>,
 }
 
 impl Environment {
     pub fn default() -> Environment {
         let mut staged = Environment {
             operators: Vec::new(),
+            token_parsers: Vec::new(),
         };
 
         CoreExtension::apply(&mut staged);

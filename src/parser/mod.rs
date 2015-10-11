@@ -4,6 +4,7 @@ use environment::ParsingEnvironment;
 use Result;
 use error::{ Error, ErrorMessage };
 use operator::OperatorOptions;
+use lexer::iter::TokenIter;
 
 mod body;
 mod expr;
@@ -12,10 +13,8 @@ mod module;
 pub trait Parse<'c> {
     type Output;
 
-    fn parse<'p, I>(parser: &mut Context<'p, I>)
-        -> Result<Self::Output>
-    where
-        I: Iterator<Item=Result<Token<'c>>>;
+    fn parse<'r>(parser: &mut Context<'r, 'c>)
+        -> Result<Self::Output>;
 }
 
 /// Helpers for manipulating and inspecting token iterators when creating AST.
@@ -24,23 +23,18 @@ pub trait Parse<'c> {
 ///
 /// Current token is actually implemented as "peekable" next token. However,
 /// in all parsing code this "peekable" becomes "current".
-pub struct Context<'p, I: 'p>
-    where
-        I: Iterator
+pub struct Context<'p, 'c: 'p>
 {
     pub env: &'p ParsingEnvironment,
-    pub tokens: Peekable<&'p mut I>,
+    pub tokens: Peekable<&'p mut TokenIter<'p, 'c>>,
 }
 
-impl<'p, I: 'p> Context<'p, I>
-    where
-        I: Iterator
+impl<'p, 'c: 'p> Context<'p, 'c>
 {
-    pub fn new<'r, 'c>(
-        env: &'r ParsingEnvironment,
-        tokens: &'r mut I
-    ) -> Context<'r, I>
-        where I: Iterator<Item=Result<Token<'c>>>
+    pub fn new<'pp, 'cc>(
+        env: &'pp ParsingEnvironment,
+        tokens: &'pp mut TokenIter<'pp, 'cc>
+    ) -> Context<'pp, 'cc>
     {
         Context {
             env: env,
@@ -53,8 +47,7 @@ impl<'p, I: 'p> Context<'p, I>
     /// Returns current token, does not modify iterator position.
     /// Expects current token to exist, and if it is not (the end of file), returns
     /// UnexpectedEndOfTemplate error.
-    pub fn current<'r, 'c>(&'r mut self) -> Result<Token<'c>>
-        where I: Iterator<Item=Result<Token<'c>>>
+    pub fn current<'r>(&'r mut self) -> Result<Token<'c>>
     {
         Ok(match self.tokens.peek() {
             Some(&Ok(ref t)) => t.clone(),
@@ -67,8 +60,7 @@ impl<'p, I: 'p> Context<'p, I>
     ///
     /// Returns current token, does not modify iterator position.
     /// If the end of stream, returns None.
-    pub fn maybe_current<'r, 'c>(&'r mut self) -> Result<Option<Token<'c>>>
-        where I: Iterator<Item=Result<Token<'c>>>
+    pub fn maybe_current<'r>(&'r mut self) -> Result<Option<Token<'c>>>
     {
         Ok(match self.tokens.peek() {
             Some(&Ok(ref t)) => Some(t.clone()),
@@ -81,8 +73,7 @@ impl<'p, I: 'p> Context<'p, I>
     ///
     /// Expects the next token to exist. If it does not exist (the end of file), returns
     /// UnexpectedEndOfTemplate error.
-    pub fn next<'r, 'c>(&'r mut self) -> Result<Token<'c>>
-        where I: Iterator<Item=Result<Token<'c>>>
+    pub fn next<'r>(&'r mut self) -> Result<Token<'c>>
     {
         let token = match self.tokens.peek() {
             Some(&Ok(ref t)) => t.clone(),
@@ -104,8 +95,7 @@ impl<'p, I: 'p> Context<'p, I>
     ///
     /// Expects these tokens to exist. If they do not exist (the end of file), returns
     /// UnexpectedEndOfTemplate error.
-    pub fn skip_to_next_if<'r, 'c>(&'r mut self, expected: TokenValue<'c>) -> Result<bool>
-        where I: Iterator<Item=Result<Token<'c>>>
+    pub fn skip_to_next_if<'r>(&'r mut self, expected: TokenValue<'c>) -> Result<bool>
     {
         let skip = match self.tokens.peek() {
             Some(&Ok(ref token)) if token.value == expected => true,
@@ -126,8 +116,7 @@ impl<'p, I: 'p> Context<'p, I>
     ///
     /// Expects these tokens to exist. If they do not exist (the end of file), returns
     /// UnexpectedEndOfTemplate error.
-    pub fn expect<'r, 'c>(&'r mut self, expected: TokenValue<'c>) -> Result<Token<'c>>
-        where I: Iterator<Item=Result<Token<'c>>>
+    pub fn expect<'r>(&'r mut self, expected: TokenValue<'c>) -> Result<Token<'c>>
     {
         let token = match self.tokens.peek() {
             Some(&Ok(ref t)) if t.value == expected => t.clone(),
@@ -146,7 +135,7 @@ impl<'p, I: 'p> Context<'p, I>
     /// Returns options structure for specified operator.
     ///
     /// Operator must exist in environment, otherwise panics.
-    pub fn get_operator_options<'r, 'c>(&'r self, op_str: &'c str) -> &'r OperatorOptions {
+    pub fn get_operator_options<'r>(&'r self, op_str: &'c str) -> &'r OperatorOptions {
         self.env.operators
             .get(op_str)
             .expect("twig bug: operator that was lexed was not found when parsing")
