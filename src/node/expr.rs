@@ -40,6 +40,7 @@ pub enum ExprConstant<'c> {
 pub enum ExprValue<'c> {
     Constant(ExprConstant<'c>),
     Name(&'c str),
+    AssignName(&'c str),
     UnaryOperator { value: &'c str, expr: Box<Expr<'c>> },
     BinaryOperator { value: &'c str, left: Box<Expr<'c>>, right: Box<Expr<'c>> },
     Concat { left: Box<Expr<'c>>, right: Box<Expr<'c>> },

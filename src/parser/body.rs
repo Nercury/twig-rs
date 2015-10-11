@@ -45,7 +45,8 @@ impl<'c> Parse<'c> for Body<'c> {
                     };
 
                     try!(parser.next());
-                    if let Some(node) = try!(subparser.parse(parser, token)) {
+                    let maybe_node = try!(subparser.parse(parser, token));
+                    if let Some(node) = maybe_node {
                          rv.push(node);
                     }
                 },

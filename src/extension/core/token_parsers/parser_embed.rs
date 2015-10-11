@@ -13,7 +13,7 @@ impl Embed {
 }
 
 impl TokenParserExtension for Embed {
-    fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>, token: Token<'c>)
+    fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: Token<'c>)
         -> Result<Option<Body<'c>>>
     {
         unreachable!("not implemented Embed::parse")

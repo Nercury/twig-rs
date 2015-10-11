@@ -29,3 +29,47 @@ pub use self::parser_spaceless::Spaceless;
 pub use self::parser_flush::Flush;
 pub use self::parser_do::Do;
 pub use self::parser_embed::Embed;
+
+use parser::Context;
+use node::{ Expr, ExprValue };
+use TokenValue;
+use super::error::*;
+use Result;
+
+const INVALID_LVALUES: [&'static str; 3] = ["true", "false", "none"];
+
+pub fn parse_assignment_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
+    -> Result<Vec<Expr<'c>>>
+{
+    println!("parse_assignment_expression");
+    
+    let mut targets = Vec::new();
+    loop {
+        let token = try!(parser.current());
+        let name = match token.value {
+            TokenValue::Name(name) => {
+                try!(parser.next());
+                name
+            },
+            _ => return Err(
+                CoreError::new_at(CoreErrorMessage::OnlyVariablesCanBeAssignedTo, token.line)
+                    .into()
+            ),
+        };
+
+        if INVALID_LVALUES.contains(&name) {
+            return Err(
+                CoreError::new_at(CoreErrorMessage::CanNotAssignTo(name.into()), token.line)
+                    .into()
+            )
+        }
+
+        targets.push(Expr::new_at(ExprValue::AssignName(name), token.line));
+
+        if !try!(parser.skip_to_next_if(TokenValue::Punctuation(','))) {
+            break;
+        }
+    }
+
+    Ok(targets)
+}

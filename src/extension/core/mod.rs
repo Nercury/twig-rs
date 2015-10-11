@@ -4,6 +4,7 @@ use operator::Operator;
 use token_parser::TokenParser;
 
 pub mod token_parsers;
+pub mod error;
 
 pub struct CoreExtension;
 

@@ -8,7 +8,17 @@ pub enum Received {
     EndOfStream,
 }
 
-#[derive(Debug, Clone)]
+pub trait CustomError: fmt::Display {
+    fn boxed_clone(&self) -> Box<CustomError>;
+}
+
+impl Clone for Box<CustomError> {
+    fn clone(&self) -> Box<CustomError> {
+        self.boxed_clone()
+    }
+}
+
+#[derive(Clone)]
 pub enum ErrorMessage {
     UnexpectedEndOfTemplate,
     ExpectedTokenTypeButReceived((DebugValue, Received)),
@@ -21,6 +31,7 @@ pub enum ErrorMessage {
     UnexpectedCharacter(String),
     ParenthesisNotClosed,
     MustStartWithTagName,
+    CustomError(Box<CustomError>),
 }
 
 impl fmt::Display for ErrorMessage {
@@ -62,6 +73,7 @@ impl fmt::Display for ErrorMessage {
             ErrorMessage::UnexpectedCharacter(ref s) => write!(f, "Unexpected character \"{}\"", s),
             ErrorMessage::ParenthesisNotClosed => write!(f, "An opened parenthesis is not properly closed"),
             ErrorMessage::MustStartWithTagName => write!(f, "A block must start with a tag name"),
+            ErrorMessage::CustomError(ref e) => write!(f, "{}", e),
         }
     }
 }
@@ -70,7 +82,6 @@ impl fmt::Display for ErrorMessage {
 pub struct Error {
     line_num: Option<usize>,
     message: Box<ErrorMessage>,
-    _previous: Option<Box<Error>>,
 }
 
 impl fmt::Debug for Error {
@@ -84,7 +95,6 @@ impl Error {
         Error {
             message: Box::new(message),
             line_num: Some(line_num),
-            _previous: None,
         }
     }
 
@@ -92,7 +102,6 @@ impl Error {
         Error {
             message: Box::new(message),
             line_num: None,
-            _previous: None,
         }
     }
 

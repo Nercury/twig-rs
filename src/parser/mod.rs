@@ -13,7 +13,7 @@ mod module;
 pub trait Parse<'c> {
     type Output;
 
-    fn parse<'r>(parser: &mut Context<'r, 'c>)
+    fn parse<'p>(parser: &mut Context<'p, 'c>)
         -> Result<Self::Output>;
 }
 
@@ -31,10 +31,10 @@ pub struct Context<'p, 'c: 'p>
 
 impl<'p, 'c: 'p> Context<'p, 'c>
 {
-    pub fn new<'pp, 'cc>(
-        env: &'pp ParsingEnvironment,
-        tokens: &'pp mut TokenIter<'pp, 'cc>
-    ) -> Context<'pp, 'cc>
+    pub fn new<'r, 'z>(
+        env: &'r ParsingEnvironment,
+        tokens: &'r mut TokenIter<'r, 'z>
+    ) -> Context<'r, 'z>
     {
         Context {
             env: env,
@@ -119,11 +119,16 @@ impl<'p, 'c: 'p> Context<'p, 'c>
     pub fn expect<'r>(&'r mut self, expected: TokenValue<'c>) -> Result<Token<'c>>
     {
         let token = match self.tokens.peek() {
-            Some(&Ok(ref t)) if t.value == expected => t.clone(),
-            Some(&Ok(ref t)) => return Err(Error::new_at(
-                ErrorMessage::ExpectedOtherTokenValue((t.value.into(), expected.into())),
-                t.line
-            )),
+            Some(&Ok(ref t)) => {
+                if t.value == expected {
+                    t.clone()
+                } else {
+                    return Err(Error::new_at(
+                        ErrorMessage::ExpectedOtherTokenValue((t.value.into(), expected.into())),
+                        t.line
+                    ))
+                }
+            },
             None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
             Some(&Err(ref e)) => return Err(e.clone()),
         };
