@@ -1,3 +1,5 @@
+use std::fmt;
+
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum TwigValueRef<'a> {
     Num(TwigNumberRef<'a>),
@@ -37,6 +39,15 @@ pub enum TwigValue {
     Str(String),
 }
 
+impl fmt::Display for TwigValue {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            TwigValue::Num(ref n) => write!(f, "{}", n),
+            TwigValue::Str(ref s) => write!(f, "{}", s),
+        }
+    }
+}
+
 /// Parsed twig number representation.
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum TwigNumberRef<'a> {
@@ -51,6 +62,16 @@ pub enum TwigNumber {
     Big(String),
     Float(f64),
     Int(i64),
+}
+
+impl fmt::Display for TwigNumber {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            TwigNumber::Big(ref n) => write!(f, "{}", n),
+            TwigNumber::Float(v) => write!(f, "{}", v),
+            TwigNumber::Int(i) => write!(f, "{}", i),
+        }
+    }
 }
 
 impl<'a> Into<TwigNumber> for TwigNumberRef<'a> {

@@ -104,6 +104,17 @@ fn parse_primary_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
         I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_primary_expression");
+    let token = try!(parser.current());
+
+    match token.value {
+        TokenValue::Name(_) => unreachable!("TokenValue::Name"),
+        TokenValue::Value(_) => unreachable!("TokenValue::Value"),
+        TokenValue::InterpolationStart => unreachable!("TokenValue::InterpolationStart"),
+        TokenValue::Operator(_) => unreachable!("TokenValue::Operator"),
+        TokenValue::Punctuation('[') => unreachable!("TokenValue::Punctuation('[')"),
+        TokenValue::Punctuation('{') => unreachable!("TokenValue::Punctuation('{')"),
+        _ => panic!("uncovered choice! baaah!"),
+    }
     unimplemented!()
 }
 

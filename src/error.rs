@@ -1,6 +1,7 @@
 use std::result;
 use std::fmt;
 use token::DebugValue;
+use value::{ TwigValue, TwigNumber };
 
 #[derive(Debug, Clone)]
 pub enum Received {
@@ -12,6 +13,7 @@ pub enum Received {
 pub enum ErrorMessage {
     UnexpectedEndOfTemplate,
     ExpectedTokenButReceived((DebugValue, Received)),
+    UnexpectedToken(DebugValue),
     Unclosed(String),
     UnclosedComment,
     UnclosedBlock(String),
@@ -27,6 +29,27 @@ impl fmt::Display for ErrorMessage {
             ErrorMessage::ExpectedTokenButReceived((ref token, ref received)) => match *received {
                 Received::EndOfStream => write!(f, "Expected token {:?} but received the end of stream", token),
                 Received::Token(ref other) => write!(f, "Expected token {:?} but received {:?}", token, other),
+            },
+            ErrorMessage::UnexpectedToken(ref token) => {
+                let (english_name, value) = match *token {
+                    DebugValue::Text(ref v) => ("text", Some(v.to_string())),
+                    DebugValue::BlockStart => ("begin of statement block", None),
+                    DebugValue::VarStart => ("begin of print statement", None),
+                    DebugValue::BlockEnd => ("end of statement block", None),
+                    DebugValue::VarEnd => ("end of print statement", None),
+                    DebugValue::Name(ref n) => ("name", Some(n.to_string())),
+                    DebugValue::Value(TwigValue::Num(ref n)) => ("number", Some(n.to_string())),
+                    DebugValue::Value(TwigValue::Str(ref s)) => ("string", Some(s.to_string())),
+                    DebugValue::Operator(ref s) => ("operator", Some(s.to_string())),
+                    DebugValue::Punctuation(s) => ("punctuation", Some(s.to_string())),
+                    DebugValue::InterpolationStart => ("begin of string interpolation", None),
+                    DebugValue::InterpolationEnd => ("end of string interpolation", None),
+                    DebugValue::CommentStart => ("comment start", None),
+                };
+                match value {
+                    Some(value) => write!(f, "Unexpected token \"{}\" of value \"{:?}\"", english_name, value),
+                    None => write!(f, "Unexpected token \"{}\"", english_name),
+                }
             },
             ErrorMessage::Unclosed(ref s) => write!(f, "Unclosed \"{}\"", s),
             ErrorMessage::UnclosedComment => write!(f, "Unclosed comment"),
