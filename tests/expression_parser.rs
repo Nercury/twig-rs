@@ -13,8 +13,11 @@ fn test_string_expression() {
         let lexer = Lexer::default(&env.lexing);
         let mut tokens = lexer.tokens(&template);
         let mut context = Context::new(&env.parsing, &mut tokens);
-        // let module = Module::parse(&mut context).ok().expect("parse template");
-        // assert_eq!(module.body.expect_list()[0].expect_print(), &expected);
+        let module = match Module::parse(&mut context) {
+            Ok(m) => m,
+            Err(e) => panic!("parsing error: {:?}", e),
+        };
+        assert_eq!(module.body.expect_print(), &expected);
     }
 }
 

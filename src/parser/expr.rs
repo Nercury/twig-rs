@@ -4,7 +4,7 @@ use { Token, TokenValue };
 use operator::{ OperatorOptions, OperatorKind, Associativity };
 use error::{ Error, ErrorMessage };
 use { Result, Expect };
-use value::{ TwigValueRef, TwigNumberRef };
+use value::{ TwigValueRef };
 use std::collections::VecDeque;
 
 impl<'c> Parse<'c> for Expr<'c> {
@@ -88,7 +88,7 @@ fn get_primary<'p, 'c, I>(parser: &mut Context<'p, I>)
     if let TokenValue::Punctuation('(') = token.value {
         try!(parser.next());
         let parsed_expr = try!(parse_expression(parser, 0));
-        if let Err(_) = parser.tokens.expect(TokenValue::Punctuation(')')) {
+        if let Err(_) = parser.expect(TokenValue::Punctuation(')')) {
             return Err(Error::new_at(ErrorMessage::ParenthesisNotClosed, token.line));
         }
         return parse_postfix_expression(parser, parsed_expr);
@@ -117,7 +117,7 @@ fn parse_primary_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
         TokenValue::Punctuation('[') => unreachable!("TokenValue::Punctuation('[')"),
         TokenValue::Punctuation('{') => unreachable!("TokenValue::Punctuation('{')"),
         other => return Err(Error::new_at(
-            ErrorMessage::UnexpectedToken(other.into()),
+            ErrorMessage::UnexpectedTokenValue(other.into()),
             token.line
         )),
     };
@@ -140,6 +140,7 @@ fn parse_string_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
         let token = try!(parser.current());
 
         if let (true, TokenValue::Value(TwigValueRef::Str(value))) = (next_can_be_string, token.value) {
+            try!(parser.next());
             nodes.push_back(Expr::new_at(
                 ExprValue::Constant { value: value },
                 token.line
@@ -149,8 +150,9 @@ fn parse_string_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
         }
 
         if let TokenValue::InterpolationStart = token.value {
+            try!(parser.next());
             nodes.push_back(try!(parse_expression(parser, 0)));
-            try!(parser.tokens.expect(TokenValue::InterpolationEnd));
+            try!(parser.expect(TokenValue::InterpolationEnd));
             next_can_be_string = true;
             continue;
         }
@@ -173,20 +175,77 @@ fn parse_string_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
 }
 
 /// Parses expression and returns handle to one that should be executed first.
-fn parse_postfix_expression<'p, 'c, I>(parser: &mut Context<'p, I>, expr: Expr<'c>)
+fn parse_postfix_expression<'p, 'c, I>(parser: &mut Context<'p, I>, mut node: Expr<'c>)
     -> Result<Expr<'c>>
     where
         I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_postfix_expression");
+
+    loop {
+        let token = try!(parser.current());
+        if let TokenValue::Punctuation(ch) = token.value {
+            node = match ch {
+                '.' | '[' => try!(parse_subscript_expression(parser, node)),
+                '|' => try!(parse_filter_expression(parser, node)),
+                _ => break,
+            };
+
+            continue;
+        }
+
+        break;
+    }
+
+    Ok(node)
+}
+
+fn parse_subscript_expression<'p, 'c, I>(parser: &mut Context<'p, I>, expr: Expr<'c>)
+    -> Result<Expr<'c>>
+    where
+        I: Iterator<Item=Result<Token<'c>>>
+{
+    println!("parse_subscript_expression");
     unimplemented!()
 }
 
-fn parse_conditional_expression<'p, 'c, I>(parser: &mut Context<'p, I>, expr: Expr<'c>)
+fn parse_filter_expression<'p, 'c, I>(parser: &mut Context<'p, I>, expr: Expr<'c>)
+    -> Result<Expr<'c>>
+    where
+        I: Iterator<Item=Result<Token<'c>>>
+{
+    println!("parse_filter_expression");
+    unimplemented!()
+}
+
+fn parse_conditional_expression<'p, 'c, I>(parser: &mut Context<'p, I>, mut expr: Expr<'c>)
     -> Result<Expr<'c>>
     where
         I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_conditional_expression");
-    unimplemented!()
+
+    while try!(parser.skip_to_next_if(TokenValue::Punctuation('?'))) {
+        let (expr2, expr3) =
+            if !try!(parser.skip_to_next_if(TokenValue::Punctuation(':'))) {
+                let expr2 = try!(parse_expression(parser, 0));
+                if try!(parser.skip_to_next_if(TokenValue::Punctuation(':'))) {
+                    (expr2, try!(parse_expression(parser, 0)))
+                } else {
+                    (expr2, Expr::new_at(
+                        ExprValue::Constant { value: "" },
+                        try!(parser.current()).line
+                    ))
+                }
+            } else {
+                (expr.clone(), try!(parse_expression(parser, 0)))
+            };
+        expr = Expr::new_at(ExprValue::Conditional {
+            expr: Box::new(expr),
+            yay: Box::new(expr2),
+            nay: Box::new(expr3)
+        }, try!(parser.current()).line);
+    }
+
+    Ok(expr)
 }

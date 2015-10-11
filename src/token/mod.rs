@@ -59,3 +59,24 @@ pub enum DebugValue {
     InterpolationEnd,
     CommentStart, // Not in vanilla Twig.
 }
+
+impl DebugValue {
+    /// Return english name and value for token.
+    pub fn get_english(&self) -> (&'static str, Option<String>) {
+        match *self {
+            DebugValue::Text(ref v) => ("text", Some(v.to_string())),
+            DebugValue::BlockStart => ("begin of statement block", None),
+            DebugValue::VarStart => ("begin of print statement", None),
+            DebugValue::BlockEnd => ("end of statement block", None),
+            DebugValue::VarEnd => ("end of print statement", None),
+            DebugValue::Name(ref n) => ("name", Some(n.to_string())),
+            DebugValue::Value(TwigValue::Num(ref n)) => ("number", Some(n.to_string())),
+            DebugValue::Value(TwigValue::Str(ref s)) => ("string", Some(s.to_string())),
+            DebugValue::Operator(ref s) => ("operator", Some(s.to_string())),
+            DebugValue::Punctuation(s) => ("punctuation", Some(s.to_string())),
+            DebugValue::InterpolationStart => ("begin of string interpolation", None),
+            DebugValue::InterpolationEnd => ("end of string interpolation", None),
+            DebugValue::CommentStart => ("comment start", None),
+        }
+    }
+}

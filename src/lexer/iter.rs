@@ -160,7 +160,7 @@ impl<'code, T> Expect<TokenValue<'code>> for T where T: Iterator<Item=Result<Tok
         match (maybe_token, expected) {
             (None, _) => return Err(
                 Error::new(
-                    ErrorMessage::ExpectedTokenButReceived(
+                    ErrorMessage::ExpectedTokenTypeButReceived(
                         (expected.into(), Received::EndOfStream)
                     )
                 )
@@ -170,7 +170,7 @@ impl<'code, T> Expect<TokenValue<'code>> for T where T: Iterator<Item=Result<Tok
             } else {
                 return Err(
                     Error::new_at(
-                        ErrorMessage::ExpectedTokenButReceived(
+                        ErrorMessage::ExpectedTokenTypeButReceived(
                             (expected.into(), Received::Token(token.value.into()))
                         ),
                         token.line

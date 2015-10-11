@@ -19,4 +19,5 @@ pub enum ExprValue<'c> {
     UnaryOperator { value: &'c str, expr: Box<Expr<'c>> },
     BinaryOperator { value: &'c str, left: Box<Expr<'c>>, right: Box<Expr<'c>> },
     Concat { left: Box<Expr<'c>>, right: Box<Expr<'c>> },
+    Conditional { expr: Box<Expr<'c>>, yay: Box<Expr<'c>>, nay: Box<Expr<'c>> },
 }

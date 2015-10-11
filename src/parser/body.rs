@@ -1,8 +1,7 @@
 use node::{ Body, Expr };
 use parser::{ Parse, Context };
 use { Token, TokenValue };
-use { Result, Error, Expect };
-use error::{ ErrorMessage };
+use { Result, Expect };
 
 impl<'c> Parse<'c> for Body<'c> {
     type Output = Body<'c>;
@@ -12,30 +11,26 @@ impl<'c> Parse<'c> for Body<'c> {
     where
         I: Iterator<Item=Result<Token<'c>>>
     {
-        let mut maybe_token = parser.tokens.next();
-        let _line_num = match maybe_token {
-            Some(Ok(ref token)) => token.line,
-            None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
-            Some(Err(e)) => return Err(e),
-        };
+        let mut maybe_line = None;
         let mut rv = Vec::new();
 
-        loop {
-            match maybe_token {
-                Some(Ok(ref token)) => match token.value {
-                    TokenValue::Text(t) => rv.push(Body::Text { value: t, line: token.line }),
-                    TokenValue::VarStart => {
-                        let expr = try!(Expr::parse(parser));
-                        try!(parser.tokens.expect(TokenValue::VarEnd));
-                        rv.push(Body::Print { expr: Box::new(expr), line: token.line });
-                    },
-                    _ => unimplemented!(),
+        while let Some(token) = try!(parser.maybe_current()) {
+            if let None = maybe_line {
+                maybe_line = Some(token.line);
+            }
+            match token.value {
+                TokenValue::Text(t) => {
+                    try!(parser.next());
+                    rv.push(Body::Text { value: t, line: token.line })
                 },
-                None => break,
-                Some(Err(e)) => return Err(e),
+                TokenValue::VarStart => {
+                    try!(parser.next());
+                    let expr = try!(Expr::parse(parser));
+                    try!(parser.expect(TokenValue::VarEnd));
+                    rv.push(Body::Print { expr: Box::new(expr), line: token.line });
+                },
+                tv => { panic!("not implemented {:?}", tv) },
             };
-
-            maybe_token = parser.tokens.next();
         }
 
         if rv.len() == 1 {

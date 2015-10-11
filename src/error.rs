@@ -1,7 +1,6 @@
 use std::result;
 use std::fmt;
 use token::DebugValue;
-use value::{ TwigValue, TwigNumber };
 
 #[derive(Debug, Clone)]
 pub enum Received {
@@ -12,8 +11,9 @@ pub enum Received {
 #[derive(Debug, Clone)]
 pub enum ErrorMessage {
     UnexpectedEndOfTemplate,
-    ExpectedTokenButReceived((DebugValue, Received)),
-    UnexpectedToken(DebugValue),
+    ExpectedTokenTypeButReceived((DebugValue, Received)),
+    UnexpectedTokenValue(DebugValue),
+    ExpectedOtherTokenValue((DebugValue, DebugValue)),
     Unclosed(String),
     UnclosedComment,
     UnclosedBlock(String),
@@ -26,28 +26,31 @@ impl fmt::Display for ErrorMessage {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             ErrorMessage::UnexpectedEndOfTemplate => write!(f, "Unexpected end of template"),
-            ErrorMessage::ExpectedTokenButReceived((ref token, ref received)) => match *received {
-                Received::EndOfStream => write!(f, "Expected token {:?} but received the end of stream", token),
-                Received::Token(ref other) => write!(f, "Expected token {:?} but received {:?}", token, other),
+            ErrorMessage::ExpectedTokenTypeButReceived((ref token, ref received)) => {
+                let (english_name, _) = token.get_english();
+                match *received {
+                    Received::EndOfStream => write!(f, "Expected token \"{}\" but received the end of stream", english_name),
+                    Received::Token(ref other) => {
+                        let (other_english_name, value) = other.get_english();
+                        match value {
+                            Some(value) => write!(f, "Expected \"{}\" but received \"{}\" with value {:?}", english_name, other_english_name, value),
+                            None => write!(f, "Expected \"{}\" but received \"{}\"", english_name, other_english_name),
+                        }
+                    },
+                }
             },
-            ErrorMessage::UnexpectedToken(ref token) => {
-                let (english_name, value) = match *token {
-                    DebugValue::Text(ref v) => ("text", Some(v.to_string())),
-                    DebugValue::BlockStart => ("begin of statement block", None),
-                    DebugValue::VarStart => ("begin of print statement", None),
-                    DebugValue::BlockEnd => ("end of statement block", None),
-                    DebugValue::VarEnd => ("end of print statement", None),
-                    DebugValue::Name(ref n) => ("name", Some(n.to_string())),
-                    DebugValue::Value(TwigValue::Num(ref n)) => ("number", Some(n.to_string())),
-                    DebugValue::Value(TwigValue::Str(ref s)) => ("string", Some(s.to_string())),
-                    DebugValue::Operator(ref s) => ("operator", Some(s.to_string())),
-                    DebugValue::Punctuation(s) => ("punctuation", Some(s.to_string())),
-                    DebugValue::InterpolationStart => ("begin of string interpolation", None),
-                    DebugValue::InterpolationEnd => ("end of string interpolation", None),
-                    DebugValue::CommentStart => ("comment start", None),
-                };
+            ErrorMessage::ExpectedOtherTokenValue((ref token, ref other)) => {
+                let unexpected_message = format!("{}", ErrorMessage::UnexpectedTokenValue(token.clone()));
+                let (other_english_name, other_value) = other.get_english();
+                match other_value {
+                    Some(value) => write!(f, "{} (\"{}\" expected with value {:?})", unexpected_message, other_english_name, value),
+                    None => write!(f, "{} (\"{}\" expected)", unexpected_message, other_english_name),
+                }
+            },
+            ErrorMessage::UnexpectedTokenValue(ref token) => {
+                let (english_name, value) = token.get_english();
                 match value {
-                    Some(value) => write!(f, "Unexpected token \"{}\" of value \"{:?}\"", english_name, value),
+                    Some(value) => write!(f, "Unexpected token \"{}\" of value {:?}", english_name, value),
                     None => write!(f, "Unexpected token \"{}\"", english_name),
                 }
             },
