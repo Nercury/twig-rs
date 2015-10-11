@@ -2,6 +2,7 @@ use node::{ Body, Expr };
 use parser::{ Parse, Context };
 use { Token, TokenValue };
 use { Result, Expect };
+use error::{ Error, ErrorMessage };
 
 impl<'c> Parse<'c> for Body<'c> {
     type Output = Body<'c>;
@@ -28,6 +29,19 @@ impl<'c> Parse<'c> for Body<'c> {
                     let expr = try!(Expr::parse(parser));
                     try!(parser.expect(TokenValue::VarEnd));
                     rv.push(Body::Print { expr: Box::new(expr), line: token.line });
+                },
+                TokenValue::BlockStart => {
+                    try!(parser.next());
+                    let token = try!(parser.current());
+
+                    let tag_name = match token.value {
+                        TokenValue::Name(n) => n,
+                        _ => return Err(Error::new_at(ErrorMessage::MustStartWithTagName, token.line)),
+                    };
+
+                    // TODO: subparse test, callable parser
+
+                    unreachable!("token parsers not implemented")
                 },
                 tv => { panic!("not implemented {:?}", tv) },
             };

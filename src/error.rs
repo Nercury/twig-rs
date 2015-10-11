@@ -20,6 +20,7 @@ pub enum ErrorMessage {
     Unexpected(String),
     UnexpectedCharacter(String),
     ParenthesisNotClosed,
+    MustStartWithTagName,
 }
 
 impl fmt::Display for ErrorMessage {
@@ -60,6 +61,7 @@ impl fmt::Display for ErrorMessage {
             ErrorMessage::Unexpected(ref s) => write!(f, "Unexpected \"{}\"", s),
             ErrorMessage::UnexpectedCharacter(ref s) => write!(f, "Unexpected character \"{}\"", s),
             ErrorMessage::ParenthesisNotClosed => write!(f, "An opened parenthesis is not properly closed"),
+            ErrorMessage::MustStartWithTagName => write!(f, "A block must start with a tag name"),
         }
     }
 }
