@@ -18,7 +18,7 @@ impl TokenParserExtension for Block {
         unreachable!("not implemented Block::parse")
     }
 
-    fn get_tag<'r>(&self) -> &'r str {
+    fn get_tag(&self) -> &'static str {
         "block"
     }
 }

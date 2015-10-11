@@ -18,7 +18,7 @@ impl TokenParserExtension for Flush {
         unreachable!("not implemented Flush::parse")
     }
 
-    fn get_tag<'r>(&self) -> &'r str {
+    fn get_tag(&self) -> &'static str {
         "flush"
     }
 }

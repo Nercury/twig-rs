@@ -3,7 +3,7 @@ use std::collections::HashSet;
 
 use extension::{ Extension, CoreExtension };
 use operator::{ Operator, OperatorOptions };
-use token_parser::{ TokenParser };
+use token_parser::{ TokenParser, TokenParserExtension };
 
 /// Project configuration container.
 pub struct Environment {
@@ -25,8 +25,25 @@ impl Environment {
 
     pub fn init_all(self) -> CompiledEnvironment {
         CompiledEnvironment {
-            lexing: LexingEnvironment::new(&self),
-            parsing: ParsingEnvironment::new(&self),
+            lexing: LexingEnvironment {
+                operators: {
+                    self.operators.iter()
+                        .map(|i| i.options.value)
+                        .collect()
+                },
+            },
+            parsing: ParsingEnvironment {
+                operators: {
+                    self.operators.into_iter()
+                        .map(|i| (i.options.value, i.options))
+                        .collect()
+                },
+                handlers: {
+                    self.token_parsers.into_iter()
+                        .map(|i| (i.tag, i.extension))
+                        .collect()
+                },
+            },
         }
     }
 
@@ -43,32 +60,9 @@ pub struct LexingEnvironment {
     pub operators: HashSet<&'static str>,
 }
 
-impl LexingEnvironment {
-    pub fn new(env: &Environment) -> LexingEnvironment {
-        LexingEnvironment {
-            operators: {
-                env.operators.iter()
-                    .map(|i| i.options.value)
-                    .collect()
-            },
-        }
-    }
-}
-
 pub struct ParsingEnvironment {
     pub operators: HashMap<&'static str, OperatorOptions>,
-}
-
-impl ParsingEnvironment {
-    pub fn new(env: &Environment) -> ParsingEnvironment {
-        ParsingEnvironment {
-            operators: {
-                env.operators.iter()
-                    .map(|i| (i.options.value, i.options))
-                    .collect()
-            },
-        }
-    }
+    pub handlers: HashMap<&'static str, Box<TokenParserExtension>>,
 }
 
 /// Project configuration container with all extensions applied.

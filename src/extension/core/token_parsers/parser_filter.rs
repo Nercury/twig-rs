@@ -18,7 +18,7 @@ impl TokenParserExtension for Filter {
         unreachable!("not implemented Filter::parse")
     }
 
-    fn get_tag<'r>(&self) -> &'r str {
+    fn get_tag(&self) -> &'static str {
         "filter"
     }
 }

@@ -18,7 +18,7 @@ impl TokenParserExtension for For {
         unreachable!("not implemented For::parse")
     }
 
-    fn get_tag<'r>(&self) -> &'r str {
+    fn get_tag(&self) -> &'static str {
         "for"
     }
 }

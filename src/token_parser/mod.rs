@@ -4,13 +4,13 @@ use Result;
 
 pub trait TokenParserExtension
 {
-    fn get_tag<'r>(&self) -> &'r str;
+    fn get_tag(&self) -> &'static str;
     fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>)
         -> Result<Body<'c>>;
 }
 
 pub struct TokenParser {
-    pub tag: String,
+    pub tag: &'static str,
     pub extension: Box<TokenParserExtension>,
 }
 
@@ -20,7 +20,7 @@ impl TokenParser {
         where E: TokenParserExtension
     {
         TokenParser {
-            tag: parser_extension.get_tag().into(),
+            tag: parser_extension.get_tag(),
             extension: Box::new(parser_extension),
         }
     }

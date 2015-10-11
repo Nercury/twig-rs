@@ -18,7 +18,7 @@ impl TokenParserExtension for Set {
         unreachable!("not implemented Set::parse")
     }
 
-    fn get_tag<'r>(&self) -> &'r str {
+    fn get_tag(&self) -> &'static str {
         "set"
     }
 }

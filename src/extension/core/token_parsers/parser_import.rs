@@ -18,7 +18,7 @@ impl TokenParserExtension for Import {
         unreachable!("not implemented Import::parse")
     }
 
-    fn get_tag<'r>(&self) -> &'r str {
+    fn get_tag(&self) -> &'static str {
         "import"
     }
 }

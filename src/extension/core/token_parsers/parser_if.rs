@@ -18,7 +18,7 @@ impl TokenParserExtension for If {
         unreachable!("not implemented If::parse")
     }
 
-    fn get_tag<'r>(&self) -> &'r str {
+    fn get_tag(&self) -> &'static str {
         "if"
     }
 }

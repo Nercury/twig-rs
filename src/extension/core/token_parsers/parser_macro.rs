@@ -18,7 +18,7 @@ impl TokenParserExtension for Macro {
         unreachable!("not implemented Macro::parse")
     }
 
-    fn get_tag<'r>(&self) -> &'r str {
+    fn get_tag(&self) -> &'static str {
         "macro"
     }
 }

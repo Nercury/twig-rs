@@ -18,7 +18,7 @@ impl TokenParserExtension for From {
         unreachable!("not implemented From::parse")
     }
 
-    fn get_tag<'r>(&self) -> &'r str {
+    fn get_tag(&self) -> &'static str {
         "from"
     }
 }
