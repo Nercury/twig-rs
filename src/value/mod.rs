@@ -1,32 +1,32 @@
 #[derive(PartialEq, Debug, Copy, Clone)]
-pub enum TwigValue<'a> {
+pub enum TwigValueRef<'a> {
     Num(TwigNumber<'a>),
     Str(&'a str),
 }
 
-impl<'a> TwigValue<'a> {
-    pub fn new_big_num<'c>(num: &'c str) -> TwigValue<'c> {
-        TwigValue::Num(TwigNumber::Big(num))
+impl<'a> TwigValueRef<'a> {
+    pub fn new_big_num<'c>(num: &'c str) -> TwigValueRef<'c> {
+        TwigValueRef::Num(TwigNumber::Big(num))
     }
 
-    pub fn new_float<'c>(num: f64) -> TwigValue<'c> {
-        TwigValue::Num(TwigNumber::Float(num))
+    pub fn new_float<'c>(num: f64) -> TwigValueRef<'c> {
+        TwigValueRef::Num(TwigNumber::Float(num))
     }
 
-    pub fn new_int<'c>(num: i64) -> TwigValue<'c> {
-        TwigValue::Num(TwigNumber::Int(num))
+    pub fn new_int<'c>(num: i64) -> TwigValueRef<'c> {
+        TwigValueRef::Num(TwigNumber::Int(num))
     }
 
-    pub fn new_str<'c>(s: &'c str) -> TwigValue<'c> {
-        TwigValue::Str(s)
+    pub fn new_str<'c>(s: &'c str) -> TwigValueRef<'c> {
+        TwigValueRef::Str(s)
     }
 }
 
-impl<'a> Into<OwnedTwigValue> for TwigValue<'a> {
+impl<'a> Into<OwnedTwigValue> for TwigValueRef<'a> {
     fn into(self) -> OwnedTwigValue {
         match self {
-            TwigValue::Num(n) => OwnedTwigValue::Num(n.into()),
-            TwigValue::Str(s) => OwnedTwigValue::Str(s.into()),
+            TwigValueRef::Num(n) => OwnedTwigValue::Num(n.into()),
+            TwigValueRef::Str(s) => OwnedTwigValue::Str(s.into()),
         }
     }
 }

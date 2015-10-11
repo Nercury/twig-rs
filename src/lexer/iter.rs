@@ -4,7 +4,7 @@ use std::collections::{ VecDeque };
 use super::Lexer;
 use { Result, Error };
 use token::{ Token };
-use value::{ TwigNumber, TwigValue };
+use value::{ TwigNumber, TwigValueRef };
 use token::Value as TokenValue;
 use lexer::options::Options;
 use std::fmt;
@@ -469,7 +469,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                     }
                 };
 
-                self.push_token(TokenValue::Value(TwigValue::Num(twig_number)));
+                self.push_token(TokenValue::Value(TwigValueRef::Num(twig_number)));
                 self.move_cursor(end - start);
 
                 return;
@@ -524,7 +524,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
         let loc = self.cursor;
         if let Some(captures) = self.lexer.matchers.regex_string.captures(&self.code[loc ..]) {
             if let Some((start, end)) = captures.pos(0) {
-                self.push_token(TokenValue::Value(TwigValue::Str(
+                self.push_token(TokenValue::Value(TwigValueRef::Str(
                     &self.code[loc + start + 1 .. loc + end - 1]
                 )));
                 self.move_cursor(end - start);
@@ -574,7 +574,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
 
         let (_, part_end) = self.lexer.matchers.match_regex_dq_string_part(&self.code[loc ..]);
         if part_end > 0 {
-            self.push_token(TokenValue::Value(TwigValue::Str(
+            self.push_token(TokenValue::Value(TwigValueRef::Str(
                 &self.code[loc .. loc + part_end]
             )));
             self.move_cursor(part_end);

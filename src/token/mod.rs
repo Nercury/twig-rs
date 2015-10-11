@@ -1,4 +1,4 @@
-use value::{ TwigValue, OwnedTwigValue };
+use value::{ TwigValueRef, OwnedTwigValue };
 
 /// Lexer output token, lexer's output and parser's input.
 #[derive(Debug, Clone)]
@@ -16,7 +16,7 @@ pub enum Value<'a> {
     BlockEnd,
     VarEnd,
     Name(&'a str),
-    Value(TwigValue<'a>),
+    Value(TwigValueRef<'a>),
     Operator(&'a str),
     Punctuation(char),
     InterpolationStart,

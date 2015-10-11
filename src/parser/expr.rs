@@ -23,6 +23,7 @@ fn parse_expression<'p, 'c, I>(parser: &mut Context<'p, I>, min_precedence: u16)
         I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_expression");
+
     let mut expr = try!(get_primary(parser));
     let mut token = try!(parser.current());
 
@@ -54,6 +55,10 @@ fn parse_expression<'p, 'c, I>(parser: &mut Context<'p, I>, min_precedence: u16)
             }
         }
         break;
+    }
+
+    if 0 == min_precedence {
+        return parse_conditional_expression(parser, expr);
     }
 
     Ok(expr)
@@ -99,7 +104,7 @@ fn parse_primary_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
         I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_primary_expression");
-    Ok(Expr::Constant { value: "", line: 1 })
+    unimplemented!()
 }
 
 /// Parses expression and returns handle to one that should be executed first.
@@ -109,5 +114,14 @@ fn parse_postfix_expression<'p, 'c, I>(parser: &mut Context<'p, I>, expr: Expr<'
         I: Iterator<Item=Result<Token<'c>>>
 {
     println!("parse_postfix_expression");
-    Ok(Expr::Constant { value: "", line: 1 })
+    unimplemented!()
+}
+
+fn parse_conditional_expression<'p, 'c, I>(parser: &mut Context<'p, I>, expr: Expr<'c>)
+    -> Result<Expr<'c>>
+    where
+        I: Iterator<Item=Result<Token<'c>>>
+{
+    println!("parse_conditional_expression");
+    unimplemented!()
 }
