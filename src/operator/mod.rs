@@ -1,5 +1,5 @@
 use std::cmp::Ordering;
-use value::TwigValueRef;
+use value::TwigValue;
 use runtime;
 
 #[derive(PartialEq, Debug, Copy, Clone)]
@@ -65,7 +65,7 @@ impl OperatorOptions {
 pub struct Operator {
     pub options: OperatorOptions,
     pub callable: Box<
-        for<'e, 'z> Fn(&'e [TwigValueRef<'z>]) -> runtime::Result<TwigValueRef<'z>>
+        for<'e, 'z> Fn(&'e [TwigValue]) -> runtime::Result<TwigValue>
     >,
 }
 
@@ -79,7 +79,7 @@ impl Operator {
     )
         -> Operator
     where
-        F: for<'e, 'z> Fn(&'e TwigValueRef<'z>, &'e TwigValueRef<'z>) -> runtime::Result<TwigValueRef<'z>>
+        F: for<'e, 'z> Fn(&'e TwigValue, &'e TwigValue) -> runtime::Result<TwigValue>
     {
         Operator {
             options: OperatorOptions::new_binary(chars, precedence, associativity),
@@ -108,7 +108,7 @@ impl Operator {
     )
         -> Operator
     where
-        F: for<'e, 'z> Fn(&'e TwigValueRef<'z>, &'e TwigValueRef<'z>) -> runtime::Result<TwigValueRef<'z>>
+        F: for<'e, 'z> Fn(&'e TwigValue, &'e TwigValue) -> runtime::Result<TwigValue>
     {
         Operator::new_binary(
             chars,
@@ -125,7 +125,7 @@ impl Operator {
     )
         -> Operator
     where
-        F: for<'e, 'z> Fn(&'e TwigValueRef<'z>, &'e TwigValueRef<'z>) -> runtime::Result<TwigValueRef<'z>>
+        F: for<'e, 'z> Fn(&'e TwigValue, &'e TwigValue) -> runtime::Result<TwigValue>
     {
         Operator::new_binary(
             chars,
@@ -142,7 +142,7 @@ impl Operator {
     )
         -> Operator
     where
-        F: for<'e, 'z> Fn(&'e TwigValueRef<'z>) -> runtime::Result<TwigValueRef<'z>>
+        F: for<'e, 'z> Fn(&'e TwigValue) -> runtime::Result<TwigValue>
     {
         Operator {
             options: OperatorOptions::new_unary(chars, precedence),
