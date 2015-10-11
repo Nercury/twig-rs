@@ -1,6 +1,6 @@
 extern crate twig;
 
-use twig::node::{ Expr, ExprValue, ExprConstant };
+use twig::node::{ Expr, ExprValue };
 use twig::Environment;
 use twig::Lexer;
 use twig::node::Module;
@@ -32,6 +32,19 @@ fn get_tests_for_string<'r>() -> Vec<(&'static str, Expr<'r>)> {
             left: Box::new(Expr::new_at(ExprValue::Concat {
                 left: Box::new(Expr::new_str_constant("foo ", 1)),
                 right: Box::new(Expr::new_name("bar", 1)),
+            }, 1)),
+            right: Box::new(Expr::new_str_constant(" baz", 1)),
+        }, 1)),
+        (r#"{{ "foo #{"foo #{bar} baz"} baz" }}"#, Expr::new_at(ExprValue::Concat {
+            left: Box::new(Expr::new_at(ExprValue::Concat {
+                left: Box::new(Expr::new_str_constant("foo ", 1)),
+                right: Box::new(Expr::new_at(ExprValue::Concat {
+                    left: Box::new(Expr::new_at(ExprValue::Concat {
+                        left: Box::new(Expr::new_str_constant("foo ", 1)),
+                        right: Box::new(Expr::new_name("bar", 1)),
+                    }, 1)),
+                    right: Box::new(Expr::new_str_constant(" baz", 1)),
+                }, 1)),
             }, 1)),
             right: Box::new(Expr::new_str_constant(" baz", 1)),
         }, 1)),
