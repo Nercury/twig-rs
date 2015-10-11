@@ -39,10 +39,8 @@ impl Lexer {
 mod test {
     use super::*;
     use token::*;
-    use error::Result;
     use lexer::iter::TokenIter;
     use value::TwigValueRef;
-    use operator::OperatorKind;
     use std::iter::repeat;
     use CompiledEnvironment;
     use Expect;
