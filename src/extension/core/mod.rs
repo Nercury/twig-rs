@@ -1,6 +1,9 @@
 use Environment;
 use extension::Extension;
 use operator::Operator;
+use token_parser::TokenParser;
+
+pub mod token_parsers;
 
 pub struct CoreExtension;
 
@@ -39,6 +42,10 @@ impl Extension for CoreExtension {
             Operator::new_binary_left("is not"     , 100, |_, _| unimplemented!()),
 
             Operator::new_binary_right("**"         , 200, |_, _| unimplemented!()),
+        ]);
+
+        env.push_token_parsers(vec![
+            TokenParser::new("for", token_parsers::For::new()),
         ]);
     }
 }

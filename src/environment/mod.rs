@@ -33,6 +33,10 @@ impl Environment {
     pub fn push_operators<I: IntoIterator<Item=Operator>>(&mut self, ops: I) {
         self.operators.extend(ops);
     }
+
+    pub fn push_token_parsers<I: IntoIterator<Item=TokenParser>>(&mut self, ops: I) {
+        self.token_parsers.extend(ops);
+    }
 }
 
 pub struct LexingEnvironment {
