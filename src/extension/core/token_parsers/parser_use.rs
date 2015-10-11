@@ -3,22 +3,22 @@ use token_parser::TokenParserExtension;
 use node::Body;
 use Result;
 
-pub struct For;
+pub struct Use;
 
-impl For {
-    pub fn new() -> For {
-        For
+impl Use {
+    pub fn new() -> Use {
+        Use
     }
 }
 
-impl TokenParserExtension for For {
+impl TokenParserExtension for Use {
     fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>)
         -> Result<Body<'c>>
     {
-        unreachable!("not implemented For::parse")
+        unreachable!("not implemented Use::parse")
     }
 
     fn get_tag<'r>(&self) -> &'r str {
-        "for"
+        "use"
     }
 }

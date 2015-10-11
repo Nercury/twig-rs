@@ -45,7 +45,21 @@ impl Extension for CoreExtension {
         ]);
 
         env.push_token_parsers(vec![
-            TokenParser::new("for", token_parsers::For::new()),
+            TokenParser::new(token_parsers::For::new()),
+            TokenParser::new(token_parsers::If::new()),
+            TokenParser::new(token_parsers::Extends::new()),
+            TokenParser::new(token_parsers::Include::new()),
+            TokenParser::new(token_parsers::Block::new()),
+            TokenParser::new(token_parsers::Use::new()),
+            TokenParser::new(token_parsers::Filter::new()),
+            TokenParser::new(token_parsers::Macro::new()),
+            TokenParser::new(token_parsers::Import::new()),
+            TokenParser::new(token_parsers::From::new()),
+            TokenParser::new(token_parsers::Set::new()),
+            TokenParser::new(token_parsers::Spaceless::new()),
+            TokenParser::new(token_parsers::Flush::new()),
+            TokenParser::new(token_parsers::Do::new()),
+            TokenParser::new(token_parsers::Embed::new()),
         ]);
     }
 }

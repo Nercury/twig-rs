@@ -3,22 +3,22 @@ use token_parser::TokenParserExtension;
 use node::Body;
 use Result;
 
-pub struct For;
+pub struct Spaceless;
 
-impl For {
-    pub fn new() -> For {
-        For
+impl Spaceless {
+    pub fn new() -> Spaceless {
+        Spaceless
     }
 }
 
-impl TokenParserExtension for For {
+impl TokenParserExtension for Spaceless {
     fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>)
         -> Result<Body<'c>>
     {
-        unreachable!("not implemented For::parse")
+        unreachable!("not implemented Spaceless::parse")
     }
 
     fn get_tag<'r>(&self) -> &'r str {
-        "for"
+        "spaceless"
     }
 }

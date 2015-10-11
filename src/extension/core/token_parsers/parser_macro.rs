@@ -3,22 +3,22 @@ use token_parser::TokenParserExtension;
 use node::Body;
 use Result;
 
-pub struct For;
+pub struct Macro;
 
-impl For {
-    pub fn new() -> For {
-        For
+impl Macro {
+    pub fn new() -> Macro {
+        Macro
     }
 }
 
-impl TokenParserExtension for For {
+impl TokenParserExtension for Macro {
     fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>)
         -> Result<Body<'c>>
     {
-        unreachable!("not implemented For::parse")
+        unreachable!("not implemented Macro::parse")
     }
 
     fn get_tag<'r>(&self) -> &'r str {
-        "for"
+        "macro"
     }
 }
