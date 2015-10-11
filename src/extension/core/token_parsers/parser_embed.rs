@@ -1,6 +1,7 @@
 use parser::Context;
 use token_parser::TokenParserExtension;
 use node::Body;
+use token::Token;
 use Result;
 
 pub struct Embed;
@@ -12,7 +13,7 @@ impl Embed {
 }
 
 impl TokenParserExtension for Embed {
-    fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>)
+    fn parse<'p, 'c>(&'p self, parser: &mut Context<'p, 'c>, token: Token<'c>)
         -> Result<Option<Body<'c>>>
     {
         unreachable!("not implemented Embed::parse")

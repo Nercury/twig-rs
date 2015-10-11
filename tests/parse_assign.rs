@@ -2,15 +2,15 @@ extern crate twig;
 
 mod support;
 
-// #[test]
-// fn test_can_only_assign_to_names() {
-//     for template in get_failing_tests_for_assignment() {
-//         match support::maybe_parsed(template) {
-//             Ok(_) => panic!("expected {:?} to produce error", template),
-//             Err(e) => { println!("{:?}", e); panic!("ok"); },
-//         }
-//     }
-// }
+#[test]
+fn test_can_only_assign_to_names() {
+    for template in get_failing_tests_for_assignment() {
+        match support::maybe_parsed(template) {
+            Ok(_) => panic!("expected {:?} to produce error", template),
+            Err(e) => { println!("{:?}", e); panic!("ok"); },
+        }
+    }
+}
 
 fn get_failing_tests_for_assignment<'r>() -> Vec<&'static str> {
     vec![
