@@ -44,10 +44,10 @@ impl<'c> Parse<'c> for Body<'c> {
                         }
                     };
 
-                    let node = try!(subparser.parse(parser));
                     try!(parser.next());
-
-                    unreachable!("token parsers not implemented")
+                    if let Some(node) = try!(subparser.parse(parser)) {
+                         rv.push(node);
+                    }
                 },
                 tv => { panic!("not implemented {:?}", tv) },
             };
