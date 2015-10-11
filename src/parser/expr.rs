@@ -1,4 +1,4 @@
-use node::{ Expr, ExprValue, ExprConstant };
+use node::{ Expr, ExprValue };
 use parser::{ Parse, Context };
 use { Token, TokenValue };
 use operator::{ OperatorOptions, OperatorKind, Associativity };
@@ -121,16 +121,16 @@ fn parse_primary_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
             try!(parser.next());
             match name {
                 "true" | "TRUE" =>
-                    Expr::new_at(ExprValue::Constant(ExprConstant::Bool(true)), token.line),
+                    Expr::new_bool(true, token.line),
                 "false" | "FALSE" =>
-                    Expr::new_at(ExprValue::Constant(ExprConstant::Bool(false)), token.line),
+                    Expr::new_bool(false, token.line),
                 "none" | "NONE" | "null" | "NULL" =>
-                    Expr::new_at(ExprValue::Constant(ExprConstant::Null), token.line),
+                    Expr::new_null(token.line),
                 name => {
                     let current_token = try!(parser.current());
                     match current_token.value {
                         TokenValue::Punctuation('(') => try!(get_function_node(parser, name, token.line)),
-                        _ => Expr::new_at(ExprValue::Name(name), token.line),
+                        _ => Expr::new_name(name, token.line),
                     }
                 },
             }
@@ -168,10 +168,7 @@ fn parse_string_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
 
         if let (true, TokenValue::Value(TwigValueRef::Str(value))) = (next_can_be_string, token.value) {
             try!(parser.next());
-            nodes.push_back(Expr::new_at(
-                ExprValue::Constant(ExprConstant::Str(value)),
-                token.line
-            ));
+            nodes.push_back(Expr::new_str_constant(value, token.line));
             next_can_be_string = false;
             continue;
         }
@@ -259,10 +256,7 @@ fn parse_conditional_expression<'p, 'c, I>(parser: &mut Context<'p, I>, mut expr
                 if try!(parser.skip_to_next_if(TokenValue::Punctuation(':'))) {
                     (expr2, try!(parse_expression(parser, 0)))
                 } else {
-                    (expr2, Expr::new_at(
-                        ExprValue::Constant(ExprConstant::Str("")),
-                        try!(parser.current()).line
-                    ))
+                    (expr2, Expr::new_str_constant("", try!(parser.current()).line))
                 }
             } else {
                 (expr.clone(), try!(parse_expression(parser, 0)))

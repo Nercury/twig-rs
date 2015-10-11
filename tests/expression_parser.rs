@@ -23,10 +23,10 @@ fn test_string_expression() {
 
 fn get_tests_for_string<'r>() -> Vec<(&'static str, Expr<'r>)> {
     vec![
-        (r#"{{ "foo" }}"#, Expr::new_at(ExprValue::Constant(ExprConstant::Str("foo")), 1)),
+        (r#"{{ "foo" }}"#, Expr::new_str_constant("foo", 1)),
         (r#"{{ "foo #{bar}" }}"#, Expr::new_at(ExprValue::Concat {
-            left: Box::new(Expr::new_at(ExprValue::Constant(ExprConstant::Str("foo ")), 1)),
-            right: Box::new(Expr::new_at(ExprValue::Name("bar"), 1)),
+            left: Box::new(Expr::new_str_constant("foo ", 1)),
+            right: Box::new(Expr::new_name("bar", 1)),
         }, 1)),
     ]
 }

@@ -11,6 +11,22 @@ impl<'c> Expr<'c> {
             value: value
         }
     }
+
+    pub fn new_str_constant<'r>(value: &'r str, line: usize) -> Expr<'r> {
+        Expr::new_at(ExprValue::Constant(ExprConstant::Str(value)), line)
+    }
+
+    pub fn new_bool<'r>(value: bool, line: usize) -> Expr<'r> {
+        Expr::new_at(ExprValue::Constant(ExprConstant::Bool(value)), line)
+    }
+
+    pub fn new_null<'r>(line: usize) -> Expr<'r> {
+        Expr::new_at(ExprValue::Constant(ExprConstant::Null), line)
+    }
+
+    pub fn new_name<'r>(name: &'r str, line: usize) -> Expr<'r> {
+        Expr::new_at(ExprValue::Name(name), line)
+    }
 }
 
 #[derive(Debug, Eq, PartialEq, Clone)]
