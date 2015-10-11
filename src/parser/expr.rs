@@ -4,6 +4,7 @@ use { Token, TokenValue };
 use operator::{ OperatorOptions, OperatorKind, Associativity };
 use error::{ Error, ErrorMessage };
 use { Result, Expect };
+use value::{ TwigValueRef, TwigNumberRef };
 
 impl<'c> Parse<'c> for Expr<'c> {
     type Output = Expr<'c>;
@@ -106,10 +107,13 @@ fn parse_primary_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
     println!("parse_primary_expression");
     let token = try!(parser.current());
 
-    match token.value {
+    let expr = match token.value {
         TokenValue::Name(_) => unreachable!("TokenValue::Name"),
-        TokenValue::Value(_) => unreachable!("TokenValue::Value"),
-        TokenValue::InterpolationStart => unreachable!("TokenValue::InterpolationStart"),
+        TokenValue::Value(ref value) => match *value {
+            TwigValueRef::Num(_) => unreachable!("TwigValueRef::Num"),
+            TwigValueRef::Str(_) => try!(parse_string_expression(parser)),
+        },
+        TokenValue::InterpolationStart => try!(parse_string_expression(parser)),
         TokenValue::Operator(_) => unreachable!("TokenValue::Operator"),
         TokenValue::Punctuation('[') => unreachable!("TokenValue::Punctuation('[')"),
         TokenValue::Punctuation('{') => unreachable!("TokenValue::Punctuation('{')"),
@@ -117,7 +121,18 @@ fn parse_primary_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
             ErrorMessage::UnexpectedToken(other.into()),
             token.line
         )),
-    }
+    };
+
+    parse_postfix_expression(parser, expr)
+}
+
+/// Parses expression and returns handle to one that should be executed first.
+fn parse_string_expression<'p, 'c, I>(parser: &mut Context<'p, I>)
+    -> Result<Expr<'c>>
+    where
+        I: Iterator<Item=Result<Token<'c>>>
+{
+    println!("parse_string_expression");
     unimplemented!()
 }
 
