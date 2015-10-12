@@ -32,6 +32,7 @@ pub enum ErrorMessage {
     InvalidHashKey { unexpected: DebugValue },
     HashKeyMustBeFollowedByColon,
     HashNotClosed,
+    ExpectedNameOrNumber,
     Unclosed(String),
     UnclosedComment,
     UnclosedBlock(String),
@@ -81,6 +82,7 @@ impl fmt::Display for ErrorMessage {
             },
             ErrorMessage::HashKeyMustBeFollowedByColon => write!(f, "A hash key must be followed by a colon (:)"),
             ErrorMessage::HashNotClosed => write!(f, "An opened hash is not properly closed"),
+            ErrorMessage::ExpectedNameOrNumber => write!(f, "Expected name or number"),
             ErrorMessage::UnexpectedTokenValue(ref token) => {
                 let (english_name, value) = token.get_english();
                 match value {

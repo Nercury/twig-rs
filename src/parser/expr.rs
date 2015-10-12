@@ -1,4 +1,4 @@
-use node::{ Expr, ExprValue, ExprConstant };
+use node::{ Expr, ExprValue, ExprConstant, ExprCallType };
 use parser::{ Parse, Context };
 use TokenValue;
 use operator::{ OperatorOptions, OperatorKind, Associativity };
@@ -317,17 +317,72 @@ fn parse_postfix_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut node: Expr
     Ok(node)
 }
 
-fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, expr: Expr<'c>)
+fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, node: Expr<'c>)
     -> Result<Expr<'c>>
 {
     println!("parse_subscript_expression");
-    unimplemented!()
+
+    let mut token = try!(parser.next());
+    let line = token.line;
+    let mut arguments = Vec::<Expr<'c>>::new();
+    let mut call_type = ExprCallType::Any;
+
+    let arg = match token.value {
+        TokenValue::Punctuation('.') => {
+            token = try!(parser.next());
+            let arg = match token.value {
+                TokenValue::Name(v) => Expr::new_str_constant(v, line),
+                TokenValue::Value(TwigValueRef::Num(num)) => get_number_expr(num, line),
+                // OMG the hack here is _hilarious_:
+                // TODO: ($token->getType() == Twig_Token::OPERATOR_TYPE && preg_match(Twig_Lexer::REGEX_NAME, $token->getValue()))
+                _ => return Err(Error::new_at(
+                    ErrorMessage::ExpectedNameOrNumber,
+                    line
+                ))
+            };
+
+            token = try!(parser.current());
+            if let TokenValue::Punctuation('(') = token.value {
+                call_type = ExprCallType::Method;
+                arguments = try!(parse_arguments(parser, false, false))
+                    .into_iter()
+                    .map(|(_, v)| v)
+                    .collect();
+            }
+
+            // TODO: Block of bad code
+
+            arg
+        },
+        _ => {
+            call_type = ExprCallType::Array;
+
+            unimplemented!()
+        }
+    };
+
+    Ok(Expr::new_at(
+        ExprValue::GetAttr {
+            node: Box::new(node),
+            arg: Box::new(arg),
+            arguments: arguments,
+            call_type: call_type
+        },
+        line
+    ))
 }
 
 fn parse_filter_expression<'p, 'c>(parser: &mut Context<'p, 'c>, expr: Expr<'c>)
     -> Result<Expr<'c>>
 {
     println!("parse_filter_expression");
+    unimplemented!()
+}
+
+fn parse_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, named_arguments: bool, definition: bool)
+    -> Result<Vec<(&'c str, Expr<'c>)>>
+{
+    println!("parse_arguments named {:?} definition {:?}", named_arguments, definition);
     unimplemented!()
 }
 

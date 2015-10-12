@@ -62,4 +62,17 @@ pub enum ExprValue<'c> {
     BinaryOperator { value: &'c str, left: Box<Expr<'c>>, right: Box<Expr<'c>> },
     Concat { left: Box<Expr<'c>>, right: Box<Expr<'c>> },
     Conditional { expr: Box<Expr<'c>>, yay: Box<Expr<'c>>, nay: Box<Expr<'c>> },
+    GetAttr {
+        node: Box<Expr<'c>>,
+        arg: Box<Expr<'c>>,
+        arguments: Vec<Expr<'c>>,
+        call_type: ExprCallType
+    }
+}
+
+#[derive(Debug, PartialEq, Clone)]
+pub enum ExprCallType {
+    Any,
+    Method,
+    Array,
 }
