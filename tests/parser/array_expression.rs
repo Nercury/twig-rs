@@ -34,5 +34,66 @@ fn get_tests_for_array<'r>() -> Vec<(&'static str, Expr<'r>)> {
                 Expr::new_str_constant("c", 1),
             ),
         ], 1)),
+        // hash with trailing ,
+        (r#"{{ {"a": "b", "b": "c", } }}"#, Expr::new_hash(vec![
+            (
+                Expr::new_str_constant("a", 1),
+                Expr::new_str_constant("b", 1),
+            ),
+            (
+                Expr::new_str_constant("b", 1),
+                Expr::new_str_constant("c", 1),
+            ),
+        ], 1)),
+        // hash with unquoted keys
+        (r#"{{ {a: "b", b: "c" } }}"#, Expr::new_hash(vec![
+            (
+                Expr::new_str_constant("a", 1),
+                Expr::new_str_constant("b", 1),
+            ),
+            (
+                Expr::new_str_constant("b", 1),
+                Expr::new_str_constant("c", 1),
+            ),
+        ], 1)),
+        // hash with number keys
+        (r#"{{ {2: "b", 3: "c" } }}"#, Expr::new_hash(vec![
+            (
+                Expr::new_int_constant(2, 1),
+                Expr::new_str_constant("b", 1),
+            ),
+            (
+                Expr::new_int_constant(3, 1),
+                Expr::new_str_constant("c", 1),
+            ),
+        ], 1)),
+        // hash in an array
+        (r#"{{ [1, {"a": "b", "b": "c"}] }}"#, Expr::new_array(vec![
+            Expr::new_int_constant(1, 1),
+            Expr::new_hash(vec![
+                (
+                    Expr::new_str_constant("a", 1),
+                    Expr::new_str_constant("b", 1),
+                ),
+                (
+                    Expr::new_str_constant("b", 1),
+                    Expr::new_str_constant("c", 1),
+                ),
+            ], 1),
+        ], 1)),
+        // array in a hash
+        (r#"{{ {"a": [1, 2], "b": "c"} }}"#, Expr::new_hash(vec![
+            (
+                Expr::new_str_constant("a", 1),
+                Expr::new_array(vec![
+                    Expr::new_int_constant(1, 1),
+                    Expr::new_int_constant(2, 1),
+                ], 1),
+            ),
+            (
+                Expr::new_str_constant("b", 1),
+                Expr::new_str_constant("c", 1),
+            ),
+        ], 1)),
     ]
 }
