@@ -97,3 +97,20 @@ fn get_tests_for_array<'r>() -> Vec<(&'static str, Expr<'r>)> {
         ], 1)),
     ]
 }
+
+#[test]
+fn test_array_syntax_error() {
+    for template in get_failing_tests_for_array() {
+        match support::maybe_parsed(template) {
+            Ok(_) => panic!("expected {:?} to produce error", template),
+            Err(e) => { println!("tmp {} produces {:?}", template, e); },
+        }
+    }
+}
+
+fn get_failing_tests_for_array<'r>() -> Vec<&'static str> {
+    vec![
+        r#"{{ [1, "a": "b"] }}"#,
+        r#"{{ {"a": "b", 2} }}"#,
+    ]
+}
