@@ -1,7 +1,6 @@
 extern crate twig;
 
-mod support;
-
+use super::support;
 use twig::node::{ Expr, ExprValue };
 
 #[test]

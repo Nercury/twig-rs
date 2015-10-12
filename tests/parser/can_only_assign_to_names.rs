@@ -1,6 +1,6 @@
 extern crate twig;
 
-mod support;
+use super::support;
 
 #[test]
 fn test_can_only_assign_to_names() {
