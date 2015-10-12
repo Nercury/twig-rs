@@ -61,7 +61,6 @@ fn parse_expression<'p, 'c>(parser: &mut Context<'p, 'c>, min_precedence: u16)
     Ok(expr)
 }
 
-/// Parses expression and returns handle to one that should be executed first.
 fn get_primary<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
@@ -101,7 +100,6 @@ fn get_function_node<'p, 'c>(parser: &mut Context<'p, 'c>, name: &'c str, line: 
     unimplemented!();
 }
 
-/// Parses expression and returns handle to one that should be executed first.
 fn parse_primary_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
@@ -130,18 +128,14 @@ fn parse_primary_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
         TokenValue::Value(ref value) => match *value {
             TwigValueRef::Num(num) => {
                 try!(parser.next());
-                Expr::new_at(ExprValue::Constant(match num {
-                    TwigNumberRef::Big(v) => ExprConstant::Big(v),
-                    TwigNumberRef::Float(v) => ExprConstant::Float(v),
-                    TwigNumberRef::Int(v) => ExprConstant::Int(v),
-                }), token.line)
+                get_number_expr(num, token.line)
             },
             TwigValueRef::Str(_) => try!(parse_string_expression(parser)),
         },
         TokenValue::InterpolationStart => try!(parse_string_expression(parser)),
         TokenValue::Operator(_) => unreachable!("TokenValue::Operator"),
         TokenValue::Punctuation('[') => try!(parse_array_expression(parser)),
-        TokenValue::Punctuation('{') => unreachable!("TokenValue::Punctuation('{')"),
+        TokenValue::Punctuation('{') => try!(parse_hash_expression(parser)),
         other => return Err(Error::new_at(
             ErrorMessage::UnexpectedTokenValue(other.into()),
             token.line
@@ -151,7 +145,14 @@ fn parse_primary_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     parse_postfix_expression(parser, expr)
 }
 
-/// Parses expression and returns handle to one that should be executed first.
+fn get_number_expr<'c>(num: TwigNumberRef<'c>, line: usize) -> Expr<'c> {
+    Expr::new_at(ExprValue::Constant(match num {
+        TwigNumberRef::Big(v) => ExprConstant::Big(v),
+        TwigNumberRef::Float(v) => ExprConstant::Float(v),
+        TwigNumberRef::Int(v) => ExprConstant::Int(v),
+    }), line)
+}
+
 fn parse_string_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
@@ -195,7 +196,6 @@ fn parse_string_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     Ok(expr)
 }
 
-/// Parses expression and returns handle to one that should be executed first.
 fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
@@ -206,12 +206,12 @@ fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     let mut items = Vec::new();
 
     let mut token = try!(parser.current());
-    let array_start_line = token.line;
+    let start_line = token.line;
     let mut first = true;
 
     while token.value != TokenValue::Punctuation(']') {
         if !first {
-            try!(parser.expect_or_error(TokenValue::Punctuation(','), ErrorMessage::ElementMustBeFollowedByComma));
+            try!(parser.expect_or_error(TokenValue::Punctuation(','), ErrorMessage::ArrayValueMustBeFollowedByComma));
             token = try!(parser.current());
 
             // trailing ,?
@@ -226,10 +226,74 @@ fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     }
     try!(parser.expect_or_error(TokenValue::Punctuation(']'), ErrorMessage::ArrayNotClosed));
 
-    Ok(Expr::new_array(items, array_start_line))
+    Ok(Expr::new_array(items, start_line))
 }
 
-/// Parses expression and returns handle to one that should be executed first.
+fn parse_hash_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
+    -> Result<Expr<'c>>
+{
+    println!("parse_hash_expression");
+
+    try!(parser.expect_or_error(TokenValue::Punctuation('{'), ErrorMessage::ExpectedHashElement));
+
+    let mut items = Vec::new();
+
+    let mut token = try!(parser.current());
+    let start_line = token.line;
+    let mut first = true;
+
+    while token.value != TokenValue::Punctuation('}') {
+        if !first {
+            try!(parser.expect_or_error(TokenValue::Punctuation(','), ErrorMessage::HashValueMustBeFollowedByComma));
+            token = try!(parser.current());
+
+            // trailing ,?
+            if token.value == TokenValue::Punctuation('}') {
+                break;
+            }
+        }
+        first = false;
+
+        // a hash key can be:
+        //
+        //  * a number -- 12
+        //  * a string -- 'a'
+        //  * a name, which is equivalent to a string -- a
+        //  * an expression, which must be enclosed in parentheses -- (1 + 2)
+        let key = match token.value {
+            TokenValue::Value(TwigValueRef::Str(v)) => {
+                try!(parser.next());
+                Expr::new_str_constant(v, token.line)
+            },
+            TokenValue::Name(v) => {
+                try!(parser.next());
+                Expr::new_str_constant(v, token.line)
+            },
+            TokenValue::Value(TwigValueRef::Num(num)) => {
+                try!(parser.next());
+                get_number_expr(num, token.line)
+            },
+            TokenValue::Punctuation('(') => {
+                try!(parse_expression(parser, 0))
+            }
+            _ => return Err(Error::new_at(
+                ErrorMessage::InvalidHashKey { unexpected: token.value.into() },
+                token.line
+            )),
+        };
+
+        try!(parser.expect_or_error(TokenValue::Punctuation(':'), ErrorMessage::HashKeyMustBeFollowedByColon));
+
+        let value = try!(parse_expression(parser, 0));
+        token = try!(parser.current());
+
+        items.push((key, value));
+    }
+    try!(parser.expect_or_error(TokenValue::Punctuation('}'), ErrorMessage::HashNotClosed));
+
+    Ok(Expr::new_hash(items, start_line))
+}
+
 fn parse_postfix_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut node: Expr<'c>)
     -> Result<Expr<'c>>
 {

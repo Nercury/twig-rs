@@ -16,6 +16,10 @@ impl<'c> Expr<'c> {
         Expr::new_at(ExprValue::Array(value), line)
     }
 
+    pub fn new_hash<'r>(value: Vec<(Expr<'r>, Expr<'r>)>, line: usize) -> Expr<'r> {
+        Expr::new_at(ExprValue::Hash(value), line)
+    }
+
     pub fn new_str_constant<'r>(value: &'r str, line: usize) -> Expr<'r> {
         Expr::new_at(ExprValue::Constant(ExprConstant::Str(value)), line)
     }
@@ -53,6 +57,7 @@ pub enum ExprValue<'c> {
     Name(&'c str),
     AssignName(&'c str),
     Array(Vec<Expr<'c>>),
+    Hash(Vec<(Expr<'c>, Expr<'c>)>),
     UnaryOperator { value: &'c str, expr: Box<Expr<'c>> },
     BinaryOperator { value: &'c str, left: Box<Expr<'c>>, right: Box<Expr<'c>> },
     Concat { left: Box<Expr<'c>>, right: Box<Expr<'c>> },

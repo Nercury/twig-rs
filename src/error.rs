@@ -25,8 +25,13 @@ pub enum ErrorMessage {
     UnexpectedTokenValue(DebugValue),
     ExpectedOtherTokenValue((DebugValue, DebugValue)),
     ExpectedArrayElement,
-    ElementMustBeFollowedByComma,
+    ArrayValueMustBeFollowedByComma,
     ArrayNotClosed,
+    ExpectedHashElement,
+    HashValueMustBeFollowedByComma,
+    InvalidHashKey { unexpected: DebugValue },
+    HashKeyMustBeFollowedByColon,
+    HashNotClosed,
     Unclosed(String),
     UnclosedComment,
     UnclosedBlock(String),
@@ -63,8 +68,19 @@ impl fmt::Display for ErrorMessage {
                 }
             },
             ErrorMessage::ExpectedArrayElement => write!(f, "An array element was expected"),
-            ErrorMessage::ElementMustBeFollowedByComma => write!(f, "An array element must be followed by a comma"),
+            ErrorMessage::ArrayValueMustBeFollowedByComma => write!(f, "An array element must be followed by a comma"),
             ErrorMessage::ArrayNotClosed => write!(f, "An opened array is not properly closed"),
+            ErrorMessage::ExpectedHashElement => write!(f, "A hash element was expected"),
+            ErrorMessage::HashValueMustBeFollowedByComma => write!(f, "A hash value must be followed by a comma"),
+            ErrorMessage::InvalidHashKey { ref unexpected } => {
+                let (english_name, value) = unexpected.get_english();
+                match value {
+                    Some(value) => write!(f, "A hash key must be a quoted string, a number, a name, or an expression enclosed in parentheses: unexpected token \"{}\" of value {:?}", english_name, value),
+                    None => write!(f, "A hash key must be a quoted string, a number, a name, or an expression enclosed in parentheses: unexpected token \"{}\"", english_name),
+                }
+            },
+            ErrorMessage::HashKeyMustBeFollowedByColon => write!(f, "A hash key must be followed by a colon (:)"),
+            ErrorMessage::HashNotClosed => write!(f, "An opened hash is not properly closed"),
             ErrorMessage::UnexpectedTokenValue(ref token) => {
                 let (english_name, value) = token.get_english();
                 match value {

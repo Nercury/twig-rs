@@ -23,5 +23,16 @@ fn get_tests_for_array<'r>() -> Vec<(&'static str, Expr<'r>)> {
             Expr::new_int_constant(1, 1),
             Expr::new_int_constant(2, 1),
         ], 1)),
+        // simple hash
+        (r#"{{ {"a": "b", "b": "c"} }}"#, Expr::new_hash(vec![
+            (
+                Expr::new_str_constant("a", 1),
+                Expr::new_str_constant("b", 1),
+            ),
+            (
+                Expr::new_str_constant("b", 1),
+                Expr::new_str_constant("c", 1),
+            ),
+        ], 1)),
     ]
 }
