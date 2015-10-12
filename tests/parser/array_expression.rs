@@ -18,5 +18,10 @@ fn get_tests_for_array<'r>() -> Vec<(&'static str, Expr<'r>)> {
             Expr::new_int_constant(1, 1),
             Expr::new_int_constant(2, 1),
         ], 1)),
+        // array with trailing ,
+        (r#"{{ [1, 2, ] }}"#, Expr::new_array(vec![
+            Expr::new_int_constant(1, 1),
+            Expr::new_int_constant(2, 1),
+        ], 1)),
     ]
 }
