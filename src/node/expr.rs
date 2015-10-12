@@ -12,7 +12,7 @@ impl<'c> Expr<'c> {
         }
     }
 
-    pub fn new_array<'r>(value: Vec<(Expr<'r>, Expr<'r>)>, line: usize) -> Expr<'r> {
+    pub fn new_array<'r>(value: Vec<Expr<'r>>, line: usize) -> Expr<'r> {
         Expr::new_at(ExprValue::Array(value), line)
     }
 
@@ -52,7 +52,7 @@ pub enum ExprValue<'c> {
     Constant(ExprConstant<'c>),
     Name(&'c str),
     AssignName(&'c str),
-    Array(Vec<(Expr<'c>, Expr<'c>)>),
+    Array(Vec<Expr<'c>>),
     UnaryOperator { value: &'c str, expr: Box<Expr<'c>> },
     BinaryOperator { value: &'c str, left: Box<Expr<'c>>, right: Box<Expr<'c>> },
     Concat { left: Box<Expr<'c>>, right: Box<Expr<'c>> },

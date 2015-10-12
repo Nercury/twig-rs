@@ -24,6 +24,9 @@ pub enum ErrorMessage {
     ExpectedTokenTypeButReceived((DebugValue, Received)),
     UnexpectedTokenValue(DebugValue),
     ExpectedOtherTokenValue((DebugValue, DebugValue)),
+    ExpectedArrayElement,
+    ElementMustBeFollowedByComma,
+    ArrayNotClosed,
     Unclosed(String),
     UnclosedComment,
     UnclosedBlock(String),
@@ -59,6 +62,9 @@ impl fmt::Display for ErrorMessage {
                     None => write!(f, "{} (\"{}\" expected)", unexpected_message, other_english_name),
                 }
             },
+            ErrorMessage::ExpectedArrayElement => write!(f, "An array element was expected"),
+            ErrorMessage::ElementMustBeFollowedByComma => write!(f, "An array element must be followed by a comma"),
+            ErrorMessage::ArrayNotClosed => write!(f, "An opened array is not properly closed"),
             ErrorMessage::UnexpectedTokenValue(ref token) => {
                 let (english_name, value) = token.get_english();
                 match value {

@@ -15,14 +15,8 @@ fn get_tests_for_array<'r>() -> Vec<(&'static str, Expr<'r>)> {
     vec![
         // simple array
         (r#"{{ [1, 2] }}"#, Expr::new_array(vec![
-            (
-                Expr::new_int_constant(0, 1),
-                Expr::new_int_constant(1, 1)
-            ),
-            (
-                Expr::new_int_constant(1, 1),
-                Expr::new_int_constant(2, 1)
-            ),
+            Expr::new_int_constant(1, 1),
+            Expr::new_int_constant(2, 1),
         ], 1)),
     ]
 }

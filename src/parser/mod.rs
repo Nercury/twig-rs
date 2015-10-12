@@ -137,6 +137,31 @@ impl<'p, 'c: 'p> Context<'p, 'c>
         Ok(token)
     }
 
+    /// Expects the current token to match value and advances to next token.
+    ///
+    /// Expects these tokens to exist. If they do not exist (the end of file), returns
+    /// specified error.
+    pub fn expect_or_error<'r>(&'r mut self, expected: TokenValue<'c>, error_message: ErrorMessage) -> Result<Token<'c>>
+    {
+        let token = match self.tokens.peek() {
+            Some(&Ok(ref t)) => {
+                if t.value == expected {
+                    t.clone()
+                } else {
+                    return Err(Error::new_at(
+                        error_message,
+                        t.line
+                    ))
+                }
+            },
+            None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
+            Some(&Err(ref e)) => return Err(e.clone()),
+        };
+        try!(self.next());
+
+        Ok(token)
+    }
+
     /// Returns options structure for specified operator.
     ///
     /// Operator must exist in environment, otherwise panics.

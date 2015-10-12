@@ -1,10 +1,10 @@
-use node::{ Expr, ExprValue };
+use node::{ Expr, ExprValue, ExprConstant };
 use parser::{ Parse, Context };
 use TokenValue;
 use operator::{ OperatorOptions, OperatorKind, Associativity };
 use error::{ Error, ErrorMessage };
 use { Result, Expect };
-use value::{ TwigValueRef };
+use value::{ TwigValueRef, TwigNumberRef };
 use std::collections::VecDeque;
 
 impl<'c> Parse<'c> for Expr<'c> {
@@ -65,6 +65,8 @@ fn parse_expression<'p, 'c>(parser: &mut Context<'p, 'c>, min_precedence: u16)
 fn get_primary<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
+    println!("get_primary");
+
     let token = try!(parser.current());
 
     if let TokenValue::Operator(op_str) = token.value {
@@ -126,12 +128,19 @@ fn parse_primary_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
             }
         },
         TokenValue::Value(ref value) => match *value {
-            TwigValueRef::Num(_) => unreachable!("TwigValueRef::Num"),
+            TwigValueRef::Num(num) => {
+                try!(parser.next());
+                Expr::new_at(ExprValue::Constant(match num {
+                    TwigNumberRef::Big(v) => ExprConstant::Big(v),
+                    TwigNumberRef::Float(v) => ExprConstant::Float(v),
+                    TwigNumberRef::Int(v) => ExprConstant::Int(v),
+                }), token.line)
+            },
             TwigValueRef::Str(_) => try!(parse_string_expression(parser)),
         },
         TokenValue::InterpolationStart => try!(parse_string_expression(parser)),
         TokenValue::Operator(_) => unreachable!("TokenValue::Operator"),
-        TokenValue::Punctuation('[') => unreachable!("TokenValue::Punctuation('[')"),
+        TokenValue::Punctuation('[') => try!(parse_array_expression(parser)),
         TokenValue::Punctuation('{') => unreachable!("TokenValue::Punctuation('{')"),
         other => return Err(Error::new_at(
             ErrorMessage::UnexpectedTokenValue(other.into()),
@@ -184,6 +193,40 @@ fn parse_string_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     }
 
     Ok(expr)
+}
+
+/// Parses expression and returns handle to one that should be executed first.
+fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
+    -> Result<Expr<'c>>
+{
+    println!("parse_array_expression");
+
+    try!(parser.expect_or_error(TokenValue::Punctuation('['), ErrorMessage::ExpectedArrayElement));
+
+    let mut items = Vec::new();
+
+    let mut token = try!(parser.current());
+    let array_start_line = token.line;
+    let mut first = true;
+
+    while token.value != TokenValue::Punctuation(']') {
+        if !first {
+            try!(parser.expect_or_error(TokenValue::Punctuation(','), ErrorMessage::ElementMustBeFollowedByComma));
+            token = try!(parser.current());
+
+            // trailing ,?
+            if token.value == TokenValue::Punctuation(']') {
+                break;
+            }
+        }
+        first = false;
+
+        items.push(try!(parse_expression(parser, 0)));
+        token = try!(parser.current());
+    }
+    try!(parser.expect_or_error(TokenValue::Punctuation(']'), ErrorMessage::ArrayNotClosed));
+
+    Ok(Expr::new_array(items, array_start_line))
 }
 
 /// Parses expression and returns handle to one that should be executed first.
