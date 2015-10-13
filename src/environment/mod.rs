@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::collections::HashSet;
 
 use extension::{ Extension, CoreExtension };
-use operator::{ Operator, OperatorOptions };
+use operator::{ Operator, OperatorKind, OperatorOptions };
 use token_parser::{ TokenParser, TokenParserExtension };
 
 /// Project configuration container.
@@ -28,14 +28,22 @@ impl Environment {
             lexing: LexingEnvironment {
                 operators: {
                     self.operators.iter()
-                        .map(|i| i.options.value)
+                        .filter_map(|i| match i.options.kind {
+                            OperatorKind::Unary { value, .. } => Some(value),
+                            OperatorKind::Binary { value, .. } => Some(value),
+                            OperatorKind::Other => None,
+                        })
                         .collect()
                 },
             },
             parsing: ParsingEnvironment {
                 operators: {
                     self.operators.into_iter()
-                        .map(|i| (i.options.value, i.options))
+                        .filter_map(|i| match i.options.kind {
+                            OperatorKind::Unary { value, .. } => Some((value, i.options)),
+                            OperatorKind::Binary { value, .. } => Some((value, i.options)),
+                            OperatorKind::Other => None,
+                        })
                         .collect()
                 },
                 handlers: {

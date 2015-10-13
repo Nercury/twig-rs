@@ -3,7 +3,7 @@ use { Token, TokenValue };
 use environment::ParsingEnvironment;
 use Result;
 use error::{ Error, ErrorMessage };
-use operator::OperatorOptions;
+use operator::{ OperatorOptions, OperatorKind };
 use lexer::iter::TokenIter;
 
 mod body;
@@ -140,7 +140,7 @@ impl<'p, 'c: 'p> Context<'p, 'c>
     /// Expects the current token to match value and advances to next token.
     ///
     /// Expects these tokens to exist. If they do not exist (the end of file), returns
-    /// specified error.
+    /// UnexpectedEndOfTemplate error.
     pub fn expect_or_error<'r>(&'r mut self, expected: TokenValue<'c>, error_message: ErrorMessage) -> Result<Token<'c>>
     {
         let token = match self.tokens.peek() {
@@ -162,12 +162,32 @@ impl<'p, 'c: 'p> Context<'p, 'c>
         Ok(token)
     }
 
+    /// Test the current token to match value.
+    ///
+    /// Expects these token to exist. If it does not exist (the end of file), returns
+    /// UnexpectedEndOfTemplate error.
+    pub fn test<'r>(&'r mut self, expected: TokenValue<'c>) -> Result<bool>
+    {
+        match self.tokens.peek() {
+            Some(&Ok(ref t)) => {
+                if t.value == expected {
+                    Ok(true)
+                } else {
+                    Ok(false)
+                }
+            },
+            None => Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
+            Some(&Err(ref e)) => Err(e.clone()),
+        }
+    }
+
     /// Returns options structure for specified operator.
     ///
     /// Operator must exist in environment, otherwise panics.
-    pub fn get_operator_options<'r>(&'r self, op_str: &'c str) -> &'r OperatorOptions {
+    pub fn get_operator_options<'r>(&'r self, op_str: &'c str) -> OperatorOptions {
         self.env.operators
             .get(op_str)
-            .expect("twig bug: operator that was lexed was not found when parsing")
+            .cloned()
+            .unwrap_or(OperatorOptions { precedence: None, kind: OperatorKind::Other })
     }
 }

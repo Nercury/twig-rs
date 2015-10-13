@@ -10,6 +10,8 @@ impl<'c> Parse<'c> for Body<'c> {
     fn parse<'r>(parser: &mut Context<'r, 'c>)
         -> Result<Body<'c>>
     {
+        println!("Body::parse");
+
         let mut maybe_line = None;
         let mut rv = Vec::new();
 

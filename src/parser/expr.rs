@@ -13,6 +13,7 @@ impl<'c> Parse<'c> for Expr<'c> {
     fn parse<'r>(parser: &mut Context<'r, 'c>)
         -> Result<Expr<'c>>
     {
+        println!("Expr::parse");
         parse_expression(parser, 0)
     }
 }
@@ -27,7 +28,7 @@ fn parse_expression<'p, 'c>(parser: &mut Context<'p, 'c>, min_precedence: u16)
 
     loop {
         if let TokenValue::Operator(op_str) = token.value {
-            if let OperatorOptions { kind: OperatorKind::Binary(associativity), precedence, .. } = *parser.get_operator_options(op_str) {
+            if let OperatorOptions { kind: OperatorKind::Binary { associativity, .. }, precedence: Some(precedence), .. } = parser.get_operator_options(op_str) {
                 if precedence >= min_precedence {
                     try!(parser.next());
 
@@ -69,7 +70,7 @@ fn get_primary<'p, 'c>(parser: &mut Context<'p, 'c>)
     let token = try!(parser.current());
 
     if let TokenValue::Operator(op_str) = token.value {
-        if let OperatorOptions { kind: OperatorKind::Unary, precedence, .. } = *parser.get_operator_options(op_str) {
+        if let OperatorOptions { kind: OperatorKind::Unary { .. }, precedence: Some(precedence), .. } = parser.get_operator_options(op_str) {
             try!(parser.next());
             let expr = try!(parse_expression(parser, precedence));
             let parsed_expr = Expr::new_at(ExprValue::UnaryOperator {
@@ -344,15 +345,14 @@ fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, node: Expr<'
             token = try!(parser.current());
             if let TokenValue::Punctuation('(') = token.value {
                 call_type = ExprCallType::Method;
-                arguments = try!(parse_arguments(parser, false, false))
-                    .into_iter()
-                    .map(|(_, v)| v)
-                    .collect();
+                arguments = try!(parse_unnamed_arguments(parser, false));
             }
 
             // TODO: Block of bad code
 
-            arg
+            unimplemented!()
+
+            //arg
         },
         _ => {
             call_type = ExprCallType::Array;
@@ -379,11 +379,35 @@ fn parse_filter_expression<'p, 'c>(parser: &mut Context<'p, 'c>, expr: Expr<'c>)
     unimplemented!()
 }
 
-fn parse_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, named_arguments: bool, definition: bool)
-    -> Result<Vec<(&'c str, Expr<'c>)>>
+fn parse_unnamed_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: bool)
+    -> Result<Vec<Expr<'c>>>
 {
-    println!("parse_arguments named {:?} definition {:?}", named_arguments, definition);
-    unimplemented!()
+    println!("parse_unnamed_arguments, definition {:?}", definition);
+
+    let mut args = Vec::new();
+
+    try!(parser.expect_or_error(TokenValue::Punctuation('('), ErrorMessage::ListOfArgumentsMustBeginWithParenthesis));
+
+    while !try!(parser.test(TokenValue::Punctuation(')'))) {
+        if args.len() > 0 {
+            try!(parser.expect_or_error(TokenValue::Punctuation(','), ErrorMessage::ArgumentsMustBeSeparatedByComma));
+        }
+
+        let value = if definition {
+            unreachable!("argument definition parsing not implemented");
+        } else {
+            try!(parse_expression(parser, 0))
+        };
+
+        if definition {
+            unreachable!("argument definition parsing not implemented");
+        } else {
+            args.push(value);
+        }
+    }
+    try!(parser.expect_or_error(TokenValue::Punctuation(')'), ErrorMessage::ListOfArgumentsMustCloseWithParenthesis));
+
+    Ok(args)
 }
 
 fn parse_conditional_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut expr: Expr<'c>)

@@ -5,33 +5,38 @@ use runtime;
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum OperatorKind {
     /// Single argument operator, i.e negation.
-    Unary,
+    Unary { value: &'static str },
     /// Two argument operator, i.e sum.
-    Binary(Associativity)
+    Binary { value: &'static str, associativity: Associativity },
+    /// Any operator handled by extension (i.e. the "=" operator).
+    Other,
 }
 
 impl OperatorKind {
-    pub fn new_binary(associativity: Associativity) -> OperatorKind {
-        OperatorKind::Binary(associativity)
+    pub fn new_binary(value: &'static str, associativity: Associativity) -> OperatorKind {
+        OperatorKind::Binary { value: value, associativity: associativity }
     }
 
-    pub fn new_binary_left() -> OperatorKind {
-        OperatorKind::Binary(Associativity::Left)
+    pub fn new_binary_left(value: &'static str) -> OperatorKind {
+        OperatorKind::Binary { value: value, associativity: Associativity::Left }
     }
 
-    pub fn new_binary_right() -> OperatorKind {
-        OperatorKind::Binary(Associativity::Right)
+    pub fn new_binary_right(value: &'static str) -> OperatorKind {
+        OperatorKind::Binary { value: value, associativity: Associativity::Right }
     }
 
-    pub fn new_unary() -> OperatorKind {
-        OperatorKind::Unary
+    pub fn new_unary(value: &'static str) -> OperatorKind {
+        OperatorKind::Unary { value: value }
+    }
+
+    pub fn new_other() -> OperatorKind {
+        OperatorKind::Other
     }
 }
 
 #[derive(Debug, Copy, Clone)]
 pub struct OperatorOptions {
-    pub value: &'static str,
-    pub precedence: u16,
+    pub precedence: Option<u16>,
     pub kind: OperatorKind,
 }
 
@@ -39,9 +44,8 @@ impl OperatorOptions {
 
     pub fn new_binary(chars: &'static str, precedence: u16, associativity: Associativity) -> OperatorOptions {
         OperatorOptions {
-            value: chars,
-            precedence: precedence,
-            kind: OperatorKind::new_binary(associativity),
+            precedence: Some(precedence),
+            kind: OperatorKind::new_binary(chars, associativity),
         }
     }
 
@@ -55,9 +59,15 @@ impl OperatorOptions {
 
     pub fn new_unary(chars: &'static str, precedence: u16) -> OperatorOptions {
         OperatorOptions {
-            value: chars,
-            precedence: precedence,
-            kind: OperatorKind::new_unary(),
+            precedence: Some(precedence),
+            kind: OperatorKind::new_unary(chars),
+        }
+    }
+
+    pub fn new_other() -> OperatorOptions {
+        OperatorOptions {
+            precedence: None,
+            kind: OperatorKind::new_other(),
         }
     }
 }
