@@ -2,9 +2,10 @@ use std::iter::Peekable;
 use { Token, TokenValue };
 use environment::ParsingEnvironment;
 use Result;
-use error::{ Error, ErrorMessage };
+use error::{ Error, ErrorMessage, Received };
 use operator::{ OperatorOptions, OperatorKind };
 use lexer::iter::TokenIter;
+use token::DebugValue;
 
 pub mod body;
 pub mod module;
@@ -118,11 +119,34 @@ impl<'p, 'c: 'p> Context<'p, 'c>
     pub fn expect<'r>(&'r mut self, expected: TokenValue<'c>) -> Result<Token<'c>>
     {
         self.expect_match_or(
-            |value| value == &expected,
-            move |token| Err(Error::new_at(
-                ErrorMessage::ExpectedOtherTokenValue((token.value.into(), expected.into())),
-                token.line
-            ))
+            |token| if token.value == expected {
+                Ok(token.clone())
+            } else {
+                Err(Error::new_at(
+                    ErrorMessage::ExpectedOtherTokenValue((token.value.into(), expected.into())),
+                    token.line
+                ))
+            }
+        )
+    }
+
+    /// Expects the current token to be name type and advances to next token.
+    ///
+    /// Returns found name string.
+    ///
+    /// Error condition same as `expect_match_or`.
+    pub fn expect_name<'r>(&'r mut self) -> Result<&'c str>
+    {
+        self.expect_match_or(
+            |token| match token.value {
+                TokenValue::Name(name) => Ok(name),
+                _ => Err(Error::new_at(
+                    ErrorMessage::ExpectedTokenTypeButReceived(
+                        (DebugValue::Name("".into()), Received::Token(token.value.into()))
+                    ),
+                    token.line
+                ))
+            }
         )
     }
 
@@ -132,39 +156,35 @@ impl<'p, 'c: 'p> Context<'p, 'c>
     pub fn expect_or_error<'r>(&'r mut self, expected: TokenValue<'c>, error_message: ErrorMessage) -> Result<Token<'c>>
     {
         self.expect_match_or(
-            |value| value == &expected,
-            move |token| Err(Error::new_at(
-                error_message,
-                token.line
-            ))
+            |token| if token.value == expected {
+                Ok(token.clone())
+            } else {
+                Err(Error::new_at(
+                    error_message,
+                    token.line
+                ))
+            }
         )
     }
 
     /// Expects the current token to pass `check` and advances to next token.
     ///
-    /// Returns result produced by `result` if check fails.
-    ///
     /// Expects these tokens (current and next) to exist. If they do not exist (the end of file),
     /// returns `UnexpectedEndOfTemplate` error.
-    pub fn expect_match_or<'r, C, R>(&'r mut self, check: C, result: R) -> Result<Token<'c>>
+    pub fn expect_match_or<'r, C, T>(&'r mut self, check: C) -> Result<T>
         where
-            C: for<'a> FnOnce(&'a TokenValue<'c>) -> bool,
-            R: for<'a> FnOnce(&'a Token<'c>) -> Result<Token<'c>>
+            C: for<'a> FnOnce(&'a Token<'c>) -> Result<T>
     {
-        let token = match self.tokens.peek() {
+        let res = match self.tokens.peek() {
             Some(&Ok(ref t)) => {
-                if check(&t.value) {
-                    t.clone()
-                } else {
-                    return result(&t);
-                }
+                check(&t)
             },
             None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
             Some(&Err(ref e)) => return Err(e.clone()),
         };
         try!(self.next());
 
-        Ok(token)
+        res
     }
 
     /// Test the current token to match value.
