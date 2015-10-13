@@ -6,9 +6,9 @@ use error::{ Error, ErrorMessage };
 use operator::{ OperatorOptions, OperatorKind };
 use lexer::iter::TokenIter;
 
-mod body;
-mod expr;
-mod module;
+pub mod body;
+pub mod module;
+pub mod expr;
 
 pub trait Parse<'c> {
     type Output;

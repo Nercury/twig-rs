@@ -1,8 +1,10 @@
 use parser::Context;
 use token_parser::TokenParserExtension;
 use node::Body;
-use token::Token;
+use { Token, TokenValue };
 use Result;
+
+use parser::expr::parse_expression;
 
 pub struct From;
 
@@ -16,7 +18,12 @@ impl TokenParserExtension for From {
     fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: Token<'c>)
         -> Result<Option<Body<'c>>>
     {
-        unreachable!("not implemented From::parse")
+        println!("From::parse");
+
+        let macro_expr = try!(parse_expression(parser, 0));
+        try!(parser.expect(TokenValue::Name("import")));
+
+        unreachable!("not implemented From::parse");
     }
 
     fn get_tag(&self) -> &'static str {

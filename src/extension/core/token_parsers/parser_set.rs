@@ -18,6 +18,8 @@ impl TokenParserExtension for Set {
     fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: Token<'c>)
         -> Result<Option<Body<'c>>>
     {
+        println!("Set::parse");
+
         let _line = token.line;
         let _targets = try!(parse_assignment_expression(parser));
 

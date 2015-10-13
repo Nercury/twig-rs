@@ -18,7 +18,7 @@ impl<'c> Parse<'c> for Expr<'c> {
     }
 }
 
-fn parse_expression<'p, 'c>(parser: &mut Context<'p, 'c>, min_precedence: u16)
+pub fn parse_expression<'p, 'c>(parser: &mut Context<'p, 'c>, min_precedence: u16)
     -> Result<Expr<'c>>
 {
     println!("parse_expression");
@@ -62,7 +62,7 @@ fn parse_expression<'p, 'c>(parser: &mut Context<'p, 'c>, min_precedence: u16)
     Ok(expr)
 }
 
-fn get_primary<'p, 'c>(parser: &mut Context<'p, 'c>)
+pub fn get_primary<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
     println!("get_primary");
@@ -94,14 +94,14 @@ fn get_primary<'p, 'c>(parser: &mut Context<'p, 'c>)
 }
 
 /// Parses expression and returns handle to one that should be executed first.
-fn get_function_node<'p, 'c>(parser: &mut Context<'p, 'c>, name: &'c str, line: usize)
+pub fn get_function_node<'p, 'c>(parser: &mut Context<'p, 'c>, name: &'c str, line: usize)
     -> Result<Expr<'c>>
 {
     println!("get_function_node");
     unimplemented!();
 }
 
-fn parse_primary_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
+pub fn parse_primary_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
     println!("parse_primary_expression");
@@ -146,7 +146,7 @@ fn parse_primary_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     parse_postfix_expression(parser, expr)
 }
 
-fn get_number_expr<'c>(num: TwigNumberRef<'c>, line: usize) -> Expr<'c> {
+pub fn get_number_expr<'c>(num: TwigNumberRef<'c>, line: usize) -> Expr<'c> {
     Expr::new_at(ExprValue::Constant(match num {
         TwigNumberRef::Big(v) => ExprConstant::Big(v),
         TwigNumberRef::Float(v) => ExprConstant::Float(v),
@@ -154,7 +154,7 @@ fn get_number_expr<'c>(num: TwigNumberRef<'c>, line: usize) -> Expr<'c> {
     }), line)
 }
 
-fn parse_string_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
+pub fn parse_string_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
     println!("parse_string_expression");
@@ -197,7 +197,7 @@ fn parse_string_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     Ok(expr)
 }
 
-fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
+pub fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
     println!("parse_array_expression");
@@ -230,7 +230,7 @@ fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     Ok(Expr::new_array(items, start_line))
 }
 
-fn parse_hash_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
+pub fn parse_hash_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
     println!("parse_hash_expression");
@@ -295,7 +295,7 @@ fn parse_hash_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     Ok(Expr::new_hash(items, start_line))
 }
 
-fn parse_postfix_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut node: Expr<'c>)
+pub fn parse_postfix_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut node: Expr<'c>)
     -> Result<Expr<'c>>
 {
     println!("parse_postfix_expression");
@@ -318,7 +318,7 @@ fn parse_postfix_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut node: Expr
     Ok(node)
 }
 
-fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, node: Expr<'c>)
+pub fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, node: Expr<'c>)
     -> Result<Expr<'c>>
 {
     println!("parse_subscript_expression");
@@ -372,14 +372,14 @@ fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, node: Expr<'
     ))
 }
 
-fn parse_filter_expression<'p, 'c>(parser: &mut Context<'p, 'c>, expr: Expr<'c>)
+pub fn parse_filter_expression<'p, 'c>(parser: &mut Context<'p, 'c>, expr: Expr<'c>)
     -> Result<Expr<'c>>
 {
     println!("parse_filter_expression");
     unimplemented!()
 }
 
-fn parse_unnamed_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: bool)
+pub fn parse_unnamed_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: bool)
     -> Result<Vec<Expr<'c>>>
 {
     println!("parse_unnamed_arguments, definition {:?}", definition);
@@ -410,7 +410,7 @@ fn parse_unnamed_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: boo
     Ok(args)
 }
 
-fn parse_conditional_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut expr: Expr<'c>)
+pub fn parse_conditional_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut expr: Expr<'c>)
     -> Result<Expr<'c>>
 {
     println!("parse_conditional_expression");
