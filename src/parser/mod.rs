@@ -114,44 +114,49 @@ impl<'p, 'c: 'p> Context<'p, 'c>
 
     /// Expects the current token to match value and advances to next token.
     ///
-    /// Expects these tokens to exist. If they do not exist (the end of file), returns
-    /// UnexpectedEndOfTemplate error.
+    /// Error condition same as `expect_match_or`.
     pub fn expect<'r>(&'r mut self, expected: TokenValue<'c>) -> Result<Token<'c>>
     {
-        let token = match self.tokens.peek() {
-            Some(&Ok(ref t)) => {
-                if t.value == expected {
-                    t.clone()
-                } else {
-                    return Err(Error::new_at(
-                        ErrorMessage::ExpectedOtherTokenValue((t.value.into(), expected.into())),
-                        t.line
-                    ))
-                }
-            },
-            None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
-            Some(&Err(ref e)) => return Err(e.clone()),
-        };
-        try!(self.next());
-
-        Ok(token)
+        self.expect_match_or(
+            |value| value == &expected,
+            move |token| Err(Error::new_at(
+                ErrorMessage::ExpectedOtherTokenValue((token.value.into(), expected.into())),
+                token.line
+            ))
+        )
     }
 
-    /// Expects the current token to match value and advances to next token.
+    /// Expects the current token to match value and advances to the next token.
     ///
-    /// Expects these tokens to exist. If they do not exist (the end of file), returns
-    /// UnexpectedEndOfTemplate error.
+    /// Error condition same as `expect_match_or`.
     pub fn expect_or_error<'r>(&'r mut self, expected: TokenValue<'c>, error_message: ErrorMessage) -> Result<Token<'c>>
+    {
+        self.expect_match_or(
+            |value| value == &expected,
+            move |token| Err(Error::new_at(
+                error_message,
+                token.line
+            ))
+        )
+    }
+
+    /// Expects the current token to pass `check` and advances to next token.
+    ///
+    /// Returns result produced by `result` if check fails.
+    ///
+    /// Expects these tokens (current and next) to exist. If they do not exist (the end of file),
+    /// returns `UnexpectedEndOfTemplate` error.
+    pub fn expect_match_or<'r, C, R>(&'r mut self, check: C, result: R) -> Result<Token<'c>>
+        where
+            C: for<'a> FnOnce(&'a TokenValue<'c>) -> bool,
+            R: for<'a> FnOnce(&'a Token<'c>) -> Result<Token<'c>>
     {
         let token = match self.tokens.peek() {
             Some(&Ok(ref t)) => {
-                if t.value == expected {
+                if check(&t.value) {
                     t.clone()
                 } else {
-                    return Err(Error::new_at(
-                        error_message,
-                        t.line
-                    ))
+                    return result(&t);
                 }
             },
             None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
