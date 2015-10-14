@@ -10,10 +10,21 @@ impl<'c> Parse<'c> for Module<'c> {
     {
         println!("Module::parse");
 
-        let mut module = Module::new();
+        let module = Some(Module::new());
 
-        module.body = try!(Body::parse(parser));
+        // if parser.has_module() {
+        //     unreachable!("Same context should not be used to parse multiple modules.");
+        // }
 
-        Ok(module)
+        // swap(&mut module, &mut parser.module);
+        let body = try!(Body::parse(parser));
+        // swap(&mut module, &mut parser.module);
+
+        if let Some(mut module) = module {
+            module.body = body;
+            return Ok(module);
+        }
+
+        unreachable!("Context has consumed the module without giving it back.");
     }
 }

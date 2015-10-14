@@ -1,10 +1,24 @@
+use std::collections::HashMap;
 use node::Expr;
+
+#[derive(Debug)]
+pub enum ImportTarget<'c> {
+    Macro { symbol: &'c str },
+}
 
 #[derive(Debug)]
 pub enum Body<'c> {
     List { items: Vec<Body<'c>> },
     Text { value: &'c str, line: usize },
     Print { expr: Box<Expr<'c>>, line: usize },
+    Import {
+        /// Target template to import, which can be evaluated at runtime from
+        /// provided expression.
+        source: Box<Expr<'c>>,
+        /// Target list alias => name.
+        targets: HashMap<&'c str, ImportTarget<'c>>,
+        line: usize
+    },
 }
 
 impl<'c> Body<'c> {

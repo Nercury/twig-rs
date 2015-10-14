@@ -1,8 +1,8 @@
+use std::collections::HashMap;
 use parser::Context;
 use token_parser::TokenParserExtension;
-use node::Body;
+use node::{ Body, Expr, ImportTarget };
 use { Token, TokenValue };
-use token::DebugValue;
 use error::{ Error, ErrorMessage, Received };
 use Result;
 
@@ -20,16 +20,31 @@ impl TokenParserExtension for From {
     fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: Token<'c>)
         -> Result<Option<Body<'c>>>
     {
-        println!("From::parse");
+        println!("From::parse {:?}", token);
 
         let macro_expr = try!(parse_expression(parser, 0));
+
         try!(parser.expect(TokenValue::Name("import")));
 
-        //let mut targets = Vec::new();
+        let mut targets = HashMap::new();
         loop {
             let name = try!(parser.expect_name());
+            let mut alias = name;
+            if try!(parser.skip_to_next_if(TokenValue::Name("as"))) {
+                alias = try!(parser.expect_name());
+            }
+            targets.insert(alias, ImportTarget::Macro { symbol: name });
+            if !try!(parser.skip_to_next_if(TokenValue::Punctuation(','))) {
+                break;
+            }
         }
-        unreachable!("not implemented From::parse");
+        try!(parser.expect(TokenValue::BlockEnd));
+
+        Ok(Some(Body::Import {
+            source: Box::new(macro_expr),
+            targets: targets,
+            line: token.line,
+        }))
     }
 
     fn get_tag(&self) -> &'static str {

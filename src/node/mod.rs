@@ -2,7 +2,7 @@ mod body;
 mod expr;
 mod module;
 
-pub use self::body::Body;
+pub use self::body::{ Body, ImportTarget };
 pub use self::expr::{ Expr, ExprValue, ExprConstant, ExprCallType };
 pub use self::module::Module;
 

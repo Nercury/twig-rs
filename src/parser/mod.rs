@@ -6,6 +6,7 @@ use error::{ Error, ErrorMessage, Received };
 use operator::{ OperatorOptions, OperatorKind };
 use lexer::iter::TokenIter;
 use token::DebugValue;
+use node::Module;
 
 pub mod body;
 pub mod module;
@@ -26,7 +27,10 @@ pub trait Parse<'c> {
 /// in all parsing code this "peekable" becomes "current".
 pub struct Context<'p, 'c: 'p>
 {
+    /// Project options for parsing, containing data collected from all added
+    /// extensions.
     pub env: &'p ParsingEnvironment,
+    /// Token stream.
     pub tokens: Peekable<&'p mut TokenIter<'p, 'c>>,
 }
 
