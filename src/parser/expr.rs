@@ -410,6 +410,60 @@ pub fn parse_unnamed_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition:
     Ok(args)
 }
 
+pub fn parse_named_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: bool)
+    -> Result<Vec<(&'c str, Expr<'c>)>>
+{
+    println!("parse_named_arguments, definition {:?}", definition);
+
+    let mut args = Vec::new();
+
+    try!(parser.expect_or_error(TokenValue::Punctuation('('), ErrorMessage::ListOfArgumentsMustBeginWithParenthesis));
+
+    while !try!(parser.test(TokenValue::Punctuation(')'))) {
+        if args.len() > 0 {
+            try!(parser.expect_or_error(TokenValue::Punctuation(','), ErrorMessage::ArgumentsMustBeSeparatedByComma));
+        }
+
+        let (name_expr, token) = if definition {
+            let name = try!(parser.expect_name());
+            let token = try!(parser.current());
+            (Expr::new_name(name, token.line), token)
+        } else {
+            (try!(parse_expression(parser, 0)), try!(parser.current()))
+        };
+
+        try!(parser.expect(TokenValue::Punctuation('=')));
+
+        let name = match name_expr {
+            Expr { value: ExprValue::Name(n), .. } => n,
+            other => return Err(Error::new_at(
+                ErrorMessage::ParameterNameMustBeAString { given: format!("{:?}", other) },
+                token.line
+            )),
+        };
+
+        let value = if definition {
+            let value = try!(parse_primary_expression(parser));
+
+            if !value.is_constant() {
+                return Err(Error::new_at(
+                    ErrorMessage::DefaultValueForArgumentMustBeConstant,
+                    try!(parser.current()).line
+                ));
+            }
+
+            value
+        } else {
+            try!(parse_expression(parser, 0))
+        };
+
+        args.push((name, value))
+    }
+    try!(parser.expect_or_error(TokenValue::Punctuation(')'), ErrorMessage::ListOfArgumentsMustCloseWithParenthesis));
+
+    Ok(args)
+}
+
 pub fn parse_conditional_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut expr: Expr<'c>)
     -> Result<Expr<'c>>
 {

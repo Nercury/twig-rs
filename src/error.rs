@@ -43,6 +43,8 @@ pub enum ErrorMessage {
     UnexpectedCharacter(String),
     ParenthesisNotClosed,
     MustStartWithTagName,
+    DefaultValueForArgumentMustBeConstant,
+    ParameterNameMustBeAString { given: String },
     CustomError(Box<CustomError>),
 }
 
@@ -103,6 +105,8 @@ impl fmt::Display for ErrorMessage {
             ErrorMessage::UnexpectedCharacter(ref s) => write!(f, "Unexpected character \"{}\"", s),
             ErrorMessage::ParenthesisNotClosed => write!(f, "An opened parenthesis is not properly closed"),
             ErrorMessage::MustStartWithTagName => write!(f, "A block must start with a tag name"),
+            ErrorMessage::DefaultValueForArgumentMustBeConstant => write!(f, "A default value for an argument must be a constant (a boolean, a string, a number, or an array)."),
+            ErrorMessage::ParameterNameMustBeAString { given: ref given } => write!(f, "A parameter name must be a string, \"{}\" given", given),
             ErrorMessage::CustomError(ref e) => write!(f, "{}", e),
         }
     }

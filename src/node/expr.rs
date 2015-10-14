@@ -39,6 +39,23 @@ impl<'c> Expr<'c> {
     pub fn new_name<'r>(name: &'r str, line: usize) -> Expr<'r> {
         Expr::new_at(ExprValue::Name(name), line)
     }
+
+    pub fn is_constant(&self) -> bool {
+        match self.value {
+            ExprValue::Array(ref items) => items.iter().all(|i| i.is_constant()),
+            ExprValue::AssignName(_) => false,
+            ExprValue::BinaryOperator { .. } => false,
+            ExprValue::Concat { .. } => false,
+            ExprValue::Conditional { .. } => false,
+            ExprValue::Constant(_) => true,
+            ExprValue::Name(_) => false,
+            ExprValue::UnaryOperator { value: "-", ref expr } => expr.is_constant(),
+            ExprValue::UnaryOperator { value: "+", ref expr } => expr.is_constant(),
+            ExprValue::UnaryOperator { .. } => false,
+            ExprValue::Hash(ref items) => items.iter().all(|&(ref k, ref v)| k.is_constant() && v.is_constant()),
+            ExprValue::GetAttr { .. } => false,
+        }
+    }
 }
 
 #[derive(Debug, PartialEq, Clone)]
