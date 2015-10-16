@@ -1,9 +1,8 @@
 use std::collections::HashMap;
 use parser::Context;
 use token_parser::TokenParserExtension;
-use node::{ Body, Expr, ImportTarget };
+use node::{ Body, ImportTarget };
 use { Token, TokenValue };
-use error::{ Error, ErrorMessage, Received };
 use Result;
 
 use parser::expr::parse_expression;

@@ -20,6 +20,7 @@ impl CoreError {
 #[derive(Clone)]
 pub enum CoreErrorMessage {
     OnlyVariablesCanBeAssignedTo,
+    ExpectedEndmacroName { expected: String, given: String },
     CanNotAssignTo(String),
 }
 
@@ -27,6 +28,7 @@ impl fmt::Display for CoreErrorMessage {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             CoreErrorMessage::OnlyVariablesCanBeAssignedTo => write!(f, "Only variables can be assigned to"),
+            CoreErrorMessage::ExpectedEndmacroName { ref expected, ref given } => write!(f, "Expected endmacro for macro \"{}\" (but \"{}\" given)", expected, given),
             CoreErrorMessage::CanNotAssignTo(ref v) => write!(f, "You cannot assign a value to \"{}\"", v),
         }
     }

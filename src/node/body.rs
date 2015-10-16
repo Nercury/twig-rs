@@ -19,6 +19,12 @@ pub enum Body<'c> {
         targets: HashMap<&'c str, ImportTarget<'c>>,
         line: usize
     },
+    Macro {
+        name: &'c str,
+        body: Box<Body<'c>>,
+        arguments: Vec<(&'c str, Expr<'c>)>,
+        line: usize
+    }
 }
 
 impl<'c> Body<'c> {
