@@ -6,6 +6,7 @@ use error::{ Error, ErrorMessage };
 use { Result, Expect };
 use value::{ TwigValueRef, TwigNumberRef };
 use std::collections::VecDeque;
+use parser::ImportedFunction;
 
 impl<'c> Parse<'c> for Expr<'c> {
     type Output = Expr<'c>;
@@ -98,6 +99,24 @@ pub fn get_function_node<'p, 'c>(parser: &mut Context<'p, 'c>, name: &'c str, li
     -> Result<Expr<'c>>
 {
     println!("get_function_node");
+
+    match name {
+        "parent" => unreachable!("function node parent"),
+        "block" => unreachable!("function node block"),
+        "attribute" => unreachable!("function node attribute"),
+        _ => {
+            if let Some(ImportedFunction { uuid, alias, .. }) = parser.get_imported_function(name) {
+                return Ok(Expr::new_at(ExprValue::ImportedFunctionCall {
+                    uuid: uuid,
+                    alias: alias,
+                    arguments: try!(parse_unnamed_arguments(parser, false))
+                }, line));
+            }
+
+            unreachable!("other default");
+        }
+    };
+
     unimplemented!();
 }
 

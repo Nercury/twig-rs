@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use parser::Context;
 use token_parser::TokenParserExtension;
 use node::{ Body, ImportTarget };
@@ -25,23 +24,34 @@ impl TokenParserExtension for From {
 
         try!(parser.expect(TokenValue::Name("import")));
 
-        let mut targets = HashMap::new();
+        let mut targets = Vec::new();
         loop {
             let name = try!(parser.expect_name());
             let mut alias = name;
             if try!(parser.skip_to_next_if(TokenValue::Name("as"))) {
                 alias = try!(parser.expect_name());
             }
-            targets.insert(alias, ImportTarget::Macro { symbol: name });
+            targets.push((alias, name));
             if !try!(parser.skip_to_next_if(TokenValue::Punctuation(','))) {
                 break;
             }
         }
         try!(parser.expect(TokenValue::BlockEnd));
 
+        let mut target_slots = Vec::new();
+        for (alias, name) in targets {
+            target_slots.push(
+                (
+                    parser.add_imported_function(alias, name),
+                    alias,
+                    ImportTarget::Function { symbol: name }
+                )
+            );
+        }
+
         Ok(Some(Body::Import {
             source: Box::new(macro_expr),
-            targets: targets,
+            targets: target_slots,
             line: token.line,
         }))
     }

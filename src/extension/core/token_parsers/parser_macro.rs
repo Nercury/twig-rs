@@ -27,6 +27,7 @@ impl TokenParserExtension for Macro {
         let line = token.line;
 
         try!(parser.expect(TokenValue::BlockEnd));
+        parser.push_local_scope();
 
         let body = try!(subparse(parser, |token| match token.value {
             TokenValue::Name("endmacro") => Some(BlockEnd { drop_needle: true }),
@@ -44,6 +45,7 @@ impl TokenParserExtension for Macro {
             }
         }
 
+        parser.pop_local_scope();
         try!(parser.expect(TokenValue::BlockEnd));
 
         Ok(Some(Body::Macro {

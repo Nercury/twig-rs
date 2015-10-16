@@ -1,9 +1,9 @@
-use std::collections::HashMap;
 use node::Expr;
+use uuid::Uuid;
 
 #[derive(Debug)]
 pub enum ImportTarget<'c> {
-    Macro { symbol: &'c str },
+    Function { symbol: &'c str },
 }
 
 #[derive(Debug)]
@@ -16,7 +16,7 @@ pub enum Body<'c> {
         /// provided expression.
         source: Box<Expr<'c>>,
         /// Target list alias => name.
-        targets: HashMap<&'c str, ImportTarget<'c>>,
+        targets: Vec<(Uuid, &'c str, ImportTarget<'c>)>,
         line: usize
     },
     Macro {

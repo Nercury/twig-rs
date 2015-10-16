@@ -1,4 +1,5 @@
 use std::iter::Peekable;
+use std::collections::HashMap;
 use { Token, TokenValue };
 use environment::ParsingEnvironment;
 use Result;
@@ -6,11 +7,38 @@ use error::{ Error, ErrorMessage, Received };
 use operator::{ OperatorOptions, OperatorKind };
 use lexer::iter::TokenIter;
 use token::DebugValue;
-use node::Module;
+use uuid::Uuid;
 
 pub mod body;
 pub mod module;
 pub mod expr;
+
+#[derive(Copy, Clone)]
+pub struct ImportedFunction<'c> {
+    pub uuid: Uuid,
+    pub name: &'c str,
+    pub alias: &'c str,
+}
+
+impl<'c> ImportedFunction<'c> {
+    pub fn new<'r>(uuid: Uuid, alias: &'r str, name: &'r str) -> ImportedFunction<'r> {
+        ImportedFunction {
+            uuid: uuid, name: name, alias: alias
+        }
+    }
+}
+
+pub struct ImportedSymbols<'c> {
+    pub functions: HashMap<&'c str, ImportedFunction<'c>>
+}
+
+impl<'c> ImportedSymbols<'c> {
+    pub fn new<'r>() -> ImportedSymbols<'r> {
+        ImportedSymbols {
+            functions: HashMap::new()
+        }
+    }
+}
 
 pub trait Parse<'c> {
     type Output;
@@ -32,6 +60,8 @@ pub struct Context<'p, 'c: 'p>
     pub env: &'p ParsingEnvironment,
     /// Token stream.
     pub tokens: Peekable<&'p mut TokenIter<'p, 'c>>,
+    /// Imported symbol stack.
+    pub imported_symbols: Vec<ImportedSymbols<'c>>,
 }
 
 impl<'p, 'c: 'p> Context<'p, 'c>
@@ -44,7 +74,37 @@ impl<'p, 'c: 'p> Context<'p, 'c>
         Context {
             env: env,
             tokens: tokens.peekable(),
+            imported_symbols: vec![ImportedSymbols::new()],
         }
+    }
+
+    pub fn push_local_scope<'r>(&'r mut self) {
+        self.imported_symbols.push(ImportedSymbols::new());
+    }
+
+    pub fn pop_local_scope<'r>(&'r mut self) {
+        self.imported_symbols.pop();
+    }
+
+    /// Registers pecified alias as imported function, further parsing might
+    /// depend on this (use this function).
+    pub fn add_imported_function<'r>(&'r mut self, alias: &'c str, name: &'c str) -> Uuid {
+        let uuid = Uuid::new_v4();
+        self.imported_symbols
+            .last_mut().unwrap()
+            .functions
+                .insert(alias, ImportedFunction::new(uuid.clone(), alias, name));
+        uuid
+    }
+
+    /// Finds a function that was previosly imported in this or parent scope.
+    pub fn get_imported_function<'r>(&'r self, name: &str) -> Option<ImportedFunction<'c>> {
+        for symbols in &self.imported_symbols {
+            if let Some(found) = symbols.functions.get(name) {
+                return Some(*found);
+            }
+        }
+        None
     }
 
     /// Get current token or fail.

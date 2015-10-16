@@ -1,3 +1,5 @@
+use uuid::Uuid;
+
 #[derive(Debug, PartialEq, Clone)]
 pub struct Expr<'c> {
     pub line: usize,
@@ -54,6 +56,7 @@ impl<'c> Expr<'c> {
             ExprValue::UnaryOperator { .. } => false,
             ExprValue::Hash(ref items) => items.iter().all(|&(ref k, ref v)| k.is_constant() && v.is_constant()),
             ExprValue::GetAttr { .. } => false,
+            ExprValue::ImportedFunctionCall { .. } => false,
         }
     }
 }
@@ -84,7 +87,8 @@ pub enum ExprValue<'c> {
         arg: Box<Expr<'c>>,
         arguments: Vec<Expr<'c>>,
         call_type: ExprCallType
-    }
+    },
+    ImportedFunctionCall { uuid: Uuid, alias: &'c str, arguments: Vec<Expr<'c>> },
 }
 
 #[derive(Debug, PartialEq, Clone)]

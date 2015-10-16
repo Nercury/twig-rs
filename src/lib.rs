@@ -15,6 +15,7 @@
  */
 
 extern crate regex;
+extern crate uuid;
 
 mod token;
 mod lexer;
