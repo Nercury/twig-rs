@@ -451,7 +451,7 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: b
             (try!(parse_expression(parser, 0)), try!(parser.current()))
         };
 
-        try!(parser.expect(TokenValue::Punctuation('=')));
+        try!(parser.expect(TokenValue::Operator("=")));
 
         let name = match name_expr {
             Expr { value: ExprValue::Name(n), .. } => n,
