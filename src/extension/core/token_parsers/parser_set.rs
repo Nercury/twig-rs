@@ -1,7 +1,7 @@
 use parser::Context;
 use token_parser::TokenParserExtension;
 use node::Body;
-use tokens::Token;
+use tokens::TokenRef;
 use Result;
 
 use super::parse_assignment_expression;
@@ -15,7 +15,7 @@ impl Set {
 }
 
 impl TokenParserExtension for Set {
-    fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: Token<'c>)
+    fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: TokenRef<'c>)
         -> Result<Option<Body<'c>>>
     {
         trace!("Set::parse");

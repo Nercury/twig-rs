@@ -32,7 +32,7 @@ pub use self::parser_embed::Embed;
 
 use parser::Context;
 use node::{ Expr, ExprValue };
-use tokens::TokenValue;
+use tokens::TokenValueRef;
 use super::error::*;
 use Result;
 
@@ -47,7 +47,7 @@ pub fn parse_assignment_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     loop {
         let token = try!(parser.current());
         let name = match token.value {
-            TokenValue::Name(name) => {
+            TokenValueRef::Name(name) => {
                 try!(parser.next());
                 name
             },
@@ -66,7 +66,7 @@ pub fn parse_assignment_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
 
         targets.push(Expr::new_at(ExprValue::AssignName(name), token.line));
 
-        if !try!(parser.skip_to_next_if(TokenValue::Punctuation(','))) {
+        if !try!(parser.skip_to_next_if(TokenValueRef::Punctuation(','))) {
             break;
         }
     }

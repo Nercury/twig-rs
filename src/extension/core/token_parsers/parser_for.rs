@@ -1,7 +1,7 @@
 use parser::Context;
 use token_parser::TokenParserExtension;
 use node::Body;
-use tokens::Token;
+use tokens::TokenRef;
 use Result;
 
 pub struct For;
@@ -13,7 +13,7 @@ impl For {
 }
 
 impl TokenParserExtension for For {
-    fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: Token<'c>)
+    fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: TokenRef<'c>)
         -> Result<Option<Body<'c>>>
     {
         unreachable!("not implemented For::parse")

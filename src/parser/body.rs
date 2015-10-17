@@ -1,6 +1,6 @@
 use node::{ Body, Expr };
 use parser::{ Parse, Context };
-use tokens::{ Token, TokenValue };
+use tokens::{ TokenRef, TokenValueRef };
 use { Result, Expect };
 use error::{ Error, ErrorMessage };
 
@@ -22,7 +22,7 @@ pub struct BlockEnd {
 
 pub fn subparse<'p, 'c, D>(parser: &mut Context<'p, 'c>, test: D)
     -> Result<Body<'c>>
-        where D: Fn(&Token<'c>) -> Option<BlockEnd>
+        where D: Fn(&TokenRef<'c>) -> Option<BlockEnd>
 {
     let mut maybe_line = None;
     let mut rv = Vec::new();
@@ -32,22 +32,22 @@ pub fn subparse<'p, 'c, D>(parser: &mut Context<'p, 'c>, test: D)
             maybe_line = Some(token.line);
         }
         match token.value {
-            TokenValue::Text(t) => {
+            TokenValueRef::Text(t) => {
                 try!(parser.next());
                 rv.push(Body::Text { value: t, line: token.line })
             },
-            TokenValue::VarStart => {
+            TokenValueRef::VarStart => {
                 try!(parser.next());
                 let expr = try!(Expr::parse(parser));
-                try!(parser.expect(TokenValue::VarEnd));
+                try!(parser.expect(TokenValueRef::VarEnd));
                 rv.push(Body::Print { expr: Box::new(expr), line: token.line });
             },
-            TokenValue::BlockStart => {
+            TokenValueRef::BlockStart => {
                 try!(parser.next());
                 let token = try!(parser.current());
 
                 let tag_name = match token.value {
-                    TokenValue::Name(n) => n,
+                    TokenValueRef::Name(n) => n,
                     _ => return Err(Error::new_at(ErrorMessage::MustStartWithTagName, token.line)),
                 };
 

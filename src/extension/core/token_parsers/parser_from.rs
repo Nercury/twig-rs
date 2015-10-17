@@ -1,7 +1,7 @@
 use parser::Context;
 use token_parser::TokenParserExtension;
 use node::{ Body, ImportTarget };
-use tokens::{ Token, TokenValue };
+use tokens::{ TokenRef, TokenValueRef };
 use Result;
 
 use parser::expr::parse_expression;
@@ -15,28 +15,28 @@ impl From {
 }
 
 impl TokenParserExtension for From {
-    fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: Token<'c>)
+    fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: TokenRef<'c>)
         -> Result<Option<Body<'c>>>
     {
         trace!("From::parse {:?}", token);
 
         let macro_expr = try!(parse_expression(parser, 0));
 
-        try!(parser.expect(TokenValue::Name("import")));
+        try!(parser.expect(TokenValueRef::Name("import")));
 
         let mut targets = Vec::new();
         loop {
             let name = try!(parser.expect_name());
             let mut alias = name;
-            if try!(parser.skip_to_next_if(TokenValue::Name("as"))) {
+            if try!(parser.skip_to_next_if(TokenValueRef::Name("as"))) {
                 alias = try!(parser.expect_name());
             }
             targets.push((alias, name));
-            if !try!(parser.skip_to_next_if(TokenValue::Punctuation(','))) {
+            if !try!(parser.skip_to_next_if(TokenValueRef::Punctuation(','))) {
                 break;
             }
         }
-        try!(parser.expect(TokenValue::BlockEnd));
+        try!(parser.expect(TokenValueRef::BlockEnd));
 
         let mut target_slots = Vec::new();
         for (alias, name) in targets {

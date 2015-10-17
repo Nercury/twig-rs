@@ -3,7 +3,7 @@ use std::collections::{ VecDeque };
 
 use super::Lexer;
 use { Result, Error };
-use tokens::{ Token, TokenValue, LexerOptions };
+use tokens::{ TokenRef, TokenValueRef, LexerOptions };
 use value::{ TwigNumberRef, TwigValueRef };
 use std::fmt;
 use Expect;
@@ -31,7 +31,7 @@ struct Position<'code> {
     loc: usize,
     len: usize,
     all_len: usize,
-    value: TokenValue<'code>,
+    value: TokenValueRef<'code>,
     ws_trim: bool,
 }
 
@@ -46,9 +46,9 @@ impl<'code> Position<'code> {
             len: first_end - first_start,
             all_len: all_end - all_start,
             value: match c.at(1).expect("twig bug: expected at least one subcapture (text) when collecting positions") {
-                s if s == options.tag_variable.start => TokenValue::VarStart,
-                s if s == options.tag_block.start => TokenValue::BlockStart,
-                s if s == options.tag_comment.start => TokenValue::CommentStart,
+                s if s == options.tag_variable.start => TokenValueRef::VarStart,
+                s if s == options.tag_block.start => TokenValueRef::BlockStart,
+                s if s == options.tag_comment.start => TokenValueRef::CommentStart,
                 _ => unreachable!("twig bug: unexpected capture when collecting positions"),
             },
             ws_trim: match second {
@@ -115,7 +115,7 @@ pub struct TokenIter<'iteration, 'code> {
     lexer: &'iteration Lexer,
 
     code: &'code str,
-    tokens: VecDeque<Result<Token<'code>>>,
+    tokens: VecDeque<Result<TokenRef<'code>>>,
     position: usize,
     positions: Vec<Position<'code>>,
 
@@ -134,9 +134,9 @@ pub struct TokenIter<'iteration, 'code> {
 }
 
 impl<'iteration, 'code> Iterator for TokenIter<'iteration, 'code> {
-    type Item = Result<Token<'code>>;
+    type Item = Result<TokenRef<'code>>;
 
-    fn next(&mut self) -> Option<Result<Token<'code>>> {
+    fn next(&mut self) -> Option<Result<TokenRef<'code>>> {
 
         if self.finished {
             return None;
@@ -150,10 +150,10 @@ impl<'iteration, 'code> Iterator for TokenIter<'iteration, 'code> {
     }
 }
 
-impl<'code, T> Expect<TokenValue<'code>> for T where T: Iterator<Item=Result<Token<'code>>> {
-    type Output = Result<Token<'code>>;
+impl<'code, T> Expect<TokenValueRef<'code>> for T where T: Iterator<Item=Result<TokenRef<'code>>> {
+    type Output = Result<TokenRef<'code>>;
 
-    fn expect(&mut self, expected: TokenValue<'code>) -> Self::Output {
+    fn expect(&mut self, expected: TokenValueRef<'code>) -> Self::Output {
         let maybe_token = self.next();
         match (maybe_token, expected) {
             (None, _) => return Err(
@@ -263,7 +263,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
         if self.position == positions_len {
             let loc = self.cursor;
 
-            self.push_token(TokenValue::Text(&self.code[loc..]));
+            self.push_token(TokenValueRef::Text(&self.code[loc..]));
             self.cursor = self.end;
 
             return;
@@ -285,16 +285,16 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
 
         self.push_token(
             if position.ws_trim {
-                TokenValue::Text(text_content.trim_right())
+                TokenValueRef::Text(text_content.trim_right())
             } else {
-                TokenValue::Text(text_content)
+                TokenValueRef::Text(text_content)
             }
         );
         self.move_cursor(text_content.len() + position.all_len);
 
         match position.value {
-            TokenValue::CommentStart => self.lex_comment(),
-            TokenValue::BlockStart => {
+            TokenValueRef::CommentStart => self.lex_comment(),
+            TokenValueRef::BlockStart => {
                 let loc = self.cursor;
                 // raw data?
                 if let Some(captures) = self.lexer.matchers.lex_block_raw.captures(&self.code[loc ..]) {
@@ -327,12 +327,12 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                     }
                 }
 
-                self.push_token(TokenValue::BlockStart);
+                self.push_token(TokenValueRef::BlockStart);
                 self.push_state(State::Block);
                 self.current_var_block_line = Some(self.line_num);
             },
-            TokenValue::VarStart => {
-                self.push_token(TokenValue::VarStart);
+            TokenValueRef::VarStart => {
+                self.push_token(TokenValueRef::VarStart);
                 self.push_state(State::Var);
                 self.current_var_block_line = Some(self.line_num);
             },
@@ -349,7 +349,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
             if let Some(captures) = self.lexer.matchers.lex_block.captures(&self.code[loc ..]) {
 
                 if let Some((start, end)) = captures.pos(0) {
-                    self.push_token(TokenValue::BlockEnd);
+                    self.push_token(TokenValueRef::BlockEnd);
                     self.move_cursor(end - start);
                     self.pop_state();
 
@@ -372,7 +372,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
             if let Some(captures) = self.lexer.matchers.lex_var.captures(&self.code[loc ..]) {
 
                 if let Some((start, end)) = captures.pos(0) {
-                    self.push_token(TokenValue::VarEnd);
+                    self.push_token(TokenValueRef::VarEnd);
                     self.move_cursor(end - start);
                     self.pop_state();
 
@@ -418,7 +418,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
             if let Some((start, end)) = captures.pos(0) {
                 let op_str = self.code[loc + start .. loc + end].trim_right();
 
-                self.push_token(TokenValue::Operator(op_str));
+                self.push_token(TokenValueRef::Operator(op_str));
                 self.move_cursor(end - start);
 
                 return;
@@ -431,7 +431,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
         let loc = self.cursor;
         if let Some(captures) = self.lexer.matchers.regex_name.captures(&self.code[loc ..]) {
             if let Some((start, end)) = captures.pos(0) {
-                self.push_token(TokenValue::Name(&self.code[loc + start .. loc + end]));
+                self.push_token(TokenValueRef::Name(&self.code[loc + start .. loc + end]));
                 self.move_cursor(end - start);
 
                 return;
@@ -467,7 +467,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                     }
                 };
 
-                self.push_token(TokenValue::Value(TwigValueRef::Num(twig_number)));
+                self.push_token(TokenValueRef::Value(TwigValueRef::Num(twig_number)));
                 self.move_cursor(end - start);
 
                 return;
@@ -511,7 +511,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                     }
                 }
 
-                self.push_token(TokenValue::Punctuation(c));
+                self.push_token(TokenValueRef::Punctuation(c));
                 self.move_cursor(1);
 
                 return;
@@ -522,7 +522,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
         let loc = self.cursor;
         if let Some(captures) = self.lexer.matchers.regex_string.captures(&self.code[loc ..]) {
             if let Some((start, end)) = captures.pos(0) {
-                self.push_token(TokenValue::Value(TwigValueRef::Str(
+                self.push_token(TokenValueRef::Value(TwigValueRef::Str(
                     &self.code[loc + start + 1 .. loc + end - 1]
                 )));
                 self.move_cursor(end - start);
@@ -560,7 +560,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
         if let Some(captures) = self.lexer.matchers.interpolation_start.captures(&self.code[loc ..]) {
             if let Some((start, end)) = captures.pos(0) {
                 self.brackets.push(Bracket::new(BracketSymbol::IntStart, self.line_num));
-                self.push_token(TokenValue::InterpolationStart);
+                self.push_token(TokenValueRef::InterpolationStart);
                 self.move_cursor(end - start);
                 self.push_state(State::Interpolation);
 
@@ -572,7 +572,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
 
         let (_, part_end) = self.lexer.matchers.match_regex_dq_string_part(&self.code[loc ..]);
         if part_end > 0 {
-            self.push_token(TokenValue::Value(TwigValueRef::Str(
+            self.push_token(TokenValueRef::Value(TwigValueRef::Str(
                 &self.code[loc .. loc + part_end]
             )));
             self.move_cursor(part_end);
@@ -613,7 +613,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
             if let Some(captures) = self.lexer.matchers.interpolation_end.captures(&self.code[loc ..]) {
                 if let Some((start, end)) = captures.pos(0) {
                     self.brackets.pop();
-                    self.push_token(TokenValue::InterpolationEnd);
+                    self.push_token(TokenValueRef::InterpolationEnd);
                     self.move_cursor(end - start);
                     self.pop_state();
 
@@ -667,7 +667,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                             text = text.trim_right()
                         }
 
-                        self.push_token(TokenValue::Text(text));
+                        self.push_token(TokenValueRef::Text(text));
                     },
                     _ => unreachable!("twig bug: captured lex_raw_data but no capture data"),
                 }
@@ -684,15 +684,15 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
         };
     }
 
-    fn push_token(&mut self, token_value: TokenValue<'code>) {
+    fn push_token(&mut self, token_value: TokenValueRef<'code>) {
         // do not push empty text tokens
-        if let TokenValue::Text(ref text) = token_value {
+        if let TokenValueRef::Text(ref text) = token_value {
             if text.len() == 0 {
                 return;
             }
         }
 
-        self.tokens.push_back(Ok(Token { value: token_value, line: self.line_num }));
+        self.tokens.push_back(Ok(TokenRef { value: token_value, line: self.line_num }));
     }
 
     fn push_error(&mut self, message: ErrorMessage, line_num: Option<usize>) {

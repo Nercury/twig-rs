@@ -1,7 +1,7 @@
 use parser::Context;
 use token_parser::TokenParserExtension;
 use node::Body;
-use tokens::{ Token, TokenValue };
+use tokens::{ TokenRef, TokenValueRef };
 use Result;
 
 use parser::expr::parse_named_arguments;
@@ -17,7 +17,7 @@ impl Macro {
 }
 
 impl TokenParserExtension for Macro {
-    fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: Token<'c>)
+    fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: TokenRef<'c>)
         -> Result<Option<Body<'c>>>
     {
         trace!("Macro::parse, {:?}", token);
@@ -26,15 +26,15 @@ impl TokenParserExtension for Macro {
         let arguments = try!(parse_named_arguments(parser, true));
         let line = token.line;
 
-        try!(parser.expect(TokenValue::BlockEnd));
+        try!(parser.expect(TokenValueRef::BlockEnd));
         parser.push_local_scope();
 
         let body = try!(subparse(parser, |token| match token.value {
-            TokenValue::Name("endmacro") => Some(BlockEnd { drop_needle: true }),
+            TokenValueRef::Name("endmacro") => Some(BlockEnd { drop_needle: true }),
             _ => None,
         }));
         let token = try!(parser.current());
-        if let TokenValue::Name(value) = token.value {
+        if let TokenValueRef::Name(value) = token.value {
             try!(parser.next());
 
             if value != name {
@@ -46,7 +46,7 @@ impl TokenParserExtension for Macro {
         }
 
         parser.pop_local_scope();
-        try!(parser.expect(TokenValue::BlockEnd));
+        try!(parser.expect(TokenValueRef::BlockEnd));
 
         Ok(Some(Body::Macro {
             name: name,

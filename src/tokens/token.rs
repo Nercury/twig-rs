@@ -2,14 +2,14 @@ use value::{ TwigValueRef, TwigValue };
 
 /// Lexer output token, lexer's output and parser's input.
 #[derive(Debug, Clone)]
-pub struct Token<'a> {
-    pub value: TokenValue<'a>,
+pub struct TokenRef<'a> {
+    pub value: TokenValueRef<'a>,
     pub line: usize,
 }
 
 /// Token value.
 #[derive(PartialEq, Debug, Copy, Clone)]
-pub enum TokenValue<'a> {
+pub enum TokenValueRef<'a> {
     Text(&'a str),
     BlockStart,
     VarStart,
@@ -24,21 +24,21 @@ pub enum TokenValue<'a> {
     CommentStart, // Not in vanilla Twig.
 }
 
-impl<'a> Into<DebugValue> for TokenValue<'a> {
+impl<'a> Into<DebugValue> for TokenValueRef<'a> {
     fn into(self) -> DebugValue {
         match self {
-            TokenValue::Text(t) => DebugValue::Text(t.into()),
-            TokenValue::BlockStart => DebugValue::BlockStart,
-            TokenValue::VarStart => DebugValue::VarStart,
-            TokenValue::BlockEnd => DebugValue::BlockEnd,
-            TokenValue::VarEnd => DebugValue::VarEnd,
-            TokenValue::Name(n) => DebugValue::Name(n.into()),
-            TokenValue::Value(v) => DebugValue::Value(v.into()),
-            TokenValue::Operator(s) => DebugValue::Operator(s.into()),
-            TokenValue::Punctuation(s) => DebugValue::Punctuation(s.into()),
-            TokenValue::InterpolationStart => DebugValue::InterpolationStart,
-            TokenValue::InterpolationEnd => DebugValue::InterpolationEnd,
-            TokenValue::CommentStart => DebugValue::CommentStart,
+            TokenValueRef::Text(t) => DebugValue::Text(t.into()),
+            TokenValueRef::BlockStart => DebugValue::BlockStart,
+            TokenValueRef::VarStart => DebugValue::VarStart,
+            TokenValueRef::BlockEnd => DebugValue::BlockEnd,
+            TokenValueRef::VarEnd => DebugValue::VarEnd,
+            TokenValueRef::Name(n) => DebugValue::Name(n.into()),
+            TokenValueRef::Value(v) => DebugValue::Value(v.into()),
+            TokenValueRef::Operator(s) => DebugValue::Operator(s.into()),
+            TokenValueRef::Punctuation(s) => DebugValue::Punctuation(s.into()),
+            TokenValueRef::InterpolationStart => DebugValue::InterpolationStart,
+            TokenValueRef::InterpolationEnd => DebugValue::InterpolationEnd,
+            TokenValueRef::CommentStart => DebugValue::CommentStart,
         }
     }
 }

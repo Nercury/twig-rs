@@ -1,6 +1,6 @@
 use std::iter::Peekable;
 use std::collections::HashMap;
-use tokens::{ Token, TokenValue, DebugValue, TokenIter };
+use tokens::{ TokenRef, TokenValueRef, DebugValue, TokenIter };
 use environment::ParsingEnvironment;
 use Result;
 use error::{ Error, ErrorMessage, Received };
@@ -110,7 +110,7 @@ impl<'p, 'c: 'p> Context<'p, 'c>
     /// Returns current token, does not modify iterator position.
     /// Expects current token to exist, and if it is not (the end of file), returns
     /// UnexpectedEndOfTemplate error.
-    pub fn current<'r>(&'r mut self) -> Result<Token<'c>>
+    pub fn current<'r>(&'r mut self) -> Result<TokenRef<'c>>
     {
         Ok(match self.tokens.peek() {
             Some(&Ok(ref t)) => t.clone(),
@@ -123,7 +123,7 @@ impl<'p, 'c: 'p> Context<'p, 'c>
     ///
     /// Returns current token, does not modify iterator position.
     /// If the end of stream, returns None.
-    pub fn maybe_current<'r>(&'r mut self) -> Result<Option<Token<'c>>>
+    pub fn maybe_current<'r>(&'r mut self) -> Result<Option<TokenRef<'c>>>
     {
         Ok(match self.tokens.peek() {
             Some(&Ok(ref t)) => Some(t.clone()),
@@ -136,7 +136,7 @@ impl<'p, 'c: 'p> Context<'p, 'c>
     ///
     /// Expects the next token to exist. If it does not exist (the end of file), returns
     /// UnexpectedEndOfTemplate error.
-    pub fn next<'r>(&'r mut self) -> Result<Token<'c>>
+    pub fn next<'r>(&'r mut self) -> Result<TokenRef<'c>>
     {
         let token = match self.tokens.peek() {
             Some(&Ok(ref t)) => t.clone(),
@@ -158,7 +158,7 @@ impl<'p, 'c: 'p> Context<'p, 'c>
     ///
     /// Expects these tokens to exist. If they do not exist (the end of file), returns
     /// UnexpectedEndOfTemplate error.
-    pub fn skip_to_next_if<'r>(&'r mut self, expected: TokenValue<'c>) -> Result<bool>
+    pub fn skip_to_next_if<'r>(&'r mut self, expected: TokenValueRef<'c>) -> Result<bool>
     {
         let skip = match self.tokens.peek() {
             Some(&Ok(ref token)) if token.value == expected => true,
@@ -178,7 +178,7 @@ impl<'p, 'c: 'p> Context<'p, 'c>
     /// Expects the current token to match value and advances to next token.
     ///
     /// Error condition same as `expect_match_or`.
-    pub fn expect<'r>(&'r mut self, expected: TokenValue<'c>) -> Result<Token<'c>>
+    pub fn expect<'r>(&'r mut self, expected: TokenValueRef<'c>) -> Result<TokenRef<'c>>
     {
         self.expect_match_or(
             |token| if token.value == expected {
@@ -201,7 +201,7 @@ impl<'p, 'c: 'p> Context<'p, 'c>
     {
         self.expect_match_or(
             |token| match token.value {
-                TokenValue::Name(name) => Ok(name),
+                TokenValueRef::Name(name) => Ok(name),
                 _ => Err(Error::new_at(
                     ErrorMessage::ExpectedTokenTypeButReceived(
                         (DebugValue::Name("".into()), Received::Token(token.value.into()))
@@ -215,7 +215,7 @@ impl<'p, 'c: 'p> Context<'p, 'c>
     /// Expects the current token to match value and advances to the next token.
     ///
     /// Error condition same as `expect_match_or`.
-    pub fn expect_or_error<'r>(&'r mut self, expected: TokenValue<'c>, error_message: ErrorMessage) -> Result<Token<'c>>
+    pub fn expect_or_error<'r>(&'r mut self, expected: TokenValueRef<'c>, error_message: ErrorMessage) -> Result<TokenRef<'c>>
     {
         self.expect_match_or(
             |token| if token.value == expected {
@@ -235,7 +235,7 @@ impl<'p, 'c: 'p> Context<'p, 'c>
     /// returns `UnexpectedEndOfTemplate` error.
     pub fn expect_match_or<'r, C, T>(&'r mut self, check: C) -> Result<T>
         where
-            C: for<'a> FnOnce(&'a Token<'c>) -> Result<T>
+            C: for<'a> FnOnce(&'a TokenRef<'c>) -> Result<T>
     {
         let res = match self.tokens.peek() {
             Some(&Ok(ref t)) => {
@@ -253,7 +253,7 @@ impl<'p, 'c: 'p> Context<'p, 'c>
     ///
     /// Expects these token to exist. If it does not exist (the end of file), returns
     /// UnexpectedEndOfTemplate error.
-    pub fn test<'r>(&'r mut self, expected: TokenValue<'c>) -> Result<bool>
+    pub fn test<'r>(&'r mut self, expected: TokenValueRef<'c>) -> Result<bool>
     {
         match self.tokens.peek() {
             Some(&Ok(ref t)) => {

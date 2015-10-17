@@ -1,6 +1,6 @@
 use node::{ Expr, ExprValue, ExprConstant, ExprCallType };
 use parser::{ Parse, Context };
-use tokens::TokenValue;
+use tokens::TokenValueRef;
 use operator::{ OperatorOptions, OperatorKind, Associativity };
 use error::{ Error, ErrorMessage };
 use { Result, Expect };
@@ -28,7 +28,7 @@ pub fn parse_expression<'p, 'c>(parser: &mut Context<'p, 'c>, min_precedence: u1
     let mut token = try!(parser.current());
 
     loop {
-        if let TokenValue::Operator(op_str) = token.value {
+        if let TokenValueRef::Operator(op_str) = token.value {
             if let OperatorOptions { kind: OperatorKind::Binary { associativity, .. }, precedence: Some(precedence), .. } = parser.get_operator_options(op_str) {
                 if precedence >= min_precedence {
                     try!(parser.next());
@@ -70,7 +70,7 @@ pub fn get_primary<'p, 'c>(parser: &mut Context<'p, 'c>)
 
     let token = try!(parser.current());
 
-    if let TokenValue::Operator(op_str) = token.value {
+    if let TokenValueRef::Operator(op_str) = token.value {
         if let OperatorOptions { kind: OperatorKind::Unary { .. }, precedence: Some(precedence), .. } = parser.get_operator_options(op_str) {
             try!(parser.next());
             let expr = try!(parse_expression(parser, precedence));
@@ -82,10 +82,10 @@ pub fn get_primary<'p, 'c>(parser: &mut Context<'p, 'c>)
         }
     }
 
-    if let TokenValue::Punctuation('(') = token.value {
+    if let TokenValueRef::Punctuation('(') = token.value {
         try!(parser.next());
         let parsed_expr = try!(parse_expression(parser, 0));
-        if let Err(_) = parser.expect(TokenValue::Punctuation(')')) {
+        if let Err(_) = parser.expect(TokenValueRef::Punctuation(')')) {
             return Err(Error::new_at(ErrorMessage::ParenthesisNotClosed, token.line));
         }
         return parse_postfix_expression(parser, parsed_expr);
@@ -127,7 +127,7 @@ pub fn parse_primary_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     let token = try!(parser.current());
 
     let expr = match token.value {
-        TokenValue::Name(name) => {
+        TokenValueRef::Name(name) => {
             try!(parser.next());
             match name {
                 "true" | "TRUE" =>
@@ -139,23 +139,23 @@ pub fn parse_primary_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
                 name => {
                     let current_token = try!(parser.current());
                     match current_token.value {
-                        TokenValue::Punctuation('(') => try!(get_function_node(parser, name, token.line)),
+                        TokenValueRef::Punctuation('(') => try!(get_function_node(parser, name, token.line)),
                         _ => Expr::new_name(name, token.line),
                     }
                 },
             }
         },
-        TokenValue::Value(ref value) => match *value {
+        TokenValueRef::Value(ref value) => match *value {
             TwigValueRef::Num(num) => {
                 try!(parser.next());
                 get_number_expr(num, token.line)
             },
             TwigValueRef::Str(_) => try!(parse_string_expression(parser)),
         },
-        TokenValue::InterpolationStart => try!(parse_string_expression(parser)),
-        TokenValue::Operator(_) => unreachable!("TokenValue::Operator"),
-        TokenValue::Punctuation('[') => try!(parse_array_expression(parser)),
-        TokenValue::Punctuation('{') => try!(parse_hash_expression(parser)),
+        TokenValueRef::InterpolationStart => try!(parse_string_expression(parser)),
+        TokenValueRef::Operator(_) => unreachable!("TokenValueRef::Operator"),
+        TokenValueRef::Punctuation('[') => try!(parse_array_expression(parser)),
+        TokenValueRef::Punctuation('{') => try!(parse_hash_expression(parser)),
         other => return Err(Error::new_at(
             ErrorMessage::UnexpectedTokenValue(other.into()),
             token.line
@@ -184,17 +184,17 @@ pub fn parse_string_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     loop {
         let token = try!(parser.current());
 
-        if let (true, TokenValue::Value(TwigValueRef::Str(value))) = (next_can_be_string, token.value) {
+        if let (true, TokenValueRef::Value(TwigValueRef::Str(value))) = (next_can_be_string, token.value) {
             try!(parser.next());
             nodes.push_back(Expr::new_str_constant(value, token.line));
             next_can_be_string = false;
             continue;
         }
 
-        if let TokenValue::InterpolationStart = token.value {
+        if let TokenValueRef::InterpolationStart = token.value {
             try!(parser.next());
             nodes.push_back(try!(parse_expression(parser, 0)));
-            try!(parser.expect(TokenValue::InterpolationEnd));
+            try!(parser.expect(TokenValueRef::InterpolationEnd));
             next_can_be_string = true;
             continue;
         }
@@ -221,7 +221,7 @@ pub fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
 {
     trace!("parse_array_expression");
 
-    try!(parser.expect_or_error(TokenValue::Punctuation('['), ErrorMessage::ExpectedArrayElement));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation('['), ErrorMessage::ExpectedArrayElement));
 
     let mut items = Vec::new();
 
@@ -229,13 +229,13 @@ pub fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     let start_line = token.line;
     let mut first = true;
 
-    while token.value != TokenValue::Punctuation(']') {
+    while token.value != TokenValueRef::Punctuation(']') {
         if !first {
-            try!(parser.expect_or_error(TokenValue::Punctuation(','), ErrorMessage::ArrayValueMustBeFollowedByComma));
+            try!(parser.expect_or_error(TokenValueRef::Punctuation(','), ErrorMessage::ArrayValueMustBeFollowedByComma));
             token = try!(parser.current());
 
             // trailing ,?
-            if token.value == TokenValue::Punctuation(']') {
+            if token.value == TokenValueRef::Punctuation(']') {
                 break;
             }
         }
@@ -244,7 +244,7 @@ pub fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
         items.push(try!(parse_expression(parser, 0)));
         token = try!(parser.current());
     }
-    try!(parser.expect_or_error(TokenValue::Punctuation(']'), ErrorMessage::ArrayNotClosed));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation(']'), ErrorMessage::ArrayNotClosed));
 
     Ok(Expr::new_array(items, start_line))
 }
@@ -254,7 +254,7 @@ pub fn parse_hash_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
 {
     trace!("parse_hash_expression");
 
-    try!(parser.expect_or_error(TokenValue::Punctuation('{'), ErrorMessage::ExpectedHashElement));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation('{'), ErrorMessage::ExpectedHashElement));
 
     let mut items = Vec::new();
 
@@ -262,13 +262,13 @@ pub fn parse_hash_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     let start_line = token.line;
     let mut first = true;
 
-    while token.value != TokenValue::Punctuation('}') {
+    while token.value != TokenValueRef::Punctuation('}') {
         if !first {
-            try!(parser.expect_or_error(TokenValue::Punctuation(','), ErrorMessage::HashValueMustBeFollowedByComma));
+            try!(parser.expect_or_error(TokenValueRef::Punctuation(','), ErrorMessage::HashValueMustBeFollowedByComma));
             token = try!(parser.current());
 
             // trailing ,?
-            if token.value == TokenValue::Punctuation('}') {
+            if token.value == TokenValueRef::Punctuation('}') {
                 break;
             }
         }
@@ -281,19 +281,19 @@ pub fn parse_hash_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
         //  * a name, which is equivalent to a string -- a
         //  * an expression, which must be enclosed in parentheses -- (1 + 2)
         let key = match token.value {
-            TokenValue::Value(TwigValueRef::Str(v)) => {
+            TokenValueRef::Value(TwigValueRef::Str(v)) => {
                 try!(parser.next());
                 Expr::new_str_constant(v, token.line)
             },
-            TokenValue::Name(v) => {
+            TokenValueRef::Name(v) => {
                 try!(parser.next());
                 Expr::new_str_constant(v, token.line)
             },
-            TokenValue::Value(TwigValueRef::Num(num)) => {
+            TokenValueRef::Value(TwigValueRef::Num(num)) => {
                 try!(parser.next());
                 get_number_expr(num, token.line)
             },
-            TokenValue::Punctuation('(') => {
+            TokenValueRef::Punctuation('(') => {
                 try!(parse_expression(parser, 0))
             }
             _ => return Err(Error::new_at(
@@ -302,14 +302,14 @@ pub fn parse_hash_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
             )),
         };
 
-        try!(parser.expect_or_error(TokenValue::Punctuation(':'), ErrorMessage::HashKeyMustBeFollowedByColon));
+        try!(parser.expect_or_error(TokenValueRef::Punctuation(':'), ErrorMessage::HashKeyMustBeFollowedByColon));
 
         let value = try!(parse_expression(parser, 0));
         token = try!(parser.current());
 
         items.push((key, value));
     }
-    try!(parser.expect_or_error(TokenValue::Punctuation('}'), ErrorMessage::HashNotClosed));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation('}'), ErrorMessage::HashNotClosed));
 
     Ok(Expr::new_hash(items, start_line))
 }
@@ -321,7 +321,7 @@ pub fn parse_postfix_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut node: 
 
     loop {
         let token = try!(parser.current());
-        if let TokenValue::Punctuation(ch) = token.value {
+        if let TokenValueRef::Punctuation(ch) = token.value {
             node = match ch {
                 '.' | '[' => try!(parse_subscript_expression(parser, node)),
                 '|' => try!(parse_filter_expression(parser, node)),
@@ -348,11 +348,11 @@ pub fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, node: Ex
     let mut call_type = ExprCallType::Any;
 
     let arg = match token.value {
-        TokenValue::Punctuation('.') => {
+        TokenValueRef::Punctuation('.') => {
             token = try!(parser.next());
             let arg = match token.value {
-                TokenValue::Name(v) => Expr::new_str_constant(v, line),
-                TokenValue::Value(TwigValueRef::Num(num)) => get_number_expr(num, line),
+                TokenValueRef::Name(v) => Expr::new_str_constant(v, line),
+                TokenValueRef::Value(TwigValueRef::Num(num)) => get_number_expr(num, line),
                 // OMG the hack here is _hilarious_:
                 // TODO: ($token->getType() == Twig_tokens::OPERATOR_TYPE && preg_match(Twig_Lexer::REGEX_NAME, $token->getValue()))
                 _ => return Err(Error::new_at(
@@ -362,7 +362,7 @@ pub fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, node: Ex
             };
 
             token = try!(parser.current());
-            if let TokenValue::Punctuation('(') = token.value {
+            if let TokenValueRef::Punctuation('(') = token.value {
                 call_type = ExprCallType::Method;
                 arguments = try!(parse_unnamed_arguments(parser, false));
             }
@@ -405,11 +405,11 @@ pub fn parse_unnamed_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition:
 
     let mut args = Vec::new();
 
-    try!(parser.expect_or_error(TokenValue::Punctuation('('), ErrorMessage::ListOfArgumentsMustBeginWithParenthesis));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation('('), ErrorMessage::ListOfArgumentsMustBeginWithParenthesis));
 
-    while !try!(parser.test(TokenValue::Punctuation(')'))) {
+    while !try!(parser.test(TokenValueRef::Punctuation(')'))) {
         if args.len() > 0 {
-            try!(parser.expect_or_error(TokenValue::Punctuation(','), ErrorMessage::ArgumentsMustBeSeparatedByComma));
+            try!(parser.expect_or_error(TokenValueRef::Punctuation(','), ErrorMessage::ArgumentsMustBeSeparatedByComma));
         }
 
         let value = if definition {
@@ -424,7 +424,7 @@ pub fn parse_unnamed_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition:
             args.push(value);
         }
     }
-    try!(parser.expect_or_error(TokenValue::Punctuation(')'), ErrorMessage::ListOfArgumentsMustCloseWithParenthesis));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation(')'), ErrorMessage::ListOfArgumentsMustCloseWithParenthesis));
 
     Ok(args)
 }
@@ -436,11 +436,11 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: b
 
     let mut args = Vec::new();
 
-    try!(parser.expect_or_error(TokenValue::Punctuation('('), ErrorMessage::ListOfArgumentsMustBeginWithParenthesis));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation('('), ErrorMessage::ListOfArgumentsMustBeginWithParenthesis));
 
-    while !try!(parser.test(TokenValue::Punctuation(')'))) {
+    while !try!(parser.test(TokenValueRef::Punctuation(')'))) {
         if args.len() > 0 {
-            try!(parser.expect_or_error(TokenValue::Punctuation(','), ErrorMessage::ArgumentsMustBeSeparatedByComma));
+            try!(parser.expect_or_error(TokenValueRef::Punctuation(','), ErrorMessage::ArgumentsMustBeSeparatedByComma));
         }
 
         let (name_expr, token) = if definition {
@@ -451,7 +451,7 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: b
             (try!(parse_expression(parser, 0)), try!(parser.current()))
         };
 
-        try!(parser.expect(TokenValue::Operator("=")));
+        try!(parser.expect(TokenValueRef::Operator("=")));
 
         let name = match name_expr {
             Expr { value: ExprValue::Name(n), .. } => n,
@@ -478,7 +478,7 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: b
 
         args.push((name, value))
     }
-    try!(parser.expect_or_error(TokenValue::Punctuation(')'), ErrorMessage::ListOfArgumentsMustCloseWithParenthesis));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation(')'), ErrorMessage::ListOfArgumentsMustCloseWithParenthesis));
 
     Ok(args)
 }
@@ -488,11 +488,11 @@ pub fn parse_conditional_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut ex
 {
     trace!("parse_conditional_expression");
 
-    while try!(parser.skip_to_next_if(TokenValue::Punctuation('?'))) {
+    while try!(parser.skip_to_next_if(TokenValueRef::Punctuation('?'))) {
         let (expr2, expr3) =
-            if !try!(parser.skip_to_next_if(TokenValue::Punctuation(':'))) {
+            if !try!(parser.skip_to_next_if(TokenValueRef::Punctuation(':'))) {
                 let expr2 = try!(parse_expression(parser, 0));
-                if try!(parser.skip_to_next_if(TokenValue::Punctuation(':'))) {
+                if try!(parser.skip_to_next_if(TokenValueRef::Punctuation(':'))) {
                     (expr2, try!(parse_expression(parser, 0)))
                 } else {
                     (expr2, Expr::new_str_constant("", try!(parser.current()).line))

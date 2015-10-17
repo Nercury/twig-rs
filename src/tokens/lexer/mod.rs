@@ -50,8 +50,8 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(template);
 
-        _s = expect(_s, TokenValue::BlockStart);
-        _s = expect(_s, TokenValue::Name("§"));
+        _s = expect(_s, TokenValueRef::BlockStart);
+        _s = expect(_s, TokenValueRef::Name("§"));
     }
 
     #[test]
@@ -61,16 +61,16 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(template);
 
-        _s = expect(_s, TokenValue::VarStart);
-        _s = expect(_s, TokenValue::Name("§"));
+        _s = expect(_s, TokenValueRef::VarStart);
+        _s = expect(_s, TokenValueRef::Name("§"));
     }
 
     #[test]
     fn test_brackets_nesting() {
         let template = r#"{{ {"a":{"b":"c"}} }}"#;
 
-        assert_eq!(2, count_token(template, TokenValue::Punctuation('{')));
-        assert_eq!(2, count_token(template, TokenValue::Punctuation('}')));
+        assert_eq!(2, count_token(template, TokenValueRef::Punctuation('{')));
+        assert_eq!(2, count_token(template, TokenValueRef::Punctuation('}')));
     }
 
     #[test]
@@ -90,13 +90,13 @@ mod test {
         let mut _s = lexer.tokens(&template);
 
         // foo\nbar\n
-        _s = expect_with_line(_s, TokenValue::Text("foo\nbar\n"), 1);
+        _s = expect_with_line(_s, TokenValueRef::Text("foo\nbar\n"), 1);
         // \n (after {% line %})
-        _s = expect_with_line(_s, TokenValue::Text("\n"), 10);
+        _s = expect_with_line(_s, TokenValueRef::Text("\n"), 10);
         // {{
-        _s = expect_with_line(_s, TokenValue::VarStart, 11);
+        _s = expect_with_line(_s, TokenValueRef::VarStart, 11);
         // baz
-        _s = expect_with_line(_s, TokenValue::Name("baz"), 12);
+        _s = expect_with_line(_s, TokenValueRef::Name("baz"), 12);
     }
 
     #[test]
@@ -124,7 +124,7 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
-        expect(_s, TokenValue::Text("aaa"));
+        expect(_s, TokenValueRef::Text("aaa"));
     }
 
     #[test]
@@ -137,7 +137,7 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
-        expect(_s, TokenValue::Text("aaa"));
+        expect(_s, TokenValueRef::Text("aaa"));
     }
 
     #[test]
@@ -150,7 +150,7 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
-        expect(_s, TokenValue::Text("bbb"));
+        expect(_s, TokenValueRef::Text("bbb"));
     }
 
     #[test]
@@ -167,7 +167,7 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
-        expect(_s, TokenValue::Text(text));
+        expect(_s, TokenValueRef::Text(text));
     }
 
     #[test]
@@ -184,8 +184,8 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
-        _s = expect(_s, TokenValue::VarStart);
-        _s = expect(_s, TokenValue::Name(text));
+        _s = expect(_s, TokenValueRef::VarStart);
+        _s = expect(_s, TokenValueRef::Name(text));
     }
 
     #[test]
@@ -202,8 +202,8 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
-        _s = expect(_s, TokenValue::BlockStart);
-        _s = expect(_s, TokenValue::Name(text));
+        _s = expect(_s, TokenValueRef::BlockStart);
+        _s = expect(_s, TokenValueRef::Name(text));
     }
 
     #[test]
@@ -215,7 +215,7 @@ mod test {
         let mut _s = lexer.tokens(&template);
 
         _s.next();
-        _s = expect(_s, TokenValue::Value(TwigValueRef::new_big_num("922337203685477580700")));
+        _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_big_num("922337203685477580700")));
     }
 
     #[test]
@@ -227,7 +227,7 @@ mod test {
         let mut _s = lexer.tokens(&template);
 
         _s.next();
-        _s = expect(_s, TokenValue::Value(TwigValueRef::new_int(9223372036854775807)));
+        _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_int(9223372036854775807)));
     }
 
     #[test]
@@ -239,7 +239,7 @@ mod test {
         let mut _s = lexer.tokens(&template);
 
         _s.next();
-        _s = expect(_s, TokenValue::Value(TwigValueRef::new_big_num("9223372036854775808")));
+        _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_big_num("9223372036854775808")));
     }
 
     #[test]
@@ -251,7 +251,7 @@ mod test {
         let mut _s = lexer.tokens(&template);
 
         _s.next();
-        _s = expect(_s, TokenValue::Value(TwigValueRef::new_float(92233.33)));
+        _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_float(92233.33)));
     }
 
     #[test]
@@ -266,8 +266,8 @@ mod test {
 
         for &(template, expected) in &templates {
             let mut _s = lexer.tokens(&template);
-            _s = expect(_s, TokenValue::VarStart);
-            _s = expect(_s, TokenValue::Value(TwigValueRef::new_str(expected)));
+            _s = expect(_s, TokenValueRef::VarStart);
+            _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_str(expected)));
         }
     }
 
@@ -279,15 +279,15 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
-        _s = expect(_s, TokenValue::Text("foo "));
-        _s = expect(_s, TokenValue::VarStart);
-        _s = expect(_s, TokenValue::Value(TwigValueRef::new_str("bar ")));
-        _s = expect(_s, TokenValue::InterpolationStart);
-        _s = expect(_s, TokenValue::Name("baz"));
-        _s = expect(_s, TokenValue::Operator("+"));
-        _s = expect(_s, TokenValue::Value(TwigValueRef::new_int(1)));
-        _s = expect(_s, TokenValue::InterpolationEnd);
-        _s = expect(_s, TokenValue::VarEnd);
+        _s = expect(_s, TokenValueRef::Text("foo "));
+        _s = expect(_s, TokenValueRef::VarStart);
+        _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_str("bar ")));
+        _s = expect(_s, TokenValueRef::InterpolationStart);
+        _s = expect(_s, TokenValueRef::Name("baz"));
+        _s = expect(_s, TokenValueRef::Operator("+"));
+        _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_int(1)));
+        _s = expect(_s, TokenValueRef::InterpolationEnd);
+        _s = expect(_s, TokenValueRef::VarEnd);
     }
 
     #[test]
@@ -298,9 +298,9 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
-        _s = expect(_s, TokenValue::VarStart);
-        _s = expect(_s, TokenValue::Value(TwigValueRef::new_str(r#"bar \#{baz+1}"#)));
-        _s = expect(_s, TokenValue::VarEnd);
+        _s = expect(_s, TokenValueRef::VarStart);
+        _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_str(r#"bar \#{baz+1}"#)));
+        _s = expect(_s, TokenValueRef::VarEnd);
     }
 
     #[test]
@@ -311,9 +311,9 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
-        _s = expect(_s, TokenValue::VarStart);
-        _s = expect(_s, TokenValue::Value(TwigValueRef::new_str("bar # baz")));
-        _s = expect(_s, TokenValue::VarEnd);
+        _s = expect(_s, TokenValueRef::VarStart);
+        _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_str("bar # baz")));
+        _s = expect(_s, TokenValueRef::VarEnd);
     }
 
     #[test]
@@ -335,15 +335,15 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
-        _s = expect(_s, TokenValue::VarStart);
-        _s = expect(_s, TokenValue::Value(TwigValueRef::new_str(r#"bar "#)));
-        _s = expect(_s, TokenValue::InterpolationStart);
-        _s = expect(_s, TokenValue::Value(TwigValueRef::new_str(r#"foo"#)));
-        _s = expect(_s, TokenValue::InterpolationStart);
-        _s = expect(_s, TokenValue::Name("bar"));
-        _s = expect(_s, TokenValue::InterpolationEnd);
-        _s = expect(_s, TokenValue::InterpolationEnd);
-        _s = expect(_s, TokenValue::VarEnd);
+        _s = expect(_s, TokenValueRef::VarStart);
+        _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_str(r#"bar "#)));
+        _s = expect(_s, TokenValueRef::InterpolationStart);
+        _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_str(r#"foo"#)));
+        _s = expect(_s, TokenValueRef::InterpolationStart);
+        _s = expect(_s, TokenValueRef::Name("bar"));
+        _s = expect(_s, TokenValueRef::InterpolationEnd);
+        _s = expect(_s, TokenValueRef::InterpolationEnd);
+        _s = expect(_s, TokenValueRef::VarEnd);
     }
 
     #[test]
@@ -354,16 +354,16 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
-        _s = expect(_s, TokenValue::BlockStart);
-        _s = expect(_s, TokenValue::Name("foo"));
-        _s = expect(_s, TokenValue::Value(TwigValueRef::new_str(r#"bar "#)));
-        _s = expect(_s, TokenValue::InterpolationStart);
-        _s = expect(_s, TokenValue::Value(TwigValueRef::new_str(r#"foo"#)));
-        _s = expect(_s, TokenValue::InterpolationStart);
-        _s = expect(_s, TokenValue::Name("bar"));
-        _s = expect(_s, TokenValue::InterpolationEnd);
-        _s = expect(_s, TokenValue::InterpolationEnd);
-        _s = expect(_s, TokenValue::BlockEnd);
+        _s = expect(_s, TokenValueRef::BlockStart);
+        _s = expect(_s, TokenValueRef::Name("foo"));
+        _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_str(r#"bar "#)));
+        _s = expect(_s, TokenValueRef::InterpolationStart);
+        _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_str(r#"foo"#)));
+        _s = expect(_s, TokenValueRef::InterpolationStart);
+        _s = expect(_s, TokenValueRef::Name("bar"));
+        _s = expect(_s, TokenValueRef::InterpolationEnd);
+        _s = expect(_s, TokenValueRef::InterpolationEnd);
+        _s = expect(_s, TokenValueRef::BlockEnd);
     }
 
     #[test]
@@ -374,9 +374,9 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
         let mut _s = lexer.tokens(&template);
 
-        _s = expect(_s, TokenValue::VarStart);
-        _s = expect(_s, TokenValue::Value(TwigValueRef::new_int(1)));
-        _s = expect(_s, TokenValue::Operator("and"));
+        _s = expect(_s, TokenValueRef::VarStart);
+        _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_int(1)));
+        _s = expect(_s, TokenValueRef::Operator("and"));
     }
 
     #[test]
@@ -415,7 +415,7 @@ bar
         expect_error(_s, "Unclosed \"block\" at line 3");
     }
 
-    fn count_token(template: &'static str, token_value: TokenValue) -> u32 {
+    fn count_token(template: &'static str, token_value: TokenValueRef) -> u32 {
         let env = CompiledEnvironment::default();
         let lexer = Lexer::default(&env.lexing);
         let mut count = 0;
@@ -431,7 +431,7 @@ bar
         count
     }
 
-    fn expect_with_line<'i, 'c>(mut stream: TokenIter<'i, 'c>, token_value: TokenValue<'c>, line: usize) -> TokenIter<'i, 'c> {
+    fn expect_with_line<'i, 'c>(mut stream: TokenIter<'i, 'c>, token_value: TokenValueRef<'c>, line: usize) -> TokenIter<'i, 'c> {
         match stream.expect(token_value) {
             Ok(token) => assert_eq!(token.line, line),
             Err(e) => panic!("Received error {:?}", e),
@@ -439,7 +439,7 @@ bar
         stream
     }
 
-    fn expect<'i, 'c>(mut stream: TokenIter<'i, 'c>, token_value: TokenValue<'c>) -> TokenIter<'i, 'c> {
+    fn expect<'i, 'c>(mut stream: TokenIter<'i, 'c>, token_value: TokenValueRef<'c>) -> TokenIter<'i, 'c> {
         if let Err(e) = stream.expect(token_value) {
             panic!("Received error {:?}", e);
         }
