@@ -3,13 +3,13 @@ use value::{ TwigValueRef, TwigValue };
 /// Lexer output token, lexer's output and parser's input.
 #[derive(Debug, Clone)]
 pub struct Token<'a> {
-    pub value: Value<'a>,
+    pub value: TokenValue<'a>,
     pub line: usize,
 }
 
 /// Token value.
 #[derive(PartialEq, Debug, Copy, Clone)]
-pub enum Value<'a> {
+pub enum TokenValue<'a> {
     Text(&'a str),
     BlockStart,
     VarStart,
@@ -24,21 +24,21 @@ pub enum Value<'a> {
     CommentStart, // Not in vanilla Twig.
 }
 
-impl<'a> Into<DebugValue> for Value<'a> {
+impl<'a> Into<DebugValue> for TokenValue<'a> {
     fn into(self) -> DebugValue {
         match self {
-            Value::Text(t) => DebugValue::Text(t.into()),
-            Value::BlockStart => DebugValue::BlockStart,
-            Value::VarStart => DebugValue::VarStart,
-            Value::BlockEnd => DebugValue::BlockEnd,
-            Value::VarEnd => DebugValue::VarEnd,
-            Value::Name(n) => DebugValue::Name(n.into()),
-            Value::Value(v) => DebugValue::Value(v.into()),
-            Value::Operator(s) => DebugValue::Operator(s.into()),
-            Value::Punctuation(s) => DebugValue::Punctuation(s.into()),
-            Value::InterpolationStart => DebugValue::InterpolationStart,
-            Value::InterpolationEnd => DebugValue::InterpolationEnd,
-            Value::CommentStart => DebugValue::CommentStart,
+            TokenValue::Text(t) => DebugValue::Text(t.into()),
+            TokenValue::BlockStart => DebugValue::BlockStart,
+            TokenValue::VarStart => DebugValue::VarStart,
+            TokenValue::BlockEnd => DebugValue::BlockEnd,
+            TokenValue::VarEnd => DebugValue::VarEnd,
+            TokenValue::Name(n) => DebugValue::Name(n.into()),
+            TokenValue::Value(v) => DebugValue::Value(v.into()),
+            TokenValue::Operator(s) => DebugValue::Operator(s.into()),
+            TokenValue::Punctuation(s) => DebugValue::Punctuation(s.into()),
+            TokenValue::InterpolationStart => DebugValue::InterpolationStart,
+            TokenValue::InterpolationEnd => DebugValue::InterpolationEnd,
+            TokenValue::CommentStart => DebugValue::CommentStart,
         }
     }
 }

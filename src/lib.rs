@@ -36,7 +36,7 @@ pub use lexer::{ Lexer };
 pub use lexer::iter::TokenIter;
 pub use environment::{ CompiledEnvironment, Environment };
 pub use tokens::Token;
-pub use tokens::Value as TokenValue;
+pub use tokens::TokenValue;
 
 /// Returns different output based on expected value.
 pub trait Expect<V> {

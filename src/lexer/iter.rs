@@ -5,7 +5,7 @@ use super::Lexer;
 use { Result, Error };
 use tokens::{ Token };
 use value::{ TwigNumberRef, TwigValueRef };
-use tokens::Value as TokenValue;
+use tokens::TokenValue;
 use lexer::options::Options;
 use std::fmt;
 use Expect;
