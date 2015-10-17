@@ -8,10 +8,6 @@ use twig::extension::Extension;
 use twig::parser::Context as ParserContext;
 use twig::parser::Parse;
 
-use std::fs::File;
-use std::io::Read;
-use std::env;
-
 mod extension;
 
 fn main() {

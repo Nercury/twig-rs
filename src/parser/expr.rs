@@ -1,6 +1,6 @@
 use node::{ Expr, ExprValue, ExprConstant, ExprCallType };
 use parser::{ Parse, Context };
-use TokenValue;
+use tokens::TokenValue;
 use operator::{ OperatorOptions, OperatorKind, Associativity };
 use error::{ Error, ErrorMessage };
 use { Result, Expect };

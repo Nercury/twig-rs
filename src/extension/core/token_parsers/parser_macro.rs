@@ -1,7 +1,7 @@
 use parser::Context;
 use token_parser::TokenParserExtension;
 use node::Body;
-use { Token, TokenValue };
+use tokens::{ Token, TokenValue };
 use Result;
 
 use parser::expr::parse_named_arguments;

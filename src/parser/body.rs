@@ -1,6 +1,6 @@
 use node::{ Body, Expr };
 use parser::{ Parse, Context };
-use { Token, TokenValue };
+use tokens::{ Token, TokenValue };
 use { Result, Expect };
 use error::{ Error, ErrorMessage };
 

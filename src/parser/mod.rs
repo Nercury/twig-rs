@@ -1,12 +1,11 @@
 use std::iter::Peekable;
 use std::collections::HashMap;
-use { Token, TokenValue };
+use tokens::{ Token, TokenValue, DebugValue };
 use environment::ParsingEnvironment;
 use Result;
 use error::{ Error, ErrorMessage, Received };
 use operator::{ OperatorOptions, OperatorKind };
 use lexer::iter::TokenIter;
-use tokens::DebugValue;
 use uuid::Uuid;
 
 pub mod body;

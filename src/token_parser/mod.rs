@@ -1,6 +1,6 @@
 use parser::Context;
 use node::Body;
-use Token;
+use tokens::Token;
 use Result;
 
 pub trait TokenParserExtension
