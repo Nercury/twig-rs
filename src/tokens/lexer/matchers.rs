@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use regex::{ Regex, quote };
 
-use lexer::options::Options;
+use tokens::LexerOptions;
 
 pub struct Matchers {
     pub whitespace: Regex,
@@ -24,7 +24,7 @@ pub struct Matchers {
 
 impl Matchers {
     pub fn new(
-        options: &Options,
+        options: &LexerOptions,
         operators: &HashSet<&'static str>
     ) -> Matchers {
         Matchers {
@@ -253,7 +253,7 @@ impl Matchers {
 #[cfg(test)]
 mod test_match_regex_dq_string_part {
     use std::collections::HashSet;
-    use lexer::options::Options;
+    use tokens::LexerOptions;
     use super::Matchers;
 
     #[test]
@@ -287,7 +287,7 @@ mod test_match_regex_dq_string_part {
     }
 
     fn matchers() -> Matchers {
-        let options = Options::default();
+        let options = LexerOptions::default();
         Matchers::new(
             &options,
             &HashSet::new()

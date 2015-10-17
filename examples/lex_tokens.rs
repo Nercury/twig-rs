@@ -1,7 +1,7 @@
 extern crate twig;
 
 use twig::Environment;
-use twig::Lexer;
+use twig::tokens::Lexer;
 use std::fs::File;
 use std::io::Read;
 use std::env;

@@ -19,7 +19,6 @@ extern crate uuid;
 #[macro_use] extern crate log;
 
 pub mod tokens;
-mod lexer;
 mod error;
 mod environment;
 
@@ -32,8 +31,6 @@ pub mod runtime;
 pub mod token_parser;
 
 pub use error::{ Error, Result };
-pub use lexer::{ Lexer };
-pub use lexer::iter::TokenIter;
 pub use environment::{ CompiledEnvironment, Environment };
 
 /// Returns different output based on expected value.

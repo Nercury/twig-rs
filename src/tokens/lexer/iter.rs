@@ -3,10 +3,8 @@ use std::collections::{ VecDeque };
 
 use super::Lexer;
 use { Result, Error };
-use tokens::{ Token };
+use tokens::{ Token, TokenValue, LexerOptions };
 use value::{ TwigNumberRef, TwigValueRef };
-use tokens::TokenValue;
-use lexer::options::Options;
 use std::fmt;
 use Expect;
 use error::{ ErrorMessage, Received };
@@ -38,7 +36,7 @@ struct Position<'code> {
 }
 
 impl<'code> Position<'code> {
-    fn from_capture(options: &Options, c: Captures<'code>) -> Position<'code> {
+    fn from_capture(options: &LexerOptions, c: Captures<'code>) -> Position<'code> {
         let (all_start, all_end) = c.pos(0).expect("twig bug: expected full capture when collecting positions");
         let (first_start, first_end) = c.pos(1).expect("twig bug: expected at least one subcapture (start, end) when collecting positions");
         let second = c.pos(2);

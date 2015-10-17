@@ -1,23 +1,23 @@
-pub mod delimiters;
+mod delimiters;
+mod matchers;
+
 pub mod options;
 pub mod iter;
-pub mod matchers;
 
 use environment::LexingEnvironment;
-use lexer::matchers::Matchers;
-use lexer::options::Options;
-use lexer::iter::TokenIter;
+use tokens::{ LexerOptions, TokenIter };
+use self::matchers::Matchers;
 
 /// Parses template file and converts it to a stream of tokens.
 pub struct Lexer {
-    options: Options,
+    options: LexerOptions,
     matchers: Matchers,
 }
 
 impl Lexer {
     /// Initialize default lexer with default options.
     pub fn default(env: &LexingEnvironment) -> Lexer {
-        let options = Options::default();
+        let options = LexerOptions::default();
 
         Lexer {
             options: options,
@@ -37,9 +37,7 @@ impl Lexer {
 
 #[cfg(test)]
 mod test {
-    use super::*;
     use tokens::*;
-    use lexer::iter::TokenIter;
     use value::TwigValueRef;
     use std::iter::repeat;
     use CompiledEnvironment;

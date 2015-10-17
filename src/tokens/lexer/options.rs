@@ -1,8 +1,8 @@
-use lexer::delimiters::Delimiters;
+use super::delimiters::Delimiters;
 
-/// Twig options.
+/// Lexer options.
 #[derive(Copy, Clone)]
-pub struct Options {
+pub struct LexerOptions {
     pub tag_comment: Delimiters,
     pub tag_block: Delimiters,
     pub tag_variable: Delimiters,
@@ -10,9 +10,9 @@ pub struct Options {
     pub interpolation: Delimiters,
 }
 
-impl Options {
-    pub fn default() -> Options {
-        Options {
+impl LexerOptions {
+    pub fn default() -> LexerOptions {
+        LexerOptions {
             tag_comment: Delimiters::new("{#", "#}"),
             tag_block: Delimiters::new("{%", "%}"),
             tag_variable: Delimiters::new("{{", "}}"),

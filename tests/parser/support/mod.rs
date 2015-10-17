@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 use twig::Environment;
-use twig::Lexer;
+use twig::tokens::Lexer;
 use twig::node::Module;
 use twig::parser::{ Context, Parse };
 use twig::Result;
