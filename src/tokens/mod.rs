@@ -1,6 +1,6 @@
 /*!
 
-All tools necessary to produce a token stream from source template.
+Produces a token stream from source template.
 
 # Summary
 

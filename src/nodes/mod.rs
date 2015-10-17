@@ -1,3 +1,9 @@
+/*!
+
+Produces an abstract syntax tree from a stream of tokens.
+
+*/
+
 mod parser;
 mod node;
 mod token_parser;
