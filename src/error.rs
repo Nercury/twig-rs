@@ -1,6 +1,6 @@
 use std::result;
 use std::fmt;
-use token::DebugValue;
+use tokens::DebugValue;
 
 #[derive(Debug, Clone)]
 pub enum Received {

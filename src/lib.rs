@@ -18,7 +18,7 @@ extern crate regex;
 extern crate uuid;
 #[macro_use] extern crate log;
 
-mod token;
+mod tokens;
 mod lexer;
 mod error;
 mod environment;
@@ -35,8 +35,8 @@ pub use error::{ Error, Result };
 pub use lexer::{ Lexer };
 pub use lexer::iter::TokenIter;
 pub use environment::{ CompiledEnvironment, Environment };
-pub use token::Token;
-pub use token::Value as TokenValue;
+pub use tokens::Token;
+pub use tokens::Value as TokenValue;
 
 /// Returns different output based on expected value.
 pub trait Expect<V> {

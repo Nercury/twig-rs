@@ -354,7 +354,7 @@ pub fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, node: Ex
                 TokenValue::Name(v) => Expr::new_str_constant(v, line),
                 TokenValue::Value(TwigValueRef::Num(num)) => get_number_expr(num, line),
                 // OMG the hack here is _hilarious_:
-                // TODO: ($token->getType() == Twig_Token::OPERATOR_TYPE && preg_match(Twig_Lexer::REGEX_NAME, $token->getValue()))
+                // TODO: ($token->getType() == Twig_tokens::OPERATOR_TYPE && preg_match(Twig_Lexer::REGEX_NAME, $token->getValue()))
                 _ => return Err(Error::new_at(
                     ErrorMessage::ExpectedNameOrNumber,
                     line

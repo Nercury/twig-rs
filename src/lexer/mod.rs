@@ -38,7 +38,7 @@ impl Lexer {
 #[cfg(test)]
 mod test {
     use super::*;
-    use token::*;
+    use tokens::*;
     use lexer::iter::TokenIter;
     use value::TwigValueRef;
     use std::iter::repeat;

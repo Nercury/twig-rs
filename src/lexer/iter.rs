@@ -3,9 +3,9 @@ use std::collections::{ VecDeque };
 
 use super::Lexer;
 use { Result, Error };
-use token::{ Token };
+use tokens::{ Token };
 use value::{ TwigNumberRef, TwigValueRef };
-use token::Value as TokenValue;
+use tokens::Value as TokenValue;
 use lexer::options::Options;
 use std::fmt;
 use Expect;

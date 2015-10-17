@@ -1,7 +1,7 @@
 use parser::Context;
 use token_parser::TokenParserExtension;
 use node::Body;
-use token::Token;
+use tokens::Token;
 use Result;
 
 pub struct Spaceless;
