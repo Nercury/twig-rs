@@ -1,4 +1,4 @@
-use node::{ Body, Block, Macro, Trait, EmbededTemplate };
+use nodes::{ Body, Block, Macro, Trait, EmbededTemplate };
 
 #[derive(Debug)]
 pub struct Module<'c> {

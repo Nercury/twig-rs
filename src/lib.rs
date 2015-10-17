@@ -19,11 +19,11 @@ extern crate uuid;
 #[macro_use] extern crate log;
 
 pub mod tokens;
+pub mod nodes;
 mod error;
 mod environment;
 
 pub mod extension;
-pub mod node;
 pub mod parser;
 pub mod operator;
 pub mod value;

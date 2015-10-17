@@ -1,4 +1,4 @@
-use node::Expr;
+use nodes::Expr;
 use uuid::Uuid;
 
 #[derive(Debug)]

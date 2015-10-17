@@ -1,4 +1,4 @@
-use node::{ Module, Body };
+use nodes::{ Module, Body };
 use parser::{ Parse, Context };
 use Result;
 

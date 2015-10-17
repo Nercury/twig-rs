@@ -2,7 +2,7 @@
 
 use twig::Environment;
 use twig::tokens::Lexer;
-use twig::node::Module;
+use twig::nodes::Module;
 use twig::parser::{ Context, Parse };
 use twig::Result;
 

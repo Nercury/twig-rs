@@ -31,7 +31,7 @@ pub use self::parser_do::Do;
 pub use self::parser_embed::Embed;
 
 use parser::Context;
-use node::{ Expr, ExprValue };
+use nodes::{ Expr, ExprValue };
 use tokens::TokenValueRef;
 use super::error::*;
 use Result;

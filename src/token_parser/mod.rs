@@ -1,5 +1,5 @@
 use parser::Context;
-use node::Body;
+use nodes::Body;
 use tokens::TokenRef;
 use Result;
 
