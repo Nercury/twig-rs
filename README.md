@@ -46,4 +46,56 @@ Ok(Token { value: BlockStart, line_num: 3 })
 ...
 ```
 
+# Example of working parser
+
+Run example that parses this template:
+
+```twig
+test {{ var + 1 }}
+```
+
+```bash
+cargo run --example parse_nodes
+```
+
+Will output parsed module in console:
+
+```
+Ok(
+    Module {
+        body: List {
+            items: [
+                Text {
+                    value: "test ",
+                    line: 1
+                },
+                Print {
+                    expr: Expr {
+                        line: 1,
+                        value: BinaryOperator {
+                            value: "+",
+                            left: Expr {
+                                line: 1,
+                                value: Name(
+                                    "var"
+                                )
+                            },
+                            right: Expr {
+                                line: 1,
+                                value: Constant(
+                                    Int(
+                                        1
+                                    )
+                                )
+                            }
+                        }
+                    },
+                    line: 1
+                }
+            ]
+        }
+    }
+)
+```
+
 [tmp]: https://github.com/Nercury/twig-rs/blob/master/templates/fos_login.html.twig

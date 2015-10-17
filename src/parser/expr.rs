@@ -14,7 +14,7 @@ impl<'c> Parse<'c> for Expr<'c> {
     fn parse<'r>(parser: &mut Context<'r, 'c>)
         -> Result<Expr<'c>>
     {
-        println!("Expr::parse");
+        trace!("Expr::parse");
         parse_expression(parser, 0)
     }
 }
@@ -22,7 +22,7 @@ impl<'c> Parse<'c> for Expr<'c> {
 pub fn parse_expression<'p, 'c>(parser: &mut Context<'p, 'c>, min_precedence: u16)
     -> Result<Expr<'c>>
 {
-    println!("parse_expression");
+    trace!("parse_expression");
 
     let mut expr = try!(get_primary(parser));
     let mut token = try!(parser.current());
@@ -66,7 +66,7 @@ pub fn parse_expression<'p, 'c>(parser: &mut Context<'p, 'c>, min_precedence: u1
 pub fn get_primary<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
-    println!("get_primary");
+    trace!("get_primary");
 
     let token = try!(parser.current());
 
@@ -98,7 +98,7 @@ pub fn get_primary<'p, 'c>(parser: &mut Context<'p, 'c>)
 pub fn get_function_node<'p, 'c>(parser: &mut Context<'p, 'c>, name: &'c str, line: usize)
     -> Result<Expr<'c>>
 {
-    println!("get_function_node");
+    trace!("get_function_node");
 
     match name {
         "parent" => unreachable!("function node parent"),
@@ -123,7 +123,7 @@ pub fn get_function_node<'p, 'c>(parser: &mut Context<'p, 'c>, name: &'c str, li
 pub fn parse_primary_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
-    println!("parse_primary_expression");
+    trace!("parse_primary_expression");
     let token = try!(parser.current());
 
     let expr = match token.value {
@@ -176,7 +176,7 @@ pub fn get_number_expr<'c>(num: TwigNumberRef<'c>, line: usize) -> Expr<'c> {
 pub fn parse_string_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
-    println!("parse_string_expression");
+    trace!("parse_string_expression");
 
     let mut nodes = VecDeque::new();
     let mut next_can_be_string = true;
@@ -219,7 +219,7 @@ pub fn parse_string_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
 pub fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
-    println!("parse_array_expression");
+    trace!("parse_array_expression");
 
     try!(parser.expect_or_error(TokenValue::Punctuation('['), ErrorMessage::ExpectedArrayElement));
 
@@ -252,7 +252,7 @@ pub fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
 pub fn parse_hash_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Expr<'c>>
 {
-    println!("parse_hash_expression");
+    trace!("parse_hash_expression");
 
     try!(parser.expect_or_error(TokenValue::Punctuation('{'), ErrorMessage::ExpectedHashElement));
 
@@ -317,7 +317,7 @@ pub fn parse_hash_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
 pub fn parse_postfix_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut node: Expr<'c>)
     -> Result<Expr<'c>>
 {
-    println!("parse_postfix_expression");
+    trace!("parse_postfix_expression");
 
     loop {
         let token = try!(parser.current());
@@ -340,7 +340,7 @@ pub fn parse_postfix_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut node: 
 pub fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, node: Expr<'c>)
     -> Result<Expr<'c>>
 {
-    println!("parse_subscript_expression");
+    trace!("parse_subscript_expression");
 
     let mut token = try!(parser.next());
     let line = token.line;
@@ -394,14 +394,14 @@ pub fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, node: Ex
 pub fn parse_filter_expression<'p, 'c>(parser: &mut Context<'p, 'c>, expr: Expr<'c>)
     -> Result<Expr<'c>>
 {
-    println!("parse_filter_expression");
+    trace!("parse_filter_expression");
     unimplemented!()
 }
 
 pub fn parse_unnamed_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: bool)
     -> Result<Vec<Expr<'c>>>
 {
-    println!("parse_unnamed_arguments, definition {:?}", definition);
+    trace!("parse_unnamed_arguments, definition {:?}", definition);
 
     let mut args = Vec::new();
 
@@ -432,7 +432,7 @@ pub fn parse_unnamed_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition:
 pub fn parse_named_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: bool)
     -> Result<Vec<(&'c str, Expr<'c>)>>
 {
-    println!("parse_named_arguments, definition {:?}", definition);
+    trace!("parse_named_arguments, definition {:?}", definition);
 
     let mut args = Vec::new();
 
@@ -486,7 +486,7 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: b
 pub fn parse_conditional_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut expr: Expr<'c>)
     -> Result<Expr<'c>>
 {
-    println!("parse_conditional_expression");
+    trace!("parse_conditional_expression");
 
     while try!(parser.skip_to_next_if(TokenValue::Punctuation('?'))) {
         let (expr2, expr3) =

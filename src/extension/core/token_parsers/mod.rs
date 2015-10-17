@@ -41,8 +41,8 @@ const INVALID_LVALUES: [&'static str; 3] = ["true", "false", "none"];
 pub fn parse_assignment_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     -> Result<Vec<Expr<'c>>>
 {
-    println!("parse_assignment_expression");
-    
+    trace!("parse_assignment_expression");
+
     let mut targets = Vec::new();
     loop {
         let token = try!(parser.current());

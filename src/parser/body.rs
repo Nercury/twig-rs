@@ -10,7 +10,7 @@ impl<'c> Parse<'c> for Body<'c> {
     fn parse<'r>(parser: &mut Context<'r, 'c>)
         -> Result<Body<'c>>
     {
-        println!("Body::parse");
+        trace!("Body::parse");
 
         subparse(parser, |_| None)
     }

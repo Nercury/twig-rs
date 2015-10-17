@@ -16,6 +16,7 @@
 
 extern crate regex;
 extern crate uuid;
+#[macro_use] extern crate log;
 
 mod token;
 mod lexer;

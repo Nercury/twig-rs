@@ -8,7 +8,7 @@ impl<'c> Parse<'c> for Module<'c> {
     fn parse<'r>(parser: &mut Context<'r, 'c>)
         -> Result<Module<'c>>
     {
-        println!("Module::parse");
+        trace!("Module::parse");
 
         let module = Some(Module::new());
 

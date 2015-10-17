@@ -18,7 +18,7 @@ impl TokenParserExtension for From {
     fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: Token<'c>)
         -> Result<Option<Body<'c>>>
     {
-        println!("From::parse {:?}", token);
+        trace!("From::parse {:?}", token);
 
         let macro_expr = try!(parse_expression(parser, 0));
 
