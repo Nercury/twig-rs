@@ -1,7 +1,7 @@
 extern crate twig;
 
 use super::support;
-use twig::nodes::{ Expr };
+use twig::nodes::expr::Expr;
 
 #[test]
 fn test_array_expression() {

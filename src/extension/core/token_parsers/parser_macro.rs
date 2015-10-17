@@ -1,5 +1,6 @@
 use tokens::{ TokenRef, TokenValueRef };
-use nodes::{ Parser, TokenParserExtension, Body };
+use nodes::{ Parser, TokenParserExtension };
+use nodes::body::Body;
 use Result;
 
 use nodes::expr_parser::parse_named_arguments;

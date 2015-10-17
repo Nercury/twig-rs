@@ -1,7 +1,7 @@
 extern crate twig;
 
 use super::support;
-use twig::nodes::{ Expr, ExprValue };
+use twig::nodes::expr::{ Expr, ExprValue };
 
 #[test]
 #[should_panic(

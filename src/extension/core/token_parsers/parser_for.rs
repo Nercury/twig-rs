@@ -1,5 +1,6 @@
 use tokens::TokenRef;
-use nodes::{ Parser, TokenParserExtension, Body };
+use nodes::{ Parser, TokenParserExtension };
+use nodes::body::Body;
 use Result;
 
 pub struct For;

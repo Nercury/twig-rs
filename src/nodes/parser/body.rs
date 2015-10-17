@@ -1,4 +1,6 @@
-use nodes::{ Parser, Parse, Body, Expr };
+use nodes::{ Parser, Parse };
+use nodes::body::Body;
+use nodes::expr::Expr;
 use tokens::{ TokenRef, TokenValueRef };
 use { Result, Expect };
 use error::{ Error, ErrorMessage };

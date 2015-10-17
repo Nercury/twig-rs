@@ -30,7 +30,8 @@ pub use self::parser_flush::Flush;
 pub use self::parser_do::Do;
 pub use self::parser_embed::Embed;
 
-use nodes::{ Expr, ExprValue, Parser };
+use nodes::Parser;
+use nodes::expr::{ Expr, ExprValue };
 use tokens::TokenValueRef;
 use super::error::*;
 use Result;

@@ -1,4 +1,5 @@
-use nodes::{ Parse, Parser, Module, Body };
+use nodes::{ Parse, Parser, Module };
+use nodes::body::Body;
 use Result;
 
 impl<'c> Parse<'c> for Module<'c> {

@@ -2,8 +2,8 @@ mod parser;
 mod node;
 mod token_parser;
 
-pub use self::node::body::{ Body, ImportTarget };
-pub use self::node::expr::{ Expr, ExprValue, ExprConstant, ExprCallType };
+pub use self::node::body;
+pub use self::node::expr;
 pub use self::node::module::Module;
 pub use self::token_parser::{ TokenParser };
 pub use self::parser::{ Parser, Parse, ImportedFunction };
@@ -30,5 +30,5 @@ pub trait TokenParserExtension
 {
     fn get_tag(&self) -> &'static str;
     fn parse<'p, 'c>(&self, parser: &mut Parser<'p, 'c>, token: TokenRef<'c>)
-        -> Result<Option<Body<'c>>>;
+        -> Result<Option<body::Body<'c>>>;
 }
