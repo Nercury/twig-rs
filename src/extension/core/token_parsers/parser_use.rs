@@ -1,6 +1,5 @@
-use parser::Context;
-use nodes::{ Body, TokenParserExtension };
 use tokens::TokenRef;
+use nodes::{ Parser, TokenParserExtension, Body };
 use Result;
 
 pub struct Use;
@@ -12,7 +11,7 @@ impl Use {
 }
 
 impl TokenParserExtension for Use {
-    fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: TokenRef<'c>)
+    fn parse<'p, 'c>(&self, parser: &mut Parser<'p, 'c>, token: TokenRef<'c>)
         -> Result<Option<Body<'c>>>
     {
         unreachable!("not implemented Use::parse")

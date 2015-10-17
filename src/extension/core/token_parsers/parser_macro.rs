@@ -1,10 +1,9 @@
-use parser::Context;
-use nodes::{ Body, TokenParserExtension };
 use tokens::{ TokenRef, TokenValueRef };
+use nodes::{ Parser, TokenParserExtension, Body };
 use Result;
 
-use parser::expr::parse_named_arguments;
-use parser::body::{ subparse, BlockEnd };
+use nodes::expr_parser::parse_named_arguments;
+use nodes::body_parser::{ subparse, BlockEnd };
 use extension::core::error::*;
 
 pub struct Macro;
@@ -16,7 +15,7 @@ impl Macro {
 }
 
 impl TokenParserExtension for Macro {
-    fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: TokenRef<'c>)
+    fn parse<'p, 'c>(&self, parser: &mut Parser<'p, 'c>, token: TokenRef<'c>)
         -> Result<Option<Body<'c>>>
     {
         trace!("Macro::parse, {:?}", token);

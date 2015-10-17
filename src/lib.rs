@@ -24,7 +24,6 @@ mod error;
 mod environment;
 
 pub mod extension;
-pub mod parser;
 pub mod operator;
 pub mod value;
 pub mod runtime;

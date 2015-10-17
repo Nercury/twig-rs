@@ -1,9 +1,8 @@
-use parser::Context;
-use nodes::{ TokenParserExtension, Body, ImportTarget };
 use tokens::{ TokenRef, TokenValueRef };
+use nodes::{ Parser, TokenParserExtension, Body, ImportTarget };
 use Result;
 
-use parser::expr::parse_expression;
+use nodes::expr_parser::parse_expression;
 
 pub struct From;
 
@@ -14,7 +13,7 @@ impl From {
 }
 
 impl TokenParserExtension for From {
-    fn parse<'p, 'c>(&self, parser: &mut Context<'p, 'c>, token: TokenRef<'c>)
+    fn parse<'p, 'c>(&self, parser: &mut Parser<'p, 'c>, token: TokenRef<'c>)
         -> Result<Option<Body<'c>>>
     {
         trace!("From::parse {:?}", token);

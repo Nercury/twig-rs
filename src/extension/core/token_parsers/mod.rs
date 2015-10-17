@@ -30,15 +30,14 @@ pub use self::parser_flush::Flush;
 pub use self::parser_do::Do;
 pub use self::parser_embed::Embed;
 
-use parser::Context;
-use nodes::{ Expr, ExprValue };
+use nodes::{ Expr, ExprValue, Parser };
 use tokens::TokenValueRef;
 use super::error::*;
 use Result;
 
 const INVALID_LVALUES: [&'static str; 3] = ["true", "false", "none"];
 
-pub fn parse_assignment_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
+pub fn parse_assignment_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
     -> Result<Vec<Expr<'c>>>
 {
     trace!("parse_assignment_expression");

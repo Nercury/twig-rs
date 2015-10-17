@@ -1,11 +1,10 @@
-use nodes::{ Module, Body };
-use parser::{ Parse, Context };
+use nodes::{ Parse, Parser, Module, Body };
 use Result;
 
 impl<'c> Parse<'c> for Module<'c> {
     type Output = Module<'c>;
 
-    fn parse<'r>(parser: &mut Context<'r, 'c>)
+    fn parse<'r>(parser: &mut Parser<'r, 'c>)
         -> Result<Module<'c>>
     {
         trace!("Module::parse");
@@ -25,6 +24,6 @@ impl<'c> Parse<'c> for Module<'c> {
             return Ok(module);
         }
 
-        unreachable!("Context has consumed the module without giving it back.");
+        unreachable!("Parser has consumed the module without giving it back.");
     }
 }

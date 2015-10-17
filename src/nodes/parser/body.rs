@@ -1,5 +1,4 @@
-use nodes::{ Body, Expr };
-use parser::{ Parse, Context };
+use nodes::{ Parser, Parse, Body, Expr };
 use tokens::{ TokenRef, TokenValueRef };
 use { Result, Expect };
 use error::{ Error, ErrorMessage };
@@ -7,7 +6,7 @@ use error::{ Error, ErrorMessage };
 impl<'c> Parse<'c> for Body<'c> {
     type Output = Body<'c>;
 
-    fn parse<'r>(parser: &mut Context<'r, 'c>)
+    fn parse<'r>(parser: &mut Parser<'r, 'c>)
         -> Result<Body<'c>>
     {
         trace!("Body::parse");
@@ -20,7 +19,7 @@ pub struct BlockEnd {
     pub drop_needle: bool,
 }
 
-pub fn subparse<'p, 'c, D>(parser: &mut Context<'p, 'c>, test: D)
+pub fn subparse<'p, 'c, D>(parser: &mut Parser<'p, 'c>, test: D)
     -> Result<Body<'c>>
         where D: Fn(&TokenRef<'c>) -> Option<BlockEnd>
 {

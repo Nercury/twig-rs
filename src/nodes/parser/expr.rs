@@ -1,17 +1,15 @@
-use nodes::{ Expr, ExprValue, ExprConstant, ExprCallType };
-use parser::{ Parse, Context };
+use nodes::{ Parse, Parser, ImportedFunction, Expr, ExprValue, ExprConstant, ExprCallType };
 use tokens::TokenValueRef;
 use operator::{ OperatorOptions, OperatorKind, Associativity };
 use error::{ Error, ErrorMessage };
 use { Result, Expect };
 use value::{ TwigValueRef, TwigNumberRef };
 use std::collections::VecDeque;
-use parser::ImportedFunction;
 
 impl<'c> Parse<'c> for Expr<'c> {
     type Output = Expr<'c>;
 
-    fn parse<'r>(parser: &mut Context<'r, 'c>)
+    fn parse<'r>(parser: &mut Parser<'r, 'c>)
         -> Result<Expr<'c>>
     {
         trace!("Expr::parse");
@@ -19,7 +17,7 @@ impl<'c> Parse<'c> for Expr<'c> {
     }
 }
 
-pub fn parse_expression<'p, 'c>(parser: &mut Context<'p, 'c>, min_precedence: u16)
+pub fn parse_expression<'p, 'c>(parser: &mut Parser<'p, 'c>, min_precedence: u16)
     -> Result<Expr<'c>>
 {
     trace!("parse_expression");
@@ -63,7 +61,7 @@ pub fn parse_expression<'p, 'c>(parser: &mut Context<'p, 'c>, min_precedence: u1
     Ok(expr)
 }
 
-pub fn get_primary<'p, 'c>(parser: &mut Context<'p, 'c>)
+pub fn get_primary<'p, 'c>(parser: &mut Parser<'p, 'c>)
     -> Result<Expr<'c>>
 {
     trace!("get_primary");
@@ -95,7 +93,7 @@ pub fn get_primary<'p, 'c>(parser: &mut Context<'p, 'c>)
 }
 
 /// Parses expression and returns handle to one that should be executed first.
-pub fn get_function_node<'p, 'c>(parser: &mut Context<'p, 'c>, name: &'c str, line: usize)
+pub fn get_function_node<'p, 'c>(parser: &mut Parser<'p, 'c>, name: &'c str, line: usize)
     -> Result<Expr<'c>>
 {
     trace!("get_function_node");
@@ -120,7 +118,7 @@ pub fn get_function_node<'p, 'c>(parser: &mut Context<'p, 'c>, name: &'c str, li
     unimplemented!();
 }
 
-pub fn parse_primary_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
+pub fn parse_primary_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
     -> Result<Expr<'c>>
 {
     trace!("parse_primary_expression");
@@ -173,7 +171,7 @@ pub fn get_number_expr<'c>(num: TwigNumberRef<'c>, line: usize) -> Expr<'c> {
     }), line)
 }
 
-pub fn parse_string_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
+pub fn parse_string_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
     -> Result<Expr<'c>>
 {
     trace!("parse_string_expression");
@@ -216,7 +214,7 @@ pub fn parse_string_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     Ok(expr)
 }
 
-pub fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
+pub fn parse_array_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
     -> Result<Expr<'c>>
 {
     trace!("parse_array_expression");
@@ -249,7 +247,7 @@ pub fn parse_array_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     Ok(Expr::new_array(items, start_line))
 }
 
-pub fn parse_hash_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
+pub fn parse_hash_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
     -> Result<Expr<'c>>
 {
     trace!("parse_hash_expression");
@@ -314,7 +312,7 @@ pub fn parse_hash_expression<'p, 'c>(parser: &mut Context<'p, 'c>)
     Ok(Expr::new_hash(items, start_line))
 }
 
-pub fn parse_postfix_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut node: Expr<'c>)
+pub fn parse_postfix_expression<'p, 'c>(parser: &mut Parser<'p, 'c>, mut node: Expr<'c>)
     -> Result<Expr<'c>>
 {
     trace!("parse_postfix_expression");
@@ -337,7 +335,7 @@ pub fn parse_postfix_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut node: 
     Ok(node)
 }
 
-pub fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, node: Expr<'c>)
+pub fn parse_subscript_expression<'p, 'c>(parser: &mut Parser<'p, 'c>, node: Expr<'c>)
     -> Result<Expr<'c>>
 {
     trace!("parse_subscript_expression");
@@ -391,14 +389,14 @@ pub fn parse_subscript_expression<'p, 'c>(parser: &mut Context<'p, 'c>, node: Ex
     ))
 }
 
-pub fn parse_filter_expression<'p, 'c>(parser: &mut Context<'p, 'c>, expr: Expr<'c>)
+pub fn parse_filter_expression<'p, 'c>(parser: &mut Parser<'p, 'c>, expr: Expr<'c>)
     -> Result<Expr<'c>>
 {
     trace!("parse_filter_expression");
     unimplemented!()
 }
 
-pub fn parse_unnamed_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: bool)
+pub fn parse_unnamed_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: bool)
     -> Result<Vec<Expr<'c>>>
 {
     trace!("parse_unnamed_arguments, definition {:?}", definition);
@@ -429,7 +427,7 @@ pub fn parse_unnamed_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition:
     Ok(args)
 }
 
-pub fn parse_named_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: bool)
+pub fn parse_named_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: bool)
     -> Result<Vec<(&'c str, Expr<'c>)>>
 {
     trace!("parse_named_arguments, definition {:?}", definition);
@@ -483,7 +481,7 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Context<'p, 'c>, definition: b
     Ok(args)
 }
 
-pub fn parse_conditional_expression<'p, 'c>(parser: &mut Context<'p, 'c>, mut expr: Expr<'c>)
+pub fn parse_conditional_expression<'p, 'c>(parser: &mut Parser<'p, 'c>, mut expr: Expr<'c>)
     -> Result<Expr<'c>>
 {
     trace!("parse_conditional_expression");

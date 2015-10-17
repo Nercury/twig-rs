@@ -3,10 +3,8 @@ extern crate env_logger;
 
 use twig::Environment;
 use twig::tokens::Lexer;
-use twig::nodes::Module;
+use twig::nodes::{ Parser, Parse, Module };
 use twig::extension::Extension;
-use twig::parser::Context as ParserContext;
-use twig::parser::Parse;
 
 mod extension;
 
@@ -19,7 +17,7 @@ fn main() {
 
     let lexer = Lexer::default(&env.lexing);
     let maybe_module = Module::parse(
-        &mut ParserContext::new(&env.parsing, &mut lexer.tokens(
+        &mut Parser::new(&env.parsing, &mut lexer.tokens(
             "test {{ var + 1 }}"
         ))
     );

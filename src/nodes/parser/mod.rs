@@ -41,7 +41,7 @@ impl<'c> ImportedSymbols<'c> {
 pub trait Parse<'c> {
     type Output;
 
-    fn parse<'p>(parser: &mut Context<'p, 'c>)
+    fn parse<'p>(parser: &mut Parser<'p, 'c>)
         -> Result<Self::Output>;
 }
 
@@ -51,7 +51,7 @@ pub trait Parse<'c> {
 ///
 /// Current token is actually implemented as "peekable" next token. However,
 /// in all parsing code this "peekable" becomes "current".
-pub struct Context<'p, 'c: 'p>
+pub struct Parser<'p, 'c: 'p>
 {
     /// Project options for parsing, containing data collected from all added
     /// extensions.
@@ -62,14 +62,14 @@ pub struct Context<'p, 'c: 'p>
     pub imported_symbols: Vec<ImportedSymbols<'c>>,
 }
 
-impl<'p, 'c: 'p> Context<'p, 'c>
+impl<'p, 'c: 'p> Parser<'p, 'c>
 {
     pub fn new<'r, 'z>(
         env: &'r ParsingEnvironment,
         tokens: &'r mut TokenIter<'r, 'z>
-    ) -> Context<'r, 'z>
+    ) -> Parser<'r, 'z>
     {
-        Context {
+        Parser {
             env: env,
             tokens: tokens.peekable(),
             imported_symbols: vec![ImportedSymbols::new()],
