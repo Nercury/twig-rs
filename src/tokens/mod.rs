@@ -62,7 +62,7 @@ for token in lexer.tokens(source) {
 mod token;
 mod lexer;
 
-pub use self::token::{ TokenRef, TokenValueRef, DebugValue };
+pub use self::token::{ TokenRef, TokenValueRef, TokenValue };
 pub use self::lexer::Lexer;
 pub use self::lexer::iter::TokenIter;
 pub use self::lexer::options::LexerOptions;

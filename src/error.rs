@@ -1,10 +1,10 @@
 use std::result;
 use std::fmt;
-use tokens::DebugValue;
+use tokens::TokenValue;
 
 #[derive(Debug, Clone)]
 pub enum Received {
-    Token(DebugValue),
+    Token(TokenValue),
     EndOfStream,
 }
 
@@ -21,15 +21,15 @@ impl Clone for Box<CustomError> {
 #[derive(Clone)]
 pub enum ErrorMessage {
     UnexpectedEndOfTemplate,
-    ExpectedTokenTypeButReceived((DebugValue, Received)),
-    UnexpectedTokenValue(DebugValue),
-    ExpectedOtherTokenValue((DebugValue, DebugValue)),
+    ExpectedTokenTypeButReceived((TokenValue, Received)),
+    UnexpectedTokenValue(TokenValue),
+    ExpectedOtherTokenValue((TokenValue, TokenValue)),
     ExpectedArrayElement,
     ArrayValueMustBeFollowedByComma,
     ArrayNotClosed,
     ExpectedHashElement,
     HashValueMustBeFollowedByComma,
-    InvalidHashKey { unexpected: DebugValue },
+    InvalidHashKey { unexpected: TokenValue },
     HashKeyMustBeFollowedByColon,
     HashNotClosed,
     ExpectedNameOrNumber,

@@ -2,14 +2,14 @@ use value::{ TwigValueRef, TwigValue };
 
 /// Lexer output token, lexer's output and parser's input.
 #[derive(Debug, Clone)]
-pub struct TokenRef<'a> {
-    pub value: TokenValueRef<'a>,
+pub struct Token<'a> {
+    pub value: Value<'a>,
     pub line: usize,
 }
 
 /// Token value.
 #[derive(PartialEq, Debug, Copy, Clone)]
-pub enum TokenValueRef<'a> {
+pub enum Value<'a> {
     Text(&'a str),
     BlockStart,
     VarStart,
@@ -24,21 +24,21 @@ pub enum TokenValueRef<'a> {
     CommentStart, // Not in vanilla Twig.
 }
 
-impl<'a> Into<TokenValue> for TokenValueRef<'a> {
+impl<'a> Into<TokenValue> for Value<'a> {
     fn into(self) -> TokenValue {
         match self {
-            TokenValueRef::Text(t) => TokenValue::Text(t.into()),
-            TokenValueRef::BlockStart => TokenValue::BlockStart,
-            TokenValueRef::VarStart => TokenValue::VarStart,
-            TokenValueRef::BlockEnd => TokenValue::BlockEnd,
-            TokenValueRef::VarEnd => TokenValue::VarEnd,
-            TokenValueRef::Name(n) => TokenValue::Name(n.into()),
-            TokenValueRef::Value(v) => TokenValue::Value(v.into()),
-            TokenValueRef::Operator(s) => TokenValue::Operator(s.into()),
-            TokenValueRef::Punctuation(s) => TokenValue::Punctuation(s.into()),
-            TokenValueRef::InterpolationStart => TokenValue::InterpolationStart,
-            TokenValueRef::InterpolationEnd => TokenValue::InterpolationEnd,
-            TokenValueRef::CommentStart => TokenValue::CommentStart,
+            Value::Text(t) => TokenValue::Text(t.into()),
+            Value::BlockStart => TokenValue::BlockStart,
+            Value::VarStart => TokenValue::VarStart,
+            Value::BlockEnd => TokenValue::BlockEnd,
+            Value::VarEnd => TokenValue::VarEnd,
+            Value::Name(n) => TokenValue::Name(n.into()),
+            Value::Value(v) => TokenValue::Value(v.into()),
+            Value::Operator(s) => TokenValue::Operator(s.into()),
+            Value::Punctuation(s) => TokenValue::Punctuation(s.into()),
+            Value::InterpolationStart => TokenValue::InterpolationStart,
+            Value::InterpolationEnd => TokenValue::InterpolationEnd,
+            Value::CommentStart => TokenValue::CommentStart,
         }
     }
 }

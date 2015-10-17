@@ -1,6 +1,6 @@
 use std::iter::Peekable;
 use std::collections::HashMap;
-use tokens::{ TokenRef, TokenValueRef, DebugValue, TokenIter };
+use tokens::{ TokenRef, TokenValueRef, TokenValue, TokenIter };
 use environment::ParsingEnvironment;
 use Result;
 use error::{ Error, ErrorMessage, Received };
@@ -204,7 +204,7 @@ impl<'p, 'c: 'p> Context<'p, 'c>
                 TokenValueRef::Name(name) => Ok(name),
                 _ => Err(Error::new_at(
                     ErrorMessage::ExpectedTokenTypeButReceived(
-                        (DebugValue::Name("".into()), Received::Token(token.value.into()))
+                        (TokenValue::Name("".into()), Received::Token(token.value.into()))
                     ),
                     token.line
                 ))
