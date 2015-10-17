@@ -1,12 +1,14 @@
+use std::collections::HashSet;
+use environment::LexingEnvironment;
+use tokens::{ LexerOptions, TokenIter };
+use self::matchers::Matchers;
+
+
 mod delimiters;
 mod matchers;
 
 pub mod options;
 pub mod iter;
-
-use environment::LexingEnvironment;
-use tokens::{ LexerOptions, TokenIter };
-use self::matchers::Matchers;
 
 /// Parses template file and converts it to a stream of tokens.
 pub struct Lexer {
@@ -15,17 +17,24 @@ pub struct Lexer {
 }
 
 impl Lexer {
-    /// Initialize default lexer with default options.
-    pub fn default(env: &LexingEnvironment) -> Lexer {
-        let options = LexerOptions::default();
 
+    /// Creates a new lexer with specified options and operator list.
+    pub fn new(options: LexerOptions, operators: &HashSet<&'static str>) -> Lexer {
         Lexer {
             options: options,
             matchers: Matchers::new(
                 &options,
-                &env.operators
+                operators
             ),
         }
+    }
+
+    /// Initialize default lexer with default options.
+    pub fn default(env: &LexingEnvironment) -> Lexer {
+        Lexer::new(
+            LexerOptions::default(),
+            &env.operators
+        )
     }
 
     /// Convert provided template into a token stream.
