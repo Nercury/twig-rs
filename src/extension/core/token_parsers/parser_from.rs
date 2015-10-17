@@ -1,7 +1,6 @@
 use parser::Context;
 use token_parser::TokenParserExtension;
-use nodes::Body;
-use nodes::node::ImportTarget;
+use nodes::{ Body, ImportTarget };
 use tokens::{ TokenRef, TokenValueRef };
 use Result;
 

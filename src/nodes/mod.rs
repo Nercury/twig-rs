@@ -1,7 +1,7 @@
-pub mod node;
+mod node;
 
-pub use self::node::body::Body;
-pub use self::node::expr::{ Expr, ExprValue };
+pub use self::node::body::{ Body, ImportTarget };
+pub use self::node::expr::{ Expr, ExprValue, ExprConstant, ExprCallType };
 pub use self::node::module::Module;
 
 #[derive(Debug)]

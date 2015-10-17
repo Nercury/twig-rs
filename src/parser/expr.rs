@@ -1,5 +1,4 @@
-use nodes::{ Expr, ExprValue };
-use nodes::node::{ ExprConstant, ExprCallType };
+use nodes::{ Expr, ExprValue, ExprConstant, ExprCallType };
 use parser::{ Parse, Context };
 use tokens::TokenValueRef;
 use operator::{ OperatorOptions, OperatorKind, Associativity };
