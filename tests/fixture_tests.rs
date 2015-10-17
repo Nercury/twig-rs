@@ -16,10 +16,8 @@ fn fixtures() {
 
         println!("{:#?}", fixture);
     }).unwrap();
-    assert!(false);
 }
 
-// one possible implementation of fs::walk_dir only visiting files
 fn visit_fixtures(dir: &Path, cb: &Fn(&DirEntry)) -> io::Result<()> {
     if try!(fs::metadata(dir)).is_dir() {
         for entry in try!(fs::read_dir(dir)) {

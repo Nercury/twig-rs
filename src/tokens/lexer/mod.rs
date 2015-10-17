@@ -3,7 +3,6 @@ use environment::LexingEnvironment;
 use tokens::{ LexerOptions, TokenIter };
 use self::matchers::Matchers;
 
-
 mod delimiters;
 mod matchers;
 
@@ -57,7 +56,7 @@ mod test {
         let template = "{% § %}";
         let env = CompiledEnvironment::default();
         let lexer = Lexer::default(&env.lexing);
-        let mut _s = lexer.tokens(template);
+        let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, TokenValueRef::BlockStart);
         _s = expect(_s, TokenValueRef::Name("§"));
@@ -68,7 +67,7 @@ mod test {
         let template = "{{ §() }}";
         let env = CompiledEnvironment::default();
         let lexer = Lexer::default(&env.lexing);
-        let mut _s = lexer.tokens(template);
+        let mut _s = lexer.tokens(&template);
 
         _s = expect(_s, TokenValueRef::VarStart);
         _s = expect(_s, TokenValueRef::Name("§"));
@@ -274,7 +273,7 @@ mod test {
         let lexer = Lexer::default(&env.lexing);
 
         for &(template, expected) in &templates {
-            let mut _s = lexer.tokens(&template);
+            let mut _s = lexer.tokens(template);
             _s = expect(_s, TokenValueRef::VarStart);
             _s = expect(_s, TokenValueRef::Value(TwigValueRef::new_str(expected)));
         }
@@ -429,7 +428,7 @@ bar
         let lexer = Lexer::default(&env.lexing);
         let mut count = 0;
 
-        for maybe_token in lexer.tokens(template) {
+        for maybe_token in lexer.tokens(&template) {
             if let Ok(token) = maybe_token {
                 if token.value == token_value {
                     count += 1;

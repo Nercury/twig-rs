@@ -20,6 +20,7 @@ extern crate uuid;
 
 pub mod tokens;
 pub mod nodes;
+pub mod loader;
 mod error;
 mod environment;
 
@@ -36,4 +37,26 @@ pub trait Expect<V> {
     type Output;
 
     fn expect(&mut self, expected: V) -> Self::Output;
+}
+
+/// Twig Engine.
+///
+/// Given the specified environment settings, converts templates
+/// to output string.
+pub struct Engine<L> {
+    loader: L,
+    env: environment::Environment,
+}
+
+impl<L> Engine<L> {
+    pub fn new(loader: L, env: environment::Environment) -> Engine<L> {
+        Engine {
+            loader: loader,
+            env: env,
+        }
+    }
+
+    pub fn get(name: &str) -> Result<String> {
+        Ok("".into())
+    }
 }
