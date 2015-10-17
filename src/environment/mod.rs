@@ -3,7 +3,7 @@ use std::collections::HashSet;
 
 use extension::{ Extension, CoreExtension };
 use operator::{ Operator, OperatorKind, OperatorOptions };
-use token_parser::{ TokenParser, TokenParserExtension };
+use nodes::{ TokenParser, TokenParserExtension };
 
 /// Project configuration container.
 pub struct Environment {

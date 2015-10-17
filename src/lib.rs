@@ -28,7 +28,6 @@ pub mod parser;
 pub mod operator;
 pub mod value;
 pub mod runtime;
-pub mod token_parser;
 
 pub use error::{ Error, Result };
 pub use environment::{ CompiledEnvironment, Environment };
