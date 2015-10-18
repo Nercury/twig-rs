@@ -1,7 +1,14 @@
+extern crate twig;
+extern crate serde_json;
+
+use std::collections::HashMap;
 use std::io::{self, Read, BufReader, BufRead};
 use std::env;
 use std::fs::{self, DirEntry, File};
 use std::path::Path;
+
+use twig::loader::ArrayLoader;
+use twig::{ Environment, Engine, Config };
 
 #[test]
 fn fixtures() {
@@ -14,7 +21,20 @@ fn fixtures() {
             Ok(f) => f,
         };
 
-        println!("{:#?}", fixture);
+        let twig = Engine::new(ArrayLoader::new(
+            vec![("index.twig".into(), fixture.template.expect("fixture must contain main template"))]
+                .into_iter()
+                .chain(fixture.templates.into_iter())
+                .collect()
+        ), match fixture.config {
+            Some(config) => Environment::new(Config::from_hashmap(
+                match serde_json::from_str(&config) {
+                    Ok(map) => map,
+                    Err(e) => panic!("failed to deserialize template config: {:#?}", e),
+                }
+            )),
+            _ => Environment::default(),
+        });
     }).unwrap();
 }
 

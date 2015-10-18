@@ -5,6 +5,27 @@ use extension::{ Extension, CoreExtension };
 use operator::{ Operator, OperatorKind, OperatorOptions };
 use nodes::{ TokenParser, TokenParserExtension };
 
+/// Environment configuration.
+pub struct Config {
+    pub autoescape: String,
+}
+
+impl Config {
+    pub fn default() -> Config {
+        Config {
+            autoescape: "html".into()
+        }
+    }
+
+    pub fn from_hashmap(map: HashMap<String, String>) -> Config {
+        let default = Config::default();
+
+        Config {
+            autoescape: map.get("autoescape").cloned().unwrap_or(default.autoescape),
+        }
+    }
+}
+
 /// Project configuration container.
 pub struct Environment {
     pub operators: Vec<Operator>,
@@ -12,7 +33,8 @@ pub struct Environment {
 }
 
 impl Environment {
-    pub fn default() -> Environment {
+
+    pub fn new(config: Config) -> Environment {
         let mut staged = Environment {
             operators: Vec::new(),
             token_parsers: Vec::new(),
@@ -21,6 +43,10 @@ impl Environment {
         CoreExtension::apply(&mut staged);
 
         staged
+    }
+
+    pub fn default() -> Environment {
+        Environment::new(Config::default())
     }
 
     pub fn init_all(self) -> CompiledEnvironment {
