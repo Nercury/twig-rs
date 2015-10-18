@@ -8,7 +8,7 @@ fn fixtures() {
     visit_fixtures(&env::current_dir().unwrap().join("tests").join("fixtures"), &|entry| {
         println!("fixture {:?}", entry.path());
 
-        let f = File::open(entry.path()).expect("error opening fixture file");
+        let f = File::open(entry.path()).ok().expect("error opening fixture file");
         let fixture = match Fixture::new(f) {
             Err(e) => panic!("invalid test {:?}", e),
             Ok(f) => f,
