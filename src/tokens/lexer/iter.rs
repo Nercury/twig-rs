@@ -7,7 +7,7 @@ use tokens::{ TokenRef, TokenValueRef, LexerOptions };
 use value::{ TwigNumberRef, TwigValueRef };
 use std::fmt;
 use Expect;
-use error::{ ErrorMessage, Received };
+use error::{ TemplateError, Received };
 
 const PUNCTUATION: &'static str = "()[]{}?:.,|";
 
@@ -158,7 +158,7 @@ impl<'code, T> Expect<(usize, TokenValueRef<'code>)> for T where T: Iterator<Ite
         match (maybe_token, expected) {
             (None, _) => return Err(
                 ErrorAt::new_at(
-                    ErrorMessage::ExpectedTokenTypeButReceived(
+                    TemplateError::ExpectedTokenTypeButReceived(
                         (expected.into(), Received::EndOfStream)
                     ),
                     line
@@ -169,7 +169,7 @@ impl<'code, T> Expect<(usize, TokenValueRef<'code>)> for T where T: Iterator<Ite
             } else {
                 return Err(
                     ErrorAt::new_at(
-                        ErrorMessage::ExpectedTokenTypeButReceived(
+                        TemplateError::ExpectedTokenTypeButReceived(
                             (expected.into(), Received::Token(token.value.into()))
                         ),
                         token.line
@@ -228,7 +228,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                 match self.brackets.pop() {
                     Some(bracket) => {
                         self.push_error(
-                            ErrorMessage::Unclosed(format!("{}", bracket.open)),
+                            TemplateError::Unclosed(format!("{}", bracket.open)),
                             Some(bracket.line_num)
                         );
                         break;
@@ -397,7 +397,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                 if self.cursor >= self.end {
                     let var_line = self.current_var_block_line;
                     self.push_error(
-                        ErrorMessage::Unclosed(
+                        TemplateError::Unclosed(
                             match self.state {
                                 State::Block => "block",
                                 State::Var => "variable",
@@ -492,7 +492,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                         Some(expect) => {
                             if expect.close != BracketSymbol::Char(c) {
                                 self.push_error(
-                                    ErrorMessage::Unclosed(
+                                    TemplateError::Unclosed(
                                         format!("{}", expect.open)
                                     ),
                                     Some(expect.line_num)
@@ -502,7 +502,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                         },
                         None => {
                             self.push_error(
-                                ErrorMessage::Unexpected(
+                                TemplateError::Unexpected(
                                     format!("{}", c)
                                 ),
                                 Some(line_num)
@@ -547,7 +547,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
         let next_char = &self.code[loc .. loc + 1];
         let line_num = self.line_num;
         self.push_error(
-            ErrorMessage::UnexpectedCharacter(
+            TemplateError::UnexpectedCharacter(
                 format!("{}", next_char)
             ),
             Some(line_num)
@@ -591,7 +591,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                 },
                 Some(other_bracket) => {
                     self.push_error(
-                        ErrorMessage::Unclosed(
+                        TemplateError::Unclosed(
                             format!("{}", other_bracket.open)
                         ),
                         Some(other_bracket.line_num)
@@ -639,7 +639,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
             },
             None => {
                 let line_num = self.line_num;
-                self.push_error(ErrorMessage::UnclosedComment, Some(line_num));
+                self.push_error(TemplateError::UnclosedComment, Some(line_num));
             }
         };
     }
@@ -676,7 +676,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
             None => {
                 let line_num = self.line_num;
                 self.push_error(
-                    ErrorMessage::UnclosedBlock(
+                    TemplateError::UnclosedBlock(
                         format!("{}", tag)
                     ),
                     Some(line_num)
@@ -696,7 +696,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
         self.tokens.push_back(Ok(TokenRef { value: token_value, line: self.line_num }));
     }
 
-    fn push_error(&mut self, message: ErrorMessage, line_num: Option<usize>) {
+    fn push_error(&mut self, message: TemplateError, line_num: Option<usize>) {
         self.tokens.push_back(Err(
             ErrorAt::new_at(message, match line_num {
                 Some(line) => line,

@@ -38,7 +38,7 @@ impl TokenParserExtension for Macro {
 
             if value != name {
                 return Err(CoreErrorAt::new_at(
-                    CoreErrorMessage::ExpectedEndmacroName { given: value.into(), expected: name.into() },
+                    CoreTemplateError::ExpectedEndmacroName { given: value.into(), expected: name.into() },
                     try!(parser.current()).line
                 ).into())
             }

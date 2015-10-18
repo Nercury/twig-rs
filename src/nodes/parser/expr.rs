@@ -2,7 +2,7 @@ use nodes::{ Parse, Parser, ImportedFunction };
 use nodes::expr::{ Expr, ExprValue, ExprConstant, ExprCallType };
 use tokens::TokenValueRef;
 use operator::{ OperatorOptions, OperatorKind, Associativity };
-use error::{ Result, ErrorAt, ErrorMessage };
+use error::{ Result, ErrorAt, TemplateError };
 use Expect;
 use value::{ TwigValueRef, TwigNumberRef };
 use std::collections::VecDeque;
@@ -85,7 +85,7 @@ pub fn get_primary<'p, 'c>(parser: &mut Parser<'p, 'c>)
         try!(parser.next());
         let parsed_expr = try!(parse_expression(parser, 0));
         if let Err(_) = parser.expect(TokenValueRef::Punctuation(')')) {
-            return Err(ErrorAt::new_at(ErrorMessage::ParenthesisNotClosed, token.line));
+            return Err(ErrorAt::new_at(TemplateError::ParenthesisNotClosed, token.line));
         }
         return parse_postfix_expression(parser, parsed_expr);
     }
@@ -156,7 +156,7 @@ pub fn parse_primary_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
         TokenValueRef::Punctuation('[') => try!(parse_array_expression(parser)),
         TokenValueRef::Punctuation('{') => try!(parse_hash_expression(parser)),
         other => return Err(ErrorAt::new_at(
-            ErrorMessage::UnexpectedTokenValue(other.into()),
+            TemplateError::UnexpectedTokenValue(other.into()),
             token.line
         )),
     };
@@ -220,7 +220,7 @@ pub fn parse_array_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
 {
     trace!("parse_array_expression");
 
-    try!(parser.expect_or_error(TokenValueRef::Punctuation('['), ErrorMessage::ExpectedArrayElement));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation('['), TemplateError::ExpectedArrayElement));
 
     let mut items = Vec::new();
 
@@ -230,7 +230,7 @@ pub fn parse_array_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
 
     while token.value != TokenValueRef::Punctuation(']') {
         if !first {
-            try!(parser.expect_or_error(TokenValueRef::Punctuation(','), ErrorMessage::ArrayValueMustBeFollowedByComma));
+            try!(parser.expect_or_error(TokenValueRef::Punctuation(','), TemplateError::ArrayValueMustBeFollowedByComma));
             token = try!(parser.current());
 
             // trailing ,?
@@ -243,7 +243,7 @@ pub fn parse_array_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
         items.push(try!(parse_expression(parser, 0)));
         token = try!(parser.current());
     }
-    try!(parser.expect_or_error(TokenValueRef::Punctuation(']'), ErrorMessage::ArrayNotClosed));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation(']'), TemplateError::ArrayNotClosed));
 
     Ok(Expr::new_array(items, start_line))
 }
@@ -253,7 +253,7 @@ pub fn parse_hash_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
 {
     trace!("parse_hash_expression");
 
-    try!(parser.expect_or_error(TokenValueRef::Punctuation('{'), ErrorMessage::ExpectedHashElement));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation('{'), TemplateError::ExpectedHashElement));
 
     let mut items = Vec::new();
 
@@ -263,7 +263,7 @@ pub fn parse_hash_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
 
     while token.value != TokenValueRef::Punctuation('}') {
         if !first {
-            try!(parser.expect_or_error(TokenValueRef::Punctuation(','), ErrorMessage::HashValueMustBeFollowedByComma));
+            try!(parser.expect_or_error(TokenValueRef::Punctuation(','), TemplateError::HashValueMustBeFollowedByComma));
             token = try!(parser.current());
 
             // trailing ,?
@@ -296,19 +296,19 @@ pub fn parse_hash_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
                 try!(parse_expression(parser, 0))
             }
             _ => return Err(ErrorAt::new_at(
-                ErrorMessage::InvalidHashKey { unexpected: token.value.into() },
+                TemplateError::InvalidHashKey { unexpected: token.value.into() },
                 token.line
             )),
         };
 
-        try!(parser.expect_or_error(TokenValueRef::Punctuation(':'), ErrorMessage::HashKeyMustBeFollowedByColon));
+        try!(parser.expect_or_error(TokenValueRef::Punctuation(':'), TemplateError::HashKeyMustBeFollowedByColon));
 
         let value = try!(parse_expression(parser, 0));
         token = try!(parser.current());
 
         items.push((key, value));
     }
-    try!(parser.expect_or_error(TokenValueRef::Punctuation('}'), ErrorMessage::HashNotClosed));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation('}'), TemplateError::HashNotClosed));
 
     Ok(Expr::new_hash(items, start_line))
 }
@@ -355,7 +355,7 @@ pub fn parse_subscript_expression<'p, 'c>(parser: &mut Parser<'p, 'c>, node: Exp
                 // OMG the hack here is _hilarious_:
                 // TODO: ($token->getType() == Twig_tokens::OPERATOR_TYPE && preg_match(Twig_Lexer::REGEX_NAME, $token->getValue()))
                 _ => return Err(ErrorAt::new_at(
-                    ErrorMessage::ExpectedNameOrNumber,
+                    TemplateError::ExpectedNameOrNumber,
                     line
                 ))
             };
@@ -404,11 +404,11 @@ pub fn parse_unnamed_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: 
 
     let mut args = Vec::new();
 
-    try!(parser.expect_or_error(TokenValueRef::Punctuation('('), ErrorMessage::ListOfArgumentsMustBeginWithParenthesis));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation('('), TemplateError::ListOfArgumentsMustBeginWithParenthesis));
 
     while !try!(parser.test(TokenValueRef::Punctuation(')'))) {
         if args.len() > 0 {
-            try!(parser.expect_or_error(TokenValueRef::Punctuation(','), ErrorMessage::ArgumentsMustBeSeparatedByComma));
+            try!(parser.expect_or_error(TokenValueRef::Punctuation(','), TemplateError::ArgumentsMustBeSeparatedByComma));
         }
 
         let value = if definition {
@@ -423,7 +423,7 @@ pub fn parse_unnamed_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: 
             args.push(value);
         }
     }
-    try!(parser.expect_or_error(TokenValueRef::Punctuation(')'), ErrorMessage::ListOfArgumentsMustCloseWithParenthesis));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation(')'), TemplateError::ListOfArgumentsMustCloseWithParenthesis));
 
     Ok(args)
 }
@@ -435,11 +435,11 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: bo
 
     let mut args = Vec::new();
 
-    try!(parser.expect_or_error(TokenValueRef::Punctuation('('), ErrorMessage::ListOfArgumentsMustBeginWithParenthesis));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation('('), TemplateError::ListOfArgumentsMustBeginWithParenthesis));
 
     while !try!(parser.test(TokenValueRef::Punctuation(')'))) {
         if args.len() > 0 {
-            try!(parser.expect_or_error(TokenValueRef::Punctuation(','), ErrorMessage::ArgumentsMustBeSeparatedByComma));
+            try!(parser.expect_or_error(TokenValueRef::Punctuation(','), TemplateError::ArgumentsMustBeSeparatedByComma));
         }
 
         let (name_expr, token) = if definition {
@@ -455,7 +455,7 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: bo
         let name = match name_expr {
             Expr { value: ExprValue::Name(n), .. } => n,
             other => return Err(ErrorAt::new_at(
-                ErrorMessage::ParameterNameMustBeAString { given: format!("{:?}", other) },
+                TemplateError::ParameterNameMustBeAString { given: format!("{:?}", other) },
                 token.line
             )),
         };
@@ -465,7 +465,7 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: bo
 
             if !value.is_constant() {
                 return Err(ErrorAt::new_at(
-                    ErrorMessage::DefaultValueForArgumentMustBeConstant,
+                    TemplateError::DefaultValueForArgumentMustBeConstant,
                     try!(parser.current()).line
                 ));
             }
@@ -477,7 +477,7 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: bo
 
         args.push((name, value))
     }
-    try!(parser.expect_or_error(TokenValueRef::Punctuation(')'), ErrorMessage::ListOfArgumentsMustCloseWithParenthesis));
+    try!(parser.expect_or_error(TokenValueRef::Punctuation(')'), TemplateError::ListOfArgumentsMustCloseWithParenthesis));
 
     Ok(args)
 }

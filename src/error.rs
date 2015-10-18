@@ -19,7 +19,7 @@ impl Clone for Box<CustomErrorAt> {
 }
 
 #[derive(Clone)]
-pub enum ErrorMessage {
+pub enum TemplateError {
     UnexpectedEndOfTemplate,
     ExpectedTokenTypeButReceived((TokenValue, Received)),
     UnexpectedTokenValue(TokenValue),
@@ -49,11 +49,17 @@ pub enum ErrorMessage {
     CustomError(Box<CustomErrorAt>),
 }
 
-impl fmt::Display for ErrorMessage {
+impl TemplateError {
+    pub fn at(self, line: usize) -> ErrorAt {
+        ErrorAt::new_at(self, line)
+    }
+}
+
+impl fmt::Display for TemplateError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            ErrorMessage::UnexpectedEndOfTemplate => write!(f, "Unexpected end of template"),
-            ErrorMessage::ExpectedTokenTypeButReceived((ref token, ref received)) => {
+            TemplateError::UnexpectedEndOfTemplate => write!(f, "Unexpected end of template"),
+            TemplateError::ExpectedTokenTypeButReceived((ref token, ref received)) => {
                 let (english_name, _) = token.get_english();
                 match *received {
                     Received::EndOfStream => write!(f, "Expected token \"{}\" but received the end of stream", english_name),
@@ -66,50 +72,50 @@ impl fmt::Display for ErrorMessage {
                     },
                 }
             },
-            ErrorMessage::ExpectedOtherTokenValue((ref token, ref other)) => {
-                let unexpected_message = format!("{}", ErrorMessage::UnexpectedTokenValue(token.clone()));
+            TemplateError::ExpectedOtherTokenValue((ref token, ref other)) => {
+                let unexpected_message = format!("{}", TemplateError::UnexpectedTokenValue(token.clone()));
                 let (other_english_name, other_value) = other.get_english();
                 match other_value {
                     Some(value) => write!(f, "{} (\"{}\" expected with value {:?})", unexpected_message, other_english_name, value),
                     None => write!(f, "{} (\"{}\" expected)", unexpected_message, other_english_name),
                 }
             },
-            ErrorMessage::ExpectedArrayElement => write!(f, "An array element was expected"),
-            ErrorMessage::ArrayValueMustBeFollowedByComma => write!(f, "An array element must be followed by a comma"),
-            ErrorMessage::ArrayNotClosed => write!(f, "An opened array is not properly closed"),
-            ErrorMessage::ExpectedHashElement => write!(f, "A hash element was expected"),
-            ErrorMessage::HashValueMustBeFollowedByComma => write!(f, "A hash value must be followed by a comma"),
-            ErrorMessage::InvalidHashKey { ref unexpected } => {
+            TemplateError::ExpectedArrayElement => write!(f, "An array element was expected"),
+            TemplateError::ArrayValueMustBeFollowedByComma => write!(f, "An array element must be followed by a comma"),
+            TemplateError::ArrayNotClosed => write!(f, "An opened array is not properly closed"),
+            TemplateError::ExpectedHashElement => write!(f, "A hash element was expected"),
+            TemplateError::HashValueMustBeFollowedByComma => write!(f, "A hash value must be followed by a comma"),
+            TemplateError::InvalidHashKey { ref unexpected } => {
                 let (english_name, value) = unexpected.get_english();
                 match value {
                     Some(value) => write!(f, "A hash key must be a quoted string, a number, a name, or an expression enclosed in parentheses: unexpected token \"{}\" of value {:?}", english_name, value),
                     None => write!(f, "A hash key must be a quoted string, a number, a name, or an expression enclosed in parentheses: unexpected token \"{}\"", english_name),
                 }
             },
-            ErrorMessage::HashKeyMustBeFollowedByColon => write!(f, "A hash key must be followed by a colon (:)"),
-            ErrorMessage::HashNotClosed => write!(f, "An opened hash is not properly closed"),
-            ErrorMessage::ExpectedNameOrNumber => write!(f, "Expected name or number"),
-            ErrorMessage::ListOfArgumentsMustBeginWithParenthesis => write!(f, "A list of arguments must begin with an opening parenthesis"),
-            ErrorMessage::ArgumentsMustBeSeparatedByComma => write!(f, "Arguments must be separated by a comma"),
-            ErrorMessage::ListOfArgumentsMustCloseWithParenthesis => write!(f, "A list of arguments must be closed by a parenthesis"),
-            ErrorMessage::UnexpectedTokenValue(ref token) => {
+            TemplateError::HashKeyMustBeFollowedByColon => write!(f, "A hash key must be followed by a colon (:)"),
+            TemplateError::HashNotClosed => write!(f, "An opened hash is not properly closed"),
+            TemplateError::ExpectedNameOrNumber => write!(f, "Expected name or number"),
+            TemplateError::ListOfArgumentsMustBeginWithParenthesis => write!(f, "A list of arguments must begin with an opening parenthesis"),
+            TemplateError::ArgumentsMustBeSeparatedByComma => write!(f, "Arguments must be separated by a comma"),
+            TemplateError::ListOfArgumentsMustCloseWithParenthesis => write!(f, "A list of arguments must be closed by a parenthesis"),
+            TemplateError::UnexpectedTokenValue(ref token) => {
                 let (english_name, value) = token.get_english();
                 match value {
                     Some(value) => write!(f, "Unexpected token \"{}\" of value {:?}", english_name, value),
                     None => write!(f, "Unexpected token \"{}\"", english_name),
                 }
             },
-            ErrorMessage::Unclosed(ref s) => write!(f, "Unclosed \"{}\"", s),
-            ErrorMessage::UnclosedComment => write!(f, "Unclosed comment"),
-            ErrorMessage::UnclosedBlock(ref s) => write!(f, "Unexpected end of file: Unclosed \"{}\" block", s),
-            ErrorMessage::Unexpected(ref s) => write!(f, "Unexpected \"{}\"", s),
-            ErrorMessage::UnexpectedCharacter(ref s) => write!(f, "Unexpected character \"{}\"", s),
-            ErrorMessage::ParenthesisNotClosed => write!(f, "An opened parenthesis is not properly closed"),
-            ErrorMessage::MustStartWithTagName => write!(f, "A block must start with a tag name"),
-            ErrorMessage::DefaultValueForArgumentMustBeConstant => write!(f, "A default value for an argument must be a constant (a boolean, a string, a number, or an array)."),
-            ErrorMessage::ParameterNameMustBeAString { ref given } => write!(f, "A parameter name must be a string, \"{}\" given", given),
-            ErrorMessage::TemplateNotFound(ref name) => write!(f, "Template \"{}\" was not found", name),
-            ErrorMessage::CustomError(ref e) => write!(f, "{}", e),
+            TemplateError::Unclosed(ref s) => write!(f, "Unclosed \"{}\"", s),
+            TemplateError::UnclosedComment => write!(f, "Unclosed comment"),
+            TemplateError::UnclosedBlock(ref s) => write!(f, "Unexpected end of file: Unclosed \"{}\" block", s),
+            TemplateError::Unexpected(ref s) => write!(f, "Unexpected \"{}\"", s),
+            TemplateError::UnexpectedCharacter(ref s) => write!(f, "Unexpected character \"{}\"", s),
+            TemplateError::ParenthesisNotClosed => write!(f, "An opened parenthesis is not properly closed"),
+            TemplateError::MustStartWithTagName => write!(f, "A block must start with a tag name"),
+            TemplateError::DefaultValueForArgumentMustBeConstant => write!(f, "A default value for an argument must be a constant (a boolean, a string, a number, or an array)."),
+            TemplateError::ParameterNameMustBeAString { ref given } => write!(f, "A parameter name must be a string, \"{}\" given", given),
+            TemplateError::TemplateNotFound(ref name) => write!(f, "Template \"{}\" was not found", name),
+            TemplateError::CustomError(ref e) => write!(f, "{}", e),
         }
     }
 }
@@ -117,7 +123,7 @@ impl fmt::Display for ErrorMessage {
 #[derive(Clone)]
 pub struct ErrorAt {
     line: Option<usize>,
-    message: Box<ErrorMessage>,
+    message: Box<TemplateError>,
 }
 
 impl fmt::Debug for ErrorAt {
@@ -127,7 +133,7 @@ impl fmt::Debug for ErrorAt {
 }
 
 impl ErrorAt {
-    pub fn new_at(message: ErrorMessage, line: usize) -> ErrorAt {
+    pub fn new_at(message: TemplateError, line: usize) -> ErrorAt {
         ErrorAt {
             message: Box::new(message),
             line: Some(line),
