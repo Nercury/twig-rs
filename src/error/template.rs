@@ -1,4 +1,3 @@
-use std::result;
 use std::fmt;
 use tokens::TokenValue;
 use error::{ Error, ExtensionError, At, Location };
@@ -116,56 +115,3 @@ impl From<At<TemplateError>> for Error {
         Error::Template(inner)
     }
 }
-
-// #[derive(Clone)]
-// pub struct ErrorAt {
-//     line: Option<usize>,
-//     message: Box<TemplateError>,
-// }
-//
-// impl fmt::Debug for ErrorAt {
-//     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-//         write!(f, "{}", self.get_message())
-//     }
-// }
-
-// impl ErrorAt {
-//     pub fn new(message: TemplateError, line: usize) -> ErrorAt {
-//         ErrorAt {
-//             message: Box::new(message),
-//             line: Some(line),
-//         }
-//     }
-//
-//     fn get_message(&self) -> String {
-//         let raw_message = format!("{}", self.message);
-//         let ends_with_dot = {
-//             let len = raw_message.len();
-//             if len > 0 {
-//                 if &raw_message[len - 1 ..] == "." {
-//                     true
-//                 } else {
-//                     false
-//                 }
-//             } else {
-//                 false
-//             }
-//         };
-//
-//         match self.line {
-//             Some(line_num) => {
-//                 if ends_with_dot {
-//                     let len = raw_message.len();
-//                     let without_dot = &raw_message[0 .. len - 1];
-//
-//                     format!("{} at line {}.", without_dot, line_num)
-//                 } else {
-//                     format!("{} at line {}", raw_message, line_num)
-//                 }
-//             },
-//             None => {
-//                 raw_message.to_string()
-//             }
-//         }
-//     }
-// }
