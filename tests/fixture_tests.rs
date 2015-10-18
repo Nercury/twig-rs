@@ -268,8 +268,8 @@ fn print_diff(changeset: &Vec<Difference>) {
                 }
             },
             Difference::Rem(ref x) => {
-                t.fg(term::color::RED).unwrap();
                 for line in x.lines() {
+                    t.fg(term::color::RED).unwrap();
                     writeln!(t, "- {}", line);
                 }
             }
