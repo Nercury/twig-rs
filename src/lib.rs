@@ -18,15 +18,26 @@ extern crate regex;
 extern crate uuid;
 #[macro_use] extern crate log;
 
+// Allow unused things in development so that real warnings are more visible.
+
+#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod tokens;
+#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod nodes;
+#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod loader;
+#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod error;
+#[allow(unused_variables, dead_code, unused_assignments)]
 mod environment;
 
+#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod extension;
+#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod operator;
+#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod value;
+#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod runtime;
 
 pub use environment::{ CompiledEnvironment, Environment };
