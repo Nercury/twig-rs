@@ -34,12 +34,12 @@ use nodes::Parser;
 use nodes::expr::{ Expr, ExprValue };
 use tokens::TokenValueRef;
 use super::error::*;
-use error::Result;
+use error::TemplateResult;
 
 const INVALID_LVALUES: [&'static str; 3] = ["true", "false", "none"];
 
 pub fn parse_assignment_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
-    -> Result<Vec<Expr<'c>>>
+    -> TemplateResult<Vec<Expr<'c>>>
 {
     trace!("parse_assignment_expression");
 

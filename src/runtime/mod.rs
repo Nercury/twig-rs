@@ -1,7 +1,9 @@
 use std::result;
 use std::fmt;
+use error::Location;
 
 /// Stack trace record.
+#[derive(Clone)]
 pub enum TraceEntry {
     /// Trace source file change that caused the error.
     SourceFile { target: String },
@@ -11,18 +13,7 @@ pub enum TraceEntry {
     Position { from: Location },
 }
 
-/// Location record in source file.
-pub struct Location {
-    pub line: usize,
-}
-
-impl Location {
-    pub fn new(line: usize) -> Location {
-        Location { line: line }
-    }
-}
-
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 /// Runtime error message.
 pub enum ErrorMessage {
     /// Callable invoked with argument count that does not match defined count.
@@ -30,6 +21,7 @@ pub enum ErrorMessage {
 }
 
 /// Runtime error with stack trace.
+#[derive(Clone)]
 pub struct Error {
     pub message: ErrorMessage,
     pub stack_trace: Vec<TraceEntry>,

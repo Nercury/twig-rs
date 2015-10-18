@@ -3,13 +3,13 @@ use nodes::body::Body;
 use nodes::expr::Expr;
 use tokens::{ TokenRef, TokenValueRef };
 use Expect;
-use error::{ Result, TemplateError };
+use error::{ TemplateResult, TemplateError };
 
 impl<'c> Parse<'c> for Body<'c> {
     type Output = Body<'c>;
 
     fn parse<'r>(parser: &mut Parser<'r, 'c>)
-        -> Result<Body<'c>>
+        -> TemplateResult<Body<'c>>
     {
         trace!("Body::parse");
 
@@ -22,7 +22,7 @@ pub struct BlockEnd {
 }
 
 pub fn subparse<'p, 'c, D>(parser: &mut Parser<'p, 'c>, test: D)
-    -> Result<Body<'c>>
+    -> TemplateResult<Body<'c>>
         where D: Fn(&TokenRef<'c>) -> Option<BlockEnd>
 {
     let mut maybe_line = None;

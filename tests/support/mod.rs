@@ -3,9 +3,9 @@
 use twig::Environment;
 use twig::tokens::Lexer;
 use twig::nodes::{ Parser, Parse, Module };
-use twig::error::Result;
+use twig::error::TemplateResult;
 
-pub fn maybe_parsed(template: &'static str) -> Result<Module> {
+pub fn maybe_parsed(template: &'static str) -> TemplateResult<Module> {
     let env = Environment::default().init_all();
     let lexer = Lexer::default(&env.lexing);
     let mut tokens = lexer.tokens(template);

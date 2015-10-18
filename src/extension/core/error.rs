@@ -1,23 +1,8 @@
 use std::convert::From;
 use std::fmt;
-use std::result;
-use error::{ CustomErrorAt, ErrorAt, TemplateError };
+use error::{ ExtensionError, Location, At, TemplateError };
 
-pub struct CoreErrorAt {
-    line: usize,
-    message: CoreTemplateError,
-}
-
-impl CoreErrorAt {
-    pub fn new_at(message: CoreTemplateError, line: usize) -> CoreErrorAt {
-        CoreErrorAt {
-            line: line,
-            message: message,
-        }
-    }
-}
-
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub enum CoreTemplateError {
     OnlyVariablesCanBeAssignedTo,
     ExpectedEndmacroName { expected: String, given: String },
@@ -25,8 +10,14 @@ pub enum CoreTemplateError {
 }
 
 impl CoreTemplateError {
-    pub fn at(self, line: usize) -> CoreErrorAt {
-        CoreErrorAt::new_at(self, line)
+    pub fn at(self, line: usize) -> At<CoreTemplateError> {
+        At::new(self, Location::new(line))
+    }
+}
+
+impl ExtensionError for CoreTemplateError {
+    fn boxed_clone(&self) -> Box<ExtensionError> {
+        Box::new(self.clone())
     }
 }
 
@@ -40,19 +31,9 @@ impl fmt::Display for CoreTemplateError {
     }
 }
 
-impl CustomErrorAt for CoreTemplateError {
-    fn boxed_clone(&self) -> Box<CustomErrorAt> {
-        Box::new(self.clone())
+impl From<At<CoreTemplateError>> for At<TemplateError> {
+    fn from(At { loc: Location { line }, err }: At<CoreTemplateError>) -> At<TemplateError> {
+        TemplateError::CustomError(Box::new(err))
+            .at(line)
     }
 }
-
-impl From<CoreErrorAt> for ErrorAt {
-    fn from(e: CoreErrorAt) -> ErrorAt {
-        ErrorAt::new(
-            TemplateError::CustomError(Box::new(e.message)),
-            e.line
-        )
-    }
-}
-
-pub type CoreResult<T> = result::Result<T, CoreErrorAt>;

@@ -1,8 +1,7 @@
 use tokens::{ TokenRef, TokenValueRef };
 use nodes::{ Parser, TokenParserExtension };
 use nodes::body::Body;
-use error::Result;
-
+use error::TemplateResult;
 use nodes::expr_parser::parse_named_arguments;
 use nodes::body_parser::{ subparse, BlockEnd };
 use extension::core::error::*;
@@ -17,7 +16,7 @@ impl Macro {
 
 impl TokenParserExtension for Macro {
     fn parse<'p, 'c>(&self, parser: &mut Parser<'p, 'c>, token: TokenRef<'c>)
-        -> Result<Option<Body<'c>>>
+        -> TemplateResult<Option<Body<'c>>>
     {
         trace!("Macro::parse, {:?}", token);
 

@@ -1,7 +1,7 @@
 use tokens::TokenRef;
 use nodes::{ Parser, TokenParserExtension };
 use nodes::body::Body;
-use error::Result;
+use error::TemplateResult;
 
 pub struct Extends;
 
@@ -13,7 +13,7 @@ impl Extends {
 
 impl TokenParserExtension for Extends {
     fn parse<'p, 'c>(&self, parser: &mut Parser<'p, 'c>, token: TokenRef<'c>)
-        -> Result<Option<Body<'c>>>
+        -> TemplateResult<Option<Body<'c>>>
     {
         unreachable!("not implemented Extends::parse")
     }

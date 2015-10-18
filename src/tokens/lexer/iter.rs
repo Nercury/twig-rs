@@ -2,7 +2,7 @@ use regex::{ Captures };
 use std::collections::{ VecDeque };
 
 use super::Lexer;
-use error::Result;
+use error::TemplateResult;
 use tokens::{ TokenRef, TokenValueRef, LexerOptions };
 use value::{ TwigNumberRef, TwigValueRef };
 use std::fmt;
@@ -115,7 +115,7 @@ pub struct TokenIter<'iteration, 'code> {
     lexer: &'iteration Lexer,
 
     code: &'code str,
-    tokens: VecDeque<Result<TokenRef<'code>>>,
+    tokens: VecDeque<TemplateResult<TokenRef<'code>>>,
     position: usize,
     positions: Vec<Position<'code>>,
 
@@ -134,9 +134,9 @@ pub struct TokenIter<'iteration, 'code> {
 }
 
 impl<'iteration, 'code> Iterator for TokenIter<'iteration, 'code> {
-    type Item = Result<TokenRef<'code>>;
+    type Item = TemplateResult<TokenRef<'code>>;
 
-    fn next(&mut self) -> Option<Result<TokenRef<'code>>> {
+    fn next(&mut self) -> Option<TemplateResult<TokenRef<'code>>> {
 
         if self.finished {
             return None;
@@ -150,8 +150,8 @@ impl<'iteration, 'code> Iterator for TokenIter<'iteration, 'code> {
     }
 }
 
-impl<'code, T> Expect<(usize, TokenValueRef<'code>)> for T where T: Iterator<Item=Result<TokenRef<'code>>> {
-    type Output = Result<TokenRef<'code>>;
+impl<'code, T> Expect<(usize, TokenValueRef<'code>)> for T where T: Iterator<Item=TemplateResult<TokenRef<'code>>> {
+    type Output = TemplateResult<TokenRef<'code>>;
 
     fn expect(&mut self, (line, expected): (usize, TokenValueRef<'code>)) -> Self::Output {
         let maybe_token = self.next();

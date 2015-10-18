@@ -18,7 +18,7 @@ pub use self::parser::expr as expr_parser;
 pub use self::parser::module as module_parser;
 
 use tokens::TokenRef;
-use error::Result;
+use error::TemplateResult;
 
 #[derive(Debug)]
 pub struct Block;
@@ -36,5 +36,5 @@ pub trait TokenParserExtension
 {
     fn get_tag(&self) -> &'static str;
     fn parse<'p, 'c>(&self, parser: &mut Parser<'p, 'c>, token: TokenRef<'c>)
-        -> Result<Option<body::Body<'c>>>;
+        -> TemplateResult<Option<body::Body<'c>>>;
 }
