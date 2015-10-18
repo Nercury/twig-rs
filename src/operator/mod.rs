@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 use value::TwigValue;
-use runtime;
+use error::{ RuntimeError, RuntimeResult };
 
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum OperatorKind {
@@ -75,7 +75,7 @@ impl OperatorOptions {
 pub struct Operator {
     pub options: OperatorOptions,
     pub callable: Box<
-        for<'e> Fn(&'e [TwigValue]) -> runtime::Result<TwigValue>
+        for<'e> Fn(&'e [TwigValue]) -> RuntimeResult<TwigValue>
     >,
 }
 
@@ -89,18 +89,18 @@ impl Operator {
     )
         -> Operator
     where
-        F: for<'e> Fn(&'e TwigValue, &'e TwigValue) -> runtime::Result<TwigValue>
+        F: for<'e> Fn(&'e TwigValue, &'e TwigValue) -> RuntimeResult<TwigValue>
     {
         Operator {
             options: OperatorOptions::new_binary(chars, precedence, associativity),
             callable: Box::new(move |args| {
                 if args.len() != 2 {
-                    return Err(runtime::Error::new(
-                        runtime::ErrorMessage::InvalidArgumentCount {
+                    return Err(
+                        RuntimeError::InvalidArgumentCount {
                             expected: 2,
                             found: args.len()
                         }
-                    ))
+                    )
                 }
 
                 callable(
@@ -118,7 +118,7 @@ impl Operator {
     )
         -> Operator
     where
-        F: for<'e> Fn(&'e TwigValue, &'e TwigValue) -> runtime::Result<TwigValue>
+        F: for<'e> Fn(&'e TwigValue, &'e TwigValue) -> RuntimeResult<TwigValue>
     {
         Operator::new_binary(
             chars,
@@ -135,7 +135,7 @@ impl Operator {
     )
         -> Operator
     where
-        F: for<'e> Fn(&'e TwigValue, &'e TwigValue) -> runtime::Result<TwigValue>
+        F: for<'e> Fn(&'e TwigValue, &'e TwigValue) -> RuntimeResult<TwigValue>
     {
         Operator::new_binary(
             chars,
@@ -152,18 +152,18 @@ impl Operator {
     )
         -> Operator
     where
-        F: for<'e> Fn(&'e TwigValue) -> runtime::Result<TwigValue>
+        F: for<'e> Fn(&'e TwigValue) -> RuntimeResult<TwigValue>
     {
         Operator {
             options: OperatorOptions::new_unary(chars, precedence),
             callable: Box::new(move |args| {
                 if args.len() != 1 {
-                    return Err(runtime::Error::new(
-                        runtime::ErrorMessage::InvalidArgumentCount {
+                    return Err(
+                        RuntimeError::InvalidArgumentCount {
                             expected: 1,
                             found: args.len()
                         }
-                    ))
+                    )
                 }
 
                 callable(

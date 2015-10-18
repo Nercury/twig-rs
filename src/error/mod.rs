@@ -1,9 +1,11 @@
 mod template;
+mod runtime;
 
 use std::fmt;
 use std::result;
 
 pub use self::template::{ TemplateError, Received };
+pub use self::runtime::{ RuntimeError, TracedRuntimeError };
 
 #[derive(Clone)]
 pub enum Error {
@@ -12,7 +14,7 @@ pub enum Error {
     /// Error reading files, compiling templates or writing cache.
     Engine,
     /// Error executing template.
-    Runtime,
+    Runtime(TracedRuntimeError),
 }
 
 pub trait ExtensionError: fmt::Display {
@@ -36,7 +38,7 @@ impl fmt::Debug for Error {
         match *self {
             Error::Template(ref e) => write!(f, "{:?}", e),
             Error::Engine => write!(f, "Engine Error"),
-            Error::Runtime => write!(f, "Runtime Error"),
+            Error::Runtime(ref e) => write!(f, "{:?}", e),
         }
     }
 }
@@ -102,3 +104,5 @@ impl Location {
 
 pub type Result<T> = result::Result<T, Error>;
 pub type TemplateResult<T> = result::Result<T, At<TemplateError>>;
+pub type RuntimeResult<T> = result::Result<T, RuntimeError>;
+pub type TracedRuntimeResult<T> = result::Result<T, RuntimeError>;
