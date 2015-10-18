@@ -1,4 +1,5 @@
 use std::cmp::Ordering;
+use std::fmt;
 use value::TwigValue;
 use error::{ RuntimeError, RuntimeResult };
 
@@ -77,6 +78,12 @@ pub struct Operator {
     pub callable: Box<
         for<'e> Fn(&'e [TwigValue]) -> RuntimeResult<TwigValue>
     >,
+}
+
+impl fmt::Debug for Operator {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "({:?}, callable)", self.options)
+    }
 }
 
 impl Operator {

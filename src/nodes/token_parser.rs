@@ -1,8 +1,15 @@
+use std::fmt;
 use super::TokenParserExtension;
 
 pub struct TokenParser {
     pub tag: &'static str,
     pub extension: Box<TokenParserExtension>,
+}
+
+impl fmt::Debug for TokenParser {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "({:?}, extension)", self.tag)
+    }
 }
 
 impl TokenParser {

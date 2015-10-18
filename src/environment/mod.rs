@@ -27,6 +27,7 @@ impl Config {
 }
 
 /// Project configuration container.
+#[derive(Debug)]
 pub struct Environment {
     pub operators: Vec<Operator>,
     pub token_parsers: Vec<TokenParser>,

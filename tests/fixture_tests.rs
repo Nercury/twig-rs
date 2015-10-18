@@ -1,7 +1,6 @@
 extern crate twig;
 extern crate serde_json;
 
-use std::collections::HashMap;
 use std::io::{self, Read, BufReader, BufRead};
 use std::env;
 use std::fs::{self, DirEntry, File};
@@ -29,12 +28,16 @@ fn fixtures() {
         ), match fixture.config {
             Some(config) => Environment::new(Config::from_hashmap(
                 match serde_json::from_str(&config) {
-                    Ok(map) => map,
+                    Ok(map) => {
+                        println!("env config: {:#?}", map);
+                        map
+                    },
                     Err(e) => panic!("failed to deserialize template config: {:#?}", e),
                 }
             )),
             _ => Environment::default(),
         });
+        println!("{:#?}", twig);
     }).unwrap();
 }
 

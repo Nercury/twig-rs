@@ -51,6 +51,7 @@ pub trait Expect<V> {
 ///
 /// Given the specified environment settings, converts templates
 /// to output string.
+#[derive(Debug)]
 pub struct Engine<L> {
     loader: L,
     env: environment::Environment,

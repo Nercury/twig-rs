@@ -4,6 +4,7 @@ pub trait Loader {
     fn get_source(&self, name: &str) -> Option<String>;
 }
 
+#[derive(Debug)]
 pub struct ArrayLoader {
     files: HashMap<String, String>,
 }
