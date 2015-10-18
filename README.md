@@ -22,9 +22,8 @@ The goal of 1.0 version is to pass test suite functionally equivalent to Twig 2.
 
 ## TODO list
 
-- At least a basic parser implementation is needed, with extendable AST ([issue #3](https://github.com/Nercury/twig-rs/issues/3)).
-- Fixture runner is needed ([issue #2](https://github.com/Nercury/twig-rs/issues/2)). However, it requires finished [#3](https://github.com/Nercury/twig-rs/issues/3).
-- LLTL (low level template language), [issue #4](https://github.com/Nercury/twig-rs/issues/4).
+- Parser implementation is not finished ([issue #3](https://github.com/Nercury/twig-rs/issues/3)).
+- LLTL (low level template language), basics implemented in little-rs subproject, [issue #4](https://github.com/Nercury/twig-rs/issues/4).
 
 # Example of working lexer
 
