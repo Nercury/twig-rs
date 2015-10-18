@@ -1,7 +1,7 @@
 use tokens::{ TokenRef, TokenValueRef };
 use nodes::{ Parser, TokenParserExtension };
 use nodes::body::Body;
-use Result;
+use error::Result;
 
 use nodes::expr_parser::parse_named_arguments;
 use nodes::body_parser::{ subparse, BlockEnd };

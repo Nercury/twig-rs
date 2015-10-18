@@ -2,8 +2,8 @@ use nodes::{ Parser, Parse };
 use nodes::body::Body;
 use nodes::expr::Expr;
 use tokens::{ TokenRef, TokenValueRef };
-use { Result, Expect };
-use error::{ Error, ErrorMessage };
+use Expect;
+use error::{ Result, Error, ErrorMessage };
 
 impl<'c> Parse<'c> for Body<'c> {
     type Output = Body<'c>;

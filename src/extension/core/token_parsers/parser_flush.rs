@@ -1,7 +1,7 @@
 use tokens::TokenRef;
 use nodes::{ Parser, TokenParserExtension };
 use nodes::body::Body;
-use Result;
+use error::Result;
 
 pub struct Flush;
 

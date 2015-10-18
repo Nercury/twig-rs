@@ -2,8 +2,7 @@ use std::iter::Peekable;
 use std::collections::HashMap;
 use tokens::{ TokenRef, TokenValueRef, TokenValue, TokenIter };
 use environment::ParsingEnvironment;
-use Result;
-use error::{ Error, ErrorMessage, Received };
+use error::{ Result, Error, ErrorMessage, Received };
 use operator::{ OperatorOptions, OperatorKind };
 use uuid::Uuid;
 

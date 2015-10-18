@@ -1,6 +1,6 @@
 use nodes::{ Parse, Parser, Module };
 use nodes::body::Body;
-use Result;
+use error::Result;
 
 impl<'c> Parse<'c> for Module<'c> {
     type Output = Module<'c>;

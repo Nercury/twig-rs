@@ -18,7 +18,7 @@ pub use self::parser::expr as expr_parser;
 pub use self::parser::module as module_parser;
 
 use tokens::TokenRef;
-use Result;
+use error::Result;
 
 #[derive(Debug)]
 pub struct Block;

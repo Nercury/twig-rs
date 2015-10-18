@@ -3,7 +3,7 @@
 use twig::Environment;
 use twig::tokens::Lexer;
 use twig::nodes::{ Parser, Parse, Module };
-use twig::Result;
+use twig::error::Result;
 
 pub fn maybe_parsed(template: &'static str) -> Result<Module> {
     let env = Environment::default().init_all();

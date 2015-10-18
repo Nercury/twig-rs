@@ -2,8 +2,8 @@ use nodes::{ Parse, Parser, ImportedFunction };
 use nodes::expr::{ Expr, ExprValue, ExprConstant, ExprCallType };
 use tokens::TokenValueRef;
 use operator::{ OperatorOptions, OperatorKind, Associativity };
-use error::{ Error, ErrorMessage };
-use { Result, Expect };
+use error::{ Result, Error, ErrorMessage };
+use Expect;
 use value::{ TwigValueRef, TwigNumberRef };
 use std::collections::VecDeque;
 

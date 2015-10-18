@@ -45,6 +45,7 @@ pub enum ErrorMessage {
     MustStartWithTagName,
     DefaultValueForArgumentMustBeConstant,
     ParameterNameMustBeAString { given: String },
+    TemplateNotFound(String),
     CustomError(Box<CustomError>),
 }
 
@@ -106,7 +107,8 @@ impl fmt::Display for ErrorMessage {
             ErrorMessage::ParenthesisNotClosed => write!(f, "An opened parenthesis is not properly closed"),
             ErrorMessage::MustStartWithTagName => write!(f, "A block must start with a tag name"),
             ErrorMessage::DefaultValueForArgumentMustBeConstant => write!(f, "A default value for an argument must be a constant (a boolean, a string, a number, or an array)."),
-            ErrorMessage::ParameterNameMustBeAString { given: ref given } => write!(f, "A parameter name must be a string, \"{}\" given", given),
+            ErrorMessage::ParameterNameMustBeAString { ref given } => write!(f, "A parameter name must be a string, \"{}\" given", given),
+            ErrorMessage::TemplateNotFound(ref name) => write!(f, "Template \"{}\" was not found", name),
             ErrorMessage::CustomError(ref e) => write!(f, "{}", e),
         }
     }

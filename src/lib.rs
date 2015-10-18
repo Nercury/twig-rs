@@ -21,7 +21,7 @@ extern crate uuid;
 pub mod tokens;
 pub mod nodes;
 pub mod loader;
-mod error;
+pub mod error;
 mod environment;
 
 pub mod extension;
@@ -29,7 +29,6 @@ pub mod operator;
 pub mod value;
 pub mod runtime;
 
-pub use error::{ Error, Result };
 pub use environment::{ CompiledEnvironment, Environment };
 
 /// Returns different output based on expected value.
@@ -56,7 +55,10 @@ impl<L> Engine<L> {
         }
     }
 
-    pub fn get(name: &str) -> Result<String> {
+    pub fn get<'r, I>(&self, name: &'r str, data: I)
+        -> error::Result<String>
+            where I: Into<value::TwigValueRef<'r>>
+    {
         Ok("".into())
     }
 }

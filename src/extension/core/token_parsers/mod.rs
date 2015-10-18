@@ -34,7 +34,7 @@ use nodes::Parser;
 use nodes::expr::{ Expr, ExprValue };
 use tokens::TokenValueRef;
 use super::error::*;
-use Result;
+use error::Result;
 
 const INVALID_LVALUES: [&'static str; 3] = ["true", "false", "none"];
 
