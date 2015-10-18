@@ -1,8 +1,13 @@
 extern crate twig;
 extern crate serde_json;
+extern crate difference;
+extern crate term;
 
+use std::collections::HashMap;
 use std::io::{self, Read, BufReader, BufRead};
 use std::env;
+use std::io::Write;
+use difference::Difference;
 use std::fs::{self, DirEntry, File};
 use std::path::Path;
 
@@ -12,13 +17,19 @@ use twig::{ Environment, Engine, Config };
 #[test]
 fn fixtures() {
     visit_fixtures(&env::current_dir().unwrap().join("tests").join("fixtures"), &|entry| {
-        println!("fixture {:?}", entry.path());
-
-        let f = File::open(entry.path()).ok().expect("error opening fixture file");
+        let f = match File::open(entry.path()) {
+            Ok(f) => f,
+            Err(e) => panic!("error opening fixture file {:?}, {:?}", entry.path(), e),
+        };
         let fixture = match Fixture::new(f) {
             Err(e) => panic!("invalid test {:?}", e),
             Ok(f) => f,
         };
+
+        println!("testing {}", match fixture.message.clone() {
+            Some(m) => m,
+            None => panic!("fixture {:?} must have a message", entry.path()),
+        });
 
         let twig = Engine::new(ArrayLoader::new(
             vec![("index.twig".into(), fixture.template.expect("fixture must contain main template"))]
@@ -28,16 +39,37 @@ fn fixtures() {
         ), match fixture.config {
             Some(config) => Environment::new(Config::from_hashmap(
                 match serde_json::from_str(&config) {
-                    Ok(map) => {
-                        println!("env config: {:#?}", map);
-                        map
-                    },
+                    Ok(map) => map,
                     Err(e) => panic!("failed to deserialize template config: {:#?}", e),
                 }
             )),
             _ => Environment::default(),
         });
-        println!("{:#?}", twig);
+
+        let data = match fixture.data {
+            Some(data) => match serde_json::from_str::<HashMap<String, String>>(&data) {
+                Ok(map) => map,
+                Err(e) => panic!("failed to deserialize template data: {:#?}", e),
+            },
+            None => HashMap::new(),
+        };
+
+        let res = match twig.get("index.twig", data.iter().map(|(k, v)| (&k[..], &v[..])).collect()) {
+            Ok(res) => res,
+            Err(e) => panic!("error executing template: {:#?}", e),
+        };
+
+        let expected = fixture.expect.expect("fixture must have expect block");
+
+        if res != expected {
+            let (_, changeset) = difference::diff(
+                &res,
+                &expected,
+                "\n"
+            );
+            print_diff(changeset);
+            //assert_eq!(res, expected);
+        }
     }).unwrap();
 }
 
@@ -168,4 +200,32 @@ impl Fixture {
             ReadState::Expect(m) => self.expect = Some(m),
         }
     }
+}
+
+fn print_diff(changeset: Vec<Difference>) {
+    let mut t = term::stdout().unwrap();
+
+    for i in 0..changeset.len() {
+        match changeset[i] {
+            Difference::Same(ref x) => {
+                t.reset().unwrap();
+                writeln!(t, "  {}", x);
+            },
+            Difference::Add(ref x) => {
+                t.fg(term::color::GREEN).unwrap();
+                for line in x.lines() {
+                    writeln!(t, "+ {}", line);
+                }
+            },
+            Difference::Rem(ref x) => {
+                t.fg(term::color::RED).unwrap();
+                for line in x.lines() {
+                    writeln!(t, "- {}", line);
+                }
+            }
+        }
+    }
+    t.reset().unwrap();
+    writeln!(t, "");
+    t.flush().unwrap();
 }

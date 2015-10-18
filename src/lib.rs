@@ -57,6 +57,8 @@ pub struct Engine<L> {
     env: environment::Environment,
 }
 
+use std::collections::HashMap;
+
 impl<L> Engine<L> {
     pub fn new(loader: L, env: environment::Environment) -> Engine<L> {
         Engine {
@@ -65,9 +67,8 @@ impl<L> Engine<L> {
         }
     }
 
-    pub fn get<'r, I>(&self, name: &'r str, data: I)
+    pub fn get<'r>(&self, name: &'r str, data: HashMap<&'r str, &'r str>)
         -> error::Result<String>
-            where I: Into<value::TwigValueRef<'r>>
     {
         Ok("".into())
     }
