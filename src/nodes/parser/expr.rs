@@ -2,7 +2,7 @@ use nodes::{ Parse, Parser, ImportedFunction };
 use nodes::expr::{ Expr, ExprValue, ExprConstant, ExprCallType };
 use tokens::TokenValueRef;
 use operator::{ OperatorOptions, OperatorKind, Associativity };
-use error::{ Result, ErrorAt, TemplateError };
+use error::{ Result, TemplateError };
 use Expect;
 use value::{ TwigValueRef, TwigNumberRef };
 use std::collections::VecDeque;
@@ -85,7 +85,7 @@ pub fn get_primary<'p, 'c>(parser: &mut Parser<'p, 'c>)
         try!(parser.next());
         let parsed_expr = try!(parse_expression(parser, 0));
         if let Err(_) = parser.expect(TokenValueRef::Punctuation(')')) {
-            return Err(ErrorAt::new_at(TemplateError::ParenthesisNotClosed, token.line));
+            return Err(TemplateError::ParenthesisNotClosed.at(token.line));
         }
         return parse_postfix_expression(parser, parsed_expr);
     }
@@ -155,10 +155,10 @@ pub fn parse_primary_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
         TokenValueRef::Operator(_) => unreachable!("TokenValueRef::Operator"),
         TokenValueRef::Punctuation('[') => try!(parse_array_expression(parser)),
         TokenValueRef::Punctuation('{') => try!(parse_hash_expression(parser)),
-        other => return Err(ErrorAt::new_at(
-            TemplateError::UnexpectedTokenValue(other.into()),
-            token.line
-        )),
+        other => return Err(
+            TemplateError::UnexpectedTokenValue(other.into())
+                .at(token.line)
+        ),
     };
 
     parse_postfix_expression(parser, expr)
@@ -295,10 +295,10 @@ pub fn parse_hash_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
             TokenValueRef::Punctuation('(') => {
                 try!(parse_expression(parser, 0))
             }
-            _ => return Err(ErrorAt::new_at(
-                TemplateError::InvalidHashKey { unexpected: token.value.into() },
-                token.line
-            )),
+            _ => return Err(
+                TemplateError::InvalidHashKey { unexpected: token.value.into() }
+                    .at(token.line)
+            ),
         };
 
         try!(parser.expect_or_error(TokenValueRef::Punctuation(':'), TemplateError::HashKeyMustBeFollowedByColon));
@@ -354,10 +354,7 @@ pub fn parse_subscript_expression<'p, 'c>(parser: &mut Parser<'p, 'c>, node: Exp
                 TokenValueRef::Value(TwigValueRef::Num(num)) => get_number_expr(num, line),
                 // OMG the hack here is _hilarious_:
                 // TODO: ($token->getType() == Twig_tokens::OPERATOR_TYPE && preg_match(Twig_Lexer::REGEX_NAME, $token->getValue()))
-                _ => return Err(ErrorAt::new_at(
-                    TemplateError::ExpectedNameOrNumber,
-                    line
-                ))
+                _ => return Err(TemplateError::ExpectedNameOrNumber.at(line))
             };
 
             token = try!(parser.current());
@@ -454,20 +451,18 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: bo
 
         let name = match name_expr {
             Expr { value: ExprValue::Name(n), .. } => n,
-            other => return Err(ErrorAt::new_at(
-                TemplateError::ParameterNameMustBeAString { given: format!("{:?}", other) },
-                token.line
-            )),
+            other => return Err(
+                TemplateError::ParameterNameMustBeAString {
+                    given: format!("{:?}", other)
+                }.at(token.line)
+            ),
         };
 
         let value = if definition {
             let value = try!(parse_primary_expression(parser));
 
             if !value.is_constant() {
-                return Err(ErrorAt::new_at(
-                    TemplateError::DefaultValueForArgumentMustBeConstant,
-                    try!(parser.current()).line
-                ));
+                return Err(TemplateError::DefaultValueForArgumentMustBeConstant.at(try!(parser.current()).line));
             }
 
             value

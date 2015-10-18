@@ -51,7 +51,7 @@ pub enum TemplateError {
 
 impl TemplateError {
     pub fn at(self, line: usize) -> ErrorAt {
-        ErrorAt::new_at(self, line)
+        ErrorAt::new(self, line)
     }
 }
 
@@ -133,7 +133,7 @@ impl fmt::Debug for ErrorAt {
 }
 
 impl ErrorAt {
-    pub fn new_at(message: TemplateError, line: usize) -> ErrorAt {
+    pub fn new(message: TemplateError, line: usize) -> ErrorAt {
         ErrorAt {
             message: Box::new(message),
             line: Some(line),

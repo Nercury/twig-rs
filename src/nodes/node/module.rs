@@ -1,6 +1,5 @@
 use nodes::{ Block, Macro, Trait, EmbededTemplate };
 use nodes::body::Body;
-use nodes::expr::Expr;
 
 #[derive(Debug)]
 pub struct Module<'c> {

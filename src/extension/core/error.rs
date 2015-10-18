@@ -24,6 +24,12 @@ pub enum CoreTemplateError {
     CanNotAssignTo(String),
 }
 
+impl CoreTemplateError {
+    pub fn at(self, line: usize) -> CoreErrorAt {
+        CoreErrorAt::new_at(self, line)
+    }
+}
+
 impl fmt::Display for CoreTemplateError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
@@ -42,7 +48,7 @@ impl CustomErrorAt for CoreTemplateError {
 
 impl From<CoreErrorAt> for ErrorAt {
     fn from(e: CoreErrorAt) -> ErrorAt {
-        ErrorAt::new_at(
+        ErrorAt::new(
             TemplateError::CustomError(Box::new(e.message)),
             e.line
         )

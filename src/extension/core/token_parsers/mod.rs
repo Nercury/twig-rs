@@ -52,14 +52,16 @@ pub fn parse_assignment_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
                 name
             },
             _ => return Err(
-                CoreErrorAt::new_at(CoreTemplateError::OnlyVariablesCanBeAssignedTo, token.line)
+                CoreTemplateError::OnlyVariablesCanBeAssignedTo
+                    .at(token.line)
                     .into()
             ),
         };
 
         if INVALID_LVALUES.contains(&name) {
             return Err(
-                CoreErrorAt::new_at(CoreTemplateError::CanNotAssignTo(name.into()), token.line)
+                CoreTemplateError::CanNotAssignTo(name.into())
+                    .at(token.line)
                     .into()
             )
         }

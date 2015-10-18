@@ -2,7 +2,7 @@ use regex::{ Captures };
 use std::collections::{ VecDeque };
 
 use super::Lexer;
-use error::{ Result, ErrorAt };
+use error::Result;
 use tokens::{ TokenRef, TokenValueRef, LexerOptions };
 use value::{ TwigNumberRef, TwigValueRef };
 use std::fmt;
@@ -157,23 +157,17 @@ impl<'code, T> Expect<(usize, TokenValueRef<'code>)> for T where T: Iterator<Ite
         let maybe_token = self.next();
         match (maybe_token, expected) {
             (None, _) => return Err(
-                ErrorAt::new_at(
-                    TemplateError::ExpectedTokenTypeButReceived(
-                        (expected.into(), Received::EndOfStream)
-                    ),
-                    line
-                )
+                TemplateError::ExpectedTokenTypeButReceived(
+                    (expected.into(), Received::EndOfStream)
+                ).at(line)
             ),
             (Some(Ok(token)), expected) => if token.value == expected {
                 Ok(token)
             } else {
                 return Err(
-                    ErrorAt::new_at(
-                        TemplateError::ExpectedTokenTypeButReceived(
-                            (expected.into(), Received::Token(token.value.into()))
-                        ),
-                        token.line
-                    )
+                    TemplateError::ExpectedTokenTypeButReceived(
+                        (expected.into(), Received::Token(token.value.into()))
+                    ).at(token.line)
                 );
             },
             (Some(error), _) => error,
@@ -698,7 +692,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
 
     fn push_error(&mut self, message: TemplateError, line_num: Option<usize>) {
         self.tokens.push_back(Err(
-            ErrorAt::new_at(message, match line_num {
+            message.at(match line_num {
                 Some(line) => line,
                 None => unreachable!("twig bug: error should not be pushed without a line number"),
             })
