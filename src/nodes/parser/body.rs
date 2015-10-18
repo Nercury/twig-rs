@@ -3,7 +3,7 @@ use nodes::body::Body;
 use nodes::expr::Expr;
 use tokens::{ TokenRef, TokenValueRef };
 use Expect;
-use error::{ Result, Error, ErrorMessage };
+use error::{ Result, ErrorAt, ErrorMessage };
 
 impl<'c> Parse<'c> for Body<'c> {
     type Output = Body<'c>;
@@ -49,7 +49,7 @@ pub fn subparse<'p, 'c, D>(parser: &mut Parser<'p, 'c>, test: D)
 
                 let tag_name = match token.value {
                     TokenValueRef::Name(n) => n,
-                    _ => return Err(Error::new_at(ErrorMessage::MustStartWithTagName, token.line)),
+                    _ => return Err(ErrorAt::new_at(ErrorMessage::MustStartWithTagName, token.line)),
                 };
 
                 if let Some(end) = test(&token) {

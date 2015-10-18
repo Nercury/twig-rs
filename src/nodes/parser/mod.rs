@@ -2,7 +2,7 @@ use std::iter::Peekable;
 use std::collections::HashMap;
 use tokens::{ TokenRef, TokenValueRef, TokenValue, TokenIter };
 use environment::ParsingEnvironment;
-use error::{ Result, Error, ErrorMessage, Received };
+use error::{ Result, ErrorAt, ErrorMessage, Received };
 use operator::{ OperatorOptions, OperatorKind };
 use uuid::Uuid;
 
@@ -113,7 +113,7 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
     {
         Ok(match self.tokens.peek() {
             Some(&Ok(ref t)) => t.clone(),
-            None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
+            None => return Err(ErrorAt::new_at(ErrorMessage::UnexpectedEndOfTemplate, 1)),
             Some(&Err(ref e)) => return Err(e.clone()),
         })
     }
@@ -139,12 +139,12 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
     {
         let token = match self.tokens.peek() {
             Some(&Ok(ref t)) => t.clone(),
-            None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
+            None => return Err(ErrorAt::new_at(ErrorMessage::UnexpectedEndOfTemplate, 1)),
             Some(&Err(ref e)) => return Err(e.clone()),
         };
 
         match self.tokens.next() {
-            None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
+            None => return Err(ErrorAt::new_at(ErrorMessage::UnexpectedEndOfTemplate, token.line)),
             Some(Err(e)) => return Err(e),
             _ => (),
         };
@@ -159,14 +159,17 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
     /// UnexpectedEndOfTemplate error.
     pub fn skip_to_next_if<'r>(&'r mut self, expected: TokenValueRef<'c>) -> Result<bool>
     {
-        let skip = match self.tokens.peek() {
-            Some(&Ok(ref token)) if token.value == expected => true,
-            _ => false,
+        let (line, skip) = {
+            let token = match self.tokens.peek() {
+                Some(&Ok(ref token)) => token,
+                _ => return Err(ErrorAt::new_at(ErrorMessage::UnexpectedEndOfTemplate, 1)),
+            };
+            (token.line, token.value == expected)
         };
         if skip {
             match self.tokens.next() {
                 Some(Ok(_)) => Ok(true),
-                None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
+                None => return Err(ErrorAt::new_at(ErrorMessage::UnexpectedEndOfTemplate, line)),
                 Some(Err(e)) => return Err(e),
             }
         } else {
@@ -183,7 +186,7 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
             |token| if token.value == expected {
                 Ok(token.clone())
             } else {
-                Err(Error::new_at(
+                Err(ErrorAt::new_at(
                     ErrorMessage::ExpectedOtherTokenValue((token.value.into(), expected.into())),
                     token.line
                 ))
@@ -201,7 +204,7 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
         self.expect_match_or(
             |token| match token.value {
                 TokenValueRef::Name(name) => Ok(name),
-                _ => Err(Error::new_at(
+                _ => Err(ErrorAt::new_at(
                     ErrorMessage::ExpectedTokenTypeButReceived(
                         (TokenValue::Name("".into()), Received::Token(token.value.into()))
                     ),
@@ -220,7 +223,7 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
             |token| if token.value == expected {
                 Ok(token.clone())
             } else {
-                Err(Error::new_at(
+                Err(ErrorAt::new_at(
                     error_message,
                     token.line
                 ))
@@ -240,7 +243,7 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
             Some(&Ok(ref t)) => {
                 check(&t)
             },
-            None => return Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
+            None => return Err(ErrorAt::new_at(ErrorMessage::UnexpectedEndOfTemplate, 1)),
             Some(&Err(ref e)) => return Err(e.clone()),
         };
         try!(self.next());
@@ -262,7 +265,7 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
                     Ok(false)
                 }
             },
-            None => Err(Error::new(ErrorMessage::UnexpectedEndOfTemplate)),
+            None => Err(ErrorAt::new_at(ErrorMessage::UnexpectedEndOfTemplate, 1)),
             Some(&Err(ref e)) => Err(e.clone()),
         }
     }

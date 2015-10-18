@@ -2,7 +2,7 @@ use nodes::{ Parse, Parser, ImportedFunction };
 use nodes::expr::{ Expr, ExprValue, ExprConstant, ExprCallType };
 use tokens::TokenValueRef;
 use operator::{ OperatorOptions, OperatorKind, Associativity };
-use error::{ Result, Error, ErrorMessage };
+use error::{ Result, ErrorAt, ErrorMessage };
 use Expect;
 use value::{ TwigValueRef, TwigNumberRef };
 use std::collections::VecDeque;
@@ -85,7 +85,7 @@ pub fn get_primary<'p, 'c>(parser: &mut Parser<'p, 'c>)
         try!(parser.next());
         let parsed_expr = try!(parse_expression(parser, 0));
         if let Err(_) = parser.expect(TokenValueRef::Punctuation(')')) {
-            return Err(Error::new_at(ErrorMessage::ParenthesisNotClosed, token.line));
+            return Err(ErrorAt::new_at(ErrorMessage::ParenthesisNotClosed, token.line));
         }
         return parse_postfix_expression(parser, parsed_expr);
     }
@@ -155,7 +155,7 @@ pub fn parse_primary_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
         TokenValueRef::Operator(_) => unreachable!("TokenValueRef::Operator"),
         TokenValueRef::Punctuation('[') => try!(parse_array_expression(parser)),
         TokenValueRef::Punctuation('{') => try!(parse_hash_expression(parser)),
-        other => return Err(Error::new_at(
+        other => return Err(ErrorAt::new_at(
             ErrorMessage::UnexpectedTokenValue(other.into()),
             token.line
         )),
@@ -295,7 +295,7 @@ pub fn parse_hash_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
             TokenValueRef::Punctuation('(') => {
                 try!(parse_expression(parser, 0))
             }
-            _ => return Err(Error::new_at(
+            _ => return Err(ErrorAt::new_at(
                 ErrorMessage::InvalidHashKey { unexpected: token.value.into() },
                 token.line
             )),
@@ -354,7 +354,7 @@ pub fn parse_subscript_expression<'p, 'c>(parser: &mut Parser<'p, 'c>, node: Exp
                 TokenValueRef::Value(TwigValueRef::Num(num)) => get_number_expr(num, line),
                 // OMG the hack here is _hilarious_:
                 // TODO: ($token->getType() == Twig_tokens::OPERATOR_TYPE && preg_match(Twig_Lexer::REGEX_NAME, $token->getValue()))
-                _ => return Err(Error::new_at(
+                _ => return Err(ErrorAt::new_at(
                     ErrorMessage::ExpectedNameOrNumber,
                     line
                 ))
@@ -454,7 +454,7 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: bo
 
         let name = match name_expr {
             Expr { value: ExprValue::Name(n), .. } => n,
-            other => return Err(Error::new_at(
+            other => return Err(ErrorAt::new_at(
                 ErrorMessage::ParameterNameMustBeAString { given: format!("{:?}", other) },
                 token.line
             )),
@@ -464,7 +464,7 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: bo
             let value = try!(parse_primary_expression(parser));
 
             if !value.is_constant() {
-                return Err(Error::new_at(
+                return Err(ErrorAt::new_at(
                     ErrorMessage::DefaultValueForArgumentMustBeConstant,
                     try!(parser.current()).line
                 ));

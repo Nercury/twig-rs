@@ -1,16 +1,16 @@
 use std::convert::From;
 use std::fmt;
 use std::result;
-use error::{ CustomError, Error, ErrorMessage };
+use error::{ CustomErrorAt, ErrorAt, ErrorMessage };
 
-pub struct CoreError {
+pub struct CoreErrorAt {
     line: usize,
     message: CoreErrorMessage,
 }
 
-impl CoreError {
-    pub fn new_at(message: CoreErrorMessage, line: usize) -> CoreError {
-        CoreError {
+impl CoreErrorAt {
+    pub fn new_at(message: CoreErrorMessage, line: usize) -> CoreErrorAt {
+        CoreErrorAt {
             line: line,
             message: message,
         }
@@ -34,19 +34,19 @@ impl fmt::Display for CoreErrorMessage {
     }
 }
 
-impl CustomError for CoreErrorMessage {
-    fn boxed_clone(&self) -> Box<CustomError> {
+impl CustomErrorAt for CoreErrorMessage {
+    fn boxed_clone(&self) -> Box<CustomErrorAt> {
         Box::new(self.clone())
     }
 }
 
-impl From<CoreError> for Error {
-    fn from(e: CoreError) -> Error {
-        Error::new_at(
+impl From<CoreErrorAt> for ErrorAt {
+    fn from(e: CoreErrorAt) -> ErrorAt {
+        ErrorAt::new_at(
             ErrorMessage::CustomError(Box::new(e.message)),
             e.line
         )
     }
 }
 
-pub type CoreResult<T> = result::Result<T, CoreError>;
+pub type CoreResult<T> = result::Result<T, CoreErrorAt>;

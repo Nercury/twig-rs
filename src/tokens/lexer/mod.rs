@@ -440,7 +440,7 @@ bar
     }
 
     fn expect_with_line<'i, 'c>(mut stream: TokenIter<'i, 'c>, token_value: TokenValueRef<'c>, line: usize) -> TokenIter<'i, 'c> {
-        match stream.expect(token_value) {
+        match stream.expect((line, token_value)) {
             Ok(token) => assert_eq!(token.line, line),
             Err(e) => panic!("Received error {:?}", e),
         };
@@ -448,7 +448,7 @@ bar
     }
 
     fn expect<'i, 'c>(mut stream: TokenIter<'i, 'c>, token_value: TokenValueRef<'c>) -> TokenIter<'i, 'c> {
-        if let Err(e) = stream.expect(token_value) {
+        if let Err(e) = stream.expect((1, token_value)) {
             panic!("Received error {:?}", e);
         }
         stream

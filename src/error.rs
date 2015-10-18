@@ -8,12 +8,12 @@ pub enum Received {
     EndOfStream,
 }
 
-pub trait CustomError: fmt::Display {
-    fn boxed_clone(&self) -> Box<CustomError>;
+pub trait CustomErrorAt: fmt::Display {
+    fn boxed_clone(&self) -> Box<CustomErrorAt>;
 }
 
-impl Clone for Box<CustomError> {
-    fn clone(&self) -> Box<CustomError> {
+impl Clone for Box<CustomErrorAt> {
+    fn clone(&self) -> Box<CustomErrorAt> {
         self.boxed_clone()
     }
 }
@@ -46,7 +46,7 @@ pub enum ErrorMessage {
     DefaultValueForArgumentMustBeConstant,
     ParameterNameMustBeAString { given: String },
     TemplateNotFound(String),
-    CustomError(Box<CustomError>),
+    CustomError(Box<CustomErrorAt>),
 }
 
 impl fmt::Display for ErrorMessage {
@@ -115,29 +115,22 @@ impl fmt::Display for ErrorMessage {
 }
 
 #[derive(Clone)]
-pub struct Error {
-    line_num: Option<usize>,
+pub struct ErrorAt {
+    line: Option<usize>,
     message: Box<ErrorMessage>,
 }
 
-impl fmt::Debug for Error {
+impl fmt::Debug for ErrorAt {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", self.get_message())
     }
 }
 
-impl Error {
-    pub fn new_at(message: ErrorMessage, line_num: usize) -> Error {
-        Error {
+impl ErrorAt {
+    pub fn new_at(message: ErrorMessage, line: usize) -> ErrorAt {
+        ErrorAt {
             message: Box::new(message),
-            line_num: Some(line_num),
-        }
-    }
-
-    pub fn new(message: ErrorMessage) -> Error {
-        Error {
-            message: Box::new(message),
-            line_num: None,
+            line: Some(line),
         }
     }
 
@@ -156,7 +149,7 @@ impl Error {
             }
         };
 
-        match self.line_num {
+        match self.line {
             Some(line_num) => {
                 if ends_with_dot {
                     let len = raw_message.len();
@@ -174,4 +167,4 @@ impl Error {
     }
 }
 
-pub type Result<T> = result::Result<T, Error>;
+pub type Result<T> = result::Result<T, ErrorAt>;

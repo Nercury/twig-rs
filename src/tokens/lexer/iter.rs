@@ -2,7 +2,7 @@ use regex::{ Captures };
 use std::collections::{ VecDeque };
 
 use super::Lexer;
-use error::{ Result, Error };
+use error::{ Result, ErrorAt };
 use tokens::{ TokenRef, TokenValueRef, LexerOptions };
 use value::{ TwigNumberRef, TwigValueRef };
 use std::fmt;
@@ -150,24 +150,25 @@ impl<'iteration, 'code> Iterator for TokenIter<'iteration, 'code> {
     }
 }
 
-impl<'code, T> Expect<TokenValueRef<'code>> for T where T: Iterator<Item=Result<TokenRef<'code>>> {
+impl<'code, T> Expect<(usize, TokenValueRef<'code>)> for T where T: Iterator<Item=Result<TokenRef<'code>>> {
     type Output = Result<TokenRef<'code>>;
 
-    fn expect(&mut self, expected: TokenValueRef<'code>) -> Self::Output {
+    fn expect(&mut self, (line, expected): (usize, TokenValueRef<'code>)) -> Self::Output {
         let maybe_token = self.next();
         match (maybe_token, expected) {
             (None, _) => return Err(
-                Error::new(
+                ErrorAt::new_at(
                     ErrorMessage::ExpectedTokenTypeButReceived(
                         (expected.into(), Received::EndOfStream)
-                    )
+                    ),
+                    line
                 )
             ),
             (Some(Ok(token)), expected) => if token.value == expected {
                 Ok(token)
             } else {
                 return Err(
-                    Error::new_at(
+                    ErrorAt::new_at(
                         ErrorMessage::ExpectedTokenTypeButReceived(
                             (expected.into(), Received::Token(token.value.into()))
                         ),
@@ -697,7 +698,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
 
     fn push_error(&mut self, message: ErrorMessage, line_num: Option<usize>) {
         self.tokens.push_back(Err(
-            Error::new_at(message, match line_num {
+            ErrorAt::new_at(message, match line_num {
                 Some(line) => line,
                 None => unreachable!("twig bug: error should not be pushed without a line number"),
             })
