@@ -16,7 +16,7 @@ use twig::{ Environment, Engine, Config };
 
 #[test]
 fn fixtures() {
-    visit_fixtures(&env::current_dir().unwrap().join("tests").join("fixtures"), &|entry| {
+    let errors = visit_fixtures(&env::current_dir().unwrap().join("tests").join("fixtures"), &|entry| {
         let f = match File::open(entry.path()) {
             Ok(f) => f,
             Err(e) => panic!("error opening fixture file {:?}, {:?}", entry.path(), e),
@@ -26,10 +26,11 @@ fn fixtures() {
             Ok(f) => f,
         };
 
-        println!("testing {}", match fixture.message.clone() {
+        let message = match fixture.message.clone() {
             Some(m) => m,
             None => panic!("fixture {:?} must have a message", entry.path()),
-        });
+        };
+        print_fixture_start(&message);
 
         let twig = Engine::new(ArrayLoader::new(
             vec![("index.twig".into(), fixture.template.expect("fixture must contain main template"))]
@@ -62,31 +63,57 @@ fn fixtures() {
         let expected = fixture.expect.expect("fixture must have expect block");
 
         if res != expected {
+            print_fixture_result(false);
+
             let (_, changeset) = difference::diff(
                 &res,
                 &expected,
                 "\n"
             );
-            print_diff(changeset);
+            print_diff(&changeset);
+
+            Some((
+                entry.path().to_string_lossy().into_owned(),
+                message,
+                changeset
+            ))
             //assert_eq!(res, expected);
+        } else {
+            print_fixture_result(true);
+            None
         }
     }).unwrap();
+
+    let num_errors = errors.len();
+    if num_errors > 0 {
+        for (file, name, changeset) in errors {
+            println!("in {}", file);
+            println!("testing {}", name);
+            print_uncolored(&changeset);
+        }
+        //panic!("{} fixtures produced errors", num_errors);
+    }
 }
 
-fn visit_fixtures(dir: &Path, cb: &Fn(&DirEntry)) -> io::Result<()> {
+fn visit_fixtures(dir: &Path, cb: &Fn(&DirEntry) -> Option<(String, String, Vec<Difference>)>) -> io::Result<Vec<(String, String, Vec<Difference>)>> {
+    let mut errors = Vec::new();
     if try!(fs::metadata(dir)).is_dir() {
         for entry in try!(fs::read_dir(dir)) {
             let entry = try!(entry);
             if try!(fs::metadata(entry.path())).is_dir() {
-                try!(visit_fixtures(&entry.path(), cb));
+                for e in try!(visit_fixtures(&entry.path(), cb)) {
+                    errors.push(e);
+                }
             } else {
                 if let Some(Some("test")) = entry.path().extension().map(|v| v.to_str()) {
-                    cb(&entry);
+                    if let Some(err) = cb(&entry) {
+                        errors.push(err);
+                    }
                 }
             }
         }
     }
-    Ok(())
+    Ok(errors)
 }
 
 #[derive(Debug)]
@@ -202,7 +229,30 @@ impl Fixture {
     }
 }
 
-fn print_diff(changeset: Vec<Difference>) {
+fn print_fixture_start(message: &str) {
+    let mut t = term::stdout().unwrap();
+    write!(t, "fixture ");
+    t.attr(term::Attr::Bold).unwrap();
+    write!(t, "{}", message);
+    t.reset().unwrap();
+    write!(t, " ... ");
+    t.flush().unwrap();
+}
+
+fn print_fixture_result(ok: bool) {
+    let mut t = term::stdout().unwrap();
+    if ok {
+        t.fg(term::color::GREEN).unwrap();
+        writeln!(t, "ok");
+    } else {
+        t.fg(term::color::RED).unwrap();
+        writeln!(t, "ERROR!");
+    }
+    t.reset().unwrap();
+    t.flush().unwrap();
+}
+
+fn print_diff(changeset: &Vec<Difference>) {
     let mut t = term::stdout().unwrap();
 
     for i in 0..changeset.len() {
@@ -228,4 +278,25 @@ fn print_diff(changeset: Vec<Difference>) {
     t.reset().unwrap();
     writeln!(t, "");
     t.flush().unwrap();
+}
+
+fn print_uncolored(changeset: &Vec<Difference>) {
+    for i in 0..changeset.len() {
+        match changeset[i] {
+            Difference::Same(ref x) => {
+                println!("  {}", x);
+            },
+            Difference::Add(ref x) => {
+                for line in x.lines() {
+                    println!("+ {}", line);
+                }
+            },
+            Difference::Rem(ref x) => {
+                for line in x.lines() {
+                    println!("- {}", line);
+                }
+            }
+        }
+    }
+    println!("");
 }
