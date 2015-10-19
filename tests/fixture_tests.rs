@@ -32,7 +32,7 @@ fn fixtures() {
         };
         print_fixture_start(&message);
 
-        let twig = Engine::new(ArrayLoader::new(
+        let mut twig = Engine::new(ArrayLoader::new(
             vec![("index.twig".into(), fixture.template.expect("fixture must contain main template"))]
                 .into_iter()
                 .chain(fixture.templates.into_iter())
@@ -57,7 +57,7 @@ fn fixtures() {
 
         let res = match twig.get("index.twig", data.iter().map(|(k, v)| (&k[..], &v[..])).collect()) {
             Ok(res) => res,
-            Err(e) => panic!("error executing template: {:#?}", e),
+            Err(e) => panic!("\nerror executing template:\n  {:#?}\n", e),
         };
 
         let expected = fixture.expect.expect("fixture must have expect block");

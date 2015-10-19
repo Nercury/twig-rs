@@ -1,7 +1,8 @@
 use std::collections::HashMap;
+use error::{ Result, EngineError, TemplateError };
 
 pub trait Loader {
-    fn get_source(&self, name: &str) -> Option<String>;
+    fn get_source(&self, name: &str) -> Result<String>;
 }
 
 #[derive(Debug)]
@@ -18,10 +19,15 @@ impl ArrayLoader {
 }
 
 impl Loader for ArrayLoader {
-    fn get_source(&self, name: &str) -> Option<String> {
+    fn get_source(&self, name: &str) -> Result<String> {
         match self.files.get(name) {
-            Some(contents) => Some(contents.clone()),
-            None => None,
+            Some(contents) => Ok(contents.clone()),
+            None => Err(EngineError::TemplateNotFound {
+                name: name.into(),
+                search_paths: Vec::new()
+            }.caused_by(
+                TemplateError::UnexpectedEndOfTemplate.at(0).into()
+            ).into()),
         }
     }
 }

@@ -2,13 +2,13 @@ use std::fmt;
 use tokens::TokenValue;
 use error::{ Error, ExtensionError, At, Location };
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub enum Received {
     Token(TokenValue),
     EndOfStream,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub enum TemplateError {
     UnexpectedEndOfTemplate,
     ExpectedTokenTypeButReceived((TokenValue, Received)),
@@ -45,7 +45,7 @@ impl TemplateError {
     }
 }
 
-impl fmt::Display for TemplateError {
+impl fmt::Debug for TemplateError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             TemplateError::UnexpectedEndOfTemplate => write!(f, "Unexpected end of template"),
@@ -63,7 +63,7 @@ impl fmt::Display for TemplateError {
                 }
             },
             TemplateError::ExpectedOtherTokenValue((ref token, ref other)) => {
-                let unexpected_message = format!("{}", TemplateError::UnexpectedTokenValue(token.clone()));
+                let unexpected_message = format!("{:?}", TemplateError::UnexpectedTokenValue(token.clone()));
                 let (other_english_name, other_value) = other.get_english();
                 match other_value {
                     Some(value) => write!(f, "{} (\"{}\" expected with value {:?})", unexpected_message, other_english_name, value),
