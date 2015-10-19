@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use error::{ Result, EngineError, TemplateError };
+use error::{ Result, EngineError };
 
 pub trait Loader {
     fn get_source(&self, name: &str) -> Result<String>;
@@ -25,9 +25,7 @@ impl Loader for ArrayLoader {
             None => Err(EngineError::TemplateNotFound {
                 name: name.into(),
                 search_paths: Vec::new()
-            }.caused_by(
-                TemplateError::UnexpectedEndOfTemplate.at(0).into()
-            ).into()),
+            }.into()),
         }
     }
 }
