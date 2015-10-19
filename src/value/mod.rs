@@ -1,5 +1,4 @@
 use std::fmt;
-use std::collections::HashMap;
 
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum TwigValueRef<'a> {

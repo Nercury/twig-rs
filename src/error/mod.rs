@@ -66,17 +66,20 @@ impl<E: fmt::Debug> fmt::Debug for Caused<E> {
         match *self.cause {
             None => self.err.fmt(f),
             Some(ref cause) => {
-                enum FlagV1 { SignPlus, SignMinus, Alternate, SignAwareZeroPad, };
-                let is_pretty = f.flags() & (1 << (FlagV1::Alternate as usize)) != 0;
-                if is_pretty {
+                if is_pretty(f) {
                     let mut writer = PadAdapter::new(f);
-                    fmt::write(&mut writer, format_args!("{:#?}\ncaused by\n  {:#?}", self.err, cause))
+                    fmt::write(&mut writer, format_args!("{:#?}\ncaused by\n    {:#?}", self.err, cause))
                 } else {
                     write!(f, "{:?}\ncaused by {:?}", self.err, cause)
                 }
             },
         }
     }
+}
+
+fn is_pretty(f: &fmt::Formatter) -> bool {
+    enum FlagV1 { SignPlus, SignMinus, Alternate, SignAwareZeroPad, };
+    f.flags() & (1 << (FlagV1::Alternate as usize)) != 0
 }
 
 /// Pins any error type to source file location.

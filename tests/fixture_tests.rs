@@ -57,7 +57,7 @@ fn fixtures() {
 
         let res = match twig.get("index.twig", data.iter().map(|(k, v)| (&k[..], &v[..])).collect()) {
             Ok(res) => res,
-            Err(e) => panic!("\nerror executing template:\n  {:#?}\n", e),
+            Err(e) => panic!("\nerror executing template:\n    {:#?}\n", e),
         };
 
         let expected = fixture.expect.expect("fixture must have expect block");

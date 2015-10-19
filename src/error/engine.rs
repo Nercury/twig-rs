@@ -1,6 +1,7 @@
 use std::fmt;
 use std::path::PathBuf;
 use error::{ Error, Caused };
+use super::{ is_pretty };
 
 #[derive(Clone)]
 pub enum EngineError {
@@ -8,8 +9,8 @@ pub enum EngineError {
 }
 
 impl EngineError {
-    pub fn caused_by(self, cause: Error) -> Caused<EngineError> {
-        Caused::new(self, Some(cause))
+    pub fn caused_by<I: Into<Error>>(self, cause: I) -> Caused<EngineError> {
+        Caused::new(self, Some(cause.into()))
     }
 }
 
@@ -21,7 +22,11 @@ impl fmt::Debug for EngineError {
                     write!(f, "Template \"{}\" was not found", name)
                 } else {
                     try!(write!(f, "Template \"{}\" was not found, looked in ", name));
-                    f.debug_list().entries(search_paths.iter()).finish()
+                    if is_pretty(f) {
+                        write!(f, "{:#?}", search_paths)
+                    } else {
+                        write!(f, "{:?}", search_paths)
+                    }
                 }
             }
         }
