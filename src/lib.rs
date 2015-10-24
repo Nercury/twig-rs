@@ -36,7 +36,7 @@ pub mod extension;
 #[allow(unused_variables, dead_code, unused_assignments)]
 pub mod operator;
 #[allow(unused_variables, dead_code, unused_assignments)]
-pub mod modules;
+pub mod value;
 
 pub use environment::{ CompiledEnvironment, Environment, Config };
 
