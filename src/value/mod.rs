@@ -72,7 +72,7 @@ impl fmt::Debug for Value {
                 let i = 0;
                 for (k, v) in hash {
                     map.entry(k, v);
-                    if i >= MAX_DEBUG_ARRAY_LENGTH {
+                    if i >= MAX_DEBUG_HASH_LENGTH {
                         map.entry(&"...", &"...");
                         break;
                     }
