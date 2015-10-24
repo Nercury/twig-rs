@@ -20,6 +20,10 @@ The goal of 1.0 version is to pass test suite functionally equivalent to Twig 2.
 - Designers are familiar with Twig.
 - Reuse existing IDE support for Twig.
 
+## Build Requirements
+
+- Minimum Rust version: 1.1.0.
+
 ## TODO list
 
 - Parser implementation is not finished ([issue #3](https://github.com/Nercury/twig-rs/issues/3)).
