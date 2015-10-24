@@ -1,4 +1,5 @@
 use std::i64;
+use super::MAX_DEBUG_STRING_LENGTH;
 use error::{ RuntimeResult, RuntimeError, CastTarget, CastError };
 
 #[derive(Debug)]
@@ -136,10 +137,9 @@ fn parse_as_float_or_int(value: &str) -> Result<ParseAsNumericResult, CastTarget
     }
 }
 
-fn to_string_limited(v: &str) -> String {
-    const LIMIT: usize = 128;
-    if v.len() > LIMIT {
-        [&v[..LIMIT], "..."].concat()
+pub fn to_string_limited(v: &str) -> String {
+    if v.len() > MAX_DEBUG_STRING_LENGTH {
+        [&v[..MAX_DEBUG_STRING_LENGTH], "..."].concat()
     } else {
         v.into()
     }

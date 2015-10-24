@@ -1,3 +1,4 @@
+use std::fmt;
 use std::rc::Rc;
 use std::cell::RefCell;
 use std::collections::HashMap;
@@ -5,9 +6,23 @@ use error::{ RuntimeError, RuntimeResult, CastError, CastTarget };
 
 pub mod ops;
 
+const MAX_DEBUG_STRING_LENGTH: usize = 128;
+const MAX_DEBUG_ARRAY_LENGTH: usize = 4;
+const MAX_DEBUG_HASH_LENGTH: usize = 4;
+
+#[derive(Hash, PartialEq, Eq, PartialOrd)]
 pub enum HashKey {
     Int(i64),
     Str(String),
+}
+
+impl fmt::Debug for HashKey {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            HashKey::Int(ref v) => write!(f, "{}", v),
+            HashKey::Str(ref v) => write!(f, "{:?}", v),
+        }
+    }
 }
 
 pub enum Value {
@@ -18,6 +33,56 @@ pub enum Value {
     Hash(HashMap<HashKey, Value>),
     Obj(Rc<RefCell<Object>>),
     Func(Rc<for<'r> Fn(&'r [Value]) -> Option<Value> >)
+}
+
+impl PartialEq for Value {
+    fn eq(&self, other: &Value) -> bool {
+        match (self, other) {
+            (&Value::Int(ref a), &Value::Int(ref b)) => a.eq(b),
+            (&Value::Float(ref a), &Value::Float(ref b)) => a.eq(b),
+            (&Value::Str(ref a), &Value::Str(ref b)) => a.eq(b),
+            (&Value::Array(ref a), &Value::Array(ref b)) => a.eq(b),
+            (&Value::Hash(ref a), &Value::Hash(ref b)) => a.eq(b),
+            (&Value::Obj(ref a), &Value::Obj(ref b)) => false,
+            (&Value::Func(ref a), &Value::Func(ref b)) => false,
+            _ => false,
+        }
+    }
+}
+
+impl fmt::Debug for Value {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            Value::Int(ref v) => write!(f, "{}", v),
+            Value::Float(ref v) => write!(f, "{}", v),
+            Value::Str(ref v) => write!(f, "{:?}", ops::to_string_limited(v)),
+            Value::Array(ref v) => {
+                let mut list = f.debug_list();
+                for (i, item) in v.iter().enumerate() {
+                    list.entry(item);
+                    if i >= MAX_DEBUG_ARRAY_LENGTH {
+                        list.entry(&"...");
+                        break;
+                    }
+                }
+                list.finish()
+            },
+            Value::Hash(ref hash) => {
+                let mut map = f.debug_map();
+                let i = 0;
+                for (k, v) in hash {
+                    map.entry(k, v);
+                    if i >= MAX_DEBUG_ARRAY_LENGTH {
+                        map.entry(&"...", &"...");
+                        break;
+                    }
+                }
+                map.finish()
+            },
+            Value::Obj(_) => write!(f, "Object"),
+            Value::Func(_) => write!(f, "Function"),
+        }
+    }
 }
 
 impl Value {
@@ -101,14 +166,25 @@ mod tests {
                 _ => return Err(self.property_error(name)),
             })
         }
-
-        // fn call(&mut self, name: &str, values: &[Value]) -> RuntimeResult<Value> {
-        //
-        // }
     }
 
     #[test]
     fn object_getters_and_setters() {
+        let mut point = Point { x: 12, y: 13 };
+        assert_eq!(point.get("x").ok().unwrap(), Value::Int(12));
+        assert_eq!(point.get("y").ok().unwrap(), Value::Int(13));
 
+        point.set("x", Value::Int(42));
+        point.set("y", Value::Int(43));
+        assert_eq!(point.get("x").ok().unwrap(), Value::Int(42));
+        assert_eq!(point.get("y").ok().unwrap(), Value::Int(43));
+    }
+
+    #[test]
+    fn object_setter_can_convert_values() {
+        let mut point = Point { x: 12, y: 13 };
+
+        point.set("x", Value::Str("48".into()));
+        assert_eq!(point.get("x").ok().unwrap(), Value::Int(48));
     }
 }
