@@ -1,10 +1,9 @@
 use nodes::{ Parse, Parser, ImportedFunction };
 use nodes::expr::{ Expr, ExprValue, ExprConstant, ExprCallType };
-use tokens::TokenValueRef;
+use tokens::{ TokenValueRef, ConstRef, ConstNumberRef };
 use operator::{ OperatorOptions, OperatorKind, Associativity };
 use error::{ TemplateResult, TemplateError };
 use Expect;
-use value::{ TwigValueRef, TwigNumberRef };
 use std::collections::VecDeque;
 
 impl<'c> Parse<'c> for Expr<'c> {
@@ -145,11 +144,11 @@ pub fn parse_primary_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
             }
         },
         TokenValueRef::Value(ref value) => match *value {
-            TwigValueRef::Num(num) => {
+            ConstRef::Num(num) => {
                 try!(parser.next());
                 get_number_expr(num, token.line)
             },
-            TwigValueRef::Str(_) => try!(parse_string_expression(parser)),
+            ConstRef::Str(_) => try!(parse_string_expression(parser)),
         },
         TokenValueRef::InterpolationStart => try!(parse_string_expression(parser)),
         TokenValueRef::Operator(_) => unreachable!("TokenValueRef::Operator"),
@@ -164,11 +163,11 @@ pub fn parse_primary_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
     parse_postfix_expression(parser, expr)
 }
 
-pub fn get_number_expr<'c>(num: TwigNumberRef<'c>, line: usize) -> Expr<'c> {
+pub fn get_number_expr<'c>(num: ConstNumberRef<'c>, line: usize) -> Expr<'c> {
     Expr::new_at(ExprValue::Constant(match num {
-        TwigNumberRef::Big(v) => ExprConstant::Big(v),
-        TwigNumberRef::Float(v) => ExprConstant::Float(v),
-        TwigNumberRef::Int(v) => ExprConstant::Int(v),
+        ConstNumberRef::Big(v) => ExprConstant::Big(v),
+        ConstNumberRef::Float(v) => ExprConstant::Float(v),
+        ConstNumberRef::Int(v) => ExprConstant::Int(v),
     }), line)
 }
 
@@ -183,7 +182,7 @@ pub fn parse_string_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
     loop {
         let token = try!(parser.current());
 
-        if let (true, TokenValueRef::Value(TwigValueRef::Str(value))) = (next_can_be_string, token.value) {
+        if let (true, TokenValueRef::Value(ConstRef::Str(value))) = (next_can_be_string, token.value) {
             try!(parser.next());
             nodes.push_back(Expr::new_str_constant(value, token.line));
             next_can_be_string = false;
@@ -280,7 +279,7 @@ pub fn parse_hash_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
         //  * a name, which is equivalent to a string -- a
         //  * an expression, which must be enclosed in parentheses -- (1 + 2)
         let key = match token.value {
-            TokenValueRef::Value(TwigValueRef::Str(v)) => {
+            TokenValueRef::Value(ConstRef::Str(v)) => {
                 try!(parser.next());
                 Expr::new_str_constant(v, token.line)
             },
@@ -288,7 +287,7 @@ pub fn parse_hash_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)
                 try!(parser.next());
                 Expr::new_str_constant(v, token.line)
             },
-            TokenValueRef::Value(TwigValueRef::Num(num)) => {
+            TokenValueRef::Value(ConstRef::Num(num)) => {
                 try!(parser.next());
                 get_number_expr(num, token.line)
             },
@@ -351,7 +350,7 @@ pub fn parse_subscript_expression<'p, 'c>(parser: &mut Parser<'p, 'c>, node: Exp
             token = try!(parser.next());
             let arg = match token.value {
                 TokenValueRef::Name(v) => Expr::new_str_constant(v, line),
-                TokenValueRef::Value(TwigValueRef::Num(num)) => get_number_expr(num, line),
+                TokenValueRef::Value(ConstRef::Num(num)) => get_number_expr(num, line),
                 // OMG the hack here is _hilarious_:
                 // TODO: ($token->getType() == Twig_tokens::OPERATOR_TYPE && preg_match(Twig_Lexer::REGEX_NAME, $token->getValue()))
                 _ => return Err(TemplateError::ExpectedNameOrNumber.at(line))

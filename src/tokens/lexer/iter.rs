@@ -3,8 +3,7 @@ use std::collections::{ VecDeque };
 
 use super::Lexer;
 use error::TemplateResult;
-use tokens::{ TokenRef, TokenValueRef, LexerOptions };
-use value::{ TwigNumberRef, TwigValueRef };
+use tokens::{ TokenRef, TokenValueRef, ConstNumberRef, ConstRef, LexerOptions };
 use std::fmt;
 use Expect;
 use error::{ TemplateError, Received };
@@ -445,24 +444,24 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
                 let twig_number = if all_chars_are_digits {
                     let maybe_int = string.parse();
                     match maybe_int {
-                        Ok(int) => TwigNumberRef::Int(int),
-                        _ => TwigNumberRef::Big(string),
+                        Ok(int) => ConstNumberRef::Int(int),
+                        _ => ConstNumberRef::Big(string),
                     }
                 } else {
                     let maybe_float = string.parse::<f64>();
                     match maybe_float {
                         Ok(float) => {
                             if float.is_finite() {
-                                TwigNumberRef::Float(float)
+                                ConstNumberRef::Float(float)
                             } else {
-                                TwigNumberRef::Big(string)
+                                ConstNumberRef::Big(string)
                             }
                         },
-                        _ => TwigNumberRef::Big(string),
+                        _ => ConstNumberRef::Big(string),
                     }
                 };
 
-                self.push_token(TokenValueRef::Value(TwigValueRef::Num(twig_number)));
+                self.push_token(TokenValueRef::Value(ConstRef::Num(twig_number)));
                 self.move_cursor(end - start);
 
                 return;
@@ -517,7 +516,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
         let loc = self.cursor;
         if let Some(captures) = self.lexer.matchers.regex_string.captures(&self.code[loc ..]) {
             if let Some((start, end)) = captures.pos(0) {
-                self.push_token(TokenValueRef::Value(TwigValueRef::Str(
+                self.push_token(TokenValueRef::Value(ConstRef::Str(
                     &self.code[loc + start + 1 .. loc + end - 1]
                 )));
                 self.move_cursor(end - start);
@@ -567,7 +566,7 @@ impl<'iteration, 'code> TokenIter<'iteration, 'code> {
 
         let (_, part_end) = self.lexer.matchers.match_regex_dq_string_part(&self.code[loc ..]);
         if part_end > 0 {
-            self.push_token(TokenValueRef::Value(TwigValueRef::Str(
+            self.push_token(TokenValueRef::Value(ConstRef::Str(
                 &self.code[loc .. loc + part_end]
             )));
             self.move_cursor(part_end);
