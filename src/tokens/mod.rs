@@ -40,7 +40,7 @@ Ok(TokenRef { value: BlockEnd, line: 6 })
 Example code for this:
 
 ```rust
-use twig::Environment;
+use twig::environment::Environment;
 use twig::tokens::Lexer;
 
 let env = Environment::default().init_all();

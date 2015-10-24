@@ -1,4 +1,4 @@
-use Environment;
+use environment::Environment;
 use extension::Extension;
 use operator::Operator;
 use nodes::TokenParser;

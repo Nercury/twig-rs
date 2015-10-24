@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use twig::Environment;
+use twig::environment::Environment;
 use twig::tokens::Lexer;
 use twig::nodes::{ Parser, Parse, Module };
 use twig::error::TemplateResult;

@@ -1,7 +1,7 @@
 extern crate twig;
 extern crate env_logger;
 
-use twig::Environment;
+use twig::environment::Environment;
 use twig::tokens::Lexer;
 use twig::nodes::{ Parser, Parse, Module };
 

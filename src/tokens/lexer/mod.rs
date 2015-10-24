@@ -47,7 +47,7 @@ impl Lexer {
 mod test {
     use tokens::*;
     use std::iter::repeat;
-    use CompiledEnvironment;
+    use environment::CompiledEnvironment;
     use Expect;
 
     #[test]

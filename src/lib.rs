@@ -29,7 +29,7 @@ pub mod loader;
 #[allow(unused_variables, dead_code, unused_assignments)]
 pub mod error;
 #[allow(unused_variables, dead_code, unused_assignments)]
-mod environment;
+pub mod environment;
 
 #[allow(unused_variables, dead_code, unused_assignments)]
 pub mod extension;
@@ -37,8 +37,6 @@ pub mod extension;
 pub mod operator;
 #[allow(unused_variables, dead_code, unused_assignments)]
 pub mod value;
-
-pub use environment::{ CompiledEnvironment, Environment, Config };
 
 /// Returns different output based on expected value.
 pub trait Expect<V> {

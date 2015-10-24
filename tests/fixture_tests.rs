@@ -11,8 +11,9 @@ use difference::Difference;
 use std::fs::{self, DirEntry, File};
 use std::path::Path;
 
+use twig::environment::{ Environment, Config };
 use twig::loader::ArrayLoader;
-use twig::{ Environment, Engine, Config };
+use twig::Engine;
 
 #[test]
 fn fixtures() {
