@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 use std::fmt;
-use tokens::{ Const };
+use value::{ Value };
 use error::{ RuntimeError, RuntimeResult };
 
 #[derive(PartialEq, Debug, Copy, Clone)]
@@ -76,7 +76,7 @@ impl OperatorOptions {
 pub struct Operator {
     pub options: OperatorOptions,
     pub callable: Box<
-        for<'e> Fn(&'e [Const]) -> RuntimeResult<Const>
+        for<'e> Fn(&'e [Value]) -> RuntimeResult<Value>
     >,
 }
 
@@ -96,7 +96,7 @@ impl Operator {
     )
         -> Operator
     where
-        F: for<'e> Fn(&'e Const, &'e Const) -> RuntimeResult<Const>
+        F: for<'e> Fn(&'e Value, &'e Value) -> RuntimeResult<Value>
     {
         Operator {
             options: OperatorOptions::new_binary(chars, precedence, associativity),
@@ -125,7 +125,7 @@ impl Operator {
     )
         -> Operator
     where
-        F: for<'e> Fn(&'e Const, &'e Const) -> RuntimeResult<Const>
+        F: for<'e> Fn(&'e Value, &'e Value) -> RuntimeResult<Value>
     {
         Operator::new_binary(
             chars,
@@ -142,7 +142,7 @@ impl Operator {
     )
         -> Operator
     where
-        F: for<'e> Fn(&'e Const, &'e Const) -> RuntimeResult<Const>
+        F: for<'e> Fn(&'e Value, &'e Value) -> RuntimeResult<Value>
     {
         Operator::new_binary(
             chars,
@@ -159,7 +159,7 @@ impl Operator {
     )
         -> Operator
     where
-        F: for<'e> Fn(&'e Const) -> RuntimeResult<Const>
+        F: for<'e> Fn(&'e Value) -> RuntimeResult<Value>
     {
         Operator {
             options: OperatorOptions::new_unary(chars, precedence),
