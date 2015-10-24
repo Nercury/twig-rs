@@ -12,14 +12,14 @@ authors = [
 license = "BSD-3-Clause"
 
 [dev-dependencies]
-env_logger = "0.3.1"
+env_logger = "0.3"
 serde = "*"
-serde_json = "0.6.0"
+serde_json = "0.6"
 difference = "0.4"
-term = "0.2.12"
+term = "0.2"
 
 [dependencies]
-regex = "0.1.41"
+regex = "0.1"
 uuid = "0.1"
-log = "0.3.2"
-little = "0.2.1"
+log = "0.3"
+little = "0.2"
