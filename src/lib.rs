@@ -16,6 +16,7 @@
 
 extern crate regex;
 extern crate uuid;
+extern crate little;
 #[macro_use] extern crate log;
 
 // Allow unused things in development so that real warnings are more visible.
