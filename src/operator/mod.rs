@@ -104,8 +104,8 @@ impl Operator {
                 if args.len() != 2 {
                     return Err(
                         RuntimeError::InvalidArgumentCount {
-                            expected: 2,
-                            found: args.len()
+                            defined: 2,
+                            given: args.len()
                         }
                     )
                 }
@@ -167,8 +167,8 @@ impl Operator {
                 if args.len() != 1 {
                     return Err(
                         RuntimeError::InvalidArgumentCount {
-                            expected: 1,
-                            found: args.len()
+                            defined: 1,
+                            given: args.len()
                         }
                     )
                 }

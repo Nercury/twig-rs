@@ -6,7 +6,7 @@ use std::fmt;
 use std::result;
 
 pub use self::template::{ TemplateError, Received };
-pub use self::runtime::{ RuntimeError, TracedRuntimeError };
+pub use self::runtime::{ RuntimeError, TracedRuntimeError, CastTarget, CastError };
 pub use self::engine::{ EngineError };
 
 #[derive(Clone)]
