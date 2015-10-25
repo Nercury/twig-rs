@@ -111,9 +111,10 @@ pub fn get_function_node<'p, 'c>(parser: &mut Parser<'p, 'c>, name: &'c str, lin
                 }, line));
             }
 
-            let args = try!(parse_named_arguments(parser, false));
-
-            unreachable!("other default");
+            return Ok(Expr::new_at(ExprValue::FunctionCall {
+                name: name,
+                arguments: try!(parse_named_arguments(parser, false))
+            }, line));
         }
     };
 
@@ -427,7 +428,7 @@ pub fn parse_unnamed_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: 
 }
 
 pub fn parse_named_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: bool)
-    -> TemplateResult<Vec<(&'c str, Expr<'c>)>>
+    -> TemplateResult<Vec<(Option<&'c str>, Expr<'c>)>>
 {
     trace!("parse_named_arguments, definition {:?}", definition);
 
@@ -480,19 +481,16 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: bo
         args.push(if definition {
             match name {
                 None => (
-                    match value {
+                    Some(match value {
                         Expr { value: ExprValue::Name(n), .. } => n,
                         other => unreachable!("twig bug: expected that expression is a name"),
-                    },
+                    }),
                     Expr::new_null(try!(parser.current()).line)
                 ),
-                Some(name) => (name, value),
+                Some(name) => (Some(name), value),
             }
         } else {
-            match name {
-                None => unreachable!("twig bug: unnamed argument parsed when parsing named arguments"),
-                Some(name) => (name, value),
-            }
+            (name, value)
         })
     }
     try!(parser.expect_or_error(TokenValueRef::Punctuation(')'), TemplateError::ListOfArgumentsMustCloseWithParenthesis));

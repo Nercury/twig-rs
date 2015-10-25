@@ -60,8 +60,6 @@ fn fixtures() {
             None => HashMap::new(),
         };
 
-        return None;
-
         let res = match twig.get("index.twig", data) {
             Ok(res) => res,
             Err(e) => panic!("\nerror executing template:\n    {:#?}\n", e),

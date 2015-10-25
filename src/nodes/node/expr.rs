@@ -57,6 +57,7 @@ impl<'c> Expr<'c> {
             ExprValue::Hash(ref items) => items.iter().all(|&(ref k, ref v)| k.is_constant() && v.is_constant()),
             ExprValue::GetAttr { .. } => false,
             ExprValue::ImportedFunctionCall { .. } => false,
+            ExprValue::FunctionCall { .. } => false,
         }
     }
 }
@@ -89,6 +90,7 @@ pub enum ExprValue<'c> {
         call_type: ExprCallType
     },
     ImportedFunctionCall { uuid: Uuid, alias: &'c str, arguments: Vec<Expr<'c>> },
+    FunctionCall { name: &'c str, arguments: Vec<(Option<&'c str>, Expr<'c>)> }
 }
 
 #[derive(Debug, PartialEq, Clone)]

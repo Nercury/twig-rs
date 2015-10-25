@@ -22,7 +22,7 @@ pub enum Body<'c> {
     Macro {
         name: &'c str,
         body: Box<Body<'c>>,
-        arguments: Vec<(&'c str, Expr<'c>)>,
+        arguments: Vec<(Option<&'c str>, Expr<'c>)>,
         line: usize
     }
 }
