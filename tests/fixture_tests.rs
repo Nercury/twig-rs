@@ -2,6 +2,8 @@ extern crate twig;
 extern crate serde_json;
 extern crate difference;
 extern crate term;
+#[macro_use] extern crate log;
+extern crate env_logger;
 
 use std::collections::HashMap;
 use std::io::{self, Read, BufReader, BufRead};
@@ -17,6 +19,8 @@ use twig::Engine;
 
 #[test]
 fn fixtures() {
+    env_logger::init().unwrap();
+
     let errors = visit_fixtures(&env::current_dir().unwrap().join("tests").join("fixtures"), &|entry| {
         let f = match File::open(entry.path()) {
             Ok(f) => f,

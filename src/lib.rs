@@ -48,26 +48,30 @@ pub trait Expect<V> {
     fn expect(&mut self, expected: V) -> Self::Output;
 }
 
+use std::mem;
+use std::collections::HashMap;
+use nodes::parse;
+use instructions::compile;
+use little::{ Instruction, Function };
+
 /// Twig Engine.
 ///
 /// Given the specified environment settings, converts templates
 /// to output string.
-pub struct Engine<L> {
+pub struct Engine<'e, L> {
     loader: L,
     env: environment::CompiledEnvironment,
     lexer: Option<tokens::Lexer>,
+    functions: HashMap<&'static str, &'e Function<value::Value>>,
 }
 
-use std::mem;
-use nodes::parse;
-use instructions::compile;
-
-impl<L: loader::Loader> Engine<L> {
-    pub fn new(loader: L, env: environment::Environment) -> Engine<L> {
+impl<'e, L: loader::Loader> Engine<'e, L> {
+    pub fn new<'r>(loader: L, env: environment::Environment) -> Engine<'r, L> {
         let mut engine = Engine {
             loader: loader,
             env: env.init_all(),
             lexer: None,
+            functions: HashMap::new(),
         };
 
         engine.lexer = Some(tokens::Lexer::default(&engine.env.lexing));
@@ -79,19 +83,25 @@ impl<L: loader::Loader> Engine<L> {
         -> error::Result<String>
     {
         let lexer = self.take_lexer();
-        let source = try!(self.loader.get_source(name));
-        let result = self.process_template(&lexer, &source, data);
-        self.return_lexer(lexer);
-        result
-    }
 
-    fn process_template<'r, D: Into<value::ValueRef<'r>>>(&self, lexer: &tokens::Lexer, template: &str, data: D) -> error::Result<String> {
-        let mut tokens = lexer.tokens(template);
-        let module = try!(parse(&self.env.parsing, &mut tokens));
-        let mut instructions = Vec::new();
-        try!(compile((), &module, &mut instructions));
+        let instructions = try!(self.get_instructions(&lexer, name));
+
+        self.return_lexer(lexer);
 
         Ok("".into())
+    }
+
+    fn get_instructions<'r>(&mut self, lexer: &'r tokens::Lexer, name: &'r str)
+        -> error::Result<Vec<Instruction>>
+    {
+        let source = try!(self.loader.get_source(name));
+        let mut tokens = lexer.tokens(&source);
+        let module = try!(parse(&self.env.parsing, &mut tokens));
+        Ok({
+            let mut instructions = Vec::new();
+            try!(compile((), &module, &mut instructions));
+            instructions
+        })
     }
 
     fn take_lexer(&mut self) -> tokens::Lexer {

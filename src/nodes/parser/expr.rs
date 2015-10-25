@@ -111,6 +111,8 @@ pub fn get_function_node<'p, 'c>(parser: &mut Parser<'p, 'c>, name: &'c str, lin
                 }, line));
             }
 
+            let args = try!(parse_named_arguments(parser, false));
+
             unreachable!("other default");
         }
     };
