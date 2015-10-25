@@ -448,30 +448,52 @@ pub fn parse_named_arguments<'p, 'c>(parser: &mut Parser<'p, 'c>, definition: bo
             (try!(parse_expression(parser, 0)), try!(parser.current()))
         };
 
-        try!(parser.expect(TokenValueRef::Operator("=")));
+        let (name, value) = if try!(parser.skip_to_next_if(TokenValueRef::Operator("="))) {
+            let token = try!(parser.current());
 
-        let name = match name_expr {
-            Expr { value: ExprValue::Name(n), .. } => n,
-            other => return Err(
-                TemplateError::ParameterNameMustBeAString {
-                    given: format!("{:?}", other)
-                }.at(token.line)
-            ),
-        };
+            let name = match name_expr {
+                Expr { value: ExprValue::Name(n), .. } => n,
+                other => return Err(
+                    TemplateError::ParameterNameMustBeAString {
+                        given: format!("{:?}", other)
+                    }.at(token.line)
+                ),
+            };
 
-        let value = if definition {
-            let value = try!(parse_primary_expression(parser));
+            let value = if definition {
+                let value = try!(parse_primary_expression(parser));
 
-            if !value.is_constant() {
-                return Err(TemplateError::DefaultValueForArgumentMustBeConstant.at(try!(parser.current()).line));
-            }
+                if !value.is_constant() {
+                    return Err(TemplateError::DefaultValueForArgumentMustBeConstant.at(try!(parser.current()).line));
+                }
 
-            value
+                value
+            } else {
+                try!(parse_expression(parser, 0))
+            };
+
+            (Some(name), value)
         } else {
-            try!(parse_expression(parser, 0))
+            (None, name_expr)
         };
 
-        args.push((name, value))
+        args.push(if definition {
+            match name {
+                None => (
+                    match value {
+                        Expr { value: ExprValue::Name(n), .. } => n,
+                        other => unreachable!("twig bug: expected that expression is a name"),
+                    },
+                    Expr::new_null(try!(parser.current()).line)
+                ),
+                Some(name) => (name, value),
+            }
+        } else {
+            match name {
+                None => unreachable!("twig bug: unnamed argument parsed when parsing named arguments"),
+                Some(name) => (name, value),
+            }
+        })
     }
     try!(parser.expect_or_error(TokenValueRef::Punctuation(')'), TemplateError::ListOfArgumentsMustCloseWithParenthesis));
 
