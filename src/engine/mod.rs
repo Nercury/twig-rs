@@ -7,21 +7,39 @@ use loader::Loader;
 use nodes::parse;
 use value::{ Value, ValueRef };
 use instructions::compile;
-use little::{ Instruction, Function };
+use std::io::{ Read, Write };
+use std::error::Error;
+use little::{ Template, Function, Interpreter, Options, Parameter, BuildProcessor, BufferTo, Run };
+
+impl BufferTo for Value {
+
+    fn default() -> Value {
+        Value::Null
+    }
+
+    fn buffer_to(&self, buf: &mut Vec<u8>) {
+        match *self {
+            Value::Int(ref v) => write!(buf, "{}", v).unwrap(),
+            Value::Float(v) => write!(buf, "{}", v).unwrap(),
+            Value::Str(ref v) => write!(buf, "{}", v).unwrap(),
+            _ => (),
+        }
+    }
+}
 
 /// Twig Engine.
 ///
 /// Given the specified environment settings, converts templates
 /// to output string.
-pub struct Engine<'e, L> {
+pub struct Engine<L> {
     loader: L,
     env: CompiledEnvironment,
     lexer: Option<Lexer>,
-    functions: HashMap<&'static str, &'e Function<Value>>,
+    functions: HashMap<&'static str, Box<Function<Value>>>,
 }
 
-impl<'e, L: Loader> Engine<'e, L> {
-    pub fn new<'r>(loader: L, env: Environment) -> Engine<'r, L> {
+impl<L: Loader> Engine<L> {
+    pub fn new(loader: L, env: Environment) -> Engine<L> {
         let mut engine = Engine {
             loader: loader,
             env: env.init_all(),
@@ -39,24 +57,43 @@ impl<'e, L: Loader> Engine<'e, L> {
     {
         let lexer = self.take_lexer();
 
-        let instructions = try!(self.get_instructions(&lexer, name));
+        let compiled_template = try!(self.get_compiled_template(&lexer, name));
+
+        let funs = HashMap::new();
+        let mut i = Interpreter::new();
+        let p = match i.build_processor(compiled_template, &funs) {
+            Ok(p) => p,
+            Err(e) => panic!("not implemented - handle build_processor error {:?}", e),
+        };
+
+        let mut res = String::new();
+        let mut interpreter = p.run(Options::<Parameter, Value>::empty());
+        loop {
+            match interpreter.read_to_string(&mut res) {
+                Err(e) => {
+                    match e.description() {
+                        "interupt" => {
+                            unreachable!("unimplemented interupt handling");
+                        },
+                        e => unreachable!("unimplemented other error {:?}", e),
+                    };
+                },
+                Ok(_) => break,
+            }
+        }
 
         self.return_lexer(lexer);
 
-        Ok("".into())
+        Ok(res)
     }
 
-    fn get_instructions<'r>(&mut self, lexer: &'r Lexer, name: &'r str)
-        -> Result<Vec<Instruction>>
+    fn get_compiled_template<'r>(&mut self, lexer: &'r Lexer, name: &'r str)
+        -> Result<Template<Value>>
     {
         let source = try!(self.loader.get_source(name));
         let mut tokens = lexer.tokens(&source);
         let module = try!(parse(&self.env.parsing, &mut tokens));
-        Ok({
-            let mut instructions = Vec::new();
-            try!(compile((), &module, &mut instructions));
-            instructions
-        })
+        Ok(try!(compile((), &module)))
     }
 
     fn take_lexer(&mut self) -> Lexer {

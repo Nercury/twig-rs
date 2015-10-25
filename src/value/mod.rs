@@ -1,4 +1,5 @@
 use std::fmt;
+use std::cmp::Ordering;
 use std::rc::Rc;
 use std::borrow::{ Cow };
 use std::cell::RefCell;
@@ -27,16 +28,18 @@ impl fmt::Debug for HashKey {
 }
 
 pub enum Value {
+    Null,
     Int(i64),
     Float(f64),
     Str(String),
     Array(Vec<Value>),
     Hash(HashMap<HashKey, Value>),
     Obj(Rc<RefCell<Object>>),
-    Func(Rc<for<'r> Fn(&'r [Value]) -> Option<Value> >)
+    Func(Rc<for<'r> Fn(&'r [Value]) -> Option<Value> >),
 }
 
 pub enum ValueRef<'a> {
+    Null,
     Int(i64),
     Float(f64),
     Str(Cow<'a, str>),
@@ -49,6 +52,7 @@ pub enum ValueRef<'a> {
 impl<'a> Into<Value> for ValueRef<'a> {
     fn into(self) -> Value {
         match self {
+            ValueRef::Null => Value::Null,
             ValueRef::Int(v) => Value::Int(v),
             ValueRef::Float(v) => Value::Float(v),
             ValueRef::Str(v) => Value::Str(v.into_owned()),
@@ -85,6 +89,7 @@ impl<'a> From<HashMap<String, String>> for ValueRef<'a> {
 impl Clone for Value {
     fn clone(&self) -> Value {
         match *self {
+            Value::Null => Value::Null,
             Value::Int(v) => Value::Int(v),
             Value::Float(v) => Value::Float(v),
             Value::Str(ref v) => Value::Str(v.clone()),
@@ -99,6 +104,7 @@ impl Clone for Value {
 impl PartialEq for Value {
     fn eq(&self, other: &Value) -> bool {
         match (self, other) {
+            (&Value::Null, &Value::Null) => true,
             (&Value::Int(ref a), &Value::Int(ref b)) => a.eq(b),
             (&Value::Float(ref a), &Value::Float(ref b)) => a.eq(b),
             (&Value::Str(ref a), &Value::Str(ref b)) => a.eq(b),
@@ -111,9 +117,28 @@ impl PartialEq for Value {
     }
 }
 
+impl Eq for Value {}
+
+impl PartialOrd for Value {
+    fn partial_cmp(&self, other: &Value) -> Option<Ordering> {
+        match (self, other) {
+            (&Value::Null, &Value::Null) => Some(Ordering::Equal),
+            (&Value::Int(ref a), &Value::Int(ref b)) => a.partial_cmp(b),
+            (&Value::Float(ref a), &Value::Float(ref b)) => a.partial_cmp(b),
+            (&Value::Str(ref a), &Value::Str(ref b)) => a.partial_cmp(b),
+            (&Value::Array(ref a), &Value::Array(ref b)) => a.partial_cmp(b),
+            (&Value::Hash(ref a), &Value::Hash(ref b)) => None,
+            (&Value::Obj(ref a), &Value::Obj(ref b)) => None,
+            (&Value::Func(ref a), &Value::Func(ref b)) => None,
+            _ => None,
+        }
+    }
+}
+
 impl fmt::Debug for Value {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
+            Value::Null => write!(f, "null"),
             Value::Int(ref v) => write!(f, "{}", v),
             Value::Float(ref v) => write!(f, "{}", v),
             Value::Str(ref v) => write!(f, "{:?}", ops::to_string_limited(v)),
@@ -150,6 +175,10 @@ impl Value {
     /// If possible, returns this value represented as integer.
     pub fn int(self) -> RuntimeResult<i64> {
         Ok(match self {
+            Value::Null => return Err(RuntimeError::ImpossibleCast {
+                target: CastTarget::Int,
+                reason: CastError::Null,
+            }),
             Value::Int(v) => v,
             Value::Float(v) => return ops::float_to_int(v),
             Value::Str(v) => {

@@ -27,6 +27,8 @@ pub enum CastError {
     FloatNotANumber(f64),
     /// Float can not be represented, target does not support the range.
     FloatRange(f64),
+    /// Null can not be represented.
+    Null,
     /// Target can not be created from Array.
     Array,
     /// Target is not be created from Hash.
@@ -47,6 +49,7 @@ impl fmt::Debug for CastError {
             CastError::FloatIsInfinite(v) => write!(f, "Infinite float {:?}", v),
             CastError::FloatNotANumber(v) => write!(f, "Nonnumerical float {:?}", v),
             CastError::FloatRange(v) => write!(f, "Out-of-range float {:?}", v),
+            CastError::Null => "Null".fmt(f),
             CastError::Array => "Array".fmt(f),
             CastError::Hash => "Associative array".fmt(f),
             CastError::Object => "Object".fmt(f),
