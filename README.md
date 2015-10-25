@@ -22,7 +22,7 @@ The goal of 1.0 version is to pass test suite functionally equivalent to Twig 2.
 
 ## Build Requirements
 
-- Minimum Rust version: 1.2.0.
+- Minimum Rust version: 1.3.0.
 
 ## TODO list
 
