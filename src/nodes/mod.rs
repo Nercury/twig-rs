@@ -17,7 +17,8 @@ pub use self::parser::body as body_parser;
 pub use self::parser::expr as expr_parser;
 pub use self::parser::module as module_parser;
 
-use tokens::TokenRef;
+use environment::ParsingEnvironment;
+use tokens::{ TokenRef, TokenIter };
 use error::TemplateResult;
 
 #[derive(Debug)]
@@ -37,4 +38,12 @@ pub trait TokenParserExtension
     fn get_tag(&self) -> &'static str;
     fn parse<'p, 'c>(&self, parser: &mut Parser<'p, 'c>, token: TokenRef<'c>)
         -> TemplateResult<Option<body::Body<'c>>>;
+}
+
+/// Parse given token stream into a node tree.
+pub fn parse<'r, 'c>(env: &'r ParsingEnvironment, tokens: &'r mut TokenIter<'r, 'c>) -> TemplateResult<Module<'c>> {
+    let mut parser = Parser::new(
+        env, tokens
+    );
+    Module::parse(&mut parser)
 }

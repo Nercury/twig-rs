@@ -56,7 +56,7 @@ fn fixtures() {
             None => HashMap::new(),
         };
 
-        let res = match twig.get("index.twig", data.iter().map(|(k, v)| (&k[..], &v[..])).collect()) {
+        let res = match twig.get("index.twig", data) {
             Ok(res) => res,
             Err(e) => panic!("\nerror executing template:\n    {:#?}\n", e),
         };

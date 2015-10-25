@@ -26,6 +26,8 @@ pub mod tokens;
 #[allow(unused_variables, dead_code, unused_assignments)]
 pub mod nodes;
 #[allow(unused_variables, dead_code, unused_assignments)]
+pub mod instructions;
+#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod loader;
 #[allow(unused_variables, dead_code, unused_assignments)]
 pub mod error;
@@ -57,7 +59,8 @@ pub struct Engine<L> {
 }
 
 use std::mem;
-use std::collections::HashMap;
+use nodes::parse;
+use instructions::compile;
 
 impl<L: loader::Loader> Engine<L> {
     pub fn new(loader: L, env: environment::Environment) -> Engine<L> {
@@ -72,21 +75,21 @@ impl<L: loader::Loader> Engine<L> {
         engine
     }
 
-    pub fn get<'r>(&mut self, name: &'r str, data: HashMap<&'r str, &'r str>)
+    pub fn get<'r, D: Into<value::ValueRef<'r>>>(&mut self, name: &'r str, data: D)
         -> error::Result<String>
     {
         let lexer = self.take_lexer();
         let source = try!(self.loader.get_source(name));
-        let result = self.process_template(&lexer, &source);
+        let result = self.process_template(&lexer, &source, data);
         self.return_lexer(lexer);
         result
     }
 
-    fn process_template(&self, lexer: &tokens::Lexer, template: &str) -> error::Result<String> {
+    fn process_template<'r, D: Into<value::ValueRef<'r>>>(&self, lexer: &tokens::Lexer, template: &str, data: D) -> error::Result<String> {
         let mut tokens = lexer.tokens(template);
-        let parser = nodes::Parser::new(
-            &self.env.parsing, &mut tokens
-        );
+        let module = try!(parse(&self.env.parsing, &mut tokens));
+        let mut instructions = Vec::new();
+        try!(compile((), &module, &mut instructions));
 
         Ok("".into())
     }
