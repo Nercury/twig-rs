@@ -3,6 +3,7 @@ use std::collections::HashSet;
 
 use extension::{ Extension, CoreExtension };
 use operator::{ Operator, OperatorKind, OperatorOptions };
+use function::Function;
 use nodes::{ TokenParser, TokenParserExtension };
 
 /// Environment configuration.
@@ -31,6 +32,7 @@ impl Config {
 pub struct Environment {
     pub operators: Vec<Operator>,
     pub token_parsers: Vec<TokenParser>,
+    pub functions: Vec<Function>,
 }
 
 impl Environment {
@@ -39,6 +41,7 @@ impl Environment {
         let mut staged = Environment {
             operators: Vec::new(),
             token_parsers: Vec::new(),
+            functions: Vec::new(),
         };
 
         CoreExtension::apply(&mut staged);
@@ -78,6 +81,11 @@ impl Environment {
                         .map(|i| (i.tag, i.extension))
                         .collect()
                 },
+                functions: {
+                    self.functions.iter()
+                        .map(|f| f.name)
+                        .collect()
+                }
             },
         }
     }
@@ -89,6 +97,10 @@ impl Environment {
     pub fn push_token_parsers<I: IntoIterator<Item=TokenParser>>(&mut self, ops: I) {
         self.token_parsers.extend(ops);
     }
+
+    pub fn push_functions<I: IntoIterator<Item=Function>>(&mut self, funs: I) {
+        self.functions.extend(funs);
+    }
 }
 
 pub struct LexingEnvironment {
@@ -98,6 +110,7 @@ pub struct LexingEnvironment {
 pub struct ParsingEnvironment {
     pub operators: HashMap<&'static str, OperatorOptions>,
     pub handlers: HashMap<&'static str, Box<TokenParserExtension>>,
+    pub functions: HashSet<&'static str>,
 }
 
 /// Project configuration container with all extensions applied.
