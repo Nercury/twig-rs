@@ -1,4 +1,5 @@
 use std::mem;
+use std::fmt;
 use std::collections::HashMap;
 use environment::{ Environment, CompiledEnvironment };
 use error::Result;
@@ -9,20 +10,23 @@ use value::{ Value, ValueRef };
 use instructions::compile;
 use std::io::{ Read, Write };
 use std::error::Error;
-use little::{ Template, Function, Interpreter, Options, Parameter, BuildProcessor, BufferTo, Run };
+use little::{ Template, Function, Interpreter, Options, Parameter, BuildProcessor, LittleValue, Run };
 
-impl BufferTo for Value {
+impl LittleValue for Value { }
 
+impl Default for Value {
     fn default() -> Value {
         Value::Null
     }
+}
 
-    fn buffer_to(&self, buf: &mut Vec<u8>) {
+impl fmt::Display for Value {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            Value::Int(ref v) => write!(buf, "{}", v).unwrap(),
-            Value::Float(v) => write!(buf, "{}", v).unwrap(),
-            Value::Str(ref v) => write!(buf, "{}", v).unwrap(),
-            _ => (),
+            Value::Int(ref v) => write!(f, "{}", v),
+            Value::Float(v) => write!(f, "{}", v),
+            Value::Str(ref v) => write!(f, "{}", v),
+            _ => Ok(()),
         }
     }
 }
