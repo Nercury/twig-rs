@@ -35,7 +35,7 @@ fn fixtures() {
             Some(m) => m,
             None => panic!("fixture {:?} must have a message", entry.path()),
         };
-        print_fixture_start(&message);
+        print_fixture_start(&message).unwrap();
 
         let mut twig = Engine::new(ArrayLoader::new(
             vec![("index.twig".into(), fixture.template.expect("fixture must contain main template"))]
@@ -68,14 +68,14 @@ fn fixtures() {
         let expected = fixture.expect.expect("fixture must have expect block");
 
         if res != expected {
-            print_fixture_result(false);
+            print_fixture_result(false).unwrap();
 
             let (_, changeset) = difference::diff(
                 &res,
                 &expected,
                 "\n"
             );
-            print_diff(&changeset);
+            print_diff(&changeset).unwrap();
 
             Some((
                 entry.path().to_string_lossy().into_owned(),
@@ -84,7 +84,7 @@ fn fixtures() {
             ))
             //assert_eq!(res, expected);
         } else {
-            print_fixture_result(true);
+            print_fixture_result(true).unwrap();
             None
         }
     }).unwrap();
@@ -234,55 +234,55 @@ impl Fixture {
     }
 }
 
-fn print_fixture_start(message: &str) {
+fn print_fixture_start(message: &str) -> io::Result<()> {
     let mut t = term::stdout().unwrap();
-    write!(t, "fixture ");
-    t.attr(term::Attr::Bold).unwrap();
-    write!(t, "{}", message);
-    t.reset().unwrap();
-    write!(t, " ... ");
-    t.flush().unwrap();
+    try!(write!(t, "fixture "));
+    try!(t.attr(term::Attr::Bold));
+    try!(write!(t, "{}", message));
+    try!(t.reset());
+    try!(write!(t, " ... "));
+    t.flush()
 }
 
-fn print_fixture_result(ok: bool) {
+fn print_fixture_result(ok: bool) -> io::Result<()> {
     let mut t = term::stdout().unwrap();
     if ok {
-        t.fg(term::color::GREEN).unwrap();
-        writeln!(t, "ok");
+        try!(t.fg(term::color::GREEN));
+        try!(writeln!(t, "ok"));
     } else {
-        t.fg(term::color::RED).unwrap();
-        writeln!(t, "ERROR!");
+        try!(t.fg(term::color::RED));
+        try!(writeln!(t, "ERROR!"));
     }
-    t.reset().unwrap();
-    t.flush().unwrap();
+    try!(t.reset());
+    t.flush()
 }
 
-fn print_diff(changeset: &Vec<Difference>) {
+fn print_diff(changeset: &Vec<Difference>) -> io::Result<()> {
     let mut t = term::stdout().unwrap();
 
     for i in 0..changeset.len() {
         match changeset[i] {
             Difference::Same(ref x) => {
-                t.reset().unwrap();
-                writeln!(t, "  {}", x);
+                try!(t.reset());
+                try!(writeln!(t, "  {}", x));
             },
             Difference::Add(ref x) => {
                 for line in x.lines() {
-                    t.fg(term::color::GREEN).unwrap();
-                    writeln!(t, "+ {}", line);
+                    try!(t.fg(term::color::GREEN));
+                    try!(writeln!(t, "+ {}", line));
                 }
             },
             Difference::Rem(ref x) => {
                 for line in x.lines() {
-                    t.fg(term::color::RED).unwrap();
-                    writeln!(t, "- {}", line);
+                    try!(t.fg(term::color::RED));
+                    try!(writeln!(t, "- {}", line));
                 }
             }
         }
     }
-    t.reset().unwrap();
-    writeln!(t, "");
-    t.flush().unwrap();
+    try!(t.reset());
+    try!(writeln!(t, ""));
+    t.flush()
 }
 
 fn print_uncolored(changeset: &Vec<Difference>) {

@@ -116,9 +116,7 @@ pub fn get_function_node<'p, 'c>(parser: &mut Parser<'p, 'c>, name: &'c str, lin
                 arguments: try!(parse_named_arguments(parser, false))
             }, line));
         }
-    };
-
-    unimplemented!();
+    }
 }
 
 pub fn parse_primary_expression<'p, 'c>(parser: &mut Parser<'p, 'c>)

@@ -19,28 +19,15 @@ extern crate uuid;
 extern crate little;
 #[macro_use] extern crate log;
 
-// Allow unused things in development so that real warnings are more visible.
-
-#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod tokens;
-#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod nodes;
-#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod instructions;
-#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod loader;
-#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod error;
-#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod environment;
-
-#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod extension;
-#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod operator;
-#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod function;
-#[allow(unused_variables, dead_code, unused_assignments)]
 pub mod value;
 
 mod engine;
