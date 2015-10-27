@@ -29,6 +29,7 @@ pub mod extension;
 pub mod operator;
 pub mod function;
 pub mod value;
+pub mod mold;
 
 mod engine;
 

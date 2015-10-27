@@ -3,10 +3,11 @@ use instructions::Compile;
 use nodes::Module;
 use value::Value;
 use error::TemplateResult;
+use mold::Staging;
 
-impl<'c> Compile for Module<'c> {
-    fn compile(&self, template: &mut Template<Value>) -> TemplateResult<()> {
+impl<'c> Compile<'c> for Module<'c> {
+    fn compile<'r>(&'r self, stage: &'r mut Staging<'c, Value>) -> TemplateResult<()> {
         trace!("Module::compile");
-        self.body.compile(template)
+        self.body.compile(stage)
     }
 }
