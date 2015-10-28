@@ -17,7 +17,7 @@ pub trait Compile<'c> {
 pub struct CompiledExpression {
     origin: &'static str,
     stack_length: u16,
-    result: Mem,
+    result: Option<Mem>,
     finalized: bool,
 }
 
@@ -26,7 +26,16 @@ impl CompiledExpression {
         CompiledExpression {
             origin: origin,
             stack_length: 0,
-            result: result,
+            result: Some(result),
+            finalized: false,
+        }
+    }
+
+    pub fn empty(origin: &'static str) -> CompiledExpression {
+        CompiledExpression {
+            origin: origin,
+            stack_length: 0,
+            result: None,
             finalized: false,
         }
     }
@@ -35,12 +44,12 @@ impl CompiledExpression {
         CompiledExpression {
             origin: origin,
             stack_length: stack_length,
-            result: result,
+            result: Some(result),
             finalized: false,
         }
     }
 
-    pub fn result(&self) -> Mem {
+    pub fn result(&self) -> Option<Mem> {
         self.result.clone()
     }
 

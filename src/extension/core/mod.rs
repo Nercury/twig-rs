@@ -2,6 +2,9 @@ use environment::Environment;
 use extension::Extension;
 use operator::Operator;
 use nodes::TokenParser;
+use function::{ Function, Arg };
+use little::Instruction;
+use instructions::CompiledExpression;
 
 pub mod token_parsers;
 pub mod error;
@@ -61,6 +64,14 @@ impl Extension for CoreExtension {
             TokenParser::new(token_parsers::Flush::new()),
             TokenParser::new(token_parsers::Do::new()),
             TokenParser::new(token_parsers::Embed::new()),
+        ]);
+
+        env.push_functions(vec![
+            Function::new_static("include", vec![Arg::Anon], |staging| {
+                //staging.instr(Instruction::Push(staging.use_str_const("include")));
+                //staging.instr(Instruction::Push(staging.use_str_const("include")));
+                Ok(CompiledExpression::empty("include"))
+            })
         ]);
     }
 }

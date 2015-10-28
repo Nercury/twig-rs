@@ -4,6 +4,11 @@ use error::{ RuntimeResult, TemplateResult };
 use mold::Staging;
 use instructions::CompiledExpression;
 
+pub enum Arg {
+    Anon,
+    Named(&'static str),
+}
+
 /// Callable implementation.
 pub enum Callable {
     /// Executable at runtime.
@@ -11,9 +16,12 @@ pub enum Callable {
         for<'e> Fn(&'e [Value]) -> RuntimeResult<Value>
     >),
     /// Inlined into instructions at compile time.
-    Static(Box<
-        for<'c> Fn(&mut Staging<'c, Value>) -> TemplateResult<CompiledExpression>
-    >)
+    Static {
+        arguments: Vec<Arg>,
+        compile: Box<
+            for<'c> Fn(&mut Staging<'c, Value>) -> TemplateResult<CompiledExpression>
+        >
+    }
 }
 
 /// Represents environment function.
@@ -23,7 +31,7 @@ pub struct Function {
 }
 
 impl Function {
-    pub fn dynamic<F: 'static>(
+    pub fn new_dynamic<F: 'static>(
         name: &'static str,
         callable: F
     )
@@ -34,6 +42,24 @@ impl Function {
         Function {
             name: name,
             callable: Callable::Dynamic(Box::new(callable)),
+        }
+    }
+
+    pub fn new_static<F: 'static, I: IntoIterator<Item=Arg>>(
+        name: &'static str,
+        arguments: I,
+        compile: F
+    )
+        -> Function
+    where
+        F: for<'c> Fn(&mut Staging<'c, Value>) -> TemplateResult<CompiledExpression>
+    {
+        Function {
+            name: name,
+            callable: Callable::Static {
+                arguments: arguments.into_iter().collect(),
+                compile: Box::new(compile)
+            },
         }
     }
 }

@@ -23,7 +23,9 @@ impl<'c> CompileExpression<'c> for Expr<'c> {
             ExprValue::Conditional { .. } => unreachable!("ExprValue::Conditional::compile"),
             ExprValue::GetAttr { .. } => unreachable!("ExprValue::GetAttr::compile"),
             ExprValue::ImportedFunctionCall { .. } => unreachable!("ExprValue::ImportedFunctionCall::compile"),
-            ExprValue::FunctionCall { .. } => unreachable!("ExprValue::FunctionCall::compile"),
+            ExprValue::FunctionCall { name, ref arguments } => {
+                CompiledExpression::empty("function call")
+            },
         })
     }
 }

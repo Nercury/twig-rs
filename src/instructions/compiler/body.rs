@@ -2,7 +2,7 @@ use little::{ Instruction };
 use instructions::{ Compile, CompileExpression };
 use nodes::body::Body;
 use value::Value;
-use error::TemplateResult;
+use error::{ TemplateResult };
 use mold::Staging;
 
 impl<'c> Compile<'c> for Body<'c> {
@@ -19,9 +19,11 @@ impl<'c> Compile<'c> for Body<'c> {
             Body::Text { .. } => unreachable!("Body::Text::compile"),
             Body::Print { ref expr, .. } => {
                 trace!("Body::Print::compile");
-                
+
                 let ce = try!(expr.compile(stage));
-                stage.instr(Instruction::Output(ce.result()));
+                if let Some(result) = ce.result() {
+                    stage.instr(Instruction::Output(result));
+                };
                 try!(ce.finalize(stage));
 
                 Ok(())
