@@ -12,6 +12,7 @@ const MAX_DEBUG_STRING_LENGTH: usize = 128;
 const MAX_DEBUG_ARRAY_LENGTH: usize = 4;
 const MAX_DEBUG_HASH_LENGTH: usize = 4;
 
+/// Value kind that can be used as Hash key.
 #[derive(Clone, Hash, PartialEq, Eq, PartialOrd)]
 pub enum HashKey {
     Int(i64),
@@ -27,6 +28,7 @@ impl fmt::Debug for HashKey {
     }
 }
 
+/// Represents Twig runtime value.
 pub enum Value {
     Null,
     Int(i64),
@@ -38,6 +40,7 @@ pub enum Value {
     Func(Rc<for<'r> Fn(&'r [Value]) -> Option<Value> >),
 }
 
+/// Represents Twig reference to runtime value.
 pub enum ValueRef<'a> {
     Null,
     Int(i64),
@@ -208,6 +211,7 @@ impl Value {
     }
 }
 
+/// Twig object abstraction.
 pub trait Object {
     fn property_error(&self, name: &str) -> RuntimeError {
         RuntimeError::ObjectHasNoProperty(name.into())

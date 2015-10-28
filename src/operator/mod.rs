@@ -4,6 +4,7 @@ use value::{ Value };
 use error::{ RuntimeError, RuntimeResult };
 use function::Callable;
 
+/// Operator kind.
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum OperatorKind {
     /// Single argument operator, i.e negation.
@@ -36,6 +37,7 @@ impl OperatorKind {
     }
 }
 
+/// Operator options for parsing, sets precedence and weather it is unary/binary.
 #[derive(Debug, Copy, Clone)]
 pub struct OperatorOptions {
     pub precedence: Option<u16>,
@@ -74,8 +76,11 @@ impl OperatorOptions {
     }
 }
 
+/// Represents environment operator.
 pub struct Operator {
+    /// Operator options.
     pub options: OperatorOptions,
+    /// Operator callable.
     pub callable: Callable,
 }
 
