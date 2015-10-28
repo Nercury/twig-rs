@@ -2,6 +2,7 @@ use std::cmp::Ordering;
 use std::fmt;
 use value::{ Value };
 use error::{ RuntimeError, RuntimeResult };
+use function::Callable;
 
 #[derive(PartialEq, Debug, Copy, Clone)]
 pub enum OperatorKind {
@@ -75,9 +76,7 @@ impl OperatorOptions {
 
 pub struct Operator {
     pub options: OperatorOptions,
-    pub callable: Box<
-        for<'e> Fn(&'e [Value]) -> RuntimeResult<Value>
-    >,
+    pub callable: Callable,
 }
 
 impl fmt::Debug for Operator {
@@ -100,7 +99,7 @@ impl Operator {
     {
         Operator {
             options: OperatorOptions::new_binary(chars, precedence, associativity),
-            callable: Box::new(move |args| {
+            callable: Callable::Dynamic(Box::new(move |args| {
                 if args.len() != 2 {
                     return Err(
                         RuntimeError::InvalidArgumentCount {
@@ -114,7 +113,7 @@ impl Operator {
                     unsafe { args.get_unchecked(0) },
                     unsafe { args.get_unchecked(1) }
                 )
-            }),
+            })),
         }
     }
 
@@ -163,7 +162,7 @@ impl Operator {
     {
         Operator {
             options: OperatorOptions::new_unary(chars, precedence),
-            callable: Box::new(move |args| {
+            callable: Callable::Dynamic(Box::new(move |args| {
                 if args.len() != 1 {
                     return Err(
                         RuntimeError::InvalidArgumentCount {
@@ -176,7 +175,7 @@ impl Operator {
                 callable(
                     unsafe { args.get_unchecked(0) }
                 )
-            }),
+            })),
         }
     }
 }

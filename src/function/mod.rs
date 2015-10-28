@@ -1,12 +1,21 @@
 use std::fmt;
 use value::Value;
-use error::{ RuntimeResult };
+use error::{ RuntimeResult, TemplateResult };
+use mold::Staging;
+use instructions::CompiledExpression;
+
+pub enum Callable {
+    Dynamic(Box<
+        for<'e> Fn(&'e [Value]) -> RuntimeResult<Value>
+    >),
+    Static(Box<
+        for<'c> Fn(&mut Staging<'c, Value>) -> TemplateResult<CompiledExpression>
+    >)
+}
 
 pub struct Function {
     pub name: &'static str,
-    pub callable: Box<
-        for<'e> Fn(&'e [Value]) -> RuntimeResult<Value>
-    >,
+    pub callable: Callable,
 }
 
 impl fmt::Debug for Function {
