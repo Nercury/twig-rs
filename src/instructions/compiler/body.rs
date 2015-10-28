@@ -1,5 +1,5 @@
-use little::{ Template, Instruction, Mem };
-use instructions::Compile;
+use little::{ Instruction };
+use instructions::{ Compile, CompileExpression };
 use nodes::body::Body;
 use value::Value;
 use error::TemplateResult;
@@ -19,18 +19,10 @@ impl<'c> Compile<'c> for Body<'c> {
             Body::Text { .. } => unreachable!("Body::Text::compile"),
             Body::Print { ref expr, .. } => {
                 trace!("Body::Print::compile");
-
-                // expr will place single value on stack.
-                try!(expr.compile(stage));
-
-                // we output it.
-                let instruction = Instruction::Output(Mem::StackTop1);
-                trace!("instr {:?}", instruction);
-                stage.template.push_instruction(instruction);
-
-                // and pop the stack.
-                let instruction = Instruction::Pop(1);
-                trace!("instr {:?}", instruction);
+                
+                let ce = try!(expr.compile(stage));
+                stage.instr(Instruction::Output(ce.result()));
+                try!(ce.finalize(stage));
 
                 Ok(())
             },

@@ -1,4 +1,4 @@
-pub use self::compiler::{ Compile };
+pub use self::compiler::{ Compile, CompileExpression, CompiledExpression };
 
 use nodes::Module;
 use error::Result;

@@ -29,6 +29,11 @@ impl<'c, V> Staging<'c, V> {
         }
         Mem::Param(self.globals.assign_space(name.borrow()))
     }
+
+    pub fn instr(&mut self, instruction: Instruction) {
+        trace!("instr {:?}", &instruction);
+        self.template.push_instruction(instruction);
+    }
 }
 
 pub struct Basket<'c, T>  {

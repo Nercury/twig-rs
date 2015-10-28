@@ -1,4 +1,3 @@
-use little::{ Template };
 use instructions::Compile;
 use nodes::Module;
 use value::Value;
