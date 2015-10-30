@@ -1,6 +1,7 @@
 use std::collections::{ HashMap, VecDeque };
 use std::borrow::{ Borrow };
 use little::*;
+use value::Value;
 
 pub struct Staging<'c, V> {
     pub globals: Basket<'c, Parameter>,
@@ -33,6 +34,12 @@ impl<'c, V> Staging<'c, V> {
     pub fn instr(&mut self, instruction: Instruction) {
         trace!("instr {:?}", &instruction);
         self.template.push_instruction(instruction);
+    }
+}
+
+impl<'a> Into<Template<Value>> for Staging<'a, Value> {
+    fn into(self) -> Template<Value> {
+        self.template
     }
 }
 

@@ -12,5 +12,5 @@ pub fn compile(env: (), nodes: &Module) -> Result<Template<Value>> {
     trace!("compile");
     let mut stage = Staging::new();
     try!(nodes.compile(&mut stage));
-    Ok(Template::empty())
+    Ok(stage.into())
 }
