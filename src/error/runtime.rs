@@ -2,7 +2,7 @@ use std::fmt;
 use error::{ Location, Error };
 
 /// Stack trace record.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum TraceEntry {
     /// Trace source file change that caused the error.
     SourceFile { target: String },
@@ -19,7 +19,7 @@ pub enum CastTarget {
     Number,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum CastError {
     /// Float is infinite, target can not be infinite.
     FloatIsInfinite(f64),
@@ -43,7 +43,7 @@ pub enum CastError {
     StringNotNumerical(String),
 }
 
-impl fmt::Debug for CastError {
+impl fmt::Display for CastError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             CastError::FloatIsInfinite(v) => write!(f, "Infinite float {:?}", v),
@@ -60,7 +60,7 @@ impl fmt::Debug for CastError {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 /// Runtime error message.
 pub enum RuntimeError {
     /// Callable invoked with argument count that does not match defined count.
@@ -88,7 +88,7 @@ impl RuntimeError {
     }
 }
 
-impl fmt::Debug for RuntimeError {
+impl fmt::Display for RuntimeError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             RuntimeError::InvalidArgumentCount { ref defined, ref given } => {
@@ -121,7 +121,7 @@ impl fmt::Debug for RuntimeError {
 }
 
 /// Runtime error with stack trace.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct TracedRuntimeError {
     pub message: RuntimeError,
     pub stack_trace: Vec<TraceEntry>,
@@ -136,7 +136,7 @@ impl TracedRuntimeError {
     }
 }
 
-impl fmt::Debug for TracedRuntimeError {
+impl fmt::Display for TracedRuntimeError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{:?}", self.message)
     }

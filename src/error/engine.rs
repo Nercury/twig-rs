@@ -1,9 +1,8 @@
 use std::fmt;
 use std::path::PathBuf;
 use error::{ Error, Caused };
-use super::{ is_pretty };
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum EngineError {
     TemplateNotFound { name: String, search_paths: Vec<PathBuf> },
 }
@@ -14,7 +13,7 @@ impl EngineError {
     }
 }
 
-impl fmt::Debug for EngineError {
+impl fmt::Display for EngineError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             EngineError::TemplateNotFound { ref name, ref search_paths } => {
@@ -22,11 +21,7 @@ impl fmt::Debug for EngineError {
                     write!(f, "Template \"{}\" was not found", name)
                 } else {
                     try!(write!(f, "Template \"{}\" was not found, looked in ", name));
-                    if is_pretty(f) {
-                        write!(f, "{:#?}", search_paths)
-                    } else {
-                        write!(f, "{:?}", search_paths)
-                    }
+                    write!(f, "{:?}", search_paths)
                 }
             }
         }

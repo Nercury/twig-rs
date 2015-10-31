@@ -2,13 +2,13 @@ use std::fmt;
 use tokens::TokenValue;
 use error::{ Error, ExtensionError, At, Location };
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum Received {
     Token(TokenValue),
     EndOfStream,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum TemplateError {
     UnexpectedEndOfTemplate,
     ExpectedTokenTypeButReceived((TokenValue, Received)),
@@ -45,7 +45,7 @@ impl TemplateError {
     }
 }
 
-impl fmt::Debug for TemplateError {
+impl fmt::Display for TemplateError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             TemplateError::UnexpectedEndOfTemplate => write!(f, "Unexpected end of template"),

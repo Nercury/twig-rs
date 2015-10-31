@@ -9,7 +9,7 @@ pub use self::template::{ TemplateError, Received };
 pub use self::runtime::{ RuntimeError, TracedRuntimeError, CastTarget, CastError };
 pub use self::engine::{ EngineError };
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum Error {
     /// Error lexing or parsing the template source file.
     Template(At<TemplateError>),
@@ -35,7 +35,7 @@ impl fmt::Debug for Box<ExtensionError> {
     }
 }
 
-impl fmt::Debug for Error {
+impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             Error::Template(ref e) => e.fmt(f),
@@ -46,13 +46,13 @@ impl fmt::Debug for Error {
 }
 
 /// Adds optional cause to error.
-#[derive(Clone)]
-pub struct Caused<E: fmt::Debug> {
+#[derive(Clone, Debug)]
+pub struct Caused<E: fmt::Display> {
     pub err: E,
     pub cause: Box<Option<Error>>,
 }
 
-impl<E: fmt::Debug> Caused<E> {
+impl<E: fmt::Display> Caused<E> {
     pub fn new(err: E, cause: Option<Error>) -> Caused<E> {
         Caused {
             err: err,
@@ -61,35 +61,25 @@ impl<E: fmt::Debug> Caused<E> {
     }
 }
 
-impl<E: fmt::Debug> fmt::Debug for Caused<E> {
+impl<E: fmt::Display> fmt::Display for Caused<E> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self.cause {
             None => self.err.fmt(f),
             Some(ref cause) => {
-                if is_pretty(f) {
-                    let mut writer = PadAdapter::new(f);
-                    fmt::write(&mut writer, format_args!("{:#?}\ncaused by\n    {:#?}", self.err, cause))
-                } else {
-                    write!(f, "{:?}\ncaused by {:?}", self.err, cause)
-                }
+                write!(f, "{}\ncaused by\n{}", self.err, cause)
             },
         }
     }
 }
 
-fn is_pretty(f: &fmt::Formatter) -> bool {
-    enum FlagV1 { SignPlus, SignMinus, Alternate, SignAwareZeroPad, };
-    f.flags() & (1 << (FlagV1::Alternate as usize)) != 0
-}
-
 /// Pins any error type to source file location.
-#[derive(Copy, Clone)]
-pub struct At<E: fmt::Debug> {
+#[derive(Copy, Clone, Debug)]
+pub struct At<E: fmt::Display> {
     pub loc: Location,
     pub err: E,
 }
 
-impl<E: fmt::Debug> At<E> {
+impl<E: fmt::Display> At<E> {
     pub fn new(err: E, loc: Location) -> At<E> {
         At {
             loc: loc,
@@ -98,10 +88,10 @@ impl<E: fmt::Debug> At<E> {
     }
 }
 
-impl<E: fmt::Debug> fmt::Debug for At<E> {
+impl<E: fmt::Display> fmt::Display for At<E> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let message = {
-            let raw_message = format!("{:?}", self.err);
+            let raw_message = format!("{}", self.err);
             let ends_with_dot = {
                 let len = raw_message.len();
                 if len > 0 {
@@ -145,43 +135,3 @@ pub type Result<T> = result::Result<T, Error>;
 pub type TemplateResult<T> = result::Result<T, At<TemplateError>>;
 pub type RuntimeResult<T> = result::Result<T, RuntimeError>;
 pub type TracedRuntimeResult<T> = result::Result<T, RuntimeError>;
-
-/// This is taken directly from rustc.
-struct PadAdapter<'a, 'b: 'a> {
-    fmt: &'a mut fmt::Formatter<'b>,
-    on_newline: bool,
-}
-
-impl<'a, 'b: 'a> PadAdapter<'a, 'b> {
-    fn new(fmt: &'a mut fmt::Formatter<'b>) -> PadAdapter<'a, 'b> {
-        PadAdapter {
-            fmt: fmt,
-            on_newline: false,
-        }
-    }
-}
-
-impl<'a, 'b: 'a> fmt::Write for PadAdapter<'a, 'b> {
-    fn write_str(&mut self, mut s: &str) -> fmt::Result {
-        while !s.is_empty() {
-            if self.on_newline {
-                try!(self.fmt.write_str("    "));
-            }
-
-            let split = match s.find('\n') {
-                Some(pos) => {
-                    self.on_newline = true;
-                    pos + 1
-                }
-                None => {
-                    self.on_newline = false;
-                    s.len()
-                }
-            };
-            try!(self.fmt.write_str(&s[..split]));
-            s = &s[split..];
-        }
-
-        Ok(())
-    }
-}
