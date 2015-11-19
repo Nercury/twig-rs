@@ -110,7 +110,7 @@ impl fmt::Display for RuntimeError {
                 write!(f, "Method {:?} requires {} arguments, called with {}", name, defined, given)
             },
             RuntimeError::ImpossibleCast { ref target, ref reason } => {
-                write!(f, "{:?} is not {}", reason, match *target {
+                write!(f, "{} is not {}", reason, match *target {
                     CastTarget::Float => "a float",
                     CastTarget::Int => "an integer",
                     CastTarget::Number => "a number",

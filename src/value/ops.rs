@@ -232,7 +232,7 @@ mod tests {
 
         for (input, expected) in cases {
             match parse_as_numeric(input) {
-                Err(e) => assert_eq!(&format!("{:?}", e), expected),
+                Err(e) => assert_eq!(&format!("{}", e), expected),
                 Ok(v) => panic!("expected error {:?} when parsing {:?}, received {:?}", expected, input, v),
             }
         }
