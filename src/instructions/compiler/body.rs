@@ -22,7 +22,7 @@ impl<'c> Compile<'c> for Body<'c> {
 
                 let ce = try!(expr.compile(stage));
                 if let Some(result) = ce.result() {
-                    stage.instr(Instruction::Output(result));
+                    stage.instr(Instruction::Output { location: result });
                 };
                 try!(ce.finalize(stage));
 

@@ -6,13 +6,93 @@ use error::Result;
 use tokens::Lexer;
 use loader::Loader;
 use nodes::parse;
-use value::{ Value, ValueRef };
+use value::{ Value, HashKey };
 use instructions::compile;
 use std::io::{ Read, Write };
 use std::error::Error;
-use little::{ Template, Function, Interpreter, Options, Parameter, BuildProcessor, LittleValue, Run };
+use little::interpreter::{ Interpreter };
+use little::{ Fingerprint, Sha1Hasher, IdentifyValue, Template, Function, LittleValue, Build, Execute };
+use sha1::Sha1;
+use std::result;
 
 impl LittleValue for Value { }
+
+struct FingerprintHasher {
+    hasher: Sha1,
+}
+
+impl FingerprintHasher {
+    fn new() -> FingerprintHasher {
+        FingerprintHasher {
+            hasher: Sha1::new()
+        }
+    }
+}
+
+impl Sha1Hasher for FingerprintHasher {
+    /// Completes a round of hashing, producing the output hash generated.
+    fn finish(&self) -> Fingerprint {
+        let mut buf = [0;20];
+        self.hasher.output(&mut buf);
+        Fingerprint::new(buf)
+    }
+
+    /// Writes some data into this `Sha1Hasher`
+    fn write(&mut self, bytes: &[u8]) {
+        self.hasher.update(bytes);
+    }
+}
+
+impl IdentifyValue for Value {
+    fn identify_value(&self) -> Option<Fingerprint> {
+        let mut hasher = FingerprintHasher::new();
+        match self.hash_value(&mut hasher) {
+            Ok(_) => Some(hasher.finish()),
+            Err(_) => None,
+        }
+    }
+
+    fn hash_value<H: Sha1Hasher>(&self, hasher: &mut H) -> result::Result<(), ()> {
+        match *self {
+            Value::Null => {
+                hasher.write(b"n");
+            },
+            Value::Int(ref v) => {
+                hasher.write(b"i");
+                hasher.write_i64(*v);
+            },
+            Value::Float(_) => return Err(()),
+            Value::Str(ref v) => {
+                hasher.write(b"s");
+                hasher.write(v.as_bytes());
+            },
+            Value::Array(ref v) => {
+                hasher.write(b"a");
+                for i in v {
+                    try!(i.hash_value(hasher));
+                }
+            },
+            Value::Hash(ref v) => {
+                hasher.write(b"h");
+                for (k, v) in v {
+                    match *k {
+                        HashKey::Int(ref v) => {
+                            hasher.write(b"i");
+                            hasher.write_i64(*v);
+                        },
+                        HashKey::Str(ref v) => {
+                            hasher.write(b"s");
+                            hasher.write(v.as_bytes());
+                        },
+                    }
+                    try!(v.hash_value(hasher));
+                }
+            },
+            Value::Obj(_) | Value::Func(_) => return Err(()),
+        };
+        Ok(())
+    }
+}
 
 impl Default for Value {
     fn default() -> Value {
@@ -56,7 +136,7 @@ impl<L: Loader> Engine<L> {
         engine
     }
 
-    pub fn get<'r, D: Into<ValueRef<'r>>>(&mut self, name: &'r str, data: D)
+    pub fn get<D: Into<Value>>(&mut self, name: &str, data: D)
         -> Result<String>
     {
         let lexer = self.take_lexer();
@@ -65,13 +145,13 @@ impl<L: Loader> Engine<L> {
 
         let funs = HashMap::new();
         let mut i = Interpreter::new();
-        let p = match i.build_processor(compiled_template, &funs) {
+        let p = match i.build("", compiled_template, &funs) {
             Ok(p) => p,
             Err(e) => panic!("not implemented - handle build_processor error {:?}", e),
         };
 
         let mut res = String::new();
-        let mut interpreter = p.run(Options::<Parameter, Value>::empty());
+        let mut interpreter = p.execute(Value::Null);
         loop {
             match interpreter.read_to_string(&mut res) {
                 Err(e) => {

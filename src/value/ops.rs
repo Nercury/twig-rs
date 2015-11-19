@@ -117,19 +117,19 @@ fn parse_as_float_or_int(value: &str) -> Result<ParseAsNumericResult, CastTarget
         State::MaybeNumber { starts_at } => Ok(ParseAsNumericResult::Int(
             match value[starts_at..].parse() {
                 Ok(v) => if neg { 0 - v } else { v },
-                Err(e) => return Err(CastTarget::Int),
+                Err(_) => return Err(CastTarget::Int),
             }
         )),
         State::MaybeInt { starts_at, ends_at } => Ok(ParseAsNumericResult::Int(
             match value[starts_at..ends_at].parse() {
                 Ok(v) => if neg { 0 - v } else { v },
-                Err(e) => return Err(CastTarget::Int),
+                Err(_) => return Err(CastTarget::Int),
             }
         )),
         State::Float { starts_at } => Ok(ParseAsNumericResult::Float(
             match value[starts_at..].trim_right().parse() {
                 Ok(v) => if neg { 0.0 - v } else { v },
-                Err(e) => return Err(CastTarget::Float),
+                Err(_) => return Err(CastTarget::Float),
             }
         )),
         State::LeadingZeros { .. } => Ok(ParseAsNumericResult::Int(0)),

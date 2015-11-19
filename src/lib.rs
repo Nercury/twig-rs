@@ -14,6 +14,8 @@
  * file that was distributed with this source code.
  */
 
+extern crate sha1;
+extern crate byteorder;
 extern crate regex;
 extern crate uuid;
 extern crate little;

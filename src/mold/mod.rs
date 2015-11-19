@@ -1,18 +1,21 @@
 use std::collections::{ HashMap, VecDeque };
-use std::borrow::{ Borrow };
 use little::*;
 use value::Value;
 
-pub struct Staging<'c, V> {
-    pub globals: Basket<'c, Parameter>,
+pub struct Staging<'c, V: LittleValue> {
+    next_constant: Constant,
+    unique_constants: HashMap<Fingerprint, Constant>,
+    constant_values: HashMap<Constant, V>,
     pub locals: VecDeque<Basket<'c, Binding>>,
     pub template: Template<V>,
 }
 
-impl<'c, V> Staging<'c, V> {
+impl<'c, V: LittleValue> Staging<'c, V> {
     pub fn new<'r>() -> Staging<'r, V> {
         let mut st = Staging {
-            globals: Basket::new(Parameter(0), |Parameter(p)| Parameter(p + 1)),
+            next_constant: Constant(0),
+            unique_constants: HashMap::new(),
+            constant_values: HashMap::new(),
             locals: VecDeque::new(),
             template: Template::empty(),
         };
@@ -22,13 +25,53 @@ impl<'c, V> Staging<'c, V> {
         st
     }
 
-    pub fn use_name(&mut self, name: &'c str) -> Mem {
+    pub fn include_const(&mut self, const_value: V) -> Mem {
+        // next constant to insert.
+        let mut next = self.next_constant;
+
+        let constant = match const_value.identify_value() {
+            Some(fingerprint) => { // constant is identifiable
+                let mut added = false;
+                // we can ensure that identifiable constant is kept only once
+                let identifier = *self.unique_constants.entry(fingerprint).or_insert_with(|| {
+                    // when we insert it, we increment identifier.
+                    let identifier = next;
+                    next = match next {
+                        Constant(v) => Constant(v + 1),
+                    };
+                    added = true;
+                    identifier
+                });
+                // and add it to constant list only once.
+                if added {
+                    self.constant_values.insert(identifier, const_value);
+                }
+                identifier
+            },
+            None => { // constant can not be identified
+                // always add value to constant list for every constant.
+                let identifier = next;
+                next = match next {
+                    Constant(v) => Constant(v + 1),
+                };
+                self.constant_values.insert(identifier, const_value);
+                identifier
+            },
+        };
+
+        // update next constant.
+        self.next_constant = next;
+
+        Mem::Const(constant)
+    }
+
+    pub fn use_name(&mut self, name: &'c str) -> Option<Mem> {
         for basket in &self.locals {
             if let Some(ref binding) = basket.get(name) {
-                return Mem::Binding(binding.clone());
+                return Some(Mem::Binding(binding.clone()));
             }
         }
-        Mem::Param(self.globals.assign_space(name.borrow()))
+        None
     }
 
     pub fn instr(&mut self, instruction: Instruction) {

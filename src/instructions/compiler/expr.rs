@@ -10,8 +10,18 @@ impl<'c> CompileExpression<'c> for Expr<'c> {
         Ok(match self.value {
             ExprValue::Constant(_) => unreachable!("ExprValue::Constant::compile"),
             ExprValue::Name(name) => {
-                let name_mem = stage.use_name(name);
-                trace!("use mem {:?} for name {:?}", name_mem, name);
+                let maybe_mem = stage.use_name(name);
+
+                let name_mem = match maybe_mem {
+                    Some(mem) => {
+                        trace!("use mem {:?} for name {:?}", mem, name);
+                        mem
+                    },
+                    None => {
+                        stage.include_const(Value::Str(name.into()))
+                    }
+                };
+
                 CompiledExpression::with_result("ExprValue::Name", name_mem)
             },
             ExprValue::AssignName(_) => unreachable!("ExprValue::AssignName::compile"),
