@@ -7,7 +7,7 @@ use super::support;
     expected = r#"Arguments must be separated by a comma at line 1"#
 )]
 fn attribute_call_does_not_support_named_arguments() {
-    support::maybe_parsed(r#"{{ foo.bar(name="Foo") }}"#).unwrap();
+    support::unwrap_or_display(support::maybe_parsed(r#"{{ foo.bar(name="Foo") }}"#));
 }
 
 #[test]
@@ -15,7 +15,9 @@ fn attribute_call_does_not_support_named_arguments() {
     expected = r#"Arguments must be separated by a comma at line 1"#
 )]
 fn macro_call_does_not_support_named_arguments() {
-    support::maybe_parsed(r#"{% from _self import foo %}{% macro foo() %}{% endmacro %}{{ foo(name="Foo") }}"#).unwrap();
+    support::unwrap_or_display(
+        support::maybe_parsed(r#"{% from _self import foo %}{% macro foo() %}{% endmacro %}{{ foo(name="Foo") }}"#)
+    );
 }
 
 #[test]
@@ -23,7 +25,9 @@ fn macro_call_does_not_support_named_arguments() {
     expected = r#"Expected "name" but received "string" with value "a" at line 1"#
 )]
 fn macro_definition_does_not_support_non_name_variable_name() {
-    support::maybe_parsed(r#"{% macro foo("a") %}{% endmacro %}"#).unwrap();
+    support::unwrap_or_display(
+        support::maybe_parsed(r#"{% macro foo("a") %}{% endmacro %}"#)
+    );
 }
 
 #[test]
@@ -32,8 +36,8 @@ fn macro_definition_does_not_support_non_constant_default_values() {
         match support::maybe_parsed(template) {
             Ok(_) => panic!("expected {:?} to produce error", template),
             Err(e) => {
-                println!("tmp {} produces {:?}", template, e);
-                assert!(format!("{:?}", e)
+                println!("tmp {} produces {}", template, e);
+                assert!(format!("{}", e)
                     .contains(r#"A default value for an argument must be a constant (a boolean, a string, a number, or an array) at line 1"#));
             },
         }
@@ -50,7 +54,9 @@ fn get_macro_definition_does_not_support_non_constant_default_values() -> Vec<&'
 #[test]
 fn macro_definition_supports_constant_default_values() {
     for template in get_macro_definition_supports_constant_default_values() {
-        support::maybe_parsed(template).unwrap();
+        support::unwrap_or_display(
+            support::maybe_parsed(template)
+        )
     }
 }
 

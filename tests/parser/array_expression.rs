@@ -103,7 +103,7 @@ fn test_array_syntax_error() {
     for template in get_failing_tests_for_array() {
         match support::maybe_parsed(template) {
             Ok(_) => panic!("expected {:?} to produce error", template),
-            Err(e) => { println!("tmp {} produces {:?}", template, e); },
+            Err(e) => { println!("tmp {} produces {}", template, e); },
         }
     }
 }

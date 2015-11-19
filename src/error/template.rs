@@ -63,7 +63,7 @@ impl fmt::Display for TemplateError {
                 }
             },
             TemplateError::ExpectedOtherTokenValue((ref token, ref other)) => {
-                let unexpected_message = format!("{:?}", TemplateError::UnexpectedTokenValue(token.clone()));
+                let unexpected_message = format!("{}", TemplateError::UnexpectedTokenValue(token.clone()));
                 let (other_english_name, other_value) = other.get_english();
                 match other_value {
                     Some(value) => write!(f, "{} (\"{}\" expected with value {:?})", unexpected_message, other_english_name, value),

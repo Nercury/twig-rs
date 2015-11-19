@@ -1,6 +1,7 @@
 # Twig template engine for Rust
 
-[![Build Status](https://travis-ci.org/Nercury/twig-rs.svg)](https://travis-ci.org/Nercury/twig-rs)
+[![Linux Build Status](https://travis-ci.org/Nercury/twig-rs.svg)](https://travis-ci.org/Nercury/twig-rs)
+[![Windows Build status](https://ci.appveyor.com/api/projects/status/64gv1ytgvoutyve2/branch/master?svg=true)](https://ci.appveyor.com/project/Nercury/twig-rs/branch/master)
 
 [Read `twig-rs` library docs](http://nercury.github.io/twig-rs)
 

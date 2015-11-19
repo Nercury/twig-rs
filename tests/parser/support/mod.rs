@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+use std::fmt;
 use twig::environment::Environment;
 use twig::tokens::Lexer;
 use twig::nodes::{ Parser, Parse, Module };
@@ -17,5 +18,12 @@ pub fn expect_parsed(template: &'static str) -> Module {
     match maybe_parsed(template) {
         Ok(m) => m,
         Err(e) => panic!("parsing error: {:?}", e),
+    }
+}
+
+pub fn unwrap_or_display<T, E: fmt::Display>(value: Result<T, E>) {
+    match value {
+        Ok(_) => (),
+        Err(e) => panic!("{}", e),
     }
 }

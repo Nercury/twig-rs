@@ -8,7 +8,9 @@ use twig::nodes::expr::{ Expr, ExprValue };
     expected = r#"Unexpected token "string" of value "b" ("end of print statement" expected)"#
 )]
 fn test_string_expression_does_not_concatenate_two_consecutive_strings() {
-    support::maybe_parsed(r#"{{ "a" "b" }}"#).unwrap();
+    support::unwrap_or_display(
+        support::maybe_parsed(r#"{{ "a" "b" }}"#)
+    );
 }
 
 #[test]

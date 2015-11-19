@@ -5,9 +5,8 @@ use value::Value;
 pub struct Staging<'c, V: LittleValue> {
     next_constant: Constant,
     unique_constants: HashMap<Fingerprint, Constant>,
-    constant_values: HashMap<Constant, V>,
     pub locals: VecDeque<Basket<'c, Binding>>,
-    pub template: Template<V>,
+    template: Template<V>,
 }
 
 impl<'c, V: LittleValue> Staging<'c, V> {
@@ -15,7 +14,6 @@ impl<'c, V: LittleValue> Staging<'c, V> {
         let mut st = Staging {
             next_constant: Constant(0),
             unique_constants: HashMap::new(),
-            constant_values: HashMap::new(),
             locals: VecDeque::new(),
             template: Template::empty(),
         };
@@ -44,7 +42,7 @@ impl<'c, V: LittleValue> Staging<'c, V> {
                 });
                 // and add it to constant list only once.
                 if added {
-                    self.constant_values.insert(identifier, const_value);
+                    self.template.push_constant(identifier, const_value);
                 }
                 identifier
             },
@@ -54,7 +52,7 @@ impl<'c, V: LittleValue> Staging<'c, V> {
                 next = match next {
                     Constant(v) => Constant(v + 1),
                 };
-                self.constant_values.insert(identifier, const_value);
+                self.template.push_constant(identifier, const_value);
                 identifier
             },
         };
