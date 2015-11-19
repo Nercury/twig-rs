@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Template","All the data required to load the processor."]]});

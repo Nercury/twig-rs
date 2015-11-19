@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Parser` struct in crate `twig`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Parser">
+
+    <title>twig::nodes::Parser - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>twig</a>::<wbr><a href='index.html'>nodes</a></p><script>window.sidebarCurrent = {name: 'Parser', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>twig</a>::<wbr><a href='index.html'>nodes</a>::<wbr><a class='struct' href=''>Parser</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-1522' class='srclink' href='../../src/twig/nodes/parser/mod.rs.html#53-62' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Parser&lt;'p, 'c&gt; {
+    pub env: &amp;'p <a class='struct' href='../../twig/environment/struct.ParsingEnvironment.html' title='twig::environment::ParsingEnvironment'>ParsingEnvironment</a>,
+    pub tokens: <a class='struct' href='https://doc.rust-lang.org/nightly/core/iter/struct.Peekable.html' title='core::iter::Peekable'>Peekable</a>&lt;&amp;'p mut <a class='struct' href='../../twig/tokens/struct.TokenIter.html' title='twig::tokens::TokenIter'>TokenIter</a>&lt;'p, 'c&gt;&gt;,
+    pub imported_symbols: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;ImportedSymbols&lt;'c&gt;&gt;,
+}</pre><div class='docblock'><p>Helpers for manipulating and inspecting token iterators when creating AST.</p>
+
+<p>Has methods to inspect state, like &quot;current&quot; token, and advance to next.</p>
+
+<p>Current token is actually implemented as &quot;peekable&quot; next token. However,
+in all parsing code this &quot;peekable&quot; becomes &quot;current&quot;.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                                  <td id='structfield.env'><code>env</code></td><td><div class='docblock'><p>Project options for parsing, containing data collected from all added
+extensions.</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.tokens'><code>tokens</code></td><td><div class='docblock'><p>Token stream.</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.imported_symbols'><code>imported_symbols</code></td><td><div class='docblock'><p>Imported symbol stack.</p>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'p, 'c&gt; <a class='struct' href='../../twig/nodes/struct.Parser.html' title='twig::nodes::Parser'>Parser</a>&lt;'p, 'c&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>&lt;'r, 'z&gt;(env: &amp;'r <a class='struct' href='../../twig/environment/struct.ParsingEnvironment.html' title='twig::environment::ParsingEnvironment'>ParsingEnvironment</a>, tokens: &amp;'r mut <a class='struct' href='../../twig/tokens/struct.TokenIter.html' title='twig::tokens::TokenIter'>TokenIter</a>&lt;'r, 'z&gt;) -&gt; <a class='struct' href='../../twig/nodes/struct.Parser.html' title='twig::nodes::Parser'>Parser</a>&lt;'r, 'z&gt;</code></h4>
+<h4 id='method.push_local_scope' class='method'><code>fn <a href='#method.push_local_scope' class='fnname'>push_local_scope</a>&lt;'r&gt;(&amp;'r mut self)</code></h4>
+<h4 id='method.pop_local_scope' class='method'><code>fn <a href='#method.pop_local_scope' class='fnname'>pop_local_scope</a>&lt;'r&gt;(&amp;'r mut self)</code></h4>
+<h4 id='method.add_imported_function' class='method'><code>fn <a href='#method.add_imported_function' class='fnname'>add_imported_function</a>&lt;'r&gt;(&amp;'r mut self, alias: &amp;'c <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, name: &amp;'c <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='struct' href='../../uuid/struct.Uuid.html' title='uuid::Uuid'>Uuid</a></code></h4>
+<div class='docblock'><p>Registers pecified alias as imported function, further parsing might
+depend on this (use this function).</p>
+</div><h4 id='method.get_imported_function' class='method'><code>fn <a href='#method.get_imported_function' class='fnname'>get_imported_function</a>&lt;'r&gt;(&amp;'r self, name: &amp;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../twig/nodes/struct.ImportedFunction.html' title='twig::nodes::ImportedFunction'>ImportedFunction</a>&lt;'c&gt;&gt;</code></h4>
+<div class='docblock'><p>Finds a function that was previosly imported in this or parent scope.</p>
+</div><h4 id='method.current' class='method'><code>fn <a href='#method.current' class='fnname'>current</a>&lt;'r&gt;(&amp;'r mut self) -&gt; <a class='type' href='../../twig/error/type.TemplateResult.html' title='twig::error::TemplateResult'>TemplateResult</a>&lt;<a class='struct' href='../../twig/tokens/struct.TokenRef.html' title='twig::tokens::TokenRef'>TokenRef</a>&lt;'c&gt;&gt;</code></h4>
+<div class='docblock'><p>Get current token or fail.</p>
+
+<p>Returns current token, does not modify iterator position.
+Expects current token to exist, and if it is not (the end of file), returns
+UnexpectedEndOfTemplate error.</p>
+</div><h4 id='method.maybe_current' class='method'><code>fn <a href='#method.maybe_current' class='fnname'>maybe_current</a>&lt;'r&gt;(&amp;'r mut self) -&gt; <a class='type' href='../../twig/error/type.TemplateResult.html' title='twig::error::TemplateResult'>TemplateResult</a>&lt;<a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../twig/tokens/struct.TokenRef.html' title='twig::tokens::TokenRef'>TokenRef</a>&lt;'c&gt;&gt;&gt;</code></h4>
+<div class='docblock'><p>Get current token or the end of stream.</p>
+
+<p>Returns current token, does not modify iterator position.
+If the end of stream, returns None.</p>
+</div><h4 id='method.next' class='method'><code>fn <a href='#method.next' class='fnname'>next</a>&lt;'r&gt;(&amp;'r mut self) -&gt; <a class='type' href='../../twig/error/type.TemplateResult.html' title='twig::error::TemplateResult'>TemplateResult</a>&lt;<a class='struct' href='../../twig/tokens/struct.TokenRef.html' title='twig::tokens::TokenRef'>TokenRef</a>&lt;'c&gt;&gt;</code></h4>
+<div class='docblock'><p>Advances to the next token and returns previous.</p>
+
+<p>Expects the next token to exist. If it does not exist (the end of file), returns
+UnexpectedEndOfTemplate error.</p>
+</div><h4 id='method.skip_to_next_if' class='method'><code>fn <a href='#method.skip_to_next_if' class='fnname'>skip_to_next_if</a>&lt;'r&gt;(&amp;'r mut self, expected: <a class='enum' href='../../twig/tokens/enum.TokenValueRef.html' title='twig::tokens::TokenValueRef'>TokenValueRef</a>&lt;'c&gt;) -&gt; <a class='type' href='../../twig/error/type.TemplateResult.html' title='twig::error::TemplateResult'>TemplateResult</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>&gt;</code></h4>
+<div class='docblock'><p>Advances to the next token if expected token value is the same as current and
+returns current.</p>
+
+<p>Expects these tokens to exist. If they do not exist (the end of file), returns
+UnexpectedEndOfTemplate error.</p>
+</div><h4 id='method.expect' class='method'><code>fn <a href='#method.expect' class='fnname'>expect</a>&lt;'r&gt;(&amp;'r mut self, expected: <a class='enum' href='../../twig/tokens/enum.TokenValueRef.html' title='twig::tokens::TokenValueRef'>TokenValueRef</a>&lt;'c&gt;) -&gt; <a class='type' href='../../twig/error/type.TemplateResult.html' title='twig::error::TemplateResult'>TemplateResult</a>&lt;<a class='struct' href='../../twig/tokens/struct.TokenRef.html' title='twig::tokens::TokenRef'>TokenRef</a>&lt;'c&gt;&gt;</code></h4>
+<div class='docblock'><p>Expects the current token to match value and advances to next token.</p>
+
+<p>Error condition same as <code>expect_match_or</code>.</p>
+</div><h4 id='method.expect_name' class='method'><code>fn <a href='#method.expect_name' class='fnname'>expect_name</a>&lt;'r&gt;(&amp;'r mut self) -&gt; <a class='type' href='../../twig/error/type.TemplateResult.html' title='twig::error::TemplateResult'>TemplateResult</a>&lt;&amp;'c <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>&gt;</code></h4>
+<div class='docblock'><p>Expects the current token to be name type and advances to next token.</p>
+
+<p>Returns found name string.</p>
+
+<p>Error condition same as <code>expect_match_or</code>.</p>
+</div><h4 id='method.expect_or_error' class='method'><code>fn <a href='#method.expect_or_error' class='fnname'>expect_or_error</a>&lt;'r&gt;(&amp;'r mut self, expected: <a class='enum' href='../../twig/tokens/enum.TokenValueRef.html' title='twig::tokens::TokenValueRef'>TokenValueRef</a>&lt;'c&gt;, error_message: <a class='enum' href='../../twig/error/enum.TemplateError.html' title='twig::error::TemplateError'>TemplateError</a>) -&gt; <a class='type' href='../../twig/error/type.TemplateResult.html' title='twig::error::TemplateResult'>TemplateResult</a>&lt;<a class='struct' href='../../twig/tokens/struct.TokenRef.html' title='twig::tokens::TokenRef'>TokenRef</a>&lt;'c&gt;&gt;</code></h4>
+<div class='docblock'><p>Expects the current token to match value and advances to the next token.</p>
+
+<p>Error condition same as <code>expect_match_or</code>.</p>
+</div><h4 id='method.expect_match_or' class='method'><code>fn <a href='#method.expect_match_or' class='fnname'>expect_match_or</a>&lt;'r, C, T&gt;(&amp;'r mut self, check: C) -&gt; <a class='type' href='../../twig/error/type.TemplateResult.html' title='twig::error::TemplateResult'>TemplateResult</a>&lt;T&gt; <span class='where'>where C: for&lt;'a&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.FnOnce.html' title='core::ops::FnOnce'>FnOnce</a>(&amp;'a <a class='struct' href='../../twig/tokens/struct.TokenRef.html' title='twig::tokens::TokenRef'>TokenRef</a>&lt;'c&gt;) -&gt; <a class='type' href='../../twig/error/type.TemplateResult.html' title='twig::error::TemplateResult'>TemplateResult</a>&lt;T&gt;</span></code></h4>
+<div class='docblock'><p>Expects the current token to pass <code>check</code> and advances to next token.</p>
+
+<p>Expects these tokens (current and next) to exist. If they do not exist (the end of file),
+returns <code>UnexpectedEndOfTemplate</code> error.</p>
+</div><h4 id='method.test' class='method'><code>fn <a href='#method.test' class='fnname'>test</a>&lt;'r&gt;(&amp;'r mut self, expected: <a class='enum' href='../../twig/tokens/enum.TokenValueRef.html' title='twig::tokens::TokenValueRef'>TokenValueRef</a>&lt;'c&gt;) -&gt; <a class='type' href='../../twig/error/type.TemplateResult.html' title='twig::error::TemplateResult'>TemplateResult</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>&gt;</code></h4>
+<div class='docblock'><p>Test the current token to match value.</p>
+
+<p>Expects these token to exist. If it does not exist (the end of file), returns
+UnexpectedEndOfTemplate error.</p>
+</div><h4 id='method.get_operator_options' class='method'><code>fn <a href='#method.get_operator_options' class='fnname'>get_operator_options</a>&lt;'r&gt;(&amp;'r self, op_str: &amp;'c <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='struct' href='../../twig/operator/struct.OperatorOptions.html' title='twig::operator::OperatorOptions'>OperatorOptions</a></code></h4>
+<div class='docblock'><p>Returns options structure for specified operator.</p>
+
+<p>Operator must exist in environment, otherwise panics.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "twig";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

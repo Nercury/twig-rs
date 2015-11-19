@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Associativity","Operator associativity."],["OperatorKind","Operator kind."]],"struct":[["Operator","Represents environment operator."],["OperatorOptions","Operator options for parsing, sets precedence and weather it is unary/binary."]]});

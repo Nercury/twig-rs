@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Options","Runtime options maped to index list."],["OptionsTemplate","Stores a map between String name and its index `I`."]]});

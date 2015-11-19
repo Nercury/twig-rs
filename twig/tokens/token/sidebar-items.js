@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Const",""],["ConstNumber","Parsed twig number representation."],["ConstNumberRef","Parsed twig number representation."],["ConstRef",""],["TokenValue","Token value."],["TokenValueRef","Token value."]],"struct":[["TokenRef","Lexer output token, lexer's output and parser's input."]]});

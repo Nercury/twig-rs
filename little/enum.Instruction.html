@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Instruction` enum in crate `little`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Instruction">
+
+    <title>little::Instruction - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='index.html'>little</a></p><script>window.sidebarCurrent = {name: 'Instruction', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='index.html'>little</a>::<wbr><a class='enum' href=''>Instruction</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-777' class='srclink' href='../src/little/lib.rs.html#83-102' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum Instruction {
+    Output {
+        location: <a class='enum' href='../little/enum.Mem.html' title='little::Mem'>Mem</a>,
+    },
+    Property {
+        name: <a class='enum' href='../little/enum.Mem.html' title='little::Mem'>Mem</a>,
+    },
+    Push {
+        location: <a class='enum' href='../little/enum.Mem.html' title='little::Mem'>Mem</a>,
+    },
+    Pop {
+        times: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a>,
+    },
+    Jump {
+        pc: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a>,
+    },
+    CondJump {
+        pc: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a>,
+        location: <a class='enum' href='../little/enum.Mem.html' title='little::Mem'>Mem</a>,
+        test: <a class='enum' href='../little/enum.Cond.html' title='little::Cond'>Cond</a>,
+    },
+    Call {
+        call: <a class='struct' href='../little/struct.Call.html' title='little::Call'>Call</a>,
+        argc: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>,
+        push_result_to_stack: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    },
+    Load {
+        binding: <a class='struct' href='../little/struct.Binding.html' title='little::Binding'>Binding</a>,
+        location: <a class='enum' href='../little/enum.Mem.html' title='little::Mem'>Mem</a>,
+    },
+    Interupt,
+}</pre><div class='docblock'><p>Executable template instruction.</p>
+</div><h2 class='variants'>Variants</h2>
+<table><tr><td id='variant.Output'><code>Output</code></td><td><div class='docblock'><p>Output specified <code>Mem</code>.</p>
+</div><h3 class='fields'>Fields</h3>
+
+                                              <table><tr><td id='variant.Output.field.location'><code>location</code></td><td></td></tr></table></td></tr><tr><td id='variant.Property'><code>Property</code></td><td><div class='docblock'><p>Replace a value in <code>StackTop1</code> with its property named <code>Mem</code>.</p>
+</div><h3 class='fields'>Fields</h3>
+
+                                              <table><tr><td id='variant.Property.field.name'><code>name</code></td><td></td></tr></table></td></tr><tr><td id='variant.Push'><code>Push</code></td><td><div class='docblock'><p>Push data from <code>Mem</code> to stack.</p>
+</div><h3 class='fields'>Fields</h3>
+
+                                              <table><tr><td id='variant.Push.field.location'><code>location</code></td><td></td></tr></table></td></tr><tr><td id='variant.Pop'><code>Pop</code></td><td><div class='docblock'><p>Pop specified number of stack items.</p>
+</div><h3 class='fields'>Fields</h3>
+
+                                              <table><tr><td id='variant.Pop.field.times'><code>times</code></td><td></td></tr></table></td></tr><tr><td id='variant.Jump'><code>Jump</code></td><td><div class='docblock'><p>Jump to instruction.</p>
+</div><h3 class='fields'>Fields</h3>
+
+                                              <table><tr><td id='variant.Jump.field.pc'><code>pc</code></td><td></td></tr></table></td></tr><tr><td id='variant.CondJump'><code>CondJump</code></td><td><div class='docblock'><p>Jump to instruction based on <code>Cond</code>.</p>
+</div><h3 class='fields'>Fields</h3>
+
+                                              <table><tr><td id='variant.CondJump.field.pc'><code>pc</code></td><td></td></tr><tr><td id='variant.CondJump.field.location'><code>location</code></td><td></td></tr><tr><td id='variant.CondJump.field.test'><code>test</code></td><td></td></tr></table></td></tr><tr><td id='variant.Call'><code>Call</code></td><td><div class='docblock'><p>Call function with specified amount of stack items and store result to stack if bool = true.</p>
+</div><h3 class='fields'>Fields</h3>
+
+                                              <table><tr><td id='variant.Call.field.call'><code>call</code></td><td></td></tr><tr><td id='variant.Call.field.argc'><code>argc</code></td><td></td></tr><tr><td id='variant.Call.field.push_result_to_stack'><code>push_result_to_stack</code></td><td></td></tr></table></td></tr><tr><td id='variant.Load'><code>Load</code></td><td><div class='docblock'><p>Copy value from <code>Mem</code> to <code>Binding</code>.</p>
+</div><h3 class='fields'>Fields</h3>
+
+                                              <table><tr><td id='variant.Load.field.binding'><code>binding</code></td><td></td></tr><tr><td id='variant.Load.field.location'><code>location</code></td><td></td></tr></table></td></tr><tr><td id='variant.Interupt'><code>Interupt</code></td><td><div class='docblock'><p>Interupt execution, it is up to the user to know what to do with the stack at current state.</p>
+</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../little/enum.Instruction.html' title='little::Instruction'>Instruction</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../little/enum.Instruction.html' title='little::Instruction'>Instruction</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../little/enum.Instruction.html' title='little::Instruction'>Instruction</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../little/enum.Instruction.html' title='little::Instruction'>Instruction</a></code></h3><div class='impl-items'></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "little";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script async src="../search-index.js"></script>
+</body>
+</html>

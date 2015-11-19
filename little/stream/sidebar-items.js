@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["buf_copy","Copy all bytes from `reader` to `writer` using `buf`."],["seek_and_buf_copy","Copy `len` bytes from `reader` to `writer` using `buf` from specified `loc` position."]]});

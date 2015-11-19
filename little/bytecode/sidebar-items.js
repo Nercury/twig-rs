@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Error","Bytecode read/write error."]],"struct":[["Header","Bytecode file header."]],"trait":[["Bytecode","Bytecode representation."],["Serializer","Serialize and deserialize a structure from `io`."]]});

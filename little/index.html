@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `little` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, little">
+
+    <title>little - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'></p><script>window.sidebarCurrent = {name: 'little', ty: 'mod', relpath: '../'};</script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>little</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-0' class='srclink' href='../src/little/lib.rs.html#1-254' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p><a href="https://github.com/Nercury/little-rs">
+    <img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub">
+</a>
+<style>.sidebar { margin-top: 53px }</style></p>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='mod' href='bytecode/index.html'
+                               title='little::bytecode'>bytecode</a></td>
+                        <td class='docblock short'>
+                             <p>Bytecode <code>io</code> helpers.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='mod' href='compiler/index.html'
+                               title='little::compiler'>compiler</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='mod' href='interpreter/index.html'
+                               title='little::interpreter'>interpreter</a></td>
+                        <td class='docblock short'>
+                             <p>Template interpreter.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='mod' href='stream/index.html'
+                               title='little::stream'>stream</a></td>
+                        <td class='docblock short'>
+                             <p>Simple helpers to forward bytes from <code>Read</code> to <code>Write</code>.</p>
+
+                        </td>
+                    </tr>
+                </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Binding.html'
+                               title='little::Binding'>Binding</a></td>
+                        <td class='docblock short'>
+                             <p>Mutable internal machine binding.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Call.html'
+                               title='little::Call'>Call</a></td>
+                        <td class='docblock short'>
+                             <p>Immutable external machine function.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Constant.html'
+                               title='little::Constant'>Constant</a></td>
+                        <td class='docblock short'>
+                             <p>Immutable internal machine constant.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Fingerprint.html'
+                               title='little::Fingerprint'>Fingerprint</a></td>
+                        <td class='docblock short'>
+                             <p>Structure used to uniquely identify executable blobs.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Options.html'
+                               title='little::Options'>Options</a></td>
+                        <td class='docblock short'>
+                             <p>Runtime options maped to index list.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.OptionsTemplate.html'
+                               title='little::OptionsTemplate'>OptionsTemplate</a></td>
+                        <td class='docblock short'>
+                             <p>Stores a map between String name and its index <code>I</code>.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Template.html'
+                               title='little::Template'>Template</a></td>
+                        <td class='docblock short'>
+                             <p>All the data required to load the processor.</p>
+
+                        </td>
+                    </tr>
+                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.BuildError.html'
+                               title='little::BuildError'>BuildError</a></td>
+                        <td class='docblock short'>
+                             <p>Error while performing seek.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.Cond.html'
+                               title='little::Cond'>Cond</a></td>
+                        <td class='docblock short'>
+                             <p>Jump condition.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.Instruction.html'
+                               title='little::Instruction'>Instruction</a></td>
+                        <td class='docblock short'>
+                             <p>Executable template instruction.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.LittleError.html'
+                               title='little::LittleError'>LittleError</a></td>
+                        <td class='docblock short'>
+                             <p>Runtime error.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.Mem.html'
+                               title='little::Mem'>Mem</a></td>
+                        <td class='docblock short'>
+                             <p>Memory location.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.SeekError.html'
+                               title='little::SeekError'>SeekError</a></td>
+                        <td class='docblock short'>
+                             <p>Error while performing seek.</p>
+
+                        </td>
+                    </tr>
+                </table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.Build.html'
+                               title='little::Build'>Build</a></td>
+                        <td class='docblock short'>
+                             <p>Converts template into a runable version.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.Execute.html'
+                               title='little::Execute'>Execute</a></td>
+                        <td class='docblock short'>
+                             <p>Executes compiled blob and converts input value to output stream.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.Function.html'
+                               title='little::Function'>Function</a></td>
+                        <td class='docblock short'>
+                             <p>External template function.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.IdentifyValue.html'
+                               title='little::IdentifyValue'>IdentifyValue</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.LittleValue.html'
+                               title='little::LittleValue'>LittleValue</a></td>
+                        <td class='docblock short'>
+                             <p>Little Value abstraction, used by runtime.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.PositionSeek.html'
+                               title='little::PositionSeek'>PositionSeek</a></td>
+                        <td class='docblock short'>
+                             <p>Seek to an offset.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='trait' href='trait.Sha1Hasher.html'
+                               title='little::Sha1Hasher'>Sha1Hasher</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='type' href='type.LittleResult.html'
+                               title='little::LittleResult'>LittleResult</a></td>
+                        <td class='docblock short'>
+                             <p>Runtime result.</p>
+
+                        </td>
+                    </tr>
+                </table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "little";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script async src="../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ParseAsNumericResult",""]],"fn":[["double_fits_long",""],["float_to_int",""],["parse_as_numeric","Try to convert string to a numeric value (either int or float)."],["to_string_limited",""]]});

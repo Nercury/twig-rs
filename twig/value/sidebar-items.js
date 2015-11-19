@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["HashKey","Value kind that can be used as Hash key."],["Value","Represents Twig runtime value."]],"mod":[["ops",""]],"trait":[["Object","Twig object abstraction."]]});

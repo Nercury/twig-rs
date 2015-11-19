@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["CompiledEnvironment","Project configuration container with all extensions applied."],["Config","Environment configuration."],["Environment","Project configuration container."],["LexingEnvironment",""],["ParsingEnvironment",""]]});

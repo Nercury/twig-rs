@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["CoreExtension",""],["EscaperExtension",""]],"trait":[["Extension","Implement this trait to create a new Twig extension."]]});
