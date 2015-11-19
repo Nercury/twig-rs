@@ -3,6 +3,7 @@ use nodes::expr::{ Expr, ExprValue };
 use value::Value;
 use error::TemplateResult;
 use mold::Staging;
+use little::{ Instruction, Mem };
 
 impl<'c> CompileExpression<'c> for Expr<'c> {
     fn compile<'r>(&'r self, stage: &'r mut Staging<'c, Value>) -> TemplateResult<CompiledExpression> {
@@ -18,7 +19,13 @@ impl<'c> CompileExpression<'c> for Expr<'c> {
                         mem
                     },
                     None => {
-                        stage.include_const(Value::Str(name.into()))
+                        trace!("include string const {:?}", name);
+                        stage.instr(Instruction::Push { location: Mem::Parameters });
+                        let property_name = stage.include_const(Value::Str(name.into()));
+                        stage.instr(Instruction::Property {
+                            name: property_name
+                        });
+                        Mem::StackTop1
                     }
                 };
 

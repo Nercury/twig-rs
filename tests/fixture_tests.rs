@@ -82,7 +82,6 @@ fn fixtures() {
                 message,
                 changeset
             ))
-            //assert_eq!(res, expected);
         } else {
             print_fixture_result(true).unwrap();
             None
@@ -96,7 +95,7 @@ fn fixtures() {
             println!("testing {}", name);
             print_uncolored(&changeset);
         }
-        //panic!("{} fixtures produced errors", num_errors);
+        panic!("{} fixtures produced errors", num_errors);
     }
 }
 
