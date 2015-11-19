@@ -1,4 +1,4 @@
-if [[ $TRAVIS_BRANCH != 'master' ]]
+if [ "$TRAVIS_BRANCH" != 'master' ]; then
     echo "skipping doc export because branch is not master"
     exit;
 fi
