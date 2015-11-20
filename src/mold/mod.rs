@@ -23,7 +23,7 @@ impl<'c, V: LittleValue> Staging<'c, V> {
         st
     }
 
-    pub fn include_const(&mut self, const_value: V) -> Mem {
+    pub fn include_const(&mut self, const_value: V) -> Constant {
         // next constant to insert.
         let mut next = self.next_constant;
 
@@ -60,7 +60,7 @@ impl<'c, V: LittleValue> Staging<'c, V> {
         // update next constant.
         self.next_constant = next;
 
-        Mem::Const(constant)
+        constant
     }
 
     pub fn use_name(&mut self, name: &'c str) -> Option<Mem> {
