@@ -11,7 +11,17 @@ use instructions::compile;
 use std::io::{ Read, Write };
 use std::error::Error;
 use little::interpreter::{ Interpreter };
-use little::{ Fingerprint, Sha1Hasher, IdentifyValue, Template, Function, LittleValue, Build, Execute };
+use little::{
+    Fingerprint,
+    Sha1Hasher,
+    IdentifyValue,
+    Template,
+    Function,
+    LittleValue,
+    Build,
+    Execute,
+    GetProperty
+};
 use sha1::Sha1;
 use std::result;
 
@@ -107,6 +117,23 @@ impl fmt::Display for Value {
             Value::Float(v) => write!(f, "{}", v),
             Value::Str(ref v) => write!(f, "{}", v),
             _ => Ok(()),
+        }
+    }
+}
+
+impl GetProperty<Value> for Value {
+    fn get_property(&self, name: Value) -> Option<Value> {
+        match *self {
+            Value::Array(ref arr) => match name {
+                Value::Int(index) => arr.get(index as usize).cloned(),
+                _ => unreachable!("only Int value names are implemented for array"),
+            },
+            Value::Hash(ref map) => match name {
+                Value::Str(key) => map.get(&HashKey::Str(key)).cloned(),
+                Value::Int(index) => map.get(&HashKey::Int(index)).cloned(),
+                _ => unreachable!("only Str and Int value names are possible for hash, others not implemented"),
+            },
+            _ => None,
         }
     }
 }
