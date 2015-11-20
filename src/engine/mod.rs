@@ -124,14 +124,20 @@ impl fmt::Display for Value {
 impl GetProperty<Value> for Value {
     fn get_property(&self, name: Value) -> Option<Value> {
         match *self {
-            Value::Array(ref arr) => match name {
-                Value::Int(index) => arr.get(index as usize).cloned(),
-                _ => unreachable!("only Int value names are implemented for array"),
+            Value::Array(ref arr) => {
+                trace!("get property of array {:?}.{:?}", arr, name);
+                match name {
+                    Value::Int(index) => arr.get(index as usize).cloned(),
+                    _ => unreachable!("only Int value names are implemented for array"),
+                }
             },
-            Value::Hash(ref map) => match name {
-                Value::Str(key) => map.get(&HashKey::Str(key)).cloned(),
-                Value::Int(index) => map.get(&HashKey::Int(index)).cloned(),
-                _ => unreachable!("only Str and Int value names are possible for hash, others not implemented"),
+            Value::Hash(ref map) => {
+                trace!("get property of hash {:?}.{:?}", map, name);
+                match name {
+                    Value::Str(key) => map.get(&HashKey::Str(key)).cloned(),
+                    Value::Int(index) => map.get(&HashKey::Int(index)).cloned(),
+                    _ => unreachable!("only Str and Int value names are possible for hash, others not implemented"),
+                }
             },
             _ => None,
         }
@@ -178,7 +184,7 @@ impl<L: Loader> Engine<L> {
         };
 
         let mut res = String::new();
-        let mut interpreter = p.execute(Value::Null);
+        let mut interpreter = p.execute(data.into());
         loop {
             match interpreter.read_to_string(&mut res) {
                 Err(e) => {
