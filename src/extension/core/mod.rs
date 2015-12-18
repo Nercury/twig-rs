@@ -68,6 +68,7 @@ impl Extension for CoreExtension {
 
         env.push_functions(vec![
             Function::new_static("include", vec![Arg::Anon], |staging| {
+                //trace!("include function arg {}", staging.)
                 //staging.instr(Instruction::Push(staging.use_str_const("include")));
                 //staging.instr(Instruction::Push(staging.use_str_const("include")));
                 Ok(CompiledExpression::empty("include"))

@@ -37,6 +37,7 @@ impl<'c> CompileExpression<'c> for Expr<'c> {
             ExprValue::GetAttr { .. } => unreachable!("ExprValue::GetAttr::compile"),
             ExprValue::ImportedFunctionCall { .. } => unreachable!("ExprValue::ImportedFunctionCall::compile"),
             ExprValue::FunctionCall { name, ref arguments } => {
+                unreachable!("ExprValue::FunctionCall::compile");
                 CompiledExpression::empty("function call")
             },
         })

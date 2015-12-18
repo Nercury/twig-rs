@@ -16,7 +16,6 @@ use little::{
     Sha1Hasher,
     IdentifyValue,
     Template,
-    Function,
     LittleValue,
     Build,
     Execute,
@@ -152,7 +151,7 @@ pub struct Engine<L> {
     loader: L,
     env: CompiledEnvironment,
     lexer: Option<Lexer>,
-    functions: HashMap<&'static str, Box<Function<Value>>>,
+    //functions: HashMap<&'static str, Box<Function<Value>>>,
 }
 
 impl<L: Loader> Engine<L> {
@@ -161,7 +160,7 @@ impl<L: Loader> Engine<L> {
             loader: loader,
             env: env.init_all(),
             lexer: None,
-            functions: HashMap::new(),
+            //functions: HashMap::new(),
         };
 
         engine.lexer = Some(Lexer::default(&engine.env.lexing));
@@ -173,6 +172,8 @@ impl<L: Loader> Engine<L> {
         -> Result<String>
     {
         let lexer = self.take_lexer();
+
+        debug!("compile template {:?}", name);
 
         let compiled_template = try!(self.get_compiled_template(&lexer, name));
 
@@ -208,9 +209,11 @@ impl<L: Loader> Engine<L> {
         -> Result<Template<Value>>
     {
         let source = try!(self.loader.get_source(name));
+        debug!("source {:?}", source);
         let mut tokens = lexer.tokens(&source);
         let module = try!(parse(&self.env.parsing, &mut tokens));
-        Ok(try!(compile((), &module)))
+        debug!("module {:#?}", module);
+        Ok(try!(compile(&self.env.compiling, &module)))
     }
 
     fn take_lexer(&mut self) -> Lexer {

@@ -9,6 +9,13 @@ pub enum Arg {
     Named(&'static str),
 }
 
+pub struct FunctionCompiler {
+    arguments: Vec<Arg>,
+    compile: Box<
+        for<'c> Fn(&mut Staging<'c, Value>) -> TemplateResult<CompiledExpression>
+    >
+}
+
 /// Callable implementation.
 pub enum Callable {
     /// Executable at runtime.
@@ -16,12 +23,7 @@ pub enum Callable {
         for<'e> Fn(&'e [Value]) -> RuntimeResult<Value>
     >),
     /// Inlined into instructions at compile time.
-    Static {
-        arguments: Vec<Arg>,
-        compile: Box<
-            for<'c> Fn(&mut Staging<'c, Value>) -> TemplateResult<CompiledExpression>
-        >
-    }
+    Static(FunctionCompiler)
 }
 
 /// Represents environment function.
@@ -56,10 +58,10 @@ impl Function {
     {
         Function {
             name: name,
-            callable: Callable::Static {
+            callable: Callable::Static(FunctionCompiler {
                 arguments: arguments.into_iter().collect(),
                 compile: Box::new(compile)
-            },
+            }),
         }
     }
 }
