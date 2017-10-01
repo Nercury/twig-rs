@@ -8,9 +8,8 @@ use std::env;
 
 /// Tokenises twig template and prints the tokens.
 fn main() {
-    let example_template_file = "templates/fos_login.html.twig";
-    let mut path = env::current_dir().unwrap();
-    path.push(example_template_file);
+    let mut path = env::current_dir().unwrap()
+        .join("templates/fos_login.html.twig");
 
     let mut f = File::open(&path)
         .ok()
