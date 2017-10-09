@@ -60,6 +60,8 @@ fn fixtures() {
             None => HashMap::new(),
         };
 
+        debug!("template data {:?}", data);
+
         let res = match twig.get("index.twig", data) {
             Ok(res) => res,
             Err(e) => panic!("\nerror executing template:\n    {:#?}\n", e),
@@ -82,7 +84,6 @@ fn fixtures() {
                 message,
                 changeset
             ))
-            //assert_eq!(res, expected);
         } else {
             print_fixture_result(true).unwrap();
             None

@@ -54,8 +54,8 @@ impl CompiledExpression {
     }
 
     pub fn finalize<'c, 'r>(mut self, stage: &'r mut Staging<'c, Value>) -> TemplateResult<()> {
+        trace!("finalize {}", self.origin);
         if self.stack_length > 0 {
-            trace!("finalize {}", self.origin);
             stage.instr(Instruction::Pop { times: self.stack_length });
         }
         self.finalized = true;

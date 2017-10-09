@@ -11,7 +11,16 @@ use instructions::compile;
 use std::io::{ Read, Write };
 use std::error::Error;
 use little::interpreter::{ Interpreter };
-use little::{ Fingerprint, Sha1Hasher, IdentifyValue, Template, Function, LittleValue, Build, Execute };
+use little::{
+    Fingerprint,
+    Sha1Hasher,
+    IdentifyValue,
+    Template,
+    LittleValue,
+    Build,
+    Execute,
+    GetProperty
+};
 use sha1::Sha1;
 use std::result;
 
@@ -111,6 +120,29 @@ impl fmt::Display for Value {
     }
 }
 
+impl GetProperty<Value> for Value {
+    fn get_property(&self, name: Value) -> Option<Value> {
+        match *self {
+            Value::Array(ref arr) => {
+                trace!("get property of array {:?}.{:?}", arr, name);
+                match name {
+                    Value::Int(index) => arr.get(index as usize).cloned(),
+                    _ => unreachable!("only Int value names are implemented for array"),
+                }
+            },
+            Value::Hash(ref map) => {
+                trace!("get property of hash {:?}.{:?}", map, name);
+                match name {
+                    Value::Str(key) => map.get(&HashKey::Str(key)).cloned(),
+                    Value::Int(index) => map.get(&HashKey::Int(index)).cloned(),
+                    _ => unreachable!("only Str and Int value names are possible for hash, others not implemented"),
+                }
+            },
+            _ => None,
+        }
+    }
+}
+
 /// Twig Engine.
 ///
 /// Given the specified environment settings, converts templates
@@ -119,7 +151,7 @@ pub struct Engine<L> {
     loader: L,
     env: CompiledEnvironment,
     lexer: Option<Lexer>,
-    functions: HashMap<&'static str, Box<Function<Value>>>,
+    //functions: HashMap<&'static str, Box<Function<Value>>>,
 }
 
 impl<L: Loader> Engine<L> {
@@ -128,7 +160,7 @@ impl<L: Loader> Engine<L> {
             loader: loader,
             env: env.init_all(),
             lexer: None,
-            functions: HashMap::new(),
+            //functions: HashMap::new(),
         };
 
         engine.lexer = Some(Lexer::default(&engine.env.lexing));
@@ -141,6 +173,8 @@ impl<L: Loader> Engine<L> {
     {
         let lexer = self.take_lexer();
 
+        debug!("compile template {:?}", name);
+
         let compiled_template = try!(self.get_compiled_template(&lexer, name));
 
         let funs = HashMap::new();
@@ -151,7 +185,7 @@ impl<L: Loader> Engine<L> {
         };
 
         let mut res = String::new();
-        let mut interpreter = p.execute(Value::Null);
+        let mut interpreter = p.execute(data.into());
         loop {
             match interpreter.read_to_string(&mut res) {
                 Err(e) => {
@@ -175,9 +209,11 @@ impl<L: Loader> Engine<L> {
         -> Result<Template<Value>>
     {
         let source = try!(self.loader.get_source(name));
+        debug!("source {:?}", source);
         let mut tokens = lexer.tokens(&source);
         let module = try!(parse(&self.env.parsing, &mut tokens));
-        Ok(try!(compile((), &module)))
+        debug!("module {:#?}", module);
+        Ok(try!(compile(&self.env.compiling, &module)))
     }
 
     fn take_lexer(&mut self) -> Lexer {

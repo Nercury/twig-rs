@@ -3,6 +3,7 @@ use nodes::expr::{ Expr, ExprValue };
 use value::Value;
 use error::TemplateResult;
 use mold::Staging;
+use little::{ Mem };
 
 impl<'c> CompileExpression<'c> for Expr<'c> {
     fn compile<'r>(&'r self, stage: &'r mut Staging<'c, Value>) -> TemplateResult<CompiledExpression> {
@@ -18,7 +19,9 @@ impl<'c> CompileExpression<'c> for Expr<'c> {
                         mem
                     },
                     None => {
-                        stage.include_const(Value::Str(name.into()))
+                        trace!("include string const {:?}", name);
+                        let property_name = stage.include_const(Value::Str(name.into()));
+                        Mem::Parameter { name: property_name }
                     }
                 };
 
@@ -34,6 +37,7 @@ impl<'c> CompileExpression<'c> for Expr<'c> {
             ExprValue::GetAttr { .. } => unreachable!("ExprValue::GetAttr::compile"),
             ExprValue::ImportedFunctionCall { .. } => unreachable!("ExprValue::ImportedFunctionCall::compile"),
             ExprValue::FunctionCall { name, ref arguments } => {
+                unreachable!("ExprValue::FunctionCall::compile");
                 CompiledExpression::empty("function call")
             },
         })

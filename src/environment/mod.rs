@@ -3,7 +3,7 @@ use std::collections::HashSet;
 
 use extension::{ Extension, CoreExtension };
 use operator::{ Operator, OperatorKind, OperatorOptions };
-use function::Function;
+use function::{ Function, Callable, FunctionCompiler };
 use nodes::{ TokenParser, TokenParserExtension };
 
 /// Environment configuration.
@@ -54,6 +54,24 @@ impl Environment {
     }
 
     pub fn init_all(self) -> CompiledEnvironment {
+        let function_names = self.functions.iter()
+            .map(|f| f.name)
+            .collect();
+
+        let mut runtime_functions = HashMap::new();
+        let mut function_compilers = HashMap::new();
+
+        for function in self.functions {
+            match function.callable {
+                Callable::Static(compiler) => {
+                    function_compilers.insert(function.name, compiler);
+                },
+                Callable::Dynamic(fun) => {
+                    runtime_functions.insert(function.name, fun);
+                },
+            }
+        }
+
         CompiledEnvironment {
             lexing: LexingEnvironment {
                 operators: {
@@ -81,12 +99,11 @@ impl Environment {
                         .map(|i| (i.tag, i.extension))
                         .collect()
                 },
-                functions: {
-                    self.functions.iter()
-                        .map(|f| f.name)
-                        .collect()
-                }
+                functions: function_names
             },
+            compiling: CompilingEnvironment {
+                function_compilers: function_compilers
+            }
         }
     }
 
@@ -113,10 +130,15 @@ pub struct ParsingEnvironment {
     pub functions: HashSet<&'static str>,
 }
 
+pub struct CompilingEnvironment {
+    pub function_compilers: HashMap<&'static str, FunctionCompiler>,
+}
+
 /// Project configuration container with all extensions applied.
 pub struct CompiledEnvironment {
     pub lexing: LexingEnvironment,
     pub parsing: ParsingEnvironment,
+    pub compiling: CompilingEnvironment,
 }
 
 impl CompiledEnvironment {
