@@ -4,6 +4,13 @@ Scope: how Twig 3.31.1 tests itself (the `.test` integration fixtures, the harne
 unit tests), what of it can be ported to Rust, and a working Docker oracle that runs PHP 8.5.13 + Twig 3.31.1 so
 that any behaviour can be checked against the real implementation.
 
+Resolved since this survey: the Rust fixture parser (`tests/fixtures/parse.rs`) reproduces PCRE's matches exactly and
+is checked against PHP on all 488 fixtures and on 1,971 oracle vectors. The Python reference
+(`research/php-oracle/tools/fixture_parser_reference.py`) differs from PHP in edge cases that no fixture contains:
+CONDITION followed by DEPRECATION (PHP swallows the deprecation into the condition), DATA followed by several
+`--EXCEPTION--` markers (data runs to the last one), the `--CONFIG--EXPECT--` and `--TEMPLATE--DATA--` overlaps,
+template names containing `--TEMPLATE`, and invalid headers such as `--TEMPLATEX--`.
+
 All paths below are relative to these roots unless absolute:
 
 * `twig/` = `<scratch>\ext\twig-3.31.1`

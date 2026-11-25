@@ -95,21 +95,10 @@ listed in a `NOTICE` file before the first publish; the licence review happens t
 
 ## Phases
 
-### 1. Foundation
-- Workspace with the crate skeletons above; `NOTICE` stub; CI updated (current action versions, workspace-wide).
-- Fixture harness skeleton: Rust port of the fixture parser (`reference/twig/test-suite.md` §1; the Python
-  reference in `research/php-oracle/tools` matches PHP on all 488 files), corpus loading, ratchet list, reporting.
-- Exit: `cargo test` runs all fixtures (all listed as known failures) and the oracle corpus loads.
-
-### 2. Syntax (in progress)
-- **Lexer**: full Twig 3.31.1 lexer (`reference/twig/syntax.md` §2), byte based, offsets/columns, CRLF
-  normalisation, Twig string escapes, number grammar, operator regex built from the registered expression parsers.
-  Port LexerTest + the syntax probes appendix as tests.
-- **Parser + AST**: Twig 3.31.1 expression parsers (precedence table, prefix/infix/postfix), all core tags,
-  `subparse`, imports scopes, embedded templates, CorrectnessNodeVisitor, error texts and suggestions. Port
-  ParserTest, ExpressionParserTest, TokenStreamTest and the token-parser tests.
-- The PHP-level libraries are done: `twig-value` (value model, operators, comparison, dumps, format/string/array
-  builtins), `twig-pcre`, `twig-timelib` (without the `php_date.c` layer), `twig-unicode`.
+Done so far: workspace and CI, the PHP-level crates (`twig-value`, `twig-pcre`, `twig-timelib`, `twig-date`,
+`twig-unicode`), the syntax layer (lexer, AST, extension registry, expression parser, all core tags,
+CorrectnessNodeVisitor), `twig-test-support` and the fixture harness with its ratchet. A `NOTICE` file is still
+missing (phase 6).
 
 ### 3. Engine core
 Design and work split: [engine.md](engine.md).

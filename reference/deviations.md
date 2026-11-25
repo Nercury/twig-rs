@@ -79,4 +79,15 @@ recorded decisions, unsupported `Generator::send()/throw()` and rare SPL methods
 
 | Area | PHP | twig-rs | Why |
 |---|---|---|---|
-| Non-UTF-8 bytes in error messages | Raw bytes | Lossy UTF-8 conversion | Error messages are Rust strings |
+| Non-UTF-8 bytes in error and deprecation messages | Raw bytes | Lossy UTF-8 conversion | Error messages are Rust strings |
+| Trim options containing PCRE metacharacters | Inserted unquoted into the `endverbatim` pattern (e.g. `+` breaks every `{% verbatim %}` with a PHP warning) | Always taken literally | Configuration accident in Twig |
+| `whitespace_line_chars` option | PCRE character-class body; empty `[]` is a compile error that disables closing delimiters | Literal byte set; empty set matches nothing | Same unless class syntax is used |
+| Lexer settings that make Twig loop forever | Infinite loop | Both interpolation delimiters empty disables interpolation; empty operator tokens are ignored | No hangs |
+| `{% line N %}` overflow | TypeError after `PHP_INT_MAX` | Line numbers saturate | No integer overflow |
+| `Token` deprecations for ARROW/SPREAD types and punctuation-typed tests (3.21) | Raised by `Token::test()` | Not raised | The lexer never produces such tokens; no sink there |
+| Past-the-end token stream access (e.g. `{% line 0 %}` then an unclosed tag) | TypeError / `Error` on `null` | Last token returned / syntax error kept | No null dereference |
+| Expression nesting | No limit (PHP's stack is on the heap) | `Maximum nesting level of 128 reached.` (configurable; tags and `embed` count too) | Deep recursion would overflow the native stack |
+| Legacy node classes and APIs | `NameExpression`, `MethodCallExpression`, `InlinePrint`, …; callable options `deprecated`/`deprecating_package`/`alternative`; `getOperators()`; "not ready for first-class callables" deprecation | Not ported | Deprecated since 3.x; no core use |
+| Embedded-template indices after a failed parse | Cached parser keeps counting (2, then 3) | Fresh parser per template; indices restart at 1 | Parser state is not shared between templates |
+| Documentation comment targets | Any node object | Blocks, macros and child paths of the returned node | AST shape |
+| Node traverser | Visitors may restructure anything | A visitor changes only the visited node and its subtree; removing the root or a non-container child is a LogicException-kind error | Static AST |

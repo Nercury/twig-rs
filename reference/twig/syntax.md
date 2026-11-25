@@ -3,6 +3,11 @@
 Target: byte-for-byte identical behaviour with PHP Twig v3.31.1 on PHP 8.5.13 for everything that happens from template
 source text up to the parsed node tree (plus the few compile-time checks that surface as `SyntaxError`s).
 
+Resolved since this survey: lexing with non-default delimiters (§2.1 "UNVERIFIED") is covered by oracle vectors in
+`tests/vectors/lexer*.json`. After a syntax error PHP's cached parser does not reset its embedded-template counter, so
+indices continue in later templates of the same environment (§4.1; twig-rs restarts them, see
+`reference/deviations.md`).
+
 Sources (all paths relative to the Twig root `ext/twig-3.31.1/` unless stated otherwise):
 `src/Lexer.php`, `src/Token.php`, `src/TokenStream.php`, `src/Parser.php`, `src/ExpressionParser.php`,
 `src/ExpressionParser/**`, `src/TokenParser/**`, `src/OperatorPrecedenceChange.php`, `src/Error/{Error,SyntaxError}.php`,
