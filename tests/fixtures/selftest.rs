@@ -6,17 +6,17 @@ use std::sync::Arc;
 
 use libtest_mimic::{Failed, Trial};
 use serde::Deserialize;
-use twig::Source;
-use twig::deprecation::Deprecation;
+use twig_test_support::json::decode_base64;
+use twig_test_support::{
+    Autoescape, CacheOption, Case, EnvironmentOptions, ErrorInfo, Fixture as CorpusFixture, Phase,
+    TypedNode,
+};
 
 use super::Suite;
 use super::compare::{self, string_matches_format};
 use super::condition::{self, Verdict};
-use super::corpus::{
-    ArrayKey, Autoescape, CaseResult, CorpusFixture, EnvironmentOptions, Phase, PhpError,
-    TypedObject, TypedValue, decode_base64,
-};
 use super::environment;
+use super::extension_vectors;
 use super::parse::{self, ParsedFixture};
 
 /// A self-test.
@@ -24,7 +24,7 @@ type Check = fn(&Suite) -> Result<(), String>;
 
 /// The self-test trials.
 pub fn trials(suite: &Arc<Suite>) -> Vec<Trial> {
-    let checks: [(&str, Check); 8] = [
+    let checks: [(&str, Check); 9] = [
         (
             "harness::fixture_files_match_the_corpus",
             fixture_files_match_the_corpus,
@@ -46,6 +46,10 @@ pub fn trials(suite: &Arc<Suite>) -> Vec<Trial> {
         (
             "harness::comparisons_follow_the_harness",
             comparisons_follow_the_harness,
+        ),
+        (
+            "harness::test_extension_matches_the_oracle",
+            extension_vectors::check,
         ),
         (
             "harness::known_failures_list_is_valid",
@@ -100,7 +104,7 @@ fn fixture_files_match_the_corpus(suite: &Suite) -> Result<(), String> {
         .iter()
         .map(|f| f.file.name.as_str())
         .collect();
-    let exported: Vec<&str> = corpus.fixtures.iter().map(|f| f.file.as_str()).collect();
+    let exported: Vec<&str> = corpus.fixtures().iter().map(|f| f.file.as_str()).collect();
     if discovered != exported {
         let on_disk: BTreeSet<&str> = discovered.iter().copied().collect();
         let in_corpus: BTreeSet<&str> = exported.iter().copied().collect();
@@ -119,7 +123,7 @@ fn fixture_files_match_the_corpus(suite: &Suite) -> Result<(), String> {
         ));
     }
     let mut failures = Failures::default();
-    for (entry, php) in suite.fixtures.iter().zip(&corpus.fixtures) {
+    for (entry, php) in suite.fixtures.iter().zip(corpus.fixtures()) {
         match &entry.parsed {
             Ok(parsed) => {
                 if let Err(difference) = same_parse(parsed, php) {
@@ -185,7 +189,7 @@ fn same_parse(parsed: &ParsedFixture, php: &CorpusFixture) -> Result<(), String>
         .iter()
         .map(|o| {
             (
-                o.data_php.clone(),
+                o.data_php.clone().unwrap_or_default(),
                 o.config_php.clone(),
                 o.expect_raw.clone(),
             )
@@ -311,16 +315,13 @@ fn fixture_parser_rules(suite: &Suite) -> Result<(), String> {
         parsed.templates.len() == 1 && parsed.templates[0].source == b"\n{{ 1 }}\n{% endfor %}",
         || format!("templates {:?}", parsed.templates),
     );
-    let context = environment::parse_context().map_err(|e| e.to_string())?;
-    let mut deprecations: Vec<Deprecation> = Vec::new();
-    match context.parse_template(
-        &Source::new(parsed.templates[0].source.clone(), "index.twig"),
-        &mut deprecations,
-    ) {
+    let options = environment::options(&EnvironmentOptions::harness_default())?;
+    let env = environment::build(&parsed.templates, options)?;
+    match env.load("index.twig") {
         Err(error) => failures.check(error.template_line() == 3, || {
             format!("{{% endfor %}} on the second visible line reported as {error}")
         }),
-        Ok(_) => failures.push("{% endfor %} without {% for %} parsed".to_owned()),
+        Ok(_) => failures.push("{% endfor %} without {% for %} loaded".to_owned()),
     }
 
     // Case i gets i spaces appended to every template of the already padded list: 0, 1, 3, 6, ... in total.
@@ -372,7 +373,7 @@ fn conditions_match_the_corpus(suite: &Suite) -> Result<(), String> {
     let mut failures = Failures::default();
     let mut with_condition = 0;
     let mut skipped = 0;
-    for fixture in &corpus.fixtures {
+    for fixture in corpus.fixtures() {
         if !fixture.condition.is_empty() {
             with_condition += 1;
         }
@@ -420,24 +421,25 @@ fn conditions_match_the_corpus(suite: &Suite) -> Result<(), String> {
 fn corpus_is_consistent(suite: &Suite) -> Result<(), String> {
     let corpus = suite.corpus()?;
     let mut failures = Failures::default();
+    let file = corpus.file();
     failures.check(
-        corpus.generated_by == "php-oracle/tools/export-corpus.php"
-            && corpus.twig_version == "3.31.1"
-            && corpus.php_version == "8.5.13",
+        file.generated_by == "php-oracle/tools/export-corpus.php"
+            && file.twig_version == "3.31.1"
+            && file.php_version == "8.5.13",
         || {
             format!(
                 "corpus of {} for Twig {} on PHP {}",
-                corpus.generated_by, corpus.twig_version, corpus.php_version
+                file.generated_by, file.twig_version, file.php_version
             )
         },
     );
     failures.check(
-        corpus.fixtures.windows(2).all(|w| w[0].file < w[1].file),
+        corpus.fixtures().windows(2).all(|w| w[0].file < w[1].file),
         || "the fixtures are not sorted by path".to_owned(),
     );
     let mut phases: BTreeMap<&str, usize> = BTreeMap::new();
     let mut options = Vec::new();
-    for fixture in &corpus.fixtures {
+    for fixture in corpus.fixtures() {
         let file = fixture.file.as_str();
         let run = &fixture.actual;
         failures.check(
@@ -508,7 +510,11 @@ fn corpus_is_consistent(suite: &Suite) -> Result<(), String> {
                     Phase::Render => "render",
                 })
                 .or_default() += 1;
-            match check_case(fixture, case) {
+            let checked = corpus
+                .case(file, case.index)
+                .ok_or_else(|| "the corpus does not find the case".to_owned())
+                .and_then(check_case);
+            match checked {
                 Ok(case_options) => options.push(case_options),
                 Err(problem) => failures.push(format!("{file}#{}: {problem}", case.index)),
             }
@@ -520,27 +526,21 @@ fn corpus_is_consistent(suite: &Suite) -> Result<(), String> {
         || format!("cases by phase {phases:?}; expected 56 load and 444 render"),
     );
     let census = option_census(&options);
-    let html = Autoescape::Strategy("html".to_owned());
     let expected: BTreeMap<String, usize> = [
-        (format!("autoescape={:?}", Autoescape::Disabled), 3),
-        (format!("autoescape={html:?}"), 494),
-        (
-            format!("autoescape={:?}", Autoescape::Strategy("js".to_owned())),
-            1,
-        ),
-        (
-            format!("autoescape={:?}", Autoescape::Strategy("name".to_owned())),
-            2,
-        ),
-        ("debug=false auto_reload=false".to_owned(), 497),
-        ("debug=true auto_reload=true".to_owned(), 3),
-        ("strict_variables=false".to_owned(), 8),
-        ("strict_variables=true".to_owned(), 492),
-        ("use_yield=false".to_owned(), 499),
-        ("use_yield=true".to_owned(), 1),
-        ("cache=None charset=UTF-8 optimizations=-1".to_owned(), 500),
+        ("autoescape=false", 3),
+        ("autoescape=html", 494),
+        ("autoescape=js", 1),
+        ("autoescape=name (file extension)", 2),
+        ("debug=false auto_reload=false", 497),
+        ("debug=true auto_reload=true", 3),
+        ("strict_variables=false", 8),
+        ("strict_variables=true", 492),
+        ("use_yield=false", 499),
+        ("use_yield=true", 1),
+        ("cache=false charset=UTF-8 optimizations=-1 unknown=0", 500),
     ]
     .into_iter()
+    .map(|(key, count)| (key.to_owned(), count))
     .collect();
     failures.check(census == expected, || {
         format!("options of the cases {census:#?}, expected {expected:#?}")
@@ -549,11 +549,13 @@ fn corpus_is_consistent(suite: &Suite) -> Result<(), String> {
 }
 
 /// Checks one case and returns its options.
-fn check_case(fixture: &CorpusFixture, case: &CaseResult) -> Result<EnvironmentOptions, String> {
+fn check_case(corpus_case: Case<'_>) -> Result<EnvironmentOptions, String> {
+    let fixture = corpus_case.fixture;
+    let case = corpus_case.result;
     if !case.pass {
         return Err("PHP fails the case".to_owned());
     }
-    let options = EnvironmentOptions::from_config(&case.config)?;
+    let options = corpus_case.options().map_err(|e| e.to_string())?;
     match case.phase {
         Phase::Load => {
             if case.error.is_none()
@@ -574,9 +576,8 @@ fn check_case(fixture: &CorpusFixture, case: &CaseResult) -> Result<EnvironmentO
                     "a render-phase case without data, state or render deprecations".to_owned(),
                 );
             };
-            check_tree(data, &mut Vec::new())?;
-            if !matches!(data, TypedValue::Array { .. }) {
-                return Err(format!("the context is not an array: {data:?}"));
+            if !matches!(data, TypedNode::Array(_)) {
+                return Err(format!("the context is not an array: {}", data.tag()));
             }
             if state.php_default_timezone.is_empty()
                 || state.core_timezone.is_empty()
@@ -626,13 +627,24 @@ fn option_census(options: &[EnvironmentOptions]) -> BTreeMap<String, usize> {
     let mut census = BTreeMap::new();
     for o in options {
         let mut count = |key: String| *census.entry(key).or_default() += 1;
-        count(format!("autoescape={:?}", o.autoescape));
+        count(match &o.autoescape {
+            Autoescape::Disabled => "autoescape=false".to_owned(),
+            Autoescape::Strategy(name) => format!("autoescape={name}"),
+            Autoescape::FileExtension => "autoescape=name (file extension)".to_owned(),
+            Autoescape::Callable(_) => "autoescape=callable".to_owned(),
+        });
         count(format!("debug={} auto_reload={}", o.debug, o.auto_reload));
         count(format!("strict_variables={}", o.strict_variables));
         count(format!("use_yield={}", o.use_yield));
+        let cache = match &o.cache {
+            CacheOption::Disabled => "false".to_owned(),
+            other => format!("{other:?}"),
+        };
         count(format!(
-            "cache={:?} charset={} optimizations={}",
-            o.cache, o.charset, o.optimizations
+            "cache={cache} charset={} optimizations={} unknown={}",
+            o.charset,
+            o.optimizations,
+            o.unknown.len()
         ));
     }
     census
@@ -652,7 +664,7 @@ fn bytes(text: &str, b64: Option<&str>) -> Result<Vec<u8>, String> {
     }
 }
 
-fn check_error(error: &PhpError) -> Result<(), String> {
+fn check_error(error: &ErrorInfo) -> Result<(), String> {
     let message = bytes(&error.message, error.message_b64.as_deref())?;
     let formatted = bytes(&error.formatted, error.formatted_b64.as_deref())?;
     if formatted != [error.class.as_bytes(), b": ", &message].concat() {
@@ -678,146 +690,6 @@ fn check_error(error: &PhpError) -> Result<(), String> {
         Some(previous) => check_error(previous),
         None => Ok(()),
     }
-}
-
-/// A typed tree uses only the shapes the model knows; `ref`s point at objects exported earlier in the tree (`typed()`
-/// registers every object id, enum cases and closures included, before looking at its kind).
-fn check_tree(value: &TypedValue, seen: &mut Vec<i64>) -> Result<(), String> {
-    let mut first_sight = |id: i64| {
-        if seen.contains(&id) {
-            Err(format!("object #{id} exported twice"))
-        } else {
-            seen.push(id);
-            Ok(())
-        }
-    };
-    match value {
-        TypedValue::Object(object) => first_sight(object.id)?,
-        TypedValue::Enum { id, .. } | TypedValue::Closure { id, .. } => first_sight(*id)?,
-        _ => {}
-    }
-    match value {
-        TypedValue::Null | TypedValue::Bool { .. } | TypedValue::Int { .. } => Ok(()),
-        TypedValue::Float { v } => match v.as_str() {
-            "INF" | "-INF" | "NAN" => Ok(()),
-            text if text.parse::<f64>().is_ok() && text.contains(['.', 'E']) => Ok(()),
-            text => Err(format!("float {text:?}")),
-        },
-        TypedValue::String { v, v_b64 } => bytes(v, v_b64.as_deref()).map(drop),
-        TypedValue::Array { v } => {
-            for (key, item) in v {
-                if let ArrayKey::String(key) = key
-                    && key.parse::<i64>().is_ok_and(|n| n.to_string() == *key)
-                {
-                    return Err(format!("integer-like string key {key:?}"));
-                }
-                check_tree(item, seen)?;
-            }
-            Ok(())
-        }
-        TypedValue::Object(object) => check_object(object, seen),
-        TypedValue::Enum {
-            class, case, value, ..
-        } => {
-            if class.is_empty() || case.is_empty() {
-                return Err("an enum without class or case".to_owned());
-            }
-            value.as_deref().map_or(Ok(()), |v| check_tree(v, seen))
-        }
-        TypedValue::Closure { class, .. } => {
-            if class == "Closure" {
-                Ok(())
-            } else {
-                Err(format!("closure of class {class}"))
-            }
-        }
-        TypedValue::Resource { kind } => {
-            if kind.is_empty() {
-                Err("a resource without type".to_owned())
-            } else {
-                Ok(())
-            }
-        }
-        TypedValue::Ref { class, id } => {
-            if seen.contains(id) && !class.is_empty() {
-                Ok(())
-            } else {
-                Err(format!("ref to unseen object #{id}"))
-            }
-        }
-        TypedValue::Truncated => Err("a truncated tree".to_owned()),
-    }
-}
-
-/// An object has exactly one class-specific payload.
-fn check_object(o: &TypedObject, seen: &mut Vec<i64>) -> Result<(), String> {
-    let markup = o.content.is_some() || o.charset.is_some();
-    let date = o.datetime.is_some() || o.timezone.is_some() || o.timestamp.is_some();
-    let generic = o.interfaces.is_some() || o.props.is_some();
-    let kinds = [
-        markup,
-        date,
-        o.name.is_some(),
-        o.spec.is_some(),
-        o.template.is_some(),
-        o.entries.is_some(),
-        o.xml.is_some(),
-        generic,
-    ];
-    if kinds.iter().filter(|k| **k).count() != 1 {
-        return Err(format!("object {} with mixed payloads", o.class));
-    }
-    if markup {
-        let (Some(content), Some(_)) = (&o.content, &o.charset) else {
-            return Err("a Markup without content or charset".to_owned());
-        };
-        check_tree(content, seen)?;
-    }
-    if date && (o.datetime.is_none() || o.timezone.is_none() || o.timestamp.is_none()) {
-        return Err(format!("an incomplete {}", o.class));
-    }
-    if let Some(spec) = &o.spec
-        && (spec.invert > 1
-            || [spec.y, spec.m, spec.d, spec.h, spec.i, spec.s]
-                .iter()
-                .any(|v| *v < 0)
-            || !(0.0..1.0).contains(&spec.f)
-            || spec.days.is_some_and(|d| d < 0))
-    {
-        return Err(format!("DateInterval {spec:?}"));
-    }
-    if let Some(entries) = &o.entries {
-        if !matches!(entries, TypedValue::Array { .. }) {
-            return Err("entries are not an array".to_owned());
-        }
-        check_tree(entries, seen)?;
-    }
-    if generic {
-        let (Some(interfaces), Some(props)) = (&o.interfaces, &o.props) else {
-            return Err("an object without interfaces or properties".to_owned());
-        };
-        if interfaces.windows(2).any(|w| w[0] >= w[1]) {
-            return Err(format!("unsorted interfaces {interfaces:?}"));
-        }
-        if o.to_string.is_some() && o.to_string_error.is_some() {
-            return Err("both a string conversion and its error".to_owned());
-        }
-        if let Some(text) = &o.to_string {
-            check_tree(text, seen)?;
-        }
-        if let Some(error) = &o.to_string_error {
-            check_error(error)?;
-        }
-        for (_, value) in props {
-            check_tree(value, seen)?;
-        }
-    }
-    if let Some(name) = o.name.as_ref().or(o.template.as_ref()).or(o.xml.as_ref())
-        && name.is_empty()
-    {
-        return Err(format!("{} with an empty payload", o.class));
-    }
-    Ok(())
 }
 
 /// `tests/fixtures/vectors/format_matching.json`.

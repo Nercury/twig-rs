@@ -1,10 +1,12 @@
-//! Support code of the fixture harness (`tests/fixtures.rs`): the suite (fixture files, their parse, the corpus,
-//! the known-failures list), the trials and the summary.
+//! Support code of the fixture harness (`tests/fixtures.rs`): the suite (fixture files, their parse, the oracle
+//! corpus, the known-failures list), the trials and the summary.
 
 pub mod compare;
 pub mod condition;
-pub mod corpus;
+pub mod data;
 pub mod environment;
+pub mod extension;
+pub mod extension_vectors;
 pub mod parse;
 pub mod ratchet;
 pub mod runner;
@@ -13,14 +15,14 @@ pub mod selftest;
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
-use std::sync::Arc;
+use std::sync::{Arc, Mutex, PoisonError};
 
 use libtest_mimic::{Arguments, Completion, Failed, Trial};
 
-use corpus::Corpus;
 use parse::{FixtureFile, ParsedFixture};
 use ratchet::{KnownFailures, Recorder};
-use runner::Outcome;
+use runner::{Outcome, Report};
+use twig_test_support::Corpus;
 
 /// Everything the trials share.
 pub struct Suite {
@@ -28,7 +30,8 @@ pub struct Suite {
     pub root: PathBuf,
     /// The `.test` files, sorted by name, with their parse.
     pub fixtures: Vec<FixtureEntry>,
-    /// The oracle corpus.
+    /// The oracle corpus (`tests/twig/oracle-corpus.json`) with `twig-test-support`'s supplement of richer DATA
+    /// trees (`crates/twig-test-support/tests/vectors/fixture_data.json`).
     pub corpus: Result<Corpus, String>,
     /// The known-failures list.
     pub known: Result<KnownFailures, String>,
@@ -77,7 +80,8 @@ impl Suite {
             .collect();
         Ok(Suite {
             root: root.to_owned(),
-            corpus: Corpus::load(&root.join("tests/twig/oracle-corpus.json")),
+            corpus: Corpus::load(root.join(CORPUS), Some(root.join(SUPPLEMENT)))
+                .map_err(|e| e.to_string()),
             known: KnownFailures::load(&root.join(KNOWN_FAILURES), KNOWN_FAILURES),
             fixtures,
             runnable,
@@ -96,18 +100,23 @@ impl Suite {
     }
 
     /// Runs case `index` of fixture number `fixture`.
-    fn run_case(&self, fixture: usize, index: usize) -> Outcome {
+    fn run_case(&self, fixture: usize, index: usize) -> Report {
         let entry = &self.fixtures[fixture];
         let parsed = match &entry.parsed {
             Ok(parsed) => parsed,
-            Err(error) => return Outcome::Fail(error.clone()),
+            Err(error) => {
+                return Outcome::Fail(runner::Failure {
+                    kind: runner::FailureKind::Harness,
+                    message: error.clone(),
+                })
+                .into();
+            }
         };
         let php = self
             .corpus
             .as_ref()
             .ok()
-            .and_then(|c| c.fixture(&entry.file.name))
-            .and_then(|f| f.actual.case(index));
+            .and_then(|c| c.case(&entry.file.name, index));
         runner::run(&runner::Case {
             file: &entry.file.name,
             fixture: parsed,
@@ -119,6 +128,12 @@ impl Suite {
 
 /// The known-failures list, relative to the repository root.
 const KNOWN_FAILURES: &str = "tests/twig/known-failures.txt";
+
+/// The oracle corpus, relative to the repository root.
+const CORPUS: &str = "tests/twig/oracle-corpus.json";
+
+/// The supplement of the corpus, relative to the repository root.
+const SUPPLEMENT: &str = "crates/twig-test-support/tests/vectors/fixture_data.json";
 
 /// The trial name of DATA/EXPECT case `index` of a fixture: `filters/abs.test#0`.
 pub fn trial_name(file: &str, index: usize) -> String {
@@ -137,8 +152,9 @@ pub fn main() -> ExitCode {
         }
     };
     let recorder = Arc::new(Recorder::default());
+    let parity: Arc<Mutex<BTreeMap<String, Vec<String>>>> = Arc::default();
     let mut trials = selftest::trials(&suite);
-    let cases = fixture_trials(&suite, &recorder);
+    let cases = fixture_trials(&suite, &recorder, &parity);
     let total = cases.len();
     trials.extend(cases);
 
@@ -163,7 +179,8 @@ pub fn main() -> ExitCode {
         }
     }
     if !recorded.is_empty() {
-        print_summary(&suite, &recorded, total);
+        let parity = std::mem::take(&mut *parity.lock().unwrap_or_else(PoisonError::into_inner));
+        print_summary(&suite, &recorded, &parity, total);
     }
     if failed {
         ExitCode::FAILURE
@@ -174,7 +191,11 @@ pub fn main() -> ExitCode {
 
 /// One trial per DATA/EXPECT case (`filters/abs.test#0`); a file upstream rejects gets one failing trial named after
 /// the file.
-fn fixture_trials(suite: &Arc<Suite>, recorder: &Arc<Recorder>) -> Vec<Trial> {
+fn fixture_trials(
+    suite: &Arc<Suite>,
+    recorder: &Arc<Recorder>,
+    parity: &Arc<Mutex<BTreeMap<String, Vec<String>>>>,
+) -> Vec<Trial> {
     let mut trials = Vec::new();
     for (fixture, entry) in suite.fixtures.iter().enumerate() {
         let cases = match &entry.parsed {
@@ -191,9 +212,19 @@ fn fixture_trials(suite: &Arc<Suite>, recorder: &Arc<Recorder>) -> Vec<Trial> {
             let name = trial_name(&entry.file.name, index);
             let suite = Arc::clone(suite);
             let recorder = Arc::clone(recorder);
+            let parity = Arc::clone(parity);
             trials.push(Trial::ignorable_test(name.clone(), move || {
-                let outcome = suite.run_case(fixture, index);
+                let Report {
+                    outcome,
+                    parity: notes,
+                } = suite.run_case(fixture, index);
                 recorder.record(&name, outcome.clone());
+                if !notes.is_empty() {
+                    parity
+                        .lock()
+                        .unwrap_or_else(PoisonError::into_inner)
+                        .insert(name.clone(), notes);
+                }
                 let known = suite.known_failures().map_err(Failed::from)?;
                 known
                     .judge(&name, &outcome, suite.update)
@@ -211,8 +242,13 @@ fn fixture_trials(suite: &Arc<Suite>, recorder: &Arc<Recorder>) -> Vec<Trial> {
     trials
 }
 
-/// Prints how the fixture cases that ran ended.
-fn print_summary(suite: &Suite, recorded: &BTreeMap<String, Outcome>, total: usize) {
+/// Prints how the fixture cases that ran ended, and the differences from the oracle that the harness does not assert.
+fn print_summary(
+    suite: &Suite,
+    recorded: &BTreeMap<String, Outcome>,
+    parity: &BTreeMap<String, Vec<String>>,
+    total: usize,
+) {
     let listed = |name: &str| suite.known.as_ref().is_ok_and(|known| known.contains(name));
     let mut passed = 0;
     let mut skipped = 0;
@@ -221,7 +257,13 @@ fn print_summary(suite: &Suite, recorded: &BTreeMap<String, Outcome>, total: usi
     let mut passing_listed = Vec::new();
     for (name, outcome) in recorded {
         match outcome {
-            Outcome::Pass if listed(name) => passing_listed.push(name.as_str()),
+            Outcome::Pass if listed(name) => {
+                passing_listed.push(name.as_str());
+                // in update mode the list is rewritten without it
+                if suite.update {
+                    passed += 1;
+                }
+            }
             Outcome::Pass => passed += 1,
             Outcome::Skipped(_) => skipped += 1,
             failure if listed(name) || suite.update => {
@@ -255,13 +297,44 @@ fn print_summary(suite: &Suite, recorded: &BTreeMap<String, Outcome>, total: usi
         );
     }
     if !passing_listed.is_empty() {
+        let label = if suite.update {
+            "pass now (unlisted): "
+        } else {
+            "listed but passing:  "
+        };
         println!(
-            "  listed but passing:   {} ({})",
+            "  {label} {} ({})",
             passing_listed.len(),
             abbreviate(&passing_listed)
         );
     }
+    if !parity.is_empty() {
+        let names: Vec<&str> = parity.keys().map(String::as_str).collect();
+        println!(
+            "  differ from PHP where the harness does not compare: {} ({})",
+            names.len(),
+            abbreviate(&names)
+        );
+    }
+    if std::env::var_os(VERBOSE_VARIABLE).is_some_and(|v| v == "1") {
+        println!("\nFailing cases ({VERBOSE_VARIABLE}=1):");
+        for (name, outcome) in recorded {
+            if let Outcome::Fail(failure) = outcome {
+                println!("\n{name}: {failure}");
+            }
+        }
+        if !parity.is_empty() {
+            println!("\nDifferences from PHP that the harness does not compare:");
+            for (name, notes) in parity {
+                println!("\n{name}: {}", notes.join("; "));
+            }
+        }
+    }
 }
+
+/// The environment variable that prints the message of every failing case after the summary, known failures
+/// included.
+const VERBOSE_VARIABLE: &str = "TWIG_FIXTURES_VERBOSE";
 
 /// The first few names of a list.
 fn abbreviate(names: &[&str]) -> String {

@@ -1,314 +1,172 @@
-//! The environment `doIntegrationTest()` builds for `Twig\Tests\IntegrationTest` (TWIG/tests/IntegrationTest.php,
-//! `reference/twig/test-suite.md` §3), as far as twig-rs has it: the extensions in registration order and the
-//! undefined-callable callbacks, for the parser. The test callables carry their PHP reflection data (names and
-//! parameters, checked with the oracle) so that the compiler can bind arguments; their implementations, the
-//! `global` global, the runtime loader and the security policy come with the runtime stages.
+//! The environment `doIntegrationTest()` builds for `Twig\Tests\IntegrationTest` (TWIG/src/Test/IntegrationTestCase.php
+//! and TWIG/tests/IntegrationTest.php, `reference/twig/test-suite.md` §3), in the same order:
+//!
+//! 1. `new Environment(new ArrayLoader($templates), array_merge(['cache' => false, 'strict_variables' => true],
+//!    $config))`: the options come from the CONFIG tree of the corpus, resolved like `Environment::__construct()`
+//!    by `twig-test-support` ([`options`]); the constructor registers Core, Escaper, YieldNotReady and Optimizer;
+//! 2. `addGlobal('global', 'global')`;
+//! 3. the runtime loaders: a `FactoryRuntimeLoader` creating `TwigTestLazyExtensionWithAttributes('+')`;
+//! 4. the extensions: Debug, `Sandbox(new SecurityPolicy([], [], [], [], ['dump']), false)`, StringLoader,
+//!    `TwigTestExtension`, `TwigTestExtensionWithAttributes('*')`,
+//!    `AttributeExtension(TwigTestLazyExtensionWithAttributes::class)` (a later callable with the same name replaces
+//!    an earlier one: the test `nl2br` replaces the core one);
+//! 5. `getTwigFilters()`, `getTwigTests()`, `getTwigFunctions()` (empty);
+//! 6. the undefined filter, function and test callbacks (the token-parser ones are empty).
+//!
+//! PHP warnings and notices become exceptions, as PHPUnit's `convertWarningsToExceptions` and
+//! `convertNoticesToExceptions` make them ([`DiagnosticsPolicy::Error`]); deprecations are recorded.
+//!
+//! The classes the templates can name (`constant('Twig\\Tests\\TwigTestFoo::BAR_NAME')`, `enum(...)`) are registered
+//! from `twig-test-support`'s class table: in PHP, loading IntegrationTest.php declares the helper classes and the
+//! `Twig\Tests` enums are autoloaded.
 
 use std::any::Any;
 use std::sync::Arc;
 
-use twig::Error;
-use twig::ast::{ConstantValue, Expr, Node};
+use twig::escaper::DefaultStrategy;
 use twig::extension::{
-    CallableParameter as P, DebugExtension, DeprecatedCallableInfo, Extension, ExtensionSet,
-    FilterOptions, FunctionOptions, PhpCallable, SandboxExtension, StringLoaderExtension,
-    TestOptions, TokenParser, TwigFilter, TwigFunction, TwigTest,
+    DebugExtension, EscaperExtension, Extension, NodeVisitor, StringLoaderExtension,
 };
-use twig::lexer::{Token, TokenType};
-use twig::parser::{ParseContext, Parser};
+use twig::loader::ArrayLoader;
+use twig::runtime::{
+    DiagnosticsPolicy, Environment, EnvironmentOptions, SandboxExtension, SecurityPolicy,
+};
+use twig::visitor::EscaperNodeVisitor;
+use twig_test_support::{Autoescape, CacheOption};
 
-const TEST_EXTENSION: &str = "Twig\\Tests\\TwigTestExtension";
+use super::extension::{
+    ATTRIBUTE_EXTENSION, AttributeCallables, AttributeRuntime, LAZY_ATTRIBUTE_RUNTIME,
+    TwigTestExtension, undefined_filter_callback, undefined_function_callback,
+    undefined_test_callback,
+};
+use super::parse::TemplateSection;
 
-/// A parse context with the extensions and callbacks of the harness: `new Environment($loader, $config)` (Core and
-/// Escaper; the yield-ready and optimizer extensions only add visitors), then `getExtensions()` in order (Debug,
-/// Sandbox, StringLoader, `TwigTestExtension`, `TwigTestExtensionWithAttributes('*')`,
-/// `AttributeExtension(TwigTestLazyExtensionWithAttributes::class)`), then the undefined filter, function and test
-/// callbacks. Every case gets a fresh one, as every case gets a fresh `Environment`.
-pub fn parse_context() -> Result<ParseContext, Error> {
-    let mut set = ExtensionSet::with_core_extensions();
-    set.add_extension(Arc::new(DebugExtension::new()))?;
-    // `new SandboxExtension(new SecurityPolicy([], [], [], [], ['dump']), false)`: not global; the policy comes
-    // with the sandbox stage
-    set.add_extension(Arc::new(SandboxExtension::new()))?;
-    set.add_extension(Arc::new(StringLoaderExtension::new()))?;
-    set.add_extension(Arc::new(TwigTestExtension))?;
-    set.add_extension(Arc::new(AttributeCallables {
-        class: "Twig\\Tests\\TwigTestExtensionWithAttributes",
-        prefix: "",
-    }))?;
-    set.add_extension(Arc::new(AttributeCallables {
-        class: "Twig\\Extension\\AttributeExtension",
-        prefix: "lazy_",
-    }))?;
-    set.register_undefined_filter_callback(Arc::new(|name: &[u8]| {
-        if name == b"throwing_undefined_filter" {
-            return Err(Error::syntax("This filter is undefined in the tests."));
+/// The options of a case: the CONFIG tree resolved by `twig-test-support` (Twig's defaults merged with the harness's
+/// `cache => false, strict_variables => true` and CONFIG, then `Environment::__construct()`'s casts), with
+/// warnings and notices turned into exceptions.
+///
+/// # Errors
+///
+/// An option value twig-rs cannot express (a callable `autoescape`, a compilation cache).
+pub fn options(
+    config: &twig_test_support::EnvironmentOptions,
+) -> Result<EnvironmentOptions, String> {
+    let autoescape = match &config.autoescape {
+        Autoescape::Disabled => DefaultStrategy::Disabled,
+        Autoescape::Strategy(name) => {
+            DefaultStrategy::Strategy(name.to_string_lossy().into_owned())
         }
-        Ok(None)
-    }));
-    set.register_undefined_function_callback(Arc::new(|name: &[u8]| {
-        if name == b"throwing_undefined_function" {
-            return Err(Error::syntax("This function is undefined in the tests."));
+        // `'name'`: Twig replaces it with `FileExtensionEscapingStrategy::guess()`, which twig-rs selects by name
+        Autoescape::FileExtension => DefaultStrategy::Strategy("name".to_owned()),
+        Autoescape::Callable(value) => {
+            return Err(format!("unsupported callable autoescape option {value:?}"));
         }
-        Ok(None)
-    }));
-    set.register_undefined_test_callback(Arc::new(|name: &[u8]| {
-        if name == b"throwing_undefined_test" || name == b"throwing_undefined_two words_test" {
-            return Err(Error::syntax("This test is undefined in the tests."));
-        }
-        // "Ensure this does not conflict with `divisible by` and `same as`."
-        if name == b"divisible" || name == b"same" {
-            return Ok(Some(TwigTest::new(
-                name.to_vec(),
-                Some(PhpCallable::closure(Vec::new())),
-                TestOptions::default(),
-            )));
-        }
-        Ok(None)
-    }));
-    Ok(ParseContext::new(set))
-}
-
-/// A method of `TwigTestExtension`.
-fn method(name: &str, parameters: Vec<P>) -> Option<PhpCallable> {
-    Some(PhpCallable::method(TEST_EXTENSION, name, parameters))
-}
-
-fn value() -> Vec<P> {
-    vec![P::required("value")]
-}
-
-fn safe(strategies: &[&str]) -> Option<Vec<ConstantValue>> {
-    Some(strategies.iter().map(|s| (*s).into()).collect())
-}
-
-/// `TwigTestTokenParser_§`: `{% § %}` prints `§`.
-struct SectionTokenParser;
-
-impl TokenParser for SectionTokenParser {
-    fn tag(&self) -> &str {
-        "§"
+    };
+    match &config.cache {
+        CacheOption::Disabled => {}
+        other => return Err(format!("unsupported cache option {other:?}")),
     }
-
-    /// `$this->parser->getStream()->expect(Token::BLOCK_END_TYPE); return new PrintNode(new
-    /// ConstantExpression('§', -1), -1);`
-    fn parse(&self, parser: &mut Parser<'_>, _token: &Token) -> twig::Result<Option<Node>> {
-        parser
-            .stream_mut()
-            .expect(TokenType::BlockEnd, None, None)?;
-        Ok(Some(Node::print(Expr::constant("§", -1), -1)))
+    if !config.unknown.is_empty() {
+        return Err(format!("unknown options {:?}", config.unknown));
     }
+    Ok(EnvironmentOptions {
+        debug: config.debug,
+        charset: config.charset.to_string_lossy().into_owned(),
+        strict_variables: config.strict_variables,
+        autoescape,
+        auto_reload: Some(config.auto_reload),
+        optimizations: config.optimizations,
+        use_yield: config.use_yield,
+        diagnostics: DiagnosticsPolicy::Error,
+        ..EnvironmentOptions::default()
+    })
+}
 
+/// The environment of a case over its templates (with the case's padding), in the harness's registration order.
+///
+/// # Errors
+///
+/// A registration Twig would refuse (none for a fresh environment).
+pub fn build(
+    templates: &[TemplateSection],
+    options: EnvironmentOptions,
+) -> Result<Environment, String> {
+    let loader = ArrayLoader::new(
+        templates
+            .iter()
+            .map(|t| (t.name_lossy(), t.source.clone()))
+            .collect::<Vec<_>>(),
+    );
+    let env = Environment::with_options(loader, options);
+    let fail = |what: &str, error: twig::Error| format!("{what}: {error}");
+    env.add_global("global", "global")
+        .map_err(|e| fail("addGlobal", e))?;
+    // `new FactoryRuntimeLoader([TwigTestLazyExtensionWithAttributes::class => static fn () => new
+    // TwigTestLazyExtensionWithAttributes('+')])`
+    env.add_runtime(LAZY_ATTRIBUTE_RUNTIME, Arc::new(AttributeRuntime::new("+")));
+    if escaper_visitor_missing(&env) {
+        env.add_extension(Arc::new(EscaperVisitorStopgap))
+            .map_err(|e| fail("addExtension(stopgap)", e))?;
+    }
+    let policy = SecurityPolicy::new();
+    policy.set_allowed_functions(["dump"]);
+    let extensions: [Arc<dyn Extension>; 6] = [
+        Arc::new(DebugExtension::new()),
+        Arc::new(SandboxExtension::new(Arc::new(policy), false)),
+        Arc::new(StringLoaderExtension::new()),
+        Arc::new(TwigTestExtension),
+        Arc::new(AttributeCallables {
+            extension: ATTRIBUTE_EXTENSION,
+            runtime: ATTRIBUTE_EXTENSION,
+            prefix: "",
+        }),
+        Arc::new(AttributeCallables {
+            extension: "Twig\\Extension\\AttributeExtension",
+            runtime: LAZY_ATTRIBUTE_RUNTIME,
+            prefix: "lazy_",
+        }),
+    ];
+    for extension in extensions {
+        let class = extension.class_name().to_owned();
+        env.add_extension(extension)
+            .map_err(|e| fail(&format!("addExtension({class})"), e))?;
+    }
+    // `Environment::getRuntime()` falls back to a registered extension that is an instance of the runtime class:
+    // `TwigTestExtensionWithAttributes` is its own runtime
+    env.add_runtime(ATTRIBUTE_EXTENSION, Arc::new(AttributeRuntime::new("*")));
+    env.register_undefined_filter_callback(undefined_filter_callback());
+    env.register_undefined_function_callback(undefined_function_callback());
+    env.register_undefined_test_callback(undefined_test_callback());
+    for class in twig_test_support::classes::fixture_class_table().iter() {
+        if env.with_constants(|constants| constants.class(class.name()).is_none()) {
+            env.add_class(class.clone())
+                .map_err(|e| format!("cannot register class {}: {e}", class.name()))?;
+        }
+    }
+    Ok(env)
+}
+
+/// Whether the `EscaperExtension` of the environment registers no node visitor. Twig's `getNodeVisitors()` returns
+/// the `EscaperNodeVisitor`; twig-rs's extension does not yet (`src/extension/core.rs`), so the harness adds it.
+fn escaper_visitor_missing(env: &Environment) -> bool {
+    env.with_extensions(|set| {
+        set.extension::<EscaperExtension>()
+            .is_some_and(|escaper| escaper.node_visitors().is_empty())
+    })
+}
+
+/// Registers the `EscaperNodeVisitor` where Twig's `EscaperExtension` does, as long as twig-rs's does not: right
+/// after the extensions of the constructor, so that the visitor runs before the `SandboxNodeVisitor` of the same
+/// priority, as in Twig. It switches itself off once the `EscaperExtension` registers the visitor.
+struct EscaperVisitorStopgap;
+
+impl Extension for EscaperVisitorStopgap {
     fn class_name(&self) -> &str {
-        "Twig\\Tests\\TwigTestTokenParser_§"
-    }
-}
-
-/// `Twig\Tests\TwigTestExtension`.
-struct TwigTestExtension;
-
-impl Extension for TwigTestExtension {
-    fn class_name(&self) -> &str {
-        TEST_EXTENSION
+        "TwigRs\\Fixtures\\EscaperNodeVisitorStopgap"
     }
 
-    fn token_parsers(&self) -> Vec<Arc<dyn TokenParser>> {
-        vec![Arc::new(SectionTokenParser)]
-    }
-
-    fn filters(&self) -> Vec<TwigFilter> {
-        let d = FilterOptions::default;
-        let sep = || P::optional("sep", "<br />".into());
-        // `[$this, 'magicCall']` and `'...::magicStaticCall'` go through __call / __callStatic: the trampoline
-        // closures reflect no parameter
-        let magic = || method("magicCall", Vec::new());
-        let magic_static = || method("magicStaticCall", Vec::new());
-        vec![
-            TwigFilter::new("§", method("§Filter", value()), d()),
-            TwigFilter::new(
-                "escape_and_nl2br",
-                method(
-                    "escape_and_nl2br",
-                    vec![P::required("env"), P::required("value"), sep()],
-                ),
-                FilterOptions {
-                    needs_environment: true,
-                    is_safe: safe(&["html"]),
-                    ..d()
-                },
-            ),
-            TwigFilter::new(
-                "nl2br",
-                method("nl2br", vec![P::required("value"), sep()]),
-                FilterOptions {
-                    pre_escape: Some("html".to_owned()),
-                    is_safe: safe(&["html"]),
-                    ..d()
-                },
-            ),
-            TwigFilter::new(
-                "escape_something",
-                method("escape_something", value()),
-                FilterOptions {
-                    is_safe: safe(&["something"]),
-                    ..d()
-                },
-            ),
-            TwigFilter::new(
-                "preserves_safety",
-                method("preserves_safety", value()),
-                FilterOptions {
-                    preserves_safety: safe(&["html"]),
-                    ..d()
-                },
-            ),
-            TwigFilter::new("static_call_string", method("staticCall", value()), d()),
-            TwigFilter::new("static_call_array", method("staticCall", value()), d()),
-            TwigFilter::new("magic_call", magic(), d()),
-            TwigFilter::new("magic_call_closure", magic(), d()),
-            TwigFilter::new("magic_call_string", magic_static(), d()),
-            TwigFilter::new("magic_call_array", magic_static(), d()),
-            TwigFilter::new(
-                "*_path",
-                method(
-                    "dynamic_path",
-                    vec![P::required("element"), P::required("item")],
-                ),
-                d(),
-            ),
-            TwigFilter::new(
-                "*_foo_*_bar",
-                method(
-                    "dynamic_foo",
-                    vec![P::required("foo"), P::required("bar"), P::required("item")],
-                ),
-                d(),
-            ),
-            TwigFilter::new("not", method("notFilter", value()), d()),
-            TwigFilter::new(
-                "anon_foo",
-                Some(PhpCallable::closure(vec![P::required("name")])),
-                d(),
-            ),
-        ]
-    }
-
-    fn functions(&self) -> Vec<TwigFunction> {
-        let d = FunctionOptions::default;
-        vec![
-            TwigFunction::new("§", method("§Function", value()), d()),
-            TwigFunction::new(
-                "safe_br",
-                method("br", Vec::new()),
-                FunctionOptions {
-                    is_safe: safe(&["html"]),
-                    ..d()
-                },
-            ),
-            TwigFunction::new("unsafe_br", method("br", Vec::new()), d()),
-            TwigFunction::new("static_call_string", method("staticCall", value()), d()),
-            TwigFunction::new("static_call_array", method("staticCall", value()), d()),
-            TwigFunction::new(
-                "*_path",
-                method(
-                    "dynamic_path",
-                    vec![P::required("element"), P::required("item")],
-                ),
-                d(),
-            ),
-            TwigFunction::new(
-                "*_foo_*_bar",
-                method(
-                    "dynamic_foo",
-                    vec![P::required("foo"), P::required("bar"), P::required("item")],
-                ),
-                d(),
-            ),
-            TwigFunction::new(
-                "anon_foo",
-                Some(PhpCallable::closure(vec![P::required("name")])),
-                d(),
-            ),
-            TwigFunction::new(
-                "deprecated_function",
-                Some(PhpCallable::closure(Vec::new())),
-                FunctionOptions {
-                    deprecation_info: Some(DeprecatedCallableInfo {
-                        alt_name: Some("not_deprecated_function".to_owned()),
-                        ..DeprecatedCallableInfo::new("foo/bar", "1.1")
-                    }),
-                    ..d()
-                },
-            ),
-        ]
-    }
-
-    fn tests(&self) -> Vec<TwigTest> {
-        let d = TestOptions::default;
-        vec![
-            TwigTest::new("multi word", method("is_multi_word", value()), d()),
-            TwigTest::new(
-                "test_*",
-                method(
-                    "dynamic_test",
-                    vec![P::required("element"), P::required("item")],
-                ),
-                d(),
-            ),
-        ]
-    }
-
-    fn as_any(&self) -> &dyn Any {
-        self
-    }
-}
-
-/// The attribute-declared callables: `TwigTestExtensionWithAttributes('*')` (`attribute_*`, methods of that class)
-/// and `AttributeExtension(TwigTestLazyExtensionWithAttributes::class)` (`lazy_attribute_*`, methods of the lazily
-/// loaded runtime class).
-struct AttributeCallables {
-    class: &'static str,
-    prefix: &'static str,
-}
-
-impl AttributeCallables {
-    fn callable(&self, method: &str) -> Option<PhpCallable> {
-        let class = if self.prefix.is_empty() {
-            "Twig\\Tests\\TwigTestExtensionWithAttributes"
-        } else {
-            "Twig\\Tests\\TwigTestLazyExtensionWithAttributes"
-        };
-        Some(PhpCallable::method(class, method, value()))
-    }
-}
-
-impl Extension for AttributeCallables {
-    fn class_name(&self) -> &str {
-        self.class
-    }
-
-    fn filters(&self) -> Vec<TwigFilter> {
-        vec![TwigFilter::new(
-            format!("{}attribute_filter", self.prefix),
-            self.callable("attributeFilter"),
-            FilterOptions::default(),
-        )]
-    }
-
-    fn functions(&self) -> Vec<TwigFunction> {
-        vec![TwigFunction::new(
-            format!("{}attribute_function", self.prefix),
-            self.callable("attributeFunction"),
-            FunctionOptions::default(),
-        )]
-    }
-
-    fn tests(&self) -> Vec<TwigTest> {
-        vec![TwigTest::new(
-            format!("{}attribute_test", self.prefix),
-            self.callable("attributeTest"),
-            TestOptions::default(),
-        )]
+    fn node_visitors(&self) -> Vec<Arc<dyn NodeVisitor>> {
+        vec![Arc::new(EscaperNodeVisitor)]
     }
 
     fn as_any(&self) -> &dyn Any {

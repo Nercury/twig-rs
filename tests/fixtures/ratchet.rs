@@ -100,9 +100,6 @@ impl KnownFailures {
             )),
             Outcome::Pass | Outcome::Skipped(_) => Ok(()),
             _ if listed => Ok(()),
-            Outcome::NotYetSupported(step) => Err(format!(
-                "not yet supported: {step}\n(an expected failure belongs in {shown}; run with {UPDATE_VARIABLE}=1 to update it)"
-            )),
             Outcome::Fail(failure) => Err(format!(
                 "{failure}\n(an expected failure belongs in {shown}; run with {UPDATE_VARIABLE}=1 to update it)"
             )),

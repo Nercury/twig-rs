@@ -1,0 +1,935 @@
+{
+ "cases": [
+  {
+   "id": "section/filter",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'a'|§ }}|{{ null|§ }}|{{ 1.5|§ }}|{{ true|§ }}"
+   }
+  },
+  {
+   "id": "section/function",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ §('a') }}"
+   }
+  },
+  {
+   "id": "section/array",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ [1]|§ }}"
+   }
+  },
+  {
+   "id": "section/object",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ o|§ }}"
+   },
+   "data_php": "return ['o' => new \\stdClass()]",
+   "data_rust": [
+    [
+     "o",
+     {
+      "$stdClass": {}
+     }
+    ]
+   ]
+  },
+  {
+   "id": "section/markup",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ m|§ }}"
+   },
+   "data_php": "return ['m' => new \\Twig\\Markup('<b>', 'UTF-8')]",
+   "data_rust": [
+    [
+     "m",
+     {
+      "$markup": "<b>"
+     }
+    ]
+   ]
+  },
+  {
+   "id": "section/missing_argument",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ §() }}"
+   }
+  },
+  {
+   "id": "section/named_argument",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ §(value='x') }}"
+   }
+  },
+  {
+   "id": "section/unknown_named_argument",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ §(foo='x') }}"
+   }
+  },
+  {
+   "id": "section/tag",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "a{% § %}b"
+   }
+  },
+  {
+   "id": "section/tag_with_argument",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{% § foo %}"
+   }
+  },
+  {
+   "id": "nl2br/basic",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ \"a\\nb\"|nl2br }}"
+   }
+  },
+  {
+   "id": "nl2br/pre_escape",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ \"<a>\\n\"|nl2br }}"
+   }
+  },
+  {
+   "id": "nl2br/variable",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ v|nl2br }}"
+   },
+   "data_php": "return ['v' => \"<a>\\n&\"]",
+   "data_rust": [
+    [
+     "v",
+     "<a>\n&"
+    ]
+   ]
+  },
+  {
+   "id": "nl2br/separator",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ \"a\\nb\"|nl2br('|') }}"
+   }
+  },
+  {
+   "id": "nl2br/named_separator",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ \"a\\nb\"|nl2br(sep='|') }}"
+   }
+  },
+  {
+   "id": "nl2br/null",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "[{{ null|nl2br }}]"
+   }
+  },
+  {
+   "id": "nl2br/array",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ v|nl2br|join(',') }}"
+   },
+   "data_php": "return ['v' => [\"a\\nb\", 'c']]",
+   "data_rust": [
+    [
+     "v",
+     [
+      "a\nb",
+      "c"
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "nl2br/array_separator",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ \"a\\nb\"|nl2br([1]) }}"
+   }
+  },
+  {
+   "id": "nl2br/unknown_argument",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ \"a\\nb\"|nl2br(foo='x') }}"
+   }
+  },
+  {
+   "id": "nl2br/no_autoescape",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ \"<a>\\n\"|nl2br }}"
+   },
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "escape_and_nl2br/string",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ \"<b>\\nc\"|escape_and_nl2br }}"
+   }
+  },
+  {
+   "id": "escape_and_nl2br/markup",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ m|escape_and_nl2br }}"
+   },
+   "data_php": "return ['m' => new \\Twig\\Markup(\"<b>\\n\", 'UTF-8')]",
+   "data_rust": [
+    [
+     "m",
+     {
+      "$markup": "<b>\n"
+     }
+    ]
+   ]
+  },
+  {
+   "id": "escape_and_nl2br/int",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 5|escape_and_nl2br }}"
+   }
+  },
+  {
+   "id": "escape_and_nl2br/array",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ [\"1\\n\"]|escape_and_nl2br|join }}"
+   }
+  },
+  {
+   "id": "escape_and_nl2br/empty",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "[{{ ''|escape_and_nl2br }}]"
+   }
+  },
+  {
+   "id": "escape_and_nl2br/separator",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ \"a\\n&\"|escape_and_nl2br('!') }}"
+   }
+  },
+  {
+   "id": "escape_and_nl2br/null",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "[{{ null|escape_and_nl2br }}]"
+   }
+  },
+  {
+   "id": "escape_and_nl2br/object",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ o|escape_and_nl2br }}"
+   },
+   "data_php": "return ['o' => new \\stdClass()]",
+   "data_rust": [
+    [
+     "o",
+     {
+      "$stdClass": {}
+     }
+    ]
+   ]
+  },
+  {
+   "id": "escape_something/html",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ \"<b>\"|escape_something }}"
+   }
+  },
+  {
+   "id": "escape_something/autoescape_something",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{% autoescape 'something' %}{{ \"<b>\"|escape_something }}{% endautoescape %}"
+   }
+  },
+  {
+   "id": "escape_something/null",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "[{{ null|escape_something }}]"
+   }
+  },
+  {
+   "id": "escape_something/array",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ [1]|escape_something }}"
+   }
+  },
+  {
+   "id": "preserves_safety/constant",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ \"<b>\"|preserves_safety }}"
+   }
+  },
+  {
+   "id": "preserves_safety/variable",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ v|preserves_safety }}"
+   },
+   "data_php": "return ['v' => '<b>']",
+   "data_rust": [
+    [
+     "v",
+     "<b>"
+    ]
+   ]
+  },
+  {
+   "id": "preserves_safety/raw",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ v|raw|preserves_safety }}"
+   },
+   "data_php": "return ['v' => '<b>']",
+   "data_rust": [
+    [
+     "v",
+     "<b>"
+    ]
+   ]
+  },
+  {
+   "id": "static_call/all",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'a'|static_call_string }}|{{ 'b'|static_call_array }}|{{ static_call_string('c') }}|{{ static_call_array('d') }}"
+   }
+  },
+  {
+   "id": "static_call/array",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ static_call_string([1]) }}"
+   }
+  },
+  {
+   "id": "magic_call/all",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'foo'|magic_call }}|{{ 'foo'|magic_call_closure }}|{{ 'foo'|magic_call_string }}|{{ 'foo'|magic_call_array }}"
+   }
+  },
+  {
+   "id": "magic_call/extra_argument",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'foo'|magic_call('bar') }}|{{ 'foo'|magic_call_string('bar') }}"
+   }
+  },
+  {
+   "id": "magic_call/array",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ [1]|magic_call }}"
+   }
+  },
+  {
+   "id": "magic_call/null",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ null|magic_call_closure }}"
+   }
+  },
+  {
+   "id": "dynamic/all",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'a'|foo_path }}|{{ bar_path('b') }}|{{ 'c'|x_foo_y_bar }}|{{ p_foo_q_bar('r') }}"
+   }
+  },
+  {
+   "id": "dynamic/missing_argument",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ foo_path() }}"
+   }
+  },
+  {
+   "id": "dynamic/named_argument",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ foo_path(item='y') }}"
+   }
+  },
+  {
+   "id": "dynamic/array",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ [1]|foo_path }}"
+   }
+  },
+  {
+   "id": "dynamic/test",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'bar' is test_bar ? 'y' : 'n' }}{{ 'baz' is test_bar ? 'y' : 'n' }}{{ 1 is test_1 ? 'y' : 'n' }}"
+   }
+  },
+  {
+   "id": "not/filter",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'value'|not }}|{{ null|not }}"
+   }
+  },
+  {
+   "id": "anon_foo/all",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ anon_foo('bar') }}|{{ 'bar'|anon_foo }}|{{ anon_foo(name='x') }}"
+   }
+  },
+  {
+   "id": "anon_foo/missing_argument",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ anon_foo() }}"
+   }
+  },
+  {
+   "id": "anon_foo/array",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ [1]|anon_foo }}"
+   }
+  },
+  {
+   "id": "br/all",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ safe_br() }}|{{ unsafe_br() }}|{{ safe_br(1, 2) }}"
+   }
+  },
+  {
+   "id": "deprecated_function/call",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ deprecated_function() }}"
+   }
+  },
+  {
+   "id": "deprecated_function/twice",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ deprecated_function() }}\n{{ deprecated_function() }}"
+   }
+  },
+  {
+   "id": "multi_word/strings",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'a b' is multi word ? 'y' : 'n' }}{{ 'ab' is multi word ? 'y' : 'n' }}"
+   }
+  },
+  {
+   "id": "multi_word/int",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 1 is multi word ? 'y' : 'n' }}"
+   }
+  },
+  {
+   "id": "multi_word/null",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ null is multi word ? 'y' : 'n' }}"
+   }
+  },
+  {
+   "id": "multi_word/array",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ [1] is multi word ? 'y' : 'n' }}"
+   }
+  },
+  {
+   "id": "multi_word/not",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'a b' is not multi word ? 'y' : 'n' }}"
+   }
+  },
+  {
+   "id": "attributes/all",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ attribute_function('foo') }}|{{ 'foo'|attribute_filter }}|{{ '*' is attribute_test ? 'y' : 'n' }}|{{ lazy_attribute_function('foo') }}|{{ 'foo'|lazy_attribute_filter }}|{{ '+' is lazy_attribute_test ? 'y' : 'n' }}"
+   }
+  },
+  {
+   "id": "attributes/int",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ attribute_function(12) }}|{{ 1.5|lazy_attribute_filter }}"
+   }
+  },
+  {
+   "id": "attributes/bool",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ true is attribute_test ? 'y' : 'n' }}|{{ false|attribute_filter }}"
+   }
+  },
+  {
+   "id": "attributes/null",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ attribute_function(null) }}"
+   }
+  },
+  {
+   "id": "attributes/array",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ [1]|lazy_attribute_filter }}"
+   }
+  },
+  {
+   "id": "attributes/missing_argument",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ lazy_attribute_function() }}"
+   }
+  },
+  {
+   "id": "attributes/named_argument",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ attribute_function(value='v') }}"
+   }
+  },
+  {
+   "id": "attributes/markup",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ m|attribute_filter }}"
+   },
+   "data_php": "return ['m' => new \\Twig\\Markup('<b>', 'UTF-8')]",
+   "data_rust": [
+    [
+     "m",
+     {
+      "$markup": "<b>"
+     }
+    ]
+   ]
+  },
+  {
+   "id": "undefined/filter",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'a'|throwing_undefined_filter }}"
+   }
+  },
+  {
+   "id": "undefined/function",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ throwing_undefined_function() }}"
+   }
+  },
+  {
+   "id": "undefined/test",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 1 is throwing_undefined_test }}"
+   }
+  },
+  {
+   "id": "undefined/two_word_test",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 1 is throwing_undefined_two words_test }}"
+   }
+  },
+  {
+   "id": "undefined/guard",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{% guard filter throwing_undefined_filter %}yes{% else %}no{% endguard %}"
+   }
+  },
+  {
+   "id": "undefined/unknown_filter",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'a'|nope }}"
+   }
+  },
+  {
+   "id": "undefined/two_word_tests",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 4 is divisible by(2) ? 'y' : 'n' }}{{ 1 is same as(1) ? 'y' : 'n' }}"
+   }
+  },
+  {
+   "id": "undefined/single_word_divisible",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 1 is divisible ? 'y' : 'n' }}|{{ 1 is same ? 'y' : 'n' }}"
+   }
+  },
+  {
+   "id": "spread/section_function",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ §(...[]) }}"
+   }
+  },
+  {
+   "id": "spread/section_filter_extra",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'a'|§(...[1, 2]) }}"
+   }
+  },
+  {
+   "id": "spread/anon_foo_function",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ anon_foo(...[]) }}"
+   }
+  },
+  {
+   "id": "spread/anon_foo_named",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ anon_foo(...{name: 'n'}) }}"
+   }
+  },
+  {
+   "id": "spread/anon_foo_unknown_named",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ anon_foo(...{nope: 'n'}) }}"
+   }
+  },
+  {
+   "id": "spread/dynamic_path",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ foo_path(...[]) }}"
+   }
+  },
+  {
+   "id": "spread/dynamic_foo",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ a_foo_b_bar(...[]) }}"
+   }
+  },
+  {
+   "id": "spread/nl2br",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'a'|nl2br(...{sep: '!'}) }}"
+   }
+  },
+  {
+   "id": "spread/escape_and_nl2br_named_value",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'a'|escape_and_nl2br(...{value: 'b'}) }}"
+   }
+  },
+  {
+   "id": "spread/attribute_function",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ attribute_function(...[]) }}"
+   }
+  },
+  {
+   "id": "spread/deprecated_function",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ deprecated_function(...[1]) }}"
+   }
+  },
+  {
+   "id": "spread/magic_call",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'a'|magic_call(...{x: 'y'}) }}"
+   }
+  },
+  {
+   "id": "spread/test",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'a b' is multi word(...[]) ? 'y' : 'n' }}"
+   }
+  },
+  {
+   "id": "harness/global",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ global }}"
+   }
+  },
+  {
+   "id": "harness/global_in_context",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ _context|keys|join(',') }}"
+   },
+   "data_php": "return ['a' => 1]",
+   "data_rust": [
+    [
+     "a",
+     1
+    ]
+   ]
+  },
+  {
+   "id": "harness/strict_variables",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ nope }}"
+   }
+  },
+  {
+   "id": "harness/not_strict",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "[{{ nope }}]"
+   },
+   "config": {
+    "strict_variables": false
+   }
+  },
+  {
+   "id": "harness/dump_without_debug",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "[{{ dump(1) }}]"
+   }
+  },
+  {
+   "id": "harness/dump",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ dump('a', [1]) }}"
+   },
+   "config": {
+    "debug": true,
+    "autoescape": false
+   }
+  },
+  {
+   "id": "harness/dump_context",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ dump() }}"
+   },
+   "config": {
+    "debug": true
+   },
+   "data_php": "return ['a' => 1]",
+   "data_rust": [
+    [
+     "a",
+     1
+    ]
+   ]
+  },
+  {
+   "id": "harness/sandboxed_include",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ include('foo.twig', sandboxed=true) }}",
+    "foo.twig": "{{ 'a'|upper }}"
+   }
+  },
+  {
+   "id": "harness/sandboxed_include_dump",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ include('foo.twig', sandboxed=true) }}",
+    "foo.twig": "{{ dump(1) }}"
+   },
+   "config": {
+    "debug": true
+   }
+  },
+  {
+   "id": "harness/template_from_string",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ include(template_from_string('{{ 1 + 1 }}')) }}"
+   }
+  },
+  {
+   "id": "harness/autoescape_name",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.js": "{{ '\"' }}"
+   },
+   "config": {
+    "autoescape": "name"
+   }
+  },
+  {
+   "id": "harness/warning",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ 'a' ~ [1] }}"
+   },
+   "config": {
+    "strict_variables": false
+   }
+  },
+  {
+   "id": "harness/deprecated_tag",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{% extends 'base.twig' %}{% deprecated 'Do not use.' %}",
+    "base.twig": "base"
+   }
+  },
+  {
+   "id": "harness/constant",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ constant('Twig\\\\Tests\\\\TwigTestFoo::BAR_NAME') }}"
+   }
+  },
+  {
+   "id": "harness/enum",
+   "env": "integration",
+   "errors": "throw",
+   "templates": {
+    "index.twig": "{{ enum('Twig\\\\Tests\\\\DummyBackedEnum').FOO.value }}"
+   }
+  }
+ ]
+}
