@@ -1,48 +1,85 @@
 <?php
-// Generates iconv_tables.rs: the single-byte charset tables of glibc 2.41 (as used by PHP 8.5.13's iconv() in
-// the oracle image), measured through iconv() itself, and the charset names glibc's gconv cache knows.
+// Generates iconv_tables.rs and iconv/data/sbcs.bin: the single-byte charset tables of glibc 2.41 (as used by
+// PHP 8.5.13's iconv() in the oracle image), measured through iconv() itself, the charset names glibc's gconv
+// cache knows, and the transliteration table of the C.UTF-8 locale.
 //
 //   cd crates/twig-value/src/builtins/string
 //   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
 //       php /t/iconv_tables.gen.php > iconv_tables.rs
 //
-// Tables: for each charset, the code point of every byte (decoding through UCS-4LE) and the bytes the encoder
-// produces for every code point 0..=0xFFFE that differ from the inverse of the decoding table ("extra"), or code
-// points the encoder rejects although some byte decodes to them ("missing").
+// Tables: every gconv module built from glibc's iconvdata/8bit-gap.c or 8bit-generic.c, plus ARMSCII-8,
+// ISO_11548-1 and the ISO646 variants (all stateless, one byte per character). For each, the code point of every
+// byte (decoding through UCS-4LE; 0xFFFF for bytes the decoder rejects) goes to sbcs.bin (256 little-endian u16
+// per charset, in the order of SBCS); the bytes the encoder produces for code points 0..=0xFFFE that differ from
+// the inverse of the decoding table (lowest byte first) go to "extra", code points the encoder rejects although
+// some byte decodes to them to "missing".
 // Names: every alias and module name of /usr/lib/x86_64-linux-gnu/gconv/gconv-modules{,.d/*.conf} plus glibc's
 // builtin names (iconv/gconv_builtin.h, little-endian), each with the module name it resolves to.
 
 declare(strict_types=0);
 error_reporting(E_ALL & ~E_NOTICE);
 
-const CHARSETS = [
-    // canonical gconv name => Rust identifier
-    'ISO-8859-2//' => 'ISO_8859_2', 'ISO-8859-3//' => 'ISO_8859_3', 'ISO-8859-4//' => 'ISO_8859_4',
-    'ISO-8859-5//' => 'ISO_8859_5', 'ISO-8859-6//' => 'ISO_8859_6', 'ISO-8859-7//' => 'ISO_8859_7',
-    'ISO-8859-8//' => 'ISO_8859_8', 'ISO-8859-9//' => 'ISO_8859_9', 'ISO-8859-10//' => 'ISO_8859_10',
-    'ISO-8859-11//' => 'ISO_8859_11', 'ISO-8859-13//' => 'ISO_8859_13', 'ISO-8859-14//' => 'ISO_8859_14',
-    'ISO-8859-15//' => 'ISO_8859_15', 'ISO-8859-16//' => 'ISO_8859_16', 'CP1250//' => 'CP1250',
-    'CP1251//' => 'CP1251', 'CP1252//' => 'CP1252', 'CP1253//' => 'CP1253', 'CP1254//' => 'CP1254',
-    'CP1256//' => 'CP1256', 'CP1257//' => 'CP1257', 'KOI8-R//' => 'KOI8_R', 'KOI8-U//' => 'KOI8_U',
-    'IBM866//' => 'IBM866', 'MACINTOSH//' => 'MACINTOSH', 'IBM437//' => 'IBM437', 'IBM850//' => 'IBM850',
+$sbcs = [
+    'ARMSCII-8//', 'ASMO_449//', 'BRF//', 'BS_4730//', 'CP10007//', 'CP1125//', 'CP1250//', 'CP1251//', 'CP1252//',
+    'CP1253//', 'CP1254//', 'CP1256//', 'CP1257//', 'CP737//', 'CP770//', 'CP771//', 'CP772//', 'CP773//',
+    'CP774//', 'CP775//', 'CSA_Z243.4-1985-1//', 'CSA_Z243.4-1985-2//', 'CSN_369103//', 'CWI//', 'DEC-MCS//',
+    'DIN_66003//', 'DS_2089//', 'EBCDIC-AT-DE-A//', 'EBCDIC-AT-DE//', 'EBCDIC-CA-FR//', 'EBCDIC-DK-NO-A//',
+    'EBCDIC-DK-NO//', 'EBCDIC-ES-A//', 'EBCDIC-ES-S//', 'EBCDIC-ES//', 'EBCDIC-FI-SE-A//', 'EBCDIC-FI-SE//',
+    'EBCDIC-FR//', 'EBCDIC-IS-FRISS//', 'EBCDIC-IT//', 'EBCDIC-PT//', 'EBCDIC-UK//', 'EBCDIC-US//',
+    'ECMA-CYRILLIC//', 'ES//', 'ES2//', 'GB_1988-80//', 'GEORGIAN-ACADEMY//', 'GEORGIAN-PS//', 'GOST_19768-74//',
+    'GREEK-CCITT//', 'GREEK7-OLD//', 'GREEK7//', 'HP-GREEK8//', 'HP-ROMAN8//', 'HP-ROMAN9//', 'HP-THAI8//',
+    'HP-TURKISH8//', 'IBM037//', 'IBM038//', 'IBM1004//', 'IBM1008//', 'IBM1025//', 'IBM1026//', 'IBM1046//',
+    'IBM1047//', 'IBM1097//', 'IBM1112//', 'IBM1122//', 'IBM1123//', 'IBM1124//', 'IBM1129//', 'IBM1130//',
+    'IBM1132//', 'IBM1133//', 'IBM1137//', 'IBM1140//', 'IBM1141//', 'IBM1142//', 'IBM1143//', 'IBM1144//',
+    'IBM1145//', 'IBM1146//', 'IBM1147//', 'IBM1148//', 'IBM1149//', 'IBM1153//', 'IBM1154//', 'IBM1155//',
+    'IBM1156//', 'IBM1157//', 'IBM1158//', 'IBM1160//', 'IBM1161//', 'IBM1162//', 'IBM1163//', 'IBM1164//',
+    'IBM1166//', 'IBM1167//', 'IBM12712//', 'IBM16804//', 'IBM256//', 'IBM273//', 'IBM274//', 'IBM275//',
+    'IBM277//', 'IBM278//', 'IBM280//', 'IBM281//', 'IBM284//', 'IBM285//', 'IBM290//', 'IBM297//', 'IBM420//',
+    'IBM423//', 'IBM424//', 'IBM437//', 'IBM4517//', 'IBM4899//', 'IBM4909//', 'IBM4971//', 'IBM500//', 'IBM5347//',
+    'IBM803//', 'IBM850//', 'IBM851//', 'IBM852//', 'IBM855//', 'IBM856//', 'IBM857//', 'IBM858//', 'IBM860//',
+    'IBM861//', 'IBM862//', 'IBM863//', 'IBM864//', 'IBM865//', 'IBM866//', 'IBM866NAV//', 'IBM868//', 'IBM869//',
+    'IBM870//', 'IBM871//', 'IBM874//', 'IBM875//', 'IBM880//', 'IBM891//', 'IBM901//', 'IBM902//', 'IBM903//',
+    'IBM9030//', 'IBM904//', 'IBM905//', 'IBM9066//', 'IBM918//', 'IBM921//', 'IBM922//', 'IBM9448//',
+    'IEC_P27-1//', 'INIS-8//', 'INIS-CYRILLIC//', 'INIS//', 'ISIRI-3342//', 'ISO-8859-10//', 'ISO-8859-11//',
+    'ISO-8859-13//', 'ISO-8859-14//', 'ISO-8859-15//', 'ISO-8859-16//', 'ISO-8859-2//', 'ISO-8859-3//',
+    'ISO-8859-4//', 'ISO-8859-5//', 'ISO-8859-6//', 'ISO-8859-7//', 'ISO-8859-8//', 'ISO-8859-9//', 'ISO-8859-9E//',
+    'ISO-IR-197//', 'ISO-IR-209//', 'ISO_10367-BOX//', 'ISO_11548-1//', 'ISO_2033//', 'ISO_5427-EXT//',
+    'ISO_5427//', 'ISO_5428//', 'IT//', 'JIS_C6220-1969-RO//', 'JIS_C6229-1984-B//', 'JUS_I.B1.002//', 'KOI-8//',
+    'KOI8-R//', 'KOI8-RU//', 'KOI8-T//', 'KOI8-U//', 'KSC5636//', 'LATIN-GREEK-1//', 'LATIN-GREEK//',
+    'MAC-CENTRALEUROPE//', 'MAC-IS//', 'MAC-SAMI//', 'MAC-UK//', 'MACINTOSH//', 'MIK//', 'MSZ_7795.3//',
+    'NATS-DANO//', 'NATS-SEFI//', 'NC_NC00-10//', 'NF_Z_62-010//', 'NF_Z_62-010_1973//', 'NS_4551-1//',
+    'NS_4551-2//', 'PT//', 'PT154//', 'PT2//', 'RK1048//', 'SEN_850200_B//', 'SEN_850200_C//', 'TIS-620//',
+    'VISCII//', 'WIN-SAMI-2//',
 ];
+sort($sbcs, SORT_STRING);
 
-function name_of(string $canonical): string
-{
-    return rtrim($canonical, '/');
-}
+echo "//! Single-byte charset index, charset names and transliteration table of glibc 2.41, measured in the\n";
+echo "//! oracle image by `iconv_tables.gen.php` (next to this file; it also writes `iconv/data/sbcs.bin`).\n";
+echo "//! Regenerate with the command in its header. Do not edit.\n\n";
+echo "use super::iconv::Sbcs;\n\n";
 
-echo "//! Single-byte charset tables and charset names of glibc 2.41, measured in the oracle image by\n";
-echo "//! `iconv_tables.gen.php` (next to this file); regenerate with the command in its header. Do not edit.\n\n";
-echo "use super::iconv::ByteTable;\n\n";
-
-$idents = [];
-foreach (CHARSETS as $canonical => $ident) {
-    $cs = name_of($canonical);
+$blob = '';
+echo "/// The single-byte charsets (gconv module names, sorted) with the encoder's deviations from the inverse\n";
+echo "/// of the decoding table; the decoding table of entry `i` is `SBCS_DATA[512 * i..512 * (i + 1)]`.\n";
+echo 'pub(super) static SBCS: [Sbcs; ', count($sbcs), "] = [\n";
+foreach ($sbcs as $module) {
+    $cs = rtrim($module, '/');
     $dec = [];
     for ($b = 0; $b < 256; $b++) {
         $r = iconv($cs, 'UCS-4LE', chr($b));
+        if ($r !== false && strlen($r) !== 4) {
+            throw new \RuntimeException("$cs: byte $b decodes to several characters");
+        }
         $dec[$b] = $r === false ? 0xFFFF : unpack('V', $r)[1];
+        if ($dec[$b] > 0xFFFF || ($r !== false && $dec[$b] === 0xFFFF)) {
+            throw new \RuntimeException("$cs: byte $b decodes to U+FFFF or beyond");
+        }
+        $blob .= pack('v', $dec[$b]);
+    }
+    $all = @iconv($cs, 'UCS-4LE//IGNORE', implode('', array_map('chr', range(0, 255))));
+    $want = implode('', array_map(static fn ($c) => $c === 0xFFFF ? '' : pack('V', $c), $dec));
+    if ($all !== $want) {
+        throw new \RuntimeException("$cs: decoding is not stateless");
     }
     $inverse = [];
     for ($b = 255; $b >= 0; $b--) {
@@ -67,26 +104,26 @@ foreach (CHARSETS as $canonical => $ident) {
             }
         }
     }
-    // Nothing beyond the BMP maps (tag characters are silently dropped by the encoder).
-    foreach ([0xFFFF, 0x10000, 0x1F600, 0xE0041, 0x10FFFF, 0x110000, 0x7FFFFFFF] as $cp) {
+    // Nothing beyond the BMP maps; tag characters are dropped silently.
+    foreach ([0xFFFF, 0x10000, 0x1F600, 0xE0000, 0xE0041, 0xE007F, 0xE0080, 0x10FFFF, 0x110000, 0x7FFFFFFF] as $cp) {
         $r = iconv('UCS-4LE', $cs, pack('V', $cp));
         $tag = ($cp >> 7) === (0xE0000 >> 7);
         if (($tag && $r !== '') || (!$tag && $r !== false)) {
             throw new \RuntimeException("$cs: unexpected result for U+".dechex($cp));
         }
     }
-    $idents[$canonical] = $ident;
-    echo "/// `$cs`.\n";
-    echo "pub(super) static $ident: ByteTable = ByteTable {\n";
-    echo "    decode: [\n";
-    foreach (array_chunk($dec, 8) as $row) {
-        echo '        ', implode(', ', array_map(static fn ($c) => sprintf('0x%04X', $c), $row)), ",\n";
-    }
-    echo "    ],\n";
-    echo '    extra: &[', implode(', ', array_map(static fn ($p) => sprintf('(0x%04X, 0x%02X)', $p[0], $p[1]), $extra)), "],\n";
-    echo '    missing: &[', implode(', ', array_map(static fn ($c) => sprintf('0x%04X', $c), $missing)), "],\n";
-    echo "};\n\n";
+    echo '    Sbcs {', "\n";
+    echo '        module: ', json_encode($module, JSON_UNESCAPED_SLASHES), ",\n";
+    echo '        extra: &[', implode(', ', array_map(static fn ($p) => sprintf('(0x%04X, 0x%02X)', $p[0], $p[1]), $extra)), "],\n";
+    echo '        missing: &[', implode(', ', array_map(static fn ($c) => sprintf('0x%04X', $c), $missing)), "],\n";
+    echo "    },\n";
 }
+echo "];\n\n";
+@mkdir(__DIR__.'/iconv/data', 0777, true);
+file_put_contents(__DIR__.'/iconv/data/sbcs.bin', $blob);
+echo "/// The decoding tables of [`SBCS`]: 256 little-endian `u16` code points per charset, `0xFFFF` for\n";
+echo "/// bytes the decoder rejects.\n";
+echo 'pub(super) static SBCS_DATA: &[u8; ', strlen($blob), "] = include_bytes!(\"iconv/data/sbcs.bin\");\n\n";
 
 // Charset names: alias => module, module => itself.
 $names = [];

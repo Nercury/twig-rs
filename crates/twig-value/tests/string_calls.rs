@@ -6,7 +6,7 @@
 //!
 //! ```text
 //! cd crates/twig-value/tests/vectors
-//! for t in basic trim split replace markup html url iconv; do
+//! for t in basic trim split replace markup html url iconv iconv_charsets iconv_sweep; do
 //!   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
 //!       php /t/string/$t.gen.php > string/$t.json
 //! done
@@ -211,8 +211,25 @@ fn fnv1a64(bytes: &[u8]) -> String {
 /// 8160-character rounds, outputs compared by length and hash.
 #[test]
 fn iconv_long() {
-    let v = load("string/iconv.json");
-    let mut m = Mismatches::new("iconv.json long");
+    run_long("iconv.json");
+}
+
+#[test]
+fn iconv_charsets() {
+    run("iconv_charsets.json");
+}
+
+/// The `long` section of iconv_charsets.json: rounds of the multi-byte, stateful and
+/// composing modules, and output-buffer growth.
+#[test]
+fn iconv_charsets_long() {
+    run_long("iconv_charsets.json");
+}
+
+/// Runs the `long` section of `string/<file>`.
+fn run_long(file: &'static str) {
+    let v = load(&format!("string/{file}"));
+    let mut m = Mismatches::new(file);
     for case in v["long"].as_array().expect("long") {
         let prefix = support::unhex(s(&case["prefix"]));
         let n = case["n"].as_u64().expect("n") as usize;
@@ -233,4 +250,166 @@ fn iconv_long() {
         );
     }
     m.finish();
+}
+
+/// FNV-1a 64 state, fed incrementally.
+struct Fnv(u64);
+
+impl Fnv {
+    fn new() -> Fnv {
+        Fnv(0xcbf29ce484222325)
+    }
+
+    fn update(&mut self, bytes: &[u8]) {
+        for &b in bytes {
+            self.0 ^= u64::from(b);
+            self.0 = self.0.wrapping_mul(0x100000001b3);
+        }
+    }
+
+    fn hex(&self) -> String {
+        format!("{:016x}", self.0)
+    }
+
+    /// Feeds the lowercase hex digits of `bytes`.
+    fn update_hex(&mut self, bytes: &[u8]) {
+        const HEX: &[u8; 16] = b"0123456789abcdef";
+        for &b in bytes {
+            self.update(&[HEX[usize::from(b >> 4)], HEX[usize::from(b & 15)]]);
+        }
+    }
+}
+
+/// One conversion of a sweep, hashed like `token()` in `iconv_sweep.gen.php`: the result ("S"
+/// and hex, or "F"), then "|" plus level and hex message per diagnostic.
+fn sweep_token(h: &mut Fnv, first: bool, from: &[u8], to: &[u8], input: &[u8]) {
+    let mut d: Vec<Diagnostic> = Vec::new();
+    let r = st::iconv::iconv_bytes(from, to, input, &mut d).expect("supported conversion");
+    if !first {
+        h.update(b"\n");
+    }
+    match r {
+        Some(out) => {
+            h.update(b"S");
+            h.update_hex(&out);
+        }
+        None => h.update(b"F"),
+    }
+    for diag in &d {
+        h.update(b"|");
+        h.update(match diag.level {
+            twig_value::Level::Warning => b"W",
+            twig_value::Level::Notice => b"N",
+            twig_value::Level::Deprecated => b"D",
+            twig_value::Level::UserDeprecated => b"UD",
+        });
+        h.update_hex(diag.message.as_bytes());
+    }
+}
+
+/// iconv_sweep.json: every two-byte sequence of the multi-byte charsets, the three- and
+/// four-byte forms, the ISO-2022 decoders in each designation, byte pairs of the composing
+/// charsets, and every character through each encoder (alone and after characters that select
+/// each ISO-2022 set), compared by hash. The rows are split into shards that run in parallel.
+fn iconv_sweep(shard: usize) {
+    const SHARDS: usize = 8;
+    let v = load("string/iconv_sweep.json");
+    let mut m = Mismatches::new("iconv_sweep.json");
+    let range = |j: &Json| (j[0].as_u64().expect("lo"), j[1].as_u64().expect("hi"));
+    let bytes = v["bytes"].as_array().expect("bytes");
+    let chars = v["chars"].as_array().expect("chars");
+    for row in bytes.iter().skip(shard).step_by(SHARDS) {
+        let (from, to) = (s(&row["from"]), s(&row["to"]));
+        let prefix = support::unhex(s(&row["prefix"]));
+        let suffix = support::unhex(s(&row["suffix"]));
+        let ((x0, x1), (y0, y1)) = (range(&row["x"]), range(&row["y"]));
+        let mut h = Fnv::new();
+        let mut first = true;
+        for x in x0..=x1 {
+            for y in y0..=y1 {
+                let mut input = prefix.clone();
+                input.extend([x as u8, y as u8]);
+                input.extend(&suffix);
+                sweep_token(&mut h, first, from.as_bytes(), to.as_bytes(), &input);
+                first = false;
+            }
+        }
+        m.check(
+            || {
+                format!(
+                    "{from} -> {to}: {} [{x0:#x}..{x1:#x}] [{y0:#x}..{y1:#x}]",
+                    s(&row["prefix"])
+                )
+            },
+            h.hex(),
+            s(&row["fnv"]).to_string(),
+        );
+    }
+    for row in chars.iter().skip(shard).step_by(SHARDS) {
+        let to = s(&row["to"]);
+        let ctx: Vec<u8> = row["ctx"]
+            .as_array()
+            .expect("ctx")
+            .iter()
+            .flat_map(|c| (c.as_u64().expect("cp") as u32).to_le_bytes())
+            .collect();
+        let (c0, c1) = range(&row["c"]);
+        let mut h = Fnv::new();
+        for cp in c0..=c1 {
+            let mut input = ctx.clone();
+            input.extend((cp as u32).to_le_bytes());
+            sweep_token(&mut h, cp == c0, b"UCS-4LE", to.as_bytes(), &input);
+        }
+        m.check(
+            || {
+                format!(
+                    "UCS-4LE -> {to} after {:?}: U+{c0:04X}..U+{c1:04X}",
+                    row["ctx"]
+                )
+            },
+            h.hex(),
+            s(&row["fnv"]).to_string(),
+        );
+    }
+    m.finish();
+}
+
+#[test]
+fn iconv_sweep_0() {
+    iconv_sweep(0);
+}
+
+#[test]
+fn iconv_sweep_1() {
+    iconv_sweep(1);
+}
+
+#[test]
+fn iconv_sweep_2() {
+    iconv_sweep(2);
+}
+
+#[test]
+fn iconv_sweep_3() {
+    iconv_sweep(3);
+}
+
+#[test]
+fn iconv_sweep_4() {
+    iconv_sweep(4);
+}
+
+#[test]
+fn iconv_sweep_5() {
+    iconv_sweep(5);
+}
+
+#[test]
+fn iconv_sweep_6() {
+    iconv_sweep(6);
+}
+
+#[test]
+fn iconv_sweep_7() {
+    iconv_sweep(7);
 }
