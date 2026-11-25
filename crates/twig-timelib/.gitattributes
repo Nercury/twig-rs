@@ -1,0 +1,10 @@
+# Generated files and oracle vectors must stay byte-exact: regenerating them is compared byte for byte.
+src/parse_date/scanner.re -text
+src/parse_date/scanner.rs -text linguist-generated
+src/parse_iso_intervals/scanner.re -text
+src/parse_iso_intervals/scanner.rs -text linguist-generated
+src/abbr_data.rs -text linguist-generated
+src/tzdb/** -text linguist-generated
+tests/vectors/** -text
+# Shell scripts run under bash and inside Docker containers: keep LF line endings.
+tools/*.sh text eol=lf

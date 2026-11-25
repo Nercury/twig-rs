@@ -10,7 +10,8 @@ authors.workspace = true
 
 [dev-dependencies]
 serde.workspace = true
-serde_json.workspace = true
+# float_roundtrip: exact parsing of the floats in the oracle vectors (latitudes, fractions).
+serde_json = { workspace = true, features = ["float_roundtrip"] }
 
 [lints]
 workspace = true
