@@ -72,6 +72,8 @@ crates/twig-value   PHP value model and engine semantics (casts, operators, comp
 crates/twig-unicode generated Unicode 17.0 tables + mbstring-compatible case mapping and UTF-8 decoders
 crates/twig-pcre    vendored PCRE2 10.44 (C) + PHP preg pattern parsing and error texts
 crates/twig-timelib timelib port + timezonedb
+crates/twig-date    PHP's ext/date layer (DateTime*, DateTimeZone, DateInterval, date functions) on twig-timelib
+crates/twig-test-support  dev-only: fixture DATA/CONFIG trees -> values, Rust versions of PHP test classes
 tests/twig/         vendored Twig 3.31.1 fixtures, oracle corpus, harness inputs
 ```
 
@@ -127,9 +129,8 @@ Design and work split: [engine.md](engine.md).
 - Exit: every fixture without dates or non-UTF-8 charsets passes.
 
 ### 5. Full parity
-- Dates wired in: port the `php_date.c` layer on top of `twig-timelib` (`DateTime`/`DateTimeImmutable`/
-  `DateTimeZone`/`DateInterval` objects, `format()` letters, `DateInterval::format`, exception texts), then `date`,
-  `date_modify` and DateTime objects in data. PHP test classes, remaining fixtures, error
+- Dates wired in: Twig's `convertDate`/`formatDate`/`modifyDate` on top of `twig-date`, then `date`, `date_modify`
+  and DateTime objects in data. PHP test classes, remaining fixtures, error
   message/line parity, deprecations, remaining unit-test ports, `reference/deviations.md` complete.
 - Exit: 486/486 non-skipped fixtures pass; oracle vector suites green.
 

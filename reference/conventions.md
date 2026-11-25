@@ -10,14 +10,17 @@
 ## Crates and dependency direction
 
 ```
-twig ──► twig-value ──► twig-unicode
-  │          └────────► twig-timelib
+twig ──► twig-date ──► twig-value ──► twig-unicode
+  │          └───────► twig-timelib
+  ├────► twig-value
   ├────► twig-pcre
   └────► twig-unicode
+
+twig-test-support (dev only) ──► twig-value
 ```
 
-- `twig-value` must not depend on `twig`. Low-level crates (`twig-unicode`, `twig-timelib`, `twig-pcre`) depend on
-  nothing in the workspace.
+- Nothing depends on `twig`. Low-level crates (`twig-unicode`, `twig-timelib`, `twig-pcre`) depend on nothing in the
+  workspace. `twig-test-support` is a dev-dependency only (fixture DATA conversion, PHP test classes).
 - Crate names never contain "php" or "zend" (PHP License 3.01 clause 4, Zend Engine License). Module and function
   names may describe the PHP behaviour they reproduce.
 
