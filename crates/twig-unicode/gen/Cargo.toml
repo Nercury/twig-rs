@@ -1,0 +1,13 @@
+[package]
+name = "twig-unicode-gen"
+version = "0.0.0"
+description = "Converts PHP mbstring's generated unicode_data.h into the Rust tables of twig-unicode."
+edition = "2024"
+rust-version = "1.88"
+license = "BSD-3-Clause"
+publish = false
+
+# A standalone tool, run by hand (see README.md); it is not a member of the twig-rs workspace.
+[workspace]
+
+[dependencies]

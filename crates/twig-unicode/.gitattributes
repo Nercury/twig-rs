@@ -1,0 +1,3 @@
+# Oracle vectors and the generated tables must stay byte-exact.
+tests/vectors/** -text
+src/tables.rs -text linguist-generated

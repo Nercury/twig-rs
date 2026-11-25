@@ -530,7 +530,7 @@ Port: L (pure Rust feasible: convert `unicode_data.h` or regenerate from Unicode
 
 ### 6.6 `mb_ord`
 
-`mbstring.c:5792`: empty string → `ValueError: mb_ord(): Argument #1 ($string) cannot be empty`; first decoded code point, or `false` if invalid [S][V]. Twig only calls it on strings already validated as UTF-8 (escaper), so it equals the Rust `char as u32`.
+`mbstring.c:5792`: empty string → `ValueError: mb_ord(): Argument #1 ($string) must not be empty`; first decoded code point, or `false` if invalid [S][V]. Twig only calls it on strings already validated as UTF-8 (escaper), so it equals the Rust `char as u32`.
 
 ### 6.7 Other encodings
 
