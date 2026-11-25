@@ -1,0 +1,16 @@
+[package]
+name = "twig-timelib"
+version = "0.1.0"
+description = "Rust port of timelib (date/time parsing and arithmetic as used by PHP) for the twig template engine."
+edition.workspace = true
+rust-version.workspace = true
+license = "MIT"
+repository.workspace = true
+authors.workspace = true
+
+[dev-dependencies]
+serde.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true

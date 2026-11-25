@@ -1,0 +1,21 @@
+[package]
+name = "twig-value"
+version = "0.1.0"
+description = "PHP-exact value model and builtin functions used by the twig template engine."
+edition.workspace = true
+rust-version.workspace = true
+license = "BSD-3-Clause AND PHP-3.01 AND Zend-2.0"
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+indexmap.workspace = true
+foldhash.workspace = true
+memchr.workspace = true
+
+[dev-dependencies]
+serde.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true

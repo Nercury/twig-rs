@@ -1,0 +1,16 @@
+[package]
+name = "twig-unicode"
+version = "0.1.0"
+description = "Unicode tables and mbstring-compatible text functions for the twig template engine."
+edition.workspace = true
+rust-version.workspace = true
+license = "BSD-3-Clause AND PHP-3.01 AND Unicode-3.0"
+repository.workspace = true
+authors.workspace = true
+
+[dev-dependencies]
+serde.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true
