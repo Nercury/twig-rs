@@ -5,6 +5,10 @@ float formatting, arithmetic, comparison, arrays (zend_hash), string conversion,
 Everything below was read from php-src 8.5.13 and **verified in Docker** (`php:8.5-cli`, PHP 8.5.13) unless it is
 explicitly marked **UNVERIFIED**. Source pointers are `file:line` relative to `ext/php-src-8.5.13/`.
 
+Resolved since this survey: `pow`/`**` bit-exactness (§6.6, §14) is verified. glibc 2.41 on the oracle's FMA+AVX2 CPU
+uses `__ieee754_pow_fma`; `twig-value::math::pow` ports it, including GCC's fused multiply-adds, with 0 mismatches on
+2.05M oracle cases. The float-formatting recipes of §5 are implemented and vector-tested in `twig-value::float`.
+
 ---
 
 ## Table of contents

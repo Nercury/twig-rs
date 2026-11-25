@@ -7,6 +7,7 @@ tests), the corresponding text can shrink to a pointer.
 | Document | Contents |
 |---|---|
 | [conventions.md](conventions.md) | Toolchain, crate dependency direction, upstream citation style, error/diagnostic model, oracle vector files, commits |
+| [deviations.md](deviations.md) | Known deviations from PHP 8.5.13 / Twig 3.31.1 and the chosen stand-ins |
 | [target.md](target.md) | Pinned versions, oracle PHP settings, Twig defaults, upgrade procedure, path placeholders |
 | [twig/syntax.md](twig/syntax.md) | Lexer (verbatim regexes, states, escapes, whitespace control), token stream, parser, expression grammar and precedence table, every tag, syntax errors and suggestions, gap analysis of the 2017 code |
 | [twig/runtime.md](twig/runtime.md) | Compiled-template structure, context passing, for-loop/inheritance/macro/include/embed/trait runtime, every node's compiled form, getAttribute, node visitors, environment, error model, loaders |

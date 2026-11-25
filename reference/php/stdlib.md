@@ -7,6 +7,26 @@ Reference for porting Twig 3.31.1 to Rust (twig-rs) with byte-identical output a
 - Oracle: Docker `php:8.5-cli` = PHP 8.5.13, Debian 13, glibc 2.41 (`ICONV_IMPL='glibc'`, `ICONV_VERSION='2.41'`), bundled PCRE2 10.44 (Unicode 15.0.0, JIT on), bundled timezonedb 2026.6, `date.timezone=UTC` (built-in default).
 - Evidence tags: **[V]** verified by running PHP 8.5.13 in Docker (scripts kept in `scratchpad/scripts/`, test files in `scratchpad/scripts/t/`); **[S]** read from source (file:line cited); **UNVERIFIED** = neither.
 
+## Resolved since this survey
+
+The implementation settled several open items and recommendations below; where the body disagrees, this list wins.
+
+- Float digit generation (§2 item 14a), `hash('xxh128')` (14b) and `pow` for `round()` (14c) are verified by
+  `twig-value` oracle vectors. `pow` is a port of glibc 2.41's FMA variant (2.05M oracle cases, 0 mismatches).
+- iconv (§7, items 12/P3) is implemented in `twig-value` (`builtins::string`) from tables measured on the oracle's
+  glibc for the common single-byte charsets and UTF variants, including TRANSLIT and the IGNORE byte-loss quirk;
+  other charsets raise an explicit error (`reference/deviations.md`).
+- Unicode case mapping (14e) uses tables converted from php-src's `unicode_data.h` (`twig-unicode`), checked per code
+  point against the oracle.
+- Dates (item 10, §13.6, 14f, 14g): re2c's Rust backend handles timelib's scanners; timelib is ported to pure Rust with
+  PHP's embedded timezonedb 2026.6 (`twig-timelib`, `research/timelib-port/README.md`). Binding is not needed.
+- Enum ordering in sorts (14h): stand-in documented in `reference/deviations.md`.
+- Random (§12): seeded `mt_rand`/MT19937 sequences match PHP exactly.
+- PCRE (§8): PHP flags strings converted from ints/floats as valid UTF-8 (matters for `/u` with `(*NOTEMPTY)`);
+  `/(*UTF)\C/` switches the JIT off with "Allocation of JIT memory failed"; `matches null` raises PHP's null-argument
+  deprecation; MARK names are cut at the first NUL byte.
+- `ord('')` is deprecated in PHP 8.5 (§5.10). Variadic arguments have no name in coercion messages (§4.1).
+
 ## Table of contents
 
 1. [Method and scope](#1-method-and-scope)
