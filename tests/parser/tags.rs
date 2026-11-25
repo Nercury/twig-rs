@@ -16,7 +16,7 @@ use twig::lexer::{Token, TokenType};
 use twig::parser::{DocumentationTarget, EndTagTest, Parser};
 use twig::{Result, Source};
 
-use super::support::parse_with;
+use super::support::{keep_parser_visitors, parse_with};
 use crate::common::Json;
 
 /// A tag returning `null` (Twig's deprecated behaviour).
@@ -85,7 +85,7 @@ impl Extension for TagExtension {
 pub fn tag_set() -> ExtensionSet {
     let mut set = ExtensionSet::with_core_extensions();
     set.add_extension(Arc::new(TagExtension)).unwrap();
-    set
+    keep_parser_visitors(set)
 }
 
 fn parse_tags(code: &str) -> (Result<Node>, Vec<Deprecation>) {

@@ -611,6 +611,68 @@ struct WrapperObject {
     wrapper: TemplateWrapper,
 }
 
+static SOURCE_CLASS: LazyLock<ClassRef> = LazyLock::new(|| {
+    // TWIG/src/Source.php: `final class Source` with private `$code`, `$name` and `$path`
+    ClassBuilder::class("Twig\\Source")
+        .final_class()
+        .method("__construct")
+        .method("getCode")
+        .method("getName")
+        .method("getPath")
+        .build()
+});
+
+/// `Twig\Source` as a PHP object: what a compiled template's `getSourceContext()` returns to templates.
+struct SourceObject {
+    code: PhpString,
+    name: PhpString,
+    path: PhpString,
+}
+
+impl SourceObject {
+    /// The compiled `getSourceContext()` of a template (Twig: `ModuleNode::compileGetSourceContext()`): `new
+    /// Source(<code if the template was compiled with debug on, else ''>, <name>, <path>)`.
+    fn of(template: &Template) -> Value {
+        let source = template.source();
+        let code = if template.program().is_debug() {
+            PhpString::from(source.code())
+        } else {
+            PhpString::empty()
+        };
+        Value::Object(ObjectRef::new(SourceObject {
+            code,
+            name: PhpString::from(source.name()),
+            path: PhpString::from(source.path()),
+        }))
+    }
+}
+
+impl Object for SourceObject {
+    fn class(&self) -> &ClassRef {
+        &SOURCE_CLASS
+    }
+
+    /// Twig: `Source::getCode()`, `getName()`, `getPath()` (extra arguments are ignored, as for any userland method).
+    fn call(
+        &self,
+        _this: &ObjectRef,
+        method: &str,
+        _args: CallArgs,
+        _diag: &mut dyn Diagnostics,
+    ) -> PhpResult<Value> {
+        match method {
+            "getcode" => Ok(Value::String(self.code.clone())),
+            "getname" => Ok(Value::String(self.name.clone())),
+            "getpath" => Ok(Value::String(self.path.clone())),
+            "__construct" => Err(PhpError::new(
+                twig_value::ThrowableClass::LogicException,
+                "Calling Twig\\Source::__construct() from a template is not supported by twig-rs.",
+            )),
+            _ => Err(twig_value::object::undefined_method(&SOURCE_CLASS, method)),
+        }
+    }
+}
+
 /// The arguments of a `TemplateWrapper` method bound to its parameters with PHP's rules (named arguments,
 /// defaults), each checked against its declared type in coercive typing mode.
 fn bind_args(
@@ -785,8 +847,10 @@ impl Object for WrapperObject {
                 }
                 Ok(Value::Array(array))
             }
-            "isownedby" | "unwrap" | "getsourcecontext" | "display" | "displayblock" | "stream"
-            | "streamblock" | "__construct" => Err(PhpError::new(
+            // `TemplateWrapper::getSourceContext()`: `$this->template->getSourceContext()`
+            "getsourcecontext" => Ok(SourceObject::of(&wrapper.template)),
+            "isownedby" | "unwrap" | "display" | "displayblock" | "stream" | "streamblock"
+            | "__construct" => Err(PhpError::new(
                 twig_value::ThrowableClass::LogicException,
                 format!(
                     "Calling Twig\\TemplateWrapper::{}() from a template is not supported by twig-rs.",

@@ -37,7 +37,7 @@ use super::environment::Environment;
 use super::markup::Markup;
 use super::template::Template;
 use crate::deprecation::{Deprecation, DeprecationSink};
-use crate::error::{Error, Result};
+use crate::error::{Error, ErrorKind, Result};
 use crate::extension::{Extension, NodeVisitor, TokenParser};
 use crate::lltl::{Program, SecurityLists};
 use crate::source::Source;
@@ -78,9 +78,9 @@ pub enum SecurityErrorKind {
 /// A sandbox violation: Twig's `Twig\Sandbox\SecurityError` and its `SecurityNotAllowed*Error` subclasses, which
 /// extend `Twig\Error\Error`.
 ///
-/// Policies return it; the checker turns it into a Twig [`Error`] with the template source and line. That error is a
-/// `RuntimeError` until [`ErrorKind`](crate::ErrorKind) gets the sandbox classes; the original `SecurityError` rides
-/// along as its [`previous`](Error::previous) error, which [`SecurityError::of`] finds.
+/// Policies return it; the checker turns it into a Twig [`Error`] of the violation's class
+/// ([`ErrorKind::SecurityNotAllowedFilter`], ...) with the template source and line; [`SecurityError::of`] gives the
+/// violation (and the names it carries) back from that error.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct SecurityError {
     kind: SecurityErrorKind,
@@ -119,14 +119,28 @@ impl SecurityError {
         }
     }
 
-    /// The sandbox violation a Twig error stands for, if it is one.
-    pub fn of(error: &Error) -> Option<&SecurityError> {
-        error.previous()?.downcast_ref::<SecurityError>()
+    /// The error kind of the violation's class, e.g. [`ErrorKind::SecurityNotAllowedFilter`].
+    pub fn error_kind(&self) -> ErrorKind {
+        match self.kind {
+            SecurityErrorKind::Tag(_) => ErrorKind::SecurityNotAllowedTag,
+            SecurityErrorKind::Filter(_) => ErrorKind::SecurityNotAllowedFilter,
+            SecurityErrorKind::Function(_) => ErrorKind::SecurityNotAllowedFunction,
+            SecurityErrorKind::Test(_) => ErrorKind::SecurityNotAllowedTest,
+            SecurityErrorKind::Method { .. } => ErrorKind::SecurityNotAllowedMethod,
+            SecurityErrorKind::Property { .. } => ErrorKind::SecurityNotAllowedProperty,
+            SecurityErrorKind::Other => ErrorKind::Security,
+        }
     }
 
-    /// The Twig error of the violation, with Twig's constructor defaults (no line, no source).
+    /// The sandbox violation a Twig error stands for, if it is one.
+    pub fn of(error: &Error) -> Option<&SecurityError> {
+        error.detail::<SecurityError>()
+    }
+
+    /// The Twig error of the violation: its class, its message, Twig's constructor defaults (no line, no source);
+    /// [`SecurityError::of`] finds the violation in it.
     pub fn into_error(self) -> Error {
-        Error::runtime(self.message.clone()).with_previous(self)
+        Error::new(self.error_kind(), self.message.clone()).with_detail(Arc::new(self))
     }
 }
 
@@ -929,6 +943,14 @@ impl fmt::Debug for SandboxExtension {
     }
 }
 
+impl Default for SandboxExtension {
+    /// Twig: `new SandboxExtension(new SecurityPolicy())`: a policy that allows nothing, not sandboxed globally (only
+    /// `{% sandbox %}` and `include(..., sandboxed = true)` sandbox templates).
+    fn default() -> Self {
+        SandboxExtension::new(Arc::new(SecurityPolicy::new()), false)
+    }
+}
+
 impl SandboxExtension {
     /// Twig: `new SandboxExtension($policy, $sandboxed)`: with `sandboxed`, every template of the environment runs
     /// sandboxed.
@@ -1155,5 +1177,8 @@ impl SandboxBridgeRuntime {
 
 /// Whether the error is a sandbox violation, with its class (for messages and tests).
 pub fn security_error_class(error: &Error) -> Option<&'static str> {
-    SecurityError::of(error).map(SecurityError::class_name)
+    error
+        .kind()
+        .is_security_error()
+        .then(|| error.kind().class_name())
 }

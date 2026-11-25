@@ -20,18 +20,14 @@
 //! from `twig-test-support`'s class table: in PHP, loading IntegrationTest.php declares the helper classes and the
 //! `Twig\Tests` enums are autoloaded.
 
-use std::any::Any;
 use std::sync::Arc;
 
 use twig::escaper::DefaultStrategy;
-use twig::extension::{
-    DebugExtension, EscaperExtension, Extension, NodeVisitor, StringLoaderExtension,
-};
+use twig::extension::{DebugExtension, Extension, StringLoaderExtension};
 use twig::loader::ArrayLoader;
 use twig::runtime::{
     DiagnosticsPolicy, Environment, EnvironmentOptions, SandboxExtension, SecurityPolicy,
 };
-use twig::visitor::EscaperNodeVisitor;
 use twig_test_support::{Autoescape, CacheOption};
 
 use super::extension::{
@@ -104,10 +100,6 @@ pub fn build(
     // `new FactoryRuntimeLoader([TwigTestLazyExtensionWithAttributes::class => static fn () => new
     // TwigTestLazyExtensionWithAttributes('+')])`
     env.add_runtime(LAZY_ATTRIBUTE_RUNTIME, Arc::new(AttributeRuntime::new("+")));
-    if escaper_visitor_missing(&env) {
-        env.add_extension(Arc::new(EscaperVisitorStopgap))
-            .map_err(|e| fail("addExtension(stopgap)", e))?;
-    }
     let policy = SecurityPolicy::new();
     policy.set_allowed_functions(["dump"]);
     let extensions: [Arc<dyn Extension>; 6] = [
@@ -144,32 +136,4 @@ pub fn build(
         }
     }
     Ok(env)
-}
-
-/// Whether the `EscaperExtension` of the environment registers no node visitor. Twig's `getNodeVisitors()` returns
-/// the `EscaperNodeVisitor`; twig-rs's extension does not yet (`src/extension/core.rs`), so the harness adds it.
-fn escaper_visitor_missing(env: &Environment) -> bool {
-    env.with_extensions(|set| {
-        set.extension::<EscaperExtension>()
-            .is_some_and(|escaper| escaper.node_visitors().is_empty())
-    })
-}
-
-/// Registers the `EscaperNodeVisitor` where Twig's `EscaperExtension` does, as long as twig-rs's does not: right
-/// after the extensions of the constructor, so that the visitor runs before the `SandboxNodeVisitor` of the same
-/// priority, as in Twig. It switches itself off once the `EscaperExtension` registers the visitor.
-struct EscaperVisitorStopgap;
-
-impl Extension for EscaperVisitorStopgap {
-    fn class_name(&self) -> &str {
-        "TwigRs\\Fixtures\\EscaperNodeVisitorStopgap"
-    }
-
-    fn node_visitors(&self) -> Vec<Arc<dyn NodeVisitor>> {
-        vec![Arc::new(EscaperNodeVisitor)]
-    }
-
-    fn as_any(&self) -> &dyn Any {
-        self
-    }
 }

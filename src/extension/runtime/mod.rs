@@ -35,8 +35,11 @@
 //! ```
 
 mod arrays;
-mod misc;
+pub(crate) mod misc;
 mod strings;
+
+pub use arrays::mt_srand;
+pub use strings::{EscaperCallback, EscaperRuntime};
 
 use std::collections::HashMap;
 use std::fmt;
@@ -109,6 +112,7 @@ pub struct Call<'a> {
     callable: &'a TwigCallable,
     args: CallArgs,
     context: Option<Array>,
+    unpacked: bool,
 }
 
 impl<'a> Call<'a> {
@@ -168,6 +172,12 @@ impl<'a> Call<'a> {
     /// The named arguments (only from unpacked string keys: `f(...{name: v})`).
     pub fn named_args(&self) -> &[(PhpString, Value)] {
         &self.args.named
+    }
+
+    /// Whether the template call unpacks arguments (`f(...values)`), even an empty sequence: PHP compiles such a
+    /// call of an internal function as a regular call, never as its frameless variant (`min()`, `max()`).
+    pub fn has_unpacked_arguments(&self) -> bool {
+        self.unpacked
     }
 
     /// Takes the arguments out of the call.
@@ -251,6 +261,7 @@ pub(crate) fn call_callable(
         callable,
         args: list.args,
         context: list.context,
+        unpacked: list.unpacked,
     };
     runtime.call(&mut call)
 }
@@ -277,22 +288,6 @@ impl RuntimeTable {
         self.runtimes.insert(name, CallableRuntime::new(function));
     }
 
-    /// Registers a callable whose implementation is not written yet: calling it fails with a clear error.
-    pub(crate) fn unimplemented(&mut self, name: &'static str, group: &'static str) {
-        self.register(name, move |call| {
-            Err(PhpError::new(
-                ThrowableClass::LogicException,
-                format!(
-                    "The {} \"{}\" is not implemented yet ({} runtimes, {name}).",
-                    call.callable_type().as_str(),
-                    String::from_utf8_lossy(call.name()),
-                    group
-                ),
-            )
-            .into())
-        });
-    }
-
     fn get(&self, name: &str) -> Option<&CallableRuntime> {
         self.runtimes.get(name)
     }
@@ -304,8 +299,7 @@ static CORE_RUNTIMES: LazyLock<RuntimeTable> = LazyLock::new(|| {
     strings::register(&mut table);
     arrays::register(&mut table);
     misc::register(&mut table);
-    // the template functions (include, include_only, source, template_from_string, render_sandboxed) live with the
-    // template runtime; registered last, they replace the group's placeholders
+    // the template functions (include, include_only, source, render_sandboxed) live with the template runtime
     crate::runtime::functions::register(&mut table);
     table
 });

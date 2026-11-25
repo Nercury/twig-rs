@@ -11,8 +11,7 @@ use twig::escaper::DefaultStrategy;
 use twig::extension::StringLoaderExtension;
 use twig::loader::ArrayLoader;
 use twig::runtime::{
-    DiagnosticsPolicy, Environment, EnvironmentOptions, Notice, SandboxExtension, SecurityError,
-    SecurityPolicy,
+    DiagnosticsPolicy, Environment, EnvironmentOptions, Notice, SandboxExtension, SecurityPolicy,
 };
 use twig::value::{Array, ArrayKey, Level, PhpString, Value};
 
@@ -237,12 +236,10 @@ fn context(case: &Json, env: &Environment) -> Array {
     context
 }
 
-/// The PHP class of an error: its sandbox class for a sandbox violation (twig-rs reports those as runtime errors
-/// until the error kinds have the sandbox classes), else its kind's class.
-fn error_class(error: &twig::Error) -> &'static str {
-    SecurityError::of(error)
-        .map(SecurityError::class_name)
-        .unwrap_or_else(|| error.kind().class_name())
+/// The PHP class of an error (sandbox violations have their own classes, PHP throwables that are not Twig errors
+/// theirs).
+fn error_class(error: &twig::Error) -> &str {
+    error.class_name()
 }
 
 /// The PHP error type name of a diagnostic level, as the oracle reports it.

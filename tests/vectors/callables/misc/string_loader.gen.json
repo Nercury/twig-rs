@@ -409,7 +409,6 @@
    "globals": {
     "g": "global"
    },
-   "pending": "TemplateWrapper::getSourceContext() from a template (template stage)",
    "id": "string_loader-021"
   },
   {
@@ -429,7 +428,6 @@
    "globals": {
     "g": "global"
    },
-   "pending": "TemplateWrapper::getSourceContext() from a template (template stage)",
    "id": "string_loader-022"
   },
   {
@@ -449,7 +447,6 @@
    "globals": {
     "g": "global"
    },
-   "pending": "TemplateWrapper::getSourceContext() from a template (template stage)",
    "id": "string_loader-023"
   },
   {
@@ -659,7 +656,6 @@
    "globals": {
     "g": "global"
    },
-   "pending": "runtime::functions registers its own template_from_string after the misc group, without PHP's binding of spread arguments",
    "id": "string_loader-034"
   },
   {
@@ -679,7 +675,6 @@
    "globals": {
     "g": "global"
    },
-   "pending": "runtime::functions registers its own template_from_string after the misc group, without PHP's binding of spread arguments",
    "id": "string_loader-035"
   },
   {
@@ -699,7 +694,6 @@
    "globals": {
     "g": "global"
    },
-   "pending": "runtime::functions registers its own template_from_string after the misc group, without PHP's binding of spread arguments",
    "id": "string_loader-036"
   },
   {
@@ -719,7 +713,6 @@
    "globals": {
     "g": "global"
    },
-   "pending": "runtime::functions registers its own template_from_string after the misc group, without PHP's binding of spread arguments",
    "id": "string_loader-037"
   },
   {
@@ -755,7 +748,6 @@
    "extensions": [
     "string_loader"
    ],
-   "pending": "auto-escaping (the EscaperExtension does not register the EscaperNodeVisitor yet)",
    "id": "string_loader-039"
   },
   {
@@ -788,7 +780,6 @@
    "extensions": [
     "string_loader"
    ],
-   "pending": "auto-escaping (the EscaperExtension does not register the EscaperNodeVisitor yet)",
    "id": "string_loader-041"
   },
   {

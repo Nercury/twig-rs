@@ -13,9 +13,10 @@ The implementation settled several open items and recommendations below; where t
 
 - Float digit generation (§2 item 14a), `hash('xxh128')` (14b) and `pow` for `round()` (14c) are verified by
   `twig-value` oracle vectors. `pow` is a port of glibc 2.41's FMA variant (2.05M oracle cases, 0 mismatches).
-- iconv (§7, items 12/P3) is implemented in `twig-value` (`builtins::string`) from tables measured on the oracle's
-  glibc for the common single-byte charsets and UTF variants, including TRANSLIT and the IGNORE byte-loss quirk;
-  other charsets raise an explicit error (`reference/deviations.md`).
+- iconv (§7, items 12/P3) is implemented in `twig-value` (`builtins::string`) with tables measured on the oracle's
+  glibc for every glibc module except a short list (UTF-7, EUC-TW, ISO-2022-CN, JOHAB, IBM932/943, stateful EBCDIC
+  DBCS, TSCII, ISO 6937), including stateful ISO-2022 encodings, TRANSLIT and the IGNORE quirks
+  (`reference/deviations.md`). mbstring-based callables still support UTF-8 and single-byte charsets only.
 - Unicode case mapping (14e) uses tables converted from php-src's `unicode_data.h` (`twig-unicode`), checked per code
   point against the oracle.
 - Dates (item 10, §13.6, 14f, 14g): re2c's Rust backend handles timelib's scanners; timelib is ported to pure Rust with

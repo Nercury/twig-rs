@@ -1,5 +1,4 @@
-//! The miscellaneous group: numbers, dates, constants and enums, `default`, `random`, `dump` and
-//! `template_from_string`.
+//! The miscellaneous group: numbers, dates, constants and enums, `default`, `dump` and `template_from_string`.
 //!
 //! Callables (TWIG/src/Extension/CoreExtension.php unless noted):
 //!
@@ -13,23 +12,22 @@
 //! | function `date` | `CoreExtension::convertDate` | [`dates`] |
 //! | function `constant` (and `constant(...) is defined`) | `CoreExtension::constant` | [`constants`] |
 //! | functions `enum`, `enum_cases` | `CoreExtension::enum`, `CoreExtension::enumCases` | [`constants`] |
-//! | function `random` | `CoreExtension::random` | [`random`] |
 //! | filter `default` | `CoreExtension::default` | here |
 //! | function `dump` | `DebugExtension::dump` (TWIG/src/Extension/DebugExtension.php) | [`debug`] |
 //! | function `template_from_string` | `StringLoaderExtension::templateFromString` | [`string_loader`] |
 //!
 //! The date, date-modify and number filters read the configuration of the `CoreExtension`
 //! ([`CoreSettings`](settings::CoreSettings)). The tests `even`, `odd`, `divisible by`, `same as`, `null`/`none`,
-//! `constant`, `true` and `defined` have node classes that compile to inline code (the code generator). The functions
-//! that render other templates (`include`, `include_only`, `source`, `render_sandboxed`) live with the template
-//! runtime (`crate::runtime::functions`), which registers them after this group; the entries here are placeholders.
+//! `constant`, `true` and `defined` have node classes that compile to inline code (the code generator). The `random`
+//! function belongs to the array group (it shares PHP's generator with `shuffle`); the functions that render other
+//! templates (`include`, `include_only`, `source`, `render_sandboxed`) live with the template runtime
+//! (`crate::runtime::functions`).
 
 pub(crate) mod constants;
 mod dates;
 mod debug;
 mod numbers;
 mod php_constants;
-mod random;
 pub(crate) mod settings;
 mod string_loader;
 #[cfg(test)]
@@ -43,8 +41,6 @@ use super::{Call, CallResult, RuntimeTable};
 use crate::error::Error;
 use crate::runtime::core::test_empty;
 use crate::vm::Exception;
-
-const GROUP: &str = "misc";
 
 /// The class of the core extension, the prefix of the reflection names of its callables.
 const CORE: &str = "Twig\\Extension\\CoreExtension";
@@ -79,21 +75,11 @@ pub(crate) fn register(table: &mut RuntimeTable) {
         "Twig\\Extension\\CoreExtension::enumCases",
         constants::enum_cases,
     );
-    table.register("Twig\\Extension\\CoreExtension::random", random::random);
     table.register("Twig\\Extension\\DebugExtension::dump", debug::dump);
     table.register(
         "Twig\\Extension\\StringLoaderExtension::templateFromString",
         string_loader::template_from_string,
     );
-    // the template stage (composition and the sandbox bridge)
-    for name in [
-        "Twig\\Extension\\CoreExtension::include",
-        "Twig\\Extension\\CoreExtension::includeOnly",
-        "Twig\\Extension\\CoreExtension::source",
-        "Twig\\Runtime\\SandboxBridgeRuntime::render",
-    ] {
-        table.unimplemented(name, GROUP);
-    }
 }
 
 /// Binds the arguments of a call to the parameters of its PHP callable with PHP's rules (named arguments of spreads,

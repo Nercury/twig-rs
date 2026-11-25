@@ -59,6 +59,11 @@ pub struct CallableParameter {
     /// The parameter is declared with the `array` type (`array $arg = []` is the variadic bucket of Twig's
     /// `is_variadic` callables).
     pub array_type: bool,
+    /// The declared PHP type proves that a value reaching the parameter cannot be converted to a string implicitly
+    /// (Twig: `CallableParameters::isStringCoercionSafe()`: `int`, `float`, `bool`, `null`, `true`, `false`, a
+    /// final class without `__toString()`, unions of such types); see
+    /// [`string_coercion_safe`](Self::string_coercion_safe).
+    pub coercion_safe: bool,
 }
 
 /// The default of a [`CallableParameter`].
@@ -80,6 +85,7 @@ impl CallableParameter {
             default: ParameterDefault::Required,
             variadic: false,
             array_type: false,
+            coercion_safe: false,
         }
     }
 
@@ -90,6 +96,7 @@ impl CallableParameter {
             default: ParameterDefault::Value(default),
             variadic: false,
             array_type: false,
+            coercion_safe: false,
         }
     }
 
@@ -100,6 +107,7 @@ impl CallableParameter {
             default: ParameterDefault::Optional,
             variadic: true,
             array_type: false,
+            coercion_safe: false,
         }
     }
 
@@ -107,6 +115,16 @@ impl CallableParameter {
     #[must_use]
     pub fn array(mut self) -> Self {
         self.array_type = true;
+        self
+    }
+
+    /// Marks the parameter as typed so that no value reaching it can be converted to a string implicitly (an
+    /// `int`, `float`, `bool` or `null` parameter, a final class without `__toString()`): the sandbox then does not
+    /// wrap the argument passed to it in a `__toString()` check, as Twig does after reflecting the PHP type
+    /// (`CallableParameters::isStringCoercionSafe()`).
+    #[must_use]
+    pub fn string_coercion_safe(mut self) -> Self {
+        self.coercion_safe = true;
         self
     }
 

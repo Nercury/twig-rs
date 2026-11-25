@@ -28,7 +28,7 @@ struct Encoding {
 
 /// What twig-rs can do with an encoding argument.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub(super) enum Charset {
+pub(crate) enum Charset {
     /// UTF-8.
     Utf8,
     /// A single-byte encoding: one character per byte.
@@ -591,7 +591,7 @@ fn unsupported(function: &str, encoding: &[u8]) -> PhpError {
 /// - an encoding that is neither UTF-8 nor single-byte: `Error` `%s(): encoding "%s" is not supported by twig-rs`
 ///   (reference/deviations.md);
 /// - a deprecation the diagnostics sink turned into an exception.
-pub(super) fn get_encoding(
+pub(crate) fn get_encoding(
     function: &str,
     position: u32,
     encoding: &[u8],
@@ -688,7 +688,7 @@ pub(super) fn convert_case(
 /// counts as one), bytes for a single-byte encoding.
 ///
 /// Port of `mb_get_strlen()` (PHPSRC/ext/mbstring/mbstring.c).
-pub(super) fn strlen(string: &[u8], charset: Charset) -> i64 {
+pub(crate) fn strlen(string: &[u8], charset: Charset) -> i64 {
     match charset {
         Charset::Utf8 => twig_unicode::mb_strlen(string) as i64,
         Charset::SingleByte { .. } => string.len() as i64,
@@ -704,7 +704,7 @@ pub(super) fn strlen(string: &[u8], charset: Charset) -> i64 {
 /// # Errors
 ///
 /// The `ValueError`s of [`substr_range_error`].
-pub(super) fn substr(
+pub(crate) fn substr(
     string: &[u8],
     start: i64,
     length: Option<i64>,
@@ -751,7 +751,7 @@ pub(super) fn substr(
 
 /// The `ValueError` of `mb_substr()` for `$start` or `$length` equal to `PHP_INT_MIN`, raised before the encoding
 /// is resolved.
-pub(super) fn substr_range_error(start: i64, length: Option<i64>) -> Option<PhpError> {
+pub(crate) fn substr_range_error(start: i64, length: Option<i64>) -> Option<PhpError> {
     let range = format!("must be between {} and {}", i64::MIN + 1, i64::MAX);
     if start == i64::MIN {
         Some(PhpError::value_error(format!(

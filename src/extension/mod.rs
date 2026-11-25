@@ -8,10 +8,12 @@
 //! keeps its position (which decides the order of "Did you mean" suggestions), names with `*` are also dynamic
 //! patterns, and nothing can be added once the registry is built.
 //!
-//! The core extensions ([`CoreExtension`], [`EscaperExtension`]) and the optional [`SandboxExtension`],
-//! [`DebugExtension`], [`StringLoaderExtension`] and [`SandboxBridgeExtension`] register Twig's tags, node visitors
-//! and callable metadata (names, options, PHP signatures, operators); the runtime fills the callables' runtime slots
-//! later. The [`TokenParser`] and [`NodeVisitor`] traits live in [`crate::token_parser`] and [`crate::visitor`].
+//! The core extensions ([`CoreExtension`], [`EscaperExtension`], [`OptimizerExtension`]) and the optional
+//! [`SandboxExtension`], [`DebugExtension`], [`StringLoaderExtension`] and [`SandboxBridgeExtension`] register Twig's
+//! tags, node visitors (Twig's `getNodeVisitors()`: the `CorrectnessNodeVisitor`, the `EscaperNodeVisitor`, the
+//! `OptimizerNodeVisitor` and the `SandboxNodeVisitor`) and callable metadata (names, options, PHP signatures,
+//! operators); the runtime fills the callables' runtime slots later. The [`TokenParser`] and [`NodeVisitor`] traits
+//! live in [`crate::token_parser`] and [`crate::visitor`].
 
 pub mod arguments;
 pub mod callable;
@@ -20,15 +22,16 @@ mod optional;
 pub mod runtime;
 
 pub use self::core::{CoreExtension, EscaperExtension};
+pub use crate::runtime::sandbox::SandboxExtension;
+pub use crate::visitor::OptimizerExtension;
 pub use callable::{
     CallableKind, CallableParameter, CallableType, DeprecatedCallableInfo, FilterNodeClass,
     FilterNodeFactory, FilterOptions, FunctionNodeClass, FunctionNodeFactory, FunctionOptions,
     ParameterDefault, ParserCallable, PhpCallable, SafeCallback, TestNodeClass, TestNodeFactory,
     TestOptions, TwigCallable, TwigFilter, TwigFunction, TwigTest,
 };
-pub use optional::{
-    DebugExtension, SandboxBridgeExtension, SandboxExtension, StringLoaderExtension,
-};
+pub use optional::{DebugExtension, SandboxBridgeExtension, StringLoaderExtension};
+pub use runtime::misc::settings::CoreSettings;
 
 use std::any::Any;
 use std::fmt;
@@ -218,9 +221,10 @@ impl ExtensionSet {
         }
     }
 
-    /// A set with the extensions `Environment::__construct()` registers for parsing: [`CoreExtension`] and
-    /// [`EscaperExtension`] (the yield-ready and optimizer extensions only contribute node visitors, which later
-    /// stages add; the escaper's visitor comes with the escaper stage).
+    /// A set with the first two extensions `Environment::__construct()` registers: [`CoreExtension`] (which
+    /// registers the `CorrectnessNodeVisitor`) and [`EscaperExtension`] with Twig's default strategy (which registers
+    /// the `EscaperNodeVisitor`). The [`Environment`](crate::runtime::Environment) adds the yield-ready extension
+    /// and the [`OptimizerExtension`] of its `optimizations` option.
     pub fn with_core_extensions() -> Self {
         let mut set = ExtensionSet::new();
         set.extensions.push(Arc::new(CoreExtension::new()));
@@ -612,6 +616,16 @@ impl ExtensionSet {
     /// The node visitors in registration order. Twig: `getNodeVisitors()`.
     pub fn node_visitors(&self) -> &[Arc<dyn NodeVisitor>] {
         &self.registry().visitors
+    }
+
+    /// Builds the registry if needed, then keeps only the node visitors for which `keep` returns `true` (in their
+    /// order). Twig has no such method; it stands for filtering the registry's `$visitors` after initialization,
+    /// for a parser-only pipeline (the parser tests keep only the `CorrectnessNodeVisitor`, as their oracle does).
+    pub fn retain_node_visitors(&mut self, keep: impl FnMut(&Arc<dyn NodeVisitor>) -> bool) {
+        self.initialize();
+        if let Some(registry) = self.registry.get_mut() {
+            registry.visitors.retain(keep);
+        }
     }
 
     /// The expression parsers. Twig: `getExpressionParsers()`.

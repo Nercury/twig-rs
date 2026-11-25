@@ -7,7 +7,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use super::{DEFAULT_MAX_NESTING_LEVEL, Parser, TokenStream};
 use crate::ast::Node;
 use crate::deprecation::DeprecationSink;
-use crate::error::{Error, ErrorKind, Result};
+use crate::error::{Error, Result};
 use crate::extension::ExtensionSet;
 use crate::lexer::{Lexer, LexerOptions};
 use crate::source::Source;
@@ -171,13 +171,13 @@ impl ParseContext {
     }
 }
 
-/// The `catch` blocks of `Environment::compileSource()`: a Twig error (syntax, loader, runtime) gets the source of
-/// the compiled template (`setSourceContext($source)`); any other error (a PHP `LogicException`) becomes
-/// `An exception has been thrown during the compilation of a template ("%s").` without a line, with the error as its
-/// previous error.
+/// The `catch` blocks of `Environment::compileSource()`: a Twig error (syntax, loader, runtime, sandbox) gets the
+/// source of the compiled template (`setSourceContext($source)`); any other error (a PHP `LogicException`, another
+/// throwable) becomes `An exception has been thrown during the compilation of a template ("%s").` without a line, with
+/// the error as its previous error.
 pub fn compile_source_error(error: Error, source: &Source) -> Error {
     match error.kind() {
-        ErrorKind::Logic => Error::syntax(format!(
+        kind if !kind.is_twig_error() => Error::syntax(format!(
             "An exception has been thrown during the compilation of a template (\"{}\").",
             error.raw_message()
         ))

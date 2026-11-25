@@ -1,5 +1,6 @@
-//! Parses a template the way `$env->parse($env->tokenize($source))` does (the parser, every core tag and the
-//! correctness checks) and prints its node tree (the format of the oracle vectors), the error, and the deprecations.
+//! Parses a template the way `$env->parse($env->tokenize($source))` does (the parser, every core tag and the node
+//! visitors of a default environment: correctness checks, auto-escaping, optimizations, plus the sandbox's checks) and
+//! prints its node tree (the format of the oracle vectors), the error, and the deprecations.
 //!
 //!     cargo run --example parse_nodes -- '{% for user in users %}{{ user.name|upper }}{% endfor %}'
 //!     cargo run --example parse_nodes -- --file template.twig
@@ -12,7 +13,7 @@ use std::sync::Arc;
 use twig::Source;
 use twig::ast::dump::dump_node;
 use twig::deprecation::Deprecation;
-use twig::extension::{ExtensionSet, SandboxExtension};
+use twig::extension::{ExtensionSet, OptimizerExtension, SandboxExtension};
 use twig::parser::ParseContext;
 
 fn main() -> ExitCode {
@@ -38,11 +39,17 @@ fn main() -> ExitCode {
         }
     };
 
-    // The core extensions, plus the sandbox extension for the (deprecated) `sandbox` tag.
+    // The extensions of `new Environment()` (core, escaper, optimizer), plus the sandbox extension for the
+    // (deprecated) `sandbox` tag, whose visitor adds the security checks.
     let mut extensions = ExtensionSet::with_core_extensions();
-    if let Err(error) = extensions.add_extension(Arc::new(SandboxExtension::new())) {
-        eprintln!("{error}");
-        return ExitCode::FAILURE;
+    for extension in [
+        Arc::new(OptimizerExtension::default()) as Arc<dyn twig::extension::Extension>,
+        Arc::new(SandboxExtension::default()),
+    ] {
+        if let Err(error) = extensions.add_extension(extension) {
+            eprintln!("{error}");
+            return ExitCode::FAILURE;
+        }
     }
     let context = ParseContext::new(extensions);
 
@@ -59,7 +66,7 @@ fn main() -> ExitCode {
             ExitCode::SUCCESS
         }
         Err(error) => {
-            eprintln!("{}: {error}", error.kind().class_name());
+            eprintln!("{}: {error}", error.class_name());
             ExitCode::FAILURE
         }
     }

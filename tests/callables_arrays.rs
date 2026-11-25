@@ -34,7 +34,7 @@ use twig::extension::{CallableParameter, FilterOptions, PhpCallable, TwigFilter}
 use twig::loader::ArrayLoader;
 use twig::runtime::{
     DiagnosticsPolicy, Environment, EnvironmentOptions, Markup, Notice, SandboxExtension,
-    SecurityError, SecurityPolicy,
+    SecurityPolicy,
 };
 use twig::value::object::{
     ArrayIterator, ArrayObject, CallArgs, ClassBuilder, ClassRef, FunctionKind, Object,
@@ -248,9 +248,7 @@ fn run_case(case: &Json, expected: &Json) -> Option<String> {
             let want = expected.field("error");
             let class = want.field("class").as_str().unwrap_or_default();
             let message = want.field("message").as_lossy_string();
-            let class_name = SecurityError::of(error)
-                .map_or_else(|| error.kind().class_name(), SecurityError::class_name);
-            let got = format!("{class_name}: {error}");
+            let got = format!("{}: {error}", error.class_name());
             let wanted = format!("{class}: {message}");
             if got != wanted {
                 problems.push(format!("error {got:?}, expected {wanted:?}"));

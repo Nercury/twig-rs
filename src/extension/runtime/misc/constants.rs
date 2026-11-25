@@ -296,8 +296,9 @@ fn enum_name(call: &mut Call<'_>, function: &str) -> CallResult<PhpString> {
     })
 }
 
-/// `enum_exists($enum)`: the class, when it exists and is an enum.
-fn find_enum(env: &Environment, name: &[u8]) -> Option<ClassRef> {
+/// `enum_exists($enum)`: the class, when it exists and is an enum (also what `EnumFunction` and `EnumCasesFunction`
+/// check while compiling a literal name).
+pub(crate) fn find_enum(env: &Environment, name: &[u8]) -> Option<ClassRef> {
     find_class(env, name).filter(|class| class.is_enum())
 }
 

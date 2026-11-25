@@ -228,15 +228,36 @@ impl TestExtension {
     }
 }
 
+/// The node visitors of the later pipeline stages (auto-escaping, optimizing, sandboxing), which the parser tests
+/// leave out.
+const LATER_STAGE_VISITORS: [&str; 3] = [
+    "Twig\\NodeVisitor\\EscaperNodeVisitor",
+    "Twig\\NodeVisitor\\OptimizerNodeVisitor",
+    "Twig\\NodeVisitor\\SandboxNodeVisitor",
+];
+
+/// Initializes the extensions and keeps only the parser's own node visitors (every visitor but the escaper,
+/// optimizer and sandbox visitors), as the oracle's `keep_parser_visitors()` does in the generators of the parser
+/// vectors: the trees compared are those of the parser and the `CorrectnessNodeVisitor`.
+pub fn keep_parser_visitors(mut set: ExtensionSet) -> ExtensionSet {
+    set.retain_node_visitors(|visitor| !LATER_STAGE_VISITORS.contains(&visitor.class_name()));
+    set
+}
+
+/// The core extensions with the parser's own node visitors only ([`keep_parser_visitors`]).
+pub fn parser_set() -> ExtensionSet {
+    keep_parser_visitors(ExtensionSet::with_core_extensions())
+}
+
 /// The core extensions plus the optional extensions (`extensions`, e.g. `["sandbox"]`) and the test extension
-/// (`ext`) of a vector case, in the order the generator registers them.
+/// (`ext`) of a vector case, in the order the generator registers them, with the parser's own node visitors only.
 pub fn extension_set(case: &Json) -> ExtensionSet {
     let mut set = ExtensionSet::with_core_extensions();
     if let Some(extensions) = case.get("extensions") {
         for extension in extensions.as_array() {
             match extension.as_str() {
                 Some("sandbox") => set
-                    .add_extension(Arc::new(twig::extension::SandboxExtension::new()))
+                    .add_extension(Arc::new(twig::extension::SandboxExtension::default()))
                     .expect("the set is not initialized yet"),
                 other => panic!("unknown extension {other:?}"),
             }
@@ -246,7 +267,7 @@ pub fn extension_set(case: &Json) -> ExtensionSet {
         set.add_extension(Arc::new(TestExtension::from_json(ext)))
             .expect("the set is not initialized yet");
     }
-    set
+    keep_parser_visitors(set)
 }
 
 /// `$env->parse($env->tokenize($source))`: the module or the error, with every deprecation raised on the way
@@ -263,12 +284,9 @@ pub fn parse_with(set: &ExtensionSet, source: &Source) -> (Result<Node, Error>, 
     (result, deprecations)
 }
 
-/// Parses a template named `index` with the core extensions.
+/// Parses a template named `index` with the core extensions (parser visitors only).
 pub fn parse(code: &str) -> (Result<Node, Error>, Vec<Deprecation>) {
-    parse_with(
-        &ExtensionSet::with_core_extensions(),
-        &Source::new(code, "index"),
-    )
+    parse_with(&parser_set(), &Source::new(code, "index"))
 }
 
 /// The error message of parsing `code` with the core extensions.

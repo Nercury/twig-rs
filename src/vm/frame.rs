@@ -96,10 +96,12 @@ impl Frame {
 }
 
 /// An argument list being built for a call (`ZEND_SEND_*`): positional arguments, named arguments from unpacked
-/// string keys, and the context snapshot of a `needs_context` callable.
+/// string keys, the context snapshot of a `needs_context` callable, and whether the call unpacks arguments.
 pub(crate) struct ArgList {
     pub(crate) args: CallArgs,
     pub(crate) context: Option<Array>,
+    /// The call has a `...` argument (PHP compiles it with `ZEND_SEND_UNPACK`, never as a frameless call).
+    pub(crate) unpacked: bool,
 }
 
 impl ArgList {
@@ -107,6 +109,7 @@ impl ArgList {
         ArgList {
             args: CallArgs::new(),
             context,
+            unpacked: false,
         }
     }
 

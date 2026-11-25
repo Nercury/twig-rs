@@ -13,7 +13,6 @@ use std::sync::Arc;
 
 use twig::Error;
 use twig::ast::{ConstantValue, Expr, Node};
-use twig::escaper::{EscapeError, INVALID_UTF8_MESSAGE, Strategy};
 use twig::extension::runtime::{Call, CallResult, CallableRuntime};
 use twig::extension::{
     CallableParameter as P, DeprecatedCallableInfo, Extension, FilterOptions, FunctionOptions,
@@ -26,7 +25,7 @@ use twig::runtime::Environment;
 use twig::value::builtins::string::{str_contains, str_replace, strtoupper};
 use twig::value::object::{CallArgs, FunctionKind, Param};
 use twig::value::param::{DeclaredType, TypeMask, UserArg, verify_user_arg};
-use twig::value::{Diagnostics, PhpResult, PhpString, Value, compare, convert, ops};
+use twig::value::{Diagnostics, PhpResult, PhpString, Value, compare, ops};
 
 /// `Twig\Tests\TwigTestExtension`.
 pub const TEST_EXTENSION: &str = "Twig\\Tests\\TwigTestExtension";
@@ -157,26 +156,10 @@ fn nl2br(value: Value, sep: &Value, diag: &mut dyn Diagnostics) -> PhpResult<Val
 }
 
 /// `$env->getRuntime(EscaperRuntime::class)->escape($value, 'html')` (TWIG/src/Runtime/EscaperRuntime.php, with
-/// `$autoescape = false` and no charset): a `Stringable` object is converted, any other non-string returned as is
-/// (`html` is a built-in strategy), `''` stays `''`, and a string is escaped with the runtime's charset.
+/// `$autoescape = false` and no charset): the environment's escaper runtime.
 fn escape_html(env: &Environment, value: Value, diag: &mut dyn Diagnostics) -> CallResult {
-    let string = match value {
-        Value::String(string) => string,
-        Value::Object(object) if object.instance_of("Stringable") => {
-            convert::to_string(&Value::Object(object), diag)?
-        }
-        other => return Ok(other),
-    };
-    if string.is_empty() {
-        return Ok(text(""));
-    }
-    let charset = env.charset();
-    match twig::escaper::escape(string.as_bytes(), Strategy::Html, charset.as_bytes(), diag) {
-        Ok(Some(escaped)) => Ok(Value::String(escaped)),
-        Ok(None) => Ok(Value::Bool(false)),
-        Err(EscapeError::Php(error)) => Err(error.into()),
-        Err(EscapeError::InvalidUtf8) => Err(Error::runtime(INVALID_UTF8_MESSAGE).into()),
-    }
+    env.escaper_runtime()
+        .escape(value, b"html", None, false, diag)
 }
 
 /// `TwigTestExtension::__call($method, $arguments)` (for `magicCall`) and `__callStatic()` (for `magicStaticCall`):

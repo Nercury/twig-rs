@@ -38,6 +38,10 @@ use crate::extension::{EscaperExtension, ExtensionSet};
 pub struct EscaperNodeVisitor;
 
 impl NodeVisitor for EscaperNodeVisitor {
+    fn class_name(&self) -> &str {
+        "Twig\\NodeVisitor\\EscaperNodeVisitor"
+    }
+
     /// 0. Twig: `EscaperNodeVisitor::getPriority()`.
     fn priority(&self) -> i64 {
         priority::ESCAPER

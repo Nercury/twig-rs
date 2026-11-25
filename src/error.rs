@@ -1,19 +1,30 @@
 //! Twig's error model: `Twig\Error\Error` and its `SyntaxError`, `LoaderError` and `RuntimeError` subclasses
-//! (TWIG/src/Error/).
+//! (TWIG/src/Error/), the sandbox's `Twig\Sandbox\SecurityError` family (TWIG/src/Sandbox/), and the PHP throwables
+//! that are not Twig errors (`LogicException`, and `ErrorException`, `ValueError`, `TypeError`, ... carried as
+//! [`ErrorKind::Php`]).
+//!
+//! Twig treats the two groups differently: a Twig error keeps its class when it crosses a template and gets the
+//! template's name and line (`Error::updateRepr()`), while any other throwable raised inside a template is wrapped by
+//! the template that handles it (`Template::handleException()`: `An exception has been thrown during the rendering
+//! of a template ("%s").`) and by `Environment::compileSource()` while compiling. [`ErrorKind::is_twig_error`] tells
+//! them apart.
 //!
 //! Messages are Rust strings. Where Twig would interpolate template bytes that are not valid UTF-8 into a message,
 //! twig-rs uses a lossy conversion (invalid sequences become U+FFFD); this is the only intended difference from
 //! the PHP messages.
 
+use std::any::Any;
 use std::fmt::{self, Write as _};
 use std::sync::Arc;
+
+use twig_value::{PhpError, ThrowableClass};
 
 use crate::source::Source;
 
 /// Result alias for operations that fail with a Twig [`Error`].
 pub type Result<T, E = Error> = std::result::Result<T, E>;
 
-/// The Twig exception class an [`Error`] stands for.
+/// The PHP exception class an [`Error`] stands for.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[non_exhaustive]
 pub enum ErrorKind {
@@ -23,20 +34,72 @@ pub enum ErrorKind {
     Loader,
     /// `Twig\Error\RuntimeError`: errors raised while rendering.
     Runtime,
+    /// `Twig\Sandbox\SecurityError`: a sandbox violation of its own class (raised by a custom security policy).
+    Security,
+    /// `Twig\Sandbox\SecurityNotAllowedTagError`: a tag the security policy does not allow.
+    SecurityNotAllowedTag,
+    /// `Twig\Sandbox\SecurityNotAllowedFilterError`: a filter the security policy does not allow.
+    SecurityNotAllowedFilter,
+    /// `Twig\Sandbox\SecurityNotAllowedFunctionError`: a function the security policy does not allow.
+    SecurityNotAllowedFunction,
+    /// `Twig\Sandbox\SecurityNotAllowedTestError`: a test the security policy does not allow.
+    SecurityNotAllowedTest,
+    /// `Twig\Sandbox\SecurityNotAllowedMethodError`: a method call the security policy does not allow.
+    SecurityNotAllowedMethod,
+    /// `Twig\Sandbox\SecurityNotAllowedPropertyError`: a property read the security policy does not allow.
+    SecurityNotAllowedProperty,
     /// PHP's `LogicException`: a programming error Twig reports outside its own error classes (registering an
     /// extension too late, a node built without a required child, ...). Such errors carry no template location.
     Logic,
+    /// Any other PHP throwable that is not a Twig error: an `ErrorException` made from a PHP warning or notice, a
+    /// `ValueError`, a `TypeError`, an exception of a host object, ... The throwable itself (its class and verbatim
+    /// message) is [`Error::php_error`], its class [`Error::class_name`]; such errors carry no template location.
+    Php,
 }
 
 impl ErrorKind {
-    /// The fully qualified PHP class name, e.g. `Twig\Error\SyntaxError` (what Twig's test harness prints).
+    /// The fully qualified PHP class name, e.g. `Twig\Error\SyntaxError` (what Twig's test harness prints). For
+    /// [`ErrorKind::Php`], which stands for many classes, this is the interface they share, `Throwable`;
+    /// [`Error::class_name`] gives the class of a particular error.
     pub fn class_name(self) -> &'static str {
         match self {
             ErrorKind::Syntax => "Twig\\Error\\SyntaxError",
             ErrorKind::Loader => "Twig\\Error\\LoaderError",
             ErrorKind::Runtime => "Twig\\Error\\RuntimeError",
+            ErrorKind::Security => "Twig\\Sandbox\\SecurityError",
+            ErrorKind::SecurityNotAllowedTag => "Twig\\Sandbox\\SecurityNotAllowedTagError",
+            ErrorKind::SecurityNotAllowedFilter => "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+            ErrorKind::SecurityNotAllowedFunction => {
+                "Twig\\Sandbox\\SecurityNotAllowedFunctionError"
+            }
+            ErrorKind::SecurityNotAllowedTest => "Twig\\Sandbox\\SecurityNotAllowedTestError",
+            ErrorKind::SecurityNotAllowedMethod => "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+            ErrorKind::SecurityNotAllowedProperty => {
+                "Twig\\Sandbox\\SecurityNotAllowedPropertyError"
+            }
             ErrorKind::Logic => "LogicException",
+            ErrorKind::Php => "Throwable",
         }
+    }
+
+    /// Whether the class extends `Twig\Error\Error` (syntax, loader, runtime and sandbox errors): such errors get the
+    /// template's name and line in their message and are not wrapped by templates or by the compilation.
+    pub fn is_twig_error(self) -> bool {
+        !matches!(self, ErrorKind::Logic | ErrorKind::Php)
+    }
+
+    /// Whether the class extends `Twig\Sandbox\SecurityError`.
+    pub fn is_security_error(self) -> bool {
+        matches!(
+            self,
+            ErrorKind::Security
+                | ErrorKind::SecurityNotAllowedTag
+                | ErrorKind::SecurityNotAllowedFilter
+                | ErrorKind::SecurityNotAllowedFunction
+                | ErrorKind::SecurityNotAllowedTest
+                | ErrorKind::SecurityNotAllowedMethod
+                | ErrorKind::SecurityNotAllowedProperty
+        )
     }
 }
 
@@ -45,6 +108,9 @@ impl ErrorKind {
 ///
 /// Twig: `Twig\Error\Error` (TWIG/src/Error/Error.php). The template line keeps Twig's conventions: `-1` (the
 /// default) means "unknown, may be guessed later" and `0` means "no line"; only lines `> 0` are printed.
+///
+/// An error of a kind that is not a Twig error ([`ErrorKind::Logic`], [`ErrorKind::Php`]) stands for that PHP
+/// throwable: its message is the raw message, whatever line or source is set.
 #[derive(Clone)]
 pub struct Error {
     inner: Box<Inner>,
@@ -58,6 +124,11 @@ struct Inner {
     column: Option<usize>,
     source: Option<Source>,
     previous: Option<Arc<dyn std::error::Error + Send + Sync + 'static>>,
+    /// The PHP throwable an [`ErrorKind::Php`] (or a converted `LogicException`) error stands for.
+    php: Option<PhpError>,
+    /// Structured data of the exception object that its message does not show (the names a sandbox violation
+    /// carries: `getTagName()`, `getClassName()`, ...).
+    detail: Option<Arc<dyn Any + Send + Sync>>,
 }
 
 impl Error {
@@ -73,7 +144,52 @@ impl Error {
                 column: None,
                 source: None,
                 previous: None,
+                php: None,
+                detail: None,
             }),
+        }
+    }
+
+    /// The error standing for a PHP throwable that is not a Twig error: [`ErrorKind::Logic`] for a
+    /// `LogicException`, [`ErrorKind::Php`] for anything else (`ErrorException`, `ValueError`, `TypeError`, ...).
+    /// The message is the throwable's (lossy UTF-8); the throwable stays available as [`php_error`](Self::php_error)
+    /// and comes back unchanged when the error crosses the engine again.
+    pub fn php(error: PhpError) -> Self {
+        let kind = if *error.class() == ThrowableClass::LogicException {
+            ErrorKind::Logic
+        } else {
+            ErrorKind::Php
+        };
+        let mut converted = Error::new(kind, error.message_lossy().into_owned());
+        converted.inner.php = Some(error);
+        converted
+    }
+
+    /// Attaches structured data of the exception object (see [`detail`](Self::detail)).
+    #[must_use]
+    pub(crate) fn with_detail(mut self, detail: Arc<dyn Any + Send + Sync>) -> Self {
+        self.inner.detail = Some(detail);
+        self
+    }
+
+    /// Structured data of the exception object that is not part of its message, e.g. the
+    /// [`SecurityError`](crate::runtime::SecurityError) of a sandbox violation.
+    pub(crate) fn detail<T: Any>(&self) -> Option<&T> {
+        self.inner.detail.as_deref()?.downcast_ref::<T>()
+    }
+
+    /// The PHP throwable this error stands for: the one given to [`Error::php`], else (for a `LogicException` made
+    /// with [`Error::logic`]) `None`.
+    pub fn php_error(&self) -> Option<&PhpError> {
+        self.inner.php.as_ref()
+    }
+
+    /// The fully qualified PHP class of the error: [`ErrorKind::class_name`], or the class of the PHP throwable an
+    /// [`ErrorKind::Php`] error stands for (e.g. `ErrorException`, `ValueError`).
+    pub fn class_name(&self) -> &str {
+        match &self.inner.php {
+            Some(php) => php.class().name(),
+            None => self.inner.kind.class_name(),
         }
     }
 
@@ -237,12 +353,16 @@ impl Error {
     }
 
     /// The final message: the raw message with ` in "<name>"`, ` at line N` and ` column C` inserted before a
-    /// trailing `.` or `?`.
+    /// trailing `.` or `?`. The message of an error that is not a Twig error (a `LogicException`, an
+    /// [`ErrorKind::Php`] throwable) is its raw message.
     ///
     /// Twig: `Error::updateRepr()` (TWIG/src/Error/Error.php), i.e. what `getMessage()` returns.
     pub fn message(&self) -> String {
         let inner = &*self.inner;
         let mut message = inner.raw_message.clone();
+        if !inner.kind.is_twig_error() {
+            return message;
+        }
         let punctuation = match message.as_bytes().last() {
             Some(b'.') => Some('.'),
             Some(b'?') => Some('?'),
@@ -287,6 +407,7 @@ impl fmt::Debug for Error {
             .field("column", &inner.column)
             .field("source", &inner.source.as_ref().map(Source::name))
             .field("previous", &inner.previous)
+            .field("php", &inner.php)
             .finish()
     }
 }
@@ -425,6 +546,44 @@ mod tests {
             None
         });
         assert_eq!(error.template_line(), 0);
+    }
+
+    #[test]
+    fn carries_php_throwables() {
+        let error = Error::php(PhpError::new(
+            ThrowableClass::ErrorException,
+            "file_get_contents(x): Failed to open stream: No such file or directory",
+        ))
+        .with_line(3)
+        .with_source(Source::new("", "index"));
+        assert_eq!(error.kind(), ErrorKind::Php);
+        assert!(!error.kind().is_twig_error());
+        assert_eq!(error.class_name(), "ErrorException");
+        assert_eq!(
+            error.to_string(),
+            "file_get_contents(x): Failed to open stream: No such file or directory",
+            "a PHP throwable's message is not decorated"
+        );
+        let logic = Error::php(PhpError::new(ThrowableClass::LogicException, "late"));
+        assert_eq!(logic.kind(), ErrorKind::Logic);
+        assert_eq!(logic.class_name(), "LogicException");
+        assert_eq!(
+            Error::php(PhpError::value_error("x")).class_name(),
+            "ValueError"
+        );
+        assert_eq!(
+            Error::new(
+                ErrorKind::SecurityNotAllowedFilter,
+                "Filter \"x\" is not allowed."
+            )
+            .with_line(2)
+            .with_source(Source::new("", "index"))
+            .to_string(),
+            "Filter \"x\" is not allowed in \"index\" at line 2."
+        );
+        assert!(ErrorKind::SecurityNotAllowedFilter.is_security_error());
+        assert!(ErrorKind::SecurityNotAllowedFilter.is_twig_error());
+        assert!(!ErrorKind::Runtime.is_security_error());
     }
 
     #[test]

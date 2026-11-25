@@ -423,35 +423,49 @@ pub fn destructure_sequence(
     Ok(())
 }
 
-/// PHP's `constant($name)` (the `constant` test), or `constant(get_class($object)."::".$name)`.
+/// PHP's `constant($name)` (the `constant` test), or `constant(get_class($object)."::".$name)`: the compiled code of
+/// Twig's `ConstantTest` (TWIG/src/Node/Expression/Test/ConstantTest.php). The lookup is PHP's `constant()` over the
+/// environment's classes and constants and the PHP constants twig-rs ships
+/// ([`constant_value`](crate::extension::runtime::misc::constants::constant_value): visibility checks, deprecations
+/// naming the declaring class).
 ///
 /// # Errors
 ///
-/// `get_class(): Argument #1 ($object) must be of type object, %s given`, and the errors of the lookup
-/// (`Undefined constant "X"`, `Class "X" not found`, `Undefined constant X::Y`).
+/// `get_class(): Argument #1 ($object) must be of type object, %s given`, the `TypeError` of `constant()`'s `string
+/// $name` parameter, and the errors of the lookup (`Undefined constant "X"`, `Class "X" not found`, `Undefined
+/// constant X::Y`, `Cannot access private constant X::Y`).
 pub fn php_constant(
     state: &mut VmState,
     name: &Value,
     object: Option<&Value>,
 ) -> Result<Value, Exception> {
-    let mut full = Vec::new();
-    if let Some(object) = object {
-        match object {
-            Value::Object(o) => full.extend_from_slice(o.class_name().as_bytes()),
-            other => {
-                return Err(PhpError::type_error(format!(
-                    "get_class(): Argument #1 ($object) must be of type object, {} given",
-                    twig_value::types::zend_zval_value_name(other)
-                ))
-                .into());
-            }
+    let full = match object {
+        Some(object) => {
+            let class = match object {
+                Value::Object(o) => o.class_name().to_owned(),
+                other => {
+                    return Err(PhpError::type_error(format!(
+                        "get_class(): Argument #1 ($object) must be of type object, {} given",
+                        twig_value::types::zend_zval_value_name(other)
+                    ))
+                    .into());
+                }
+            };
+            // `get_class($object)."::".$name`: the concatenation converts the name
+            let name = convert::to_string(name, state)?;
+            PhpString::concat(&[class.as_bytes(), b"::", name.as_bytes()])
         }
-        full.extend_from_slice(b"::");
-    }
-    let name = convert::to_string(name, state)?;
-    full.extend_from_slice(&name);
+        // `constant($name)`: the internal function's `string $name` parameter
+        None => twig_value::param::parse_str(
+            name,
+            &twig_value::param::Arg::new("constant", 1, "name"),
+            state,
+        )?,
+    };
     let env = state.env.clone();
-    Ok(env.with_constants(|constants| constants.constant(&full, state))?)
+    Ok(crate::extension::runtime::misc::constants::constant_value(
+        &env, &full, state,
+    )?)
 }
 
 /// PHP's `++`/`--` (`increment_function()`/`decrement_function()`, PHPSRC/Zend/zend_operators.c).

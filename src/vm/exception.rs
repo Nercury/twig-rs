@@ -6,7 +6,7 @@ use std::sync::Arc;
 
 use twig_value::{PhpError, ThrowableClass};
 
-use crate::error::{Error, ErrorKind};
+use crate::error::Error;
 use crate::lltl::FileId;
 
 /// One frame of the template stack at the point an exception was raised: the compiled file of the frame's template
@@ -58,8 +58,9 @@ enum Kind {
 }
 
 impl Exception {
-    /// The Twig error, when this is one (any [`ErrorKind`]; a [`ErrorKind::Logic`] error stands for PHP's
-    /// `LogicException`, which Twig treats like any other non-Twig exception).
+    /// The Twig error, when this is one (any [`ErrorKind`](crate::ErrorKind) but
+    /// [`ErrorKind::Php`](crate::ErrorKind::Php); a [`ErrorKind::Logic`](crate::ErrorKind::Logic) error stands for
+    /// PHP's `LogicException`, which Twig treats like any other non-Twig exception).
     pub fn twig_error(&self) -> Option<&Error> {
         match &self.inner.kind {
             Kind::Twig(error) => Some(error),
@@ -75,10 +76,10 @@ impl Exception {
         }
     }
 
-    /// Whether this is an instance of `Twig\Error\Error` (syntax, loader or runtime error), the errors
+    /// Whether this is an instance of `Twig\Error\Error` (syntax, loader, runtime or sandbox error), the errors
     /// `Template::handleException()` does not wrap.
     pub fn is_twig_error(&self) -> bool {
-        matches!(&self.inner.kind, Kind::Twig(error) if error.kind() != ErrorKind::Logic)
+        matches!(&self.inner.kind, Kind::Twig(error) if error.kind().is_twig_error())
     }
 
     /// The message: `getMessage()` of the exception.
@@ -89,15 +90,13 @@ impl Exception {
         }
     }
 
-    /// Converts into a Twig error: a Twig error as it is; any other throwable as a `RuntimeError` with the throwable's
-    /// message and the throwable as its previous error (for exceptions that leave the engine outside every template,
-    /// which Twig would not wrap; the message is kept so nothing is lost).
+    /// Converts into an [`Error`]: a Twig error as it is; any other throwable as the
+    /// [`ErrorKind::Php`](crate::ErrorKind::Php) error standing for it ([`Error::php`]: its class and message are
+    /// kept), as such exceptions leave the engine outside every template, unwrapped.
     pub fn into_error(self) -> Error {
         match self.inner.kind {
             Kind::Twig(error) => error,
-            Kind::Php(error) => {
-                Error::runtime(error.message_lossy().into_owned()).with_previous(error)
-            }
+            Kind::Php(error) => Error::php(error),
         }
     }
 
@@ -150,7 +149,14 @@ impl Exception {
 }
 
 impl From<Error> for Exception {
+    /// A Twig error; an error standing for a PHP throwable ([`Error::php`]) gives the throwable back, so templates
+    /// wrap it like any other non-Twig exception.
     fn from(error: Error) -> Self {
+        if error.kind() == crate::ErrorKind::Php
+            && let Some(php) = error.php_error()
+        {
+            return Exception::from(php.clone());
+        }
         Exception {
             inner: Box::new(Inner {
                 kind: Kind::Twig(error),

@@ -5,14 +5,16 @@
 //! the phar archive. Cargo runs integration tests in the package root, which plays the role of PHPUnit's current
 //! directory (the Twig checkout) in `testPaths`.
 //!
-//! Not ported yet: the rendering halves of `testLoadTemplateAndRenderBlockWithCache` and `testArrayInheritance`
-//! (they need the `Environment`); their loader halves are below. `testLoadTemplateFromPhar` documents that
-//! `phar://` paths are not supported.
+//! `testLoadTemplateAndRenderBlockWithCache` and `testArrayInheritance` render through an `Environment`; their
+//! loader halves are checked separately. `testLoadTemplateFromPhar` documents that `phar://` paths are not
+//! supported.
 
 use std::sync::Arc;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
 use twig::loader::{ArrayLoader, ChainLoader, FilesystemLoader, Loader};
+use twig::runtime::Environment;
+use twig::value::Array;
 use twig::{ErrorKind, Result, Source};
 
 const MAIN: &str = FilesystemLoader::MAIN_NAMESPACE;
@@ -436,6 +438,61 @@ fn load_template_with_cache_loader_part() {
         code(&loader, "@default_theme/blocks.html.twig")
             .starts_with("{% block b1 %}block from theme 1")
     );
+}
+
+/// `testLoadTemplateAndRenderBlockWithCache`: `blocks.html.twig` of theme 2 uses the blocks of theme 1 through
+/// the `default_theme` namespace and overrides `b2`; the second load comes from the cache.
+#[test]
+fn load_template_and_render_block_with_cache() {
+    let loader = FilesystemLoader::new(Vec::<String>::new()).unwrap();
+    loader
+        .add_path(&format!("{}/Fixtures/themes/theme2", dir()), MAIN)
+        .unwrap();
+    loader
+        .add_path(&format!("{}/Fixtures/themes/theme1", dir()), MAIN)
+        .unwrap();
+    loader
+        .add_path(
+            &format!("{}/Fixtures/themes/theme1", dir()),
+            "default_theme",
+        )
+        .unwrap();
+    let twig = Environment::new(loader);
+
+    let template = twig.load("blocks.html.twig").unwrap();
+    assert_eq!(
+        template.render_block("b1", Array::new()).unwrap(),
+        "block from theme 1"
+    );
+
+    let template = twig.load("blocks.html.twig").unwrap();
+    assert_eq!(
+        template.render_block("b2", Array::new()).unwrap(),
+        "block from theme 2"
+    );
+}
+
+/// `testArrayInheritance`: `{% extends ['...', 'parent.html.twig'] %}` takes the first parent that exists (an
+/// empty name and a missing template are skipped).
+#[test]
+fn array_inheritance() {
+    for name in [
+        "array_inheritance_valid_parent.html.twig",
+        "array_inheritance_empty_parent.html.twig",
+        "array_inheritance_nonexistent_parent.html.twig",
+    ] {
+        let loader = FilesystemLoader::new(Vec::<String>::new()).unwrap();
+        loader
+            .add_path(&format!("{}/Fixtures/inheritance", dir()), MAIN)
+            .unwrap();
+        let twig = Environment::new(loader);
+        let template = twig.load(name).unwrap();
+        assert_eq!(
+            template.render_block("body", Array::new()).unwrap(),
+            "VALID Child",
+            "{name}"
+        );
+    }
 }
 
 /// The loader half of `testArrayInheritance`: the parents named by the fixtures resolve or fail as expected.

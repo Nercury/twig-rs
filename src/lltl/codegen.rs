@@ -14,8 +14,10 @@
 //!   object node, the short-circuit marks of null-safe chains shared by `??`, the single temporary of `apply`).
 
 use std::collections::HashMap;
+use std::fmt;
 use std::sync::Arc;
 
+use twig_value::object::ClassRef;
 use twig_value::{Array, ArrayKey, Diagnostics, Ignore, PhpString, Value, ops};
 
 use super::instr::{
@@ -36,13 +38,33 @@ use crate::extension::arguments::CallableArgumentsExtractor;
 use crate::extension::{CallableKind, TwigCallable};
 use crate::source::Source;
 
+/// The lookup of an enum by name at compile time: Twig's `enum_exists($name)` (the class, when it exists and is an
+/// enum), which `EnumFunction` and `EnumCasesFunction` call while compiling.
+pub type EnumResolver = Arc<dyn Fn(&[u8]) -> Option<ClassRef> + Send + Sync>;
+
 /// The environment facts compiled code depends on (Twig reads them from the environment while compiling).
-#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+#[derive(Clone, Default)]
 pub struct CompileOptions {
     /// `strict_variables`: names compile to existence checks and `[]` access is not optimized.
     pub strict_variables: bool,
     /// Whether the `SandboxExtension` is registered (`$env->hasExtension(SandboxExtension::class)`).
     pub sandboxed: bool,
+    /// `debug`: the compiled `getSourceContext()` keeps the template code (`''` otherwise).
+    pub debug: bool,
+    /// The enums `enum()` and `enum_cases()` can name with a literal argument; without a resolver no enum exists
+    /// at compile time.
+    pub enums: Option<EnumResolver>,
+}
+
+impl fmt::Debug for CompileOptions {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("CompileOptions")
+            .field("strict_variables", &self.strict_variables)
+            .field("sandboxed", &self.sandboxed)
+            .field("debug", &self.debug)
+            .field("enums", &self.enums.is_some())
+            .finish()
+    }
 }
 
 /// Compiles a visited `ModuleNode` (and its embedded templates) into a [`Program`].
@@ -63,7 +85,7 @@ pub fn compile(
     deprecations: &mut dyn DeprecationSink,
 ) -> Result<Arc<Program>> {
     let mut codegen = Codegen {
-        options: *options,
+        options: options.clone(),
         deprecations,
         file,
         last_line: 0,
@@ -341,6 +363,7 @@ impl Codegen<'_> {
             strategy: module.strategy.clone(),
             escaper: module.escaper,
             security: builder.security,
+            debug: self.options.debug,
         }))
     }
 
@@ -1723,6 +1746,12 @@ impl Codegen<'_> {
         if function.kind == FunctionKind::RenderSandboxed {
             return self.render_sandboxed(expr, function);
         }
+        if matches!(function.kind, FunctionKind::Enum | FunctionKind::EnumCases)
+            && let Some(inlined) = self.enum_function(expr, function)?
+        {
+            self.emit_const(inlined);
+            return Ok(());
+        }
         if function.function.name() == b"constant" && function.defined_test {
             let mut arguments = function.arguments.clone();
             arguments.set_named(b"checkDefined".to_vec(), Expr::constant(true, expr.line));
@@ -1812,6 +1841,76 @@ impl Codegen<'_> {
                 self.emit(Instr::TrueTest);
                 Ok(())
             }
+        }
+    }
+
+    /// Twig: `EnumFunction::compile()` and `EnumCasesFunction::compile()`
+    /// (TWIG/src/Node/Expression/FunctionNode/EnumFunction.php, EnumCasesFunction.php): with exactly one argument (named
+    /// `enum` or the first positional one) that is a constant, the name is checked while compiling (`is_string()`,
+    /// `enum_exists()`, and for `enum` a non-empty `$value::cases()`) and the call is replaced by the case
+    /// (`Enum::FIRST_CASE`) or the cases (`Enum::cases()`), returned here as the constant they evaluate to; `None`
+    /// compiles the regular function call (`parent::compile()`).
+    ///
+    /// # Errors
+    ///
+    /// The `SyntaxError`s `The first argument of the "%s" function must be a string.`, `... must be the name of an
+    /// enum, "%s" given.` and `... must be a non-empty enum, "%s" given.`, at the line of the call.
+    fn enum_function(
+        &mut self,
+        expr: &Expr,
+        function: &ast::FunctionExpr,
+    ) -> Result<Option<Value>> {
+        let arguments = &function.arguments;
+        let first = arguments
+            .get(&ArgumentKey::Name(b"enum".to_vec()))
+            .or_else(|| arguments.get(&ArgumentKey::Index(0)));
+        let Some(first) = first else {
+            return Ok(None);
+        };
+        let ExprKind::Constant(constant) = &first.kind else {
+            return Ok(None);
+        };
+        if arguments.len() != 1 {
+            return Ok(None);
+        }
+        let cases = function.kind == FunctionKind::EnumCases;
+        let name = if cases { "enum_cases" } else { "enum" };
+        let ConstantValue::String(value) = &constant.value else {
+            return Err(Error::syntax(format!(
+                "The first argument of the \"{name}\" function must be a string."
+            ))
+            .with_line(expr.line)
+            .with_source(self.source()));
+        };
+        let class = self
+            .options
+            .enums
+            .as_ref()
+            .and_then(|resolve| resolve(value));
+        let Some(class) = class else {
+            return Err(Error::syntax(format!(
+                "The first argument of the \"{name}\" function must be the name of an enum, \"{}\" given.",
+                String::from_utf8_lossy(value)
+            ))
+            .with_line(expr.line)
+            .with_source(self.source()));
+        };
+        let all = class.enum_cases();
+        if cases {
+            // `$value::cases()`
+            return Ok(Some(Value::Array(Array::from_values(
+                all.iter().cloned().map(Value::Object),
+            ))));
+        }
+        match all.first() {
+            // `$value::FIRST_CASE`
+            Some(case) => Ok(Some(Value::Object(case.clone()))),
+            None => Err(Error::syntax(format!(
+                "The first argument of the \"enum\" function must be a non-empty enum, \"{}\" given.",
+                String::from_utf8_lossy(value)
+            ))
+            .with_line(expr.line)
+            .with_source(self.source())),
         }
     }
 

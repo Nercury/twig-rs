@@ -695,6 +695,7 @@ fn step_calls(
         Instr::ArgSpread => {
             let value = frame.pop();
             if let Some(mut list) = frame.args.pop() {
+                list.unpacked = true;
                 let result = list.unpack(&value, state);
                 frame.args.push(list);
                 result?;

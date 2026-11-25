@@ -17,7 +17,7 @@ mod codegen;
 mod instr;
 mod program;
 
-pub use codegen::{CompileOptions, compile};
+pub use codegen::{CompileOptions, EnumResolver, compile};
 pub use instr::{
     BinaryOp, BlockOp, ConstId, GetAttrOp, Instr, Label, LocalId, NameMode, UnitId, YieldArgs,
 };

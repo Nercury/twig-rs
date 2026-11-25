@@ -222,6 +222,7 @@ pub struct Program {
     pub(crate) strategy: Option<String>,
     pub(crate) escaper: bool,
     pub(crate) security: Option<SecurityLists>,
+    pub(crate) debug: bool,
 }
 
 impl Program {
@@ -328,6 +329,12 @@ impl Program {
     /// the sandbox visitor ran (the `SandboxExtension` is registered).
     pub fn security(&self) -> Option<&SecurityLists> {
         self.security.as_ref()
+    }
+
+    /// Whether the template was compiled with `debug` on: the compiled `getSourceContext()` then returns the code of
+    /// the template (Twig: `ModuleNode::compileGetSourceContext()`), else an empty string.
+    pub fn is_debug(&self) -> bool {
+        self.debug
     }
 
     /// Whether escape filters of the template use the template's escaper (the module's `escaper` attribute, set by the

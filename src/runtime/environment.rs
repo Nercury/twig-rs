@@ -16,15 +16,17 @@ use super::regex::PcreRegexValidator;
 use super::sandbox::{SandboxExtension, SecurityChecker, ensure_traits_allowed};
 use super::template::{BlockRef, Template, TemplateWrapper, Traits};
 use crate::deprecation::{Deprecation, DeprecationSink};
-use crate::error::{Error, ErrorKind, Result};
+use crate::error::{Error, Result};
 use crate::escaper::DefaultStrategy;
+use crate::extension::runtime::EscaperRuntime;
+use crate::extension::runtime::misc::constants::find_enum;
 use crate::extension::{
-    EscaperExtension, Extension, ExtensionSet, NodeVisitor, TokenParser, TwigFilter, TwigFunction,
-    TwigTest, UndefinedFilterCallback, UndefinedFunctionCallback, UndefinedTestCallback,
-    UndefinedTokenParserCallback,
+    CoreExtension, CoreSettings, EscaperExtension, Extension, ExtensionSet, NodeVisitor,
+    TokenParser, TwigFilter, TwigFunction, TwigTest, UndefinedFilterCallback,
+    UndefinedFunctionCallback, UndefinedTestCallback, UndefinedTokenParserCallback,
 };
 use crate::lexer::LexerOptions;
-use crate::lltl::{self, CompileOptions, Program};
+use crate::lltl::{self, CompileOptions, EnumResolver, Program};
 use crate::loader::Loader;
 use crate::parser::{ParseContext, compile_source_error};
 use crate::source::Source;
@@ -175,8 +177,9 @@ struct Inner {
     sandbox: OnceLock<Option<Arc<SecurityChecker>>>,
     date: DateContext,
     constants: RwLock<Constants>,
-    /// The charset of the escaper runtime, fixed when a template first escapes.
-    escaper_charset: OnceLock<PhpString>,
+    /// The escaper runtime (`getRuntime(EscaperRuntime::class)`), created on first use with the charset of that
+    /// moment.
+    escaper: OnceLock<Arc<EscaperRuntime>>,
 }
 
 fn read<T>(lock: &RwLock<T>) -> RwLockReadGuard<'_, T> {
@@ -190,6 +193,9 @@ fn write<T>(lock: &RwLock<T>) -> RwLockWriteGuard<'_, T> {
 fn lock<T>(mutex: &Mutex<T>) -> MutexGuard<'_, T> {
     mutex.lock().unwrap_or_else(|e| e.into_inner())
 }
+
+/// The runtime class of the `escape` filter.
+const ESCAPER_RUNTIME: &str = "Twig\\Runtime\\EscaperRuntime";
 
 /// The identity of the next compiled template file.
 static NEXT_FILE: AtomicU64 = AtomicU64::new(1);
@@ -353,7 +359,7 @@ impl Environment {
                 sandbox: OnceLock::new(),
                 date: DateContext::new(),
                 constants: RwLock::new(Constants::new()),
-                escaper_charset: OnceLock::new(),
+                escaper: OnceLock::new(),
             }),
         }
     }
@@ -383,15 +389,46 @@ impl Environment {
         read(&self.inner.options).charset.clone()
     }
 
-    /// The charset of the escaper runtime. Twig's default runtime loader creates `EscaperRuntime` with the charset of
-    /// the moment a template first escapes (`new EscaperRuntime($this->charset)`, created lazily since
-    /// `EscaperExtension::setEnvironment()` resets it) and keeps the instance, so a later `set_charset()` changes
-    /// `_charset` and the `needs_charset` callables but not escaping (VERIFIED with the oracle).
-    pub(crate) fn escaper_charset(&self) -> PhpString {
-        self.inner
-            .escaper_charset
-            .get_or_init(|| self.charset_value())
-            .clone()
+    /// The escaper runtime of the environment: the custom escapers ([`EscaperRuntime::set_escaper`]) and safe classes
+    /// ([`EscaperRuntime::add_safe_class`]) of the `escape` filter and of auto-escaping.
+    ///
+    /// Twig: `getRuntime(EscaperRuntime::class)`: a runtime registered with [`add_runtime`](Self::add_runtime) under
+    /// `Twig\Runtime\EscaperRuntime` (Twig's runtime loaders come first), else the default runtime loader's `new
+    /// EscaperRuntime($this->charset)`; the first answer is kept. The default runtime takes the charset of the
+    /// moment it is created (the first call, or the first template that escapes), so a later
+    /// [`set_charset`](Self::set_charset) changes `_charset` and the `needs_charset` callables but not escaping
+    /// (VERIFIED with the oracle).
+    ///
+    /// ```
+    /// use std::sync::Arc;
+    /// use twig::loader::ArrayLoader;
+    /// use twig::runtime::Environment;
+    /// use twig::value::{Array, Value, convert};
+    ///
+    /// let env = Environment::new(ArrayLoader::new([(
+    ///     "index",
+    ///     "{% autoescape 'csv' %}{{ cell }}{% endautoescape %}|{{ cell|e('csv')|raw }}",
+    /// )]));
+    /// env.escaper_runtime().set_escaper(
+    ///     "csv",
+    ///     Arc::new(|value, _charset, diag| {
+    ///         let string = convert::to_string(value, diag)?.to_string_lossy().replace('"', "\"\"");
+    ///         Ok(Value::from(format!("\"{string}\"")))
+    ///     }),
+    /// );
+    /// let mut context = Array::new();
+    /// context.insert("cell", Value::from("a\"b"));
+    /// assert_eq!(env.render("index", context)?, r#""a""b"|"a""b""#);
+    /// # Ok::<(), twig::Error>(())
+    /// ```
+    pub fn escaper_runtime(&self) -> Arc<EscaperRuntime> {
+        Arc::clone(self.inner.escaper.get_or_init(|| {
+            let registered = read(&self.inner.runtimes)
+                .get(ESCAPER_RUNTIME)
+                .cloned()
+                .and_then(|runtime| runtime.downcast::<EscaperRuntime>().ok());
+            registered.unwrap_or_else(|| Arc::new(EscaperRuntime::new(self.charset_value())))
+        }))
     }
 
     /// Twig: `setCharset()`: upper case, `UTF8` → `UTF-8`.
@@ -802,7 +839,7 @@ impl Environment {
         }
         if program.uses_template_escaper() {
             // `$this->escaper = $env->getRuntime(EscaperRuntime::class)`
-            self.escaper_charset();
+            self.escaper_runtime();
         }
         let traits = self.resolve_traits(&program, &family, &key)?;
         Ok(Arc::new(Template::new(
@@ -906,7 +943,7 @@ impl Environment {
             self.load_template_index(&name.to_string_lossy(), None)
         };
         result.map_err(|mut error| {
-            if error.kind() != ErrorKind::Logic {
+            if error.kind().is_twig_error() {
                 if error.source_context().is_none() {
                     error.set_source_context(Some(program.source().clone()));
                 }
@@ -928,11 +965,16 @@ impl Environment {
         let mut deprecations = EnvDeprecations(self);
         let parse = read(&self.inner.parse);
         let module = parse.parse_template(source, &mut deprecations)?;
+        // `enum_exists()` while compiling `enum()`/`enum_cases()`: the classes the environment knows
+        let env = self.clone();
+        let enums: EnumResolver = Arc::new(move |name| find_enum(&env, name));
         let options = CompileOptions {
             strict_variables: self.is_strict_variables(),
             sandboxed: parse
                 .extensions()
                 .has_extension("Twig\\Extension\\SandboxExtension"),
+            debug: self.is_debug(),
+            enums: Some(enums),
         };
         let file = NEXT_FILE.fetch_add(1, Ordering::Relaxed);
         lltl::compile(&module, &options, file, &mut deprecations)
@@ -1099,15 +1141,45 @@ impl Environment {
         write(&self.inner.runtimes).insert(class.trim_start_matches('\\').to_owned(), runtime);
     }
 
-    /// The runtime object of a runtime class. Twig: `getRuntime()`.
+    /// The runtime object of a runtime class (for `Twig\Runtime\EscaperRuntime`, the
+    /// [`escaper_runtime`](Self::escaper_runtime)). Twig: `getRuntime()`.
     ///
     /// # Errors
     ///
     /// `Unable to load the "%s" runtime.` (a runtime error).
     pub fn runtime(&self, class: &str) -> Result<Arc<dyn Any + Send + Sync>> {
+        let name = class.trim_start_matches('\\');
+        if name == ESCAPER_RUNTIME {
+            return Ok(self.escaper_runtime());
+        }
         read(&self.inner.runtimes)
-            .get(class.trim_start_matches('\\'))
+            .get(name)
             .cloned()
             .ok_or_else(|| Error::runtime(format!("Unable to load the \"{class}\" runtime.")))
+    }
+
+    /// The settings of the environment's [`CoreExtension`]: the date and number defaults of the `date`,
+    /// `date_modify` and `number_format` filters and the `date` function (a shared handle; Twig:
+    /// `$twig->getExtension(CoreExtension::class)->setTimezone(...)` and the other setters).
+    ///
+    /// ```
+    /// use twig::loader::ArrayLoader;
+    /// use twig::runtime::Environment;
+    /// use twig::value::{Array, Value};
+    ///
+    /// let env = Environment::new(ArrayLoader::new([("index", "{{ 0|date }}")]));
+    /// let settings = env.core_settings();
+    /// settings.set_date_format(Some(Value::from("Y-m-d H:i T")), None);
+    /// let mut diagnostics = Vec::new();
+    /// settings.set_timezone(env.date_context(), &Value::from("Europe/Paris"), &mut diagnostics)?;
+    /// assert_eq!(env.render("index", Array::new()).unwrap(), "1970-01-01 01:00 CET");
+    /// # Ok::<(), twig::value::PhpError>(())
+    /// ```
+    pub fn core_settings(&self) -> CoreSettings {
+        self.with_extensions(|set| {
+            set.extension::<CoreExtension>()
+                .map(|core| core.settings().clone())
+        })
+        .unwrap_or_default()
     }
 }

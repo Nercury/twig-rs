@@ -10,7 +10,7 @@ authors.workspace = true
 publish = false
 
 [dependencies]
-twig-value = { path = "../twig-value" }
+twig-value.workspace = true
 serde.workspace = true
 # float_roundtrip: exact parsing of the few JSON floats of the corpus (DateInterval fractions).
 serde_json = { workspace = true, features = ["float_roundtrip"] }

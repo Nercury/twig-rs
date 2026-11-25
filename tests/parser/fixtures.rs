@@ -27,6 +27,7 @@ use twig::lexer::{Token, TokenType};
 use twig::parser::{ParseContext, Parser};
 use twig::{Error, Result, Source};
 
+use super::support::keep_parser_visitors;
 use crate::common::Json;
 
 /// A callable with any arguments (the PHP callables of the test extensions; only their names and options matter
@@ -207,11 +208,12 @@ impl Extension for AttributeCallables {
 }
 
 /// The extensions and undefined-callable callbacks of `IntegrationTest`, registered in the harness order (Twig's
-/// core extensions first, then Debug, Sandbox, StringLoader and the test extensions).
+/// core extensions first, then Debug, Sandbox, StringLoader and the test extensions), with the parser's own node
+/// visitors only (the oracle's `keep_parser_visitors()`).
 pub fn harness_extensions() -> ExtensionSet {
     let mut set = ExtensionSet::with_core_extensions();
     set.add_extension(Arc::new(DebugExtension::new())).unwrap();
-    set.add_extension(Arc::new(SandboxExtension::new()))
+    set.add_extension(Arc::new(SandboxExtension::default()))
         .unwrap();
     set.add_extension(Arc::new(StringLoaderExtension::new()))
         .unwrap();
@@ -252,7 +254,7 @@ pub fn harness_extensions() -> ExtensionSet {
         }
         Ok(None)
     }));
-    set
+    keep_parser_visitors(set)
 }
 
 #[test]

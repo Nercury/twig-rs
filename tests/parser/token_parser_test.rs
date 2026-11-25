@@ -9,7 +9,10 @@ use twig::extension::ExtensionSet;
 use twig::parser::ParseContext;
 use twig::{Error, Result, Source};
 
+use super::support::keep_parser_visitors;
+
 fn parse_in(set: ExtensionSet, code: &str) -> Result<Node> {
+    let set = keep_parser_visitors(set);
     let mut deprecations: Vec<Deprecation> = Vec::new();
     ParseContext::new(set).parse_source(&Source::new(code, ""), &mut deprecations)
 }

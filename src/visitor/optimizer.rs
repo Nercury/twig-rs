@@ -126,6 +126,10 @@ fn mode_deprecations(optimizers: i64) -> Vec<Deprecation> {
 }
 
 impl NodeVisitor for OptimizerNodeVisitor {
+    fn class_name(&self) -> &str {
+        "Twig\\NodeVisitor\\OptimizerNodeVisitor"
+    }
+
     /// 255. Twig: `OptimizerNodeVisitor::getPriority()`.
     fn priority(&self) -> i64 {
         priority::OPTIMIZER

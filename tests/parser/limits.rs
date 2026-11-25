@@ -6,6 +6,7 @@ use twig::deprecation::Deprecation;
 use twig::extension::ExtensionSet;
 use twig::parser::{DEFAULT_MAX_NESTING_LEVEL, Parser};
 
+use super::support::parser_set;
 use super::tags::tag_set;
 
 /// Runs `f` on a thread with a large stack (debug builds need about 8 KiB per nesting level).
@@ -42,7 +43,7 @@ fn parens(n: usize) -> String {
 #[test]
 fn nested_expressions_stop_at_the_limit_instead_of_overflowing_the_stack() {
     with_stack(|| {
-        let set = ExtensionSet::with_core_extensions();
+        let set = parser_set();
         // the body and the print statement's expression take one level each
         assert_eq!(
             parse(&set, &parens(DEFAULT_MAX_NESTING_LEVEL - 2), None),
@@ -72,7 +73,7 @@ fn nested_expressions_stop_at_the_limit_instead_of_overflowing_the_stack() {
 #[test]
 fn the_limit_is_configurable() {
     with_stack(|| {
-        let set = ExtensionSet::with_core_extensions();
+        let set = parser_set();
         assert_eq!(parse(&set, &parens(500), Some(1000)), Ok(()));
         assert_eq!(
             parse(&set, "{{ ((1)) }}", Some(3)),

@@ -27,6 +27,10 @@ use crate::source::Source;
 pub struct CorrectnessNodeVisitor;
 
 impl NodeVisitor for CorrectnessNodeVisitor {
+    fn class_name(&self) -> &str {
+        "Twig\\NodeVisitor\\CorrectnessNodeVisitor"
+    }
+
     /// -255. Twig: `CorrectnessNodeVisitor::getPriority()`.
     fn priority(&self) -> i64 {
         priority::CORRECTNESS

@@ -1747,7 +1747,6 @@
     "x": "x"
    },
    "data_php": "return ['x' => 'x'];",
-   "pending": "the constant test reads the environment's registry (runtime::Constants), which lacks PHP's constants, visibility checks and the declaring class in deprecations",
    "id": "tests-091"
   },
   {
@@ -1765,7 +1764,6 @@
     "x": "priv"
    },
    "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['x' => 'priv'];",
-   "pending": "the constant test reads the environment's registry (runtime::Constants), which lacks PHP's constants, visibility checks and the declaring class in deprecations",
    "id": "tests-092"
   },
   {
@@ -1783,7 +1781,6 @@
     "x": "\n"
    },
    "data_php": "return ['x' => '\n'];",
-   "pending": "the constant test reads the environment's registry (runtime::Constants), which lacks PHP's constants, visibility checks and the declaring class in deprecations",
    "id": "tests-093"
   },
   {
@@ -1801,7 +1798,6 @@
     "x": 2048
    },
    "data_php": "return ['x' => 2048];",
-   "pending": "the constant test reads the environment's registry (runtime::Constants), which lacks PHP's constants, visibility checks and the declaring class in deprecations",
    "id": "tests-094"
   },
   {

@@ -3,7 +3,7 @@
 //!
 //! | callable | PHP callable |
 //! |---|---|
-//! | filters `batch`, `column`, `filter`, `find`, `first`, `invoke`, `join`, `keys`, `last`, `length`, `map`, `merge`, `reduce`, `reverse`, `shuffle`, `slice` (also `x[a:b]`), `sort`, `split` | `CoreExtension::<name>` |
+//! | filters `batch`, `column`, `filter`, `find`, `first`, `invoke`, `keys`, `last`, `length`, `map`, `merge`, `reduce`, `reverse`, `shuffle`, `slice` (also `x[a:b]`), `sort` | `CoreExtension::<name>` |
 //! | functions `cycle`, `random` | `CoreExtension::cycle`, `CoreExtension::random` |
 //! | functions `max`, `min`, `range` | PHP's `max()`, `min()`, `range()` |
 //! | tests `empty`, `iterable`, `mapping`, `sequence` | `CoreExtension::testEmpty`, `is_iterable()`, `CoreExtension::testMapping`, `CoreExtension::testSequence` |
@@ -12,17 +12,19 @@
 //! the userland method (or internal function), the PHP functions the method calls are the `twig-value` builtins
 //! with their argument coercion and verbatim messages, and `Traversable` values are consumed through the object
 //! protocol with PHP's call order (`IteratorAggregate::getIterator()` method calls, `foreach`, `iterator_to_array()`,
-//! the SPL iterators of [`iterators`]).
+//! the SPL iterators of [`iterators`]). `join` and `split` belong to the string group; character counting and cutting
+//! (`length`, `slice`, `first`, `last`) resolve the charset with the string group's mbstring encodings.
 
 mod callables;
 mod iterators;
 mod random;
 mod text;
 
+pub use random::mt_srand;
 pub(crate) use random::with_mt_rand;
 
 use twig_value::builtins::array::{self as php_array, SORT_REGULAR};
-use twig_value::builtins::string::{explode, implode_frameless};
+use twig_value::builtins::string::implode_frameless;
 use twig_value::object::{CallArgs, FunctionKind, ObjectRef, Param};
 use twig_value::param::{self, Arg, DeclaredType, TypeMask, UserArg, verify_user_arg};
 use twig_value::types::get_debug_type;
@@ -34,7 +36,6 @@ use twig_value::{
 use super::{Call, CallResult, RuntimeTable};
 use crate::deprecation::Deprecation;
 use crate::error::Error;
-use crate::lltl::Instr;
 use crate::runtime::core::{check_arrow, for_each, test_empty, to_array};
 use crate::vm::{Exception, invoke_value};
 
@@ -46,8 +47,6 @@ const CORE: &str = "Twig\\Extension\\CoreExtension";
 
 /// Registers the runtimes of the array group.
 pub(crate) fn register(table: &mut RuntimeTable) {
-    table.register("Twig\\Extension\\CoreExtension::join", join);
-    table.register("Twig\\Extension\\CoreExtension::split", split);
     table.register("Twig\\Extension\\CoreExtension::sort", sort);
     table.register("Twig\\Extension\\CoreExtension::merge", merge);
     table.register("Twig\\Extension\\CoreExtension::batch", batch);
@@ -152,141 +151,6 @@ fn to_array_with(
         }
         other => Ok(other),
     }
-}
-
-/// A userland method's return type `string` in coercive mode (`zend_verify_return_type()`): scalars and
-/// `Stringable` objects are converted, anything else throws `<method>(): Return value must be of type string, X
-/// returned`.
-fn return_string(method: &str, value: Value, diag: &mut dyn Diagnostics) -> CallResult {
-    match &value {
-        Value::String(_) => Ok(value),
-        Value::Int(_) | Value::Float(_) | Value::Bool(_) => {
-            Ok(Value::String(convert::to_string(&value, diag)?))
-        }
-        Value::Object(o) if o.instance_of("Stringable") => {
-            Ok(Value::String(o.to_php_string(diag)?))
-        }
-        other => Err(PhpError::type_error(format!(
-            "{CORE}::{method}(): Return value must be of type string, {} returned",
-            twig_value::types::zend_zval_value_name(other)
-        ))
-        .into()),
-    }
-}
-
-/// Twig: `CoreExtension::join($value, $glue = '', $and = null): string`.
-///
-/// Non-iterables become `[]` (`null`) or `[$value]`; `implode()` is PHP 8.4's frameless two-argument variant (Twig
-/// calls it directly); a single element with a distinct `$and` is returned through the `string` return type.
-fn join(call: &mut Call<'_>) -> CallResult {
-    let [value, glue, and] = take(bind_method(
-        call,
-        "join",
-        &[],
-        &[
-            Param::required("value"),
-            Param::optional("glue", ""),
-            Param::optional("and", Value::Null),
-        ],
-    )?);
-    let diag = call.diagnostics();
-    let value = if value.is_iterable() {
-        value
-    } else if value.is_null() {
-        Value::Array(Array::new())
-    } else {
-        Value::Array(Array::from_values([value]))
-    };
-    let value = to_array(value, false, diag)?;
-    let Value::Array(items) = &value else {
-        return Ok(Value::from(""));
-    };
-    if items.is_empty() {
-        return Ok(Value::from(""));
-    }
-    if and.is_null() || and.identical(&glue) {
-        return Ok(Value::String(implode_frameless(&glue, Some(&value), diag)?));
-    }
-    if items.len() == 1 {
-        let only = items.get_int(0).cloned().unwrap_or_default();
-        return return_string("join", only, diag);
-    }
-    // implode($glue, array_slice($value, 0, -1)).$and.$value[count($value) - 1]
-    let head = php_array::array_slice(&value, &Value::Int(0), Some(&Value::Int(-1)), None, diag)?;
-    let joined = implode_frameless(&glue, Some(&Value::Array(head)), diag)?;
-    let with_and = ops::concat(&Value::String(joined), &and, diag)?;
-    let last = dim::array_read(
-        items,
-        &Value::Int(items.len() as i64 - 1),
-        FetchMode::Read,
-        diag,
-    )?;
-    Ok(Value::String(ops::concat(
-        &Value::String(with_and),
-        &last,
-        diag,
-    )?))
-}
-
-/// Twig: `CoreExtension::split(string $charset, $value, $delimiter, $limit = null): array`.
-///
-/// A non-empty delimiter (strictly `'' !== $delimiter`) is `explode()`; otherwise the value is cut into characters
-/// (`splitIntoCharacters()`) when `$limit <= 1`, or into chunks of `$limit` characters with `mb_strlen()` and
-/// `mb_substr()` in the environment charset; comparisons and `$i += $limit` are PHP's operators.
-fn split(call: &mut Call<'_>) -> CallResult {
-    let [value, delimiter, limit] = take(bind_method(
-        call,
-        "split",
-        &["charset"],
-        &[
-            Param::required("value"),
-            Param::required("delimiter"),
-            Param::optional("limit", Value::Null),
-        ],
-    )?);
-    let charset = call.charset();
-    let diag = call.diagnostics();
-    let value = if value.is_null() {
-        Value::from("")
-    } else {
-        value
-    };
-    if !matches!(&delimiter, Value::String(s) if s.is_empty()) {
-        let limit = (!limit.is_null()).then_some(&limit);
-        return Ok(Value::Array(explode(&delimiter, &value, limit, diag)?));
-    }
-    if compare::less_or_equal(&limit, &Value::Int(1), diag)? {
-        // private static function splitIntoCharacters(string $string, string $name): array
-        let string = match verify_user_arg(
-            value,
-            &DeclaredType::builtin(TypeMask::STRING),
-            &UserArg::new(
-                "Twig\\Extension\\CoreExtension::splitIntoCharacters",
-                1,
-                "string",
-            ),
-            diag,
-        )? {
-            Value::String(s) => s,
-            other => convert::to_string(&other, diag)?,
-        };
-        let characters = split_into_characters(&string, "split")?;
-        return Ok(Value::Array(Array::from_values(
-            characters.into_iter().map(Value::String),
-        )));
-    }
-    let length = Value::Int(mb_strlen(&value, &charset, diag)?);
-    if compare::less(&length, &limit, diag)? {
-        return Ok(Value::Array(Array::from_values([value])));
-    }
-    let mut result = Array::new();
-    let mut i = Value::Int(0);
-    while compare::less(&i, &length, diag)? {
-        let chunk = mb_substr(&value, &i, &limit, &charset, diag)?;
-        result.push(Value::String(chunk))?;
-        i = ops::add(&i, &limit, diag)?;
-    }
-    Ok(Value::Array(result))
 }
 
 /// Twig: `CoreExtension::sort(Environment $env, bool $isSandboxed, $array, $arrow = null): array`.
@@ -1035,37 +899,6 @@ fn random_function(call: &mut Call<'_>) -> CallResult {
     Ok(dim::array_read(&values, &key, FetchMode::Read, diag)?)
 }
 
-/// Whether the argument list of the running call unpacked an argument (`max(...values)`), read from the call's
-/// instructions: the arguments between the call's `ArgsStart` and its `Call` (nested calls skipped) include an
-/// `ArgSpread`. PHP compiles a direct call with unpacked (or named) arguments as a regular call and a direct call
-/// with exactly two plain arguments to the frameless variant of `min()`/`max()`, whose ties differ.
-fn has_unpacked_arguments(call: &mut Call<'_>) -> bool {
-    let state = call.state();
-    let Some(frame) = state.frames().last() else {
-        return false;
-    };
-    let code = frame.program.unit(frame.unit).code();
-    let ip = frame.ip as usize;
-    if !matches!(code.get(ip), Some(Instr::Call(_))) {
-        return false;
-    }
-    let mut depth = 0usize;
-    for instr in code[..ip].iter().rev() {
-        match instr {
-            Instr::Call(_) => depth += 1,
-            Instr::ArgsStart { .. } => {
-                if depth == 0 {
-                    return false;
-                }
-                depth -= 1;
-            }
-            Instr::ArgSpread if depth == 0 => return true,
-            _ => {}
-        }
-    }
-    false
-}
-
 /// PHP's `max(mixed $value, mixed ...$values)` / `min()` called directly by the compiled template.
 ///
 /// Two plain arguments run the frameless variant (`ZEND_FRAMELESS_FUNCTION(max, 2)`: ties return the left operand
@@ -1111,7 +944,7 @@ fn min_max(call: &mut Call<'_>, name: &str, pick_max: bool) -> CallResult {
         }
         return regular(&args, call.diagnostics());
     }
-    if args.len() == 2 && !has_unpacked_arguments(call) {
+    if args.len() == 2 && !call.has_unpacked_arguments() {
         let diag = call.diagnostics();
         return Ok(if pick_max {
             php_array::max_frameless(&args[0], &args[1], diag)?
@@ -1393,7 +1226,7 @@ mod tests {
         assert_eq!(cases.len(), results.len());
         let mut failures = Vec::new();
         for (case, expected) in cases.iter().zip(results) {
-            random::mt_srand(case["seed"].as_u64().expect("seed") as u32);
+            random::mt_srand(case["seed"].as_i64().expect("seed"));
             failures.extend(mismatch(case, expected));
         }
         assert!(failures.is_empty(), "{}", failures.join("\n"));

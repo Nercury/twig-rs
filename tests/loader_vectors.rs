@@ -9,7 +9,7 @@
 //!
 //! Every scenario is replayed on a fresh copy of the vector's tree under `CARGO_TARGET_TMPDIR`, with `<ROOT>`
 //! replaced by that directory in inputs and outputs. Where PHP emitted a warning or notice (and carried on), twig-rs
-//! must return a runtime error with that message. On Windows, scenarios and steps marked `unix_only` are skipped
+//! must return the `ErrorException` of the converted warning (an `ErrorKind::Php` error) with that message. On Windows, scenarios and steps marked `unix_only` are skipped
 //! and `\` counts as `/` in compared strings, since `DIRECTORY_SEPARATOR` and `realpath()` use backslashes there.
 
 use std::collections::HashMap;
@@ -19,7 +19,7 @@ use std::time::{Duration, UNIX_EPOCH};
 
 use serde_json::{Value, json};
 use twig::loader::{ArrayLoader, ChainLoader, FilesystemLoader, Loader};
-use twig::{Error, ErrorKind, Result, Source};
+use twig::{Error, Result, Source};
 
 /// The loaders a scenario creates, by id.
 enum AnyLoader {
@@ -164,29 +164,24 @@ fn symlink(_target: &str, _link: &Path) {
 #[derive(Debug, PartialEq)]
 enum Outcome {
     Ok(Value),
-    Error { kind: ErrorKind, message: String },
+    Error { class: String, message: String },
 }
 
 fn expected_outcome(expect: &Value, tree: &Tree) -> Outcome {
     if let Some(warnings) = expect.get("warnings") {
-        // PHP warned and carried on; twig-rs reports the (first) warning as a runtime error.
+        // PHP warned and carried on; twig-rs reports the (first) warning as the ErrorException of a converted
+        // warning.
         let mut message = warnings[0].as_str().unwrap().to_owned();
         adjust_read_size(&mut message, tree);
         return Outcome::Error {
-            kind: ErrorKind::Runtime,
+            class: "ErrorException".to_owned(),
             message,
         };
     }
     if let Some(error) = expect.get("error") {
-        let kind = match error["class"].as_str().unwrap() {
-            "Twig\\Error\\LoaderError" => ErrorKind::Loader,
-            "Twig\\Error\\RuntimeError" => ErrorKind::Runtime,
-            // PHP's ValueError (realpath() of a root path with a NUL byte)
-            "ValueError" => ErrorKind::Logic,
-            other => panic!("unknown class {other}"),
-        };
+        // a LoaderError, a RuntimeError, or PHP's ValueError (realpath() of a root path with a NUL byte)
         return Outcome::Error {
-            kind,
+            class: error["class"].as_str().unwrap().to_owned(),
             message: error["message"].as_str().unwrap().to_owned(),
         };
     }
@@ -210,7 +205,7 @@ fn actual_outcome(result: Result<Value>, tree: &Tree) -> Outcome {
     match result {
         Ok(value) => Outcome::Ok(unsubst_value(value, tree)),
         Err(error) => Outcome::Error {
-            kind: error.kind(),
+            class: error.class_name().to_owned(),
             message: error.to_string().replace(&tree.root, "<ROOT>"),
         },
     }
@@ -265,8 +260,8 @@ fn platform_normalize(outcome: Outcome) -> Outcome {
     }
     match outcome {
         Outcome::Ok(value) => Outcome::Ok(slashes(value)),
-        Outcome::Error { kind, message } => Outcome::Error {
-            kind,
+        Outcome::Error { class, message } => Outcome::Error {
+            class,
             message: message.replace('\\', "/"),
         },
     }

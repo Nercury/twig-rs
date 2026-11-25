@@ -19,7 +19,7 @@ use twig::parser::expression::ExpressionParserEntry;
 use twig::parser::expression::prefix::{LiteralExpressionParser, UnaryOperatorExpressionParser};
 use twig::{Result, Source};
 
-use super::support::{first_print_expr, parse, parse_error, parse_with};
+use super::support::{first_print_expr, keep_parser_visitors, parse, parse_error, parse_with};
 
 fn constant(value: impl Into<ConstantValue>) -> Expr {
     Expr::constant(value, 1)
@@ -337,7 +337,7 @@ fn three_arguments() -> PhpCallable {
 fn dynamic_set() -> ExtensionSet {
     let mut set = ExtensionSet::with_core_extensions();
     set.add_extension(Arc::new(DynamicExtension)).unwrap();
-    set
+    keep_parser_visitors(set)
 }
 
 /// Twig: `testCompiledCodeForDynamicTest()`, `testCompiledCodeForDynamicFunction()` and
@@ -475,6 +475,7 @@ fn custom_node_classes() {
         },
     ))
     .unwrap();
+    let set = keep_parser_visitors(set);
     for (template, check) in [
         ("{{ foo() }}", "custom"),
         ("{{ 1|foo }}", "FilterExpression"),
@@ -497,6 +498,7 @@ fn two_word_test_precedence() {
         TestOptions::default(),
     ))
     .unwrap();
+    let set = keep_parser_visitors(set);
     let (module, _) = parse_with(&set, &Source::new("{{ 1 is empty element }}", "index"));
     let module = module.unwrap();
     let ExprKind::Test(test) = &first_print_expr(&module).kind else {
@@ -528,6 +530,7 @@ impl Extension for BangExtension {
 fn unary_precedence_change() {
     let mut set = ExtensionSet::with_core_extensions();
     set.add_extension(Arc::new(BangExtension)).unwrap();
+    let set = keep_parser_visitors(set);
     let (module, _) = parse_with(&set, &Source::new(r#"{{ !false ? "OK" : "KO" }}"#, "index"));
     let module = module.unwrap();
     assert!(matches!(

@@ -9,15 +9,17 @@ use twig::extension::{ExtensionSet, SandboxExtension};
 use twig::parser::ParseContext;
 use twig::{Error, Source};
 
+use super::support::{keep_parser_visitors, parser_set};
+
 fn context() -> ParseContext {
-    ParseContext::new(ExtensionSet::with_core_extensions())
+    ParseContext::new(parser_set())
 }
 
 fn sandbox_context() -> ParseContext {
     let mut set = ExtensionSet::with_core_extensions();
-    set.add_extension(Arc::new(SandboxExtension::new()))
+    set.add_extension(Arc::new(SandboxExtension::default()))
         .unwrap();
-    ParseContext::new(set)
+    ParseContext::new(keep_parser_visitors(set))
 }
 
 /// Parses like `$env->loadTemplate()` does up to the compiler (`compileSource()`'s error handling).

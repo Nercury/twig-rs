@@ -7,8 +7,8 @@ use std::collections::HashMap;
 use super::safe_analysis::is_operator_escape;
 use super::{NodeVisitor, Visit, VisitContext, VisitResult, priority};
 use crate::ast::{
-    ArgumentKey, Arguments, BinaryOp, CallType, CheckSecurityNode, Expr, ExprKind, FilterExpr,
-    FilterKind, MacroName, Node, NodeKind, NodeMut, NodeRef, Nodes, TestKind, UnaryOp,
+    ArgumentKey, Arguments, BinaryOp, CallType, CheckSecurityNode, ChildKey, Expr, ExprKind,
+    FilterExpr, FilterKind, MacroName, Node, NodeKind, NodeMut, NodeRef, Nodes, TestKind, UnaryOp,
 };
 use crate::error::{Error, Result};
 use crate::extension::{CallableParameter, ExtensionSet, PhpCallable, TwigCallable, TwigFilter};
@@ -36,6 +36,10 @@ use crate::extension::{CallableParameter, ExtensionSet, PhpCallable, TwigCallabl
 pub struct SandboxNodeVisitor;
 
 impl NodeVisitor for SandboxNodeVisitor {
+    fn class_name(&self) -> &str {
+        "Twig\\NodeVisitor\\SandboxNodeVisitor"
+    }
+
     /// 0. Twig: `SandboxNodeVisitor::getPriority()`.
     fn priority(&self) -> i64 {
         priority::SANDBOX
@@ -264,12 +268,49 @@ fn coerce_children(node: &mut NodeMut<'_>) -> Result<()> {
                 }
             }
             NodeKind::Expression(expr) => coerce_expr_children(expr)?,
+            NodeKind::Custom(custom) => {
+                let names = custom.string_coerced_child_names();
+                if !names.is_empty() {
+                    wrap_named_children(custom.children_mut(), &names);
+                }
+            }
             _ => {}
         },
         NodeMut::Expr(expr) => coerce_expr_children(expr)?,
         NodeMut::Arguments(_) => {}
     }
     Ok(())
+}
+
+/// Twig: `wrapNode($node, $name)` for each child a node class defined by an extension lists in
+/// `getStringCoercedChildNames()`: an expression is wrapped like any other, a container (`Nodes`, an argument list)
+/// element by element.
+fn wrap_named_children(children: Vec<(ChildKey<'_>, NodeMut<'_>)>, names: &[String]) {
+    for (key, child) in children {
+        let key = key.to_string();
+        if !names.contains(&key) {
+            continue;
+        }
+        match child {
+            NodeMut::Expr(expr) => wrap_node(expr),
+            NodeMut::Arguments(arguments) => {
+                for (_, argument) in arguments.entries_mut() {
+                    wrap_node(argument);
+                }
+            }
+            NodeMut::Node(node) => match &mut node.kind {
+                NodeKind::Expression(expr) => wrap_node(expr),
+                NodeKind::Nodes(nodes) => {
+                    for (_, element) in nodes.entries_mut() {
+                        if let Some(expr) = element.as_expr_mut() {
+                            wrap_node(expr);
+                        }
+                    }
+                }
+                _ => {}
+            },
+        }
+    }
 }
 
 /// [`coerce_children`] for the expression classes implementing `CoercesChildrenToStringInterface`.
@@ -364,6 +405,12 @@ fn coerce_expr_children(expr: &mut Expr) -> Result<()> {
                 coerce_arguments(arguments, params.as_ref(), true);
             }
         }
+        ExprKind::Custom(custom) => {
+            let names = custom.string_coerced_child_names();
+            if !names.is_empty() {
+                wrap_named_children(custom.children_mut(), &names);
+            }
+        }
         _ => {}
     }
     Ok(())
@@ -456,9 +503,13 @@ const COERCION_SAFE_PARAMETERS: [(&str, &str); 8] = [
     ("Twig\\Runtime\\EscaperRuntime::escape", "autoescape"),
 ];
 
-/// Twig: `CallableParameters::isStringCoercionSafe()` for a parameter of `callable`; parameters without a known PHP
-/// type count as untyped (not safe).
+/// Twig: `CallableParameters::isStringCoercionSafe()` for a parameter of `callable`: a parameter declared safe
+/// ([`CallableParameter::string_coercion_safe`]), or one of Twig's own safe parameters; parameters without a known
+/// PHP type count as untyped (not safe).
 fn is_string_coercion_safe(callable: &PhpCallable, param: &CallableParameter) -> bool {
+    if param.coercion_safe {
+        return true;
+    }
     let name = callable.reflection_name();
     COERCION_SAFE_PARAMETERS
         .iter()

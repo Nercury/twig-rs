@@ -1,8 +1,9 @@
 # Engine plan (roadmap phases 3–4)
 
-How the visited AST becomes output. Stages 1 (core VM) and 2 (template composition and the sandbox runtime) are
-done; this file records the names and APIs they chose and what the next stages plug into. Upstream citations live in
-the doc comments of the code.
+How the visited AST becomes output. The engine is complete: the core VM, template composition, the sandbox runtime,
+the node visitors and every bundled callable are in place and integrated (all 500 runnable fixture cases pass);
+this file records the names and APIs the stages chose and the work that remains. Upstream citations live in the doc
+comments of the code; deviations are listed in `reference/deviations.md`.
 
 ## Status
 
@@ -10,8 +11,11 @@ the doc comments of the code.
 |---|---|
 | 1. Core VM: LLTL + codegen + VM + `Environment` + every statement + every expression + `getAttribute` + argument binding + `Markup` + errors/lines | done |
 | 2. Templates: inheritance, blocks, `parent()`, `block()`, traits, embed, include, `include()`/`include_only()`/`source()`/`template_from_string()`, macros and imports, `TemplateWrapper` block API, exception handling and line guessing across templates; sandbox runtime (policy, checker, `SandboxExtension`, `Sandbox`, `render_sandboxed()`) | done (`tests/engine.rs`: 1567 oracle cases in 18 topics, `tests/engine_api.rs`) |
-| 3. Visitors (escaper, optimizer, sandbox) | landed by parallel agents; the `Environment` registers the optimizer, `runtime::SandboxExtension` registers the sandbox visitor. `EscaperExtension` does not register `EscaperNodeVisitor` yet, so templates are not auto-escaped |
-| 6. Extension callables by group | the runtime API and the group modules exist; the template functions are implemented by `runtime::functions` (registered after the groups) |
+| 3. Visitors: `EscaperNodeVisitor` (registered by `EscaperExtension`), `OptimizerNodeVisitor` (`OptimizerExtension`, registered by the `Environment`), `SandboxNodeVisitor` (`SandboxExtension`) | done (`tests/visitors.rs`: 551 + 1752 oracle cases) |
+| 4. Loaders: `ArrayLoader`, `FilesystemLoader`, `ChainLoader` | done (`tests/loader_upstream.rs`, `tests/loader_vectors.rs`) |
+| 5. Escaping strategies (`src/escaper`) and the `EscaperRuntime` of the environment | done (`tests/escaper.rs`, string-group vectors) |
+| 6. Extension callables by group (strings, arrays, misc, template functions) | done (`tests/callables_*.rs`: 2413 oracle cases) |
+| 7. Fixture suite through the `Environment` | 500 of 500 runnable cases (2 skipped by their CONDITION); the ratchet `tests/twig/known-failures.txt` is empty |
 
 ## Pipeline
 
@@ -92,56 +96,58 @@ Environment::load(name)
   `SourcePolicyInterface` (deprecated), `SecurityChecker`, `SecurityError`/`SecurityErrorKind`,
   `SandboxExtension` (Twig's class name: registers the `sandbox` tag and the sandbox visitor, holds the checker),
   `Sandbox` (Twig 3.29 facade), `SandboxBridgeRuntime`, `ensure_security_checked` (compiled `checkSecurity()`),
-  `ensure_traits_allowed`. A violation is a `RuntimeError`-kind `Error` whose `previous()` is the `SecurityError`
-  (`SecurityError::of(&error)` gives the class) until `ErrorKind` has the sandbox classes.
+  `ensure_traits_allowed`. A violation is an `Error` of its own class (`ErrorKind::SecurityNotAllowedFilter`, ...);
+  `SecurityError::of(&error)` gives the violation and its names back.
 - `functions` (registered after the group modules in `extension/runtime/mod.rs`): `include`, `include_only`,
-  `source`, `template_from_string`, `render_sandboxed`.
+  `source`, `render_sandboxed`.
 - `Environment` additions: `resolve_template`, `sandbox_checker`, `is_sandboxed`, `add_runtime`/`runtime` (runtime
-  objects by class, `Unable to load the "%s" runtime.`), `load_family`, `load_template_index`.
+  objects by class, `Unable to load the "%s" runtime.`), `escaper_runtime`, `core_settings`, `load_family`,
+  `load_template_index`.
 - `TemplateWrapper` as a value: `to_value()` / `from_value()` (`Twig\TemplateWrapper` object with `render`,
-  `renderBlock`, `hasBlock`, `getBlockNames`, `getTemplateName`, `getDefaultEscapeStrategy`; ownership checked
-  against the running environment).
+  `renderBlock`, `hasBlock`, `getBlockNames`, `getTemplateName`, `getDefaultEscapeStrategy`, `getSourceContext` (a
+  `Twig\Source` object: code only when compiled with `debug`); ownership checked against the running
+  environment).
 
 ## Callable runtimes (`src/extension/runtime`)
 
-- As in stage 1: `CallableRuntime` in the runtime slot of a `PhpCallable`, `Call<'_>`, `install_runtimes`, the group
-  modules (`strings`, `arrays`, `misc`); `crate::runtime::functions::register` runs last and replaces the misc
-  group's placeholders for the template functions.
+- `CallableRuntime` in the runtime slot of a `PhpCallable`, `Call<'_>` (arguments, injected values,
+  `has_unpacked_arguments()` for calls with `...`), `install_runtimes`, the group modules (`strings`, `arrays`,
+  `misc`) and `crate::runtime::functions` (`include`, `include_only`, `source`, `render_sandboxed`); each PHP callable
+  has exactly one runtime entry.
+- Shared state: the strings group's mbstring encodings (`strings::mb`, also used by the arrays group), the per-thread
+  MT19937 of `random` and `shuffle` (`arrays::random`, seeded by the public `mt_srand()`).
+- `EscaperRuntime` (custom escapers, safe classes) is the environment's `escaper_runtime()` (Twig's
+  `getRuntime(EscaperRuntime::class)`, charset fixed at first use); `CoreSettings` (date formats, timezone, number
+  format) is held by `CoreExtension` and reached with `Environment::core_settings()`.
 
-## Next stage hooks
+## Integration hooks (done)
 
-1. `ErrorKind` sandbox variants: switch `SecurityError::into_error()` to them (one place) and drop the `previous`
-   detail; `tests/engine/mod.rs::error_class` keeps working.
-2. `extension::SandboxExtension` (the tag-only marker in `extension/optional.rs`) should become a re-export of
-   `runtime::SandboxExtension`.
-3. Auto-escaping: once `EscaperExtension` returns `EscaperNodeVisitor`, the sandbox topics can run with the default
-   `autoescape` (the inserted `escape` filters are then checked by the policy, as in Twig).
-4. A filesystem `Loader` with paths: `TemplateWrapper::getSourceContext()` from templates and paths in errors.
+- Error model: `ErrorKind` has the sandbox classes (`Security`, `SecurityNotAllowed{Tag,Filter,Function,Test,Method,
+  Property}`, built by `SecurityError::into_error()`; `SecurityError::of()` reads the names back) and
+  `ErrorKind::Php` for PHP throwables that are not Twig errors (`Error::php(PhpError)`, `Error::class_name()`):
+  `vm::Exception::from(Error)` turns them back into PHP throwables, so templates wrap them (`An exception has been
+  thrown during the rendering of a template ("...")`) and `compile_source()` wraps them while compiling. The
+  `FilesystemLoader` reports PHP warnings as `ErrorException`s and `realpath()`'s `ValueError` this way.
+- Visitors: `EscaperExtension::node_visitors()` and `SandboxExtension::node_visitors()` return their visitor;
+  `NodeVisitor::class_name()` names them; `ExtensionSet::retain_node_visitors()` drops visitors after initialization
+  (the parser tests keep the parser's own, like the oracle's `keep_parser_visitors()`).
+- One `SandboxExtension` type (`runtime::sandbox`, re-exported by `twig::extension`, `Default` = a policy allowing
+  nothing, not sandboxed globally).
+- Codegen: `CompileOptions { debug, enums }`: `EnumFunction`/`EnumCasesFunction` check literal names at compile time
+  (`enum_exists()` through the environment's classes) and inline the case(s) as constants; `Program::is_debug()`
+  gives the code of `TemplateWrapper::getSourceContext()` (a `Twig\Source` object in templates).
+- The `constant` test uses PHP's `constant()` over the shipped PHP constant table (`misc::constants`).
+- Sandbox coercion: `CallableParameter::string_coercion_safe()` for host callables,
+  `CustomExpr`/`CustomNode::string_coerced_child_names()` for node classes of extensions.
 
-## Deviations introduced by stages 1 and 2
+## Remaining work
 
-- A configurable call-depth limit (`max_depth`, default 200) with a twig-rs message instead of PHP's stack overflow;
-  template constructors (traits loading traits) are limited to 64 nested levels (cycles of traits).
-- `render()` returns `String`: non-UTF-8 output is an error (`render_bytes()`/`display()` return the bytes).
-- A sink write failure is a `RuntimeError` (`Unable to write the template output: ...`); PHP's `echo` cannot fail.
-- `Markup::count()` and the `upper`/`lower` runtimes support UTF-8 (and single-byte charsets for `count`) only.
-- String callables (`'strtoupper'` as a callable value) cannot be resolved: `Call to undefined function X()`.
-- Arrow-function `ArgumentCountError` messages name `{closure}` without PHP's class/file suffix.
-- Userland `TypeError`s (`Template::load()`, `Template::yield()`, `renderBlock()` without `$blocks`, the typed
-  parameters of the template functions) omit PHP's `, called in <compiled file> on line N` suffix.
-- Line guessing keeps templates apart like Twig with a filesystem cache: with `cache => false` PHP eval()s every
-  template from the same line of `Environment.php`, so `Error::guess()` also matches frames of other templates (an
-  exception in the body of a macro imported from another template takes the handling template's marker at or before
-  the macro's PHP line). The composition vectors run the oracle with a filesystem cache per case.
-- Sandbox violations are `RuntimeError`-kind errors carrying a `SecurityError` (class and names) as `previous()`.
-- `{% sandbox %}` and `include(..., sandboxed = true)` switch the sandbox on for the current thread (Twig's checker
-  flag is per environment; renders share it in PHP), `SandboxExtension::enable_sandbox()` for every thread.
-- `Twig\TemplateWrapper` objects in templates support `render`, `renderBlock`, `hasBlock`, `getBlockNames`,
-  `getTemplateName` and `getDefaultEscapeStrategy`; `display`, `displayBlock`, `stream`, `streamBlock`,
-  `getSourceContext`, `unwrap` and `isOwnedBy` throw a `LogicException` (they echo or return internal objects).
-- Runtime-class callables (`render_sandboxed`) get their runtime when called, after the arguments are evaluated
-  (Twig fetches it first).
-- No auto-escaping by default yet (see Status); the escape runtime has no custom escapers or safe classes.
+1. Non-UTF-8 charsets beyond the single-byte ones in the mbstring functions (`upper`, `length`, `slice`, ...: tables
+   for multi-byte and table-based encodings) and any iconv charsets `twig-value` still lacks.
+2. A code generation hook for node and expression classes defined by extensions (today: `The "%s" node class cannot
+   be compiled by twig-rs.`), and their escaping/sandbox classification.
+3. Compiled-template caching across processes (optional, roadmap phase 6).
+4. Public API review, `NOTICE` file and publishing (roadmap phase 6).
 
 ## Tests
 
@@ -154,4 +160,7 @@ Environment::load(name)
   `data_php` does.
 - `tests/engine_api.rs`: environment lifecycle, cache, string templates, sinks, diagnostics policies, host callables,
   depth limits, threads, the block API, wrappers as values, template recursion limits and native stack use, sandbox
-  toggles across errors and threads, custom and source policies.
+  toggles across errors and threads, custom and source policies, and the integration hooks (oracle-verified):
+  PHP throwables of loaders wrapped by templates, sandbox error kinds, the escaper runtime, the `CoreExtension`
+  settings, `getSourceContext()`, `mt_srand()`, compile-time enum checks.
+- `tests/fixtures.rs`: Twig's integration fixtures through the `Environment` (ratchet `tests/twig/known-failures.txt`).

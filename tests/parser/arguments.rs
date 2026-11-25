@@ -9,10 +9,12 @@ use twig::deprecation::Deprecation;
 use twig::extension::arguments::{CallableArgumentsExtractor, to_snake_case};
 use twig::extension::{DebugExtension, ExtensionSet, TwigCallable};
 
+use super::support::keep_parser_visitors;
+
 fn set() -> ExtensionSet {
     let mut set = ExtensionSet::with_core_extensions();
     set.add_extension(Arc::new(DebugExtension::new())).unwrap();
-    set
+    keep_parser_visitors(set)
 }
 
 fn callable(set: &ExtensionSet, kind: &str, name: &str) -> TwigCallable {

@@ -13,8 +13,11 @@ use twig::extension::{
     SandboxBridgeExtension, SandboxExtension, StringLoaderExtension, TestNodeClass, TwigCallable,
 };
 use twig::lexer::DEFAULT_OPERATORS;
+use twig::loader::ArrayLoader;
 use twig::parser::expression::{ExpressionParserEntry, InfixAssociativity};
+use twig::runtime::Environment;
 
+use super::support::keep_parser_visitors;
 use crate::common::Json;
 
 fn full_set() -> ExtensionSet {
@@ -22,7 +25,7 @@ fn full_set() -> ExtensionSet {
     set.add_extension(Arc::new(DebugExtension::new())).unwrap();
     set.add_extension(Arc::new(StringLoaderExtension::new()))
         .unwrap();
-    set.add_extension(Arc::new(SandboxExtension::new()))
+    set.add_extension(Arc::new(SandboxExtension::default()))
         .unwrap();
     set.add_extension(Arc::new(SandboxBridgeExtension::new()))
         .unwrap();
@@ -478,10 +481,13 @@ fn registers_the_tags_in_twig_order() {
     }
 }
 
-/// The visitors registered so far are the oracle's, in the same order and with the same priorities; the escaper,
-/// yield-ready, optimizer and sandbox visitors come with later stages.
+/// The node visitors of the oracle's environment (`new Environment()` plus the Debug, StringLoader, Sandbox and
+/// SandboxBridge extensions) are registered in the same order with the same priorities, except Twig's
+/// `YieldNotReadyNodeVisitor`, which twig-rs does not need (every node it compiles is yield-ready; the extension
+/// registers nothing). The parser tests drop the escaper, optimizer and sandbox visitors again, as the oracle's
+/// `keep_parser_visitors()` does.
 #[test]
-fn registers_the_node_visitors_of_this_stage() {
+fn registers_the_node_visitors_of_twig() {
     let vectors = Json::load_vectors("parser/registry.json");
     let expected: Vec<(String, i64)> = vectors
         .field("visitors")
@@ -502,10 +508,30 @@ fn registers_the_node_visitors_of_this_stage() {
             ("SandboxNodeVisitor".to_owned(), 0),
         ]
     );
-    let actual: Vec<i64> = full_set()
+    let env = Environment::new(ArrayLoader::new(Vec::<(String, String)>::new()));
+    env.add_extension(Arc::new(DebugExtension::new())).unwrap();
+    env.add_extension(Arc::new(StringLoaderExtension::new()))
+        .unwrap();
+    env.add_extension(Arc::new(SandboxExtension::default()))
+        .unwrap();
+    env.add_extension(Arc::new(SandboxBridgeExtension::new()))
+        .unwrap();
+    let short = |class: &str| class.rsplit('\\').next().unwrap_or(class).to_owned();
+    let actual: Vec<(String, i64)> = env.with_extensions(|set| {
+        set.node_visitors()
+            .iter()
+            .map(|visitor| (short(visitor.class_name()), visitor.priority()))
+            .collect()
+    });
+    let twig_rs: Vec<(String, i64)> = expected
+        .into_iter()
+        .filter(|(class, _)| class != "YieldNotReadyNodeVisitor")
+        .collect();
+    assert_eq!(actual, twig_rs);
+    let parser_only: Vec<String> = keep_parser_visitors(full_set())
         .node_visitors()
         .iter()
-        .map(|visitor| visitor.priority())
+        .map(|visitor| short(visitor.class_name()))
         .collect();
-    assert_eq!(actual, [expected[0].1]);
+    assert_eq!(parser_only, ["CorrectnessNodeVisitor"]);
 }

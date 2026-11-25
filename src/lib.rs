@@ -2,11 +2,14 @@
 //! [Twig 3.31.1 for PHP](https://twig.symfony.com/): identical output and identical error messages.
 //!
 //! The pipeline follows Twig's: the lexer ([`lexer`]) and the parser ([`parser`], [`token_parser`]) build a syntax
-//! tree mirroring Twig's node classes ([`ast`]); node visitors check and transform it ([`visitor`]); the code generator
-//! lowers it into a program of the low-level template language ([`lltl`]) in Twig's compile order; the virtual machine
-//! ([`vm`]) runs it with PHP's value semantics ([`value`], the `twig-value` crate). The [`runtime`] ties it together:
-//! the [`Environment`](runtime::Environment) owns the extensions ([`extension`]), the globals, the loader ([`loader`])
-//! and the loaded templates.
+//! tree mirroring Twig's node classes ([`ast`]); node visitors check and transform it ([`visitor`]: correctness checks,
+//! auto-escaping, the optimizer, the sandbox's checks); the code generator lowers it into a program of the low-level
+//! template language ([`lltl`]) in Twig's compile order; the virtual machine ([`vm`]) runs it with PHP's value
+//! semantics ([`value`], the `twig-value` crate). The [`runtime`] ties it together: the
+//! [`Environment`](runtime::Environment) owns the extensions ([`extension`]: the core filters, functions, tests and
+//! operators, escaping ([`escaper`]), the sandbox, debug and string-loader extensions, and the host's), the globals,
+//! the loader ([`loader`]: array, filesystem and chain loaders) and the loaded templates; template composition
+//! (inheritance, blocks, macros, `include`, `embed`, `use`) and the sandbox ([`runtime::sandbox`]) run there.
 //!
 //! ```
 //! use twig::loader::ArrayLoader;
@@ -25,8 +28,10 @@
 //! # Ok::<(), twig::Error>(())
 //! ```
 //!
-//! Template composition (inheritance, blocks, macros, `include`, `embed`, `use`) and the sandbox runtime come with
-//! the next engine stage; see `plans/engine.md`.
+//! Errors are [`Error`]s with Twig's messages, template names and lines: Twig's own classes ([`ErrorKind::Syntax`],
+//! [`ErrorKind::Loader`], [`ErrorKind::Runtime`], the sandbox's), or the PHP throwable a non-Twig failure stands for
+//! ([`ErrorKind::Php`]), which a template wraps like Twig does (`An exception has been thrown during the rendering of
+//! a template ("...")`). Behaviour that deliberately differs from PHP is listed in `reference/deviations.md`.
 
 pub mod ast;
 pub mod deprecation;
@@ -47,6 +52,11 @@ pub use error::{Error, ErrorKind, Result};
 pub use source::Source;
 /// The PHP value model (the `twig-value` crate): template contexts are [`value::Array`]s of [`value::Value`]s.
 pub use twig_value as value;
+
+/// The examples of `README.md`, compiled and run as doctests.
+#[cfg(doctest)]
+#[doc = include_str!("../README.md")]
+pub struct ReadmeDoctests;
 
 #[cfg(test)]
 mod tests {

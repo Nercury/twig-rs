@@ -5,10 +5,9 @@
 //! `DateTimeImmutable`, `DateTimeZone` and `DateInterval` (`twig-date`, on the environment's `DateContext`) and a
 //! stand-in for resources, which `twig-value` does not model (`reference/deviations.md`, fixture data).
 //!
-//! The PHP state recorded right before rendering ([`PhpState`]) is applied to the environment where twig-rs has a
-//! way to: the PHP default timezone (`date_default_timezone_set()` in DATA). `CoreExtension::setTimezone()`,
-//! `setDateFormat()` and `setNumberFormat()` have no twig-rs API yet; [`apply_state`] reports what it could not
-//! apply.
+//! The PHP state recorded right before rendering ([`PhpState`]) is applied to the environment: the PHP default
+//! timezone (`date_default_timezone_set()` in DATA) and the `CoreExtension` settings DATA changed
+//! (`setTimezone()`, `setDateFormat()`, `setNumberFormat()`).
 
 use std::sync::LazyLock;
 
@@ -189,13 +188,13 @@ pub fn context(case: &Case<'_>, env: &Environment) -> Result<Array, String> {
 /// Twig's defaults of `CoreExtension::$dateFormats` and `$numberFormat`.
 const DEFAULT_DATE_FORMAT: (&str, &str) = ("F j, Y H:i", "%d days");
 
-/// Applies the PHP state of a case: `date_default_timezone_set()`. Returns the parts of the state twig-rs cannot
-/// apply yet (the `CoreExtension` timezone, date formats and number format when they differ from what Twig's
-/// defaults give).
+/// Applies the PHP state of a case: `date_default_timezone_set()`, then the `CoreExtension` timezone, date formats
+/// and number format where DATA changed them (`$twig->getExtension(CoreExtension::class)->setTimezone()`,
+/// `setDateFormat()`, `setNumberFormat()`). Returns the parts of the state that could not be applied (none so far).
 ///
 /// # Errors
 ///
-/// The default timezone is not accepted.
+/// The default timezone or the `CoreExtension` timezone is not accepted.
 pub fn apply_state(env: &Environment, state: &PhpState) -> Result<Vec<String>, String> {
     let mut diagnostics: Vec<Diagnostic> = Vec::new();
     let accepted = env
@@ -208,25 +207,36 @@ pub fn apply_state(env: &Environment, state: &PhpState) -> Result<Vec<String>, S
             state.php_default_timezone
         ));
     }
-    let mut missing = Vec::new();
+    let settings = env.core_settings();
     // `CoreExtension::getTimezone()` defaults to the PHP default timezone of its first call
     if state.core_timezone != state.php_default_timezone {
-        missing.push(format!(
-            "CoreExtension::setTimezone('{}')",
-            state.core_timezone
-        ));
+        settings
+            .set_timezone(
+                env.date_context(),
+                &Value::from(state.core_timezone.as_str()),
+                &mut diagnostics,
+            )
+            .map_err(|e| format!("CoreExtension::setTimezone('{}'): {e}", state.core_timezone))?;
     }
     let (date, interval) = &state.core_date_format;
     if (date.as_str(), interval.as_str()) != DEFAULT_DATE_FORMAT {
-        missing.push(format!(
-            "CoreExtension::setDateFormat('{date}', '{interval}')"
-        ));
+        settings.set_date_format(
+            Some(Value::from(date.as_str())),
+            Some(Value::from(interval.as_str())),
+        );
     }
     let (decimals, point, thousands) = &state.core_number_format;
     if (*decimals, point.as_str(), thousands.as_str()) != (0, ".", ",") {
-        missing.push(format!(
-            "CoreExtension::setNumberFormat({decimals}, '{point}', '{thousands}')"
+        settings.set_number_format(
+            Value::Int(*decimals),
+            Value::from(point.as_str()),
+            Value::from(thousands.as_str()),
+        );
+    }
+    if !diagnostics.is_empty() {
+        return Err(format!(
+            "applying the CoreExtension settings raised {diagnostics:?}"
         ));
     }
-    Ok(missing)
+    Ok(Vec::new())
 }

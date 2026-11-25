@@ -20,14 +20,12 @@
 
 mod case;
 mod escaper;
-mod mb;
+pub(crate) mod mb;
 mod split;
 #[cfg(test)]
 mod test_vectors;
 mod text;
 
-// The public API of the escaper runtime, for `extension::runtime` to re-export.
-#[allow(unused_imports)]
 pub use escaper::{EscaperCallback, EscaperRuntime};
 
 use twig_value::object::{FunctionKind, Param};

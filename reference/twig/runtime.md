@@ -1882,6 +1882,17 @@ int/float/bool/null/true/false/void/never, final non-Stringable non-Traversable 
 On leaving the module: prepends `CheckSecurityCallNode` to `constructor_start`, appends `CheckSecurityNode` to
 `class_end`. Runtime: §11.
 
+Shared node objects (VERIFIED with the visitor vectors, `tests/vectors/visitors/`): some constructors put the same PHP
+node object in two places of the tree, and a traversal visits it once per place, so the sandbox visitor wraps it (or
+the spread inside it) twice:
+- `NullCoalesceBinary::__construct()` (`src/Node/Expression/Binary/NullCoalesceBinary.php`) gives its `left` operand
+  itself to the `NullTest` of its `test` (`??` = `defined(clone left) and not (left is null) ? left : right`);
+- `DefaultFilter::__construct()` (`src/Node/Expression/Filter/DefaultFilter.php`) gives the same `$arguments` node to
+  the inner `FilterExpression` it builds and to itself.
+`clone` makes deep copies that share nothing: the `DefinedTest` operand of `??` and of `default` and the `$false`
+branch of `default` (`clone $arguments->getNode('0')`). Safe-analysis results are cached per node object
+(`WeakMap`); recomputing them per visit gives the same result.
+
 ### 6.5 YieldNotReadyNodeVisitor (priority 255)
 
 `src/NodeVisitor/YieldNotReadyNodeVisitor.php`: for every non-expression node class without `#[YieldReady]`:
@@ -2147,8 +2158,25 @@ given explicitly).
   is normalized** (VERIFIED: `sub/../index.twig` → `_self` = `index.twig`; `./@at.twig` → `@__main__/@at.twig`;
   `sub\a.twig` → `sub/a.twig`; `/index.twig` → `index.twig`; `@admin/x.twig` keeps its prefix).
 - `getCacheKey($name)`: resolved path with the `rootPath` prefix stripped when it starts with it.
-- `exists($name)`: cached hit or `findTemplate($name, false) !== null` (never throws).
+- `exists($name)`: cached hit or `findTemplate($name, false) !== null` (never throws). It looks the **normalised**
+  name up, so its failures are cached under the normalised name (`findTemplate()` caches failures under the name it is
+  given) (VERIFIED).
 - `isFresh($name, $time)`: `filemtime($path) < $time`.
+- Path bookkeeping (VERIFIED, `tests/vectors/loader/scenarios.json`): `addPath('/')` stores `''` (`rtrim('/', '/\\')`),
+  which then designates the root path; `setPaths([])` creates the namespace (`getNamespaces()` lists it) and clears
+  neither cache, so a lookup then fails with `Unable to find template "x" (looked into: ).`; every `addPath()` /
+  `prependPath()` clears both caches before checking the directory, even when the check fails.
+- `file://` root paths and directories (VERIFIED): `isAbsolutePath()` accepts them (`parse_url()` scheme), and the
+  URL form is kept in the template path (`Source::getPath()`) and in the cache key.
+- PHP warnings on the way (VERIFIED, with the default error handler PHP carries on): a cached file deleted afterwards
+  gives `file_get_contents(<path>): Failed to open stream: No such file or directory` and `Source('')`; a cached path
+  that became a directory gives the notice `file_get_contents(): Read of <st_size + 8192> bytes failed with errno=21 Is
+  a directory` and `Source('')`; `isFresh()` on a vanished file gives `filemtime(): stat failed for <path>` and
+  compares `false < $time` (`$time != 0`). With warnings converted to exceptions (`ErrorException`), a template that
+  includes such a template wraps it: `An exception has been thrown during the rendering of a template
+  ("file_get_contents(…): …")` (`Template::load()` only catches `Twig\Error\Error`; VERIFIED for the tag, the
+  function, `ignore missing`, `extends`, `embed`, `import` and `source()`). A root path containing a NUL byte throws
+  `realpath()`'s `ValueError: realpath(): Argument #1 ($path) must not contain any null bytes`.
 VERIFIED messages: `Looks like you try to load a template outside configured directories (../index.twig).`,
 `… (sub/../../index.twig).`, `… (@admin/../x.twig).`, `There are no registered paths for namespace "nope".`,
 `Malformed namespaced template name "@admin" (expecting "@namespace/template_name").`,

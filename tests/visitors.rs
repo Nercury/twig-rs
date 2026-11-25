@@ -21,34 +21,11 @@ use twig::error::ErrorKind;
 use twig::escaper::DefaultStrategy;
 use twig::extension::{
     CallableParameter, CoreExtension, DebugExtension, DeprecatedCallableInfo, EscaperExtension,
-    Extension, ExtensionSet, FilterNodeClass, FilterOptions, FunctionOptions, NodeVisitor,
+    Extension, ExtensionSet, FilterNodeClass, FilterOptions, FunctionOptions, OptimizerExtension,
     PhpCallable, RegexValidator, SandboxExtension, TestOptions, TwigFilter, TwigFunction, TwigTest,
 };
 use twig::parser::ParseContext;
-use twig::visitor::{
-    EscaperNodeVisitor, OptimizerExtension, OptimizerNodeVisitor, SandboxNodeVisitor,
-};
-
-/// Registers a node visitor at the position of an extension: Twig's `EscaperExtension` and `SandboxExtension`
-/// return their visitor from `getNodeVisitors()`, which the twig-rs extensions of the parser stage do not do yet.
-struct Visitors {
-    class: &'static str,
-    visitor: Arc<dyn NodeVisitor>,
-}
-
-impl Extension for Visitors {
-    fn class_name(&self) -> &str {
-        self.class
-    }
-
-    fn node_visitors(&self) -> Vec<Arc<dyn NodeVisitor>> {
-        vec![Arc::clone(&self.visitor)]
-    }
-
-    fn as_any(&self) -> &dyn Any {
-        self
-    }
-}
+use twig::visitor::OptimizerNodeVisitor;
 
 /// The validation of constant `matches` patterns at parse time (`MatchesBinary::__construct()`): the first warning of
 /// `preg_match($regexp, '')` without its `preg_match(): ` prefix.
@@ -267,10 +244,6 @@ fn environment(case: &Json) -> ExtensionSet {
     add(Arc::new(EscaperExtension::with_default_strategy(
         default_strategy(case),
     )));
-    add(Arc::new(Visitors {
-        class: "EscaperExtension::getNodeVisitors()",
-        visitor: Arc::new(EscaperNodeVisitor),
-    }));
     let optimizations = case
         .get("config")
         .and_then(|c| c.get("optimizations"))
@@ -280,13 +253,7 @@ fn environment(case: &Json) -> ExtensionSet {
     if let Some(extensions) = case.get("extensions") {
         for extension in extensions.as_array() {
             match extension.as_str().unwrap() {
-                "sandbox" => {
-                    add(Arc::new(SandboxExtension::new()));
-                    add(Arc::new(Visitors {
-                        class: "SandboxExtension::getNodeVisitors()",
-                        visitor: Arc::new(SandboxNodeVisitor),
-                    }));
-                }
+                "sandbox" => add(Arc::new(SandboxExtension::default())),
                 "debug" => add(Arc::new(DebugExtension::new())),
                 other => panic!("unknown extension {other}"),
             }
@@ -495,11 +462,6 @@ fn parse(template: &str, autoescape: DefaultStrategy) -> Node {
     set.add_extension(Arc::new(EscaperExtension::with_default_strategy(
         autoescape,
     )))
-    .unwrap();
-    set.add_extension(Arc::new(Visitors {
-        class: "EscaperExtension::getNodeVisitors()",
-        visitor: Arc::new(EscaperNodeVisitor),
-    }))
     .unwrap();
     set.add_extension(Arc::new(OptimizerExtension::default()))
         .unwrap();
@@ -763,11 +725,6 @@ fn callback_errors_stop_the_compilation() {
         })),
     )))
     .unwrap();
-    set.add_extension(Arc::new(Visitors {
-        class: "EscaperExtension::getNodeVisitors()",
-        visitor: Arc::new(EscaperNodeVisitor),
-    }))
-    .unwrap();
     let mut deprecations: Vec<Deprecation> = Vec::new();
     let error = ParseContext::new(set)
         .parse_template(&Source::new("{{ a }}", "index"), &mut deprecations)
@@ -790,13 +747,8 @@ fn sandbox_wraps_coerced_variables_but_not_self() {
         DefaultStrategy::Disabled,
     )))
     .unwrap();
-    set.add_extension(Arc::new(SandboxExtension::new()))
+    set.add_extension(Arc::new(SandboxExtension::default()))
         .unwrap();
-    set.add_extension(Arc::new(Visitors {
-        class: "SandboxExtension::getNodeVisitors()",
-        visitor: Arc::new(SandboxNodeVisitor),
-    }))
-    .unwrap();
     let mut deprecations: Vec<Deprecation> = Vec::new();
     let module = ParseContext::new(set)
         .parse_source(
@@ -819,4 +771,185 @@ fn sandbox_wraps_coerced_variables_but_not_self() {
         .collect();
     assert!(matches!(prints[0].kind, ExprKind::ContextVariable(_)));
     assert!(matches!(prints[1].kind, ExprKind::CheckToString(_)));
+}
+
+/// The first printed expression of a sandboxed template: `{{ ... }}` parsed with the core, escaper (auto-escaping off)
+/// and sandbox extensions plus `extra`.
+fn sandboxed_print(code: &str, extra: impl FnOnce(&mut ExtensionSet)) -> Expr {
+    let mut set = ExtensionSet::new();
+    set.add_extension(Arc::new(CoreExtension::new())).unwrap();
+    set.add_extension(Arc::new(EscaperExtension::with_default_strategy(
+        DefaultStrategy::Disabled,
+    )))
+    .unwrap();
+    set.add_extension(Arc::new(SandboxExtension::default()))
+        .unwrap();
+    extra(&mut set);
+    let mut deprecations: Vec<Deprecation> = Vec::new();
+    let module = ParseContext::new(set)
+        .parse_source(&Source::new(code, "index"), &mut deprecations)
+        .unwrap();
+    let body = module.as_module().unwrap().body.as_nodes().unwrap();
+    let print = body.nodes().next().unwrap();
+    match &print.kind {
+        NodeKind::Print(print) => print.expr.clone(),
+        other => panic!("expected a print, got {other:?}"),
+    }
+}
+
+/// The argument `index` of the function call under the `CheckToStringNode` of a print.
+fn printed_call_argument(print: &Expr, index: i64) -> &Expr {
+    let ExprKind::CheckToString(check) = &print.kind else {
+        panic!("the printed call is not wrapped: {print:?}");
+    };
+    let ExprKind::Function(function) = &check.expr.kind else {
+        panic!("not a function call: {:?}", check.expr);
+    };
+    function
+        .arguments
+        .get(&twig::ast::ArgumentKey::Index(index))
+        .expect("the argument")
+}
+
+/// Twig: `SandboxNodeVisitor::wrapArguments()` skips the arguments of parameters whose PHP type cannot string-coerce
+/// (`CallableParameters::isStringCoercionSafe()`); host callables declare it on their parameters.
+#[test]
+fn sandbox_skips_arguments_of_coercion_safe_parameters() {
+    let add = |safe: bool| {
+        move |set: &mut ExtensionSet| {
+            let mut parameter = CallableParameter::required("n");
+            if safe {
+                parameter = parameter.string_coercion_safe();
+            }
+            set.add_function(TwigFunction::new(
+                "f",
+                Some(PhpCallable::closure(vec![parameter])),
+                FunctionOptions::default(),
+            ))
+            .unwrap();
+        }
+    };
+    let untyped = sandboxed_print("{{ f(x) }}", add(false));
+    assert!(matches!(
+        printed_call_argument(&untyped, 0).kind,
+        ExprKind::CheckToString(_)
+    ));
+    let typed = sandboxed_print("{{ f(x) }}", add(true));
+    assert!(matches!(
+        printed_call_argument(&typed, 0).kind,
+        ExprKind::ContextVariable(_)
+    ));
+}
+
+/// An expression class defined by an extension that implements `CoercesChildrenToStringInterface`: the sandbox wraps
+/// the children it lists in `getStringCoercedChildNames()`.
+#[derive(Debug, Clone, PartialEq)]
+struct Shout {
+    node: Expr,
+    coerces: bool,
+}
+
+impl twig::ast::CustomExpr for Shout {
+    fn class_name(&self) -> &str {
+        "ShoutExpression"
+    }
+
+    fn children(&self) -> Vec<(twig::ast::ChildKey<'_>, NodeRef<'_>)> {
+        vec![(twig::ast::ChildKey::Name("node"), NodeRef::Expr(&self.node))]
+    }
+
+    fn children_mut(&mut self) -> Vec<(twig::ast::ChildKey<'_>, twig::ast::NodeMut<'_>)> {
+        vec![(
+            twig::ast::ChildKey::Name("node"),
+            twig::ast::NodeMut::Expr(&mut self.node),
+        )]
+    }
+
+    fn clone_box(&self) -> Box<dyn twig::ast::CustomExpr> {
+        Box::new(self.clone())
+    }
+
+    fn eq_dyn(&self, other: &dyn twig::ast::CustomExpr) -> bool {
+        other.as_any().downcast_ref::<Shout>() == Some(self)
+    }
+
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
+
+    fn as_any_mut(&mut self) -> &mut dyn Any {
+        self
+    }
+
+    fn string_coerced_child_names(&self) -> Vec<String> {
+        if self.coerces {
+            vec!["node".to_owned()]
+        } else {
+            Vec::new()
+        }
+    }
+}
+
+/// The node class of the `shout` function: a [`Shout`] around its first argument.
+struct ShoutFactory {
+    coerces: bool,
+}
+
+impl twig::extension::FunctionNodeFactory for ShoutFactory {
+    fn class_name(&self) -> &str {
+        "ShoutExpression"
+    }
+
+    fn create(
+        &self,
+        _function: TwigFunction,
+        arguments: twig::ast::Arguments,
+        line: i64,
+    ) -> twig::Result<Expr> {
+        let node = arguments
+            .get(&twig::ast::ArgumentKey::Index(0))
+            .cloned()
+            .expect("an argument");
+        Ok(Expr::new(
+            ExprKind::Custom(Box::new(Shout {
+                node,
+                coerces: self.coerces,
+            })),
+            line,
+        ))
+    }
+}
+
+#[test]
+fn sandbox_wraps_the_children_custom_nodes_coerce() {
+    let add = |coerces: bool| {
+        move |set: &mut ExtensionSet| {
+            set.add_function(TwigFunction::new(
+                "shout",
+                Some(PhpCallable::closure(vec![CallableParameter::required(
+                    "value",
+                )])),
+                FunctionOptions {
+                    node_class: twig::extension::FunctionNodeClass::Custom(Arc::new(
+                        ShoutFactory { coerces },
+                    )),
+                    ..Default::default()
+                },
+            ))
+            .unwrap();
+        }
+    };
+    let child = |print: &Expr| -> ExprKind {
+        match &print.kind {
+            ExprKind::Custom(custom) => {
+                let shout = custom.as_any().downcast_ref::<Shout>().expect("a Shout");
+                shout.node.kind.clone()
+            }
+            other => panic!("expected the custom node, got {other:?}"),
+        }
+    };
+    let plain = sandboxed_print("{{ shout(x) }}", add(false));
+    assert!(matches!(child(&plain), ExprKind::ContextVariable(_)));
+    let coercing = sandboxed_print("{{ shout(x) }}", add(true));
+    assert!(matches!(child(&coercing), ExprKind::CheckToString(_)));
 }

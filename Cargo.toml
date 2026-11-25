@@ -17,7 +17,7 @@ memchr.workspace = true
 twig-value.workspace = true
 twig-pcre.workspace = true
 twig-unicode.workspace = true
-twig-date = { path = "crates/twig-date" }
+twig-date.workspace = true
 
 [dev-dependencies]
 libtest-mimic.workspace = true
@@ -25,7 +25,7 @@ serde.workspace = true
 # float_roundtrip: exact parsing of the floats of the oracle corpus (DateInterval fractions).
 serde_json = { workspace = true, features = ["float_roundtrip"] }
 # The fixture harness: the oracle corpus, its DATA trees as values, the PHP test classes.
-twig-test-support = { path = "crates/twig-test-support" }
+twig-test-support.workspace = true
 
 # The Twig 3.31.1 fixture suite (libtest-mimic runner, see the header of tests/fixtures.rs).
 [[test]]
@@ -52,6 +52,8 @@ twig-value = { path = "crates/twig-value" }
 twig-unicode = { path = "crates/twig-unicode" }
 twig-pcre = { path = "crates/twig-pcre" }
 twig-timelib = { path = "crates/twig-timelib" }
+twig-date = { path = "crates/twig-date" }
+twig-test-support = { path = "crates/twig-test-support" }
 regex = "1.13"
 indexmap = "2.14"
 foldhash = "0.2"

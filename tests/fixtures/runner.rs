@@ -12,7 +12,7 @@
 
 use std::fmt;
 
-use twig::runtime::{Environment, Notice, SecurityError, TemplateWrapper};
+use twig::runtime::{Environment, Notice, TemplateWrapper};
 use twig::value::Level;
 
 use super::compare;
@@ -145,12 +145,10 @@ pub struct Case<'a> {
     pub php: Option<twig_test_support::Case<'a>>,
 }
 
-/// The PHP class of an error: the class of a sandbox violation (twig-rs reports those as runtime errors carrying the
-/// `SecurityError`, until the error kinds have the sandbox classes), else its kind's class.
-pub fn error_class(error: &twig::Error) -> &'static str {
-    SecurityError::of(error)
-        .map(SecurityError::class_name)
-        .unwrap_or_else(|| error.kind().class_name())
+/// The PHP class of an error (sandbox violations have their own classes, PHP throwables that are not Twig errors
+/// theirs).
+pub fn error_class(error: &twig::Error) -> &str {
+    error.class_name()
 }
 
 /// The `E_USER_DEPRECATED` messages among the recorded notices, in order: Twig's `trigger_deprecation()` and

@@ -10,12 +10,14 @@ use twig::ast::{
 };
 use twig::deprecation::Deprecation;
 use twig::extension::{Extension, ExtensionSet, TokenParser};
+
+use super::support::{keep_parser_visitors, parser_set};
 use twig::lexer::{Token, TokenType, TokenValue};
 use twig::parser::{DocumentationTarget, ParseContext, Parser, TokenStream};
 use twig::{Result, Source};
 
 fn context() -> ParseContext {
-    ParseContext::new(ExtensionSet::with_core_extensions())
+    ParseContext::new(parser_set())
 }
 
 fn context_with(parsers: Vec<Arc<dyn TokenParser>>) -> ParseContext {
@@ -33,7 +35,7 @@ fn context_with(parsers: Vec<Arc<dyn TokenParser>>) -> ParseContext {
     }
     let mut set = ExtensionSet::with_core_extensions();
     set.add_extension(Arc::new(Tags(parsers))).unwrap();
-    ParseContext::new(set)
+    ParseContext::new(keep_parser_visitors(set))
 }
 
 fn parse_with(context: &ParseContext, code: &str) -> (Result<Node>, Vec<String>) {
@@ -77,7 +79,7 @@ fn token(ty: TokenType, value: &str) -> Token {
 /// `ParserTest::testUnknownTag()`.
 #[test]
 fn unknown_tag() {
-    let set = ExtensionSet::with_core_extensions();
+    let set = parser_set();
     let mut deprecations: Vec<Deprecation> = Vec::new();
     let tokens = stream(vec![
         token(TokenType::BlockStart, ""),
@@ -97,7 +99,7 @@ fn unknown_tag() {
 /// `ParserTest::testUnknownTagWithoutSuggestions()`.
 #[test]
 fn unknown_tag_without_suggestions() {
-    let set = ExtensionSet::with_core_extensions();
+    let set = parser_set();
     let mut deprecations: Vec<Deprecation> = Vec::new();
     let tokens = stream(vec![
         token(TokenType::BlockStart, ""),
@@ -766,7 +768,7 @@ fn undefined_token_parser_callbacks() {
         b"boom" => Err(twig::Error::syntax("This tag is undefined in the tests.")),
         _ => Ok(None),
     }));
-    let context = ParseContext::new(set);
+    let context = ParseContext::new(keep_parser_visitors(set));
     let (module, _) = parse_with(&context, "{% set_parent %}");
     assert!(module.unwrap().as_module().unwrap().parent.is_some());
     let (error, _) = parse_with(&context, "{% boom %}");

@@ -7,16 +7,20 @@
 //! the children, [`Visit::leave`] after them. A pass replaces a node by assigning through the [`NodeMut`] it is
 //! given and removes it by returning [`VisitResult::Remove`] from `leave`.
 //!
-//! Twig's visitors, by priority (the ones not implemented here belong to later stages; their priorities are the slots
-//! the traverser runs them in):
+//! Twig's visitors, by priority (`YieldNotReadyNodeVisitor` is not needed: every node twig-rs compiles is ready for
+//! `use_yield`, so its extension registers nothing):
 //!
 //! | visitor | priority | registered by |
 //! |---|---|---|
-//! | [`CorrectnessNodeVisitor`] | [`priority::CORRECTNESS`] (-255) | `CoreExtension` |
-//! | `EscaperNodeVisitor` | [`priority::ESCAPER`] (0) | `EscaperExtension` |
-//! | `SandboxNodeVisitor` | [`priority::SANDBOX`] (0) | `SandboxExtension` |
+//! | [`CorrectnessNodeVisitor`] | [`priority::CORRECTNESS`] (-255) | [`CoreExtension`](crate::extension::CoreExtension) |
+//! | [`EscaperNodeVisitor`] | [`priority::ESCAPER`] (0) | [`EscaperExtension`](crate::extension::EscaperExtension) |
+//! | [`SandboxNodeVisitor`] | [`priority::SANDBOX`] (0) | [`SandboxExtension`](crate::extension::SandboxExtension) |
 //! | `YieldNotReadyNodeVisitor` | [`priority::YIELD_NOT_READY`] (255) | `YieldNotReadyExtension` |
-//! | `OptimizerNodeVisitor` | [`priority::OPTIMIZER`] (255) | `OptimizerExtension` |
+//! | [`OptimizerNodeVisitor`] | [`priority::OPTIMIZER`] (255) | [`OptimizerExtension`] |
+//!
+//! The [`Environment`](crate::runtime::Environment) registers the core, escaper, yield-not-ready and optimizer
+//! extensions in Twig's order, so the effective pass order is Correctness, Escaper, the priority-0 visitors of later
+//! extensions (Sandbox), then Optimizer.
 //!
 //! Twig reuses one visitor object for every template and resets its state when it enters a module; here a visitor
 //! starts a fresh [`Visit`] pass per traversal, so one registry can serve several threads.
@@ -57,6 +61,12 @@ pub mod priority {
 
 /// A node visitor. Twig: `Twig\NodeVisitor\NodeVisitorInterface` (TWIG/src/NodeVisitor/NodeVisitorInterface.php).
 pub trait NodeVisitor: Send + Sync {
+    /// The class name of the visitor (Twig's `$visitor::class`, e.g. `Twig\NodeVisitor\EscaperNodeVisitor`); by
+    /// default the Rust type name.
+    fn class_name(&self) -> &str {
+        std::any::type_name::<Self>()
+    }
+
     /// The priority: visitors run by ascending priority, in registration order within a priority.
     /// Twig: `getPriority()`.
     fn priority(&self) -> i64;

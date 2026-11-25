@@ -12,8 +12,7 @@
 //! in the unit tests of `src/extension/runtime/strings/escaper/tests.rs`.
 //!
 //! Twig's `EscaperExtension` registers the `EscaperNodeVisitor`, which also escapes the input of the `pre_escape`
-//! filters (`nl2br`, `spaceless`) when auto-escaping is off; the environment here adds it when the extension does
-//! not.
+//! filters (`nl2br`, `spaceless`) when auto-escaping is off.
 //!
 //! Regenerate the batches and their results from the repository root (Git Bash on Windows needs
 //! `MSYS_NO_PATHCONV=1`):
@@ -25,11 +24,10 @@
 #[path = "common/mod.rs"]
 mod common;
 
-use std::sync::{Arc, LazyLock, OnceLock};
+use std::sync::LazyLock;
 
 use common::{Json, base64_decode};
 use twig::escaper::DefaultStrategy;
-use twig::extension::{EscaperExtension, Extension};
 use twig::loader::ArrayLoader;
 use twig::runtime::{DiagnosticsPolicy, Environment, EnvironmentOptions, Markup, Notice};
 use twig::value::object::{
@@ -39,7 +37,6 @@ use twig::value::object::{
 use twig::value::{
     Array, ArrayKey, Diagnostics, Level, PhpError, PhpResult, PhpString, ThrowableClass, Value,
 };
-use twig::visitor::EscaperNodeVisitor;
 
 // ---- the PHP classes of the batches (see PHP_CLASSES in strings.gen.py) ------------------------------------------
 
@@ -255,15 +252,7 @@ fn json_to_value(json: &Json) -> Value {
     }
 }
 
-/// Whether the `EscaperExtension` registers its node visitor itself (Twig's `getNodeVisitors()`).
-fn extension_registers_escaper_visitor(env: &Environment) -> bool {
-    env.with_extensions(|set| {
-        set.extension::<EscaperExtension>()
-            .is_some_and(|escaper| !escaper.node_visitors().is_empty())
-    })
-}
-
-/// The environment of a case: Twig's defaults, the case's config, the escaper visitor.
+/// The environment of a case: Twig's defaults and the case's config.
 fn environment(case: &Json) -> Environment {
     let mut options = EnvironmentOptions::default();
     for (key, value) in case.field("config").as_object() {
@@ -291,12 +280,7 @@ fn environment(case: &Json) -> Environment {
         .iter()
         .map(|(name, code)| (name.clone(), code.as_bytes()))
         .collect();
-    let env = Environment::with_options(ArrayLoader::new(templates), options);
-    if !extension_registers_escaper_visitor(&env) {
-        env.add_node_visitor(Arc::new(EscaperNodeVisitor))
-            .expect("a fresh environment accepts node visitors");
-    }
-    env
+    Environment::with_options(ArrayLoader::new(templates), options)
 }
 
 /// The context of a case: `data_json`, or `data_json_rust` plus the named objects.
@@ -453,25 +437,6 @@ fn run_case(case: &Json, expected: &Json) -> Option<String> {
     (!problems.is_empty()).then(|| problems.join("; "))
 }
 
-/// Whether the environment runs the string group's `split`. The runtime table is filled group by group and keeps
-/// the last registration of a callable; the arrays group registers a `split` of its own, which rejects the
-/// single-byte charsets mbstring accepts (KOI8-R here). The unit tests of `src/extension/runtime/strings/split.rs`
-/// run the split topic with the string group's runtimes in any case.
-fn string_group_split_is_installed() -> bool {
-    static INSTALLED: OnceLock<bool> = OnceLock::new();
-    *INSTALLED.get_or_init(|| {
-        let env = Environment::with_options(
-            ArrayLoader::new([("index", "{{ 'abc'|split('', 2)|join('|') }}")]),
-            EnvironmentOptions {
-                charset: "KOI8-R".to_owned(),
-                ..EnvironmentOptions::default()
-            },
-        );
-        env.render("index", Array::new())
-            .is_ok_and(|output| output == "ab|c")
-    })
-}
-
 /// Runs every case of a topic and fails with the list of mismatches.
 fn run_topic(topic: &str) {
     let cases = Json::load_vectors(&format!("callables/strings/{topic}.gen.json"));
@@ -483,13 +448,6 @@ fn run_topic(topic: &str) {
         results.len(),
         "{topic}: cases and results differ in number"
     );
-    if topic == "split" && !string_group_split_is_installed() {
-        eprintln!(
-            "split: skipped, the environment's `split` is not the string group's (another group registers the callable \
-             later)"
-        );
-        return;
-    }
     let mut failures = Vec::new();
     for (case, expected) in cases.iter().zip(results) {
         let id = case.field("id").as_str().unwrap_or_default();

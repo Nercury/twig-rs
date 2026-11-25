@@ -839,8 +839,7 @@ fn the_escaper_keeps_the_charset_of_its_first_use() {
 
 #[test]
 fn auto_escaping_with_the_escaper_visitor() {
-    // `EscaperExtension` does not register its visitor yet: add it as Twig's extension would. VERIFIED with the
-    // oracle (`'autoescape' => 'name'`).
+    // the `EscaperExtension` registers the `EscaperNodeVisitor`. VERIFIED with the oracle (`'autoescape' => 'name'`).
     let template = "{{ s }}|{{ s|raw }}|{{ s|e('js') }}|{{ m }}|{{ hm }}|{% autoescape 'js' %}{{ s }}|{{ hm }}\
                     {% endautoescape %}|{{ s|upper }}|{{ s|upper|raw }}|{% set c %}<i>{% endset %}{{ c }}|{{ 5 }}|\
                     {{ n }}|{{ s ~ 'x' }}|{% autoescape false %}{{ s }}{% endautoescape %}";
@@ -855,8 +854,6 @@ fn auto_escaping_with_the_escaper_visitor() {
             ..Default::default()
         },
     );
-    env.add_node_visitor(Arc::new(twig::visitor::EscaperNodeVisitor))
-        .unwrap();
     let context = ctx(&[
         ("s", Value::from("<b>")),
         (
@@ -886,4 +883,271 @@ fn auto_escaping_with_the_escaper_visitor() {
         "\\u003Cb\\u003E"
     );
     assert_eq!(env.render("index.txt", context).unwrap(), "<b>");
+}
+
+// ---- PHP throwables that are not Twig errors ----------------------------------------------------------------------
+
+/// A loader that fails like `FilesystemLoader` does on PHP warnings (an `ErrorException`) or like `realpath()` with a
+/// NUL byte (a `ValueError`), for two template names.
+struct ThrowingLoader;
+
+impl twig::loader::Loader for ThrowingLoader {
+    fn get_source_context(&self, name: &str) -> twig::Result<twig::Source> {
+        use twig::value::{PhpError, ThrowableClass};
+        match name {
+            "broken" => Err(twig::Error::php(PhpError::new(
+                ThrowableClass::ErrorException,
+                "file_get_contents(x): Failed to open stream: No such file or directory",
+            ))),
+            "value" => Err(twig::Error::php(PhpError::value_error(
+                "realpath(): Argument #1 ($path) must not contain any null bytes",
+            ))),
+            _ => {
+                let code = match name {
+                    "tag" => "a\n{% include 'broken' %}",
+                    "tag_missing" => "a\n{% include 'broken' ignore missing %}",
+                    "func" => "{{ include('broken') }}",
+                    "func_missing" => "{{ include('broken', ignore_missing = true) }}",
+                    "extends" => "{% extends 'broken' %}",
+                    "embed" => "\n\n{% embed 'broken' %}{% endembed %}",
+                    "import" => "{% import 'broken' as m %}{{ m.x() }}",
+                    "tag_value" => "{% include 'value' %}",
+                    "source" => "{{ source('broken') }}",
+                    _ => "",
+                };
+                Ok(twig::Source::new(code, name))
+            }
+        }
+    }
+
+    fn get_cache_key(&self, name: &str) -> twig::Result<Vec<u8>> {
+        Ok(name.as_bytes().to_vec())
+    }
+
+    fn is_fresh(&self, _name: &str, _time: i64) -> twig::Result<bool> {
+        Ok(true)
+    }
+
+    fn exists(&self, _name: &str) -> bool {
+        true
+    }
+}
+
+#[test]
+fn php_throwables_of_loaders_are_wrapped_by_templates() {
+    // VERIFIED with the oracle: a LoaderInterface throwing \ErrorException / \ValueError, `$twig->render($name)`
+    // printed as `get_class($e).': '.$e->getMessage()` plus the class of the previous exception
+    let env = Environment::new(ThrowingLoader);
+    let wrapped = |name: &str, line: u32, previous: &str, message: &str| {
+        format!(
+            "{name} => Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"{message}\") in \"{name}\" at line {line}. [previous {previous}]"
+        )
+    };
+    let stream = "file_get_contents(x): Failed to open stream: No such file or directory";
+    let null_bytes = "realpath(): Argument #1 ($path) must not contain any null bytes";
+    let expected = [
+        format!("broken => ErrorException: {stream}"),
+        format!("value => ValueError: {null_bytes}"),
+        wrapped("tag", 2, "ErrorException", stream),
+        wrapped("tag_missing", 2, "ErrorException", stream),
+        wrapped("func", 1, "ErrorException", stream),
+        wrapped("func_missing", 1, "ErrorException", stream),
+        wrapped("extends", 1, "ErrorException", stream),
+        wrapped("embed", 3, "ErrorException", stream),
+        wrapped("import", 1, "ErrorException", stream),
+        wrapped("tag_value", 1, "ValueError", null_bytes),
+        wrapped("source", 1, "ErrorException", stream),
+    ];
+    let names = [
+        "broken",
+        "value",
+        "tag",
+        "tag_missing",
+        "func",
+        "func_missing",
+        "extends",
+        "embed",
+        "import",
+        "tag_value",
+        "source",
+    ];
+    for (name, expected) in names.into_iter().zip(expected) {
+        let error = env.render(name, Array::new()).unwrap_err();
+        let previous = error
+            .previous()
+            .and_then(|previous| previous.downcast_ref::<twig::value::PhpError>())
+            .map(|previous| format!(" [previous {}]", previous.class().name()))
+            .unwrap_or_default();
+        assert_eq!(
+            format!("{name} => {}: {error}{previous}", error.class_name()),
+            expected
+        );
+    }
+    let error = env.load("broken").unwrap_err();
+    assert_eq!(error.kind(), ErrorKind::Php);
+    assert!(!error.kind().is_twig_error());
+}
+
+// ---- sandbox error classes ---------------------------------------------------------------------------------------
+
+#[test]
+fn sandbox_violations_have_their_error_kinds() {
+    let (env, _) = sandboxed_env(
+        &[("index", "{{ 'a'|lower }}"), ("tag", "{% set x = 1 %}")],
+        &["upper"],
+        true,
+    );
+    let error = env.render("index", Array::new()).unwrap_err();
+    assert_eq!(error.kind(), ErrorKind::SecurityNotAllowedFilter);
+    assert_eq!(
+        error.class_name(),
+        "Twig\\Sandbox\\SecurityNotAllowedFilterError"
+    );
+    assert!(error.previous().is_none());
+    let error = env.render("tag", Array::new()).unwrap_err();
+    assert_eq!(error.kind(), ErrorKind::SecurityNotAllowedTag);
+    assert_eq!(
+        SecurityError::of(&error).map(SecurityError::kind),
+        Some(&SecurityErrorKind::Tag("set".to_owned()))
+    );
+}
+
+// ---- the escaper runtime, the CoreExtension settings, getSourceContext(), mt_srand() ----------------------------
+
+#[test]
+fn the_escaper_runtime_is_shared_and_keeps_its_first_charset() {
+    let env = Environment::new(ArrayLoader::new([("index", "{{ v }}|{{ v|e('rot') }}")]));
+    env.set_charset("ISO-8859-1");
+    let runtime = env.escaper_runtime();
+    assert_eq!(runtime.charset(), PhpString::from("ISO-8859-1"));
+    env.set_charset("UTF-8");
+    assert!(Arc::ptr_eq(&runtime, &env.escaper_runtime()));
+    assert_eq!(
+        env.escaper_runtime().charset(),
+        PhpString::from("ISO-8859-1")
+    );
+    runtime.set_escaper(
+        "rot",
+        Arc::new(|value, charset, _diag| {
+            let text = match value {
+                Value::String(s) => s.to_string_lossy().into_owned(),
+                _ => String::new(),
+            };
+            Ok(Value::from(format!(
+                "{}:{}",
+                text.len(),
+                charset.to_string_lossy()
+            )))
+        }),
+    );
+    let runtime_value = env
+        .runtime("Twig\\Runtime\\EscaperRuntime")
+        .expect("the escaper runtime");
+    assert!(
+        runtime_value
+            .downcast_ref::<twig::extension::runtime::EscaperRuntime>()
+            .is_some()
+    );
+    let mut context = Array::new();
+    context.insert("v", Value::from("<b>"));
+    assert_eq!(
+        env.render("index", context).unwrap(),
+        "&lt;b&gt;|3:ISO-8859-1"
+    );
+}
+
+#[test]
+fn core_settings_configure_the_date_and_number_filters() {
+    // `setDateFormat('d/m/Y', '%h hours')`, `setNumberFormat(2, ',', ' ')`, `setTimezone('Asia/Tokyo')`
+    let env = Environment::new(ArrayLoader::new([(
+        "index",
+        "{{ 0|date }}|{{ 1234.5|number_format }}|{{ 0|date('H:i e') }}",
+    )]));
+    let settings = env.core_settings();
+    settings.set_date_format(Some(Value::from("d/m/Y")), Some(Value::from("%h hours")));
+    settings.set_number_format(Value::Int(2), Value::from(","), Value::from(" "));
+    let mut diagnostics = Vec::new();
+    settings
+        .set_timezone(
+            env.date_context(),
+            &Value::from("Asia/Tokyo"),
+            &mut diagnostics,
+        )
+        .unwrap();
+    assert_eq!(
+        env.render("index", Array::new()).unwrap(),
+        "01/01/1970|1 234,50|09:00 Asia/Tokyo"
+    );
+    let core_format = env.with_extensions(|set| {
+        set.extension::<twig::extension::CoreExtension>()
+            .map(|core| core.date_format())
+    });
+    assert_eq!(
+        core_format,
+        Some([Value::from("d/m/Y"), Value::from("%h hours")])
+    );
+}
+
+#[test]
+fn template_wrappers_return_their_source_context() {
+    // VERIFIED with the oracle (misc vectors string_loader-021..023): the code is '' unless debug is on
+    let templates = [(
+        "index",
+        "{% set t = template_from_string('a{{ x }}b') %}[{{ t.sourceContext.code }}]",
+    )];
+    let env = Environment::new(ArrayLoader::new(templates));
+    env.add_extension(Arc::new(twig::extension::StringLoaderExtension::new()))
+        .unwrap();
+    assert_eq!(env.render("index", Array::new()).unwrap(), "[]");
+    let debug = Environment::with_options(
+        ArrayLoader::new(templates),
+        EnvironmentOptions {
+            debug: true,
+            ..Default::default()
+        },
+    );
+    debug
+        .add_extension(Arc::new(twig::extension::StringLoaderExtension::new()))
+        .unwrap();
+    assert_eq!(debug.render("index", Array::new()).unwrap(), "[a{{ x }}b]");
+}
+
+#[test]
+fn mt_srand_seeds_random_and_shuffle() {
+    // VERIFIED with the oracle: mt_srand(42); random(100), random(['a', 'b', 'c']), random()
+    let env = env(&[(
+        "index",
+        "{{ random(100) }} {{ random(['a', 'b', 'c']) }} {{ random() }}",
+    )]);
+    twig::extension::runtime::mt_srand(42);
+    assert_eq!(
+        env.render("index", Array::new()).unwrap(),
+        "38 c 2041643438"
+    );
+}
+
+#[test]
+fn literal_enum_names_are_checked_when_compiling() {
+    let env = env(&[
+        ("missing", "\n{{ enum('Nope') }}"),
+        ("type", "{{ enum_cases(13) }}"),
+        (
+            "rounding",
+            "{{ enum('RoundingMode').name }}|{{ enum_cases('\\\\RoundingMode')|length }}",
+        ),
+    ]);
+    let error = env.load("missing").unwrap_err();
+    assert_eq!(error.kind(), ErrorKind::Syntax);
+    assert_eq!(
+        error.to_string(),
+        "The first argument of the \"enum\" function must be the name of an enum, \"Nope\" given in \"missing\" at line 2."
+    );
+    assert_eq!(
+        env.load("type").unwrap_err().to_string(),
+        "The first argument of the \"enum_cases\" function must be a string in \"type\" at line 1."
+    );
+    assert_eq!(
+        env.render("rounding", Array::new()).unwrap(),
+        "HalfAwayFromZero|8"
+    );
 }

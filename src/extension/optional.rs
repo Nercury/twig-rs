@@ -1,44 +1,15 @@
-//! The optional core extensions: `SandboxExtension`, `DebugExtension`, `StringLoaderExtension` and
-//! `SandboxBridgeExtension` (TWIG/src/Extension/).
+//! The optional core extensions `DebugExtension`, `StringLoaderExtension` and `SandboxBridgeExtension`
+//! (TWIG/src/Extension/). `SandboxExtension` lives with the sandbox runtime
+//! ([`crate::runtime::sandbox::SandboxExtension`]).
 
 use std::any::Any;
 use std::sync::Arc;
 
+use super::Extension;
 use super::callable::{
     CallableParameter as P, FunctionNodeClass, FunctionOptions, PhpCallable, TwigFunction,
 };
-use super::{Extension, TokenParser};
 use crate::ast::{ArgumentKey, Arguments, ConstantValue as V, ExprKind};
-use crate::token_parser::SandboxTokenParser;
-
-/// `Twig\Extension\SandboxExtension`: the deprecated `sandbox` tag (the sandbox visitor, the security policy and
-/// the checker come with the sandbox stage). It registers no callables.
-#[derive(Debug, Default)]
-pub struct SandboxExtension {
-    _private: (),
-}
-
-impl SandboxExtension {
-    /// The sandbox extension.
-    pub fn new() -> Self {
-        SandboxExtension::default()
-    }
-}
-
-impl Extension for SandboxExtension {
-    fn class_name(&self) -> &str {
-        "Twig\\Extension\\SandboxExtension"
-    }
-
-    /// Twig: `SandboxExtension::getTokenParsers()`.
-    fn token_parsers(&self) -> Vec<Arc<dyn TokenParser>> {
-        vec![Arc::new(SandboxTokenParser)]
-    }
-
-    fn as_any(&self) -> &dyn Any {
-        self
-    }
-}
 
 /// `Twig\Extension\DebugExtension`: the `dump` function.
 #[derive(Debug, Default)]

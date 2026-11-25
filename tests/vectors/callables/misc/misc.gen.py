@@ -441,10 +441,7 @@ def constants():
         ("{{ enum(5) }}", None),
         ("{{ enum('TwigRsEmpty') }}", None),
     ]:
-        pending = None
-        if tpl in ("{{ enum('Nope') }}", "{{ enum_cases('Nope') }}", "{{ enum(5) }}", "{{ enum('TwigRsEmpty') }}"):
-            pending = "EnumFunction/EnumCasesFunction compile-time checks of literal arguments (code generator)"
-        cases.append(case(tpl, data, pending=pending))
+        cases.append(case(tpl, data))
     return cases
 
 
@@ -513,11 +510,7 @@ def tests():
         ("{{ x is constant('E_STRICT') ? 'y' : 'n' }}", {"x": 2048}),
         ("{{ x is constant(name='PHP_EOL') ? 'y' : 'n' }}", {"x": "\n"}),
     ]:
-        pending = None
-        if "name=" not in tpl and any(m in tpl for m in ("'PHP_EOL')", "E_STRICT", "PRIV", "DateTime::RFC7231")):
-            pending = ("the constant test reads the environment's registry (runtime::Constants), which lacks PHP's "
-                       "constants, visibility checks and the declaring class in deprecations")
-        cases.append(case(tpl, data, pending=pending))
+        cases.append(case(tpl, data))
     return cases
 
 
@@ -611,20 +604,11 @@ def string_loader():
         ("{{ template_from_string(...[]) }}", None),
         ("{{ template_from_string('{{ \"#{x}\" }}').render({x: 1}) }}", None),
     ]:
-        pending = None
-        if "sourceContext" in tpl:
-            pending = "TemplateWrapper::getSourceContext() from a template (template stage)"
-        if "template_from_string(..." in tpl:
-            pending = ("runtime::functions registers its own template_from_string after the misc group, without PHP's "
-                       "binding of spread arguments")
-        cases.append(case(tpl, data, extensions=ext, globals={"g": "global"}, pending=pending))
+        cases.append(case(tpl, data, extensions=ext, globals={"g": "global"}))
     for tpl in ["{{ template_from_string('{{ v }}').render({v: '<b>'}) }}",
                 "{{ template_from_string('{{ v }}').templateName }}",
                 "{{ template_from_string('{{ v }}', 'x.js').render({v: '<b>'}) }}"]:
-        pending = None
-        if "render" in tpl:
-            pending = "auto-escaping (the EscaperExtension does not register the EscaperNodeVisitor yet)"
-        cases.append(case(tpl, None, extensions=ext, autoescape=True, pending=pending))
+        cases.append(case(tpl, None, extensions=ext, autoescape=True))
     cases.append(case("{{ include(template_from_string('{{ 1 + 1 }}')) }}", None, extensions=ext))
     return cases
 

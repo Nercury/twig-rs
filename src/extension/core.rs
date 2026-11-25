@@ -2,20 +2,25 @@
 //! (TWIG/src/Extension/CoreExtension.php, TWIG/src/Extension/EscaperExtension.php).
 //!
 //! Every filter, function and test with its options and the full PHP parameter list of its callable (dumped from
-//! the oracle with `Twig\Util\ReflectionCallable`), every operator, the core tags, the `CorrectnessNodeVisitor`
-//! and the escaper's default strategy; runtime implementations fill the callables' runtime slots later.
+//! the oracle with `Twig\Util\ReflectionCallable`), every operator, the core tags, the `CorrectnessNodeVisitor`,
+//! the `EscaperNodeVisitor` and the escaper's default strategy; runtime implementations fill the callables' runtime
+//! slots later.
 
 use std::any::Any;
 use std::collections::{HashMap, VecDeque};
 use std::fmt;
 use std::sync::{Arc, Mutex, PoisonError, RwLock};
 
+use twig_date::DateContext;
+use twig_value::object::ObjectRef;
+use twig_value::{Diagnostics, PhpResult, Value};
+
 use super::callable::{
     CallableParameter as P, DeprecatedCallableInfo, FilterNodeClass, FilterOptions,
     FunctionNodeClass, FunctionOptions, PhpCallable, TestNodeClass, TestOptions, TwigFilter,
     TwigFunction, TwigTest,
 };
-use super::{Extension, NodeVisitor, TokenParser};
+use super::{CoreSettings, Extension, NodeVisitor, TokenParser};
 use crate::ast::{Arguments, BinaryOp, ConstantValue as V, ExprKind, UnaryOp};
 use crate::error::Result;
 use crate::escaper::{self, DefaultStrategy, DefaultStrategyCallback};
@@ -31,7 +36,7 @@ use crate::parser::expression::prefix::{
 };
 use crate::parser::expression::{ExpressionParserEntry, InfixAssociativity, PrecedenceChange};
 use crate::token_parser::{AutoEscapeTokenParser, core_token_parsers};
-use crate::visitor::CorrectnessNodeVisitor;
+use crate::visitor::{CorrectnessNodeVisitor, EscaperNodeVisitor};
 
 const CORE: &str = "Twig\\Extension\\CoreExtension";
 
@@ -43,16 +48,91 @@ fn null() -> V {
     V::Null
 }
 
-/// `Twig\Extension\CoreExtension`: the core filters, functions, tests and operators.
+/// `Twig\Extension\CoreExtension`: the core filters, functions, tests and operators, and the date and number
+/// defaults of the `date`, `date_modify` and `number_format` filters and the `date` function
+/// ([`CoreSettings`]).
+///
+/// ```
+/// use twig::extension::CoreExtension;
+/// use twig::loader::ArrayLoader;
+/// use twig::runtime::Environment;
+/// use twig::value::{Array, Value};
+///
+/// let env = Environment::new(ArrayLoader::new([("index", "{{ 1020.25|number_format }}")]));
+/// // `$twig->getExtension(CoreExtension::class)->setNumberFormat(2, ',', '.')`
+/// env.with_extensions(|set| {
+///     set.extension::<CoreExtension>()
+///         .expect("every environment has it")
+///         .set_number_format(Value::Int(2), Value::from(","), Value::from("."))
+/// });
+/// assert_eq!(env.render("index", Array::new())?, "1.020,25");
+/// # Ok::<(), twig::Error>(())
+/// ```
 #[derive(Debug, Default)]
 pub struct CoreExtension {
-    _private: (),
+    settings: CoreSettings,
 }
 
 impl CoreExtension {
-    /// The core extension.
+    /// The core extension with Twig's defaults.
     pub fn new() -> Self {
         CoreExtension::default()
+    }
+
+    /// The date and number defaults (a shared handle: changes made through a clone apply to this extension).
+    pub fn settings(&self) -> &CoreSettings {
+        &self.settings
+    }
+
+    /// Sets the default formats of the `date` filter (`None` or `null` keeps a format). Twig:
+    /// `CoreExtension::setDateFormat($format = null, $dateIntervalFormat = null)`.
+    pub fn set_date_format(&self, format: Option<Value>, interval_format: Option<Value>) {
+        self.settings.set_date_format(format, interval_format);
+    }
+
+    /// The default date format and the default interval format. Twig: `CoreExtension::getDateFormat()`.
+    pub fn date_format(&self) -> [Value; 2] {
+        self.settings.date_format()
+    }
+
+    /// Sets the default timezone: a `DateTimeZone` object, or a name given to `new \DateTimeZone()` in `ctx` (the
+    /// environment's [`date_context`](crate::runtime::Environment::date_context)). Twig:
+    /// `CoreExtension::setTimezone($timezone)`.
+    ///
+    /// # Errors
+    ///
+    /// The exceptions of `DateTimeZone::__construct()` (`DateTimeZone::__construct(): Unknown or bad timezone
+    /// (%s)`, the `TypeError` of a value that is not a string).
+    pub fn set_timezone(
+        &self,
+        ctx: &DateContext,
+        timezone: &Value,
+        diag: &mut dyn Diagnostics,
+    ) -> PhpResult<()> {
+        self.settings.set_timezone(ctx, timezone, diag)
+    }
+
+    /// The default timezone: the one set, else (fixed from then on) PHP's default timezone of the first call. Twig:
+    /// `CoreExtension::getTimezone()`.
+    ///
+    /// # Errors
+    ///
+    /// The error of a corrupt timezone database.
+    pub fn timezone(&self, ctx: &DateContext) -> PhpResult<ObjectRef> {
+        self.settings.timezone(ctx)
+    }
+
+    /// Sets the defaults of the `number_format` filter. Twig: `CoreExtension::setNumberFormat($decimal,
+    /// $decimalPoint, $thousandSep)`.
+    pub fn set_number_format(&self, decimal: Value, decimal_point: Value, thousand_sep: Value) {
+        self.settings
+            .set_number_format(decimal, decimal_point, thousand_sep);
+    }
+
+    /// The defaults of the `number_format` filter: decimals, decimal point, thousands separator. Twig:
+    /// `CoreExtension::getNumberFormat()`.
+    pub fn number_format(&self) -> [Value; 3] {
+        self.settings.number_format()
     }
 }
 
@@ -770,9 +850,8 @@ impl Extension for CoreExtension {
 /// The default strategy can be changed at any time ([`set_default_strategy`](Self::set_default_strategy)); it is
 /// resolved per template name when a template is compiled ([`default_strategy`](Self::default_strategy)).
 ///
-/// Twig's extension also registers the `EscaperNodeVisitor` (`getNodeVisitors()`). The parser stage's extension set
-/// ([`ExtensionSet::with_core_extensions`](super::ExtensionSet::with_core_extensions)) does not run it yet; until
-/// then the visitor is added to an extension set explicitly.
+/// Like Twig's extension, it registers the [`EscaperNodeVisitor`] (`getNodeVisitors()`), which adds the escaping
+/// filters of auto-escaping.
 pub struct EscaperExtension {
     /// Twig's `$defaultStrategy`.
     default_strategy: RwLock<ConfiguredStrategy>,
@@ -925,6 +1004,11 @@ impl Extension for EscaperExtension {
     /// Twig: `EscaperExtension::getTokenParsers()`.
     fn token_parsers(&self) -> Vec<Arc<dyn TokenParser>> {
         vec![Arc::new(AutoEscapeTokenParser)]
+    }
+
+    /// Twig: `EscaperExtension::getNodeVisitors()`.
+    fn node_visitors(&self) -> Vec<Arc<dyn NodeVisitor>> {
+        vec![Arc::new(EscaperNodeVisitor)]
     }
 
     /// Twig: `EscaperExtension::getFilters()`.

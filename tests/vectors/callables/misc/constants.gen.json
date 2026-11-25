@@ -2487,7 +2487,6 @@
     "debug": false
    },
    "errors": "collect",
-   "pending": "EnumFunction/EnumCasesFunction compile-time checks of literal arguments (code generator)",
    "id": "constants-163"
   },
   {
@@ -2501,7 +2500,6 @@
     "debug": false
    },
    "errors": "collect",
-   "pending": "EnumFunction/EnumCasesFunction compile-time checks of literal arguments (code generator)",
    "id": "constants-164"
   },
   {
@@ -2515,7 +2513,6 @@
     "debug": false
    },
    "errors": "collect",
-   "pending": "EnumFunction/EnumCasesFunction compile-time checks of literal arguments (code generator)",
    "id": "constants-165"
   },
   {
@@ -2530,7 +2527,6 @@
    },
    "errors": "collect",
    "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
-   "pending": "EnumFunction/EnumCasesFunction compile-time checks of literal arguments (code generator)",
    "id": "constants-166"
   }
  ],

@@ -33,12 +33,13 @@
 //!
 //! # PHP warnings
 //!
-//! Where PHP emits a warning or notice and carries on, the loader returns an
-//! [`ErrorKind::Runtime`](crate::ErrorKind::Runtime) error with PHP's message, as PHP behaves when warnings are
-//! turned into exceptions (Twig's own test suite does that): reading a template whose file disappeared
-//! (`file_get_contents(…): Failed to open stream: …`), reading a directory (`file_get_contents(): Read of N bytes
-//! failed with errno=21 Is a directory`) and [`is_fresh`](Loader::is_fresh) on a vanished file
-//! (`filemtime(): stat failed for …`).
+//! Where PHP emits a warning or notice and carries on, the loader returns the `ErrorException` PHP throws when
+//! warnings are turned into exceptions (Twig's own test suite does that), an [`ErrorKind::Php`](crate::ErrorKind::Php)
+//! error with PHP's message: reading a template whose file disappeared (`file_get_contents(…): Failed to open
+//! stream: …`), reading a directory (`file_get_contents(): Read of N bytes failed with errno=21 Is a directory`) and
+//! [`is_fresh`](Loader::is_fresh) on a vanished file (`filemtime(): stat failed for …`). Like any PHP throwable that
+//! is not a Twig error, a template that includes such a template wraps it (`An exception has been thrown during the
+//! rendering of a template ("…")`).
 //!
 //! # Platforms
 //!
@@ -157,8 +158,8 @@ impl FilesystemLoader {
     ///
     /// Twig: `new FilesystemLoader($paths, $rootPath)`. The root path is `realpath()`-ed when it exists and used as
     /// given otherwise, and `""` means the current directory (`realpath('')`). A root path containing a NUL byte
-    /// fails with PHP's `ValueError` message `realpath(): Argument #1 ($path) must not contain any null bytes`, as an
-    /// [`ErrorKind::Logic`](crate::ErrorKind::Logic) error.
+    /// fails with PHP's `ValueError` (`realpath(): Argument #1 ($path) must not contain any null bytes`, an
+    /// [`ErrorKind::Php`](crate::ErrorKind::Php) error).
     pub fn with_root_path<I>(paths: I, root_path: &str) -> Result<Self>
     where
         I: IntoIterator,
@@ -720,6 +721,8 @@ mod php {
     use std::io::{self, Read as _};
 
     use super::{os_path, os_to_bytes, plain_files_path, strip_verbatim_prefix};
+    use twig_value::{PhpError, ThrowableClass};
+
     use crate::{Error, Result};
 
     /// PHP `getcwd()`; `None` is PHP's `false`.
@@ -736,9 +739,9 @@ mod php {
     /// `realpath()`; PHP's realpath cache is not modelled.
     pub(super) fn realpath(path: &[u8]) -> Result<Option<Vec<u8>>> {
         if path.contains(&0) {
-            return Err(Error::logic(
+            return Err(Error::php(PhpError::value_error(
                 "realpath(): Argument #1 ($path) must not contain any null bytes",
-            ));
+            )));
         }
         // realpath("") returns CWD
         let cwd;
@@ -781,10 +784,11 @@ mod php {
         fs::metadata(os_path(local)?).ok()
     }
 
-    /// PHP `file_get_contents()`. PHP's warning (unreadable file) or notice (failed read) becomes a runtime error.
+    /// PHP `file_get_contents()`. PHP's warning (unreadable file) or notice (failed read) becomes the
+    /// `ErrorException` of a converted warning.
     pub(super) fn file_get_contents(path: &[u8]) -> Result<Vec<u8>> {
         let open_error = |reason: &str| {
-            Error::runtime(format!(
+            warning(format!(
                 "file_get_contents({}): Failed to open stream: {reason}",
                 String::from_utf8_lossy(path)
             ))
@@ -803,7 +807,7 @@ mod php {
         };
         let mut code = Vec::new();
         file.read_to_end(&mut code).map_err(|error| {
-            Error::runtime(format!(
+            warning(format!(
                 "file_get_contents(): Read of {first_read} bytes failed with errno={} {}",
                 error.raw_os_error().unwrap_or(0),
                 strerror(&error)
@@ -812,15 +816,20 @@ mod php {
         Ok(code)
     }
 
-    /// PHP `filemtime()`. PHP's warning for a missing file becomes a runtime error.
+    /// PHP `filemtime()`. PHP's warning for a missing file becomes the `ErrorException` of a converted warning.
     pub(super) fn filemtime(path: &[u8]) -> Result<i64> {
         match stat(path) {
             Some(metadata) => Ok(mtime(&metadata)),
-            None => Err(Error::runtime(format!(
+            None => Err(warning(format!(
                 "filemtime(): stat failed for {}",
                 String::from_utf8_lossy(path)
             ))),
         }
+    }
+
+    /// The `ErrorException` a PHP warning or notice becomes when warnings are turned into exceptions.
+    fn warning(message: String) -> Error {
+        Error::php(PhpError::new(ThrowableClass::ErrorException, message))
     }
 
     #[cfg(unix)]
@@ -1099,7 +1108,8 @@ mod tests {
         assert!(php::realpath(b"").unwrap().is_some());
         assert_eq!(php::realpath(b"/definitely/not/here/twig").unwrap(), None);
         let error = php::realpath(b"a\0b").unwrap_err();
-        assert_eq!(error.kind(), crate::ErrorKind::Logic);
+        assert_eq!(error.kind(), crate::ErrorKind::Php);
+        assert_eq!(error.class_name(), "ValueError");
         assert_eq!(
             error.to_string(),
             "realpath(): Argument #1 ($path) must not contain any null bytes"

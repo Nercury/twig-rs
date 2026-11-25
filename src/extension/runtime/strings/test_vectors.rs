@@ -5,7 +5,7 @@
 #[path = "../../../../tests/common/mod.rs"]
 mod common;
 
-use std::sync::{Arc, LazyLock};
+use std::sync::LazyLock;
 
 use common::{Json, base64_decode};
 use twig_value::object::{
@@ -17,10 +17,8 @@ use twig_value::{
 };
 
 use crate::escaper::DefaultStrategy;
-use crate::extension::{EscaperExtension, Extension};
 use crate::loader::ArrayLoader;
 use crate::runtime::{DiagnosticsPolicy, Environment, EnvironmentOptions, Markup, Notice};
-use crate::visitor::EscaperNodeVisitor;
 
 // ---- the PHP classes of the batches (PHP_CLASSES in strings.gen.py) ----------------------------------------------
 
@@ -248,14 +246,6 @@ fn environment(case: &Json, customize: &dyn Fn(&Environment, &Json)) -> Environm
         .collect();
     let env = Environment::with_options(ArrayLoader::new(templates), options);
     customize(&env, case);
-    let registered = env.with_extensions(|set| {
-        set.extension::<EscaperExtension>()
-            .is_some_and(|escaper| !escaper.node_visitors().is_empty())
-    });
-    if !registered {
-        env.add_node_visitor(Arc::new(EscaperNodeVisitor))
-            .expect("a fresh environment accepts node visitors");
-    }
     env
 }
 

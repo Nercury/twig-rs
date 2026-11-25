@@ -70,7 +70,6 @@ impl CoreSettings {
     /// Sets the default formats of the `date` filter; `None` keeps the current one.
     ///
     /// Twig: `CoreExtension::setDateFormat($format = null, $dateIntervalFormat = null)`.
-    #[cfg_attr(not(test), allow(dead_code))] // reached through the extension-stage hook
     pub fn set_date_format(&self, format: Option<Value>, interval_format: Option<Value>) {
         let mut formats = write(&self.inner.date_formats);
         // `null !== $format`
@@ -96,7 +95,6 @@ impl CoreSettings {
     ///
     /// The exceptions of `DateTimeZone::__construct()` (`DateTimeZone::__construct(): Unknown or bad timezone
     /// (Nowhere/City)`, the `TypeError` of a non-string).
-    #[cfg_attr(not(test), allow(dead_code))] // reached through the extension-stage hook
     pub fn set_timezone(
         &self,
         ctx: &DateContext,
@@ -131,7 +129,6 @@ impl CoreSettings {
     /// Sets the defaults of the `number_format` filter: decimals, decimal point, thousands separator.
     ///
     /// Twig: `CoreExtension::setNumberFormat($decimal, $decimalPoint, $thousandSep)`.
-    #[cfg_attr(not(test), allow(dead_code))] // reached through the extension-stage hook
     pub fn set_number_format(&self, decimal: Value, decimal_point: Value, thousand_sep: Value) {
         *write(&self.inner.number_format) = [decimal, decimal_point, thousand_sep];
     }
@@ -158,12 +155,6 @@ pub(super) fn new_timezone(
 }
 
 /// The settings of the environment's `CoreExtension` (Twig: `$env->getExtension(CoreExtension::class)`).
-///
-/// twig-rs's `CoreExtension` does not hold a [`CoreSettings`] yet, so every call sees Twig's defaults, the only
-/// configuration templates can observe until then (the timezone is then PHP's default timezone of the moment). Once
-/// the extension holds one, this is `env.with_extensions(|set| set.extension::<CoreExtension>().map(|core|
-/// core.settings().clone())).unwrap_or_default()`.
 pub(super) fn core_settings(env: &Environment) -> CoreSettings {
-    let _ = env;
-    CoreSettings::new()
+    env.core_settings()
 }

@@ -25,21 +25,22 @@ pub type EscaperCallback =
 
 /// The escaper runtime of an environment: Twig's `EscaperRuntime`, created with the charset of the environment,
 /// holding the custom escapers (`setEscaper()`) and the safe classes (`addSafeClass()`), and running the `escape`
-/// and `e` filters ([`escape`](Self::escape)).
+/// and `e` filters ([`escape`](Self::escape)). An environment's runtime is
+/// [`Environment::escaper_runtime`](crate::runtime::Environment::escaper_runtime).
 ///
 /// It can be shared between threads; the escapers and safe classes can change at any time.
 ///
-/// ```ignore
+/// ```
 /// use std::sync::Arc;
 /// use twig::extension::runtime::EscaperRuntime;
-/// use twig::value::{PhpString, Value, convert};
+/// use twig::value::{Diagnostic, Value, convert};
 ///
 /// let runtime = EscaperRuntime::new("UTF-8");
 /// runtime.set_escaper("csv", Arc::new(|value, _charset, diag| {
 ///     let string = convert::to_string(value, diag)?;
 ///     Ok(Value::from(format!("\"{}\"", string.to_string_lossy().replace('"', "\"\""))))
 /// }));
-/// let mut diag = Vec::new();
+/// let mut diag: Vec<Diagnostic> = Vec::new();
 /// let escaped = runtime.escape(Value::from("a\"b"), b"csv", None, false, &mut diag)?;
 /// assert_eq!(escaped, Value::from("\"a\"\"b\""));
 /// # Ok::<(), twig::vm::Exception>(())
@@ -132,8 +133,6 @@ impl EscaperRuntime {
     }
 }
 
-// The configuration API: the environment does not own a runtime yet, so only the tests call it.
-#[allow(dead_code)]
 impl EscaperRuntime {
     /// The default charset.
     pub fn charset(&self) -> PhpString {
@@ -364,11 +363,8 @@ const ESCAPE: &str = "Twig\\Runtime\\EscaperRuntime::escape";
 
 /// The escaper runtime of the environment running the call: Twig's `$this->env->getRuntime(EscaperRuntime::class)`,
 /// created with the charset of the environment when a template first escapes.
-///
-/// The environment does not keep an `EscaperRuntime` yet (it only remembers the charset of its first use), so each
-/// call gets a runtime without custom escapers or safe classes.
 fn environment_runtime(call: &Call<'_>) -> Arc<EscaperRuntime> {
-    Arc::new(EscaperRuntime::new(call.env().escaper_charset()))
+    call.env().escaper_runtime()
 }
 
 /// The runtime of the `escape` and `e` filters: Twig's `EscaperRuntime::escape()` called on the environment's

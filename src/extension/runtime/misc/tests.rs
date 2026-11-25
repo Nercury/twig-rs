@@ -1,8 +1,8 @@
 //! The configuration of the `CoreExtension` against Twig 3.31.1 on PHP 8.5.13: `formatDate()`, `convertDate()`,
 //! `modifyDate()` and `formatNumber()` of an extension configured with `setDateFormat()`, `setTimezone()` and
 //! `setNumberFormat()`, compared with the oracle batch `tests/vectors/callables/misc/settings.gen.json` (results in
-//! `settings.json`, written by `tests/vectors/callables/misc/misc.gen.py`; templates cannot reach a configured
-//! extension until the `CoreExtension` holds its [`CoreSettings`]).
+//! `settings.json`, written by `tests/vectors/callables/misc/misc.gen.py`), on a [`CoreSettings`] of its own (the
+//! fixture harness configures the environment's settings through `Environment::core_settings()`).
 
 use serde_json::Value as Json;
 use twig_date::{DateContext, DateObject, IntervalObject, TimeZoneObject, classes};

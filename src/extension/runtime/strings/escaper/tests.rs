@@ -3,9 +3,10 @@
 //! `tests/vectors/callables/strings/runtime.gen.json`: templates rendered with escapers and safe classes registered
 //! on the environment's runtime.
 //!
-//! The environment does not own an `EscaperRuntime` yet, so the vector cases replace the `escape` and `e` filters
-//! with copies of `EscaperExtension`'s running a runtime configured like the case's `setup` (the escaper visitor
-//! inserts the environment's `escape` filter, so auto-escaping goes through them too).
+//! The vector cases configure the environment's runtime ([`Environment::escaper_runtime`], Twig's
+//! `$twig->getRuntime(EscaperRuntime::class)`) like the case's `setup`, before the templates render.
+//!
+//! [`Environment::escaper_runtime`]: crate::runtime::Environment::escaper_runtime
 
 use std::sync::{Arc, LazyLock};
 
@@ -15,9 +16,7 @@ use twig_value::object::{
 use twig_value::{Array, Diagnostic, Diagnostics, PhpResult, PhpString, Value};
 
 use super::super::test_vectors::{markup, run_topic};
-use super::{EscaperCallback, EscaperRuntime, escape_with};
-use crate::extension::runtime::CallableRuntime;
-use crate::extension::{EscaperExtension, Extension};
+use super::{EscaperCallback, EscaperRuntime};
 
 // ---- objects ------------------------------------------------------------------------------------------------------
 
@@ -405,7 +404,8 @@ fn vector_escaper(name: &str) -> EscaperCallback {
 #[test]
 fn runtime_vectors() {
     run_topic("runtime", &|env, case| {
-        let runtime = Arc::new(EscaperRuntime::new("UTF-8"));
+        // `$runtime = $twig->getRuntime(EscaperRuntime::class)`
+        let runtime = env.escaper_runtime();
         let setup = case.field("setup");
         if let Some(classes) = setup.get("safe_classes") {
             for entry in classes.as_array() {
@@ -425,14 +425,6 @@ fn runtime_vectors() {
             for name in escapers.as_array() {
                 let name = name.as_str().expect("escaper name");
                 runtime.set_escaper(name, vector_escaper(name));
-            }
-        }
-        // copies of the escape filters with a runtime of their own
-        for filter in EscaperExtension::new().filters() {
-            if let Some(callable) = filter.callable() {
-                let runtime = Arc::clone(&runtime);
-                CallableRuntime::new(move |call| escape_with(&runtime, call)).attach(callable);
-                env.add_filter(filter).expect("filters can be added");
             }
         }
     });

@@ -1,6 +1,6 @@
 //! The template functions that load and render other templates: `include`, `include_only` and `source`
-//! (`CoreExtension`), `template_from_string` (`StringLoaderExtension`) and `render_sandboxed`
-//! (`SandboxBridgeExtension`).
+//! (`CoreExtension`) and `render_sandboxed` (`SandboxBridgeExtension`). `template_from_string`
+//! (`StringLoaderExtension`) is one of the misc callables (`crate::extension::runtime::misc`).
 
 use twig_value::param::{DeclaredType, TypeMask, UserArg, verify_user_arg};
 use twig_value::{Array, PhpString, Value, convert};
@@ -19,10 +19,6 @@ pub(crate) fn register(table: &mut RuntimeTable) {
     table.register("Twig\\Extension\\CoreExtension::include", include);
     table.register("Twig\\Extension\\CoreExtension::includeOnly", include_only);
     table.register("Twig\\Extension\\CoreExtension::source", source);
-    table.register(
-        "Twig\\Extension\\StringLoaderExtension::templateFromString",
-        template_from_string,
-    );
     table.register(
         "Twig\\Runtime\\SandboxBridgeRuntime::render",
         render_sandboxed,
@@ -254,40 +250,6 @@ fn source(call: &mut Call<'_>) -> CallResult {
         }
         Err(error) => Err(error.into()),
     }
-}
-
-/// Twig: `StringLoaderExtension::templateFromString($env, string|\Stringable $template, ?string $name = null)`:
-/// `$env->createTemplate((string) $template, $name)`.
-fn template_from_string(call: &mut Call<'_>) -> CallResult {
-    const FUNCTION: &str = "Twig\\Extension\\StringLoaderExtension::templateFromString";
-    let args = call.args().to_vec();
-    let template = typed(
-        call,
-        args.first().cloned().unwrap_or_default(),
-        FUNCTION,
-        2,
-        "template",
-        DeclaredType::new(&["Stringable"], TypeMask::STRING),
-    )?;
-    let template = convert::to_string(&template, call.diagnostics())?;
-    let name = match args.get(1) {
-        Some(value) => match typed(
-            call,
-            value.clone(),
-            FUNCTION,
-            3,
-            "name",
-            DeclaredType::builtin(TypeMask::STRING | TypeMask::NULL),
-        )? {
-            Value::String(name) => Some(name.to_string_lossy().into_owned()),
-            _ => None,
-        },
-        None => None,
-    };
-    let wrapper = call
-        .env()
-        .create_template(template.as_bytes(), name.as_deref())?;
-    Ok(wrapper.to_value())
 }
 
 /// Twig: `SandboxBridgeRuntime::render(string $name, array $context): string`, reached through

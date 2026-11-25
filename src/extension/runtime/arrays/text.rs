@@ -1,122 +1,55 @@
-//! The string side of the array group: `mb_strlen()` and `mb_substr()` with the environment charset, Twig's
+//! The string side of the array group: `mb_strlen()` and `mb_substr()` with the environment charset (over the
+//! string group's mbstring encodings, [`crate::extension::runtime::strings::mb`]), Twig's
 //! `CoreExtension::convertEncoding()` and `CoreExtension::splitIntoCharacters()`.
 
 use twig_value::builtins::string::iconv::iconv_bytes;
 use twig_value::param::{self, Arg};
-use twig_value::{Diagnostics, PhpError, PhpResult, PhpString, Value};
+use twig_value::{Diagnostics, PhpResult, PhpString, Value};
 
+use super::super::strings::mb;
 use crate::error::Error;
 use crate::vm::Exception;
 
-/// How an mbstring encoding cuts a string into characters.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub(super) enum Encoding {
-    /// UTF-8 (`twig-unicode`, mbstring's decoder and `?` substitution).
-    Utf8,
-    /// A single-byte encoding (`MBFL_ENCTYPE_SBCS`): one character per byte.
-    SingleByte,
-}
-
-/// `php_mb_get_encoding($charset, $position)` (PHPSRC/ext/mbstring/mbstring.c) for the encodings twig-rs implements:
-/// UTF-8 and the single-byte encodings `Markup::count()` accepts. Any other name is rejected like an unknown
-/// encoding: `ValueError: <function>(): Argument #<position> ($encoding) must be a valid encoding, "<name>" given`
-/// (PHP also knows the multi-byte Asian and UTF-16/32 encodings; see `reference/deviations.md`).
-pub(super) fn mb_encoding(charset: &[u8], function: &str, position: u32) -> PhpResult<Encoding> {
-    let name = String::from_utf8_lossy(charset).to_ascii_uppercase();
-    match name.as_str() {
-        "UTF-8" | "UTF8" => Ok(Encoding::Utf8),
-        "ASCII" | "US-ASCII" | "8BIT" | "BINARY" => Ok(Encoding::SingleByte),
-        n if n.starts_with("ISO-8859-")
-            || n.starts_with("WINDOWS-125")
-            || n.starts_with("CP125")
-            || n.starts_with("ISO8859-") =>
-        {
-            Ok(Encoding::SingleByte)
-        }
-        _ => Err(PhpError::value_error(PhpString::concat(&[
-            format!("{function}(): Argument #{position} ($encoding) must be a valid encoding, \"")
-                .as_bytes(),
-            c_str(charset),
-            b"\" given",
-        ]))),
-    }
-}
-
-/// The part of a byte string C's `%s` prints (up to the first NUL byte).
-fn c_str(bytes: &[u8]) -> &[u8] {
-    match memchr::memchr(0, bytes) {
-        Some(nul) => &bytes[..nul],
-        None => bytes,
-    }
-}
-
 /// Port of `mb_strlen($string, $charset)` (`PHP_FUNCTION(mb_strlen)`, PHPSRC/ext/mbstring/mbstring.c): the string
 /// parameter coerced like an internal function's (`TypeError` for arrays and objects without `__toString()`), then
-/// the encoding (argument #2).
+/// the encoding (argument #2, `php_mb_get_encoding()`), then `mb_get_strlen()`.
+///
+/// # Errors
+///
+/// The `TypeError` of the string parameter, the errors of [`mb::get_encoding`].
 pub(super) fn mb_strlen(
     value: &Value,
     charset: &[u8],
     diag: &mut dyn Diagnostics,
-) -> PhpResult<i64> {
+) -> Result<i64, Exception> {
     let string = param::parse_str(value, &Arg::new("mb_strlen", 1, "string"), diag)?;
-    Ok(match mb_encoding(charset, "mb_strlen", 2)? {
-        Encoding::Utf8 => twig_unicode::mb_strlen(&string) as i64,
-        Encoding::SingleByte => string.len() as i64,
-    })
+    let charset = mb::get_encoding("mb_strlen", 2, charset, diag)?;
+    Ok(mb::strlen(&string, charset))
 }
 
 /// Port of `mb_substr($string, $start, $length, $charset)` (`PHP_FUNCTION(mb_substr)`): `int $start`, `?int
 /// $length` (coerced, with their `TypeError`s and deprecations), the `ZEND_LONG_MIN` checks, then the encoding
-/// (argument #4).
+/// (argument #4), then `mb_get_substr()`.
+///
+/// # Errors
+///
+/// The parameters' `TypeError`s, the `ValueError`s of [`mb::substr_range_error`], the errors of
+/// [`mb::get_encoding`].
 pub(super) fn mb_substr(
     value: &Value,
     start: &Value,
     length: &Value,
     charset: &[u8],
     diag: &mut dyn Diagnostics,
-) -> PhpResult<PhpString> {
+) -> Result<PhpString, Exception> {
     let string = param::parse_str(value, &Arg::new("mb_substr", 1, "string"), diag)?;
     let start = param::parse_long(start, &Arg::new("mb_substr", 2, "start"), diag)?;
     let length = param::parse_long_or_null(length, &Arg::new("mb_substr", 3, "length"), diag)?;
-    let bounds = "must be between -9223372036854775807 and 9223372036854775807";
-    if start == i64::MIN {
-        return Err(Arg::new("mb_substr", 2, "start").value_error(bounds));
+    if let Some(error) = mb::substr_range_error(start, length) {
+        return Err(error.into());
     }
-    if length == Some(i64::MIN) {
-        return Err(Arg::new("mb_substr", 3, "length").value_error(bounds));
-    }
-    match mb_encoding(charset, "mb_substr", 4)? {
-        Encoding::Utf8 => twig_unicode::mb_substr(&string, start, length)
-            .map(PhpString::from)
-            .map_err(|e| PhpError::value_error(e.message())),
-        Encoding::SingleByte => Ok(PhpString::from(substr_bytes(&string, start, length))),
-    }
-}
-
-/// `PHP_FUNCTION(mb_substr)` for a fixed-width single-byte encoding: the character count is the byte count and
-/// `mb_get_substr()` slices the bytes.
-fn substr_bytes(s: &[u8], start: i64, length: Option<i64>) -> &[u8] {
-    let mblen = s.len() as u64;
-    let real_from = if start >= 0 {
-        start as u64
-    } else if start.unsigned_abs() < mblen {
-        mblen - start.unsigned_abs()
-    } else {
-        0
-    };
-    let real_len = match length {
-        None => u64::MAX,
-        Some(len) if len >= 0 => len as u64,
-        Some(len) if real_from < mblen && len.unsigned_abs() < mblen - real_from => {
-            (mblen - real_from) - len.unsigned_abs()
-        }
-        Some(_) => 0,
-    };
-    if real_len == 0 || real_from >= mblen {
-        return &[];
-    }
-    let end = real_from.saturating_add(real_len).min(mblen);
-    &s[real_from as usize..end as usize]
+    let charset = mb::get_encoding("mb_substr", 4, charset, diag)?;
+    mb::substr(&string, start, length, charset)
 }
 
 /// Twig: `CoreExtension::convertEncoding($string, $to, $from): string` (TWIG/src/Extension/CoreExtension.php) on a
@@ -161,16 +94,6 @@ mod tests {
     use super::*;
 
     #[test]
-    fn single_byte_substr_matches_mb_substr_rules() {
-        assert_eq!(substr_bytes(b"abcdef", 1, Some(2)), b"bc");
-        assert_eq!(substr_bytes(b"abcdef", -3, Some(-1)), b"de");
-        assert_eq!(substr_bytes(b"abc", -10, Some(2)), b"ab");
-        assert_eq!(substr_bytes(b"abc", 5, None), b"");
-        assert_eq!(substr_bytes(b"abc", 1, None), b"bc");
-        assert_eq!(substr_bytes(b"abc", 0, Some(-5)), b"");
-    }
-
-    #[test]
     fn splits_code_points() {
         let parts = split_into_characters(&PhpString::from("aé€😀"), "split").unwrap();
         assert_eq!(parts.len(), 4);
@@ -182,12 +105,34 @@ mod tests {
             error.message(),
             "Unable to split the string passed to \"reverse\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded."
         );
+    }
+
+    #[test]
+    fn counts_and_cuts_in_the_charset() {
+        let mut diag: Vec<twig_value::Diagnostic> = Vec::new();
+        let abc = Value::from("abcdef");
         assert_eq!(
-            mb_encoding(b"NOPE-1", "mb_strlen", 2)
-                .unwrap_err()
-                .message()
-                .to_string_lossy(),
+            mb_strlen(&Value::from("é"), b"UTF-8", &mut diag).unwrap(),
+            1
+        );
+        assert_eq!(
+            mb_strlen(&Value::from("é"), b"KOI8-R", &mut diag).unwrap(),
+            2
+        );
+        let cut = |start: i64, length: Value, diag: &mut Vec<twig_value::Diagnostic>| {
+            mb_substr(&abc, &Value::Int(start), &length, b"ISO-8859-1", diag).unwrap()
+        };
+        assert_eq!(cut(1, Value::Int(2), &mut diag).as_bytes(), b"bc");
+        assert_eq!(cut(-3, Value::Int(-1), &mut diag).as_bytes(), b"de");
+        assert_eq!(cut(5, Value::Null, &mut diag).as_bytes(), b"f");
+        assert_eq!(
+            mb_strlen(&abc, b"NOPE-1", &mut diag).unwrap_err().message(),
             "mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE-1\" given"
         );
+        assert_eq!(
+            mb_strlen(&abc, b"SJIS", &mut diag).unwrap_err().message(),
+            "mb_strlen(): encoding \"SJIS\" is not supported by twig-rs"
+        );
+        assert!(diag.is_empty());
     }
 }

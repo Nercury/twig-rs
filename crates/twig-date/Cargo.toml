@@ -9,8 +9,8 @@ repository.workspace = true
 authors.workspace = true
 
 [dependencies]
-twig-value = { path = "../twig-value" }
-twig-timelib = { path = "../twig-timelib" }
+twig-value.workspace = true
+twig-timelib.workspace = true
 
 [dev-dependencies]
 serde.workspace = true

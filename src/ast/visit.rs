@@ -164,6 +164,13 @@ pub trait CustomExpr: fmt::Debug + Send + Sync + 'static {
     fn is_defined_test_enabled(&self) -> bool {
         false
     }
+
+    /// The children the compiled node converts to strings at runtime, for a class implementing
+    /// `CoercesChildrenToStringInterface` (Twig: `getStringCoercedChildNames()`): the sandbox wraps them in
+    /// `__toString()` checks (an argument container: each argument). None by default.
+    fn string_coerced_child_names(&self) -> Vec<String> {
+        Vec::new()
+    }
 }
 
 /// A statement node class defined by an extension (a PHP subclass of `Node`).
@@ -206,6 +213,13 @@ pub trait CustomNode: fmt::Debug + Send + Sync + 'static {
     /// Whether the class implements `NodeCaptureInterface`.
     fn is_capture(&self) -> bool {
         false
+    }
+
+    /// The children the compiled node converts to strings at runtime, for a class implementing
+    /// `CoercesChildrenToStringInterface` (Twig: `getStringCoercedChildNames()`): the sandbox wraps them in
+    /// `__toString()` checks (a container or an argument container: each element). None by default.
+    fn string_coerced_child_names(&self) -> Vec<String> {
+        Vec::new()
     }
 }
 
