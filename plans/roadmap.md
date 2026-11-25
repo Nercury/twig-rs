@@ -120,6 +120,7 @@ listed in a `NOTICE` file before the first publish; the licence review happens t
   levenshtein, zend_sort, range (8.3 rules), min/max.
 
 ### 3. Engine core
+Design and work split: [engine.md](engine.md).
 - LLTL instruction set, codegen from the visited AST in Twig compile order, line table.
 - VM: frames with COW context, output sink with capture stack, for-loop opcodes, name/attribute opcodes,
   call binding (named args, variadics, needs_environment/context/charset), macros, blocks and inheritance
