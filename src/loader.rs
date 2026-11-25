@@ -1,5 +1,5 @@
+use crate::error::{EngineError, Result};
 use std::collections::HashMap;
-use error::{ Result, EngineError };
 
 pub trait Loader {
     fn get_source(&self, name: &str) -> Result<String>;
@@ -12,9 +12,7 @@ pub struct ArrayLoader {
 
 impl ArrayLoader {
     pub fn new(sources: HashMap<String, String>) -> ArrayLoader {
-        ArrayLoader {
-            files: sources,
-        }
+        ArrayLoader { files: sources }
     }
 }
 
@@ -24,8 +22,9 @@ impl Loader for ArrayLoader {
             Some(contents) => Ok(contents.clone()),
             None => Err(EngineError::TemplateNotFound {
                 name: name.into(),
-                search_paths: Vec::new()
-            }.into()),
+                search_paths: Vec::new(),
+            }
+            .into()),
         }
     }
 }

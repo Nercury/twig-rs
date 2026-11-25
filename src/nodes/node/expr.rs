@@ -1,5 +1,3 @@
-use uuid::Uuid;
-
 #[derive(Debug, PartialEq, Clone)]
 pub struct Expr<'c> {
     pub line: usize,
@@ -8,10 +6,7 @@ pub struct Expr<'c> {
 
 impl<'c> Expr<'c> {
     pub fn new_at<'r>(value: ExprValue<'r>, line: usize) -> Expr<'r> {
-        Expr {
-            line: line,
-            value: value
-        }
+        Expr { line, value }
     }
 
     pub fn new_array<'r>(value: Vec<Expr<'r>>, line: usize) -> Expr<'r> {
@@ -51,10 +46,18 @@ impl<'c> Expr<'c> {
             ExprValue::Conditional { .. } => false,
             ExprValue::Constant(_) => true,
             ExprValue::Name(_) => false,
-            ExprValue::UnaryOperator { value: "-", ref expr } => expr.is_constant(),
-            ExprValue::UnaryOperator { value: "+", ref expr } => expr.is_constant(),
+            ExprValue::UnaryOperator {
+                value: "-",
+                ref expr,
+            } => expr.is_constant(),
+            ExprValue::UnaryOperator {
+                value: "+",
+                ref expr,
+            } => expr.is_constant(),
             ExprValue::UnaryOperator { .. } => false,
-            ExprValue::Hash(ref items) => items.iter().all(|&(ref k, ref v)| k.is_constant() && v.is_constant()),
+            ExprValue::Hash(ref items) => items
+                .iter()
+                .all(|(k, v)| k.is_constant() && v.is_constant()),
             ExprValue::GetAttr { .. } => false,
             ExprValue::ImportedFunctionCall { .. } => false,
             ExprValue::FunctionCall { .. } => false,
@@ -79,18 +82,39 @@ pub enum ExprValue<'c> {
     AssignName(&'c str),
     Array(Vec<Expr<'c>>),
     Hash(Vec<(Expr<'c>, Expr<'c>)>),
-    UnaryOperator { value: &'c str, expr: Box<Expr<'c>> },
-    BinaryOperator { value: &'c str, left: Box<Expr<'c>>, right: Box<Expr<'c>> },
-    Concat { left: Box<Expr<'c>>, right: Box<Expr<'c>> },
-    Conditional { expr: Box<Expr<'c>>, yay: Box<Expr<'c>>, nay: Box<Expr<'c>> },
+    UnaryOperator {
+        value: &'c str,
+        expr: Box<Expr<'c>>,
+    },
+    BinaryOperator {
+        value: &'c str,
+        left: Box<Expr<'c>>,
+        right: Box<Expr<'c>>,
+    },
+    Concat {
+        left: Box<Expr<'c>>,
+        right: Box<Expr<'c>>,
+    },
+    Conditional {
+        expr: Box<Expr<'c>>,
+        yay: Box<Expr<'c>>,
+        nay: Box<Expr<'c>>,
+    },
     GetAttr {
         node: Box<Expr<'c>>,
         arg: Box<Expr<'c>>,
         arguments: Vec<Expr<'c>>,
-        call_type: ExprCallType
+        call_type: ExprCallType,
     },
-    ImportedFunctionCall { uuid: Uuid, alias: &'c str, arguments: Vec<Expr<'c>> },
-    FunctionCall { name: &'c str, arguments: Vec<(Option<&'c str>, Expr<'c>)> }
+    ImportedFunctionCall {
+        id: u32,
+        alias: &'c str,
+        arguments: Vec<Expr<'c>>,
+    },
+    FunctionCall {
+        name: &'c str,
+        arguments: Vec<(Option<&'c str>, Expr<'c>)>,
+    },
 }
 
 #[derive(Debug, PartialEq, Clone)]

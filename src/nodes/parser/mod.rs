@@ -1,38 +1,36 @@
-use std::iter::Peekable;
+use crate::environment::ParsingEnvironment;
+use crate::error::{Received, TemplateError, TemplateResult};
+use crate::operator::{OperatorKind, OperatorOptions};
+use crate::tokens::{TokenIter, TokenRef, TokenValue, TokenValueRef};
 use std::collections::HashMap;
-use tokens::{ TokenRef, TokenValueRef, TokenValue, TokenIter };
-use environment::ParsingEnvironment;
-use error::{ TemplateResult, TemplateError, Received };
-use operator::{ OperatorOptions, OperatorKind };
-use uuid::Uuid;
+use std::iter::Peekable;
 
 pub mod body;
-pub mod module;
 pub mod expr;
+pub mod module;
 
 #[derive(Copy, Clone)]
 pub struct ImportedFunction<'c> {
-    pub uuid: Uuid,
+    /// Identifier of this import, unique within one `Parser`.
+    pub id: u32,
     pub name: &'c str,
     pub alias: &'c str,
 }
 
 impl<'c> ImportedFunction<'c> {
-    pub fn new<'r>(uuid: Uuid, alias: &'r str, name: &'r str) -> ImportedFunction<'r> {
-        ImportedFunction {
-            uuid: uuid, name: name, alias: alias
-        }
+    pub fn new<'r>(id: u32, alias: &'r str, name: &'r str) -> ImportedFunction<'r> {
+        ImportedFunction { id, name, alias }
     }
 }
 
 pub struct ImportedSymbols<'c> {
-    pub functions: HashMap<&'c str, ImportedFunction<'c>>
+    pub functions: HashMap<&'c str, ImportedFunction<'c>>,
 }
 
 impl<'c> ImportedSymbols<'c> {
     pub fn new<'r>() -> ImportedSymbols<'r> {
         ImportedSymbols {
-            functions: HashMap::new()
+            functions: HashMap::new(),
         }
     }
 }
@@ -40,8 +38,7 @@ impl<'c> ImportedSymbols<'c> {
 pub trait Parse<'c> {
     type Output;
 
-    fn parse<'p>(parser: &mut Parser<'p, 'c>)
-        -> TemplateResult<Self::Output>;
+    fn parse<'p>(parser: &mut Parser<'p, 'c>) -> TemplateResult<Self::Output>;
 }
 
 /// Helpers for manipulating and inspecting token iterators when creating AST.
@@ -50,8 +47,7 @@ pub trait Parse<'c> {
 ///
 /// Current token is actually implemented as "peekable" next token. However,
 /// in all parsing code this "peekable" becomes "current".
-pub struct Parser<'p, 'c: 'p>
-{
+pub struct Parser<'p, 'c: 'p> {
     /// Project options for parsing, containing data collected from all added
     /// extensions.
     pub env: &'p ParsingEnvironment,
@@ -59,39 +55,42 @@ pub struct Parser<'p, 'c: 'p>
     pub tokens: Peekable<&'p mut TokenIter<'p, 'c>>,
     /// Imported symbol stack.
     pub imported_symbols: Vec<ImportedSymbols<'c>>,
+    /// Identifier for the next imported function.
+    next_imported_function_id: u32,
 }
 
-impl<'p, 'c: 'p> Parser<'p, 'c>
-{
+impl<'p, 'c: 'p> Parser<'p, 'c> {
     pub fn new<'r, 'z>(
         env: &'r ParsingEnvironment,
-        tokens: &'r mut TokenIter<'r, 'z>
-    ) -> Parser<'r, 'z>
-    {
+        tokens: &'r mut TokenIter<'r, 'z>,
+    ) -> Parser<'r, 'z> {
         Parser {
-            env: env,
+            env,
             tokens: tokens.peekable(),
             imported_symbols: vec![ImportedSymbols::new()],
+            next_imported_function_id: 0,
         }
     }
 
-    pub fn push_local_scope<'r>(&'r mut self) {
+    pub fn push_local_scope(&mut self) {
         self.imported_symbols.push(ImportedSymbols::new());
     }
 
-    pub fn pop_local_scope<'r>(&'r mut self) {
+    pub fn pop_local_scope(&mut self) {
         self.imported_symbols.pop();
     }
 
     /// Registers pecified alias as imported function, further parsing might
     /// depend on this (use this function).
-    pub fn add_imported_function<'r>(&'r mut self, alias: &'c str, name: &'c str) -> Uuid {
-        let uuid = Uuid::new_v4();
+    pub fn add_imported_function<'r>(&'r mut self, alias: &'c str, name: &'c str) -> u32 {
+        let id = self.next_imported_function_id;
+        self.next_imported_function_id += 1;
         self.imported_symbols
-            .last_mut().unwrap()
+            .last_mut()
+            .unwrap()
             .functions
-                .insert(alias, ImportedFunction::new(uuid.clone(), alias, name));
-        uuid
+            .insert(alias, ImportedFunction::new(id, alias, name));
+        id
     }
 
     /// Finds a function that was previosly imported in this or parent scope.
@@ -109,12 +108,11 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
     /// Returns current token, does not modify iterator position.
     /// Expects current token to exist, and if it is not (the end of file), returns
     /// UnexpectedEndOfTemplate error.
-    pub fn current<'r>(&'r mut self) -> TemplateResult<TokenRef<'c>>
-    {
+    pub fn current<'r>(&'r mut self) -> TemplateResult<TokenRef<'c>> {
         Ok(match self.tokens.peek() {
-            Some(&Ok(ref t)) => t.clone(),
+            Some(Ok(t)) => t.clone(),
             None => return Err(TemplateError::UnexpectedEndOfTemplate.at(1)),
-            Some(&Err(ref e)) => return Err(e.clone()),
+            Some(Err(e)) => return Err(e.clone()),
         })
     }
 
@@ -122,12 +120,11 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
     ///
     /// Returns current token, does not modify iterator position.
     /// If the end of stream, returns None.
-    pub fn maybe_current<'r>(&'r mut self) -> TemplateResult<Option<TokenRef<'c>>>
-    {
+    pub fn maybe_current<'r>(&'r mut self) -> TemplateResult<Option<TokenRef<'c>>> {
         Ok(match self.tokens.peek() {
-            Some(&Ok(ref t)) => Some(t.clone()),
+            Some(Ok(t)) => Some(t.clone()),
             None => None,
-            Some(&Err(ref e)) => return Err(e.clone()),
+            Some(Err(e)) => return Err(e.clone()),
         })
     }
 
@@ -135,12 +132,11 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
     ///
     /// Expects the next token to exist. If it does not exist (the end of file), returns
     /// UnexpectedEndOfTemplate error.
-    pub fn next<'r>(&'r mut self) -> TemplateResult<TokenRef<'c>>
-    {
+    pub fn next<'r>(&'r mut self) -> TemplateResult<TokenRef<'c>> {
         let token = match self.tokens.peek() {
-            Some(&Ok(ref t)) => t.clone(),
+            Some(Ok(t)) => t.clone(),
             None => return Err(TemplateError::UnexpectedEndOfTemplate.at(1)),
-            Some(&Err(ref e)) => return Err(e.clone()),
+            Some(Err(e)) => return Err(e.clone()),
         };
 
         match self.tokens.next() {
@@ -157,11 +153,10 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
     ///
     /// Expects these tokens to exist. If they do not exist (the end of file), returns
     /// UnexpectedEndOfTemplate error.
-    pub fn skip_to_next_if<'r>(&'r mut self, expected: TokenValueRef<'c>) -> TemplateResult<bool>
-    {
+    pub fn skip_to_next_if<'r>(&'r mut self, expected: TokenValueRef<'c>) -> TemplateResult<bool> {
         let (line, skip) = {
             let token = match self.tokens.peek() {
-                Some(&Ok(ref token)) => token,
+                Some(Ok(token)) => token,
                 _ => return Err(TemplateError::UnexpectedEndOfTemplate.at(1)),
             };
             (token.line, token.value == expected)
@@ -169,8 +164,8 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
         if skip {
             match self.tokens.next() {
                 Some(Ok(_)) => Ok(true),
-                None => return Err(TemplateError::UnexpectedEndOfTemplate.at(line)),
-                Some(Err(e)) => return Err(e),
+                None => Err(TemplateError::UnexpectedEndOfTemplate.at(line)),
+                Some(Err(e)) => Err(e),
             }
         } else {
             Ok(false)
@@ -180,18 +175,17 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
     /// Expects the current token to match value and advances to next token.
     ///
     /// Error condition same as `expect_match_or`.
-    pub fn expect<'r>(&'r mut self, expected: TokenValueRef<'c>) -> TemplateResult<TokenRef<'c>>
-    {
-        self.expect_match_or(
-            |token| if token.value == expected {
+    pub fn expect<'r>(&'r mut self, expected: TokenValueRef<'c>) -> TemplateResult<TokenRef<'c>> {
+        self.expect_match_or(|token| {
+            if token.value == expected {
                 Ok(token.clone())
             } else {
                 Err(
                     TemplateError::ExpectedOtherTokenValue((token.value.into(), expected.into()))
-                        .at(token.line)
+                        .at(token.line),
                 )
             }
-        )
+        })
     }
 
     /// Expects the current token to be name type and advances to next token.
@@ -199,32 +193,32 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
     /// Returns found name string.
     ///
     /// Error condition same as `expect_match_or`.
-    pub fn expect_name<'r>(&'r mut self) -> TemplateResult<&'c str>
-    {
-        self.expect_match_or(
-            |token| match token.value {
-                TokenValueRef::Name(name) => Ok(name),
-                _ => Err(
-                    TemplateError::ExpectedTokenTypeButReceived(
-                        (TokenValue::Name("".into()), Received::Token(token.value.into()))
-                    ).at(token.line)
-                )
-            }
-        )
+    pub fn expect_name<'r>(&'r mut self) -> TemplateResult<&'c str> {
+        self.expect_match_or(|token| match token.value {
+            TokenValueRef::Name(name) => Ok(name),
+            _ => Err(TemplateError::ExpectedTokenTypeButReceived((
+                TokenValue::Name("".into()),
+                Received::Token(token.value.into()),
+            ))
+            .at(token.line)),
+        })
     }
 
     /// Expects the current token to match value and advances to the next token.
     ///
     /// Error condition same as `expect_match_or`.
-    pub fn expect_or_error<'r>(&'r mut self, expected: TokenValueRef<'c>, error_message: TemplateError) -> TemplateResult<TokenRef<'c>>
-    {
-        self.expect_match_or(
-            |token| if token.value == expected {
+    pub fn expect_or_error<'r>(
+        &'r mut self,
+        expected: TokenValueRef<'c>,
+        error_message: TemplateError,
+    ) -> TemplateResult<TokenRef<'c>> {
+        self.expect_match_or(|token| {
+            if token.value == expected {
                 Ok(token.clone())
             } else {
                 Err(error_message.at(token.line))
             }
-        )
+        })
     }
 
     /// Expects the current token to pass `check` and advances to next token.
@@ -232,17 +226,15 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
     /// Expects these tokens (current and next) to exist. If they do not exist (the end of file),
     /// returns `UnexpectedEndOfTemplate` error.
     pub fn expect_match_or<'r, C, T>(&'r mut self, check: C) -> TemplateResult<T>
-        where
-            C: for<'a> FnOnce(&'a TokenRef<'c>) -> TemplateResult<T>
+    where
+        C: for<'a> FnOnce(&'a TokenRef<'c>) -> TemplateResult<T>,
     {
         let res = match self.tokens.peek() {
-            Some(&Ok(ref t)) => {
-                check(&t)
-            },
+            Some(Ok(t)) => check(t),
             None => return Err(TemplateError::UnexpectedEndOfTemplate.at(1)),
-            Some(&Err(ref e)) => return Err(e.clone()),
+            Some(Err(e)) => return Err(e.clone()),
         };
-        try!(self.next());
+        self.next()?;
 
         res
     }
@@ -251,18 +243,17 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
     ///
     /// Expects these token to exist. If it does not exist (the end of file), returns
     /// UnexpectedEndOfTemplate error.
-    pub fn test<'r>(&'r mut self, expected: TokenValueRef<'c>) -> TemplateResult<bool>
-    {
+    pub fn test<'r>(&'r mut self, expected: TokenValueRef<'c>) -> TemplateResult<bool> {
         match self.tokens.peek() {
-            Some(&Ok(ref t)) => {
+            Some(Ok(t)) => {
                 if t.value == expected {
                     Ok(true)
                 } else {
                     Ok(false)
                 }
-            },
+            }
             None => Err(TemplateError::UnexpectedEndOfTemplate.at(1)),
-            Some(&Err(ref e)) => Err(e.clone()),
+            Some(Err(e)) => Err(e.clone()),
         }
     }
 
@@ -270,9 +261,13 @@ impl<'p, 'c: 'p> Parser<'p, 'c>
     ///
     /// Operator must exist in environment, otherwise panics.
     pub fn get_operator_options<'r>(&'r self, op_str: &'c str) -> OperatorOptions {
-        self.env.operators
+        self.env
+            .operators
             .get(op_str)
             .cloned()
-            .unwrap_or(OperatorOptions { precedence: None, kind: OperatorKind::Other })
+            .unwrap_or(OperatorOptions {
+                precedence: None,
+                kind: OperatorKind::Other,
+            })
     }
 }

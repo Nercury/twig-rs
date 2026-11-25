@@ -59,15 +59,12 @@ for token in lexer.tokens(source) {
 
 */
 
-mod token;
 mod lexer;
+mod token;
 
-pub use self::token::{
-    TokenRef,
-    TokenValue, TokenValueRef,
-    Const, ConstRef,
-    ConstNumber, ConstNumberRef,
-};
 pub use self::lexer::Lexer;
 pub use self::lexer::iter::TokenIter;
 pub use self::lexer::options::LexerOptions;
+pub use self::token::{
+    Const, ConstNumber, ConstNumberRef, ConstRef, TokenRef, TokenValue, TokenValueRef,
+};

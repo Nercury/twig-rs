@@ -1,9 +1,9 @@
-use std::fmt;
 use super::TokenParserExtension;
+use std::fmt;
 
 pub struct TokenParser {
     pub tag: &'static str,
-    pub extension: Box<TokenParserExtension>,
+    pub extension: Box<dyn TokenParserExtension>,
 }
 
 impl fmt::Debug for TokenParser {
@@ -13,9 +13,9 @@ impl fmt::Debug for TokenParser {
 }
 
 impl TokenParser {
-    pub fn new<E: 'static>(parser_extension: E)
-        -> TokenParser
-        where E: TokenParserExtension
+    pub fn new<E>(parser_extension: E) -> TokenParser
+    where
+        E: TokenParserExtension + 'static,
     {
         TokenParser {
             tag: parser_extension.get_tag(),

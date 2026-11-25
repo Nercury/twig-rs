@@ -1,10 +1,13 @@
+use crate::error::{Caused, Error};
 use std::fmt;
 use std::path::PathBuf;
-use error::{ Error, Caused };
 
 #[derive(Clone, Debug)]
 pub enum EngineError {
-    TemplateNotFound { name: String, search_paths: Vec<PathBuf> },
+    TemplateNotFound {
+        name: String,
+        search_paths: Vec<PathBuf>,
+    },
 }
 
 impl EngineError {
@@ -16,11 +19,14 @@ impl EngineError {
 impl fmt::Display for EngineError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            EngineError::TemplateNotFound { ref name, ref search_paths } => {
-                if search_paths.len() == 0 {
+            EngineError::TemplateNotFound {
+                ref name,
+                ref search_paths,
+            } => {
+                if search_paths.is_empty() {
                     write!(f, "Template \"{}\" was not found", name)
                 } else {
-                    try!(write!(f, "Template \"{}\" was not found, looked in ", name));
+                    write!(f, "Template \"{}\" was not found, looked in ", name)?;
                     write!(f, "{:?}", search_paths)
                 }
             }

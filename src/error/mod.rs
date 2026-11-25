@@ -1,13 +1,13 @@
-mod template;
-mod runtime;
 mod engine;
+mod runtime;
+mod template;
 
 use std::fmt;
 use std::result;
 
-pub use self::template::{ TemplateError, Received };
-pub use self::runtime::{ RuntimeError, TracedRuntimeError, CastTarget, CastError };
-pub use self::engine::{ EngineError };
+pub use self::engine::EngineError;
+pub use self::runtime::{CastError, CastTarget, RuntimeError, TracedRuntimeError};
+pub use self::template::{Received, TemplateError};
 
 #[derive(Clone, Debug)]
 pub enum Error {
@@ -20,16 +20,16 @@ pub enum Error {
 }
 
 pub trait ExtensionError: fmt::Display {
-    fn boxed_clone(&self) -> Box<ExtensionError>;
+    fn boxed_clone(&self) -> Box<dyn ExtensionError>;
 }
 
-impl Clone for Box<ExtensionError> {
-    fn clone(&self) -> Box<ExtensionError> {
+impl Clone for Box<dyn ExtensionError> {
+    fn clone(&self) -> Box<dyn ExtensionError> {
         self.boxed_clone()
     }
 }
 
-impl fmt::Debug for Box<ExtensionError> {
+impl fmt::Debug for Box<dyn ExtensionError> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         (&**self).fmt(f)
     }
@@ -55,7 +55,7 @@ pub struct Caused<E: fmt::Display> {
 impl<E: fmt::Display> Caused<E> {
     pub fn new(err: E, cause: Option<Error>) -> Caused<E> {
         Caused {
-            err: err,
+            err,
             cause: Box::new(cause),
         }
     }
@@ -67,7 +67,7 @@ impl<E: fmt::Display> fmt::Display for Caused<E> {
             None => self.err.fmt(f),
             Some(ref cause) => {
                 write!(f, "{}\ncaused by\n{}", self.err, cause)
-            },
+            }
         }
     }
 }
@@ -81,10 +81,7 @@ pub struct At<E: fmt::Display> {
 
 impl<E: fmt::Display> At<E> {
     pub fn new(err: E, loc: Location) -> At<E> {
-        At {
-            loc: loc,
-            err: err,
-        }
+        At { loc, err }
     }
 }
 
@@ -92,22 +89,11 @@ impl<E: fmt::Display> fmt::Display for At<E> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let message = {
             let raw_message = format!("{}", self.err);
-            let ends_with_dot = {
-                let len = raw_message.len();
-                if len > 0 {
-                    if &raw_message[len - 1 ..] == "." {
-                        true
-                    } else {
-                        false
-                    }
-                } else {
-                    false
-                }
-            };
+            let ends_with_dot = raw_message.ends_with('.');
 
             if ends_with_dot {
                 let len = raw_message.len();
-                let without_dot = &raw_message[0 .. len - 1];
+                let without_dot = &raw_message[0..len - 1];
 
                 format!("{} at line {}.", without_dot, self.loc.line)
             } else {
@@ -127,7 +113,7 @@ pub struct Location {
 
 impl Location {
     pub fn new(line: usize) -> Location {
-        Location { line: line }
+        Location { line }
     }
 }
 

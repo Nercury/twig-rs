@@ -1,7 +1,7 @@
 mod core;
 mod escaper;
 
-use environment::Environment;
+use crate::environment::Environment;
 
 pub use self::core::CoreExtension;
 pub use self::escaper::EscaperExtension;

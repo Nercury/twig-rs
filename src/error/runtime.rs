@@ -1,5 +1,5 @@
+use crate::error::{Error, Location};
 use std::fmt;
-use error::{ Location, Error };
 
 /// Stack trace record.
 #[derive(Clone, Debug)]
@@ -74,16 +74,23 @@ pub enum RuntimeError {
     /// Tried to access object method but it was a property.
     ObjectMethodIsNotProperty(String),
     /// Tried to call object method with wrong argument count.
-    ObjectMethodArgumentMismatch { name: String, defined: u16, given: u16 },
+    ObjectMethodArgumentMismatch {
+        name: String,
+        defined: u16,
+        given: u16,
+    },
     /// Value casting error.
-    ImpossibleCast { target: CastTarget, reason: CastError },
+    ImpossibleCast {
+        target: CastTarget,
+        reason: CastError,
+    },
 }
 
 impl RuntimeError {
     pub fn at(self, stack_trace: Vec<TraceEntry>) -> TracedRuntimeError {
         TracedRuntimeError {
             message: self,
-            stack_trace: stack_trace
+            stack_trace,
         }
     }
 }
@@ -91,30 +98,53 @@ impl RuntimeError {
 impl fmt::Display for RuntimeError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            RuntimeError::InvalidArgumentCount { ref defined, ref given } => {
-                write!(f, "Target requires {} arguments, called with {}", defined, given)
-            },
+            RuntimeError::InvalidArgumentCount {
+                ref defined,
+                ref given,
+            } => {
+                write!(
+                    f,
+                    "Target requires {} arguments, called with {}",
+                    defined, given
+                )
+            }
             RuntimeError::ObjectHasNoProperty(ref name) => {
                 write!(f, "Object has no property {:?}", name)
-            },
+            }
             RuntimeError::ObjectHasNoMethod(ref name) => {
                 write!(f, "Object has no method {:?}", name)
-            },
+            }
             RuntimeError::ObjectPropertyIsNotMethod(ref name) => {
                 write!(f, "Property is not a method {:?}", name)
-            },
+            }
             RuntimeError::ObjectMethodIsNotProperty(ref name) => {
                 write!(f, "Method is not a property {:?}", name)
-            },
-            RuntimeError::ObjectMethodArgumentMismatch { ref name, ref defined, ref given } => {
-                write!(f, "Method {:?} requires {} arguments, called with {}", name, defined, given)
-            },
-            RuntimeError::ImpossibleCast { ref target, ref reason } => {
-                write!(f, "{} is not {}", reason, match *target {
-                    CastTarget::Float => "a float",
-                    CastTarget::Int => "an integer",
-                    CastTarget::Number => "a number",
-                })
+            }
+            RuntimeError::ObjectMethodArgumentMismatch {
+                ref name,
+                ref defined,
+                ref given,
+            } => {
+                write!(
+                    f,
+                    "Method {:?} requires {} arguments, called with {}",
+                    name, defined, given
+                )
+            }
+            RuntimeError::ImpossibleCast {
+                ref target,
+                ref reason,
+            } => {
+                write!(
+                    f,
+                    "{} is not {}",
+                    reason,
+                    match *target {
+                        CastTarget::Float => "a float",
+                        CastTarget::Int => "an integer",
+                        CastTarget::Number => "a number",
+                    }
+                )
             }
         }
     }
@@ -130,7 +160,7 @@ pub struct TracedRuntimeError {
 impl TracedRuntimeError {
     pub fn new(message: RuntimeError) -> TracedRuntimeError {
         TracedRuntimeError {
-            message: message,
+            message,
             stack_trace: Vec::new(),
         }
     }

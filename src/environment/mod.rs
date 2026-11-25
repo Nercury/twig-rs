@@ -1,23 +1,25 @@
 use std::collections::HashMap;
 use std::collections::HashSet;
 
-use extension::{ Extension, CoreExtension };
-use operator::{ Operator, OperatorKind, OperatorOptions };
-use function::Function;
-use nodes::{ TokenParser, TokenParserExtension };
+use crate::extension::{CoreExtension, Extension};
+use crate::function::Function;
+use crate::nodes::{TokenParser, TokenParserExtension};
+use crate::operator::{Operator, OperatorKind, OperatorOptions};
 
 /// Environment configuration.
 pub struct Config {
     pub autoescape: String,
 }
 
-impl Config {
-    pub fn default() -> Config {
+impl Default for Config {
+    fn default() -> Config {
         Config {
-            autoescape: "html".into()
+            autoescape: "html".into(),
         }
     }
+}
 
+impl Config {
     pub fn from_hashmap(map: HashMap<String, String>) -> Config {
         let default = Config::default();
 
@@ -36,8 +38,7 @@ pub struct Environment {
 }
 
 impl Environment {
-
-    pub fn new(config: Config) -> Environment {
+    pub fn new(_config: Config) -> Environment {
         let mut staged = Environment {
             operators: Vec::new(),
             token_parsers: Vec::new(),
@@ -49,15 +50,12 @@ impl Environment {
         staged
     }
 
-    pub fn default() -> Environment {
-        Environment::new(Config::default())
-    }
-
     pub fn init_all(self) -> CompiledEnvironment {
         CompiledEnvironment {
             lexing: LexingEnvironment {
                 operators: {
-                    self.operators.iter()
+                    self.operators
+                        .iter()
                         .filter_map(|i| match i.options.kind {
                             OperatorKind::Unary { value, .. } => Some(value),
                             OperatorKind::Binary { value, .. } => Some(value),
@@ -68,7 +66,8 @@ impl Environment {
             },
             parsing: ParsingEnvironment {
                 operators: {
-                    self.operators.into_iter()
+                    self.operators
+                        .into_iter()
                         .filter_map(|i| match i.options.kind {
                             OperatorKind::Unary { value, .. } => Some((value, i.options)),
                             OperatorKind::Binary { value, .. } => Some((value, i.options)),
@@ -77,29 +76,32 @@ impl Environment {
                         .collect()
                 },
                 handlers: {
-                    self.token_parsers.into_iter()
+                    self.token_parsers
+                        .into_iter()
                         .map(|i| (i.tag, i.extension))
                         .collect()
                 },
-                functions: {
-                    self.functions.iter()
-                        .map(|f| f.name)
-                        .collect()
-                }
+                functions: { self.functions.iter().map(|f| f.name).collect() },
             },
         }
     }
 
-    pub fn push_operators<I: IntoIterator<Item=Operator>>(&mut self, ops: I) {
+    pub fn push_operators<I: IntoIterator<Item = Operator>>(&mut self, ops: I) {
         self.operators.extend(ops);
     }
 
-    pub fn push_token_parsers<I: IntoIterator<Item=TokenParser>>(&mut self, ops: I) {
+    pub fn push_token_parsers<I: IntoIterator<Item = TokenParser>>(&mut self, ops: I) {
         self.token_parsers.extend(ops);
     }
 
-    pub fn push_functions<I: IntoIterator<Item=Function>>(&mut self, funs: I) {
+    pub fn push_functions<I: IntoIterator<Item = Function>>(&mut self, funs: I) {
         self.functions.extend(funs);
+    }
+}
+
+impl Default for Environment {
+    fn default() -> Environment {
+        Environment::new(Config::default())
     }
 }
 
@@ -109,7 +111,7 @@ pub struct LexingEnvironment {
 
 pub struct ParsingEnvironment {
     pub operators: HashMap<&'static str, OperatorOptions>,
-    pub handlers: HashMap<&'static str, Box<TokenParserExtension>>,
+    pub handlers: HashMap<&'static str, Box<dyn TokenParserExtension>>,
     pub functions: HashSet<&'static str>,
 }
 
@@ -119,10 +121,8 @@ pub struct CompiledEnvironment {
     pub parsing: ParsingEnvironment,
 }
 
-impl CompiledEnvironment {
-
-    pub fn default() -> CompiledEnvironment {
-        Environment::default()
-            .init_all()
+impl Default for CompiledEnvironment {
+    fn default() -> CompiledEnvironment {
+        Environment::default().init_all()
     }
 }

@@ -10,8 +10,8 @@ pub struct LexerOptions {
     pub interpolation: Delimiters,
 }
 
-impl LexerOptions {
-    pub fn default() -> LexerOptions {
+impl Default for LexerOptions {
+    fn default() -> LexerOptions {
         LexerOptions {
             tag_comment: Delimiters::new("{#", "#}"),
             tag_block: Delimiters::new("{%", "%}"),

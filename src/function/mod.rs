@@ -1,27 +1,12 @@
+use crate::error::RuntimeResult;
+use crate::value::Value;
 use std::fmt;
-use value::Value;
-use error::{ RuntimeResult, TemplateResult };
-use mold::Staging;
-use instructions::CompiledExpression;
-
-pub enum Arg {
-    Anon,
-    Named(&'static str),
-}
 
 /// Callable implementation.
 pub enum Callable {
     /// Executable at runtime.
-    Dynamic(Box<
-        for<'e> Fn(&'e [Value]) -> RuntimeResult<Value>
-    >),
-    /// Inlined into instructions at compile time.
-    Static {
-        arguments: Vec<Arg>,
-        compile: Box<
-            for<'c> Fn(&mut Staging<'c, Value>) -> TemplateResult<CompiledExpression>
-        >
-    }
+    #[allow(clippy::type_complexity)]
+    Dynamic(Box<dyn for<'e> Fn(&'e [Value]) -> RuntimeResult<Value>>),
 }
 
 /// Represents environment function.
@@ -31,35 +16,13 @@ pub struct Function {
 }
 
 impl Function {
-    pub fn new_dynamic<F: 'static>(
-        name: &'static str,
-        callable: F
-    )
-        -> Function
+    pub fn new_dynamic<F>(name: &'static str, callable: F) -> Function
     where
-        F: for<'e> Fn(&'e [Value]) -> RuntimeResult<Value>
+        F: for<'e> Fn(&'e [Value]) -> RuntimeResult<Value> + 'static,
     {
         Function {
-            name: name,
+            name,
             callable: Callable::Dynamic(Box::new(callable)),
-        }
-    }
-
-    pub fn new_static<F: 'static, I: IntoIterator<Item=Arg>>(
-        name: &'static str,
-        arguments: I,
-        compile: F
-    )
-        -> Function
-    where
-        F: for<'c> Fn(&mut Staging<'c, Value>) -> TemplateResult<CompiledExpression>
-    {
-        Function {
-            name: name,
-            callable: Callable::Static {
-                arguments: arguments.into_iter().collect(),
-                compile: Box::new(compile)
-            },
         }
     }
 }

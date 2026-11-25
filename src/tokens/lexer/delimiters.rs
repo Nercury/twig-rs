@@ -6,9 +6,6 @@ pub struct Delimiters {
 
 impl Delimiters {
     pub fn new(start: &'static str, end: &'static str) -> Delimiters {
-        Delimiters {
-            start: start,
-            end: end,
-        }
+        Delimiters { start, end }
     }
 }

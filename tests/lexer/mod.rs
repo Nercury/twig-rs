@@ -1,15 +1,13 @@
-use std::iter::repeat;
-
-use twig::tokens::*;
-use twig::environment::CompiledEnvironment;
 use twig::Expect;
+use twig::environment::CompiledEnvironment;
+use twig::tokens::*;
 
 #[test]
 fn name_label_for_tag() {
     let template = "{% § %}";
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     _s = expect(_s, TokenValueRef::BlockStart);
     _s = expect(_s, TokenValueRef::Name("§"));
@@ -20,7 +18,7 @@ fn test_name_label_for_function() {
     let template = "{{ §() }}";
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     _s = expect(_s, TokenValueRef::VarStart);
     _s = expect(_s, TokenValueRef::Name("§"));
@@ -37,14 +35,7 @@ fn test_brackets_nesting() {
 #[test]
 #[allow(deprecated)]
 fn test_line_directive() {
-    let template = [
-        "foo",
-        "bar",
-        "{% line 10 %}",
-        "{{",
-        "baz",
-        "}}",
-    ].connect("\n");
+    let template = ["foo", "bar", "{% line 10 %}", "{{", "baz", "}}"].join("\n");
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
@@ -62,11 +53,7 @@ fn test_line_directive() {
 
 #[test]
 fn test_long_comments() {
-    let template = [
-        "{# ",
-        &*repeat("*").take(100000).collect::<String>(),
-        " #}",
-    ].concat();
+    let template = ["{# ", &*"*".repeat(100000), " #}"].concat();
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
@@ -77,9 +64,7 @@ fn test_long_comments() {
 
 #[test]
 fn test_raw() {
-    let template = [
-        "{% raw %}aaa{% endraw %}",
-    ].concat();
+    let template = ["{% raw %}aaa{% endraw %}"].concat();
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
@@ -90,9 +75,7 @@ fn test_raw() {
 
 #[test]
 fn test_raw_trim() {
-    let template = [
-        "{% raw %}aaa  {%- endraw %}",
-    ].concat();
+    let template = ["{% raw %}aaa  {%- endraw %}"].concat();
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
@@ -103,9 +86,7 @@ fn test_raw_trim() {
 
 #[test]
 fn test_verbatim() {
-    let template = [
-        "{% verbatim %}bbb{% endverbatim %}",
-    ].concat();
+    let template = ["{% verbatim %}bbb{% endverbatim %}"].concat();
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
@@ -116,13 +97,9 @@ fn test_verbatim() {
 
 #[test]
 fn test_long_raw() {
-    let text = &*repeat("*").take(100000).collect::<String>();
+    let text = &*"*".repeat(100000);
 
-    let template = [
-        "{% raw %}",
-        text,
-        "{% endraw %}",
-    ].concat();
+    let template = ["{% raw %}", text, "{% endraw %}"].concat();
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
@@ -133,13 +110,9 @@ fn test_long_raw() {
 
 #[test]
 fn test_long_var() {
-    let text = &*repeat("x").take(100000).collect::<String>();
+    let text = &*"x".repeat(100000);
 
-    let template = [
-        "{{ ",
-        text,
-        " }}",
-    ].concat();
+    let template = ["{{ ", text, " }}"].concat();
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
@@ -151,13 +124,9 @@ fn test_long_var() {
 
 #[test]
 fn test_long_block() {
-    let text = &*repeat("x").take(100000).collect::<String>();
+    let text = &*"x".repeat(100000);
 
-    let template = [
-        "{% ",
-        text,
-        " %}",
-    ].concat();
+    let template = ["{% ", text, " %}"].concat();
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
@@ -173,10 +142,13 @@ fn test_big_numbers() {
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     _s.next();
-    _s = expect(_s, TokenValueRef::Value(ConstRef::new_big_num("922337203685477580700")));
+    _s = expect(
+        _s,
+        TokenValueRef::Value(ConstRef::new_big_num("922337203685477580700")),
+    );
 }
 
 #[test]
@@ -185,10 +157,13 @@ fn test_int_numbers() {
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     _s.next();
-    _s = expect(_s, TokenValueRef::Value(ConstRef::new_int(9223372036854775807)));
+    _s = expect(
+        _s,
+        TokenValueRef::Value(ConstRef::new_int(9223372036854775807)),
+    );
 }
 
 #[test]
@@ -197,10 +172,13 @@ fn test_int_numbers2() {
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     _s.next();
-    _s = expect(_s, TokenValueRef::Value(ConstRef::new_big_num("9223372036854775808")));
+    _s = expect(
+        _s,
+        TokenValueRef::Value(ConstRef::new_big_num("9223372036854775808")),
+    );
 }
 
 #[test]
@@ -209,7 +187,7 @@ fn test_float_numbers() {
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     _s.next();
     _s = expect(_s, TokenValueRef::Value(ConstRef::new_float(92233.33)));
@@ -238,7 +216,7 @@ fn test_string_with_interpolation() {
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     _s = expect(_s, TokenValueRef::Text("foo "));
     _s = expect(_s, TokenValueRef::VarStart);
@@ -257,10 +235,13 @@ fn test_string_with_escaped_interpolation() {
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     _s = expect(_s, TokenValueRef::VarStart);
-    _s = expect(_s, TokenValueRef::Value(ConstRef::new_str(r#"bar \#{baz+1}"#)));
+    _s = expect(
+        _s,
+        TokenValueRef::Value(ConstRef::new_str(r#"bar \#{baz+1}"#)),
+    );
     _s = expect(_s, TokenValueRef::VarEnd);
 }
 
@@ -270,7 +251,7 @@ fn test_string_with_hash() {
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     _s = expect(_s, TokenValueRef::VarStart);
     _s = expect(_s, TokenValueRef::Value(ConstRef::new_str("bar # baz")));
@@ -283,7 +264,7 @@ fn test_string_with_unterminated_interpolation() {
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     expect_error(_s, r#"Unclosed """ at line 1"#);
 }
@@ -294,7 +275,7 @@ fn test_string_with_nested_interpolations() {
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     _s = expect(_s, TokenValueRef::VarStart);
     _s = expect(_s, TokenValueRef::Value(ConstRef::new_str(r#"bar "#)));
@@ -313,7 +294,7 @@ fn test_string_with_nested_interpolations_in_block() {
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     _s = expect(_s, TokenValueRef::BlockStart);
     _s = expect(_s, TokenValueRef::Name("foo"));
@@ -333,7 +314,7 @@ fn test_operator_ending_with_a_letter_at_the_end_of_a_line() {
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     _s = expect(_s, TokenValueRef::VarStart);
     _s = expect(_s, TokenValueRef::Value(ConstRef::new_int(1)));
@@ -353,7 +334,7 @@ bar
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     expect_error(_s, "Unclosed \"variable\" at line 3");
 }
@@ -371,7 +352,7 @@ bar
 
     let env = CompiledEnvironment::default();
     let lexer = Lexer::default(&env.lexing);
-    let mut _s = lexer.tokens(&template);
+    let mut _s = lexer.tokens(template);
 
     expect_error(_s, "Unclosed \"block\" at line 3");
 }
@@ -381,18 +362,22 @@ fn count_token(template: &'static str, token_value: TokenValueRef) -> u32 {
     let lexer = Lexer::default(&env.lexing);
     let mut count = 0;
 
-    for maybe_token in lexer.tokens(&template) {
-        if let Ok(token) = maybe_token {
-            if token.value == token_value {
-                count += 1;
-            }
+    for maybe_token in lexer.tokens(template) {
+        if let Ok(token) = maybe_token
+            && token.value == token_value
+        {
+            count += 1;
         }
     }
 
     count
 }
 
-fn expect_with_line<'i, 'c>(mut stream: TokenIter<'i, 'c>, token_value: TokenValueRef<'c>, line: usize) -> TokenIter<'i, 'c> {
+fn expect_with_line<'i, 'c>(
+    mut stream: TokenIter<'i, 'c>,
+    token_value: TokenValueRef<'c>,
+    line: usize,
+) -> TokenIter<'i, 'c> {
     match stream.expect((line, token_value)) {
         Ok(token) => assert_eq!(token.line, line),
         Err(e) => panic!("Received error {:?}", e),
@@ -400,7 +385,10 @@ fn expect_with_line<'i, 'c>(mut stream: TokenIter<'i, 'c>, token_value: TokenVal
     stream
 }
 
-fn expect<'i, 'c>(mut stream: TokenIter<'i, 'c>, token_value: TokenValueRef<'c>) -> TokenIter<'i, 'c> {
+fn expect<'i, 'c>(
+    mut stream: TokenIter<'i, 'c>,
+    token_value: TokenValueRef<'c>,
+) -> TokenIter<'i, 'c> {
     if let Err(e) = stream.expect((1, token_value)) {
         panic!("Received error {:?}", e);
     }
@@ -416,7 +404,7 @@ fn expect_error<'i, 'c>(mut stream: TokenIter<'i, 'c>, text: &'i str) {
             Some(Err(ref e)) => {
                 assert_eq!(format!("{}", e), text);
                 return;
-            },
+            }
             Some(Ok(_)) => next = stream.next(),
         };
     }
@@ -424,8 +412,7 @@ fn expect_error<'i, 'c>(mut stream: TokenIter<'i, 'c>, text: &'i str) {
 
 /// Runs iterator and expects that it is at the end.
 fn expect_end<'i, 'c>(mut stream: TokenIter<'i, 'c>) {
-    match stream.next() {
-        Some(other) => panic!("expected the stream to be at the end, but got {:?}", other),
-        _ => (),
+    if let Some(other) = stream.next() {
+        panic!("expected the stream to be at the end, but got {:?}", other)
     }
 }

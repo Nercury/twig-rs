@@ -1,5 +1,4 @@
-use nodes::expr::Expr;
-use uuid::Uuid;
+use crate::nodes::expr::Expr;
 
 #[derive(Debug)]
 pub enum ImportTarget<'c> {
@@ -8,23 +7,31 @@ pub enum ImportTarget<'c> {
 
 #[derive(Debug)]
 pub enum Body<'c> {
-    List { items: Vec<Body<'c>> },
-    Text { value: &'c str, line: usize },
-    Print { expr: Box<Expr<'c>>, line: usize },
+    List {
+        items: Vec<Body<'c>>,
+    },
+    Text {
+        value: &'c str,
+        line: usize,
+    },
+    Print {
+        expr: Box<Expr<'c>>,
+        line: usize,
+    },
     Import {
         /// Target template to import, which can be evaluated at runtime from
         /// provided expression.
         source: Box<Expr<'c>>,
         /// Target list alias => name.
-        targets: Vec<(Uuid, &'c str, ImportTarget<'c>)>,
-        line: usize
+        targets: Vec<(u32, &'c str, ImportTarget<'c>)>,
+        line: usize,
     },
     Macro {
         name: &'c str,
         body: Box<Body<'c>>,
         arguments: Vec<(Option<&'c str>, Expr<'c>)>,
-        line: usize
-    }
+        line: usize,
+    },
 }
 
 impl<'c> Body<'c> {
@@ -35,7 +42,10 @@ impl<'c> Body<'c> {
     pub fn expect_print<'r>(&'r self) -> &'r Expr<'c> {
         match *self {
             Body::Print { expr: ref e, .. } => e,
-            ref what => panic!("Expected expect_print to return Expr but received {:?}", what),
+            ref what => panic!(
+                "Expected expect_print to return Expr but received {:?}",
+                what
+            ),
         }
     }
 
@@ -44,5 +54,11 @@ impl<'c> Body<'c> {
             Body::List { items: ref list } => list,
             ref what => panic!("Expected expect_list to return Vec but received {:?}", what),
         }
+    }
+}
+
+impl<'c> Default for Body<'c> {
+    fn default() -> Self {
+        Self::new()
     }
 }

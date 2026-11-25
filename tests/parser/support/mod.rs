@@ -2,11 +2,11 @@
 
 use std::fmt;
 use twig::environment::Environment;
-use twig::tokens::Lexer;
-use twig::nodes::{ Parser, Parse, Module };
 use twig::error::TemplateResult;
+use twig::nodes::{Module, Parse, Parser};
+use twig::tokens::Lexer;
 
-pub fn maybe_parsed(template: &'static str) -> TemplateResult<Module> {
+pub fn maybe_parsed(template: &'static str) -> TemplateResult<Module<'static>> {
     let env = Environment::default().init_all();
     let lexer = Lexer::default(&env.lexing);
     let mut tokens = lexer.tokens(template);
@@ -14,7 +14,7 @@ pub fn maybe_parsed(template: &'static str) -> TemplateResult<Module> {
     Module::parse(&mut parser)
 }
 
-pub fn expect_parsed(template: &'static str) -> Module {
+pub fn expect_parsed(template: &'static str) -> Module<'static> {
     match maybe_parsed(template) {
         Ok(m) => m,
         Err(e) => panic!("parsing error: {:?}", e),

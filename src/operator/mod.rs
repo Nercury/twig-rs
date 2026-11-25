@@ -1,8 +1,8 @@
+use crate::error::{RuntimeError, RuntimeResult};
+use crate::function::Callable;
+use crate::value::Value;
 use std::cmp::Ordering;
 use std::fmt;
-use value::{ Value };
-use error::{ RuntimeError, RuntimeResult };
-use function::Callable;
 
 /// Operator kind.
 #[derive(PartialEq, Debug, Copy, Clone)]
@@ -10,26 +10,38 @@ pub enum OperatorKind {
     /// Single argument operator, i.e negation.
     Unary { value: &'static str },
     /// Two argument operator, i.e sum.
-    Binary { value: &'static str, associativity: Associativity },
+    Binary {
+        value: &'static str,
+        associativity: Associativity,
+    },
     /// Any operator handled by extension (i.e. the "=" operator).
     Other,
 }
 
 impl OperatorKind {
     pub fn new_binary(value: &'static str, associativity: Associativity) -> OperatorKind {
-        OperatorKind::Binary { value: value, associativity: associativity }
+        OperatorKind::Binary {
+            value,
+            associativity,
+        }
     }
 
     pub fn new_binary_left(value: &'static str) -> OperatorKind {
-        OperatorKind::Binary { value: value, associativity: Associativity::Left }
+        OperatorKind::Binary {
+            value,
+            associativity: Associativity::Left,
+        }
     }
 
     pub fn new_binary_right(value: &'static str) -> OperatorKind {
-        OperatorKind::Binary { value: value, associativity: Associativity::Right }
+        OperatorKind::Binary {
+            value,
+            associativity: Associativity::Right,
+        }
     }
 
     pub fn new_unary(value: &'static str) -> OperatorKind {
-        OperatorKind::Unary { value: value }
+        OperatorKind::Unary { value }
     }
 
     pub fn new_other() -> OperatorKind {
@@ -45,8 +57,11 @@ pub struct OperatorOptions {
 }
 
 impl OperatorOptions {
-
-    pub fn new_binary(chars: &'static str, precedence: u16, associativity: Associativity) -> OperatorOptions {
+    pub fn new_binary(
+        chars: &'static str,
+        precedence: u16,
+        associativity: Associativity,
+    ) -> OperatorOptions {
         OperatorOptions {
             precedence: Some(precedence),
             kind: OperatorKind::new_binary(chars, associativity),
@@ -91,95 +106,59 @@ impl fmt::Debug for Operator {
 }
 
 impl Operator {
-
-    pub fn new_binary<F: 'static>(
+    pub fn new_binary<F>(
         chars: &'static str,
         precedence: u16,
         associativity: Associativity,
-        callable: F
-    )
-        -> Operator
+        callable: F,
+    ) -> Operator
     where
-        F: for<'e> Fn(&'e Value, &'e Value) -> RuntimeResult<Value>
+        F: for<'e> Fn(&'e Value, &'e Value) -> RuntimeResult<Value> + 'static,
     {
         Operator {
             options: OperatorOptions::new_binary(chars, precedence, associativity),
             callable: Callable::Dynamic(Box::new(move |args| {
                 if args.len() != 2 {
-                    return Err(
-                        RuntimeError::InvalidArgumentCount {
-                            defined: 2,
-                            given: args.len()
-                        }
-                    )
+                    return Err(RuntimeError::InvalidArgumentCount {
+                        defined: 2,
+                        given: args.len(),
+                    });
                 }
 
-                callable(
-                    unsafe { args.get_unchecked(0) },
-                    unsafe { args.get_unchecked(1) }
-                )
+                callable(&args[0], &args[1])
             })),
         }
     }
 
-    pub fn new_binary_left<F: 'static>(
-        chars: &'static str,
-        precedence: u16,
-        callable: F
-    )
-        -> Operator
+    pub fn new_binary_left<F>(chars: &'static str, precedence: u16, callable: F) -> Operator
     where
-        F: for<'e> Fn(&'e Value, &'e Value) -> RuntimeResult<Value>
+        F: for<'e> Fn(&'e Value, &'e Value) -> RuntimeResult<Value> + 'static,
     {
-        Operator::new_binary(
-            chars,
-            precedence,
-            Associativity::Left,
-            callable
-        )
+        Operator::new_binary(chars, precedence, Associativity::Left, callable)
     }
 
-    pub fn new_binary_right<F: 'static>(
-        chars: &'static str,
-        precedence: u16,
-        callable: F
-    )
-        -> Operator
+    pub fn new_binary_right<F>(chars: &'static str, precedence: u16, callable: F) -> Operator
     where
-        F: for<'e> Fn(&'e Value, &'e Value) -> RuntimeResult<Value>
+        F: for<'e> Fn(&'e Value, &'e Value) -> RuntimeResult<Value> + 'static,
     {
-        Operator::new_binary(
-            chars,
-            precedence,
-            Associativity::Right,
-            callable
-        )
+        Operator::new_binary(chars, precedence, Associativity::Right, callable)
     }
 
-    pub fn new_unary<F: 'static>(
-        chars: &'static str,
-        precedence: u16,
-        callable: F
-    )
-        -> Operator
+    pub fn new_unary<F>(chars: &'static str, precedence: u16, callable: F) -> Operator
     where
-        F: for<'e> Fn(&'e Value) -> RuntimeResult<Value>
+        F: for<'e> Fn(&'e Value) -> RuntimeResult<Value> + 'static,
     {
         Operator {
             options: OperatorOptions::new_unary(chars, precedence),
             callable: Callable::Dynamic(Box::new(move |args| {
                 if args.len() != 1 {
-                    return Err(
-                        RuntimeError::InvalidArgumentCount {
-                            defined: 1,
-                            given: args.len()
-                        }
-                    )
+                    return Err(RuntimeError::InvalidArgumentCount {
+                        defined: 1,
+                        given: args.len(),
+                    });
                 }
 
-                callable(
-                    unsafe { args.get_unchecked(0) }
-                )
+                callable(&args[0])
             })),
         }
     }
@@ -194,11 +173,7 @@ pub enum Associativity {
 
 impl PartialOrd for Associativity {
     fn partial_cmp(&self, other: &Associativity) -> Option<Ordering> {
-        match (*self, *other) {
-            (Associativity::Left, Associativity::Right) => Some(Ordering::Less),
-            (Associativity::Right, Associativity::Left) => Some(Ordering::Greater),
-            _ => Some(Ordering::Equal),
-        }
+        Some(self.cmp(other))
     }
 }
 

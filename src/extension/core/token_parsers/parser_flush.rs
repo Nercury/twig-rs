@@ -1,7 +1,7 @@
-use tokens::TokenRef;
-use nodes::{ Parser, TokenParserExtension };
-use nodes::body::Body;
-use error::TemplateResult;
+use crate::error::TemplateResult;
+use crate::nodes::body::Body;
+use crate::nodes::{Parser, TokenParserExtension};
+use crate::tokens::TokenRef;
 
 pub struct Flush;
 
@@ -12,9 +12,11 @@ impl Flush {
 }
 
 impl TokenParserExtension for Flush {
-    fn parse<'p, 'c>(&self, parser: &mut Parser<'p, 'c>, token: TokenRef<'c>)
-        -> TemplateResult<Option<Body<'c>>>
-    {
+    fn parse<'p, 'c>(
+        &self,
+        _parser: &mut Parser<'p, 'c>,
+        _token: TokenRef<'c>,
+    ) -> TemplateResult<Option<Body<'c>>> {
         unreachable!("not implemented Flush::parse")
     }
 

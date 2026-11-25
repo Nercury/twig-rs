@@ -1,10 +1,8 @@
-use environment::Environment;
-use extension::Extension;
+use crate::environment::Environment;
+use crate::extension::Extension;
 
 pub struct EscaperExtension;
 
 impl Extension for EscaperExtension {
-    fn apply(env: &mut Environment) {
-
-    }
+    fn apply(_env: &mut Environment) {}
 }

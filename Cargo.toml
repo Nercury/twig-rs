@@ -1,27 +1,20 @@
 [package]
-
 name = "twig"
 version = "0.1.0"
-description = "Twig templating engine for Rust; work in progress."
-documentation = "http://nercury.github.io/twig-rs/twig/index.html"
+edition = "2024"
+rust-version = "1.88"
+description = "Twig template engine for Rust, aiming for exact compatibility with Twig for PHP."
 repository = "https://github.com/Nercury/twig-rs"
-authors = [
-    "Rust Twig Team",
-    "Nerijus Arlauskas <nercury@gmail.com>"
-]
+readme = "README.md"
 license = "BSD-3-Clause"
-
-[dev-dependencies]
-env_logger = "0.4"
-serde = "1.0"
-serde_json = "1.0"
-difference = "0.4"
-term = "0.2"
+authors = ["Nerijus Arlauskas <nercury@gmail.com>"]
+keywords = ["twig", "template", "templating", "html"]
+categories = ["template-engine"]
 
 [dependencies]
-regex = "0.1.80"
-uuid = "0.1"
-log = "0.3"
-little = "0.3"
-sha1 = "0.1"
-byteorder = "^0.4"
+regex = "1.13"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]

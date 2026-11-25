@@ -1,10 +1,10 @@
-use tokens::{ TokenRef, TokenValueRef };
-use nodes::{ Parser, TokenParserExtension };
-use nodes::body::Body;
-use error::TemplateResult;
-use nodes::expr_parser::parse_named_arguments;
-use nodes::body_parser::{ subparse, BlockEnd };
-use extension::core::error::*;
+use crate::error::TemplateResult;
+use crate::extension::core::error::*;
+use crate::nodes::body::Body;
+use crate::nodes::body_parser::{BlockEnd, subparse};
+use crate::nodes::expr_parser::parse_named_arguments;
+use crate::nodes::{Parser, TokenParserExtension};
+use crate::tokens::{TokenRef, TokenValueRef};
 
 pub struct Macro;
 
@@ -15,43 +15,44 @@ impl Macro {
 }
 
 impl TokenParserExtension for Macro {
-    fn parse<'p, 'c>(&self, parser: &mut Parser<'p, 'c>, token: TokenRef<'c>)
-        -> TemplateResult<Option<Body<'c>>>
-    {
-        trace!("Macro::parse, {:?}", token);
-
-        let name = try!(parser.expect_name());
-        let arguments = try!(parse_named_arguments(parser, true));
+    fn parse<'p, 'c>(
+        &self,
+        parser: &mut Parser<'p, 'c>,
+        token: TokenRef<'c>,
+    ) -> TemplateResult<Option<Body<'c>>> {
+        let name = parser.expect_name()?;
+        let arguments = parse_named_arguments(parser, true)?;
         let line = token.line;
 
-        try!(parser.expect(TokenValueRef::BlockEnd));
+        parser.expect(TokenValueRef::BlockEnd)?;
         parser.push_local_scope();
 
-        let body = try!(subparse(parser, |token| match token.value {
+        let body = subparse(parser, |token| match token.value {
             TokenValueRef::Name("endmacro") => Some(BlockEnd { drop_needle: true }),
             _ => None,
-        }));
-        let token = try!(parser.current());
+        })?;
+        let token = parser.current()?;
         if let TokenValueRef::Name(value) = token.value {
-            try!(parser.next());
+            parser.next()?;
 
             if value != name {
-                return Err(
-                    CoreTemplateError::ExpectedEndmacroName { given: value.into(), expected: name.into() }
-                        .at(try!(parser.current()).line)
-                        .into()
-                )
+                return Err(CoreTemplateError::ExpectedEndmacroName {
+                    given: value.into(),
+                    expected: name.into(),
+                }
+                .at(parser.current()?.line)
+                .into());
             }
         }
 
         parser.pop_local_scope();
-        try!(parser.expect(TokenValueRef::BlockEnd));
+        parser.expect(TokenValueRef::BlockEnd)?;
 
         Ok(Some(Body::Macro {
-            name: name,
+            name,
             body: Box::new(body),
-            arguments: arguments,
-            line: line,
+            arguments,
+            line,
         }))
     }
 

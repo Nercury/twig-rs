@@ -1,4 +1,4 @@
-use nodes::body::Body;
+use crate::nodes::body::Body;
 
 #[derive(Debug)]
 pub struct Module<'c> {
@@ -40,5 +40,11 @@ impl<'c> Module<'c> {
             // constructor_end: Body::new(),
             // class_end: Body::new(),
         }
+    }
+}
+
+impl<'c> Default for Module<'c> {
+    fn default() -> Self {
+        Self::new()
     }
 }

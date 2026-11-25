@@ -24,9 +24,9 @@ pub enum TokenValueRef<'a> {
     CommentStart, // Not in vanilla Twig.
 }
 
-impl<'a> Into<TokenValue> for TokenValueRef<'a> {
-    fn into(self) -> TokenValue {
-        match self {
+impl<'a> From<TokenValueRef<'a>> for TokenValue {
+    fn from(val: TokenValueRef<'a>) -> Self {
+        match val {
             TokenValueRef::Text(t) => TokenValue::Text(t.into()),
             TokenValueRef::BlockStart => TokenValue::BlockStart,
             TokenValueRef::VarStart => TokenValue::VarStart,
@@ -35,7 +35,7 @@ impl<'a> Into<TokenValue> for TokenValueRef<'a> {
             TokenValueRef::Name(n) => TokenValue::Name(n.into()),
             TokenValueRef::Value(v) => TokenValue::Value(v.into()),
             TokenValueRef::Operator(s) => TokenValue::Operator(s.into()),
-            TokenValueRef::Punctuation(s) => TokenValue::Punctuation(s.into()),
+            TokenValueRef::Punctuation(s) => TokenValue::Punctuation(s),
             TokenValueRef::InterpolationStart => TokenValue::InterpolationStart,
             TokenValueRef::InterpolationEnd => TokenValue::InterpolationEnd,
             TokenValueRef::CommentStart => TokenValue::CommentStart,
@@ -105,9 +105,9 @@ impl<'a> ConstRef<'a> {
     }
 }
 
-impl<'a> Into<Const> for ConstRef<'a> {
-    fn into(self) -> Const {
-        match self {
+impl<'a> From<ConstRef<'a>> for Const {
+    fn from(val: ConstRef<'a>) -> Self {
+        match val {
             ConstRef::Num(n) => Const::Num(n.into()),
             ConstRef::Str(s) => Const::Str(s.into()),
         }
@@ -155,9 +155,9 @@ impl fmt::Display for ConstNumber {
     }
 }
 
-impl<'a> Into<ConstNumber> for ConstNumberRef<'a> {
-    fn into(self) -> ConstNumber {
-        match self {
+impl<'a> From<ConstNumberRef<'a>> for ConstNumber {
+    fn from(val: ConstNumberRef<'a>) -> Self {
+        match val {
             ConstNumberRef::Big(n) => ConstNumber::Big(n.to_string()),
             ConstNumberRef::Float(v) => ConstNumber::Float(v),
             ConstNumberRef::Int(v) => ConstNumber::Int(v),

@@ -1,13 +1,10 @@
-use environment::Environment;
-use extension::Extension;
-use operator::Operator;
-use nodes::TokenParser;
-use function::{ Function, Arg };
-use little::Instruction;
-use instructions::CompiledExpression;
+use crate::environment::Environment;
+use crate::extension::Extension;
+use crate::nodes::TokenParser;
+use crate::operator::Operator;
 
-pub mod token_parsers;
 pub mod error;
+pub mod token_parsers;
 
 pub struct CoreExtension;
 
@@ -17,35 +14,33 @@ impl Extension for CoreExtension {
             Operator::new_unary("not", 50, |_| unimplemented!()),
             Operator::new_unary("-", 500, |_| unimplemented!()),
             Operator::new_unary("+", 500, |_| unimplemented!()),
-
-            Operator::new_binary_left("or"         , 10, |_, _| unimplemented!()),
-            Operator::new_binary_left("and"        , 15, |_, _| unimplemented!()),
-            Operator::new_binary_left("b-or"       , 16, |_, _| unimplemented!()),
-            Operator::new_binary_left("b-xor"      , 17, |_, _| unimplemented!()),
-            Operator::new_binary_left("b-and"      , 18, |_, _| unimplemented!()),
-            Operator::new_binary_left("=="         , 20, |_, _| unimplemented!()),
-            Operator::new_binary_left("!="         , 20, |_, _| unimplemented!()),
-            Operator::new_binary_left("<"          , 20, |_, _| unimplemented!()),
-            Operator::new_binary_left(">"          , 20, |_, _| unimplemented!()),
-            Operator::new_binary_left(">="         , 20, |_, _| unimplemented!()),
-            Operator::new_binary_left("<="         , 20, |_, _| unimplemented!()),
-            Operator::new_binary_left("not in"     , 20, |_, _| unimplemented!()),
-            Operator::new_binary_left("in"         , 20, |_, _| unimplemented!()),
-            Operator::new_binary_left("matches"    , 20, |_, _| unimplemented!()),
+            Operator::new_binary_left("or", 10, |_, _| unimplemented!()),
+            Operator::new_binary_left("and", 15, |_, _| unimplemented!()),
+            Operator::new_binary_left("b-or", 16, |_, _| unimplemented!()),
+            Operator::new_binary_left("b-xor", 17, |_, _| unimplemented!()),
+            Operator::new_binary_left("b-and", 18, |_, _| unimplemented!()),
+            Operator::new_binary_left("==", 20, |_, _| unimplemented!()),
+            Operator::new_binary_left("!=", 20, |_, _| unimplemented!()),
+            Operator::new_binary_left("<", 20, |_, _| unimplemented!()),
+            Operator::new_binary_left(">", 20, |_, _| unimplemented!()),
+            Operator::new_binary_left(">=", 20, |_, _| unimplemented!()),
+            Operator::new_binary_left("<=", 20, |_, _| unimplemented!()),
+            Operator::new_binary_left("not in", 20, |_, _| unimplemented!()),
+            Operator::new_binary_left("in", 20, |_, _| unimplemented!()),
+            Operator::new_binary_left("matches", 20, |_, _| unimplemented!()),
             Operator::new_binary_left("starts with", 20, |_, _| unimplemented!()),
-            Operator::new_binary_left("ends with"  , 20, |_, _| unimplemented!()),
-            Operator::new_binary_left(".."         , 25, |_, _| unimplemented!()),
-            Operator::new_binary_left("+"          , 30, |_, _| unimplemented!()),
-            Operator::new_binary_left("-"          , 30, |_, _| unimplemented!()),
-            Operator::new_binary_left("~"          , 40, |_, _| unimplemented!()),
-            Operator::new_binary_left("*"          , 60, |_, _| unimplemented!()),
-            Operator::new_binary_left("/"          , 60, |_, _| unimplemented!()),
-            Operator::new_binary_left("//"         , 60, |_, _| unimplemented!()),
-            Operator::new_binary_left("%"          , 60, |_, _| unimplemented!()),
-            Operator::new_binary_left("is"         , 100, |_, _| unimplemented!()),
-            Operator::new_binary_left("is not"     , 100, |_, _| unimplemented!()),
-
-            Operator::new_binary_right("**"         , 200, |_, _| unimplemented!()),
+            Operator::new_binary_left("ends with", 20, |_, _| unimplemented!()),
+            Operator::new_binary_left("..", 25, |_, _| unimplemented!()),
+            Operator::new_binary_left("+", 30, |_, _| unimplemented!()),
+            Operator::new_binary_left("-", 30, |_, _| unimplemented!()),
+            Operator::new_binary_left("~", 40, |_, _| unimplemented!()),
+            Operator::new_binary_left("*", 60, |_, _| unimplemented!()),
+            Operator::new_binary_left("/", 60, |_, _| unimplemented!()),
+            Operator::new_binary_left("//", 60, |_, _| unimplemented!()),
+            Operator::new_binary_left("%", 60, |_, _| unimplemented!()),
+            Operator::new_binary_left("is", 100, |_, _| unimplemented!()),
+            Operator::new_binary_left("is not", 100, |_, _| unimplemented!()),
+            Operator::new_binary_right("**", 200, |_, _| unimplemented!()),
         ]);
 
         env.push_token_parsers(vec![
@@ -64,14 +59,6 @@ impl Extension for CoreExtension {
             TokenParser::new(token_parsers::Flush::new()),
             TokenParser::new(token_parsers::Do::new()),
             TokenParser::new(token_parsers::Embed::new()),
-        ]);
-
-        env.push_functions(vec![
-            Function::new_static("include", vec![Arg::Anon], |staging| {
-                //staging.instr(Instruction::Push(staging.use_str_const("include")));
-                //staging.instr(Instruction::Push(staging.use_str_const("include")));
-                Ok(CompiledExpression::empty("include"))
-            })
         ]);
     }
 }
