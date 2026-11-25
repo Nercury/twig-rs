@@ -1,0 +1,4706 @@
+{
+ "cases": [
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(1286199900);",
+   "call": "formatDate",
+   "args": [
+    1286199900
+   ],
+   "timezone": "UTC",
+   "id": "settings-001"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate('2010-10-04 13:45');",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45"
+   ],
+   "timezone": "UTC",
+   "id": "settings-002"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(new \\DateTime('2010-10-04 13:45'));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   ],
+   "timezone": "UTC",
+   "id": "settings-003"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(new \\DateInterval('P2DT3H'));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$interval": "P2DT3H"
+    }
+   ],
+   "timezone": "UTC",
+   "id": "settings-004"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo')));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   ],
+   "timezone": "UTC",
+   "id": "settings-005"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat('Y-m-d', '%d days %h hours'); return $core->formatDate(1286199900);",
+   "call": "formatDate",
+   "args": [
+    1286199900
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    "Y-m-d",
+    "%d days %h hours"
+   ],
+   "id": "settings-006"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat('Y-m-d', '%d days %h hours'); return $core->formatDate('2010-10-04 13:45');",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45"
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    "Y-m-d",
+    "%d days %h hours"
+   ],
+   "id": "settings-007"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat('Y-m-d', '%d days %h hours'); return $core->formatDate(new \\DateTime('2010-10-04 13:45'));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    "Y-m-d",
+    "%d days %h hours"
+   ],
+   "id": "settings-008"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat('Y-m-d', '%d days %h hours'); return $core->formatDate(new \\DateInterval('P2DT3H'));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$interval": "P2DT3H"
+    }
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    "Y-m-d",
+    "%d days %h hours"
+   ],
+   "id": "settings-009"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat('Y-m-d', '%d days %h hours'); return $core->formatDate(new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo')));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    "Y-m-d",
+    "%d days %h hours"
+   ],
+   "id": "settings-010"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat('d/m/Y', null); return $core->formatDate(1286199900);",
+   "call": "formatDate",
+   "args": [
+    1286199900
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    "d/m/Y",
+    null
+   ],
+   "id": "settings-011"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat('d/m/Y', null); return $core->formatDate('2010-10-04 13:45');",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45"
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    "d/m/Y",
+    null
+   ],
+   "id": "settings-012"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat('d/m/Y', null); return $core->formatDate(new \\DateTime('2010-10-04 13:45'));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    "d/m/Y",
+    null
+   ],
+   "id": "settings-013"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat('d/m/Y', null); return $core->formatDate(new \\DateInterval('P2DT3H'));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$interval": "P2DT3H"
+    }
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    "d/m/Y",
+    null
+   ],
+   "id": "settings-014"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat('d/m/Y', null); return $core->formatDate(new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo')));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    "d/m/Y",
+    null
+   ],
+   "id": "settings-015"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat(null, '%d jours'); return $core->formatDate(1286199900);",
+   "call": "formatDate",
+   "args": [
+    1286199900
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    null,
+    "%d jours"
+   ],
+   "id": "settings-016"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat(null, '%d jours'); return $core->formatDate('2010-10-04 13:45');",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45"
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    null,
+    "%d jours"
+   ],
+   "id": "settings-017"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat(null, '%d jours'); return $core->formatDate(new \\DateTime('2010-10-04 13:45'));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    null,
+    "%d jours"
+   ],
+   "id": "settings-018"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat(null, '%d jours'); return $core->formatDate(new \\DateInterval('P2DT3H'));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$interval": "P2DT3H"
+    }
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    null,
+    "%d jours"
+   ],
+   "id": "settings-019"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat(null, '%d jours'); return $core->formatDate(new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo')));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    null,
+    "%d jours"
+   ],
+   "id": "settings-020"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat(5, null); return $core->formatDate(1286199900);",
+   "call": "formatDate",
+   "args": [
+    1286199900
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    5,
+    null
+   ],
+   "id": "settings-021"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat(5, null); return $core->formatDate('2010-10-04 13:45');",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45"
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    5,
+    null
+   ],
+   "id": "settings-022"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat(5, null); return $core->formatDate(new \\DateTime('2010-10-04 13:45'));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    5,
+    null
+   ],
+   "id": "settings-023"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat(5, null); return $core->formatDate(new \\DateInterval('P2DT3H'));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$interval": "P2DT3H"
+    }
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    5,
+    null
+   ],
+   "id": "settings-024"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setDateFormat(5, null); return $core->formatDate(new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo')));",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   ],
+   "timezone": "UTC",
+   "date_format": [
+    5,
+    null
+   ],
+   "id": "settings-025"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-026"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-027"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-028"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->convertDate(1286199900)->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    1286199900
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-029"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->modifyDate(1286199900, '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    1286199900,
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-030"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-031"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-032"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-033"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->convertDate(new \\DateTime('2010-10-04 13:45'))->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-034"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->modifyDate(new \\DateTime('2010-10-04 13:45'), '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-035"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-036"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-037"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-038"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->convertDate('2010-10-04 13:45')->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    "2010-10-04 13:45"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-039"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->modifyDate('2010-10-04 13:45', '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    "2010-10-04 13:45",
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-040"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-041"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-042"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-043"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->convertDate(-189291360)->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    -189291360
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-044"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->modifyDate(-189291360, '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    -189291360,
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-045"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-046"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-047"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-048"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->convertDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')))->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-049"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->modifyDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-050"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-051"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-052"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-053"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->convertDate('2010-01-28T15:00:00+04:00')->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-054"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->modifyDate('2010-01-28T15:00:00+04:00', '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-055"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate(null, 'e');",
+   "call": "formatDate",
+   "args": [
+    null,
+    "e"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-056"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate('now', 'e');",
+   "call": "formatDate",
+   "args": [
+    "now",
+    "e"
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-057"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatDate('now', 'e', false);",
+   "call": "formatDate",
+   "args": [
+    "now",
+    "e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "id": "settings-058"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-059"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-060"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-061"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->convertDate(1286199900)->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    1286199900
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-062"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->modifyDate(1286199900, '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    1286199900,
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-063"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-064"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-065"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-066"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->convertDate(new \\DateTime('2010-10-04 13:45'))->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-067"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->modifyDate(new \\DateTime('2010-10-04 13:45'), '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-068"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-069"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-070"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-071"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->convertDate('2010-10-04 13:45')->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    "2010-10-04 13:45"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-072"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->modifyDate('2010-10-04 13:45', '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    "2010-10-04 13:45",
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-073"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-074"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-075"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-076"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->convertDate(-189291360)->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    -189291360
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-077"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->modifyDate(-189291360, '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    -189291360,
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-078"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-079"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-080"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-081"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->convertDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')))->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-082"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->modifyDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-083"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-084"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-085"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-086"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->convertDate('2010-01-28T15:00:00+04:00')->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-087"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->modifyDate('2010-01-28T15:00:00+04:00', '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-088"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate(null, 'e');",
+   "call": "formatDate",
+   "args": [
+    null,
+    "e"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-089"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate('now', 'e');",
+   "call": "formatDate",
+   "args": [
+    "now",
+    "e"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-090"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('UTC'); return $core->formatDate('now', 'e', false);",
+   "call": "formatDate",
+   "args": [
+    "now",
+    "e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "UTC",
+   "id": "settings-091"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-092"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-093"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-094"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->convertDate(1286199900)->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    1286199900
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-095"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->modifyDate(1286199900, '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    1286199900,
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-096"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-097"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-098"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-099"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->convertDate(new \\DateTime('2010-10-04 13:45'))->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-100"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->modifyDate(new \\DateTime('2010-10-04 13:45'), '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-101"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-102"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-103"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-104"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->convertDate('2010-10-04 13:45')->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    "2010-10-04 13:45"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-105"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->modifyDate('2010-10-04 13:45', '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    "2010-10-04 13:45",
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-106"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-107"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-108"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-109"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->convertDate(-189291360)->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    -189291360
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-110"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->modifyDate(-189291360, '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    -189291360,
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-111"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-112"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-113"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-114"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->convertDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')))->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-115"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->modifyDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-116"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-117"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-118"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-119"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->convertDate('2010-01-28T15:00:00+04:00')->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-120"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->modifyDate('2010-01-28T15:00:00+04:00', '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-121"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate(null, 'e');",
+   "call": "formatDate",
+   "args": [
+    null,
+    "e"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-122"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate('now', 'e');",
+   "call": "formatDate",
+   "args": [
+    "now",
+    "e"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-123"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Asia/Hong_Kong'); return $core->formatDate('now', 'e', false);",
+   "call": "formatDate",
+   "args": [
+    "now",
+    "e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "Asia/Hong_Kong",
+   "id": "settings-124"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-125"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-126"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-127"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->convertDate(1286199900)->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    1286199900
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-128"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->modifyDate(1286199900, '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    1286199900,
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-129"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-130"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-131"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-132"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->convertDate(new \\DateTime('2010-10-04 13:45'))->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-133"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->modifyDate(new \\DateTime('2010-10-04 13:45'), '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-134"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-135"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-136"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-137"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->convertDate('2010-10-04 13:45')->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    "2010-10-04 13:45"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-138"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->modifyDate('2010-10-04 13:45', '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    "2010-10-04 13:45",
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-139"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-140"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-141"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-142"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->convertDate(-189291360)->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    -189291360
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-143"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->modifyDate(-189291360, '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    -189291360,
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-144"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-145"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-146"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-147"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->convertDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')))->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-148"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->modifyDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-149"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-150"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-151"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-152"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->convertDate('2010-01-28T15:00:00+04:00')->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-153"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->modifyDate('2010-01-28T15:00:00+04:00', '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-154"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate(null, 'e');",
+   "call": "formatDate",
+   "args": [
+    null,
+    "e"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-155"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate('now', 'e');",
+   "call": "formatDate",
+   "args": [
+    "now",
+    "e"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-156"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(new \\DateTimeZone('America/Chicago')); return $core->formatDate('now', 'e', false);",
+   "call": "formatDate",
+   "args": [
+    "now",
+    "e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": {
+    "$tz": "America/Chicago"
+   },
+   "id": "settings-157"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-158"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-159"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate(1286199900, 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    1286199900,
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-160"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->convertDate(1286199900)->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    1286199900
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-161"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->modifyDate(1286199900, '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    1286199900,
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-162"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-163"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-164"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate(new \\DateTime('2010-10-04 13:45'), 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-165"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->convertDate(new \\DateTime('2010-10-04 13:45'))->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-166"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->modifyDate(new \\DateTime('2010-10-04 13:45'), '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-167"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-168"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-169"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate('2010-10-04 13:45', 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    "2010-10-04 13:45",
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-170"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->convertDate('2010-10-04 13:45')->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    "2010-10-04 13:45"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-171"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->modifyDate('2010-10-04 13:45', '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    "2010-10-04 13:45",
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-172"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-173"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-174"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate(-189291360, 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    -189291360,
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-175"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->convertDate(-189291360)->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    -189291360
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-176"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->modifyDate(-189291360, '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    -189291360,
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-177"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-178"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-179"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-180"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->convertDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')))->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-181"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->modifyDate(new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-182"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', null);",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    null
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-183"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', 'Europe/Paris');",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    "Europe/Paris"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-184"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate('2010-01-28T15:00:00+04:00', 'd/m/Y H:i:s P e', false);",
+   "call": "formatDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "d/m/Y H:i:s P e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-185"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->convertDate('2010-01-28T15:00:00+04:00')->format('Y-m-d H:i:s T e');",
+   "call": "convertDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-186"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->modifyDate('2010-01-28T15:00:00+04:00', '+1 day')->format('Y-m-d H:i:s T e');",
+   "call": "modifyDate",
+   "args": [
+    "2010-01-28T15:00:00+04:00",
+    "+1 day"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-187"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate(null, 'e');",
+   "call": "formatDate",
+   "args": [
+    null,
+    "e"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-188"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate('now', 'e');",
+   "call": "formatDate",
+   "args": [
+    "now",
+    "e"
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-189"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('+05:00'); return $core->formatDate('now', 'e', false);",
+   "call": "formatDate",
+   "args": [
+    "now",
+    "e",
+    false
+   ],
+   "timezone": "Europe/Paris",
+   "core_timezone": "+05:00",
+   "id": "settings-190"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(20);",
+   "call": "formatNumber",
+   "args": [
+    20
+   ],
+   "id": "settings-191"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(20, 1);",
+   "call": "formatNumber",
+   "args": [
+    20,
+    1
+   ],
+   "id": "settings-192"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(20, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    2,
+    ","
+   ],
+   "id": "settings-193"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(20, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    2,
+    ",",
+    "."
+   ],
+   "id": "settings-194"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(20, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    null,
+    null,
+    "'"
+   ],
+   "id": "settings-195"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(20.25);",
+   "call": "formatNumber",
+   "args": [
+    20.25
+   ],
+   "id": "settings-196"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(20.25, 1);",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    1
+   ],
+   "id": "settings-197"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(20.25, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    2,
+    ","
+   ],
+   "id": "settings-198"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(20.25, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    2,
+    ",",
+    "."
+   ],
+   "id": "settings-199"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(20.25, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    null,
+    null,
+    "'"
+   ],
+   "id": "settings-200"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(1020.25);",
+   "call": "formatNumber",
+   "args": [
+    1020.25
+   ],
+   "id": "settings-201"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(1020.25, 1);",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    1
+   ],
+   "id": "settings-202"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(1020.25, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    2,
+    ","
+   ],
+   "id": "settings-203"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(1020.25, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    2,
+    ",",
+    "."
+   ],
+   "id": "settings-204"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(1020.25, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    null,
+    null,
+    "'"
+   ],
+   "id": "settings-205"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(-1234567.891);",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891
+   ],
+   "id": "settings-206"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(-1234567.891, 1);",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    1
+   ],
+   "id": "settings-207"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(-1234567.891, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    2,
+    ","
+   ],
+   "id": "settings-208"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(-1234567.891, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    2,
+    ",",
+    "."
+   ],
+   "id": "settings-209"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber(-1234567.891, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    null,
+    null,
+    "'"
+   ],
+   "id": "settings-210"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber('abc');",
+   "call": "formatNumber",
+   "args": [
+    "abc"
+   ],
+   "id": "settings-211"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber('abc', 1);",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    1
+   ],
+   "id": "settings-212"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber('abc', 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    2,
+    ","
+   ],
+   "id": "settings-213"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber('abc', 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    2,
+    ",",
+    "."
+   ],
+   "id": "settings-214"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); return $core->formatNumber('abc', null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    null,
+    null,
+    "'"
+   ],
+   "id": "settings-215"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(20);",
+   "call": "formatNumber",
+   "args": [
+    20
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-216"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(20, 1);",
+   "call": "formatNumber",
+   "args": [
+    20,
+    1
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-217"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(20, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    2,
+    ","
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-218"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(20, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-219"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(20, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-220"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(20.25);",
+   "call": "formatNumber",
+   "args": [
+    20.25
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-221"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(20.25, 1);",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    1
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-222"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(20.25, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    2,
+    ","
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-223"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(20.25, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-224"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(20.25, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-225"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(1020.25);",
+   "call": "formatNumber",
+   "args": [
+    1020.25
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-226"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(1020.25, 1);",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    1
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-227"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(1020.25, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    2,
+    ","
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-228"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(1020.25, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-229"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(1020.25, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-230"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(-1234567.891);",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-231"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(-1234567.891, 1);",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    1
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-232"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(-1234567.891, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    2,
+    ","
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-233"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(-1234567.891, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-234"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber(-1234567.891, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-235"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber('abc');",
+   "call": "formatNumber",
+   "args": [
+    "abc"
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-236"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber('abc', 1);",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    1
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-237"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber('abc', 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    2,
+    ","
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-238"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber('abc', 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-239"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(2, '!', '='); return $core->formatNumber('abc', null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    2,
+    "!",
+    "="
+   ],
+   "id": "settings-240"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(20);",
+   "call": "formatNumber",
+   "args": [
+    20
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-241"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(20, 1);",
+   "call": "formatNumber",
+   "args": [
+    20,
+    1
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-242"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(20, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    2,
+    ","
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-243"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(20, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-244"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(20, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-245"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(20.25);",
+   "call": "formatNumber",
+   "args": [
+    20.25
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-246"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(20.25, 1);",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    1
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-247"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(20.25, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    2,
+    ","
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-248"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(20.25, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-249"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(20.25, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-250"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(1020.25);",
+   "call": "formatNumber",
+   "args": [
+    1020.25
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-251"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(1020.25, 1);",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    1
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-252"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(1020.25, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    2,
+    ","
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-253"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(1020.25, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-254"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(1020.25, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-255"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(-1234567.891);",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-256"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(-1234567.891, 1);",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    1
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-257"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(-1234567.891, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    2,
+    ","
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-258"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(-1234567.891, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-259"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber(-1234567.891, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-260"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber('abc');",
+   "call": "formatNumber",
+   "args": [
+    "abc"
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-261"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber('abc', 1);",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    1
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-262"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber('abc', 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    2,
+    ","
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-263"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber('abc', 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-264"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(1, ',', '.'); return $core->formatNumber('abc', null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    1,
+    ",",
+    "."
+   ],
+   "id": "settings-265"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(20);",
+   "call": "formatNumber",
+   "args": [
+    20
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-266"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(20, 1);",
+   "call": "formatNumber",
+   "args": [
+    20,
+    1
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-267"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(20, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    2,
+    ","
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-268"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(20, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-269"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(20, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-270"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(20.25);",
+   "call": "formatNumber",
+   "args": [
+    20.25
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-271"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(20.25, 1);",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    1
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-272"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(20.25, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    2,
+    ","
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-273"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(20.25, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-274"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(20.25, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-275"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(1020.25);",
+   "call": "formatNumber",
+   "args": [
+    1020.25
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-276"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(1020.25, 1);",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    1
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-277"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(1020.25, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    2,
+    ","
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-278"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(1020.25, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-279"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(1020.25, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-280"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(-1234567.891);",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-281"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(-1234567.891, 1);",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    1
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-282"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(-1234567.891, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    2,
+    ","
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-283"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(-1234567.891, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-284"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber(-1234567.891, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-285"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber('abc');",
+   "call": "formatNumber",
+   "args": [
+    "abc"
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-286"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber('abc', 1);",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    1
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-287"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber('abc', 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    2,
+    ","
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-288"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber('abc', 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-289"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat('2', '.', ' '); return $core->formatNumber('abc', null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    "2",
+    ".",
+    " "
+   ],
+   "id": "settings-290"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(20);",
+   "call": "formatNumber",
+   "args": [
+    20
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-291"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(20, 1);",
+   "call": "formatNumber",
+   "args": [
+    20,
+    1
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-292"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(20, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    2,
+    ","
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-293"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(20, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-294"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(20, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-295"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(20.25);",
+   "call": "formatNumber",
+   "args": [
+    20.25
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-296"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(20.25, 1);",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    1
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-297"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(20.25, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    2,
+    ","
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-298"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(20.25, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-299"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(20.25, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-300"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(1020.25);",
+   "call": "formatNumber",
+   "args": [
+    1020.25
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-301"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(1020.25, 1);",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    1
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-302"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(1020.25, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    2,
+    ","
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-303"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(1020.25, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-304"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(1020.25, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-305"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(-1234567.891);",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-306"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(-1234567.891, 1);",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    1
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-307"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(-1234567.891, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    2,
+    ","
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-308"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(-1234567.891, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-309"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber(-1234567.891, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-310"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber('abc');",
+   "call": "formatNumber",
+   "args": [
+    "abc"
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-311"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber('abc', 1);",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    1
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-312"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber('abc', 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    2,
+    ","
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-313"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber('abc', 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-314"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(0, '', ''); return $core->formatNumber('abc', null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    0,
+    "",
+    ""
+   ],
+   "id": "settings-315"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(20);",
+   "call": "formatNumber",
+   "args": [
+    20
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-316"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(20, 1);",
+   "call": "formatNumber",
+   "args": [
+    20,
+    1
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-317"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(20, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    2,
+    ","
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-318"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(20, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-319"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(20, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    20,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-320"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(20.25);",
+   "call": "formatNumber",
+   "args": [
+    20.25
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-321"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(20.25, 1);",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    1
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-322"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(20.25, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    2,
+    ","
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-323"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(20.25, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-324"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(20.25, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    20.25,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-325"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(1020.25);",
+   "call": "formatNumber",
+   "args": [
+    1020.25
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-326"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(1020.25, 1);",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    1
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-327"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(1020.25, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    2,
+    ","
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-328"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(1020.25, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-329"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(1020.25, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    1020.25,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-330"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(-1234567.891);",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-331"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(-1234567.891, 1);",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    1
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-332"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(-1234567.891, 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    2,
+    ","
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-333"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(-1234567.891, 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-334"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber(-1234567.891, null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    -1234567.891,
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-335"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber('abc');",
+   "call": "formatNumber",
+   "args": [
+    "abc"
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-336"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber('abc', 1);",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    1
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-337"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber('abc', 2, ',');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    2,
+    ","
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-338"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber('abc', 2, ',', '.');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    2,
+    ",",
+    "."
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-339"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setNumberFormat(3, null, null); return $core->formatNumber('abc', null, null, '\\'');",
+   "call": "formatNumber",
+   "args": [
+    "abc",
+    null,
+    null,
+    "'"
+   ],
+   "number_format": [
+    3,
+    null,
+    null
+   ],
+   "id": "settings-340"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone('Nowhere/City'); return $core->formatDate(0);",
+   "call": "formatDate",
+   "args": [
+    0
+   ],
+   "core_timezone": "Nowhere/City",
+   "id": "settings-341"
+  },
+  {
+   "php_code": "$core = new \\Twig\\Extension\\CoreExtension(); $core->setTimezone(''); return $core->formatDate(0);",
+   "call": "formatDate",
+   "args": [
+    0
+   ],
+   "core_timezone": "",
+   "id": "settings-342"
+  }
+ ],
+ "isolation": "none"
+}

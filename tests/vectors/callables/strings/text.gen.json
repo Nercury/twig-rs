@@ -1,0 +1,5895 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "[{{ '  a  '|trim }}]|[{{ 'xxaxx'|trim('x') }}]|[{{ '  a  '|trim(side='left') }}]|[{{ '  a  '|trim(' ', 'right') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-001"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 'abcxcba'|trim('a..c') }}]|[{{ 12.50|trim('0') }}]|[{{ \"\\x0ca\\x0b\\x00\"|trim }}]|[{{ n|trim }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-002"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ i|trim('4') }}]|[{{ t|trim }}]|[{{ fa|trim }}]|[{{ '  a  '|trim(null, 'left') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-003"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 'a..b'|trim('..a') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-004"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 'ab'|trim('a..') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-005"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 'ab'|trim('z..a') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-006"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 'ab'|trim('..') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-007"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 'a.b'|trim('a.') }}]|[{{ 'a..b'|trim('a..b..') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-008"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ ' x '|trim(side=true) }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-009"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ ' x '|trim(side=null) }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-010"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ arr|trim(side='foo') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-011"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ arr|trim }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-012"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ arr|trim(side='left') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-013"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ arr|trim(side='right') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-014"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 'x0x'|trim(0) }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-015"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 'x'|trim(arr) }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-016"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ ' x '|trim(...{side: 'left'}) }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-017"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ str|trim('<>') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é')]);",
+   "objects": [
+    "str"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-018"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ plain|trim }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['plain' => new TwigRsPlain()]);",
+   "objects": [
+    "plain"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-019"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ thrower|trim(side='x') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['thrower' => new TwigRsThrowStr()]);",
+   "objects": [
+    "thrower"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-020"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ markup_ws|trim|e('html', null, true) }}]|[{{ markup_ws|trim('<')|e('html', null, true) }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['markup_ws' => new \\Twig\\Markup(\"  <b>w</b>\\n \", 'UTF-8')]);",
+   "objects": [
+    "markup_ws"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-021"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ markup_ws|trim(\" \\t\\n\\r\\0\\x0B\")|e('html', null, true) }}]|[{{ markup_ws|trim(side='right')|e('html', null, true) }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['markup_ws' => new \\Twig\\Markup(\"  <b>w</b>\\n \", 'UTF-8')]);",
+   "objects": [
+    "markup_ws"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-022"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ markup_ws|trim(null, 'left')|e('js', null, true) }}]|[{{ markup_none|trim|e('html', null, true) }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['markup_none' => new \\Twig\\Markup('<b>n</b>', 'UTF-8', []), 'markup_ws' => new \\Twig\\Markup(\"  <b>w</b>\\n \", 'UTF-8')]);",
+   "objects": [
+    "markup_none",
+    "markup_ws"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-023"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ nl|nl2br }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-024"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'a\\r\\nb\\n\\rc\\r\\rd'|nl2br }}|{{ n|nl2br }}|{{ i|nl2br }}|{{ ''|nl2br }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-025"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ arr|nl2br }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-026"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str|nl2br }}|{{ markup_ws|nl2br }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é'), 'markup_ws' => new \\Twig\\Markup(\"  <b>w</b>\\n \", 'UTF-8')]);",
+   "objects": [
+    "str",
+    "markup_ws"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-027"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ plain|nl2br }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['plain' => new TwigRsPlain()]);",
+   "objects": [
+    "plain"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-028"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ s|nl2br }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-029"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set x = s|nl2br %}{{ x }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-030"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '<a>\\n'|nl2br }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-031"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ html|spaceless }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-032"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ \">\\x0b\\x0c<x> \\t\\r\\n <y>  \"|spaceless }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-033"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ '> <> <'|spaceless }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-034"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ '>  a <'|spaceless }}]|[{{ '><'|spaceless }}]|[{{ '>'|spaceless }}]|[{{ '   '|spaceless }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-035"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ n|spaceless }}]|[{{ i|spaceless }}]|[{{ f|spaceless }}]|[{{ t|spaceless }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-036"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ arr|spaceless }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-037"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ nested|spaceless }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-038"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [plain]|spaceless }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['plain' => new TwigRsPlain()]);",
+   "objects": [
+    "plain"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-039"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [thrower]|spaceless }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['thrower' => new TwigRsThrowStr()]);",
+   "objects": [
+    "thrower"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-040"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str|spaceless }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é')]);",
+   "objects": [
+    "str"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-041"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ plain|spaceless }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['plain' => new TwigRsPlain()]);",
+   "objects": [
+    "plain"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-042"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ thrower|spaceless }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['thrower' => new TwigRsThrowStr()]);",
+   "objects": [
+    "thrower"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-043"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ markup_ws|spaceless }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['markup_ws' => new \\Twig\\Markup(\"  <b>w</b>\\n \", 'UTF-8')]);",
+   "objects": [
+    "markup_ws"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-044"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ s|spaceless }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-045"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ \"a>\\xff\\x20<b\"|spaceless|e('url') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-046"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '<p>Hello <b>World</b></p><br/><!-- c --> &amp; <?php x ?> a < b'|striptags }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-047"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '<p>Hello <b>World</b></p><br/>'|striptags('<b><br>') }}|{{ '<p>a<b>b</b></p>'|striptags(['b', 'p']) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-048"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'a  \\n <p>b</p>'|striptags }}|{{ 'x<a href=\\'>\\'>y</a>z'|striptags }}|{{ '1 <2 3>4'|striptags }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-049"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'a < b <br>c'|striptags }}|{{ 'a < b <br>c'|striptags('<br>') }}|{{ n|striptags }}|{{ i|striptags }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-050"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '<b>x</b>'|striptags(null) }}|{{ '<b>x</b><i>y</i>'|striptags([]) }}|{{ '<1>x</1>'|striptags(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-051"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ arr|striptags }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-052"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '<b>x</b>'|striptags(plain) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['plain' => new TwigRsPlain()]);",
+   "objects": [
+    "plain"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-053"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '<b>x</b>'|striptags([[1], 'b']) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-054"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str|striptags }}|{{ markup|striptags }}|{{ '<b>x</b>'|striptags(str) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é'), 'markup' => new \\Twig\\Markup('<b>m</b>', 'UTF-8')]);",
+   "objects": [
+    "str",
+    "markup"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-055"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '<!DOCTYPE html><html><body>t</body></html>'|striptags }}|{{ '<?xml version=\"1.0\"?>x'|striptags }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-056"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'I like %this% and %that%.'|replace({'%this%': 'apples', '%that%': 'oranges'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-057"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abcabc'|replace({'a': '1', 'ab': '2', 'abc': '3'}) }}|{{ '0123'|replace(['x', 'y']) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-058"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|replace({'a': 1.5, 'b': true, 'c': null}) }}|{{ 'abc'|replace({}) }}|{{ ''|replace({'': 'x'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-059"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|replace({'': 'x'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-060"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|replace({'': 'x', 'b': 'y'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-061"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|replace({'a': arr}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-062"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|replace({'a': plain}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['plain' => new TwigRsPlain()]);",
+   "objects": [
+    "plain"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-063"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|replace({'a': str}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é')]);",
+   "objects": [
+    "str"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-064"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|replace('a') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-065"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|replace(n) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-066"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|replace(i) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-067"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|replace(str) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é')]);",
+   "objects": [
+    "str"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-068"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'a<x>b'|replace(iter) }}|{{ 'kv'|replace(arrobj) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['iter' => new \\ArrayIterator(['a' => '<x>', 'b' => 'y', 0 => 'z']), 'arrobj' => new \\ArrayObject(['k' => 'v', 1 => 'w'])]);",
+   "objects": [
+    "iter",
+    "arrobj"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-069"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ n|replace({'': 'x'}) }}|{{ i|replace({4: 'four'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-070"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ arr|replace({'a': 'b'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-071"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str|replace({'<b>': '['}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é')]);",
+   "objects": [
+    "str"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-072"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ plain|replace({}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['plain' => new TwigRsPlain()]);",
+   "objects": [
+    "plain"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-073"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|replace({1: 'x', 'b': 'y', 'bc': 'z'}) }}|{{ 'aaa'|replace({'a': 'b', 'aa': 'c'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-074"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'x'|replace(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-075"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'a'|replace(...{from: {'a': 'b'}}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-076"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%s|%d|%05.2f|%x|%X|%o|%b|%c|%e|%E|%g|%G|%u|%%|%\\'*10s|%-5s|%+d|%5.1s|%1$s'|format('ab', 42.9, 3.14159, 255, 255, 8, 5, 65, 1234.5678, 0.00012, 0.00001234, 1e20, -1, 'x', 'ab', 7, 'xyz') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-077"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ n|format('x') }}|{{ i|format }}|{{ '%s'|format(arr) }}|{{ '%s|%d|%s'|format(t, t, fa) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-078"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%s %s'|format('a') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-079"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%y'|format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-080"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%'|format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-081"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%0$s'|format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-082"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%.60f'|format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-083"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ arr|format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-084"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str|format }}|{{ '%s'|format(str) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é')]);",
+   "objects": [
+    "str"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-085"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%s'|format(plain) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['plain' => new TwigRsPlain()]);",
+   "objects": [
+    "plain"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-086"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%d'|format('12abc') }}|{{ '%.2f'|format('1e3') }}|{{ '%d'|format(n) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-087"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%s'|format(...{a: 1}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-088"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%s'|format(...{format: 1}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-089"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%s-%s'|format(...['a', 'b']) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-090"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%s-%s'|format('a', values='b') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-091"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%s'|format(values='b') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-092"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%s'|format(format='x') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-093"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%*d'|format(5, 42) }}|{{ '%-*d|'|format(4, 7) }}|{{ '%.*f'|format(2, 3.14159) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-094"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '%2$s %1$s'|format('a', 'b') }}|{{ '%f'|format(1e999) }}|{{ '%d'|format(1e999) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-095"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'path-seg*ment ~é'|url_encode }}|{{ '-_.~!*\\'();:@&=+$,/?#[]'|url_encode }}|{{ \"a\\xffb\"|url_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-096"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ {name: 'Fabien', 'a b': 'c&d', arr: [1, 2], n: null, t: true, f: false, nested: {x: 'y'}}|url_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-097"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ {a: 0.1 + 0.2, b: 1e25, c: 1.0, d: -0.0}|url_encode }}|{{ [5, 6]|url_encode }}|{{ []|url_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-098"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ t|url_encode }}|{{ fa|url_encode }}|{{ n|url_encode }}|{{ i|url_encode }}|{{ f|url_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-099"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str|url_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é')]);",
+   "objects": [
+    "str"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-100"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ plain|url_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['plain' => new TwigRsPlain()]);",
+   "objects": [
+    "plain"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-101"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ iter|url_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['iter' => new \\ArrayIterator(['a' => '<x>', 'b' => 'y', 0 => 'z'])]);",
+   "objects": [
+    "iter"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-102"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ markup|url_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['markup' => new \\Twig\\Markup('<b>m</b>', 'UTF-8')]);",
+   "objects": [
+    "markup"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-103"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ {a: str, b: [str]}|url_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é')]);",
+   "objects": [
+    "str"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-104"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ {(1): 'x', 'é': 'y'}|url_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-105"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ {a: 'é/<>&\\'\"', b: [1, 1.0, 0.1, true, null], c: {}, d: []}|json_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-106"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ {0: 'a', 1: 'b'}|json_encode }}|{{ {1: 'a', 2: 'b'}|json_encode }}|{{ markup|json_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['markup' => new \\Twig\\Markup('<b>m</b>', 'UTF-8')]);",
+   "objects": [
+    "markup"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-107"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str|json_encode }}|{{ plain|json_encode }}|{{ json|json_encode }}|{{ iter|json_encode }}|{{ arrobj|json_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é'), 'plain' => new TwigRsPlain(), 'json' => new TwigRsJson(), 'iter' => new \\ArrayIterator(['a' => '<x>', 'b' => 'y', 0 => 'z']), 'arrobj' => new \\ArrayObject(['k' => 'v', 1 => 'w'])]);",
+   "objects": [
+    "str",
+    "plain",
+    "json",
+    "iter",
+    "arrobj"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-108"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ \"\\x00\\x01\\x1f\\x7f\\t\\n\\r\\x08\\x0c\\\"\\\\/\\xc3\\xa9\\xf0\\x9f\\x98\\x80\\xe2\\x80\\xa8\"|json_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-109"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ \"a\\xffb\"|json_encode }}]|[{{ 1e999|json_encode }}]|[{{ [[[1]]]|json_encode(0, 2) }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-110"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ {a: [1, {}]}|json_encode(128) }}|{{ '/é'|json_encode(64 + 256) }}|{{ '<&\\'\"'|json_encode(1 + 2 + 4 + 8) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-111"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [1]|json_encode(16) }}|{{ 1.0|json_encode(1024) }}|{{ \"a\\xffb\"|json_encode(512) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-112"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ \"a\\xffb\"|json_encode(4194304) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-113"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'x'|json_encode(0, 512, 3) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-114"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'x'|json_encode(flags='y') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-115"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [[1]]|json_encode(depth=1) }}|{{ [[1]]|json_encode(depth=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-116"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'x'|json_encode(options=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-117"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [[1]]|json_encode(...{depth: 1}) }}|{{ 'é'|json_encode(...[256]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-118"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'x'|json_encode(...{nope: 1}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-119"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ i|json_encode }}|{{ f|json_encode }}|{{ big|json_encode }}|{{ n|json_encode }}|{{ t|json_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-120"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'é'|convert_encoding('ISO-8859-1', 'UTF-8')|url_encode }}|{{ 'é'|convert_encoding('UTF-16BE', 'UTF-8')|url_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-121"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 'é'|convert_encoding('NOPE', 'UTF-8') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-122"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ \"a\\xffb\"|convert_encoding('ISO-8859-1', 'UTF-8') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-123"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ \"a\\xc3\"|convert_encoding('UTF-16', 'UTF-8') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-124"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ '€'|convert_encoding('ISO-8859-1', 'UTF-8') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-125"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ \"\\xe9\"|convert_encoding('UTF-8', 'ISO-8859-1') }}|[{{ n|convert_encoding('UTF-8', 'ASCII') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-126"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ i|convert_encoding('UTF-8', 'ASCII') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-127"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ arr|convert_encoding('UTF-8', 'ASCII') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-128"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str|convert_encoding('UTF-8', 'UTF-8') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é')]);",
+   "objects": [
+    "str"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-129"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'x'|convert_encoding(arr, 'UTF-8') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-130"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 'x'|convert_encoding(1, 'UTF-8') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-131"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'x'|convert_encoding('UTF-8') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-132"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'x'|convert_encoding(...['UTF-8']) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-133"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'é'|convert_encoding(from='UTF-8', to='ISO-8859-1')|url_encode }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-134"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|replace({'': 'x'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "throw",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-135"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 'é'|convert_encoding('NOPE', 'UTF-8') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "throw",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-136"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|trim('z..a') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "throw",
+   "data_json": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "text-137"
+  }
+ ],
+ "isolation": "none"
+}

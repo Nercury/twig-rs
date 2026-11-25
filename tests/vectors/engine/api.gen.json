@@ -1,0 +1,704 @@
+{
+ "cases": [
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {
+     "p": "P[{% block a %}pa{% endblock %}|{% block b %}pb{{ x ?? '' }}{% endblock %}]",
+     "c": "{% extends 'p' %}{% use 't' %}{% block a %}ca+{{ parent() }}{% endblock %}{% block c %}cc{% endblock %}",
+     "t": "{% block t %}tt{% endblock %}{% block a %}ta{% endblock %}"
+    },
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": false
+    },
+    "globals": {},
+    "ops": [
+     {
+      "op": "render",
+      "template": "c"
+     },
+     {
+      "op": "renderBlock",
+      "template": "c",
+      "block": "a"
+     },
+     {
+      "op": "renderBlock",
+      "template": "c",
+      "block": "b",
+      "context": {
+       "x": "X"
+      }
+     },
+     {
+      "op": "renderBlock",
+      "template": "c",
+      "block": "t"
+     },
+     {
+      "op": "renderBlock",
+      "template": "c",
+      "block": "zz"
+     },
+     {
+      "op": "renderBlock",
+      "template": "p",
+      "block": "zz"
+     },
+     {
+      "op": "displayBlock",
+      "template": "c",
+      "block": "a"
+     },
+     {
+      "op": "streamBlock",
+      "template": "c",
+      "block": "c"
+     },
+     {
+      "op": "stream",
+      "template": "c"
+     },
+     {
+      "op": "hasBlock",
+      "template": "c",
+      "block": "a"
+     },
+     {
+      "op": "hasBlock",
+      "template": "c",
+      "block": "b"
+     },
+     {
+      "op": "hasBlock",
+      "template": "c",
+      "block": "t"
+     },
+     {
+      "op": "hasBlock",
+      "template": "c",
+      "block": "zz"
+     },
+     {
+      "op": "hasBlock",
+      "template": "p",
+      "block": "c"
+     },
+     {
+      "op": "getBlockNames",
+      "template": "c"
+     },
+     {
+      "op": "getBlockNames",
+      "template": "p"
+     },
+     {
+      "op": "getBlockNames",
+      "template": "t"
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {\"p\": \"P[{% block a %}pa{% endblock %}|{% block b %}pb{{ x ?? \\'\\' }}{% endblock %}]\", \"c\": \"{% extends \\'p\\' %}{% use \\'t\\' %}{% block a %}ca+{{ parent() }}{% endblock %}{% block c %}cc{% endblock %}\", \"t\": \"{% block t %}tt{% endblock %}{% block a %}ta{% endblock %}\"}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": false}, \"globals\": {}, \"ops\": [{\"op\": \"render\", \"template\": \"c\"}, {\"op\": \"renderBlock\", \"template\": \"c\", \"block\": \"a\"}, {\"op\": \"renderBlock\", \"template\": \"c\", \"block\": \"b\", \"context\": {\"x\": \"X\"}}, {\"op\": \"renderBlock\", \"template\": \"c\", \"block\": \"t\"}, {\"op\": \"renderBlock\", \"template\": \"c\", \"block\": \"zz\"}, {\"op\": \"renderBlock\", \"template\": \"p\", \"block\": \"zz\"}, {\"op\": \"displayBlock\", \"template\": \"c\", \"block\": \"a\"}, {\"op\": \"streamBlock\", \"template\": \"c\", \"block\": \"c\"}, {\"op\": \"stream\", \"template\": \"c\"}, {\"op\": \"hasBlock\", \"template\": \"c\", \"block\": \"a\"}, {\"op\": \"hasBlock\", \"template\": \"c\", \"block\": \"b\"}, {\"op\": \"hasBlock\", \"template\": \"c\", \"block\": \"t\"}, {\"op\": \"hasBlock\", \"template\": \"c\", \"block\": \"zz\"}, {\"op\": \"hasBlock\", \"template\": \"p\", \"block\": \"c\"}, {\"op\": \"getBlockNames\", \"template\": \"c\"}, {\"op\": \"getBlockNames\", \"template\": \"p\"}, {\"op\": \"getBlockNames\", \"template\": \"t\"}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-001"
+  },
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {
+     "g": "{% block a %}{{ g }}|{{ x ?? 'nox' }}{% endblock %}"
+    },
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": false
+    },
+    "globals": {
+     "g": "global"
+    },
+    "ops": [
+     {
+      "op": "renderBlock",
+      "template": "g",
+      "block": "a"
+     },
+     {
+      "op": "renderBlock",
+      "template": "g",
+      "block": "a",
+      "context": {
+       "g": "ctx",
+       "x": 1
+      }
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {\"g\": \"{% block a %}{{ g }}|{{ x ?? \\'nox\\' }}{% endblock %}\"}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": false}, \"globals\": {\"g\": \"global\"}, \"ops\": [{\"op\": \"renderBlock\", \"template\": \"g\", \"block\": \"a\"}, {\"op\": \"renderBlock\", \"template\": \"g\", \"block\": \"a\", \"context\": {\"g\": \"ctx\", \"x\": 1}}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-002"
+  },
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {
+     "u": "{% import 'm' as forms %}{% from 'm' import hi %}{% block a %}{{ forms.hi('a') }}{% endblock %}{% block b %}{{ hi('b') }}{% endblock %}{% block c %}{% import 'm' as local %}{{ local.hi('c') }}{% endblock %}",
+     "m": "{% macro hi(n) %}hi {{ n }}{% endmacro %}"
+    },
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": false
+    },
+    "globals": {},
+    "ops": [
+     {
+      "op": "renderBlock",
+      "template": "u",
+      "block": "a"
+     },
+     {
+      "op": "renderBlock",
+      "template": "u",
+      "block": "b"
+     },
+     {
+      "op": "renderBlock",
+      "template": "u",
+      "block": "c"
+     },
+     {
+      "op": "render",
+      "template": "u"
+     },
+     {
+      "op": "renderBlock",
+      "template": "u",
+      "block": "a"
+     },
+     {
+      "op": "renderBlock",
+      "template": "u",
+      "block": "b"
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {\"u\": \"{% import \\'m\\' as forms %}{% from \\'m\\' import hi %}{% block a %}{{ forms.hi(\\'a\\') }}{% endblock %}{% block b %}{{ hi(\\'b\\') }}{% endblock %}{% block c %}{% import \\'m\\' as local %}{{ local.hi(\\'c\\') }}{% endblock %}\", \"m\": \"{% macro hi(n) %}hi {{ n }}{% endmacro %}\"}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": false}, \"globals\": {}, \"ops\": [{\"op\": \"renderBlock\", \"template\": \"u\", \"block\": \"a\"}, {\"op\": \"renderBlock\", \"template\": \"u\", \"block\": \"b\"}, {\"op\": \"renderBlock\", \"template\": \"u\", \"block\": \"c\"}, {\"op\": \"render\", \"template\": \"u\"}, {\"op\": \"renderBlock\", \"template\": \"u\", \"block\": \"a\"}, {\"op\": \"renderBlock\", \"template\": \"u\", \"block\": \"b\"}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-003"
+  },
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {
+     "d": "{% extends layout %}{% block a %}da{% endblock %}",
+     "l1": "{% block a %}{% endblock %}{% block l %}l1{% endblock %}",
+     "l2": "{% block a %}{% endblock %}{% block m %}l2{% endblock %}"
+    },
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": false
+    },
+    "globals": {},
+    "ops": [
+     {
+      "op": "renderBlock",
+      "template": "d",
+      "block": "l",
+      "context": {
+       "layout": "l1"
+      }
+     },
+     {
+      "op": "renderBlock",
+      "template": "d",
+      "block": "m",
+      "context": {
+       "layout": "l2"
+      }
+     },
+     {
+      "op": "renderBlock",
+      "template": "d",
+      "block": "l",
+      "context": {
+       "layout": "l2"
+      }
+     },
+     {
+      "op": "hasBlock",
+      "template": "d",
+      "block": "m",
+      "context": {
+       "layout": "l2"
+      }
+     },
+     {
+      "op": "hasBlock",
+      "template": "d",
+      "block": "m",
+      "context": {
+       "layout": "l1"
+      }
+     },
+     {
+      "op": "getBlockNames",
+      "template": "d",
+      "context": {
+       "layout": "l2"
+      }
+     },
+     {
+      "op": "renderBlock",
+      "template": "d",
+      "block": "l"
+     },
+     {
+      "op": "renderBlock",
+      "template": "d",
+      "block": "a",
+      "context": {
+       "layout": "missing"
+      }
+     },
+     {
+      "op": "renderBlock",
+      "template": "d",
+      "block": "zz",
+      "context": {
+       "layout": "missing"
+      }
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {\"d\": \"{% extends layout %}{% block a %}da{% endblock %}\", \"l1\": \"{% block a %}{% endblock %}{% block l %}l1{% endblock %}\", \"l2\": \"{% block a %}{% endblock %}{% block m %}l2{% endblock %}\"}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": false}, \"globals\": {}, \"ops\": [{\"op\": \"renderBlock\", \"template\": \"d\", \"block\": \"l\", \"context\": {\"layout\": \"l1\"}}, {\"op\": \"renderBlock\", \"template\": \"d\", \"block\": \"m\", \"context\": {\"layout\": \"l2\"}}, {\"op\": \"renderBlock\", \"template\": \"d\", \"block\": \"l\", \"context\": {\"layout\": \"l2\"}}, {\"op\": \"hasBlock\", \"template\": \"d\", \"block\": \"m\", \"context\": {\"layout\": \"l2\"}}, {\"op\": \"hasBlock\", \"template\": \"d\", \"block\": \"m\", \"context\": {\"layout\": \"l1\"}}, {\"op\": \"getBlockNames\", \"template\": \"d\", \"context\": {\"layout\": \"l2\"}}, {\"op\": \"renderBlock\", \"template\": \"d\", \"block\": \"l\"}, {\"op\": \"renderBlock\", \"template\": \"d\", \"block\": \"a\", \"context\": {\"layout\": \"missing\"}}, {\"op\": \"renderBlock\", \"template\": \"d\", \"block\": \"zz\", \"context\": {\"layout\": \"missing\"}}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-004"
+  },
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {
+     "c": "{% extends 'p' %}{% block x %}cx{% endblock %}",
+     "p": "{% block y %}[{{ block('x') }}]{% endblock %}{% block x %}px{% endblock %}"
+    },
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": false
+    },
+    "globals": {},
+    "ops": [
+     {
+      "op": "renderBlock",
+      "template": "c",
+      "block": "y"
+     },
+     {
+      "op": "renderBlock",
+      "template": "p",
+      "block": "y"
+     },
+     {
+      "op": "render",
+      "template": "c"
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {\"c\": \"{% extends \\'p\\' %}{% block x %}cx{% endblock %}\", \"p\": \"{% block y %}[{{ block(\\'x\\') }}]{% endblock %}{% block x %}px{% endblock %}\"}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": false}, \"globals\": {}, \"ops\": [{\"op\": \"renderBlock\", \"template\": \"c\", \"block\": \"y\"}, {\"op\": \"renderBlock\", \"template\": \"p\", \"block\": \"y\"}, {\"op\": \"render\", \"template\": \"c\"}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-005"
+  },
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {
+     "e": "{% block a %}\n{{ 1 // 0 }}{% endblock %}",
+     "s": "{% block a %}\n{{ undefined_var }}{% endblock %}"
+    },
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": true
+    },
+    "globals": {},
+    "ops": [
+     {
+      "op": "renderBlock",
+      "template": "e",
+      "block": "a"
+     },
+     {
+      "op": "renderBlock",
+      "template": "s",
+      "block": "a"
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {\"e\": \"{% block a %}\\\\n{{ 1 // 0 }}{% endblock %}\", \"s\": \"{% block a %}\\\\n{{ undefined_var }}{% endblock %}\"}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": true}, \"globals\": {}, \"ops\": [{\"op\": \"renderBlock\", \"template\": \"e\", \"block\": \"a\"}, {\"op\": \"renderBlock\", \"template\": \"s\", \"block\": \"a\"}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-006"
+  },
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {
+     "a": "A",
+     "b": "B"
+    },
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": false
+    },
+    "globals": {},
+    "ops": [
+     {
+      "op": "resolveTemplate",
+      "names": [
+       "missing",
+       "b",
+       "a"
+      ]
+     },
+     {
+      "op": "resolveTemplate",
+      "names": [
+       "a"
+      ]
+     },
+     {
+      "op": "resolveTemplate",
+      "names": [
+       "missing"
+      ]
+     },
+     {
+      "op": "resolveTemplate",
+      "names": [
+       "n1",
+       "n2"
+      ]
+     },
+     {
+      "op": "resolveTemplate",
+      "names": []
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {\"a\": \"A\", \"b\": \"B\"}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": false}, \"globals\": {}, \"ops\": [{\"op\": \"resolveTemplate\", \"names\": [\"missing\", \"b\", \"a\"]}, {\"op\": \"resolveTemplate\", \"names\": [\"a\"]}, {\"op\": \"resolveTemplate\", \"names\": [\"missing\"]}, {\"op\": \"resolveTemplate\", \"names\": [\"n1\", \"n2\"]}, {\"op\": \"resolveTemplate\", \"names\": []}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-007"
+  },
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {},
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": false
+    },
+    "globals": {},
+    "ops": [
+     {
+      "op": "sandbox",
+      "templates": {
+       "ok": "{% if true %}{{ 'a'|upper }}{% endif %}",
+       "bad": "{{ 'a'|lower }}",
+       "blk": "{% block b %}{{ x|upper }}{% endblock %}",
+       "ext": "{% extends 'ok' %}"
+      },
+      "policy": {
+       "tags": [
+        "if"
+       ],
+       "filters": [
+        "upper"
+       ],
+       "functions": []
+      },
+      "strict": false
+     },
+     {
+      "op": "sandbox",
+      "templates": {
+       "ok": "{% if true %}{{ 'a'|upper }}{% endif %}",
+       "bad": "{{ 'a'|lower }}",
+       "blk": "{% block b %}{{ x|upper }}{% endblock %}",
+       "ext": "{% extends 'ok' %}"
+      },
+      "policy": {
+       "tags": [
+        "if"
+       ],
+       "filters": [
+        "upper"
+       ],
+       "functions": []
+      },
+      "strict": true,
+      "used": true
+     },
+     {
+      "op": "sandbox",
+      "templates": {
+       "ok": "{% if true %}{{ 'a'|upper }}{% endif %}",
+       "bad": "{{ 'a'|lower }}",
+       "blk": "{% block b %}{{ x|upper }}{% endblock %}",
+       "ext": "{% extends 'ok' %}"
+      },
+      "policy": {
+       "tags": [
+        "if"
+       ],
+       "filters": [
+        "upper"
+       ],
+       "functions": []
+      },
+      "strict": true
+     },
+     {
+      "op": "sandboxRender",
+      "template": "ok"
+     },
+     {
+      "op": "sandboxRender",
+      "template": "bad"
+     },
+     {
+      "op": "sandboxRender",
+      "template": "ext"
+     },
+     {
+      "op": "sandboxRenderBlock",
+      "template": "blk",
+      "block": "b",
+      "context": {
+       "x": "x"
+      }
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": false}, \"globals\": {}, \"ops\": [{\"op\": \"sandbox\", \"templates\": {\"ok\": \"{% if true %}{{ \\'a\\'|upper }}{% endif %}\", \"bad\": \"{{ \\'a\\'|lower }}\", \"blk\": \"{% block b %}{{ x|upper }}{% endblock %}\", \"ext\": \"{% extends \\'ok\\' %}\"}, \"policy\": {\"tags\": [\"if\"], \"filters\": [\"upper\"], \"functions\": []}, \"strict\": false}, {\"op\": \"sandbox\", \"templates\": {\"ok\": \"{% if true %}{{ \\'a\\'|upper }}{% endif %}\", \"bad\": \"{{ \\'a\\'|lower }}\", \"blk\": \"{% block b %}{{ x|upper }}{% endblock %}\", \"ext\": \"{% extends \\'ok\\' %}\"}, \"policy\": {\"tags\": [\"if\"], \"filters\": [\"upper\"], \"functions\": []}, \"strict\": true, \"used\": true}, {\"op\": \"sandbox\", \"templates\": {\"ok\": \"{% if true %}{{ \\'a\\'|upper }}{% endif %}\", \"bad\": \"{{ \\'a\\'|lower }}\", \"blk\": \"{% block b %}{{ x|upper }}{% endblock %}\", \"ext\": \"{% extends \\'ok\\' %}\"}, \"policy\": {\"tags\": [\"if\"], \"filters\": [\"upper\"], \"functions\": []}, \"strict\": true}, {\"op\": \"sandboxRender\", \"template\": \"ok\"}, {\"op\": \"sandboxRender\", \"template\": \"bad\"}, {\"op\": \"sandboxRender\", \"template\": \"ext\"}, {\"op\": \"sandboxRenderBlock\", \"template\": \"blk\", \"block\": \"b\", \"context\": {\"x\": \"x\"}}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-008"
+  },
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {
+     "index.twig": "{{ render_sandboxed('ok', {x: 'y'}, 'html') }}"
+    },
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": false
+    },
+    "globals": {},
+    "ops": [
+     {
+      "op": "bridge",
+      "templates": {
+       "bad": "{{ 'a'|lower }}",
+       "ok": "<{{ x|upper }}>{{ name ?? 'no-name' }}"
+      },
+      "policy": {
+       "filters": [
+        "upper"
+       ]
+      }
+     },
+     {
+      "op": "render",
+      "template": "index.twig",
+      "context": {
+       "name": "outer"
+      }
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {\"index.twig\": \"{{ render_sandboxed(\\'ok\\', {x: \\'y\\'}, \\'html\\') }}\"}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": false}, \"globals\": {}, \"ops\": [{\"op\": \"bridge\", \"templates\": {\"bad\": \"{{ \\'a\\'|lower }}\", \"ok\": \"<{{ x|upper }}>{{ name ?? \\'no-name\\' }}\"}, \"policy\": {\"filters\": [\"upper\"]}}, {\"op\": \"render\", \"template\": \"index.twig\", \"context\": {\"name\": \"outer\"}}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-009"
+  },
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {
+     "index.twig": "{{ render_sandboxed('ok', {x: '<y>'}, output_strategy = 'js') }}"
+    },
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": false
+    },
+    "globals": {},
+    "ops": [
+     {
+      "op": "bridge",
+      "templates": {
+       "bad": "{{ 'a'|lower }}",
+       "ok": "<{{ x|upper }}>{{ name ?? 'no-name' }}"
+      },
+      "policy": {
+       "filters": [
+        "upper"
+       ]
+      }
+     },
+     {
+      "op": "render",
+      "template": "index.twig",
+      "context": {
+       "name": "outer"
+      }
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {\"index.twig\": \"{{ render_sandboxed(\\'ok\\', {x: \\'<y>\\'}, output_strategy = \\'js\\') }}\"}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": false}, \"globals\": {}, \"ops\": [{\"op\": \"bridge\", \"templates\": {\"bad\": \"{{ \\'a\\'|lower }}\", \"ok\": \"<{{ x|upper }}>{{ name ?? \\'no-name\\' }}\"}, \"policy\": {\"filters\": [\"upper\"]}}, {\"op\": \"render\", \"template\": \"index.twig\", \"context\": {\"name\": \"outer\"}}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-010"
+  },
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {
+     "index.twig": "{{ render_sandboxed('bad', {}, 'html') }}"
+    },
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": false
+    },
+    "globals": {},
+    "ops": [
+     {
+      "op": "bridge",
+      "templates": {
+       "bad": "{{ 'a'|lower }}",
+       "ok": "<{{ x|upper }}>{{ name ?? 'no-name' }}"
+      },
+      "policy": {
+       "filters": [
+        "upper"
+       ]
+      }
+     },
+     {
+      "op": "render",
+      "template": "index.twig",
+      "context": {
+       "name": "outer"
+      }
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {\"index.twig\": \"{{ render_sandboxed(\\'bad\\', {}, \\'html\\') }}\"}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": false}, \"globals\": {}, \"ops\": [{\"op\": \"bridge\", \"templates\": {\"bad\": \"{{ \\'a\\'|lower }}\", \"ok\": \"<{{ x|upper }}>{{ name ?? \\'no-name\\' }}\"}, \"policy\": {\"filters\": [\"upper\"]}}, {\"op\": \"render\", \"template\": \"index.twig\", \"context\": {\"name\": \"outer\"}}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-011"
+  },
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {
+     "index.twig": "{{ render_sandboxed('missing', {}, 'html') }}"
+    },
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": false
+    },
+    "globals": {},
+    "ops": [
+     {
+      "op": "bridge",
+      "templates": {
+       "bad": "{{ 'a'|lower }}",
+       "ok": "<{{ x|upper }}>{{ name ?? 'no-name' }}"
+      },
+      "policy": {
+       "filters": [
+        "upper"
+       ]
+      }
+     },
+     {
+      "op": "render",
+      "template": "index.twig",
+      "context": {
+       "name": "outer"
+      }
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {\"index.twig\": \"{{ render_sandboxed(\\'missing\\', {}, \\'html\\') }}\"}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": false}, \"globals\": {}, \"ops\": [{\"op\": \"bridge\", \"templates\": {\"bad\": \"{{ \\'a\\'|lower }}\", \"ok\": \"<{{ x|upper }}>{{ name ?? \\'no-name\\' }}\"}, \"policy\": {\"filters\": [\"upper\"]}}, {\"op\": \"render\", \"template\": \"index.twig\", \"context\": {\"name\": \"outer\"}}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-012"
+  },
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {
+     "index.twig": "{{ render_sandboxed('ok', 'str', 'html') }}"
+    },
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": false
+    },
+    "globals": {},
+    "ops": [
+     {
+      "op": "bridge",
+      "templates": {
+       "bad": "{{ 'a'|lower }}",
+       "ok": "<{{ x|upper }}>{{ name ?? 'no-name' }}"
+      },
+      "policy": {
+       "filters": [
+        "upper"
+       ]
+      }
+     },
+     {
+      "op": "render",
+      "template": "index.twig",
+      "context": {
+       "name": "outer"
+      }
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {\"index.twig\": \"{{ render_sandboxed(\\'ok\\', \\'str\\', \\'html\\') }}\"}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": false}, \"globals\": {}, \"ops\": [{\"op\": \"bridge\", \"templates\": {\"bad\": \"{{ \\'a\\'|lower }}\", \"ok\": \"<{{ x|upper }}>{{ name ?? \\'no-name\\' }}\"}, \"policy\": {\"filters\": [\"upper\"]}}, {\"op\": \"render\", \"template\": \"index.twig\", \"context\": {\"name\": \"outer\"}}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-013"
+  },
+  {
+   "kind": "php",
+   "spec": {
+    "templates": {
+     "index.twig": "{{ render_sandboxed('ok', {}, 'html') }}"
+    },
+    "config": {
+     "autoescape": false,
+     "optimizations": 0,
+     "strict_variables": false
+    },
+    "globals": {},
+    "ops": [
+     {
+      "op": "bridge",
+      "templates": {
+       "bad": "{{ 'a'|lower }}",
+       "ok": "<{{ x|upper }}>{{ name ?? 'no-name' }}"
+      },
+      "policy": {
+       "filters": [
+        "upper"
+       ]
+      },
+      "runtime": false
+     },
+     {
+      "op": "render",
+      "template": "index.twig"
+     }
+    ]
+   },
+   "php_code": "\n$spec = json_decode('{\"templates\": {\"index.twig\": \"{{ render_sandboxed(\\'ok\\', {}, \\'html\\') }}\"}, \"config\": {\"autoescape\": false, \"optimizations\": 0, \"strict_variables\": false}, \"globals\": {}, \"ops\": [{\"op\": \"bridge\", \"templates\": {\"bad\": \"{{ \\'a\\'|lower }}\", \"ok\": \"<{{ x|upper }}>{{ name ?? \\'no-name\\' }}\"}, \"policy\": {\"filters\": [\"upper\"]}, \"runtime\": false}, {\"op\": \"render\", \"template\": \"index.twig\"}]}', true);\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($spec['templates']), $spec['config'] + ['cache' => false]);\nforeach ($spec['globals'] as $k => $v) {\n    $twig->addGlobal($k, $v);\n}\n$policy = function (array $p, bool $strict) {\n    $policy = new \\Twig\\Sandbox\\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);\n    $policy->setStrict($strict);\n    return $policy;\n};\n$sandbox = null;\n$results = [];\nforeach ($spec['ops'] as $op) {\n    try {\n        $context = $op['context'] ?? [];\n        switch ($op['op']) {\n            case 'render': $r = $twig->load($op['template'])->render($context); break;\n            case 'renderBlock': $r = $twig->load($op['template'])->renderBlock($op['block'], $context); break;\n            case 'displayBlock':\n                ob_start();\n                try { $twig->load($op['template'])->displayBlock($op['block'], $context); } finally { $r = ob_get_clean(); }\n                break;\n            case 'stream': $r = implode('', iterator_to_array($twig->load($op['template'])->stream($context), false)); break;\n            case 'streamBlock': $r = implode('', iterator_to_array($twig->load($op['template'])->streamBlock($op['block'], $context), false)); break;\n            case 'hasBlock': $r = $twig->load($op['template'])->hasBlock($op['block'], $context); break;\n            case 'getBlockNames': $r = array_values($twig->load($op['template'])->getBlockNames($context)); break;\n            case 'resolveTemplate': $r = $twig->resolveTemplate($op['names'])->getTemplateName(); break;\n            case 'sandbox':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                if ($op['used'] ?? false) { $env->load(array_key_first($op['templates'])); }\n                $sandbox = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], $op['strict']));\n                $r = null;\n                break;\n            case 'sandboxRender': $r = $sandbox->render($op['template'], $context); break;\n            case 'sandboxRenderBlock': $r = $sandbox->renderBlock($op['template'], $op['block'], $context); break;\n            case 'bridge':\n                $env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader($op['templates']), ['cache' => false, 'autoescape' => false]);\n                $sb = new \\Twig\\Sandbox\\Sandbox($env, $policy($op['policy'], true));\n                $twig->addExtension(new \\Twig\\Extension\\SandboxBridgeExtension());\n                if ($op['runtime'] ?? true) {\n                    $twig->addRuntimeLoader(new \\Twig\\RuntimeLoader\\FactoryRuntimeLoader([\\Twig\\Runtime\\SandboxBridgeRuntime::class => fn () => new \\Twig\\Runtime\\SandboxBridgeRuntime($sb)]));\n                }\n                $r = null;\n                break;\n            default: throw new \\LogicException('unknown op');\n        }\n        $results[] = ['ok' => true, 'value' => $r];\n    } catch (\\Throwable $e) {\n        $results[] = ['ok' => false, 'class' => get_class($e), 'message' => $e->getMessage()];\n    }\n}\nreturn $results;\n",
+   "id": "api-014"
+  }
+ ],
+ "isolation": "process"
+}

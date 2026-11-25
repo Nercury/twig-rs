@@ -1,0 +1,599 @@
+[
+ {
+  "id": "embed-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "<E1base>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "<E1base>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "[bx]|[X]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "[bx]|[X]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "[none]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "[none]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "z",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "z",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num,z",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num,z",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num,0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num,0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "[X]ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "[X]ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-017",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"e\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"e\" at line 2.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "e",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-018",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"e\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"e\" at line 2.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "e",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "[A]|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "[A]|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "[A]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "[A]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-025",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"e\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"e\" at line 1.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2.",
+   "templateName": "e",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-026",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"e\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"e\" at line 1.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2.",
+   "templateName": "e",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-027",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/embed-027/7a/7a7f5596af64ff48b55641db7adb4b84.php on line 44\") in \"e\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/embed-027/7a/7a7f5596af64ff48b55641db7adb4b84.php on line 44\") in \"e\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/embed-027/7a/7a7f5596af64ff48b55641db7adb4b84.php on line 44\").",
+   "templateName": "e",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/embed-027/7a/7a7f5596af64ff48b55641db7adb4b84.php on line 44",
+    "formatted": "TypeError: Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/embed-027/7a/7a7f5596af64ff48b55641db7adb4b84.php on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-028",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/embed-028/b6/b6aae238b289cf2f6b362dc578c16649.php on line 44\") in \"e\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/embed-028/b6/b6aae238b289cf2f6b362dc578c16649.php on line 44\") in \"e\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/embed-028/b6/b6aae238b289cf2f6b362dc578c16649.php on line 44\").",
+   "templateName": "e",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/embed-028/b6/b6aae238b289cf2f6b362dc578c16649.php on line 44",
+    "formatted": "TypeError: Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/embed-028/b6/b6aae238b289cf2f6b362dc578c16649.php on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "[(<Ycy>)]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "[(<Ycy>)]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1][2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1][2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "be",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "be",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-036",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"m\" does not exist in \"e\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"m\" does not exist in \"e\" at line 1.",
+   "rawMessage": "Variable \"m\" does not exist.",
+   "templateName": "e",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-037",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Macro \"hi\" is not defined in template \"e\" in \"e\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Macro \"hi\" is not defined in template \"e\" in \"e\" at line 1.",
+   "rawMessage": "Macro \"hi\" is not defined in template \"e\".",
+   "templateName": "e",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-038",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Macro \"hi\" is not defined in template \"e\" in \"e\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Macro \"hi\" is not defined in template \"e\" in \"e\" at line 1.",
+   "rawMessage": "Macro \"hi\" is not defined in template \"e\".",
+   "templateName": "e",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "ehi",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "ehi",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "1122",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "1122",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-043",
+  "kind": "twig",
+  "ok": true,
+  "output": "Y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "Y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "<E+P+G>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "<E+P+G>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "[<cx>]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "[<cx>]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "<mx>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "<mx>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-051",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"e\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"e\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "e",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-052",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"e\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"e\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "e",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-054",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undefined_var\" does not exist in \"e\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undefined_var\" does not exist in \"e\" at line 2.",
+   "rawMessage": "Variable \"undefined_var\" does not exist.",
+   "templateName": "e",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "x\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-056",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undefined_var\" does not exist in \"b\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undefined_var\" does not exist in \"b\" at line 2.",
+   "rawMessage": "Variable \"undefined_var\" does not exist.",
+   "templateName": "b",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "embed-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "[bx!]",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

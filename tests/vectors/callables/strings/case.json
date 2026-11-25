@@ -1,0 +1,856 @@
+[
+ {
+  "id": "case-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "ÉLAN VITAL Ǆ SS STRASSE FI İSTANBUL ΣΑΣ|élan vital ǆ ß straße ﬁ i̇stanbul σας|Élan Vital ǅ Ss Straße Fi İstanbul Σας|Élan vital ǆ ß straße ﬁ i̇stanbul σας",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hello World O'neil Mary-Jane ǅemal 3Rd X_Y A.b École Fish",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hello 2Nd World_Wide-Web O'reilly ʼN ǲ Ss|Ǳ ǆa|SSa bc",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "My first car|||",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "A?B?|a?b?|A?b C|?ab",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "A?B??C???D????E?",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "É?|?",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "42|1.5|1.0E+25|1|||",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "-7||",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-010",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_strtoupper(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: mb_strtoupper(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-011",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strtolower(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strtolower(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strtolower(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_strtolower(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: mb_strtolower(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-012",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_convert_case(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_convert_case(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_convert_case(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_convert_case(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: mb_convert_case(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-013",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_substr(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: mb_substr(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "<B>STR</B> É|<b>str</b> é|<B>Str</B> É|<b>str</b> é",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-015",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #1 ($string) must be of type string, TwigRsPlain given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_strtoupper(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "formatted": "TypeError: mb_strtoupper(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-016",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_convert_case(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_convert_case(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_convert_case(): Argument #1 ($string) must be of type string, TwigRsPlain given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_convert_case(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "formatted": "TypeError: mb_convert_case(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-017",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, TwigRsPlain given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_substr(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "formatted": "TypeError: mb_substr(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-018",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"no string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "no string",
+    "formatted": "RuntimeException: no string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-019",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"no string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "no string",
+    "formatted": "RuntimeException: no string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "X1Y|X3y|X4Y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "<B>M</B>|<b>m</b>|<x>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-022",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #1 ($string) must be of type string, ArrayIterator given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #1 ($string) must be of type string, ArrayIterator given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #1 ($string) must be of type string, ArrayIterator given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_strtoupper(): Argument #1 ($string) must be of type string, ArrayIterator given",
+    "formatted": "TypeError: mb_strtoupper(): Argument #1 ($string) must be of type string, ArrayIterator given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strtolower(): Argument #1 ($string) must be of type string, TwigRsJson given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strtolower(): Argument #1 ($string) must be of type string, TwigRsJson given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strtolower(): Argument #1 ($string) must be of type string, TwigRsJson given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_strtolower(): Argument #1 ($string) must be of type string, TwigRsJson given",
+    "formatted": "TypeError: mb_strtolower(): Argument #1 ($string) must be of type string, TwigRsJson given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "A|a|A B|Ab",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-025",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Named parameter $string overwrites previous argument\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $string overwrites previous argument\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Named parameter $string overwrites previous argument\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Named parameter $string overwrites previous argument",
+    "formatted": "Error: Named parameter $string overwrites previous argument",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-026",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $x",
+    "formatted": "Error: Unknown named parameter $x",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "a",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-028",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Named parameter $charset overwrites previous argument\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $charset overwrites previous argument\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Named parameter $charset overwrites previous argument\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Named parameter $charset overwrites previous argument",
+    "formatted": "Error: Named parameter $charset overwrites previous argument",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-029",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unknown argument \"x\" for filter \"upper()\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Unknown argument \"x\" for filter \"upper()\" in \"index.twig\" at line 1.",
+   "rawMessage": "Unknown argument \"x\" for filter \"upper()\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-030",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unknown argument \"string\" for filter \"title()\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Unknown argument \"string\" for filter \"title()\" in \"index.twig\" at line 1.",
+   "rawMessage": "Unknown argument \"string\" for filter \"title()\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "σας σας.|ας|σ|aς b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "FF FFI ʼN|2|FF|ǅ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-033",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given",
+    "formatted": "ValueError: mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-034",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strtolower(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strtolower(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strtolower(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mb_strtolower(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given",
+    "formatted": "ValueError: mb_strtolower(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-035",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_convert_case(): Argument #3 ($encoding) must be a valid encoding, \"NOPE\" given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_convert_case(): Argument #3 ($encoding) must be a valid encoding, \"NOPE\" given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_convert_case(): Argument #3 ($encoding) must be a valid encoding, \"NOPE\" given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mb_convert_case(): Argument #3 ($encoding) must be a valid encoding, \"NOPE\" given",
+    "formatted": "ValueError: mb_convert_case(): Argument #3 ($encoding) must be a valid encoding, \"NOPE\" given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-036",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE\" given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE\" given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE\" given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE\" given",
+    "formatted": "ValueError: mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE\" given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-037",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_substr(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: mb_substr(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "A",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "a",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "A",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "A",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-042",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_substr(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: mb_substr(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-043",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"Xé\" given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"Xé\" given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"Xé\" given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"Xé\" given",
+    "formatted": "ValueError: mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"Xé\" given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-044",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strtolower(): Argument #2 ($encoding) must be a valid encoding, \"Xé\" given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strtolower(): Argument #2 ($encoding) must be a valid encoding, \"Xé\" given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strtolower(): Argument #2 ($encoding) must be a valid encoding, \"Xé\" given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mb_strtolower(): Argument #2 ($encoding) must be a valid encoding, \"Xé\" given",
+    "formatted": "ValueError: mb_strtolower(): Argument #2 ($encoding) must be a valid encoding, \"Xé\" given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-045",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_convert_case(): Argument #3 ($encoding) must be a valid encoding, \"Xé\" given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_convert_case(): Argument #3 ($encoding) must be a valid encoding, \"Xé\" given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_convert_case(): Argument #3 ($encoding) must be a valid encoding, \"Xé\" given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mb_convert_case(): Argument #3 ($encoding) must be a valid encoding, \"Xé\" given",
+    "formatted": "ValueError: mb_convert_case(): Argument #3 ($encoding) must be a valid encoding, \"Xé\" given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-046",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"Xé\" given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"Xé\" given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"Xé\" given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"Xé\" given",
+    "formatted": "ValueError: mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"Xé\" given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-047",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_substr(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: mb_substr(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "%C9T%C9%20SS%3F%3F%20X%C9|%E9t%E9%20%DF%FF%B5%20x%E9|%C9t%E9%20Ss%FF%B5%20X%E9|%C9t%E9%20%DF%FF%B5%20x%E9|AB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "%C9T%C9%20SS%3F%3F%20X%C9|%E9t%E9%20%DF%FF%B5%20x%E9|%C9t%E9%20Ss%FF%B5%20X%E9|%C9t%E9%20%DF%FF%B5%20x%E9|AB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "%C9T%C9%20SS%3F%3F%20X%C9|%E9t%E9%20%DF%FF%B5%20x%E9|%C9t%E9%20Ss%FF%B5%20X%E9|%C9t%E9%20%DF%FF%B5%20x%E9|AB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "%3FT%3F%20%3F%3F%3F%20X%3F|%3Ft%3F%20%3F%3F%3F%20x%3F|%3FT%3F%20%3F%3F%3F%20X%3F|%3Ft%3F%20%3F%3F%3F%20x%3F|AB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "%3FT%3F%20%3F%3F%3F%20X%3F|%3Ft%3F%20%3F%3F%3F%20x%3F|%3FT%3F%20%3F%3F%3F%20X%3F|%3Ft%3F%20%3F%3F%3F%20x%3F|AB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "A",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "A",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "a",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "\u0000?",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "case-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "mb_strtoupper(): Handling Base64 via mbstring is deprecated; use base64_encode/base64_decode instead"
+   }
+  ]
+ }
+]

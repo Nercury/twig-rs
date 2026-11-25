@@ -1,0 +1,2630 @@
+[
+ {
+  "id": "objects-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":\"a3\",\"b\":\"b2\"}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\",\"a\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"b\":2,\"a\":3}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"b\":2,\"a\":3}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":3,\"b\":2,\"0\":9}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "[{\"a\":3,\"b\":2}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1,2,3\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "6",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "true",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "true",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"b\":2,\"a\":3}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1,2],[3,\"f\"]]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":3,\"b\":2,\"0\":1,\"1\":2,\"2\":3,\"3\":4,\"4\":5}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":2,\"2\":3}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "[4,5]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3,4]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "[4,5]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "LimitIterator::__construct(): Passing null to parameter #2 ($offset) of type int is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "objects-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3,4,5]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "objects-035",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"LimitIterator::__construct(): Argument #2 ($offset) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"LimitIterator::__construct(): Argument #2 ($offset) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"LimitIterator::__construct(): Argument #2 ($offset) must be of type int, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "LimitIterator::__construct(): Argument #2 ($offset) must be of type int, string given",
+    "formatted": "TypeError: LimitIterator::__construct(): Argument #2 ($offset) must be of type int, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-036",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"LimitIterator::__construct(): Argument #3 ($limit) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"LimitIterator::__construct(): Argument #3 ($limit) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"LimitIterator::__construct(): Argument #3 ($limit) must be of type int, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "LimitIterator::__construct(): Argument #3 ($limit) must be of type int, string given",
+    "formatted": "TypeError: LimitIterator::__construct(): Argument #3 ($limit) must be of type int, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-037",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"iterator_to_array(): Argument #2 ($preserve_keys) must be of type bool, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"iterator_to_array(): Argument #2 ($preserve_keys) must be of type bool, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"iterator_to_array(): Argument #2 ($preserve_keys) must be of type bool, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "iterator_to_array(): Argument #2 ($preserve_keys) must be of type bool, array given",
+    "formatted": "TypeError: iterator_to_array(): Argument #2 ($preserve_keys) must be of type bool, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":2,\"2\":3}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3,4,5]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-042",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot rewind a generator that was already run\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot rewind a generator that was already run\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot rewind a generator that was already run\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Exception",
+    "message": "Cannot rewind a generator that was already run",
+    "formatted": "Exception: Cannot rewind a generator that was already run",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-043",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot traverse an already closed generator\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot traverse an already closed generator\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot traverse an already closed generator\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Exception",
+    "message": "Cannot traverse an already closed generator",
+    "formatted": "Exception: Cannot traverse an already closed generator",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-044",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot rewind a generator that was already run\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot rewind a generator that was already run\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot rewind a generator that was already run\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Exception",
+    "message": "Cannot rewind a generator that was already run",
+    "formatted": "Exception: Cannot rewind a generator that was already run",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-045",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot rewind a generator that was already run\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot rewind a generator that was already run\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot rewind a generator that was already run\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Exception",
+    "message": "Cannot rewind a generator that was already run",
+    "formatted": "Exception: Cannot rewind a generator that was already run",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-046",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot rewind a generator that was already run\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot rewind a generator that was already run\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot rewind a generator that was already run\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Exception",
+    "message": "Cannot rewind a generator that was already run",
+    "formatted": "Exception: Cannot rewind a generator that was already run",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"b\"=2;\"a\"=3;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"a\"=1;\"a\"=3;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "{}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "yes",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\",\"a\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-054",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot traverse an already closed generator\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot traverse an already closed generator\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot traverse an already closed generator\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Exception",
+    "message": "Cannot traverse an already closed generator",
+    "formatted": "Exception: Cannot traverse an already closed generator",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":30,\"b\":20}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|rewind,valid,valid,current,key,next",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "3|rewind,valid,current,next,valid,current,next,valid,current,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2]|rewind,valid,next,valid,valid,current,key,next",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\",\"c\"]|rewind,valid,key,next,valid,key,next,valid,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "3|rewind,valid,next,valid,next,valid,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":1,\"b\":2,\"c\":3}|rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "false|rewind,valid,next,valid,next,valid,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "false|rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-064",
+  "kind": "twig",
+  "ok": true,
+  "output": "2|rewind,valid,current,key,next,valid,current,key",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-065",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]|rewind,valid,valid,current,key,next,valid,current,key,next",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-066",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]|rewind,valid,next,valid,next,valid,next,valid,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-067",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"c\":3,\"b\":2,\"a\":1}|rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-068",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":1,\"b\":2,\"c\":3}|rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-069",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":1,\"b\":2,\"c\":3}|rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-070",
+  "kind": "twig",
+  "ok": true,
+  "output": "[{\"a\":1,\"b\":2},{\"c\":3}]|rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-071",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1,2,3\"|rewind,valid,current,next,valid,current,next,valid,current,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-072",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]|rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-073",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3]|rewind,valid,next,valid,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-074",
+  "kind": "twig",
+  "ok": true,
+  "output": "[3]|rewind,valid,next,valid,next,valid,valid,current,key,next",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-075",
+  "kind": "twig",
+  "ok": true,
+  "output": "6|rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-076",
+  "kind": "twig",
+  "ok": true,
+  "output": "true|rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-077",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]|rewind",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-078",
+  "kind": "twig",
+  "ok": true,
+  "output": "[3]|rewind,valid,current,next,valid,current,next,valid,current,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-079",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"b\"=2;\"c\"=3;|rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-080",
+  "kind": "twig",
+  "ok": true,
+  "output": "2|rewind,valid,current,key,next,valid,current,key,next,valid,current,key",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-081",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"c\"]|rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-082",
+  "kind": "twig",
+  "ok": true,
+  "output": "22|rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid,rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-083",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"cycle\" function expects an array or \"ArrayAccess\" as first argument in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"cycle\" function expects an array or \"ArrayAccess\" as first argument in \"index.twig\" at line 1.",
+   "rawMessage": "The \"cycle\" function expects an array or \"ArrayAccess\" as first argument.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-084",
+  "kind": "twig",
+  "ok": true,
+  "output": "0|rewind,valid,current,key,next,valid,current,key,next,valid,current,key,next,valid",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-085",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,5]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-086",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"b\":2,\"c\":5}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-087",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-088",
+  "kind": "twig",
+  "ok": true,
+  "output": "[8]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-089",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-090",
+  "kind": "twig",
+  "ok": true,
+  "output": "8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-091",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\",\"c\",\"d\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-092",
+  "kind": "twig",
+  "ok": true,
+  "output": "4",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-093",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-094",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-095",
+  "kind": "twig",
+  "ok": true,
+  "output": "true",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-096",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":2,\"b\":4,\"c\":10,\"d\":16}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-097",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":1,\"b\":2,\"c\":5,\"d\":8,\"e\":9}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-098",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"d\":8,\"c\":5,\"b\":2,\"a\":1}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-099",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":1,\"b\":2,\"c\":5,\"d\":8}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-100",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-101",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-102",
+  "kind": "twig",
+  "ok": true,
+  "output": "[5,8]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-103",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-104",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"b\":2,\"c\":5,\"d\":8}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-105",
+  "kind": "twig",
+  "ok": true,
+  "output": "[{\"a\":1,\"b\":2,\"c\":5},{\"d\":8,\"0\":0,\"1\":0}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-106",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1+2+5+8\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-107",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"abcd\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-108",
+  "kind": "twig",
+  "ok": true,
+  "output": "5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-109",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"c\"=5;\"d\"=8;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-110",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"a\"=1;\"b\"=2;\"c\"=5;\"d\"=8;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-111",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-112",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-113",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"x\",\"y\",\"z\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-114",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-115",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-116",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-117",
+  "kind": "twig",
+  "ok": true,
+  "output": "11123",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-118",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"x\"=1;\"z\"=3;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-119",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-120",
+  "kind": "twig",
+  "ok": true,
+  "output": "4",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-121",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-122",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-123",
+  "kind": "twig",
+  "ok": true,
+  "output": "[4]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-124",
+  "kind": "twig",
+  "ok": true,
+  "output": "4",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-125",
+  "kind": "twig",
+  "ok": true,
+  "output": "true",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-126",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-127",
+  "kind": "twig",
+  "ok": true,
+  "output": "[0,1,2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-128",
+  "kind": "twig",
+  "ok": true,
+  "output": "[4,3,2,1]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-129",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2,3,4]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-130",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2,3,4,5]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-131",
+  "kind": "twig",
+  "ok": true,
+  "output": "4",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-132",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1,2,3,4\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-133",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-134",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1,2,3],{\"3\":4}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-135",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3,4,5]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-136",
+  "kind": "twig",
+  "ok": true,
+  "output": "[4]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-137",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":2}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-138",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-139",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-140",
+  "kind": "twig",
+  "ok": true,
+  "output": "true",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-141",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-142",
+  "kind": "twig",
+  "ok": true,
+  "output": "4",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-143",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-144",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-145",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-146",
+  "kind": "twig",
+  "ok": true,
+  "output": "2=3;3=4;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-147",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-148",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"p\",\"q\",\"r\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-149",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-150",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-151",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-152",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"q\":2}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-153",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-154",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"r\":3,\"q\":2,\"p\":1}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-155",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"q\"=2;\"r\"=3;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-156",
+  "kind": "twig",
+  "ok": true,
+  "output": "123\"p\"=1;\"r\"=3;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-157",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"q\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-158",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"count(): Argument #1 ($value) must be of type Countable|array, TwigRsAccess given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"count(): Argument #1 ($value) must be of type Countable|array, TwigRsAccess given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"count(): Argument #1 ($value) must be of type Countable|array, TwigRsAccess given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "count(): Argument #1 ($value) must be of type Countable|array, TwigRsAccess given",
+    "formatted": "TypeError: count(): Argument #1 ($value) must be of type Countable|array, TwigRsAccess given",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.12: Passing a non-countable sequence of values to \"Twig\\Extension\\CoreExtension::cycle()\" is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Passing a non-countable sequence of values to \"Twig\\Extension\\CoreExtension::cycle()\" is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-159",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"q\"",
+  "deprecations": [
+   "Since twig/twig 3.12: Passing a non-countable sequence of values to \"Twig\\Extension\\CoreExtension::cycle()\" is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Passing a non-countable sequence of values to \"Twig\\Extension\\CoreExtension::cycle()\" is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-160",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key -1"
+   }
+  ]
+ },
+ {
+  "id": "objects-161",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"q\"",
+  "deprecations": [
+   "Since twig/twig 3.12: Passing a non-countable sequence of values to \"Twig\\Extension\\CoreExtension::cycle()\" is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Passing a non-countable sequence of values to \"Twig\\Extension\\CoreExtension::cycle()\" is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-162",
+  "kind": "twig",
+  "ok": true,
+  "output": "5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-163",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"oll\\u00e9h\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-164",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"h\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-165",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"o\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-166",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\\u00e9l\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-167",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-168",
+  "kind": "twig",
+  "ok": true,
+  "output": "true",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-169",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-170",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"h\\u00e9llo\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-171",
+  "kind": "twig",
+  "ok": true,
+  "output": "{}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-172",
+  "kind": "twig",
+  "ok": true,
+  "output": "{}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-173",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"h\\u00e9llo\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-174",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"h\\u00e9\",\"\",\"o\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-175",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"h\",\"\\u00e9\",\"l\",\"l\",\"o\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-176",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-177",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-178",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"h\\u00e9\",\"ll\",\"o\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-179",
+  "kind": "twig",
+  "ok": true,
+  "output": "[{},\"x\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-180",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"z\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-181",
+  "kind": "twig",
+  "ok": true,
+  "output": "8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-182",
+  "kind": "twig",
+  "ok": true,
+  "output": "\">b\\/<\\u00e9>b<\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-183",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-184",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"<\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-185",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"<b>\\u00e9<\\/b>\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-186",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"<\",\"b\",\">\",\"\\u00e9\",\"<\",\"\\/\",\"b\",\">\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-187",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-188",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":\"a\",\"2\":\"b\"}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-189",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-190",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-191",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-192",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-193",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"2\":3,\"1\":2,\"0\":1}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-194",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"id\":3}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-195",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-196",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-197",
+  "kind": "twig",
+  "ok": true,
+  "output": "true",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-198",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-199",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-200",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-201",
+  "kind": "twig",
+  "ok": true,
+  "output": "{}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-202",
+  "kind": "twig",
+  "ok": true,
+  "output": "{}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-203",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-204",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"map\" filter expects a sequence or a mapping, got \"TwigRsPlain\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"map\" filter expects a sequence or a mapping, got \"TwigRsPlain\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"map\" filter expects a sequence or a mapping, got \"TwigRsPlain\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-205",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-206",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-207",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-208",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"explode(): Argument #2 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"explode(): Argument #2 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"explode(): Argument #2 ($string) must be of type string, TwigRsPlain given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "explode(): Argument #2 ($string) must be of type string, TwigRsPlain given",
+    "formatted": "TypeError: explode(): Argument #2 ($string) must be of type string, TwigRsPlain given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-209",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"cycle\" function expects an array or \"ArrayAccess\" as first argument in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"cycle\" function expects an array or \"ArrayAccess\" as first argument in \"index.twig\" at line 1.",
+   "rawMessage": "The \"cycle\" function expects an array or \"ArrayAccess\" as first argument.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-210",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"batch\" filter expects a sequence or a mapping, got \"TwigRsPlain\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"batch\" filter expects a sequence or a mapping, got \"TwigRsPlain\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"batch\" filter expects a sequence or a mapping, got \"TwigRsPlain\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-211",
+  "kind": "twig",
+  "ok": true,
+  "output": "{}",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_NOTICE",
+    "message": "Object of class TwigRsPlain could not be converted to int"
+   }
+  ]
+ },
+ {
+  "id": "objects-212",
+  "kind": "twig",
+  "ok": true,
+  "output": "true",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-213",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-214",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-215",
+  "kind": "twig",
+  "ok": true,
+  "output": "true",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-216",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-217",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"[1,0]\",\"[2,1]\"]",
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-218",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]",
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"filter\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"filter\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-219",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"find\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"find\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-220",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"[\\\"[0,1,0]\\\",2,1]\"",
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"reduce\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"reduce\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-221",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"0\":3,\"2\":2,\"1\":1}",
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"sort\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"sort\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-222",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Call to undefined method TwigRsPlain::nope()\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Call to undefined method TwigRsPlain::nope()\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Call to undefined method TwigRsPlain::nope()\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Call to undefined method TwigRsPlain::nope()",
+    "formatted": "Error: Call to undefined method TwigRsPlain::nope()",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-223",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"uasort(): Argument #2 ($callback) must be a valid callback, class TwigRsPlain does not have a method \"nope\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"uasort(): Argument #2 ($callback) must be a valid callback, class TwigRsPlain does not have a method \"nope\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"uasort(): Argument #2 ($callback) must be a valid callback, class TwigRsPlain does not have a method \"nope\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "uasort(): Argument #2 ($callback) must be a valid callback, class TwigRsPlain does not have a method \"nope\"",
+    "formatted": "TypeError: uasort(): Argument #2 ($callback) must be a valid callback, class TwigRsPlain does not have a method \"nope\"",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"sort\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"sort\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-224",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_filter(): Argument #2 ($callback) must be a valid callback or null, class TwigRsPlain does not have a method \"nope\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_filter(): Argument #2 ($callback) must be a valid callback or null, class TwigRsPlain does not have a method \"nope\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_filter(): Argument #2 ($callback) must be a valid callback or null, class TwigRsPlain does not have a method \"nope\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "array_filter(): Argument #2 ($callback) must be a valid callback or null, class TwigRsPlain does not have a method \"nope\"",
+    "formatted": "TypeError: array_filter(): Argument #2 ($callback) must be a valid callback or null, class TwigRsPlain does not have a method \"nope\"",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"filter\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"filter\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-225",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"[1,0]\"]",
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-226",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,1]",
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"sort\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"sort\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-227",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"a\"=1;\"b\"=2;\"c\"=5;\"d\"=8;",
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"filter\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"filter\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "objects-228",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Unable to split the string passed to \"split\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Unable to split the string passed to \"split\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "rawMessage": "Unable to split the string passed to \"split\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-229",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Unable to split the string passed to \"reverse\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Unable to split the string passed to \"reverse\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "rawMessage": "Unable to split the string passed to \"reverse\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-230",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Unable to split the string passed to \"shuffle\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Unable to split the string passed to \"shuffle\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "rawMessage": "Unable to split the string passed to \"shuffle\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-231",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Unable to split the string passed to \"random\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Unable to split the string passed to \"random\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "rawMessage": "Unable to split the string passed to \"random\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-232",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-233",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"?b\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-234",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"a\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-235",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a?\",\"b\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-236",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":\"c\",\"\":\"b\",\"07\":\"d\",\"7\":\"e\"}",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "objects-237",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1.5,null,true,\"07\",\"7\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-238",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"0\":\"e\",\"07\":\"d\",\"\":\"b\",\"1\":\"c\"}",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "objects-239",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"0\":\"c\",\"\":\"b\",\"07\":\"d\",\"1\":\"e\"}",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "objects-240",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "objects-241",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"\":\"b\",\"1\":\"c\",\"07\":\"d\"}",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "objects-242",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\",\"c\",\"d\",\"e\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-243",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"\":\"b\",\"1\":\"c\",\"07\":\"d\",\"7\":\"e\"}",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "objects-244",
+  "kind": "twig",
+  "ok": true,
+  "output": "[{\"1\":\"c\",\"\":\"b\"},{\"07\":\"d\",\"7\":\"e\"}]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "objects-245",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1.51077\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-246",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"a\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-247",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"e\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-248",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "objects-249",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1.5,null,true,\"07\",\"7\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-250",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot access offset of type array on array",
+    "formatted": "TypeError: Cannot access offset of type array on array",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-251",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1],\"b\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-252",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot access offset of type array on array",
+    "formatted": "TypeError: Cannot access offset of type array on array",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-253",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot access offset of type array on array",
+    "formatted": "TypeError: Cannot access offset of type array on array",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-254",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "objects-255",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot access offset of type array on array",
+    "formatted": "TypeError: Cannot access offset of type array on array",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

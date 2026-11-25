@@ -1,0 +1,513 @@
+[
+ {
+  "id": "optimized-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "1items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,loop,i,_key;2items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,loop,i,_key;3items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,loop,i,_key;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "bobbobbob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "123",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key,j;items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,i,_parent,_seq,_key,j;items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,i,_parent,_seq,_key,j;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "123",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "123",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "11,12,13,21,22,23,31,32,33,",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"i\""
+   }
+  ]
+ },
+ {
+  "id": "optimized-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"_key\""
+   }
+  ]
+ },
+ {
+  "id": "optimized-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "nitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;nitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;nitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "1items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,loop,i,_key,j;2items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,loop,i,_parent,_seq,_key,j;3items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,loop,i,_parent,_seq,_key,j;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "123",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-017",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type string on string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot access offset of type string on string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type string on string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot access offset of type string on string",
+    "formatted": "TypeError: Cannot access offset of type string on string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "nitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;nitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;nitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "outer",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "123items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "constantab",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "111;222;333;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Function name must be an identifier in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Function name must be an identifier in \"index.twig\" at line 1.",
+   "rawMessage": "Function name must be an identifier.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "1:2,2:4,3:6,",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "3,2,1.",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "1items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,loop,i,_key;2items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,loop,i,_key;3items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,loop,i,_key;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "bobbobbob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "123",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key,j;items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,i,_parent,_seq,_key,j;items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,i,_parent,_seq,_key,j;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "123",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-033",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"x\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"x\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"x\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-034",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"i\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"i\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"i\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "11,12,13,21,22,23,31,32,33,",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"i\""
+   }
+  ]
+ },
+ {
+  "id": "optimized-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"_key\""
+   }
+  ]
+ },
+ {
+  "id": "optimized-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "nitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;nitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;nitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "1items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,loop,i,_key,j;2items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,loop,i,_parent,_seq,_key,j;3items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,loop,i,_parent,_seq,_key,j;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "123",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-043",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type string on string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot access offset of type string on string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type string on string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot access offset of type string on string",
+    "formatted": "TypeError: Cannot access offset of type string on string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "nitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;nitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;nitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,i,_key;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "outer",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "123items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "constantab",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "111;222;333;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-049",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Function name must be an identifier in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Function name must be an identifier in \"index.twig\" at line 1.",
+   "rawMessage": "Function name must be an identifier.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-050",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "1:2,2:4,3:6,",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "optimized-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "3,2,1.",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

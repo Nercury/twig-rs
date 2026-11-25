@@ -1,0 +1,241 @@
+[
+ {
+  "id": "sandbox-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":\"a\",\"2\":\"b\"}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-003",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"id\" property on a \"stdClass\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"id\" property on a \"stdClass\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"id\" property on a \"stdClass\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-004",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"name\" property on a \"stdClass\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"name\" property on a \"stdClass\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"name\" property on a \"stdClass\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-005",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"1\" property on a \"stdClass\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"1\" property on a \"stdClass\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"1\" property on a \"stdClass\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-006",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"\" property on a \"stdClass\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"\" property on a \"stdClass\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"\" property on a \"stdClass\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-009",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The callable passed to the \"filter\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The callable passed to the \"filter\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "rawMessage": "The callable passed to the \"filter\" filter must be a Closure in sandbox mode.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-010",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The callable passed to the \"map\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The callable passed to the \"map\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "rawMessage": "The callable passed to the \"map\" filter must be a Closure in sandbox mode.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-011",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The callable passed to the \"sort\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The callable passed to the \"sort\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "rawMessage": "The callable passed to the \"sort\" filter must be a Closure in sandbox mode.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-012",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The callable passed to the \"find\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The callable passed to the \"find\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "rawMessage": "The callable passed to the \"find\" filter must be a Closure in sandbox mode.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-013",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The callable passed to the \"reduce\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The callable passed to the \"reduce\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "rawMessage": "The callable passed to the \"reduce\" filter must be a Closure in sandbox mode.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,4]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":1,\"0\":2}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-016",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Call to undefined function nope()\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Call to undefined function nope()\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Call to undefined function nope()\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Call to undefined function nope()",
+    "formatted": "Error: Call to undefined function nope()",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "2[1,2]",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

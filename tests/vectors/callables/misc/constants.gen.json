@@ -1,0 +1,2538 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_INT_MAX') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_INT_MIN') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_INT_SIZE') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-003"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('M_PI') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-004"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ constant('PHP_EOL') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-005"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('E_ALL') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('E_STRICT') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('DATE_ATOM') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('DATE_RFC7231') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('\\\\PHP_INT_SIZE') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TRUE') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-011"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('true') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('NULL') is null ? 'null' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_VERSION') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_OS_FAMILY') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('JSON_PRETTY_PRINT') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-016"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('ENT_QUOTES') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-017"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_FLOAT_EPSILON') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-018"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_FLOAT_MAX') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-019"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('INF') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-020"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('NAN') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-021"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_ROUND_HALF_EVEN') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-022"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('SORT_STRING') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-023"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('MB_CASE_TITLE') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-024"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PREG_SPLIT_NO_EMPTY') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-025"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('MT_RAND_PHP') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-026"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('SUNFUNCS_RET_STRING') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-027"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('NOPE') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-028"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('php_int_max') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-029"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-030"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsConsts::FOO') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-031"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('twigrsconsts::FOO') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-032"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('\\\\TwigRsConsts::NUM') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-033"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsConsts::ARR')|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-034"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsConsts::IFACE') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-035"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsIface::IFACE') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-036"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsConsts::NOPE') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-037"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('NoClass::FOO') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-038"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsConsts::PRIV') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-039"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsConsts::PROT') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-040"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsConsts::class') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-041"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsConsts::CLASS') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-042"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('Nope::class') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-043"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('::class') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-044"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('::FOO') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-045"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsConsts::foo') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-046"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsSuit::Hearts').name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-047"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsStatus::Active').value }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-048"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsSuit::Nope') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-049"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('DateTimeInterface::ATOM') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-050"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('DateTime::RFC7231') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-051"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('DateTimeImmutable::COOKIE') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-052"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('DateTimeZone::EUROPE') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-053"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('ArrayObject::ARRAY_AS_PROPS') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-054"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('Twig\\\\Environment::VERSION') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-055"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('Twig\\\\Environment::VERSION_ID') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-056"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('Twig\\\\Environment::MAJOR_VERSION') }}.{{ constant('Twig\\\\Environment::MINOR_VERSION') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-057"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('Twig\\\\Template::ANY_CALL') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-058"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('RoundingMode::HalfEven').name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-059"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('Twig\\\\Extension\\\\CoreExtension::ARRAY_LIKE_CLASSES')|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-060"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_EOL') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-061"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('NOPE') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-062"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('E_STRICT') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-063"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('DATE_RFC7231') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-064"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsConsts::FOO') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-065"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsConsts::PRIV') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-066"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsSuit::Spades') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-067"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('NoClass::FOO') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-068"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('true') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-069"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('TwigRsConsts::class') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-070"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('class', 'str') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-071"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('FOO', 'str') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-072"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ constant('PHP_EOL', null) }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-073"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('FOO', 'str') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-074"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('FOO', 5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-075"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('FOO', true) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-076"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('FOO', [1]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-077"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('class', 'str') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-078"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_INT_SIZE', check_defined=true) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-079"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_INT_SIZE', check_defined='') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-080"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_INT_SIZE', null, false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-081"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_INT_SIZE', null, [1]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-082"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(...['PHP_INT_SIZE']) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-083"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(...{constant: 'PHP_INT_SIZE'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-084"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(...{nope: 'PHP_INT_SIZE'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-085"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-086"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PHP_INT_SIZE', null, false, 'extra') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-087"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('FOO', o) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "o": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsConsts()];",
+   "id": "constants-088"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('IFACE', o) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "o": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsConsts()];",
+   "id": "constants-089"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('class', o) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "o": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsConsts()];",
+   "id": "constants-090"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('NOPE', o) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "o": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsConsts()];",
+   "id": "constants-091"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('PRIV', o) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "o": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsConsts()];",
+   "id": "constants-092"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('class', o) is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "o": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsConsts()];",
+   "id": "constants-093"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('FOO', o) is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "o": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsConsts()];",
+   "id": "constants-094"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('NOPE', o) is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "o": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsConsts()];",
+   "id": "constants-095"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('Hearts', e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": {
+     "$enum": [
+      "TwigRsSuit",
+      "Spades"
+     ]
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => \\TwigRsSuit::Spades];",
+   "id": "constants-096"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('class', e) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": {
+     "$enum": [
+      "TwigRsSuit",
+      "Spades"
+     ]
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => \\TwigRsSuit::Spades];",
+   "id": "constants-097"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('ATOM', d) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2024-01-01",
+      "UTC"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2024-01-01', new \\DateTimeZone('UTC'))];",
+   "id": "constants-098"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant('RFC7231', d) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2024-01-01",
+      "UTC"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2024-01-01', new \\DateTimeZone('UTC'))];",
+   "id": "constants-099"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(c) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "c": [
+     "x"
+    ]
+   },
+   "data_php": "return ['c' => ['x']];",
+   "id": "constants-100"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(c) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "c": null
+   },
+   "data_php": "return ['c' => null];",
+   "id": "constants-101"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(c) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "c": 5
+   },
+   "data_php": "return ['c' => 5];",
+   "id": "constants-102"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(c) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "c": 1.5
+   },
+   "data_php": "return ['c' => 1.5];",
+   "id": "constants-103"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(c) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "c": true
+   },
+   "data_php": "return ['c' => true];",
+   "id": "constants-104"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(c) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "c": {
+     "$string": "PHP_INT_SIZE"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['c' => new \\TwigRsString('PHP_INT_SIZE')];",
+   "id": "constants-105"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(c) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "c": {
+     "$string": "TwigRsConsts::class"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['c' => new \\TwigRsString('TwigRsConsts::class')];",
+   "id": "constants-106"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(c) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "c": {
+     "$object": "TwigRsPlain"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['c' => new \\TwigRsPlain()];",
+   "id": "constants-107"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(c, o) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "c": null,
+    "o": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['c' => null, 'o' => new \\TwigRsConsts()];",
+   "id": "constants-108"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(c, o) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "c": [
+     "x"
+    ],
+    "o": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['c' => ['x'], 'o' => new \\TwigRsConsts()];",
+   "id": "constants-109"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(c) is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "c": null
+   },
+   "data_php": "return ['c' => null];",
+   "id": "constants-110"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ constant(c) is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "c": [
+     "x"
+    ]
+   },
+   "data_php": "return ['c' => ['x']];",
+   "id": "constants-111"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsSuit"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsSuit'];",
+   "id": "constants-112"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsSuit"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsSuit'];",
+   "id": "constants-113"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "twigrssuit"
+   },
+   "data_php": "return ['e' => 'twigrssuit'];",
+   "id": "constants-114"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "twigrssuit"
+   },
+   "data_php": "return ['e' => 'twigrssuit'];",
+   "id": "constants-115"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "\\TwigRsStatus"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => '\\\\TwigRsStatus'];",
+   "id": "constants-116"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "\\TwigRsStatus"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => '\\\\TwigRsStatus'];",
+   "id": "constants-117"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsEmpty"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsEmpty'];",
+   "id": "constants-118"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsEmpty"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsEmpty'];",
+   "id": "constants-119"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsConsts"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsConsts'];",
+   "id": "constants-120"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsConsts"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsConsts'];",
+   "id": "constants-121"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsIface"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsIface'];",
+   "id": "constants-122"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsIface"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsIface'];",
+   "id": "constants-123"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "Nope"
+   },
+   "data_php": "return ['e' => 'Nope'];",
+   "id": "constants-124"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "Nope"
+   },
+   "data_php": "return ['e' => 'Nope'];",
+   "id": "constants-125"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": ""
+   },
+   "data_php": "return ['e' => ''];",
+   "id": "constants-126"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": ""
+   },
+   "data_php": "return ['e' => ''];",
+   "id": "constants-127"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "RoundingMode"
+   },
+   "data_php": "return ['e' => 'RoundingMode'];",
+   "id": "constants-128"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "RoundingMode"
+   },
+   "data_php": "return ['e' => 'RoundingMode'];",
+   "id": "constants-129"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "ArrayObject"
+   },
+   "data_php": "return ['e' => 'ArrayObject'];",
+   "id": "constants-130"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "ArrayObject"
+   },
+   "data_php": "return ['e' => 'ArrayObject'];",
+   "id": "constants-131"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "DateTime"
+   },
+   "data_php": "return ['e' => 'DateTime'];",
+   "id": "constants-132"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "DateTime"
+   },
+   "data_php": "return ['e' => 'DateTime'];",
+   "id": "constants-133"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": 5
+   },
+   "data_php": "return ['e' => 5];",
+   "id": "constants-134"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": 5
+   },
+   "data_php": "return ['e' => 5];",
+   "id": "constants-135"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": 1.5
+   },
+   "data_php": "return ['e' => 1.5];",
+   "id": "constants-136"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": 1.5
+   },
+   "data_php": "return ['e' => 1.5];",
+   "id": "constants-137"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": true
+   },
+   "data_php": "return ['e' => true];",
+   "id": "constants-138"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": true
+   },
+   "data_php": "return ['e' => true];",
+   "id": "constants-139"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": null
+   },
+   "data_php": "return ['e' => null];",
+   "id": "constants-140"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": null
+   },
+   "data_php": "return ['e' => null];",
+   "id": "constants-141"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": [
+     "x"
+    ]
+   },
+   "data_php": "return ['e' => ['x']];",
+   "id": "constants-142"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": [
+     "x"
+    ]
+   },
+   "data_php": "return ['e' => ['x']];",
+   "id": "constants-143"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": {
+     "$string": "TwigRsSuit"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => new \\TwigRsString('TwigRsSuit')];",
+   "id": "constants-144"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": {
+     "$string": "TwigRsSuit"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => new \\TwigRsString('TwigRsSuit')];",
+   "id": "constants-145"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": {
+     "$object": "TwigRsPlain"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => new \\TwigRsPlain()];",
+   "id": "constants-146"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.name)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": {
+     "$object": "TwigRsPlain"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => new \\TwigRsPlain()];",
+   "id": "constants-147"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e).value }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsStatus"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsStatus'];",
+   "id": "constants-148"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e) is same as(constant('TwigRsSuit::Hearts')) ? 'same' : 'other' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsSuit"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsSuit'];",
+   "id": "constants-149"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|map(c => c.value)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsStatus"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsStatus'];",
+   "id": "constants-150"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(e)|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsEmpty"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsEmpty'];",
+   "id": "constants-151"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(enum=e).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsSuit"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsSuit'];",
+   "id": "constants-152"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases(enum=e)|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsSuit"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsSuit'];",
+   "id": "constants-153"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e, 'extra').name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsSuit"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsSuit'];",
+   "id": "constants-154"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(...{enum: e}).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsSuit"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsSuit'];",
+   "id": "constants-155"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(...{nope: e}).name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsSuit"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsSuit'];",
+   "id": "constants-156"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "constants-157"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(e) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": "TwigRsSuit"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => 'TwigRsSuit'];",
+   "id": "constants-158"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum('TwigRsSuit').name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-159"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases('TwigRsStatus')|map(c => c.value)|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-160"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum('TwigRsSuit').cases()|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-161"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum('TwigRsStatus').from('inactive').name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "constants-162"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum('Nope') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "pending": "EnumFunction/EnumCasesFunction compile-time checks of literal arguments (code generator)",
+   "id": "constants-163"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum_cases('Nope') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "pending": "EnumFunction/EnumCasesFunction compile-time checks of literal arguments (code generator)",
+   "id": "constants-164"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum(5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "pending": "EnumFunction/EnumCasesFunction compile-time checks of literal arguments (code generator)",
+   "id": "constants-165"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ enum('TwigRsEmpty') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "pending": "EnumFunction/EnumCasesFunction compile-time checks of literal arguments (code generator)",
+   "id": "constants-166"
+  }
+ ],
+ "isolation": "none"
+}

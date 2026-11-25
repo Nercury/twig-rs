@@ -1,0 +1,1837 @@
+[
+ {
+  "id": "inheritance-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "<html>Child - Base title|Child - Base title/Base title/n</html>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "<html>Child - Base title|Child - Base title/Base title/n</html>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "<html>Child - Base title|Child - Base title/Base title/n</html>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "<html>Child - Base title|Child - Base title/Base title/n</html>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "G[ca+pa+ga|cb+gb|pc]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "G[ca+pa+ga|cb+gb|pc]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "G[ca+pa+ga|cb+gb|pc]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "G[ca+pa+ga|cb+gb|pc]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "X[X]X",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "X[X]X",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "21",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "21",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "<1><2>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "<1><2>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "[in]|in",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "[in]|in",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "[IN]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "[IN]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "<[IN]>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "<[IN]>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "[A]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "[A]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "[A]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "[A]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "[A]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "[A]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "1A",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "1A",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-029",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"n1\", \"n2\" in \"d\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"n1\", \"n2\" in \"d\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"n1\", \"n2\".",
+   "templateName": "d",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-030",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"n1\", \"n2\" in \"d\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"n1\", \"n2\" in \"d\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"n1\", \"n2\".",
+   "templateName": "d",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-031",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"d\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"d\" at line 1.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "d",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-032",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"d\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"d\" at line 1.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "d",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-033",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"\" in \"d\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"\" in \"d\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"\".",
+   "templateName": "d",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-034",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"\" in \"d\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"\" in \"d\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"\".",
+   "templateName": "d",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "fiveA",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "fiveA",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-037",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-037/83/83dcf802d792effa9bd98ef8a9f610d0.php on line 43\") in \"d\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-037/83/83dcf802d792effa9bd98ef8a9f610d0.php on line 43\") in \"d\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-037/83/83dcf802d792effa9bd98ef8a9f610d0.php on line 43\").",
+   "templateName": "d",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-037/83/83dcf802d792effa9bd98ef8a9f610d0.php on line 43",
+    "formatted": "TypeError: Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-037/83/83dcf802d792effa9bd98ef8a9f610d0.php on line 43",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-038",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-038/34/3443f75e09702c1b229bb05fc5627b55.php on line 43\") in \"d\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-038/34/3443f75e09702c1b229bb05fc5627b55.php on line 43\") in \"d\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-038/34/3443f75e09702c1b229bb05fc5627b55.php on line 43\").",
+   "templateName": "d",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-038/34/3443f75e09702c1b229bb05fc5627b55.php on line 43",
+    "formatted": "TypeError: Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-038/34/3443f75e09702c1b229bb05fc5627b55.php on line 43",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-039",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"\" is not defined in \"d\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"\" is not defined in \"d\" at line 1.",
+   "rawMessage": "Template \"\" is not defined.",
+   "templateName": "d",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-040",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"\" is not defined in \"d\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"\" is not defined in \"d\" at line 1.",
+   "rawMessage": "Template \"\" is not defined.",
+   "templateName": "d",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "[aA]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "[aA]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-043",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-043/1a/1aed0a4f1fe309af2b84a2255ea9ff71.php on line 43\") in \"d\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-043/1a/1aed0a4f1fe309af2b84a2255ea9ff71.php on line 43\") in \"d\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-043/1a/1aed0a4f1fe309af2b84a2255ea9ff71.php on line 43\").",
+   "templateName": "d",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-043/1a/1aed0a4f1fe309af2b84a2255ea9ff71.php on line 43",
+    "formatted": "TypeError: Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-043/1a/1aed0a4f1fe309af2b84a2255ea9ff71.php on line 43",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-044",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undefined_layout\" does not exist in \"d\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undefined_layout\" does not exist in \"d\" at line 1.",
+   "rawMessage": "Variable \"undefined_layout\" does not exist.",
+   "templateName": "d",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "[A]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-046",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"nonexistent\" does not exist in \"l1\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"nonexistent\" does not exist in \"l1\" at line 1.",
+   "rawMessage": "Variable \"nonexistent\" does not exist.",
+   "templateName": "l1",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-047",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"\" is not defined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"\" is not defined in \"index.twig\" at line 1.",
+   "rawMessage": "Template \"\" is not defined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-048",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"\" is not defined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"\" is not defined in \"index.twig\" at line 1.",
+   "rawMessage": "Template \"\" is not defined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-049",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-049/d9/d96cb115af1d7a243d9d30df9f10146d.php on line 47\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-049/d9/d96cb115af1d7a243d9d30df9f10146d.php on line 47\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-049/d9/d96cb115af1d7a243d9d30df9f10146d.php on line 47\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-049/d9/d96cb115af1d7a243d9d30df9f10146d.php on line 47",
+    "formatted": "TypeError: Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-049/d9/d96cb115af1d7a243d9d30df9f10146d.php on line 47",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-050",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-050/be/be182bedc23de50cf14a9165f8137e60.php on line 47\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-050/be/be182bedc23de50cf14a9165f8137e60.php on line 47\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-050/be/be182bedc23de50cf14a9165f8137e60.php on line 47\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-050/be/be182bedc23de50cf14a9165f8137e60.php on line 47",
+    "formatted": "TypeError: Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/inheritance-050/be/be182bedc23de50cf14a9165f8137e60.php on line 47",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "five",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "five",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-053",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"index.twig\" at line 1.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-054",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"index.twig\" at line 1.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-055",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"index.twig\" at line 3.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"index.twig\" at line 3.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "index.twig",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-056",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"index.twig\" at line 3.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"index.twig\" at line 3.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "index.twig",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "parent bob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "parent bob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "parent",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "parent",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "no blocks",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "no blocks",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "AAA",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-064",
+  "kind": "twig",
+  "ok": true,
+  "output": "AAA",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-065",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Block \"nope\" on template \"index.twig\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-066",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Block \"nope\" on template \"index.twig\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-067",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"b\" does not exist in \"b\".",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"b\" does not exist in \"b\".",
+   "rawMessage": "Block \"nope\" on template \"b\" does not exist.",
+   "templateName": "b",
+   "templateLine": 0,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-068",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"b\" does not exist in \"b\".",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"b\" does not exist in \"b\".",
+   "rawMessage": "Block \"nope\" on template \"b\" does not exist.",
+   "templateName": "b",
+   "templateLine": 0,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-069",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"index.twig\" at line 1.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-070",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"index.twig\" at line 1.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-071",
+  "kind": "twig",
+  "ok": true,
+  "output": "L1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-072",
+  "kind": "twig",
+  "ok": true,
+  "output": "L1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-073",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"nope\", \"nope2\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"nope\", \"nope2\" in \"index.twig\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"nope\", \"nope2\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-074",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"nope\", \"nope2\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"nope\", \"nope2\" in \"index.twig\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"nope\", \"nope2\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-075",
+  "kind": "twig",
+  "ok": true,
+  "output": "AAy",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-076",
+  "kind": "twig",
+  "ok": true,
+  "output": "AAy",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-077",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"5\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"5\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Block \"5\" on template \"index.twig\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-078",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"5\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"5\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Block \"5\" on template \"index.twig\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-079",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Block \"\" on template \"index.twig\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "inheritance-080",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Block \"\" on template \"index.twig\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "inheritance-081",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type array in isset or empty\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot access offset of type array in isset or empty\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type array in isset or empty\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot access offset of type array in isset or empty",
+    "formatted": "TypeError: Cannot access offset of type array in isset or empty",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-082",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type array in isset or empty\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot access offset of type array in isset or empty\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot access offset of type array in isset or empty\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot access offset of type array in isset or empty",
+    "formatted": "TypeError: Cannot access offset of type array in isset or empty",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-083",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"1.5\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"1.5\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Block \"1.5\" on template \"index.twig\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "inheritance-084",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"1.5\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"1.5\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Block \"1.5\" on template \"index.twig\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "inheritance-085",
+  "kind": "twig",
+  "ok": true,
+  "output": "An",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "inheritance-086",
+  "kind": "twig",
+  "ok": true,
+  "output": "An",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "inheritance-087",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::renderBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-087/b5/b526f47c302533d65b0cd79fd3634a72.php on line 46\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::renderBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-087/b5/b526f47c302533d65b0cd79fd3634a72.php on line 46\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::renderBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-087/b5/b526f47c302533d65b0cd79fd3634a72.php on line 46\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::renderBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-087/b5/b526f47c302533d65b0cd79fd3634a72.php on line 46",
+    "formatted": "TypeError: Twig\\Template::renderBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-087/b5/b526f47c302533d65b0cd79fd3634a72.php on line 46",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined variable $blocks"
+   }
+  ]
+ },
+ {
+  "id": "inheritance-088",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::renderBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-088/f5/f562a86df31d2a7c39b3c9ef009613d1.php on line 46\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::renderBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-088/f5/f562a86df31d2a7c39b3c9ef009613d1.php on line 46\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::renderBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-088/f5/f562a86df31d2a7c39b3c9ef009613d1.php on line 46\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::renderBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-088/f5/f562a86df31d2a7c39b3c9ef009613d1.php on line 46",
+    "formatted": "TypeError: Twig\\Template::renderBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-088/f5/f562a86df31d2a7c39b3c9ef009613d1.php on line 46",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined variable $blocks"
+   }
+  ]
+ },
+ {
+  "id": "inheritance-089",
+  "kind": "twig",
+  "ok": true,
+  "output": "AB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-090",
+  "kind": "twig",
+  "ok": true,
+  "output": "AB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-091",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::renderParentBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-091/1a/1aada05a67fd0b6bf0825d901061404b.php on line 59\") in \"c\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::renderParentBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-091/1a/1aada05a67fd0b6bf0825d901061404b.php on line 59\") in \"c\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::renderParentBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-091/1a/1aada05a67fd0b6bf0825d901061404b.php on line 59\").",
+   "templateName": "c",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::renderParentBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-091/1a/1aada05a67fd0b6bf0825d901061404b.php on line 59",
+    "formatted": "TypeError: Twig\\Template::renderParentBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-091/1a/1aada05a67fd0b6bf0825d901061404b.php on line 59",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined variable $blocks"
+   }
+  ]
+ },
+ {
+  "id": "inheritance-092",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::renderParentBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-092/a2/a225048364b37d103a01506246ec9904.php on line 59\") in \"c\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::renderParentBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-092/a2/a225048364b37d103a01506246ec9904.php on line 59\") in \"c\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::renderParentBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-092/a2/a225048364b37d103a01506246ec9904.php on line 59\").",
+   "templateName": "c",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::renderParentBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-092/a2/a225048364b37d103a01506246ec9904.php on line 59",
+    "formatted": "TypeError: Twig\\Template::renderParentBlock(): Argument #3 ($blocks) must be of type array, null given, called in /tmp/twig-rs-cache/inheritance-092/a2/a225048364b37d103a01506246ec9904.php on line 59",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined variable $blocks"
+   }
+  ]
+ },
+ {
+  "id": "inheritance-093",
+  "kind": "twig",
+  "ok": true,
+  "output": "<x>|<x>|3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-094",
+  "kind": "twig",
+  "ok": true,
+  "output": "<x>|<x>|3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-095",
+  "kind": "twig",
+  "ok": true,
+  "output": "1110",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-096",
+  "kind": "twig",
+  "ok": true,
+  "output": "1110",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-097",
+  "kind": "twig",
+  "ok": true,
+  "output": "10",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-098",
+  "kind": "twig",
+  "ok": true,
+  "output": "10",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-099",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-100",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-101",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"a\" should not call parent() in \"c\" as the block does not exist in the parent template \"p\" in \"c\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"a\" should not call parent() in \"c\" as the block does not exist in the parent template \"p\" in \"c\" at line 3.",
+   "rawMessage": "Block \"a\" should not call parent() in \"c\" as the block does not exist in the parent template \"p\".",
+   "templateName": "c",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-102",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"a\" should not call parent() in \"c\" as the block does not exist in the parent template \"p\" in \"c\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"a\" should not call parent() in \"c\" as the block does not exist in the parent template \"p\" in \"c\" at line 3.",
+   "rawMessage": "Block \"a\" should not call parent() in \"c\" as the block does not exist in the parent template \"p\".",
+   "templateName": "c",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-103",
+  "kind": "twig",
+  "ok": true,
+  "output": "<1>1<2>2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-104",
+  "kind": "twig",
+  "ok": true,
+  "output": "<1>1<2>2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-105",
+  "kind": "twig",
+  "ok": true,
+  "output": "p:c/p:p",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-106",
+  "kind": "twig",
+  "ok": true,
+  "output": "p:c/p:p",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-107",
+  "kind": "twig",
+  "ok": true,
+  "output": "E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-108",
+  "kind": "twig",
+  "ok": true,
+  "output": "E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-109",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-110",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-111",
+  "kind": "twig",
+  "ok": true,
+  "output": "3210",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-112",
+  "kind": "twig",
+  "ok": true,
+  "output": "3210",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-113",
+  "kind": "twig",
+  "ok": true,
+  "output": "AbobAbob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-114",
+  "kind": "twig",
+  "ok": true,
+  "output": "AbobAbob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-115",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"b\" does not exist in \"b\".",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"b\" does not exist in \"b\".",
+   "rawMessage": "Block \"nope\" on template \"b\" does not exist.",
+   "templateName": "b",
+   "templateLine": 0,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-116",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"b\" does not exist in \"b\".",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"b\" does not exist in \"b\".",
+   "rawMessage": "Block \"nope\" on template \"b\" does not exist.",
+   "templateName": "b",
+   "templateLine": 0,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-117",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"\" on template \"index.twig\" does not exist in \"index.twig\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"\" on template \"index.twig\" does not exist in \"index.twig\" at line 3.",
+   "rawMessage": "Block \"\" on template \"index.twig\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "inheritance-118",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undefined_name\" does not exist in \"index.twig\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undefined_name\" does not exist in \"index.twig\" at line 3.",
+   "rawMessage": "Variable \"undefined_name\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-119",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-120",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"forms\" does not exist in \"c\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"forms\" does not exist in \"c\" at line 1.",
+   "rawMessage": "Variable \"forms\" does not exist.",
+   "templateName": "c",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-121",
+  "kind": "twig",
+  "ok": true,
+  "output": "chi|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-122",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"forms\" does not exist in \"p\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"forms\" does not exist in \"p\" at line 1.",
+   "rawMessage": "Variable \"forms\" does not exist.",
+   "templateName": "p",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-123",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"c\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"c\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "c",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-124",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"c\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"c\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "c",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-125",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"p\" at line 4.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"p\" at line 4.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "p",
+   "templateLine": 4,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-126",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"p\" at line 4.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"p\" at line 4.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "p",
+   "templateLine": 4,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-127",
+  "kind": "twig",
+  "ok": true,
+  "output": "x\nA",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-128",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undefined_var\" does not exist in \"p\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undefined_var\" does not exist in \"p\" at line 3.",
+   "rawMessage": "Variable \"undefined_var\" does not exist.",
+   "templateName": "p",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-129",
+  "kind": "twig",
+  "ok": true,
+  "output": "<P>|<P>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-130",
+  "kind": "twig",
+  "ok": true,
+  "output": "<P>|<P>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-131",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Block \"nope\" on template \"index.twig\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-132",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"index.twig\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Block \"nope\" on template \"index.twig\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-133",
+  "kind": "twig",
+  "ok": true,
+  "output": "AAB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-134",
+  "kind": "twig",
+  "ok": true,
+  "output": "AAB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-135",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-136",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-137",
+  "kind": "twig",
+  "ok": true,
+  "output": "<A>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-138",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"c\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"c\" at line 1.",
+   "rawMessage": "A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it.",
+   "templateName": "c",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-139",
+  "kind": "twig",
+  "ok": true,
+  "output": "B",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "inheritance-140",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"index.twig\" at line 1.",
+   "rawMessage": "A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

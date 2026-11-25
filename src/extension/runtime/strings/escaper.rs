@@ -1,0 +1,425 @@
+//! `Twig\Runtime\EscaperRuntime` (TWIG/src/Runtime/EscaperRuntime.php): the runtime of the `escape` and `e`
+//! filters, with the custom escapers and the safe classes of an environment.
+
+use std::collections::{HashMap, HashSet};
+use std::fmt;
+use std::sync::{Arc, PoisonError, RwLock};
+
+use twig_value::object::{CallArgs, FunctionKind, ObjectRef, Param};
+use twig_value::param::{DeclaredType, TypeMask, UserArg, verify_user_arg};
+use twig_value::{Diagnostics, PhpString, Value, convert};
+
+use super::{Call, CallResult};
+use crate::error::Error;
+use crate::escaper::{self, BUILTIN_STRATEGIES, EscapeError, Strategy, implied_strategies};
+use crate::runtime::Markup;
+
+/// A custom escaper registered with [`EscaperRuntime::set_escaper`]: called with the value to escape and the
+/// charset (the `$charset` argument of the filter, or the runtime's charset), it returns the escaped value.
+///
+/// Twig documents escapers as `callable(string $string, string $charset): string`, but `escape()` passes the value
+/// as it came when it is neither a string nor `Stringable` (an int, `null`, an array, any object), and returns what
+/// the escaper returns. The diagnostics sink receives the PHP warnings and notices the escaper raises.
+pub type EscaperCallback =
+    Arc<dyn Fn(&Value, &PhpString, &mut dyn Diagnostics) -> CallResult + Send + Sync>;
+
+/// The escaper runtime of an environment: Twig's `EscaperRuntime`, created with the charset of the environment,
+/// holding the custom escapers (`setEscaper()`) and the safe classes (`addSafeClass()`), and running the `escape`
+/// and `e` filters ([`escape`](Self::escape)).
+///
+/// It can be shared between threads; the escapers and safe classes can change at any time.
+///
+/// ```ignore
+/// use std::sync::Arc;
+/// use twig::extension::runtime::EscaperRuntime;
+/// use twig::value::{PhpString, Value, convert};
+///
+/// let runtime = EscaperRuntime::new("UTF-8");
+/// runtime.set_escaper("csv", Arc::new(|value, _charset, diag| {
+///     let string = convert::to_string(value, diag)?;
+///     Ok(Value::from(format!("\"{}\"", string.to_string_lossy().replace('"', "\"\""))))
+/// }));
+/// let mut diag = Vec::new();
+/// let escaped = runtime.escape(Value::from("a\"b"), b"csv", None, false, &mut diag)?;
+/// assert_eq!(escaped, Value::from("\"a\"\"b\""));
+/// # Ok::<(), twig::vm::Exception>(())
+/// ```
+pub struct EscaperRuntime {
+    /// Twig's `$charset` (`new EscaperRuntime($charset)`).
+    charset: PhpString,
+    state: RwLock<State>,
+}
+
+/// The mutable part of the runtime.
+#[derive(Default)]
+struct State {
+    /// Twig's `$escapers`, in registration order (a strategy set again keeps its place).
+    escapers: Vec<(PhpString, EscaperCallback)>,
+    /// Twig's `$safeClasses`: the declared strategies per class name, in insertion order (the classes of the
+    /// objects met on the autoescape path are cached here too, with the strategies they inherit).
+    safe_classes: Vec<(String, Vec<PhpString>)>,
+    /// Twig's `$safeLookup`: per strategy, the classes safe for it.
+    safe_lookup: HashMap<PhpString, HashSet<String>>,
+}
+
+impl State {
+    fn safe_class_index(&self, class: &str) -> Option<usize> {
+        self.safe_classes.iter().position(|(name, _)| name == class)
+    }
+
+    /// Twig: `EscaperRuntime::addSafeLookup()`: the class is safe for each strategy and the strategies they imply.
+    fn add_safe_lookup(&mut self, class: &str, strategies: &[PhpString]) {
+        for strategy in strategies {
+            self.safe_lookup
+                .entry(strategy.clone())
+                .or_default()
+                .insert(class.to_owned());
+            for implied in implied_strategies(strategy) {
+                self.safe_lookup
+                    .entry(PhpString::from(*implied))
+                    .or_default()
+                    .insert(class.to_owned());
+            }
+        }
+    }
+
+    fn is_listed(&self, strategy: &[u8], class: &str) -> bool {
+        self.safe_lookup
+            .get(strategy)
+            .is_some_and(|classes| classes.contains(class))
+    }
+}
+
+impl fmt::Debug for EscaperRuntime {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let state = self.state.read().unwrap_or_else(PoisonError::into_inner);
+        f.debug_struct("EscaperRuntime")
+            .field("charset", &self.charset)
+            .field(
+                "escapers",
+                &state
+                    .escapers
+                    .iter()
+                    .map(|(name, _)| name)
+                    .collect::<Vec<_>>(),
+            )
+            .field("safe_classes", &state.safe_classes)
+            .finish()
+    }
+}
+
+impl Default for EscaperRuntime {
+    /// Twig's default charset, `UTF-8`.
+    fn default() -> Self {
+        EscaperRuntime::new("UTF-8")
+    }
+}
+
+/// `in_array($strategy, ['html', 'js', 'css', 'html_attr', 'html_attr_relaxed', 'url'], true)`.
+fn is_builtin(strategy: &[u8]) -> bool {
+    BUILTIN_STRATEGIES
+        .iter()
+        .any(|name| name.as_bytes() == strategy)
+}
+
+impl EscaperRuntime {
+    /// A runtime escaping with `charset` by default. Twig: `new EscaperRuntime($charset)`.
+    pub fn new(charset: impl Into<PhpString>) -> Self {
+        EscaperRuntime {
+            charset: charset.into(),
+            state: RwLock::new(State::default()),
+        }
+    }
+}
+
+// The configuration API: the environment does not own a runtime yet, so only the tests call it.
+#[allow(dead_code)]
+impl EscaperRuntime {
+    /// The default charset.
+    pub fn charset(&self) -> PhpString {
+        self.charset.clone()
+    }
+
+    fn read(&self) -> std::sync::RwLockReadGuard<'_, State> {
+        self.state.read().unwrap_or_else(PoisonError::into_inner)
+    }
+
+    fn write(&self) -> std::sync::RwLockWriteGuard<'_, State> {
+        self.state.write().unwrap_or_else(PoisonError::into_inner)
+    }
+
+    /// Defines the escaper of a strategy. The built-in strategies (`html`, `js`, `css`, `html_attr`,
+    /// `html_attr_relaxed`, `url`) cannot be replaced: `escape()` handles them first.
+    ///
+    /// Twig: `EscaperRuntime::setEscaper($strategy, callable $callable)`.
+    pub fn set_escaper(&self, strategy: impl Into<PhpString>, escaper: EscaperCallback) {
+        let strategy = strategy.into();
+        let mut state = self.write();
+        match state
+            .escapers
+            .iter_mut()
+            .find(|(name, _)| *name == strategy)
+        {
+            Some(entry) => entry.1 = escaper,
+            None => state.escapers.push((strategy, escaper)),
+        }
+    }
+
+    /// The custom escapers, in registration order. Twig: `EscaperRuntime::getEscapers()`.
+    pub fn escapers(&self) -> Vec<(PhpString, EscaperCallback)> {
+        self.read().escapers.clone()
+    }
+
+    /// Replaces the safe classes. Twig: `EscaperRuntime::setSafeClasses(array $safeClasses)`.
+    pub fn set_safe_classes<C, S, I>(&self, classes: impl IntoIterator<Item = (C, I)>)
+    where
+        C: AsRef<str>,
+        S: Into<PhpString>,
+        I: IntoIterator<Item = S>,
+    {
+        {
+            let mut state = self.write();
+            state.safe_classes.clear();
+            state.safe_lookup.clear();
+        }
+        for (class, strategies) in classes {
+            self.add_safe_class(class.as_ref(), strategies);
+        }
+    }
+
+    /// Declares that the objects of `class` (a class or an interface; a leading `\` is ignored) are safe for
+    /// `strategies` when they are auto-escaped (printed with `{{ }}`); `html_attr` implies `html_attr_relaxed` and
+    /// `html`, `html_attr_relaxed` implies `html`, `all` covers every strategy. Subclasses and implementations
+    /// inherit the declaration when one of their objects is first auto-escaped. The `escape` filter called
+    /// explicitly always escapes.
+    ///
+    /// Twig: `EscaperRuntime::addSafeClass(string $class, array $strategies)`.
+    pub fn add_safe_class<S: Into<PhpString>>(
+        &self,
+        class: &str,
+        strategies: impl IntoIterator<Item = S>,
+    ) {
+        let class = class.trim_start_matches('\\');
+        let strategies: Vec<PhpString> = strategies.into_iter().map(Into::into).collect();
+        let mut state = self.write();
+        match state.safe_class_index(class) {
+            Some(index) => state.safe_classes[index]
+                .1
+                .extend(strategies.iter().cloned()),
+            None => state
+                .safe_classes
+                .push((class.to_owned(), strategies.clone())),
+        }
+        state.add_safe_lookup(class, &strategies);
+    }
+
+    /// The safe classes with their strategies, in insertion order: the declared ones and the classes of the objects
+    /// auto-escaped so far (with what they inherited). Twig: the internal `EscaperRuntime::$safeClasses`.
+    pub fn safe_classes(&self) -> Vec<(String, Vec<PhpString>)> {
+        self.read().safe_classes.clone()
+    }
+}
+
+impl EscaperRuntime {
+    /// Whether an object's class is safe for `strategy` on the autoescape path: the class inherits the strategies
+    /// of its parents and interfaces the first time it is met, then the lookup table decides.
+    fn is_safe_object(&self, object: &ObjectRef, strategy: &[u8]) -> bool {
+        let class = object.class();
+        let name = class.name();
+        let mut state = self.write();
+        if state.safe_class_index(name).is_none() {
+            let own = state.safe_classes.len();
+            state.safe_classes.push((name.to_owned(), Vec::new()));
+            // `class_parents($string) + class_implements($string)`: parents nearest first, then interfaces
+            let ancestors = class
+                .parents()
+                .into_iter()
+                .chain(class.interfaces().iter().cloned());
+            for ancestor in ancestors {
+                let Some(index) = state.safe_class_index(ancestor.name()) else {
+                    continue;
+                };
+                let inherited = state.safe_classes[index].1.clone();
+                // `array_unique(array_merge($this->safeClasses[$c], $this->safeClasses[$class]))`
+                let merged = &mut state.safe_classes[own].1;
+                for strategy in &inherited {
+                    if !merged.contains(strategy) {
+                        merged.push(strategy.clone());
+                    }
+                }
+                state.add_safe_lookup(name, &inherited);
+            }
+        }
+        state.is_listed(strategy, name) || state.is_listed(b"all", name)
+    }
+
+    /// The escaper of a custom strategy.
+    fn escaper(&self, strategy: &[u8]) -> Option<EscaperCallback> {
+        self.read()
+            .escapers
+            .iter()
+            .find(|(name, _)| name.as_bytes() == strategy)
+            .map(|(_, escaper)| Arc::clone(escaper))
+    }
+
+    /// Escapes a value. `charset` `None`, `""` or `"0"` stands for the runtime's charset; `autoescape` tells that
+    /// the call comes from auto-escaping (`{{ }}`) rather than from an explicit filter.
+    ///
+    /// Twig: `EscaperRuntime::escape($string, string $strategy = 'html', ?string $charset = null, bool $autoescape =
+    /// false)` (reference/twig/core-extension.md §3.2):
+    ///
+    /// - with `autoescape`, a [`Markup`] safe for the strategy is returned as is, other markup is escaped as a
+    ///   string;
+    /// - a value that is not a string: a `Stringable` object is converted (with `autoescape`, an object of a safe
+    ///   class is returned converted but unescaped); with a built-in strategy anything else is returned as is (ints,
+    ///   floats, bools, `null`, arrays, objects), with a custom strategy it goes to the escaper unconverted;
+    /// - `''` is returned before the strategy is looked at;
+    /// - the built-in strategies are [`escaper::escape`]; a failed `iconv()` gives `false`.
+    ///
+    /// # Errors
+    ///
+    /// `RuntimeError`s `Invalid escaping strategy "%s" (valid ones: "%s").` and `The string to escape is not a valid
+    /// UTF-8 string.`; what `__toString()`, `Markup::isSafeFor()` or a custom escaper throws; PHP diagnostics the
+    /// sink turns into exceptions.
+    pub fn escape(
+        &self,
+        value: Value,
+        strategy: &[u8],
+        charset: Option<&[u8]>,
+        autoescape: bool,
+        diag: &mut dyn Diagnostics,
+    ) -> CallResult {
+        if autoescape
+            && let Value::Object(object) = &value
+            && Markup::is_markup(object)
+        {
+            let safe = object.call_method(
+                "isSafeFor",
+                CallArgs::from(vec![Value::from(strategy)]),
+                diag,
+            )?;
+            if convert::to_bool(&safe, diag)? {
+                return Ok(value);
+            }
+            let content = object.to_php_string(diag)?;
+            return self.escape(Value::String(content), strategy, charset, false, diag);
+        }
+        let value = match value {
+            Value::String(_) => value,
+            Value::Object(object) if object.instance_of("Stringable") => {
+                if autoescape && self.is_safe_object(&object, strategy) {
+                    return Ok(Value::String(object.to_php_string(diag)?));
+                }
+                Value::String(object.to_php_string(diag)?)
+            }
+            // we return the input as is (which can be of any type)
+            other if is_builtin(strategy) => return Ok(other),
+            other => other,
+        };
+        if value.as_str().is_some_and(PhpString::is_empty) {
+            return Ok(value);
+        }
+        // `$charset ?: $this->charset`: null, '' and '0' fall back
+        let charset = match charset {
+            Some(charset) if !charset.is_empty() && charset != b"0" => charset,
+            _ => self.charset.as_bytes(),
+        };
+        if let Some(builtin) = Strategy::from_name(strategy) {
+            let Value::String(string) = &value else {
+                // non-strings returned above
+                return Ok(value);
+            };
+            return match escaper::escape(string, builtin, charset, diag) {
+                Ok(Some(escaped)) => Ok(Value::String(escaped)),
+                // a failed `iconv()` returned `false` (after its warning or notice)
+                Ok(None) => Ok(Value::Bool(false)),
+                Err(EscapeError::InvalidUtf8) => {
+                    Err(Error::runtime(escaper::INVALID_UTF8_MESSAGE).into())
+                }
+                Err(EscapeError::Php(error)) => Err(error.into()),
+            };
+        }
+        if let Some(escaper) = self.escaper(strategy) {
+            return escaper(&value, &PhpString::from(charset), diag);
+        }
+        let custom: Vec<PhpString> = self
+            .read()
+            .escapers
+            .iter()
+            .map(|(name, _)| name.clone())
+            .collect();
+        Err(Error::runtime(escaper::invalid_strategy_message(
+            strategy,
+            custom.iter().map(PhpString::as_bytes),
+        ))
+        .into())
+    }
+}
+
+#[cfg(test)]
+mod tests;
+
+/// The PHP name of the escape runtime method, used in its argument errors.
+const ESCAPE: &str = "Twig\\Runtime\\EscaperRuntime::escape";
+
+/// The escaper runtime of the environment running the call: Twig's `$this->env->getRuntime(EscaperRuntime::class)`,
+/// created with the charset of the environment when a template first escapes.
+///
+/// The environment does not keep an `EscaperRuntime` yet (it only remembers the charset of its first use), so each
+/// call gets a runtime without custom escapers or safe classes.
+fn environment_runtime(call: &Call<'_>) -> Arc<EscaperRuntime> {
+    Arc::new(EscaperRuntime::new(call.env().escaper_charset()))
+}
+
+/// The runtime of the `escape` and `e` filters: Twig's `EscaperRuntime::escape()` called on the environment's
+/// runtime.
+pub(super) fn escape(call: &mut Call<'_>) -> CallResult {
+    // the runtime (and its charset) exists before the arguments are checked
+    let runtime = environment_runtime(call);
+    escape_with(&runtime, call)
+}
+
+/// `$runtime->escape(...)` with the arguments of a call: the typed parameters (`string $strategy = 'html'`,
+/// `?string $charset = null`, `bool $autoescape = false`) are checked in order like PHP does for a userland method
+/// (extra arguments are ignored).
+fn escape_with(runtime: &EscaperRuntime, call: &mut Call<'_>) -> CallResult {
+    let args = call.bind(
+        ESCAPE,
+        &[
+            Param::required("string"),
+            Param::optional("strategy", "html"),
+            Param::optional("charset", Value::Null),
+            Param::optional("autoescape", false),
+        ],
+        FunctionKind::User,
+    )?;
+    let mut args = args.into_iter();
+    let value = args.next().unwrap_or_default();
+    let diag = call.diagnostics();
+    let strategy = match verify_user_arg(
+        args.next().unwrap_or_default(),
+        &DeclaredType::builtin(TypeMask::STRING),
+        &UserArg::new(ESCAPE, 2, "strategy"),
+        diag,
+    )? {
+        Value::String(strategy) => strategy,
+        other => convert::to_string(&other, diag)?,
+    };
+    let charset = match verify_user_arg(
+        args.next().unwrap_or_default(),
+        &DeclaredType::builtin(TypeMask::STRING | TypeMask::NULL),
+        &UserArg::new(ESCAPE, 3, "charset"),
+        diag,
+    )? {
+        Value::String(charset) => Some(charset),
+        _ => None,
+    };
+    let autoescape = verify_user_arg(
+        args.next().unwrap_or_default(),
+        &DeclaredType::builtin(TypeMask::BOOL),
+        &UserArg::new(ESCAPE, 4, "autoescape"),
+        diag,
+    )?;
+    let autoescape = matches!(autoescape, Value::Bool(true));
+    runtime.escape(value, &strategy, charset.as_deref(), autoescape, diag)
+}

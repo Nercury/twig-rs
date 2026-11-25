@@ -1,0 +1,279 @@
+[
+ {
+  "id": "errors-001",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"batch\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"batch\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 2.",
+   "rawMessage": "The \"batch\" filter expects a sequence or a mapping, got \"string\".",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-002",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"string\" for argument 3 in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"string\" for argument 3 in \"index.twig\" at line 1.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"string\" for argument 3.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "bab",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-004",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"sort\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"sort\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 3.",
+   "rawMessage": "The \"sort\" filter expects a sequence or a mapping, got \"string\".",
+   "templateName": "index.twig",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-005",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Impossible to access an attribute (\"nope\") on a int variable (\"3\") in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Impossible to access an attribute (\"nope\") on a int variable (\"3\") in \"index.twig\" at line 2.",
+   "rawMessage": "Impossible to access an attribute (\"nope\") on a int variable (\"3\").",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-006",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-007",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-008",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-009",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-010",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-011",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-012",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"max(): Argument #1 ($value) must be of type array, int given\") in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"max(): Argument #1 ($value) must be of type array, int given\") in \"index.twig\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"max(): Argument #1 ($value) must be of type array, int given\").",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "max(): Argument #1 ($value) must be of type array, int given",
+    "formatted": "TypeError: max(): Argument #1 ($value) must be of type array, int given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "errors-013",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "1103",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-015",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"random\" function cannot pick from an empty sequence or mapping in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"random\" function cannot pick from an empty sequence or mapping in \"index.twig\" at line 1.",
+   "rawMessage": "The \"random\" function cannot pick from an empty sequence or mapping.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-016",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"cycle\" function expects a non-empty sequence in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"cycle\" function expects a non-empty sequence in \"index.twig\" at line 1.",
+   "rawMessage": "The \"cycle\" function expects a non-empty sequence.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

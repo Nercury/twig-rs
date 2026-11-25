@@ -1,0 +1,741 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "{{ random(0) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(5, 5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(-3, -3) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-003"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random('a') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random({a: 9}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-005"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ random('') }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random([]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random({}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(10, 5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(2.9, 2.9) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(true) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-011"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ random(false) }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(null, 0) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(null, -1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(null, 'abc') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(null, '0') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-016"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(-2.5, -2.5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-017"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(0.9) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-018"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(-0.5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-019"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(1, '1') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-020"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(1, [1]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-021"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random('é') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-022"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random('ééé') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-023"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(b) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "b": {
+     "$bytes": "ff"
+    }
+   },
+   "data_php": "return ['b' => hex2bin('ff')];",
+   "id": "random-024"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(b) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "b": {
+     "$bytes": "61ff"
+    }
+   },
+   "data_php": "return ['b' => hex2bin('61ff')];",
+   "id": "random-025"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(a) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "a": {
+     "$arrayobject": [
+      "x"
+     ]
+    }
+   },
+   "data_php": "return ['a' => new \\ArrayObject(['x'])];",
+   "id": "random-026"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(a) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "a": {
+     "$arrayobject": []
+    }
+   },
+   "data_php": "return ['a' => new \\ArrayObject([])];",
+   "id": "random-027"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(o) is same as(o) ? 'same' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "o": {
+     "$object": "TwigRsPlain"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsPlain()];",
+   "id": "random-028"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(m) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "m": {
+     "$markup": "q"
+    }
+   },
+   "data_php": "return ['m' => new \\Twig\\Markup('q', 'UTF-8')];",
+   "id": "random-029"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random([1, 2, 3]) in [1, 2, 3] ? 'ok' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-030"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(10) <= 10 and random(10) >= 0 ? 'ok' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-031"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random() >= 0 ? 'ok' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-032"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random('abc') in 'abc' ? 'ok' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-033"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(values=[7]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-034"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(max=0) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-035"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(7, max=7) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-036"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(...{values: 'z'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-037"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(...{charset: 'x'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-038"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(...{nope: 1}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-039"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(1, 1, 'extra') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-040"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(9223372036854775807, 9223372036854775807) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-041"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(-9223372036854775807 - 1, -9223372036854775807 - 1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "random-042"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(x) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "NAN"
+    }
+   },
+   "data_php": "return ['x' => NAN];",
+   "id": "random-043"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(x, x) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "INF"
+    }
+   },
+   "data_php": "return ['x' => INF];",
+   "id": "random-044"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random('a') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false,
+    "charset": "ISO-8859-1"
+   },
+   "errors": "collect",
+   "id": "random-045"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(b) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false,
+    "charset": "ISO-8859-1"
+   },
+   "errors": "collect",
+   "data": {
+    "b": {
+     "$bytes": "e9"
+    }
+   },
+   "data_php": "return ['b' => hex2bin('e9')];",
+   "id": "random-046"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(b) in 'abc' ? 'ok' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false,
+    "charset": "ISO-8859-1"
+   },
+   "errors": "collect",
+   "data": {
+    "b": {
+     "$bytes": "616263"
+    }
+   },
+   "data_php": "return ['b' => hex2bin('616263')];",
+   "id": "random-047"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(b) in b ? 'ok' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false,
+    "charset": "ISO-8859-1"
+   },
+   "errors": "collect",
+   "data": {
+    "b": {
+     "$bytes": "c3a9"
+    }
+   },
+   "data_php": "return ['b' => hex2bin('c3a9')];",
+   "id": "random-048"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(b) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false,
+    "charset": "KOI8-U"
+   },
+   "errors": "collect",
+   "data": {
+    "b": {
+     "$bytes": "e9"
+    }
+   },
+   "data_php": "return ['b' => hex2bin('e9')];",
+   "id": "random-049"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(b) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false,
+    "charset": "NOPE"
+   },
+   "errors": "collect",
+   "data": {
+    "b": {
+     "$bytes": "e9"
+    }
+   },
+   "data_php": "return ['b' => hex2bin('e9')];",
+   "id": "random-050"
+  }
+ ],
+ "isolation": "none"
+}

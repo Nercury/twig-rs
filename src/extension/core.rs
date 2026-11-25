@@ -2,12 +2,13 @@
 //! (TWIG/src/Extension/CoreExtension.php, TWIG/src/Extension/EscaperExtension.php).
 //!
 //! Every filter, function and test with its options and the full PHP parameter list of its callable (dumped from
-//! the oracle with `Twig\Util\ReflectionCallable`), every operator, the core tags and the
-//! `CorrectnessNodeVisitor`; runtime implementations fill the callables' runtime slots later, and the escaper's
-//! visitor comes with the escaper stage.
+//! the oracle with `Twig\Util\ReflectionCallable`), every operator, the core tags, the `CorrectnessNodeVisitor`
+//! and the escaper's default strategy; runtime implementations fill the callables' runtime slots later.
 
 use std::any::Any;
-use std::sync::Arc;
+use std::collections::{HashMap, VecDeque};
+use std::fmt;
+use std::sync::{Arc, Mutex, PoisonError, RwLock};
 
 use super::callable::{
     CallableParameter as P, DeprecatedCallableInfo, FilterNodeClass, FilterOptions,
@@ -16,6 +17,8 @@ use super::callable::{
 };
 use super::{Extension, NodeVisitor, TokenParser};
 use crate::ast::{Arguments, BinaryOp, ConstantValue as V, ExprKind, UnaryOp};
+use crate::error::Result;
+use crate::escaper::{self, DefaultStrategy, DefaultStrategyCallback};
 use crate::parser::callables;
 use crate::parser::expression::infix::{
     ArrowExpressionParser, AssignmentExpressionParser, BinaryOperatorExpressionParser,
@@ -761,17 +764,144 @@ impl Extension for CoreExtension {
     }
 }
 
-/// `Twig\Extension\EscaperExtension`: the `autoescape` tag and the `escape`, `e` and `raw` filters (the escaper
-/// visitor and the default strategy come with the escaper stage).
-#[derive(Debug, Default)]
+/// `Twig\Extension\EscaperExtension`: the `autoescape` tag, the `escape`, `e` and `raw` filters and the default
+/// escaping strategy of templates, which the [`EscaperNodeVisitor`](crate::visitor::EscaperNodeVisitor) reads.
+///
+/// The default strategy can be changed at any time ([`set_default_strategy`](Self::set_default_strategy)); it is
+/// resolved per template name when a template is compiled ([`default_strategy`](Self::default_strategy)).
+///
+/// Twig's extension also registers the `EscaperNodeVisitor` (`getNodeVisitors()`). The parser stage's extension set
+/// ([`ExtensionSet::with_core_extensions`](super::ExtensionSet::with_core_extensions)) does not run it yet; until
+/// then the visitor is added to an extension set explicitly.
 pub struct EscaperExtension {
-    _private: (),
+    /// Twig's `$defaultStrategy`.
+    default_strategy: RwLock<ConfiguredStrategy>,
+    /// Twig's `$resolvedDefaultStrategies`.
+    resolved: Mutex<ResolvedStrategies>,
+}
+
+/// Twig: `EscaperExtension::MAX_RESOLVED_DEFAULT_STRATEGIES`.
+const MAX_RESOLVED_DEFAULT_STRATEGIES: usize = 1000;
+
+/// The default strategy as `setDefaultStrategy()` stores it.
+#[derive(Clone)]
+enum ConfiguredStrategy {
+    /// A string or `false`.
+    Value(V),
+    /// `'name'`: `[FileExtensionEscapingStrategy::class, 'guess']`.
+    Guess,
+    /// Any other callable.
+    Callback(DefaultStrategyCallback),
+}
+
+/// The strategies resolved per template name, in insertion order.
+#[derive(Default)]
+struct ResolvedStrategies {
+    values: HashMap<String, V>,
+    order: VecDeque<String>,
 }
 
 impl EscaperExtension {
-    /// The escaper extension.
+    /// The escaper extension with Twig's default strategy, `html`. Twig: `new EscaperExtension()`.
     pub fn new() -> Self {
-        EscaperExtension::default()
+        EscaperExtension::with_default_strategy(DefaultStrategy::html())
+    }
+
+    /// The escaper extension with the given default strategy (the `autoescape` option of the environment).
+    /// Twig: `new EscaperExtension($defaultStrategy)`.
+    pub fn with_default_strategy(strategy: DefaultStrategy) -> Self {
+        EscaperExtension {
+            default_strategy: RwLock::new(configure(strategy)),
+            resolved: Mutex::new(ResolvedStrategies::default()),
+        }
+    }
+
+    /// Sets the default strategy and forgets the strategies already resolved; `DefaultStrategy::Strategy("name")`
+    /// selects [`escaper::guess`]. Twig: `EscaperExtension::setDefaultStrategy()`.
+    pub fn set_default_strategy(&self, strategy: DefaultStrategy) {
+        let configured = configure(strategy);
+        *self
+            .default_strategy
+            .write()
+            .unwrap_or_else(PoisonError::into_inner) = configured;
+        let mut resolved = self.resolved.lock().unwrap_or_else(PoisonError::into_inner);
+        resolved.values.clear();
+        resolved.order.clear();
+    }
+
+    /// The default strategy of the template `name`: a strategy name, `false`, or whatever a callback returned.
+    /// Results are remembered per name (the 1000 most recent names), so a callback runs once per template name.
+    ///
+    /// Twig: `EscaperExtension::getDefaultStrategy()`.
+    ///
+    /// # Errors
+    ///
+    /// The error of a callback.
+    pub fn default_strategy(&self, name: &str) -> Result<V> {
+        {
+            let mut resolved = self.resolved.lock().unwrap_or_else(PoisonError::into_inner);
+            if let Some(strategy) = resolved.values.get(name) {
+                return Ok(strategy.clone());
+            }
+            if resolved.values.len() >= MAX_RESOLVED_DEFAULT_STRATEGIES
+                && let Some(first) = resolved.order.pop_front()
+            {
+                resolved.values.remove(&first);
+            }
+        }
+        let configured = self
+            .default_strategy
+            .read()
+            .unwrap_or_else(PoisonError::into_inner)
+            .clone();
+        // string callables are disabled: only `'name'` or a callback is called
+        let strategy = match configured {
+            ConfiguredStrategy::Value(value) => value,
+            ConfiguredStrategy::Guess => escaper::guess(name).map_or(V::Bool(false), V::from),
+            ConfiguredStrategy::Callback(callback) => callback(name)?,
+        };
+        let mut resolved = self.resolved.lock().unwrap_or_else(PoisonError::into_inner);
+        if resolved
+            .values
+            .insert(name.to_owned(), strategy.clone())
+            .is_none()
+        {
+            resolved.order.push_back(name.to_owned());
+        }
+        Ok(strategy)
+    }
+}
+
+impl Default for EscaperExtension {
+    fn default() -> Self {
+        EscaperExtension::new()
+    }
+}
+
+impl fmt::Debug for EscaperExtension {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let strategy = match &*self
+            .default_strategy
+            .read()
+            .unwrap_or_else(PoisonError::into_inner)
+        {
+            ConfiguredStrategy::Value(value) => format!("{value:?}"),
+            ConfiguredStrategy::Guess => "name".to_owned(),
+            ConfiguredStrategy::Callback(_) => "callback".to_owned(),
+        };
+        f.debug_struct("EscaperExtension")
+            .field("default_strategy", &strategy)
+            .finish_non_exhaustive()
+    }
+}
+
+/// The conversion of `setDefaultStrategy()`: `'name'` becomes the file-extension guesser.
+fn configure(strategy: DefaultStrategy) -> ConfiguredStrategy {
+    match strategy {
+        DefaultStrategy::Strategy(name) if name == "name" => ConfiguredStrategy::Guess,
+        DefaultStrategy::Strategy(name) => ConfiguredStrategy::Value(V::String(name.into_bytes())),
+        DefaultStrategy::Disabled => ConfiguredStrategy::Value(V::Bool(false)),
+        DefaultStrategy::Callback(callback) => ConfiguredStrategy::Callback(callback),
     }
 }
 

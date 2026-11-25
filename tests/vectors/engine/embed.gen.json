@@ -1,0 +1,2798 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "embed.twig": "{% embed 'base.twig' with {v: 1} %}{% block content %}E{{ v }}{{ parent() }}{% endblock %}{% endembed %}",
+    "base.twig": "<{% block content %}base{% endblock %}>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-001"
+   },
+   "errors": "collect",
+   "main": "embed.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-001"
+  },
+  {
+   "templates": {
+    "embed.twig": "{% embed 'base.twig' with {v: 1} %}{% block content %}E{{ v }}{{ parent() }}{% endblock %}{% endembed %}",
+    "base.twig": "<{% block content %}base{% endblock %}>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-002"
+   },
+   "errors": "collect",
+   "main": "embed.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-002"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% endembed %}|{% embed 'b' %}{% block x %}X{% endblock %}{% endembed %}",
+    "b": "[{% block x %}bx{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-003"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-003"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% endembed %}|{% embed 'b' %}{% block x %}X{% endblock %}{% endembed %}",
+    "b": "[{% block x %}bx{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-004"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-004"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' only %}{% block x %}{{ name ?? 'none' }}{% endblock %}{% endembed %}",
+    "b": "[{% block x %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-005"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-005"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' only %}{% block x %}{{ name ?? 'none' }}{% endblock %}{% endembed %}",
+    "b": "[{% block x %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-006"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-006"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' with {z: 1} only %}{% block x %}{{ _context|keys|join(',') }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-007"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-007"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' with {z: 1} only %}{% block x %}{{ _context|keys|join(',') }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-008"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-008"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' with {z: 1} %}{% block x %}{{ _context|keys|join(',') }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-009"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-009"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' with {z: 1} %}{% block x %}{{ _context|keys|join(',') }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-010"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-010"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' with {5: 'five'} %}{% block x %}{{ _context|keys|join(',') }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-011"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-011"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' with {5: 'five'} %}{% block x %}{{ _context|keys|join(',') }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-012"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-012"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'missing' ignore missing %}{% block x %}X{% endblock %}{% endembed %}ok"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-013"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-013"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'missing' ignore missing %}{% block x %}X{% endblock %}{% endembed %}ok"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-014"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-014"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' ignore missing %}{% block x %}X{% endblock %}{% endembed %}ok",
+    "b": "[{% block x %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-015"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-015"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' ignore missing %}{% block x %}X{% endblock %}{% endembed %}ok",
+    "b": "[{% block x %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-016"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-016"
+  },
+  {
+   "templates": {
+    "e": "\n{% embed 'missing' %}{% block x %}X{% endblock %}{% endembed %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-017"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-017"
+  },
+  {
+   "templates": {
+    "e": "\n{% embed 'missing' %}{% block x %}X{% endblock %}{% endembed %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-018"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-018"
+  },
+  {
+   "templates": {
+    "e": "{% embed layout ignore missing %}{% block a %}A{% endblock %}{% endembed %}|",
+    "l1": "[{% block a %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-019"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-019"
+  },
+  {
+   "templates": {
+    "e": "{% embed layout ignore missing %}{% block a %}A{% endblock %}{% endembed %}|",
+    "l1": "[{% block a %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-020"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-020"
+  },
+  {
+   "templates": {
+    "e": "{% embed nope ignore missing %}{% block a %}A{% endblock %}{% endembed %}|"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-021"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-021"
+  },
+  {
+   "templates": {
+    "e": "{% embed nope ignore missing %}{% block a %}A{% endblock %}{% endembed %}|"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-022"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-022"
+  },
+  {
+   "templates": {
+    "e": "{% embed layouts %}{% block a %}A{% endblock %}{% endembed %}",
+    "l1": "[{% block a %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-023"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-023"
+  },
+  {
+   "templates": {
+    "e": "{% embed layouts %}{% block a %}A{% endblock %}{% endembed %}",
+    "l1": "[{% block a %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-024"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-024"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' with 5 %}{% endembed %}",
+    "b": "b"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-025"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-025"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' with 5 %}{% endembed %}",
+    "b": "b"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-026"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-026"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' with 5 only %}{% endembed %}",
+    "b": "b"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-027"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-027"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' with 5 only %}{% endembed %}",
+    "b": "b"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-028"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-028"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% block x %}({% embed 'c' %}{% block y %}Y{{ parent() }}{% endblock %}{% endembed %}){% endblock %}{% endembed %}",
+    "b": "[{% block x %}{% endblock %}]",
+    "c": "<{% block y %}cy{% endblock %}>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-029"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-029"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% block x %}({% embed 'c' %}{% block y %}Y{{ parent() }}{% endblock %}{% endembed %}){% endblock %}{% endembed %}",
+    "b": "[{% block x %}{% endblock %}]",
+    "c": "<{% block y %}cy{% endblock %}>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-030"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-030"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% block x %}1{% endblock %}{% endembed %}{% embed 'b' %}{% block x %}2{% endblock %}{% endembed %}",
+    "b": "[{% block x %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-031"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-031"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% block x %}1{% endblock %}{% endembed %}{% embed 'b' %}{% block x %}2{% endblock %}{% endembed %}",
+    "b": "[{% block x %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-032"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-032"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% block x %}{{ _self }}{% endblock %}{% endembed %}",
+    "b": "{{ _self }}{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-033"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-033"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% block x %}{{ _self }}{% endblock %}{% endembed %}",
+    "b": "{{ _self }}{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-034"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-034"
+  },
+  {
+   "templates": {
+    "e": "{% import _self as m %}{% macro hi() %}hi{% endmacro %}{% embed 'b' %}{% block x %}{{ m.hi() }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-035"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-035"
+  },
+  {
+   "templates": {
+    "e": "{% import _self as m %}{% macro hi() %}hi{% endmacro %}{% embed 'b' %}{% block x %}{{ m.hi() }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-036"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-036"
+  },
+  {
+   "templates": {
+    "e": "{% macro hi() %}hi{% endmacro %}{% embed 'b' %}{% import _self as m %}{% block x %}{{ m.hi() }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-037"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-037"
+  },
+  {
+   "templates": {
+    "e": "{% macro hi() %}hi{% endmacro %}{% embed 'b' %}{% import _self as m %}{% block x %}{{ m.hi() }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-038"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-038"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% macro hi() %}ehi{% endmacro %}{% block x %}{{ _self.hi() }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-039"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-039"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% macro hi() %}ehi{% endmacro %}{% block x %}{{ _self.hi() }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-040"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-040"
+  },
+  {
+   "templates": {
+    "e": "{% for i in items %}{% embed 'b' %}{% block x %}{{ i }}{{ loop.index }}{% endblock %}{% endembed %}{% endfor %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-041"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-041"
+  },
+  {
+   "templates": {
+    "e": "{% for i in items %}{% embed 'b' %}{% block x %}{{ i }}{{ loop.index }}{% endblock %}{% endembed %}{% endfor %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-042"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-042"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% block x %}{{ block('y') }}{% endblock %}{% block y %}Y{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-043"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-043"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% block x %}{{ block('y') }}{% endblock %}{% block y %}Y{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-044"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-044"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'p' %}{% block a %}E+{{ parent() }}{% endblock %}{% endembed %}",
+    "p": "{% extends 'g' %}{% block a %}P+{{ parent() }}{% endblock %}",
+    "g": "<{% block a %}G{% endblock %}>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-045"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-045"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'p' %}{% block a %}E+{{ parent() }}{% endblock %}{% endembed %}",
+    "p": "{% extends 'g' %}{% block a %}P+{{ parent() }}{% endblock %}",
+    "g": "<{% block a %}G{% endblock %}>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-046"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-046"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}{% embed 'b' %}{% block x %}cx{% endblock %}{% endembed %}{% endblock %}",
+    "p": "[{% block a %}{% endblock %}]",
+    "b": "<{% block x %}{% endblock %}>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-047"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-047"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}{% embed 'b' %}{% block x %}cx{% endblock %}{% endembed %}{% endblock %}",
+    "p": "[{% block a %}{% endblock %}]",
+    "b": "<{% block x %}{% endblock %}>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-048"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-048"
+  },
+  {
+   "templates": {
+    "e": "{% macro m() %}{% embed 'b' %}{% block x %}mx{% endblock %}{% endembed %}{% endmacro %}{{ _self.m() }}",
+    "b": "<{% block x %}{% endblock %}>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-049"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-049"
+  },
+  {
+   "templates": {
+    "e": "{% macro m() %}{% embed 'b' %}{% block x %}mx{% endblock %}{% endembed %}{% endmacro %}{{ _self.m() }}",
+    "b": "<{% block x %}{% endblock %}>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-050"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-050"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}\n{% block x %}\n{{ 1 // 0 }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-051"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-051"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}\n{% block x %}\n{{ 1 // 0 }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-052"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-052"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% block x %}\n{{ undefined_var }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-053"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-053"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% block x %}\n{{ undefined_var }}{% endblock %}{% endembed %}",
+    "b": "{% block x %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-054"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-054"
+  },
+  {
+   "templates": {
+    "e": "x\n{% embed 'b' %}{% endembed %}",
+    "b": "{% block x %}\n{{ undefined_var }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-055"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-055"
+  },
+  {
+   "templates": {
+    "e": "x\n{% embed 'b' %}{% endembed %}",
+    "b": "{% block x %}\n{{ undefined_var }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/embed-056"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-056"
+  },
+  {
+   "templates": {
+    "e": "{% embed 'b' %}{% block x %}{{ parent() }}!{% endblock %}{% endembed %}",
+    "b": "[{% block x %}bx{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/embed-057"
+   },
+   "errors": "collect",
+   "main": "e",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "embed-057"
+  }
+ ],
+ "isolation": "process"
+}

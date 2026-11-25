@@ -1,0 +1,1278 @@
+[
+ {
+  "id": "functions-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"e\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"banana\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"10\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"abc\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"A\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"0\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-021",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"max(): Argument #1 ($value) must be of type array, int given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"max(): Argument #1 ($value) must be of type array, int given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"max(): Argument #1 ($value) must be of type array, int given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "max(): Argument #1 ($value) must be of type array, int given",
+    "formatted": "TypeError: max(): Argument #1 ($value) must be of type array, int given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-022",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"max(): Argument #1 ($value) must contain at least one element\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"max(): Argument #1 ($value) must contain at least one element\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"max(): Argument #1 ($value) must contain at least one element\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "max(): Argument #1 ($value) must contain at least one element",
+    "formatted": "ValueError: max(): Argument #1 ($value) must contain at least one element",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"max() expects at least 1 argument, 0 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"max() expects at least 1 argument, 0 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"max() expects at least 1 argument, 0 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "max() expects at least 1 argument, 0 given",
+    "formatted": "ArgumentCountError: max() expects at least 1 argument, 0 given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-025",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"max() expects at least 1 argument, 0 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"max() expects at least 1 argument, 0 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"max() expects at least 1 argument, 0 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "max() expects at least 1 argument, 0 given",
+    "formatted": "ArgumentCountError: max() expects at least 1 argument, 0 given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-026",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"max() does not accept unknown named parameters\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"max() does not accept unknown named parameters\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"max() does not accept unknown named parameters\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "max() does not accept unknown named parameters",
+    "formatted": "ArgumentCountError: max() does not accept unknown named parameters",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-027",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Named parameter $value overwrites previous argument\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $value overwrites previous argument\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Named parameter $value overwrites previous argument\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Named parameter $value overwrites previous argument",
+    "formatted": "Error: Named parameter $value overwrites previous argument",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1.0\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"0\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-043",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"0\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"0\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"a\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "17",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "[0,1,2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "[0,2,4,6]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "[3,2,1,0]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"c\",\"e\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "[0.0,0.25,0.5,0.75,1.0]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "[5,3,1]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"1\",\"2\",\"3\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "[10,9,8]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-058",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"range(): Argument #3 ($step) must be greater than 0 for increasing ranges\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"range(): Argument #3 ($step) must be greater than 0 for increasing ranges\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"range(): Argument #3 ($step) must be greater than 0 for increasing ranges\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "range(): Argument #3 ($step) must be greater than 0 for increasing ranges",
+    "formatted": "ValueError: range(): Argument #3 ($step) must be greater than 0 for increasing ranges",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-059",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"range(): Argument #3 ($step) cannot be 0\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"range(): Argument #3 ($step) cannot be 0\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"range(): Argument #3 ($step) cannot be 0\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "range(): Argument #3 ($step) cannot be 0",
+    "formatted": "ValueError: range(): Argument #3 ($step) cannot be 0",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-060",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"range(): Argument #3 ($step) must be less than the range spanned by argument #1 ($start) and argument #2 ($end)\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"range(): Argument #3 ($step) must be less than the range spanned by argument #1 ($start) and argument #2 ($end)\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"range(): Argument #3 ($step) must be less than the range spanned by argument #1 ($start) and argument #2 ($end)\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "range(): Argument #3 ($step) must be less than the range spanned by argument #1 ($start) and argument #2 ($end)",
+    "formatted": "ValueError: range(): Argument #3 ($step) must be less than the range spanned by argument #1 ($start) and argument #2 ($end)",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "[0]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "range(): Argument #1 ($start) must not be empty, casted to 0"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "range(): Argument #1 ($start) must be a single byte string if argument #2 ($end) is a single byte string, argument #2 ($end) converted to 0"
+   }
+  ]
+ },
+ {
+  "id": "functions-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\",\"c\"]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "range(): Argument #1 ($start) must be a single byte, subsequent bytes are ignored"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "range(): Argument #2 ($end) must be a single byte, subsequent bytes are ignored"
+   }
+  ]
+ },
+ {
+  "id": "functions-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "[0,1,2]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "range(): Passing null to parameter #1 ($start) of type string|int|float is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "functions-064",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-065",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"end\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-066",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"end\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-067",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"end\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-068",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,3,5]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-069",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"range() expects at most 3 arguments, 4 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"range() expects at most 3 arguments, 4 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"range() expects at most 3 arguments, 4 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "range() expects at most 3 arguments, 4 given",
+    "formatted": "ArgumentCountError: range() expects at most 3 arguments, 4 given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-070",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1.0,2.0]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-071",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-072",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"A\",\"K\",\"U\",\"_\",\"i\",\"s\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-073",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"5\",\"6\",\"7\",\"8\",\"9\",\":\",\";\",\"<\",\"=\",\">\",\"?\",\"@\",\"A\",\"B\",\"C\",\"D\",\"E\",\"F\",\"G\",\"H\",\"I\",\"J\",\"K\",\"L\",\"M\",\"N\",\"O\",\"P\",\"Q\",\"R\",\"S\",\"T\",\"U\",\"V\",\"W\",\"X\",\"Y\",\"Z\",\"[\",\"\\\\\",\"]\",\"^\",\"_\",\"`\",\"a\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-074",
+  "kind": "twig",
+  "ok": true,
+  "output": "[0.0]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "range(): Argument #3 ($step) must be of type int when generating an array of characters, inputs converted to 0"
+   }
+  ]
+ },
+ {
+  "id": "functions-075",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-076",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"even\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-077",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"y\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-078",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key 0"
+   }
+  ]
+ },
+ {
+  "id": "functions-079",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key -1"
+   }
+  ]
+ },
+ {
+  "id": "functions-080",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "functions-081",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-082",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string % int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: string % int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string % int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: string % int",
+    "formatted": "TypeError: Unsupported operand types: string % int",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-083",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"cycle\" function expects an array or \"ArrayAccess\" as first argument in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"cycle\" function expects an array or \"ArrayAccess\" as first argument in \"index.twig\" at line 1.",
+   "rawMessage": "The \"cycle\" function expects an array or \"ArrayAccess\" as first argument.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-084",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"cycle\" function expects a non-empty sequence in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"cycle\" function expects a non-empty sequence in \"index.twig\" at line 1.",
+   "rawMessage": "The \"cycle\" function expects a non-empty sequence.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-085",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-086",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-087",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"cycle\" function expects an array or \"ArrayAccess\" as first argument in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"cycle\" function expects an array or \"ArrayAccess\" as first argument in \"index.twig\" at line 1.",
+   "rawMessage": "The \"cycle\" function expects an array or \"ArrayAccess\" as first argument.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-088",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"cycle\" function expects an array or \"ArrayAccess\" as first argument in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"cycle\" function expects an array or \"ArrayAccess\" as first argument in \"index.twig\" at line 1.",
+   "rawMessage": "The \"cycle\" function expects an array or \"ArrayAccess\" as first argument.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-089",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "A non-numeric value encountered"
+   }
+  ]
+ },
+ {
+  "id": "functions-090",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-091",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"a\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-092",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"position\" is required for function \"cycle\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"position\" is required for function \"cycle\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"position\" is required for function \"cycle\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-093",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array % int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: array % int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array % int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: array % int",
+    "formatted": "TypeError: Unsupported operand types: array % int",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-094",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-095",
+  "kind": "twig",
+  "ok": true,
+  "output": "5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-096",
+  "kind": "twig",
+  "ok": true,
+  "output": "-3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-097",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"a\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-098",
+  "kind": "twig",
+  "ok": true,
+  "output": "9",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-099",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-100",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"random\" function cannot pick from an empty sequence or mapping in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"random\" function cannot pick from an empty sequence or mapping in \"index.twig\" at line 1.",
+   "rawMessage": "The \"random\" function cannot pick from an empty sequence or mapping.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-101",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)",
+    "formatted": "ValueError: mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-102",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-103",
+  "kind": "twig",
+  "ok": true,
+  "output": "true",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-104",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-105",
+  "kind": "twig",
+  "ok": true,
+  "output": "7",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-106",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\\u00e9\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-107",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)",
+    "formatted": "ValueError: mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-108",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-109",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-110",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-111",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"random\" function cannot pick from an empty sequence or mapping in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"random\" function cannot pick from an empty sequence or mapping in \"index.twig\" at line 1.",
+   "rawMessage": "The \"random\" function cannot pick from an empty sequence or mapping.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-112",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-113",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-114",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-115",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "functions-116",
+  "kind": "twig",
+  "ok": true,
+  "output": "-1",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

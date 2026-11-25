@@ -1,0 +1,532 @@
+[
+ {
+  "id": "random-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "-3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "a",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "9",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-007",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"random\" function cannot pick from an empty sequence or mapping in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"random\" function cannot pick from an empty sequence or mapping in \"index.twig\" at line 1.",
+   "rawMessage": "The \"random\" function cannot pick from an empty sequence or mapping.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-008",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"random\" function cannot pick from an empty sequence or mapping in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"random\" function cannot pick from an empty sequence or mapping in \"index.twig\" at line 1.",
+   "rawMessage": "The \"random\" function cannot pick from an empty sequence or mapping.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-009",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)",
+    "formatted": "ValueError: mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-014",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)",
+    "formatted": "ValueError: mt_rand(): Argument #2 ($max) must be greater than or equal to argument #1 ($min)",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "-2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "é",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "é",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-024",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Unable to split the string passed to \"random\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Unable to split the string passed to \"random\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "rawMessage": "Unable to split the string passed to \"random\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-025",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Unable to split the string passed to \"random\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Unable to split the string passed to \"random\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "rawMessage": "Unable to split the string passed to \"random\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-027",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"random\" function cannot pick from an empty sequence or mapping in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"random\" function cannot pick from an empty sequence or mapping in \"index.twig\" at line 1.",
+   "rawMessage": "The \"random\" function cannot pick from an empty sequence or mapping.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "same",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "q",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "7",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "7",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "z",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-038",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Named parameter $charset overwrites previous argument\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $charset overwrites previous argument\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Named parameter $charset overwrites previous argument\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Named parameter $charset overwrites previous argument",
+    "formatted": "Error: Named parameter $charset overwrites previous argument",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-039",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $nope",
+    "formatted": "Error: Unknown named parameter $nope",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "9223372036854775807",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "-9223372036854775808",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-043",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "The float NAN is not representable as an int, cast occurred"
+   }
+  ]
+ },
+ {
+  "id": "random-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "The float INF is not representable as an int, cast occurred"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "The float INF is not representable as an int, cast occurred"
+   }
+  ]
+ },
+ {
+  "id": "random-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "a",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "?",
+  "output_b64": "6Q==",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "?",
+  "output_b64": "6Q==",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "random-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"NOPE\" to \"UTF-8\" is not allowed"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"UTF-8\" to \"NOPE\" is not allowed"
+   }
+  ]
+ }
+]

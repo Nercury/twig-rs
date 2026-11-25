@@ -13,12 +13,19 @@ authors.workspace = true
 
 [dependencies]
 regex.workspace = true
+memchr.workspace = true
+twig-value.workspace = true
+twig-pcre.workspace = true
+twig-unicode.workspace = true
+twig-date = { path = "crates/twig-date" }
 
 [dev-dependencies]
 libtest-mimic.workspace = true
 serde.workspace = true
 # float_roundtrip: exact parsing of the floats of the oracle corpus (DateInterval fractions).
 serde_json = { workspace = true, features = ["float_roundtrip"] }
+# The fixture harness: the oracle corpus, its DATA trees as values, the PHP test classes.
+twig-test-support = { path = "crates/twig-test-support" }
 
 # The Twig 3.31.1 fixture suite (libtest-mimic runner, see the header of tests/fixtures.rs).
 [[test]]

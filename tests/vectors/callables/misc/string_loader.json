@@ -1,0 +1,520 @@
+[
+ {
+  "id": "string_loader-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hello x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "__string_template__1bfd09d1a433fb78117b4c7b1583d16d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "__string_template__99aa06d3014798d86001c324468d497f",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "__string_template__b82f37db51c94f1c005847c9210f86bb",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "mytpl (string template 1bfd09d1a433fb78117b4c7b1583d16d)",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "mytpl (string template 1bfd09d1a433fb78117b4c7b1583d16d)",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-007",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unexpected token \"end of template\" (\"end of print statement\" expected) in \"__string_template__9ff43002e15bfa7f71e7f19f9dcd8e68\" at line 1 column 5.",
+   "formatted": "Twig\\Error\\SyntaxError: Unexpected token \"end of template\" (\"end of print statement\" expected) in \"__string_template__9ff43002e15bfa7f71e7f19f9dcd8e68\" at line 1 column 5.",
+   "rawMessage": "Unexpected token \"end of template\" (\"end of print statement\" expected).",
+   "templateName": "__string_template__9ff43002e15bfa7f71e7f19f9dcd8e68",
+   "templateLine": 1,
+   "templateColumn": 5
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-008",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unexpected token \"end of template\" (\"end of print statement\" expected) in \"mytpl (string template 9ff43002e15bfa7f71e7f19f9dcd8e68)\" at line 1 column 5.",
+   "formatted": "Twig\\Error\\SyntaxError: Unexpected token \"end of template\" (\"end of print statement\" expected) in \"mytpl (string template 9ff43002e15bfa7f71e7f19f9dcd8e68)\" at line 1 column 5.",
+   "rawMessage": "Unexpected token \"end of template\" (\"end of print statement\" expected).",
+   "templateName": "mytpl (string template 9ff43002e15bfa7f71e7f19f9dcd8e68)",
+   "templateLine": 1,
+   "templateColumn": 5
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-009",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unexpected token \"end of statement block\" of value \"\" in \"__string_template__097339cb88ab9228e12087e4ab08e3a7\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Unexpected token \"end of statement block\" of value \"\" in \"__string_template__097339cb88ab9228e12087e4ab08e3a7\" at line 1.",
+   "rawMessage": "Unexpected token \"end of statement block\" of value \"\".",
+   "templateName": "__string_template__097339cb88ab9228e12087e4ab08e3a7",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-010",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class Twig\\TemplateWrapper could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class Twig\\TemplateWrapper could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class Twig\\TemplateWrapper could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class Twig\\TemplateWrapper could not be converted to string",
+    "formatted": "Error: Object of class Twig\\TemplateWrapper could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-012",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "formatted": "TypeError: Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-013",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "formatted": "TypeError: Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "from stringable",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-015",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "formatted": "TypeError: Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #2 ($template) must be of type Stringable|string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-016",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #3 ($name) must be of type ?string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #3 ($name) must be of type ?string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #3 ($name) must be of type ?string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #3 ($name) must be of type ?string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "formatted": "TypeError: Twig\\Extension\\StringLoaderExtension::templateFromString(): Argument #3 ($name) must be of type ?string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "5 (string template 5c7401c0ec22eeeeeaf06c6480b2cd11)",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-018",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int + array\") in \"__string_template__b8eb61656253afad1e827b4186606a20\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int + array\") in \"__string_template__b8eb61656253afad1e827b4186606a20\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int + array\").",
+   "templateName": "__string_template__b8eb61656253afad1e827b4186606a20",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: int + array",
+    "formatted": "TypeError: Unsupported operand types: int + array",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "string_loader-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "__string_template__a96faf705af16834e6c632b61e964e1f",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-024",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001",
+    "formatted": "TypeError: Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "global",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "string",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "other",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "eq",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "spread",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-035",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Named parameter $env overwrites previous argument\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $env overwrites previous argument\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Named parameter $env overwrites previous argument\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Named parameter $env overwrites previous argument",
+    "formatted": "Error: Named parameter $env overwrites previous argument",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-036",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $nope",
+    "formatted": "Error: Unknown named parameter $nope",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-037",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\StringLoaderExtension::templateFromString(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 2 expected\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\StringLoaderExtension::templateFromString(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 2 expected\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\StringLoaderExtension::templateFromString(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 2 expected\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "Too few arguments to function Twig\\Extension\\StringLoaderExtension::templateFromString(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 2 expected",
+    "formatted": "ArgumentCountError: Too few arguments to function Twig\\Extension\\StringLoaderExtension::templateFromString(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 2 expected",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "&amp;lt;b&amp;gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "__string_template__a88f5df28091b9d2cbf0460b8ceca207",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "&amp;lt;b&amp;gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "string_loader-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

@@ -1,0 +1,1993 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "{{ (-5)|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (-5.5)|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-003"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (-0.0)|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ -5|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-005"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1|abs(2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1|abs(num=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1|abs(...[2]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (-1)|abs(...{num: 2}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (-2)|abs(...{nope: 2}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "-3"
+   },
+   "data_php": "return ['x' => '-3'];",
+   "id": "numbers-011"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": " 5"
+   },
+   "data_php": "return ['x' => ' 5'];",
+   "id": "numbers-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "5 "
+   },
+   "data_php": "return ['x' => '5 '];",
+   "id": "numbers-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": " 5 "
+   },
+   "data_php": "return ['x' => ' 5 '];",
+   "id": "numbers-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "1e3"
+   },
+   "data_php": "return ['x' => '1e3'];",
+   "id": "numbers-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "1.5"
+   },
+   "data_php": "return ['x' => '1.5'];",
+   "id": "numbers-016"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "-0"
+   },
+   "data_php": "return ['x' => '-0'];",
+   "id": "numbers-017"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": true
+   },
+   "data_php": "return ['x' => true];",
+   "id": "numbers-018"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": false
+   },
+   "data_php": "return ['x' => false];",
+   "id": "numbers-019"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": null
+   },
+   "data_php": "return ['x' => null];",
+   "id": "numbers-020"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "abc"
+   },
+   "data_php": "return ['x' => 'abc'];",
+   "id": "numbers-021"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "5abc"
+   },
+   "data_php": "return ['x' => '5abc'];",
+   "id": "numbers-022"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": ""
+   },
+   "data_php": "return ['x' => ''];",
+   "id": "numbers-023"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "0x1A"
+   },
+   "data_php": "return ['x' => '0x1A'];",
+   "id": "numbers-024"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": [
+     1
+    ]
+   },
+   "data_php": "return ['x' => [1]];",
+   "id": "numbers-025"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['x' => new \\TwigRsConsts()];",
+   "id": "numbers-026"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "INF"
+    }
+   },
+   "data_php": "return ['x' => INF];",
+   "id": "numbers-027"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "-INF"
+    }
+   },
+   "data_php": "return ['x' => -INF];",
+   "id": "numbers-028"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "NAN"
+    }
+   },
+   "data_php": "return ['x' => NAN];",
+   "id": "numbers-029"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "-0"
+    }
+   },
+   "data_php": "return ['x' => -0.0];",
+   "id": "numbers-030"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": -9223372036854775808
+   },
+   "data_php": "return ['x' => PHP_INT_MIN];",
+   "id": "numbers-031"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": 9007199254740993
+   },
+   "data_php": "return ['x' => 9007199254740993];",
+   "id": "numbers-032"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|abs }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$string": "5"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['x' => new \\TwigRsString('5')];",
+   "id": "numbers-033"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 42.55|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-034"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 42.55|round(1, 'floor') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-035"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 42.55|round(1, 'ceil') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-036"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 2.5|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-037"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (-2.5)|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-038"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1.955|round(2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-039"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.045|round(2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-040"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.055|round(2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-041"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5|round(-2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-042"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 0.285|round(2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-043"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1.45|round(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-044"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '3.7'|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-045"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ null|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-046"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-047"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ true|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-048"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [1]|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-049"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [] |round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-050"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (-3.21)|round(1, 'ceil') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-051"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (-3.21)|round(1, 'floor') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-052"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 3.21|round(-1, 'ceil') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-053"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 3.5|round(0, 'up') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-054"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 3.5|round(0, null) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-055"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1.005|round(2, 'ceil') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-056"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1.1|round(1, 'floor') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-057"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (-0.4)|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-058"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1e20|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-059"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.5|round(method='floor') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-060"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.55|round(precision=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-061"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.5|round(1, 'common', 'extra') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-062"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.5|round('2') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-063"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.555|round(2.9) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-064"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.5|round('abc') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-065"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.5|round(null) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-066"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.5|round(1, 'ceil') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-067"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.5|round(null, 'ceil') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-068"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.5|round('abc', 'floor') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-069"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.5|round([1], 'floor') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-070"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.5|round(...{method: 'ceil'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-071"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 5.5|round(...{nope: 1}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-072"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 123.456|round(-1, 'floor') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-073"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 0.1|round(20) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-074"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1.23456789|round(25) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-075"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1.5|round(2147483648) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-076"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 25|round(-1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-077"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 35|round(-1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-078"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1e300|round(-300) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-079"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['x' => new \\TwigRsConsts()];",
+   "id": "numbers-080"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "NAN"
+    }
+   },
+   "data_php": "return ['x' => NAN];",
+   "id": "numbers-081"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "INF"
+    }
+   },
+   "data_php": "return ['x' => INF];",
+   "id": "numbers-082"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "1e3"
+   },
+   "data_php": "return ['x' => '1e3'];",
+   "id": "numbers-083"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": " 2.5"
+   },
+   "data_php": "return ['x' => ' 2.5'];",
+   "id": "numbers-084"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$string": "2.5"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['x' => new \\TwigRsString('2.5')];",
+   "id": "numbers-085"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|round }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$markup": "2.5"
+    }
+   },
+   "data_php": "return ['x' => new \\Twig\\Markup('2.5', 'UTF-8')];",
+   "id": "numbers-086"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 200.35|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-087"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 9800.333|number_format(2, '.', ',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-088"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234567.891|number_format(2, ',', '.') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-089"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 0.5|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-090"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1.5|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-091"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 2.5|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-092"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (-0.4)|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-093"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (-1234.567)|number_format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-094"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234|number_format(2, 'dec', 'thou') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-095"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5|number_format(-1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-096"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5|number_format(2, '', '') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-097"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1e20|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-098"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1e15|number_format(2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-099"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1.005|number_format(2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-100"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc'|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-101"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '12abc'|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-102"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '1e3'|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-103"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ []|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-104"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [1]|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-105"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ null|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-106"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ true|number_format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-107"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5678|number_format('2') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-108"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5678|number_format(2.7) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-109"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5678|number_format('x') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-110"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5678|number_format(2, null, null) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-111"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5678|number_format(2, [1]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-112"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5678|number_format(2, '.', [1]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-113"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ -9800.333|number_format(2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-114"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 9007199254740993|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-115"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 9007199254740993|number_format(2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-116"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 4503599627370497.0|number_format(3) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-117"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5|number_format(decimal_point=',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-118"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5|number_format(thousand_sep=' ') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-119"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5|number_format(decimal=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-120"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5|number_format(1, '·', '‘') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-121"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 0.000001|number_format(8) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-122"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 123456789.12345678|number_format(20) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-123"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5|number_format(...{decimal: 1}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-124"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5|number_format(...{nope: 1}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-125"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1234.5|number_format(1, ',', '.', 'extra') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-126"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1e80|number_format }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-127"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 0.5|number_format(0, ',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-128"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 999.9999|number_format(3) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "numbers-129"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|number_format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['x' => new \\TwigRsConsts()];",
+   "id": "numbers-130"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|number_format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "NAN"
+    }
+   },
+   "data_php": "return ['x' => NAN];",
+   "id": "numbers-131"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|number_format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "INF"
+    }
+   },
+   "data_php": "return ['x' => INF];",
+   "id": "numbers-132"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|number_format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "-INF"
+    }
+   },
+   "data_php": "return ['x' => -INF];",
+   "id": "numbers-133"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|number_format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "-0"
+    }
+   },
+   "data_php": "return ['x' => -0.0];",
+   "id": "numbers-134"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|number_format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": -9223372036854775808
+   },
+   "data_php": "return ['x' => PHP_INT_MIN];",
+   "id": "numbers-135"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|number_format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": 9223372036854775807
+   },
+   "data_php": "return ['x' => 9223372036854775807];",
+   "id": "numbers-136"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|number_format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$string": "12.5"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['x' => new \\TwigRsString('12.5')];",
+   "id": "numbers-137"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|number_format(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$markup": "1234.5"
+    }
+   },
+   "data_php": "return ['x' => new \\Twig\\Markup('1234.5', 'UTF-8')];",
+   "id": "numbers-138"
+  }
+ ],
+ "isolation": "none"
+}

@@ -1,0 +1,6833 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "child.twig": "{% extends 'base.twig' %}\n{% block title %}Child - {{ parent() }}{% endblock %}\n{% block content %}{{ block('title') }}/{{ block('title', 'base.twig') }}/{{ block('sidebar') is defined ? 'y' : 'n' }}{% endblock %}",
+    "base.twig": "<html>{% block title %}Base title{% endblock %}|{% block content %}base content{% endblock %}</html>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-001"
+   },
+   "errors": "collect",
+   "main": "child.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-001"
+  },
+  {
+   "templates": {
+    "child.twig": "{% extends 'base.twig' %}\n{% block title %}Child - {{ parent() }}{% endblock %}\n{% block content %}{{ block('title') }}/{{ block('title', 'base.twig') }}/{{ block('sidebar') is defined ? 'y' : 'n' }}{% endblock %}",
+    "base.twig": "<html>{% block title %}Base title{% endblock %}|{% block content %}base content{% endblock %}</html>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-002"
+   },
+   "errors": "collect",
+   "main": "child.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-002"
+  },
+  {
+   "templates": {
+    "child.twig": "{% extends 'base.twig' %}\n{% block title %}Child - {{ parent() }}{% endblock %}\n{% block content %}{{ block('title') }}/{{ block('title', 'base.twig') }}/{{ block('sidebar') is defined ? 'y' : 'n' }}{% endblock %}",
+    "base.twig": "<html>{% block title %}Base title{% endblock %}|{% block content %}base content{% endblock %}</html>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-003"
+   },
+   "errors": "collect",
+   "main": "child.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-003"
+  },
+  {
+   "templates": {
+    "child.twig": "{% extends 'base.twig' %}\n{% block title %}Child - {{ parent() }}{% endblock %}\n{% block content %}{{ block('title') }}/{{ block('title', 'base.twig') }}/{{ block('sidebar') is defined ? 'y' : 'n' }}{% endblock %}",
+    "base.twig": "<html>{% block title %}Base title{% endblock %}|{% block content %}base content{% endblock %}</html>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-004"
+   },
+   "errors": "collect",
+   "main": "child.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-004"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}ca+{{ parent() }}{% endblock %}{% block b %}cb+{{ parent() }}{% endblock %}",
+    "p": "{% extends 'g' %}{% block a %}pa+{{ parent() }}{% endblock %}{% block c %}pc{% endblock %}",
+    "g": "G[{% block a %}ga{% endblock %}|{% block b %}gb{% endblock %}|{% block c %}gc{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-005"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-005"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}ca+{{ parent() }}{% endblock %}{% block b %}cb+{{ parent() }}{% endblock %}",
+    "p": "{% extends 'g' %}{% block a %}pa+{{ parent() }}{% endblock %}{% block c %}pc{% endblock %}",
+    "g": "G[{% block a %}ga{% endblock %}|{% block b %}gb{% endblock %}|{% block c %}gc{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-006"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-006"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}ca+{{ parent() }}{% endblock %}{% block b %}cb+{{ parent() }}{% endblock %}",
+    "p": "{% extends 'g' %}{% block a %}pa+{{ parent() }}{% endblock %}{% block c %}pc{% endblock %}",
+    "g": "G[{% block a %}ga{% endblock %}|{% block b %}gb{% endblock %}|{% block c %}gc{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-007"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-007"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}ca+{{ parent() }}{% endblock %}{% block b %}cb+{{ parent() }}{% endblock %}",
+    "p": "{% extends 'g' %}{% block a %}pa+{{ parent() }}{% endblock %}{% block c %}pc{% endblock %}",
+    "g": "G[{% block a %}ga{% endblock %}|{% block b %}gb{% endblock %}|{% block c %}gc{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-008"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-008"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% set x = 'X' %}{% block b %}[{{ x }}]{% endblock %}",
+    "p": "{{ x }}{% block b %}{% endblock %}{{ x }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-009"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-009"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% set x = 'X' %}{% block b %}[{{ x }}]{% endblock %}",
+    "p": "{{ x }}{% block b %}{% endblock %}{{ x }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-010"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set q = 1 %}{% block b %}{% set q = 2 %}{{ q }}{% endblock %}{{ q }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-011"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-011"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set q = 1 %}{% block b %}{% set q = 2 %}{{ q }}{% endblock %}{{ q }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-012"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in items %}{% block b %}<{{ i }}>{% endblock %}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-013"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in items %}{% block b %}<{{ i }}>{% endblock %}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-014"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block outer %}[{% block inner %}in{% endblock %}]{% endblock %}|{{ block('inner') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-015"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block outer %}[{% block inner %}in{% endblock %}]{% endblock %}|{{ block('inner') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-016"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-016"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block inner %}IN{% endblock %}",
+    "p": "{% block outer %}[{% block inner %}in{% endblock %}]{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-017"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-017"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block inner %}IN{% endblock %}",
+    "p": "{% block outer %}[{% block inner %}in{% endblock %}]{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-018"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-018"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block outer %}<{{ parent() }}>{% endblock %}{% block inner %}IN{% endblock %}",
+    "p": "{% block outer %}[{% block inner %}in{% endblock %}]{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-019"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-019"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block outer %}<{{ parent() }}>{% endblock %}{% block inner %}IN{% endblock %}",
+    "p": "{% block outer %}[{% block inner %}in{% endblock %}]{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-020"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-020"
+  },
+  {
+   "templates": {
+    "d": "{% extends layout %}{% block a %}A{% endblock %}",
+    "l1": "[{% block a %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-021"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-021"
+  },
+  {
+   "templates": {
+    "d": "{% extends layout %}{% block a %}A{% endblock %}",
+    "l1": "[{% block a %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-022"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-022"
+  },
+  {
+   "templates": {
+    "d": "{% extends layouts %}{% block a %}A{% endblock %}",
+    "l1": "[{% block a %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-023"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-023"
+  },
+  {
+   "templates": {
+    "d": "{% extends layouts %}{% block a %}A{% endblock %}",
+    "l1": "[{% block a %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-024"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-024"
+  },
+  {
+   "templates": {
+    "d": "{% extends ['missing', 'l1'] %}{% block a %}A{% endblock %}",
+    "l1": "[{% block a %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-025"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-025"
+  },
+  {
+   "templates": {
+    "d": "{% extends ['missing', 'l1'] %}{% block a %}A{% endblock %}",
+    "l1": "[{% block a %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-026"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-026"
+  },
+  {
+   "templates": {
+    "d": "{% extends t ? 'l1' : 'l2' %}{% block a %}A{% endblock %}",
+    "l1": "1{% block a %}{% endblock %}",
+    "l2": "2{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-027"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-027"
+  },
+  {
+   "templates": {
+    "d": "{% extends t ? 'l1' : 'l2' %}{% block a %}A{% endblock %}",
+    "l1": "1{% block a %}{% endblock %}",
+    "l2": "2{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-028"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-028"
+  },
+  {
+   "templates": {
+    "d": "{% extends nope %}{% block a %}A{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-029"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-029"
+  },
+  {
+   "templates": {
+    "d": "{% extends nope %}{% block a %}A{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-030"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-030"
+  },
+  {
+   "templates": {
+    "d": "{% extends one %}{% block a %}A{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-031"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-031"
+  },
+  {
+   "templates": {
+    "d": "{% extends one %}{% block a %}A{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-032"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-032"
+  },
+  {
+   "templates": {
+    "d": "{% extends [] %}{% block a %}A{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-033"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-033"
+  },
+  {
+   "templates": {
+    "d": "{% extends [] %}{% block a %}A{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-034"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-034"
+  },
+  {
+   "templates": {
+    "d": "{% extends five %}{% block a %}A{% endblock %}",
+    "5": "five{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-035"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-035"
+  },
+  {
+   "templates": {
+    "d": "{% extends five %}{% block a %}A{% endblock %}",
+    "5": "five{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-036"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-036"
+  },
+  {
+   "templates": {
+    "d": "{% extends nul %}{% block a %}A{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-037"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-037"
+  },
+  {
+   "templates": {
+    "d": "{% extends nul %}{% block a %}A{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-038"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-038"
+  },
+  {
+   "templates": {
+    "d": "{% extends f %}{% block a %}A{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-039"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-039"
+  },
+  {
+   "templates": {
+    "d": "{% extends f %}{% block a %}A{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-040"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-040"
+  },
+  {
+   "templates": {
+    "d": "{% extends 'l' ~ 1 %}{% block a %}{{ parent() }}A{% endblock %}",
+    "l1": "[{% block a %}a{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-041"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-041"
+  },
+  {
+   "templates": {
+    "d": "{% extends 'l' ~ 1 %}{% block a %}{{ parent() }}A{% endblock %}",
+    "l1": "[{% block a %}a{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-042"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-042"
+  },
+  {
+   "templates": {
+    "d": "{% extends undefined_layout %}{% block a %}A{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-043"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-043"
+  },
+  {
+   "templates": {
+    "d": "{% extends undefined_layout %}{% block a %}A{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-044"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-044"
+  },
+  {
+   "templates": {
+    "d": "{% extends\n  layout\n%}\n{% block a %}A{% endblock %}",
+    "l1": "{{ nonexistent.x.y }}[{% block a %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-045"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-045"
+  },
+  {
+   "templates": {
+    "d": "{% extends\n  layout\n%}\n{% block a %}A{% endblock %}",
+    "l1": "{{ nonexistent.x.y }}[{% block a %}{% endblock %}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-046"
+   },
+   "errors": "collect",
+   "main": "d",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-046"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends false %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-047"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-047"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends false %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-048"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-048"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends null %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-049"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-049"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends null %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-050"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-050"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends 5 %}",
+    "5": "five"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-051"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-051"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends 5 %}",
+    "5": "five"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-052"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-052"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends 'nope' %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-053"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-053"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends 'nope' %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-054"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-054"
+  },
+  {
+   "templates": {
+    "index.twig": "\n\n{% extends 'nope' %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-055"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-055"
+  },
+  {
+   "templates": {
+    "index.twig": "\n\n{% extends 'nope' %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-056"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-056"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends 'p' %}",
+    "p": "parent {{ name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-057"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-057"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends 'p' %}",
+    "p": "parent {{ name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-058"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-058"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends 'p' %}  {# c #}\n  ",
+    "p": "parent"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-059"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-059"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends 'p' %}  {# c #}\n  ",
+    "p": "parent"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-060"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-060"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends 'p' %}{% block x %}X{% endblock %}",
+    "p": "no blocks"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-061"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-061"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends 'p' %}{% block x %}X{% endblock %}",
+    "p": "no blocks"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-062"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-062"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block('a') }}{{ block('a') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-063"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-063"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block('a') }}{{ block('a') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-064"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-064"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('nope') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-065"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-065"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('nope') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-066"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-066"
+  },
+  {
+   "templates": {
+    "index.twig": "x\n{{ block('a', 'b') }}{{ block('nope', 'b') }}",
+    "b": "{% block a %}B{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-067"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-067"
+  },
+  {
+   "templates": {
+    "index.twig": "x\n{{ block('a', 'b') }}{{ block('nope', 'b') }}",
+    "b": "{% block a %}B{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-068"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-068"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('a', 'missing') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-069"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-069"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('a', 'missing') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-070"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-070"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('a', layouts) }}",
+    "l1": "{% block a %}L1{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-071"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-071"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('a', layouts) }}",
+    "l1": "{% block a %}L1{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-072"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-072"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('a', ['nope', 'nope2']) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-073"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-073"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('a', ['nope', 'nope2']) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-074"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-074"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{% set n = 'a' %}{{ block(n) }}{{ block(n ~ '') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-075"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-075"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{% set n = 'a' %}{{ block(n) }}{{ block(n ~ '') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-076"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-076"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block(5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-077"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-077"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block(5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-078"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-078"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block(null) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-079"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-079"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block(null) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-080"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-080"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block([1]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-081"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-081"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block([1]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-082"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-082"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block(1.5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-083"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-083"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block(1.5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-084"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-084"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block(1.5) is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-085"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-085"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block(1.5) is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-086"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-086"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ [1]|map(x => block('a'))|join }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-087"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-087"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ [1]|map(x => block('a'))|join }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-088"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-088"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ [1]|map(x => block('a', 'b'))|join }}",
+    "b": "{% block a %}B{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-089"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-089"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ [1]|map(x => block('a', 'b'))|join }}",
+    "b": "{% block a %}B{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-090"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-090"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'b' %}{% block a %}A{{ [1]|map(x => parent())|join }}{% endblock %}",
+    "b": "{% block a %}B{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-091"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-091"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'b' %}{% block a %}A{{ [1]|map(x => parent())|join }}{% endblock %}",
+    "b": "{% block a %}B{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-092"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-092"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set b = block('x') %}{% block x %}<x>{% endblock %}|{{ b }}|{{ b|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-093"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-093"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set b = block('x') %}{% block x %}<x>{% endblock %}|{{ b }}|{{ b|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-094"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-094"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}{{ block('a') is defined ? 1 : 0 }}{{ block('b') is defined ? 1 : 0 }}{{ block('c') is defined ? 1 : 0 }}{{ block('z') is defined ? 1 : 0 }}{% endblock %}",
+    "p": "{% block a %}{% endblock %}{% block b %}{% endblock %}{% if false %}{% block c %}{% endblock %}{% endif %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-095"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-095"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}{{ block('a') is defined ? 1 : 0 }}{{ block('b') is defined ? 1 : 0 }}{{ block('c') is defined ? 1 : 0 }}{{ block('z') is defined ? 1 : 0 }}{% endblock %}",
+    "p": "{% block a %}{% endblock %}{% block b %}{% endblock %}{% if false %}{% block c %}{% endblock %}{% endif %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-096"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-096"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('a', 'b') is defined ? 1 : 0 }}{{ block('z', 'b') is defined ? 1 : 0 }}",
+    "b": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-097"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-097"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('a', 'b') is defined ? 1 : 0 }}{{ block('z', 'b') is defined ? 1 : 0 }}",
+    "b": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-098"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-098"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block b %}[{{ parent() }}]{% endblock %}",
+    "p": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-099"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-099"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block b %}[{{ parent() }}]{% endblock %}",
+    "p": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-100"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-100"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}\n{% block a %}\n[{{ parent() }}]{% endblock %}",
+    "p": "{{ block('a') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-101"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-101"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}\n{% block a %}\n[{{ parent() }}]{% endblock %}",
+    "p": "{{ block('a') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-102"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-102"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}{% for i in items %}{{ parent() }}{{ i }}{% endfor %}{% endblock %}",
+    "p": "{% block a %}<{{ i ?? 'none' }}>{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-103"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-103"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}{% for i in items %}{{ parent() }}{{ i }}{% endfor %}{% endblock %}",
+    "p": "{% block a %}<{{ i ?? 'none' }}>{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-104"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-104"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}{{ _self }}/{{ parent() }}{% endblock %}",
+    "p": "{{ _self }}:{% block a %}{{ _self }}{% endblock %}:{% block b %}{{ _self }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-105"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-105"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}{{ _self }}/{{ parent() }}{% endblock %}",
+    "p": "{{ _self }}:{% block a %}{{ _self }}{% endblock %}:{% block b %}{{ _self }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-106"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-106"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block extra %}E{% endblock %}",
+    "p": "{{ block('extra') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-107"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-107"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block extra %}E{% endblock %}",
+    "p": "{{ block('extra') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-108"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-108"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block extra %}E{% endblock %}",
+    "p": "{{ block('extra') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-109"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-109"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block extra %}E{% endblock %}",
+    "p": "{{ block('extra') is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-110"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-110"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set n = 3 %}{% block r %}{{ n }}{% if n > 0 %}{% set n = n - 1 %}{{ block('r') }}{% endif %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-111"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-111"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set n = 3 %}{% block r %}{{ n }}{% if n > 0 %}{% set n = n - 1 %}{{ block('r') }}{% endif %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-112"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-112"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{{ name }}{% endblock %}{{ block('a', _self) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-113"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-113"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{{ name }}{% endblock %}{{ block('a', _self) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-114"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-114"
+  },
+  {
+   "templates": {
+    "index.twig": "x\n{{ block(\n  'nope',\n  'b'\n) }}",
+    "b": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-115"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-115"
+  },
+  {
+   "templates": {
+    "index.twig": "x\n{{ block(\n  'nope',\n  'b'\n) }}",
+    "b": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-116"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-116"
+  },
+  {
+   "templates": {
+    "index.twig": "x\n{{ block(\n  undefined_name\n) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-117"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-117"
+  },
+  {
+   "templates": {
+    "index.twig": "x\n{{ block(\n  undefined_name\n) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-118"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-118"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}{{ forms.hi() }}{% endblock %}",
+    "p": "{% import _self as forms %}{% macro hi() %}hi{% endmacro %}{% block a %}{{ forms.hi() }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-119"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-119"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}{{ forms.hi() }}{% endblock %}",
+    "p": "{% import _self as forms %}{% macro hi() %}hi{% endmacro %}{% block a %}{{ forms.hi() }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-120"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-120"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% import _self as forms %}{% macro hi() %}chi{% endmacro %}{% block a %}{{ forms.hi() }}{% endblock %}",
+    "p": "{% block a %}{% endblock %}|{% block b %}{{ forms.hi() }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-121"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-121"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% import _self as forms %}{% macro hi() %}chi{% endmacro %}{% block a %}{{ forms.hi() }}{% endblock %}",
+    "p": "{% block a %}{% endblock %}|{% block b %}{{ forms.hi() }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-122"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-122"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}\n{% block a %}\n{{ 1 // 0 }}{% endblock %}",
+    "p": "x\n{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-123"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-123"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}\n{% block a %}\n{{ 1 // 0 }}{% endblock %}",
+    "p": "x\n{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-124"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-124"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}\n{% block a %}\n{{ parent() }}{% endblock %}",
+    "p": "x\n{% block a %}\n\n{{ 1 // 0 }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-125"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-125"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}\n{% block a %}\n{{ parent() }}{% endblock %}",
+    "p": "x\n{% block a %}\n\n{{ 1 // 0 }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-126"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-126"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}\n{% block a %}A{% endblock %}",
+    "p": "x\n{% block a %}{% endblock %}\n{{ undefined_var }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-127"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-127"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}\n{% block a %}A{% endblock %}",
+    "p": "x\n{% block a %}{% endblock %}\n{{ undefined_var }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-128"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-128"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}<{{ parent() }}>{% endblock %}",
+    "p": "{% block a %}P{% endblock %}|{{ block('a') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-129"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-129"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}<{{ parent() }}>{% endblock %}",
+    "p": "{% block a %}P{% endblock %}|{{ block('a') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-130"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-130"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('nope') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-131"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-131"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('nope') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-132"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-132"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block('a') }}{{ block('a', 'b') }}",
+    "b": "{% block a %}B{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-133"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-133"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block a %}A{% endblock %}{{ block('a') }}{{ block('a', 'b') }}",
+    "b": "{% block a %}B{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-134"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-134"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block b %}[{{ parent() }}]{% endblock %}",
+    "p": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-135"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-135"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block b %}[{{ parent() }}]{% endblock %}",
+    "p": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/inheritance-136"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-136"
+  },
+  {
+   "templates": {
+    "c": "{% extends tpl %}{% block a %}A{% endblock %}",
+    "p": "<{% block a %}{% endblock %}>"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-137"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "wrappers": {
+    "tpl": "p"
+   },
+   "data_php": "return array_merge(json_decode(\"{\\\"name\\\": \\\"bob\\\", \\\"items\\\": [1, 2], \\\"layout\\\": \\\"l1\\\", \\\"layouts\\\": [\\\"missing\\\", \\\"l1\\\"], \\\"nope\\\": [\\\"n1\\\", \\\"n2\\\"], \\\"one\\\": [\\\"missing\\\"], \\\"five\\\": 5, \\\"nul\\\": null, \\\"f\\\": false, \\\"t\\\": true, \\\"fl\\\": 1.5, \\\"map\\\": {\\\"a\\\": 1, \\\"b\\\": 2}, \\\"num\\\": {\\\"5\\\": \\\"five\\\", \\\"x\\\": \\\"ex\\\"}}\", true), ['tpl' => $twig->load('p')]);",
+   "data_json_rust": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-137"
+  },
+  {
+   "templates": {
+    "c": "{% extends tpl %}{% block a %}A{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-138"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "foreign_wrappers": {
+    "tpl": [
+     "p",
+     "<{% block a %}{% endblock %}>"
+    ]
+   },
+   "data_php": "return array_merge(json_decode(\"{\\\"name\\\": \\\"bob\\\", \\\"items\\\": [1, 2], \\\"layout\\\": \\\"l1\\\", \\\"layouts\\\": [\\\"missing\\\", \\\"l1\\\"], \\\"nope\\\": [\\\"n1\\\", \\\"n2\\\"], \\\"one\\\": [\\\"missing\\\"], \\\"five\\\": 5, \\\"nul\\\": null, \\\"f\\\": false, \\\"t\\\": true, \\\"fl\\\": 1.5, \\\"map\\\": {\\\"a\\\": 1, \\\"b\\\": 2}, \\\"num\\\": {\\\"5\\\": \\\"five\\\", \\\"x\\\": \\\"ex\\\"}}\", true), ['tpl' => (new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['p' => '<{% block a %}{% endblock %}>'])))->load('p')]);",
+   "data_json_rust": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-138"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('a', tpl) }}",
+    "b": "{% block a %}B{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-139"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "wrappers": {
+    "tpl": "b"
+   },
+   "data_php": "return array_merge(json_decode(\"{\\\"name\\\": \\\"bob\\\", \\\"items\\\": [1, 2], \\\"layout\\\": \\\"l1\\\", \\\"layouts\\\": [\\\"missing\\\", \\\"l1\\\"], \\\"nope\\\": [\\\"n1\\\", \\\"n2\\\"], \\\"one\\\": [\\\"missing\\\"], \\\"five\\\": 5, \\\"nul\\\": null, \\\"f\\\": false, \\\"t\\\": true, \\\"fl\\\": 1.5, \\\"map\\\": {\\\"a\\\": 1, \\\"b\\\": 2}, \\\"num\\\": {\\\"5\\\": \\\"five\\\", \\\"x\\\": \\\"ex\\\"}}\", true), ['tpl' => $twig->load('b')]);",
+   "data_json_rust": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-139"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('a', [tpl]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/inheritance-140"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "foreign_wrappers": {
+    "tpl": [
+     "b",
+     "{% block a %}B{% endblock %}"
+    ]
+   },
+   "data_php": "return array_merge(json_decode(\"{\\\"name\\\": \\\"bob\\\", \\\"items\\\": [1, 2], \\\"layout\\\": \\\"l1\\\", \\\"layouts\\\": [\\\"missing\\\", \\\"l1\\\"], \\\"nope\\\": [\\\"n1\\\", \\\"n2\\\"], \\\"one\\\": [\\\"missing\\\"], \\\"five\\\": 5, \\\"nul\\\": null, \\\"f\\\": false, \\\"t\\\": true, \\\"fl\\\": 1.5, \\\"map\\\": {\\\"a\\\": 1, \\\"b\\\": 2}, \\\"num\\\": {\\\"5\\\": \\\"five\\\", \\\"x\\\": \\\"ex\\\"}}\", true), ['tpl' => (new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['b' => '{% block a %}B{% endblock %}'])))->load('b')]);",
+   "data_json_rust": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "inheritance-140"
+  }
+ ],
+ "isolation": "process"
+}

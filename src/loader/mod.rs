@@ -2,6 +2,9 @@
 //!
 //! Twig: `Twig\Loader\LoaderInterface` and its implementations (TWIG/src/Loader/). Template names are the logical
 //! names used in templates (`{% include 'base.html' %}`); a loader turns them into [`Source`]s.
+//!
+//! [`ArrayLoader`] keeps templates in memory, [`FilesystemLoader`] reads them from directories (with namespaces,
+//! name normalisation and Twig's security checks) and [`ChainLoader`] asks several loaders in turn.
 
 use std::collections::HashMap;
 use std::sync::{Arc, RwLock};
@@ -10,6 +13,9 @@ use crate::{Error, Result, Source};
 
 pub mod chain;
 pub mod filesystem;
+
+pub use chain::ChainLoader;
+pub use filesystem::FilesystemLoader;
 
 /// Loads template sources by logical name.
 ///
@@ -28,6 +34,15 @@ pub trait Loader: Send + Sync {
 
     /// Whether the loader can load the template. Twig: `exists(string $name)`.
     fn exists(&self, name: &str) -> bool;
+
+    /// The PHP class name of the loader (Twig's `$loader::class`), which [`ChainLoader`] puts in front of the
+    /// errors it collects from [`get_cache_key`](Loader::get_cache_key) and [`is_fresh`](Loader::is_fresh).
+    ///
+    /// The core loaders return Twig's class names (`Twig\Loader\ArrayLoader`, ...); the default is the Rust type
+    /// name.
+    fn class_name(&self) -> &str {
+        std::any::type_name::<Self>()
+    }
 }
 
 /// Loads templates from an in-memory map of name to source code.
@@ -98,6 +113,10 @@ impl Loader for ArrayLoader {
 
     fn exists(&self, name: &str) -> bool {
         self.read().contains_key(name)
+    }
+
+    fn class_name(&self) -> &str {
+        "Twig\\Loader\\ArrayLoader"
     }
 }
 

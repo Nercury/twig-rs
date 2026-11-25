@@ -1,0 +1,739 @@
+[
+ {
+  "id": "traits-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "ownB2B1B3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "ownB2B1B3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "TA|TB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "TA|TB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "TAn",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "TAn",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-009",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"b\" on template \"u\" does not exist in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"b\" on template \"u\" does not exist in \"u\" at line 1.",
+   "rawMessage": "Block \"b\" on template \"u\" does not exist.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-010",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"b\" on template \"u\" does not exist in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"b\" on template \"u\" does not exist in \"u\" at line 1.",
+   "rawMessage": "Block \"b\" on template \"u\" does not exist.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "own+TA",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "own+TA",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-013",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The template has no parent and no traits defining the \"a\" block in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The template has no parent and no traits defining the \"a\" block in \"u\" at line 1.",
+   "rawMessage": "The template has no parent and no traits defining the \"a\" block.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-014",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The template has no parent and no traits defining the \"a\" block in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The template has no parent and no traits defining the \"a\" block in \"u\" at line 1.",
+   "rawMessage": "The template has no parent and no traits defining the \"a\" block.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "TA",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "TA",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-017",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "rawMessage": "Template \"t\" cannot be used as a trait.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-018",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "rawMessage": "Template \"t\" cannot be used as a trait.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-019",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "rawMessage": "Template \"t\" cannot be used as a trait.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-020",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "rawMessage": "Template \"t\" cannot be used as a trait.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-021",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "rawMessage": "Template \"t\" cannot be used as a trait.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-022",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "rawMessage": "Template \"t\" cannot be used as a trait.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "rawMessage": "Template \"t\" cannot be used as a trait.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-024",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "rawMessage": "Template \"t\" cannot be used as a trait.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "TA",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "TA",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-027",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" is not defined in trait \"t\" in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" is not defined in trait \"t\" in \"u\" at line 2.",
+   "rawMessage": "Block \"nope\" is not defined in trait \"t\".",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-028",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" is not defined in trait \"t\" in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" is not defined in trait \"t\" in \"u\" at line 2.",
+   "rawMessage": "Block \"nope\" is not defined in trait \"t\".",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-029",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"u\" at line 2.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-030",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"u\" at line 2.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-031",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"u\" at line 2.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-032",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"u\" at line 2.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-033",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"t\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"t\" at line 1.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "t",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-034",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"t\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"t\" at line 1.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "t",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-035",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"t\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"t\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "t",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-036",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"t\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"t\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "t",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-037",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The template has no parent and no traits defining the \"b\" block in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The template has no parent and no traits defining the \"b\" block in \"u\" at line 1.",
+   "rawMessage": "The template has no parent and no traits defining the \"b\" block.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-038",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The template has no parent and no traits defining the \"b\" block in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The template has no parent and no traits defining the \"b\" block in \"u\" at line 1.",
+   "rawMessage": "The template has no parent and no traits defining the \"b\" block.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "2a1b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "2a1b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "1a2b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "1a2b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-043",
+  "kind": "twig",
+  "ok": true,
+  "output": "u+1+2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "u+1+2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-045",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"b\" on template \"t2\" does not exist in \"t2\".",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"b\" on template \"t2\" does not exist in \"t2\".",
+   "rawMessage": "Block \"b\" on template \"t2\" does not exist.",
+   "templateName": "t2",
+   "templateLine": 0,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-046",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"b\" on template \"t2\" does not exist in \"t2\".",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"b\" on template \"t2\" does not exist in \"t2\".",
+   "rawMessage": "Block \"b\" on template \"t2\" does not exist.",
+   "templateName": "t2",
+   "templateLine": 0,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "c+ta|tb",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "c+ta|tb",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-049",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Calling the \"parent\" function on a template that does not call \"extends\" or \"use\" is forbidden in \"t\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Calling the \"parent\" function on a template that does not call \"extends\" or \"use\" is forbidden in \"t\" at line 1.",
+   "rawMessage": "Calling the \"parent\" function on a template that does not call \"extends\" or \"use\" is forbidden.",
+   "templateName": "t",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-050",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Calling the \"parent\" function on a template that does not call \"extends\" or \"use\" is forbidden in \"t\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Calling the \"parent\" function on a template that does not call \"extends\" or \"use\" is forbidden in \"t\" at line 1.",
+   "rawMessage": "Calling the \"parent\" function on a template that does not call \"extends\" or \"use\" is forbidden.",
+   "templateName": "t",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "u:t",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "u:t",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "tb",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "tb",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "ubub",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "ubub",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-057",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Template \"t\" cannot be used as a trait in \"u\" at line 1.",
+   "rawMessage": "Template \"t\" cannot be used as a trait.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "traits-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "T",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

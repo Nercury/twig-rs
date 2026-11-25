@@ -1,0 +1,2861 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "use.twig": "{% use 'blocks.twig' with b1 as alias %}{% use 'blocks2.twig' %}{% block b2 %}own{{ parent() }}{% endblock %}{{ block('alias') }}{{ block('b3') }}",
+    "blocks.twig": "{% block b1 %}B1{% endblock %}{% block b2 %}B2{% endblock %}",
+    "blocks2.twig": "{% block b3 %}B3{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-001"
+   },
+   "errors": "collect",
+   "main": "use.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-001"
+  },
+  {
+   "templates": {
+    "use.twig": "{% use 'blocks.twig' with b1 as alias %}{% use 'blocks2.twig' %}{% block b2 %}own{{ parent() }}{% endblock %}{{ block('alias') }}{{ block('b3') }}",
+    "blocks.twig": "{% block b1 %}B1{% endblock %}{% block b2 %}B2{% endblock %}",
+    "blocks2.twig": "{% block b3 %}B3{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-002"
+   },
+   "errors": "collect",
+   "main": "use.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-002"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}|{{ block('b') }}",
+    "t": "{% block a %}TA{% endblock %}{% block b %}TB{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-003"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-003"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}|{{ block('b') }}",
+    "t": "{% block a %}TA{% endblock %}{% block b %}TB{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-004"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-004"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' with a as a %}{{ block('a') is defined ? 'y' : 'n' }}",
+    "t": "{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-005"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-005"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' with a as a %}{{ block('a') is defined ? 'y' : 'n' }}",
+    "t": "{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-006"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-006"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' with a as b %}{{ block('b') }}{{ block('a') is defined ? 'y' : 'n' }}",
+    "t": "{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-007"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-007"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' with a as b %}{{ block('b') }}{{ block('a') is defined ? 'y' : 'n' }}",
+    "t": "{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-008"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-008"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' with a as b, b as a %}{{ block('a') }}|{{ block('b') }}",
+    "t": "{% block a %}TA{% endblock %}{% block b %}TB{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-009"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-009"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' with a as b, b as a %}{{ block('a') }}|{{ block('b') }}",
+    "t": "{% block a %}TA{% endblock %}{% block b %}TB{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-010"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-010"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' with a as b %}{% block b %}own+{{ parent() }}{% endblock %}",
+    "t": "{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-011"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-011"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' with a as b %}{% block b %}own+{{ parent() }}{% endblock %}",
+    "t": "{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-012"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-012"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' with a as b %}{% block a %}own+{{ parent() }}{% endblock %}",
+    "t": "{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-013"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-013"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' with a as b %}{% block a %}own+{{ parent() }}{% endblock %}",
+    "t": "{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-014"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-014"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "text {% block a %}TA{% endblock %} text"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-015"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-015"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "text {% block a %}TA{% endblock %} text"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-016"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-016"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{{ x }}{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-017"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-017"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{{ x }}{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-018"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-018"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{% macro m() %}{% endmacro %}{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-019"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-019"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{% macro m() %}{% endmacro %}{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-020"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-020"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{% extends 'x' %}{% block a %}TA{% endblock %}",
+    "x": "x"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-021"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-021"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{% extends 'x' %}{% block a %}TA{% endblock %}",
+    "x": "x"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-022"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-022"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{% set x = 1 %}{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-023"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-023"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{% set x = 1 %}{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-024"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-024"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{# c #}{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-025"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-025"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{# c #}{% block a %}TA{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-026"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-026"
+  },
+  {
+   "templates": {
+    "u": "\n{% use 't' with nope as x %}",
+    "t": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-027"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-027"
+  },
+  {
+   "templates": {
+    "u": "\n{% use 't' with nope as x %}",
+    "t": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-028"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-028"
+  },
+  {
+   "templates": {
+    "u": "\n{% use 'missing' %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-029"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-029"
+  },
+  {
+   "templates": {
+    "u": "\n{% use 'missing' %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-030"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-030"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}\n{% use 'missing' %}",
+    "t": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-031"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-031"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}\n{% use 'missing' %}",
+    "t": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-032"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-032"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{% use 'missing' %}{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-033"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-033"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{% use 'missing' %}{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-034"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-034"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{% block a %}{{ 1 // 0 }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-035"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-035"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{% block a %}{{ 1 // 0 }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-036"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-036"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{% block b %}{{ parent() }}{% endblock %}",
+    "t": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-037"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-037"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{% block b %}{{ parent() }}{% endblock %}",
+    "t": "{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-038"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-038"
+  },
+  {
+   "templates": {
+    "u": "{% use 't1' %}{% use 't2' %}{{ block('a') }}{{ block('b') }}",
+    "t1": "{% block a %}1a{% endblock %}{% block b %}1b{% endblock %}",
+    "t2": "{% block a %}2a{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-039"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-039"
+  },
+  {
+   "templates": {
+    "u": "{% use 't1' %}{% use 't2' %}{{ block('a') }}{{ block('b') }}",
+    "t1": "{% block a %}1a{% endblock %}{% block b %}1b{% endblock %}",
+    "t2": "{% block a %}2a{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-040"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-040"
+  },
+  {
+   "templates": {
+    "u": "{% use 't1' %}{{ block('a') }}{{ block('b') }}",
+    "t1": "{% use 't2' %}{% block a %}1a{% endblock %}",
+    "t2": "{% block a %}2a{% endblock %}{% block b %}2b{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-041"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-041"
+  },
+  {
+   "templates": {
+    "u": "{% use 't1' %}{{ block('a') }}{{ block('b') }}",
+    "t1": "{% use 't2' %}{% block a %}1a{% endblock %}",
+    "t2": "{% block a %}2a{% endblock %}{% block b %}2b{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-042"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-042"
+  },
+  {
+   "templates": {
+    "u": "{% use 't1' %}{% block a %}u+{{ parent() }}{% endblock %}",
+    "t1": "{% use 't2' %}{% block a %}1+{{ parent() }}{% endblock %}",
+    "t2": "{% block a %}2{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-043"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-043"
+  },
+  {
+   "templates": {
+    "u": "{% use 't1' %}{% block a %}u+{{ parent() }}{% endblock %}",
+    "t1": "{% use 't2' %}{% block a %}1+{{ parent() }}{% endblock %}",
+    "t2": "{% block a %}2{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-044"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-044"
+  },
+  {
+   "templates": {
+    "u": "{% use 't1' with b as c %}{% block c %}u+{{ parent() }}{% endblock %}",
+    "t1": "{% use 't2' with x as b %}",
+    "t2": "{% block x %}2x{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-045"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-045"
+  },
+  {
+   "templates": {
+    "u": "{% use 't1' with b as c %}{% block c %}u+{{ parent() }}{% endblock %}",
+    "t1": "{% use 't2' with x as b %}",
+    "t2": "{% block x %}2x{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-046"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-046"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% use 't' %}{% block a %}c+{{ parent() }}{% endblock %}",
+    "p": "{% block a %}pa{% endblock %}|{% block b %}pb{% endblock %}",
+    "t": "{% block b %}tb{% endblock %}{% block a %}ta{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-047"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-047"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% use 't' %}{% block a %}c+{{ parent() }}{% endblock %}",
+    "p": "{% block a %}pa{% endblock %}|{% block b %}pb{% endblock %}",
+    "t": "{% block b %}tb{% endblock %}{% block a %}ta{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-048"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-048"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% use 't' %}",
+    "p": "{% block a %}pa{% endblock %}",
+    "t": "{% block a %}ta+{{ parent() }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-049"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-049"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% use 't' %}",
+    "p": "{% block a %}pa{% endblock %}",
+    "t": "{% block a %}ta+{{ parent() }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-050"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-050"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ _self }}:{{ block('a') }}",
+    "t": "{% block a %}{{ _self }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-051"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-051"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ _self }}:{{ block('a') }}",
+    "t": "{% block a %}{{ _self }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-052"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-052"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{% block a %}{{ block('b') }}{% endblock %}{% block b %}tb{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-053"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-053"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{% block a %}{{ block('b') }}{% endblock %}{% block b %}tb{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-054"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-054"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{% block b %}ub{% endblock %}{{ block('a') }}",
+    "t": "{% block a %}{{ block('b') }}{% endblock %}{% block b %}tb{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-055"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-055"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{% block b %}ub{% endblock %}{{ block('a') }}",
+    "t": "{% block a %}{{ block('b') }}{% endblock %}{% block b %}tb{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/traits-056"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-056"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{{ block('a') }}",
+    "t": "{{ x }}{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-057"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-057"
+  },
+  {
+   "templates": {
+    "u": "{% use 't' %}{% block a %}{{ parent() }}{% endblock %}",
+    "t": "{% block a %}T{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/traits-058"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "traits-058"
+  }
+ ],
+ "isolation": "process"
+}

@@ -1,0 +1,1496 @@
+[
+ {
+  "id": "numbers-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "5.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "-5",
+  "deprecations": [
+   "Since twig/twig 3.21: As the \"|\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.21: As the \"|\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "numbers-006",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"abs() expects exactly 1 argument, 2 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"abs() expects exactly 1 argument, 2 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"abs() expects exactly 1 argument, 2 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "abs() expects exactly 1 argument, 2 given",
+    "formatted": "ArgumentCountError: abs() expects exactly 1 argument, 2 given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-007",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unknown argument \"num\" for filter \"abs()\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Unknown argument \"num\" for filter \"abs()\" in \"index.twig\" at line 1.",
+   "rawMessage": "Unknown argument \"num\" for filter \"abs()\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-008",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"abs() expects exactly 1 argument, 2 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"abs() expects exactly 1 argument, 2 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"abs() expects exactly 1 argument, 2 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "abs() expects exactly 1 argument, 2 given",
+    "formatted": "ArgumentCountError: abs() expects exactly 1 argument, 2 given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-009",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Named parameter $num overwrites previous argument\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $num overwrites previous argument\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Named parameter $num overwrites previous argument\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Named parameter $num overwrites previous argument",
+    "formatted": "Error: Named parameter $num overwrites previous argument",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-010",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $nope",
+    "formatted": "Error: Unknown named parameter $nope",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "1000",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "abs(): Passing null to parameter #1 ($num) of type int|float is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "numbers-021",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "abs(): Argument #1 ($num) must be of type int|float, string given",
+    "formatted": "TypeError: abs(): Argument #1 ($num) must be of type int|float, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-022",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "abs(): Argument #1 ($num) must be of type int|float, string given",
+    "formatted": "TypeError: abs(): Argument #1 ($num) must be of type int|float, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "abs(): Argument #1 ($num) must be of type int|float, string given",
+    "formatted": "TypeError: abs(): Argument #1 ($num) must be of type int|float, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-024",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "abs(): Argument #1 ($num) must be of type int|float, string given",
+    "formatted": "TypeError: abs(): Argument #1 ($num) must be of type int|float, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-025",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "abs(): Argument #1 ($num) must be of type int|float, array given",
+    "formatted": "TypeError: abs(): Argument #1 ($num) must be of type int|float, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-026",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, TwigRsConsts given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, TwigRsConsts given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, TwigRsConsts given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "abs(): Argument #1 ($num) must be of type int|float, TwigRsConsts given",
+    "formatted": "TypeError: abs(): Argument #1 ($num) must be of type int|float, TwigRsConsts given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "INF",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "INF",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "NAN",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "unexpected NAN value was coerced to string"
+   }
+  ]
+ },
+ {
+  "id": "numbers-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "9.2233720368548E+18",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "9007199254740993",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-033",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, TwigRsString given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, TwigRsString given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"abs(): Argument #1 ($num) must be of type int|float, TwigRsString given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "abs(): Argument #1 ($num) must be of type int|float, TwigRsString given",
+    "formatted": "TypeError: abs(): Argument #1 ($num) must be of type int|float, TwigRsString given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "43",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "42.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "42.6",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "-3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.96",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "5.05",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "5.06",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "1200",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-043",
+  "kind": "twig",
+  "ok": true,
+  "output": "0.29",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "4",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "-3.2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "-3.3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "10",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-054",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"round\" filter only supports the \"common\", \"ceil\", and \"floor\" methods in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"round\" filter only supports the \"common\", \"ceil\", and \"floor\" methods in \"index.twig\" at line 1.",
+   "rawMessage": "The \"round\" filter only supports the \"common\", \"ceil\", and \"floor\" methods.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-055",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"round\" filter only supports the \"common\", \"ceil\", and \"floor\" methods in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"round\" filter only supports the \"common\", \"ceil\", and \"floor\" methods in \"index.twig\" at line 1.",
+   "rawMessage": "The \"round\" filter only supports the \"common\", \"ceil\", and \"floor\" methods.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.01",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "-0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.0E+20",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "5.6",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "5.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "5.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-064",
+  "kind": "twig",
+  "ok": true,
+  "output": "5.56",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 2.9 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "numbers-065",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"round(): Argument #2 ($precision) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"round(): Argument #2 ($precision) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"round(): Argument #2 ($precision) must be of type int, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "round(): Argument #2 ($precision) must be of type int, string given",
+    "formatted": "TypeError: round(): Argument #2 ($precision) must be of type int, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-066",
+  "kind": "twig",
+  "ok": true,
+  "output": "6",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "round(): Passing null to parameter #2 ($precision) of type int is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "numbers-067",
+  "kind": "twig",
+  "ok": true,
+  "output": "5.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-068",
+  "kind": "twig",
+  "ok": true,
+  "output": "6",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-069",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int ** string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int ** string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int ** string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: int ** string",
+    "formatted": "TypeError: Unsupported operand types: int ** string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-070",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int ** array\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int ** array\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int ** array\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: int ** array",
+    "formatted": "TypeError: Unsupported operand types: int ** array",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-071",
+  "kind": "twig",
+  "ok": true,
+  "output": "6",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-072",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $nope",
+    "formatted": "Error: Unknown named parameter $nope",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-073",
+  "kind": "twig",
+  "ok": true,
+  "output": "120",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-074",
+  "kind": "twig",
+  "ok": true,
+  "output": "0.1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-075",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.23456789",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-076",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-077",
+  "kind": "twig",
+  "ok": true,
+  "output": "30",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-078",
+  "kind": "twig",
+  "ok": true,
+  "output": "40",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-079",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.0E+300",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-080",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Object of class TwigRsConsts could not be converted to float"
+   }
+  ]
+ },
+ {
+  "id": "numbers-081",
+  "kind": "twig",
+  "ok": true,
+  "output": "NAN",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "unexpected NAN value was coerced to string"
+   }
+  ]
+ },
+ {
+  "id": "numbers-082",
+  "kind": "twig",
+  "ok": true,
+  "output": "INF",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-083",
+  "kind": "twig",
+  "ok": true,
+  "output": "1000",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-084",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-085",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Object of class TwigRsString could not be converted to float"
+   }
+  ]
+ },
+ {
+  "id": "numbers-086",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Object of class Twig\\Markup could not be converted to float"
+   }
+  ]
+ },
+ {
+  "id": "numbers-087",
+  "kind": "twig",
+  "ok": true,
+  "output": "200",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-088",
+  "kind": "twig",
+  "ok": true,
+  "output": "9,800.33",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-089",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.234.567,89",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-090",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-091",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-092",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-093",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-094",
+  "kind": "twig",
+  "ok": true,
+  "output": "-1,234.6",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-095",
+  "kind": "twig",
+  "ok": true,
+  "output": "1thou234dec00",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-096",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,230",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-097",
+  "kind": "twig",
+  "ok": true,
+  "output": "123450",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-098",
+  "kind": "twig",
+  "ok": true,
+  "output": "100,000,000,000,000,000,000",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-099",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,000,000,000,000,000.00",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-100",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.01",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-101",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-102",
+  "kind": "twig",
+  "ok": true,
+  "output": "12",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-103",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,000",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-104",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-105",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-106",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-107",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-108",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,234.57",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-109",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,234.57",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 2.7 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "numbers-110",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"number_format(): Argument #2 ($decimals) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"number_format(): Argument #2 ($decimals) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"number_format(): Argument #2 ($decimals) must be of type int, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "number_format(): Argument #2 ($decimals) must be of type int, string given",
+    "formatted": "TypeError: number_format(): Argument #2 ($decimals) must be of type int, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-111",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,234.57",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-112",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"number_format(): Argument #3 ($decimal_separator) must be of type ?string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"number_format(): Argument #3 ($decimal_separator) must be of type ?string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"number_format(): Argument #3 ($decimal_separator) must be of type ?string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "number_format(): Argument #3 ($decimal_separator) must be of type ?string, array given",
+    "formatted": "TypeError: number_format(): Argument #3 ($decimal_separator) must be of type ?string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-113",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"number_format(): Argument #4 ($thousands_separator) must be of type ?string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"number_format(): Argument #4 ($thousands_separator) must be of type ?string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"number_format(): Argument #4 ($thousands_separator) must be of type ?string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "number_format(): Argument #4 ($thousands_separator) must be of type ?string, array given",
+    "formatted": "TypeError: number_format(): Argument #4 ($thousands_separator) must be of type ?string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-114",
+  "kind": "twig",
+  "ok": true,
+  "output": "-9",
+  "deprecations": [
+   "Since twig/twig 3.21: As the \"|\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.21: As the \"|\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."
+   },
+   {
+    "type": "E_WARNING",
+    "message": "A non-numeric value encountered"
+   }
+  ]
+ },
+ {
+  "id": "numbers-115",
+  "kind": "twig",
+  "ok": true,
+  "output": "9,007,199,254,740,992",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-116",
+  "kind": "twig",
+  "ok": true,
+  "output": "9,007,199,254,740,992.00",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-117",
+  "kind": "twig",
+  "ok": true,
+  "output": "4,503,599,627,370,497.000",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-118",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,235",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-119",
+  "kind": "twig",
+  "ok": true,
+  "output": "1 235",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-120",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,234.50",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-121",
+  "kind": "twig",
+  "ok": true,
+  "output": "1‘234·5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-122",
+  "kind": "twig",
+  "ok": true,
+  "output": "0.00000100",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-123",
+  "kind": "twig",
+  "ok": true,
+  "output": "123,456,789.12345677614212036133",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-124",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,234.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-125",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $nope",
+    "formatted": "Error: Unknown named parameter $nope",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-126",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.234,5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-127",
+  "kind": "twig",
+  "ok": true,
+  "output": "100,000,000,000,000,000,026,609,864,708,367,276,537,402,401,181,200,809,098,131,977,453,489,758,916,313,088",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-128",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-129",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,000.000",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-130",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.0",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Object of class TwigRsConsts could not be converted to float"
+   }
+  ]
+ },
+ {
+  "id": "numbers-131",
+  "kind": "twig",
+  "ok": true,
+  "output": "nan",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-132",
+  "kind": "twig",
+  "ok": true,
+  "output": "inf",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-133",
+  "kind": "twig",
+  "ok": true,
+  "output": "inf",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-134",
+  "kind": "twig",
+  "ok": true,
+  "output": "0.0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-135",
+  "kind": "twig",
+  "ok": true,
+  "output": "-9,223,372,036,854,775,808.0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-136",
+  "kind": "twig",
+  "ok": true,
+  "output": "9,223,372,036,854,775,808.0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "numbers-137",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.0",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Object of class TwigRsString could not be converted to float"
+   }
+  ]
+ },
+ {
+  "id": "numbers-138",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.0",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Object of class Twig\\Markup could not be converted to float"
+   }
+  ]
+ }
+]

@@ -1,0 +1,4847 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": 1286199900
+   },
+   "data_php": "return ['d' => 1286199900];",
+   "id": "dates-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": 1286199900
+   },
+   "data_php": "return ['d' => 1286199900];",
+   "id": "dates-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": -189291360
+   },
+   "data_php": "return ['d' => -189291360];",
+   "id": "dates-003"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": -189291360
+   },
+   "data_php": "return ['d' => -189291360];",
+   "id": "dates-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": 0
+   },
+   "data_php": "return ['d' => 0];",
+   "id": "dates-005"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": 0
+   },
+   "data_php": "return ['d' => 0];",
+   "id": "dates-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": "1286199900"
+   },
+   "data_php": "return ['d' => '1286199900'];",
+   "id": "dates-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": "1286199900"
+   },
+   "data_php": "return ['d' => '1286199900'];",
+   "id": "dates-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": "-189291360"
+   },
+   "data_php": "return ['d' => '-189291360'];",
+   "id": "dates-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": "-189291360"
+   },
+   "data_php": "return ['d' => '-189291360'];",
+   "id": "dates-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": "2010-10-04 13:45"
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45'];",
+   "id": "dates-011"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": "2010-10-04 13:45"
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45'];",
+   "id": "dates-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": "2010-01-28T15:00:00+04:00"
+   },
+   "data_php": "return ['d' => '2010-01-28T15:00:00+04:00'];",
+   "id": "dates-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": "2010-01-28T15:00:00+04:00"
+   },
+   "data_php": "return ['d' => '2010-01-28T15:00:00+04:00'];",
+   "id": "dates-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": "2010-01-28 15:00 EST"
+   },
+   "data_php": "return ['d' => '2010-01-28 15:00 EST'];",
+   "id": "dates-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": "2010-01-28 15:00 EST"
+   },
+   "data_php": "return ['d' => '2010-01-28 15:00 EST'];",
+   "id": "dates-016"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-017"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-018"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris'))];",
+   "id": "dates-019"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris'))];",
+   "id": "dates-020"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York'))];",
+   "id": "dates-021"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York'))];",
+   "id": "dates-022"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45:30.123456+05:30",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45:30.123456+05:30')];",
+   "id": "dates-023"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45:30.123456+05:30",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45:30.123456+05:30')];",
+   "id": "dates-024"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo'))];",
+   "id": "dates-025"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo'))];",
+   "id": "dates-026"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$string": "2010-10-04 13:45"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\TwigRsString('2010-10-04 13:45')];",
+   "id": "dates-027"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$string": "2010-10-04 13:45"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\TwigRsString('2010-10-04 13:45')];",
+   "id": "dates-028"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$string": "1286199900"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\TwigRsString('1286199900')];",
+   "id": "dates-029"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "d": {
+     "$string": "1286199900"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\TwigRsString('1286199900')];",
+   "id": "dates-030"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": 1286199900
+   },
+   "data_php": "return ['d' => 1286199900];",
+   "id": "dates-031"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": 1286199900
+   },
+   "data_php": "return ['d' => 1286199900];",
+   "id": "dates-032"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": -189291360
+   },
+   "data_php": "return ['d' => -189291360];",
+   "id": "dates-033"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": -189291360
+   },
+   "data_php": "return ['d' => -189291360];",
+   "id": "dates-034"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": 0
+   },
+   "data_php": "return ['d' => 0];",
+   "id": "dates-035"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": 0
+   },
+   "data_php": "return ['d' => 0];",
+   "id": "dates-036"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "1286199900"
+   },
+   "data_php": "return ['d' => '1286199900'];",
+   "id": "dates-037"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "1286199900"
+   },
+   "data_php": "return ['d' => '1286199900'];",
+   "id": "dates-038"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "-189291360"
+   },
+   "data_php": "return ['d' => '-189291360'];",
+   "id": "dates-039"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "-189291360"
+   },
+   "data_php": "return ['d' => '-189291360'];",
+   "id": "dates-040"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-10-04 13:45"
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45'];",
+   "id": "dates-041"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-10-04 13:45"
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45'];",
+   "id": "dates-042"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-01-28T15:00:00+04:00"
+   },
+   "data_php": "return ['d' => '2010-01-28T15:00:00+04:00'];",
+   "id": "dates-043"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-01-28T15:00:00+04:00"
+   },
+   "data_php": "return ['d' => '2010-01-28T15:00:00+04:00'];",
+   "id": "dates-044"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-01-28 15:00 EST"
+   },
+   "data_php": "return ['d' => '2010-01-28 15:00 EST'];",
+   "id": "dates-045"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-01-28 15:00 EST"
+   },
+   "data_php": "return ['d' => '2010-01-28 15:00 EST'];",
+   "id": "dates-046"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-047"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-048"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris'))];",
+   "id": "dates-049"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris'))];",
+   "id": "dates-050"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York'))];",
+   "id": "dates-051"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York'))];",
+   "id": "dates-052"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45:30.123456+05:30",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45:30.123456+05:30')];",
+   "id": "dates-053"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45:30.123456+05:30",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45:30.123456+05:30')];",
+   "id": "dates-054"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo'))];",
+   "id": "dates-055"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo'))];",
+   "id": "dates-056"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$string": "2010-10-04 13:45"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\TwigRsString('2010-10-04 13:45')];",
+   "id": "dates-057"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$string": "2010-10-04 13:45"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\TwigRsString('2010-10-04 13:45')];",
+   "id": "dates-058"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$string": "1286199900"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\TwigRsString('1286199900')];",
+   "id": "dates-059"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$string": "1286199900"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\TwigRsString('1286199900')];",
+   "id": "dates-060"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": 1286199900
+   },
+   "data_php": "return ['d' => 1286199900];",
+   "id": "dates-061"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": 1286199900
+   },
+   "data_php": "return ['d' => 1286199900];",
+   "id": "dates-062"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": -189291360
+   },
+   "data_php": "return ['d' => -189291360];",
+   "id": "dates-063"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": -189291360
+   },
+   "data_php": "return ['d' => -189291360];",
+   "id": "dates-064"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": 0
+   },
+   "data_php": "return ['d' => 0];",
+   "id": "dates-065"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": 0
+   },
+   "data_php": "return ['d' => 0];",
+   "id": "dates-066"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": "1286199900"
+   },
+   "data_php": "return ['d' => '1286199900'];",
+   "id": "dates-067"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": "1286199900"
+   },
+   "data_php": "return ['d' => '1286199900'];",
+   "id": "dates-068"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": "-189291360"
+   },
+   "data_php": "return ['d' => '-189291360'];",
+   "id": "dates-069"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": "-189291360"
+   },
+   "data_php": "return ['d' => '-189291360'];",
+   "id": "dates-070"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": "2010-10-04 13:45"
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45'];",
+   "id": "dates-071"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": "2010-10-04 13:45"
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45'];",
+   "id": "dates-072"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": "2010-01-28T15:00:00+04:00"
+   },
+   "data_php": "return ['d' => '2010-01-28T15:00:00+04:00'];",
+   "id": "dates-073"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": "2010-01-28T15:00:00+04:00"
+   },
+   "data_php": "return ['d' => '2010-01-28T15:00:00+04:00'];",
+   "id": "dates-074"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": "2010-01-28 15:00 EST"
+   },
+   "data_php": "return ['d' => '2010-01-28 15:00 EST'];",
+   "id": "dates-075"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": "2010-01-28 15:00 EST"
+   },
+   "data_php": "return ['d' => '2010-01-28 15:00 EST'];",
+   "id": "dates-076"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-077"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-078"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris'))];",
+   "id": "dates-079"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris'))];",
+   "id": "dates-080"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York'))];",
+   "id": "dates-081"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York'))];",
+   "id": "dates-082"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45:30.123456+05:30",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45:30.123456+05:30')];",
+   "id": "dates-083"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45:30.123456+05:30",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45:30.123456+05:30')];",
+   "id": "dates-084"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo'))];",
+   "id": "dates-085"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo'))];",
+   "id": "dates-086"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$string": "2010-10-04 13:45"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\TwigRsString('2010-10-04 13:45')];",
+   "id": "dates-087"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$string": "2010-10-04 13:45"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\TwigRsString('2010-10-04 13:45')];",
+   "id": "dates-088"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$string": "1286199900"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\TwigRsString('1286199900')];",
+   "id": "dates-089"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "America/Los_Angeles",
+   "data": {
+    "d": {
+     "$string": "1286199900"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\TwigRsString('1286199900')];",
+   "id": "dates-090"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'Asia/Hong_Kong') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45'), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-091"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45'), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-092"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'America/Chicago') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45'), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-093"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', '+05:00') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45'), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-094"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'EST') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45'), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-095"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', tz) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45'), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-096"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'UTC') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45'), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-097"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'Asia/Hong_Kong') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-098"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-099"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'America/Chicago') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-100"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', '+05:00') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-101"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'EST') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-102"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', tz) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-103"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'UTC') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-104"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'Asia/Hong_Kong') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-105"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-106"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'America/Chicago') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-107"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', '+05:00') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-108"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'EST') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-109"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', tz) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-110"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'UTC') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-111"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'Asia/Hong_Kong') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": 1286199900,
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => 1286199900, 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-112"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": 1286199900,
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => 1286199900, 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-113"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'America/Chicago') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": 1286199900,
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => 1286199900, 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-114"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', '+05:00') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": 1286199900,
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => 1286199900, 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-115"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'EST') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": 1286199900,
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => 1286199900, 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-116"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', tz) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": 1286199900,
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => 1286199900, 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-117"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'UTC') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": 1286199900,
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => 1286199900, 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-118"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'Asia/Hong_Kong') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-10-04 13:45",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-119"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-10-04 13:45",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-120"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'America/Chicago') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-10-04 13:45",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-121"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', '+05:00') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-10-04 13:45",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-122"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'EST') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-10-04 13:45",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-123"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', tz) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-10-04 13:45",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-124"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'UTC') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-10-04 13:45",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-125"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'Asia/Hong_Kong') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-01-28T15:00:00+04:00",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-01-28T15:00:00+04:00', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-126"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-01-28T15:00:00+04:00",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-01-28T15:00:00+04:00', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-127"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'America/Chicago') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-01-28T15:00:00+04:00",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-01-28T15:00:00+04:00', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-128"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', '+05:00') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-01-28T15:00:00+04:00",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-01-28T15:00:00+04:00', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-129"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'EST') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-01-28T15:00:00+04:00",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-01-28T15:00:00+04:00', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-130"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', tz) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-01-28T15:00:00+04:00",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-01-28T15:00:00+04:00', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-131"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'UTC') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-01-28T15:00:00+04:00",
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => '2010-01-28T15:00:00+04:00', 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-132"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'Asia/Hong_Kong') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-133"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-134"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'America/Chicago') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-135"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', '+05:00') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-136"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'EST') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-137"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', tz) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-138"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T e P U', 'UTC') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    },
+    "tz": {
+     "$tz": "Indian/Mauritius"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo')), 'tz' => new \\DateTimeZone('Indian/Mauritius')];",
+   "id": "dates-139"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('d/m/Y') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-140"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('\\\\Y-\\\\m Y') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-141"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('D, d M Y H:i:s O') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York'))];",
+   "id": "dates-142"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('l jS \\\\o\\\\f F Y h:i:s A') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-143"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('N w z t L o W B g G u v I Z c r') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45:30.123456+05:30",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45:30.123456+05:30')];",
+   "id": "dates-144"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$interval": "P2D"
+    }
+   },
+   "data_php": "return ['d' => new \\DateInterval('P2D')];",
+   "id": "dates-145"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$interval": "P1Y2M3DT4H5M6S"
+    }
+   },
+   "data_php": "return ['d' => new \\DateInterval('P1Y2M3DT4H5M6S')];",
+   "id": "dates-146"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('%y-%m-%d %h:%i:%s %R %a %%') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$diff": [
+      [
+       "DateTime",
+       "2024-01-01",
+       null
+      ],
+      [
+       "DateTime",
+       "2024-03-05 10:20:30",
+       null
+      ]
+     ]
+    }
+   },
+   "data_php": "return ['d' => (new \\DateTime('2024-01-01'))->diff(new \\DateTime('2024-03-05 10:20:30'))];",
+   "id": "dates-147"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('%Y %M %D %H %I %S %F %f %r %x') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$interval": "PT36H"
+    }
+   },
+   "data_php": "return ['d' => new \\DateInterval('PT36H')];",
+   "id": "dates-148"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('%d', 'Asia/Tokyo') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$interval": "P3D"
+    }
+   },
+   "data_php": "return ['d' => new \\DateInterval('P3D')];",
+   "id": "dates-149"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$diff": [
+      [
+       "DateTime",
+       "2024-03-05",
+       null
+      ],
+      [
+       "DateTime",
+       "2024-01-01",
+       null
+      ]
+     ]
+    }
+   },
+   "data_php": "return ['d' => (new \\DateTime('2024-03-05'))->diff(new \\DateTime('2024-01-01'))];",
+   "id": "dates-150"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date(5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-151"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date(null, 'Asia/Tokyo') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-152"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date(format='Y') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-153"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date(timezone='Asia/Tokyo') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-154"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y', 'Nowhere/City') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-155"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y', '') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-156"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y', ['x']) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-157"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y', 5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-158"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y', s) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "s": {
+     "$string": "Asia/Tokyo"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\DateTime('2010-10-04 13:45'), 's' => new \\TwigRsString('Asia/Tokyo')];",
+   "id": "dates-159"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y', o) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "o": {
+     "$object": "TwigRsPlain"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['d' => new \\DateTime('2010-10-04 13:45'), 'o' => new \\TwigRsPlain()];",
+   "id": "dates-160"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'notadate'|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-161"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '2010-13-45'|date }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-162"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [1]|date('Y') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-163"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ o|date('Y') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "o": {
+     "$object": "TwigRsPlain"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsPlain()];",
+   "id": "dates-164"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ true|date('Y-m-d H:i:s e') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-165"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1.5e3|date('Y-m-d') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-166"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '1700000000.5'|date('Y-m-d H:i') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-167"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ false|date('e') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-168"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ''|date('e') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-169"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ null|date('e') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-170"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'now'|date('e') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-171"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'now'|date('e', 'Asia/Tokyo') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-172"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'NOW'|date('e', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-173"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '-1'|date('c') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-174"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '-'|date('Y') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-175"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '0012'|date('c') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-176"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '+5'|date('e', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-177"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ' 5'|date('Y') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-178"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 9223372036854775807|date('Y') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-179"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '@1286199900'|date('c e') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-180"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '-0'|date('c') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-181"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '99999999999999999999'|date('Y') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-182"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '1.5'|date('H:i') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-183"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1286199900.0|date('c') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-184"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('c e', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": "2010-10-04 13:45 +0200"
+   },
+   "data_php": "return ['d' => '2010-10-04 13:45 +0200'];",
+   "id": "dates-185"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('c T e', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": 1286199900
+   },
+   "data_php": "return ['d' => 1286199900];",
+   "id": "dates-186"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ m|date('Y-m-d') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "m": {
+     "$markup": "2010-10-04"
+    }
+   },
+   "data_php": "return ['m' => new \\Twig\\Markup('2010-10-04', 'UTF-8')];",
+   "id": "dates-187"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date('Y', 'Europe/Paris', 'x') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-188"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date(...{format: 'Y'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-189"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date(...{nope: 'Y'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-190"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '2024-01-31'|date_modify('+1 month')|date('Y-m-d') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-191"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify('+1 day')|date('Y-m-d H:i T') }} {{ d|date('Y-m-d H:i T') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York'))];",
+   "id": "dates-192"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify('+1 day')|date('Y-m-d H:i T') }} {{ d|date('Y-m-d H:i T') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo'))];",
+   "id": "dates-193"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (d|date_modify('+1 day')) is same as(d) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo'))];",
+   "id": "dates-194"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify('blah') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-195"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify('blah') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo'))];",
+   "id": "dates-196"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1286199900|date_modify('+1 hour')|date('c e') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-197"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '2010-01-28T15:00:00+04:00'|date_modify('+1 hour')|date('c e') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-198"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '2010-01-28 15:00'|date_modify('midnight')|date('c e') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-199"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify(null)|date('c') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-200"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify('')|date('c') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-201"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify([1])|date('c') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-202"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify(5)|date('c') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-203"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify('@0')|date('c e') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "Europe/Paris"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('Europe/Paris'))];",
+   "id": "dates-204"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify('last day of next month')|date('c') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-205"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify(modifier='+2 days')|date('c') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-206"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'notadate'|date_modify('+1 day') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-207"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ i|date_modify('+1 day') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "i": {
+     "$interval": "P1D"
+    }
+   },
+   "data_php": "return ['i' => new \\DateInterval('P1D')];",
+   "id": "dates-208"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify('+1 day', 'x')|date('c') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-209"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify(...{modifier: '+3 days'})|date('c') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-210"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ d|date_modify(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45')];",
+   "id": "dates-211"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date('2010-10-04 13:45')|date('c e') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-212"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date(1286199900)|date('c e') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-213"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date('2010-10-04', 'Asia/Tokyo')|date('c e', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-214"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date(d)|date('c e', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York'))];",
+   "id": "dates-215"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date(d) == d ? 'eq' : 'ne' }} {{ date(d) is same as(d) ? 'same' : 'clone' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      "America/New_York"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45', new \\DateTimeZone('America/New_York'))];",
+   "id": "dates-216"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date(d) is same as(d) ? 'same' : 'other' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo'))];",
+   "id": "dates-217"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date(d, false) is same as(d) ? 'same' : 'other' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTimeImmutable",
+      "2010-10-04 13:45",
+      "Asia/Tokyo"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2010-10-04 13:45', new \\DateTimeZone('Asia/Tokyo'))];",
+   "id": "dates-218"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date() > date('2000-01-01') ? 'later' : 'earlier' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-219"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date('-2days') < date() ? 'yes' : 'no' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-220"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date('notadate') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-221"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date(null, 'Asia/Tokyo')|date('e', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-222"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date(timezone='Asia/Tokyo')|date('e', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-223"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date()|date('e', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-224"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date('now', false)|date('e', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-225"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date().timezone }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-226"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date('2024-01-01 12:00:00').timestamp }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-227"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date('2024-01-01 12:00:00').date }} {{ date('2024-01-01 12:00:00').timezone_type }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-228"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date('2024-01-01', 'nope') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-229"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date(date('2024-01-01 00:00', 'UTC'), 'Asia/Tokyo')|date('c e', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-230"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date(d, tz)|date('c e', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45",
+      null
+     ]
+    },
+    "tz": {
+     "$tz": "Australia/Sydney"
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45'), 'tz' => new \\DateTimeZone('Australia/Sydney')];",
+   "id": "dates-231"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date([1]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-232"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date(i) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "data": {
+    "i": {
+     "$interval": "P1D"
+    }
+   },
+   "data_php": "return ['i' => new \\DateInterval('P1D')];",
+   "id": "dates-233"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date('2024-01-01', 'Asia/Tokyo', 'x')|date('c', false) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-234"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date(...['2024-02-03'])|date('Y-m-d') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-235"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ date(...{nope: 1}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-236"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set d = date('2024-01-01') %}{{ d|date_modify('+1 day')|date('Y-m-d') }} {{ d|date('Y-m-d') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "timezone": "Europe/Paris",
+   "id": "dates-237"
+  }
+ ],
+ "isolation": "none"
+}

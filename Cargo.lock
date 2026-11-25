@@ -317,9 +317,15 @@ name = "twig"
 version = "0.1.0"
 dependencies = [
  "libtest-mimic",
+ "memchr",
  "regex",
  "serde",
  "serde_json",
+ "twig-date",
+ "twig-pcre",
+ "twig-test-support",
+ "twig-unicode",
+ "twig-value",
 ]
 
 [[package]]

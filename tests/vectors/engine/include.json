@@ -1,0 +1,1596 @@
+[
+ {
+  "id": "include-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "[-][1][2][-][3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "[-][1][2][-][3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num|name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num,z,a|z|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num|name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num,z,a|z|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num,0,b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num,0,b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "setno-y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "setno-y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "<1:1><2:2>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "<1:1><2:2>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-011",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"i\" at line 3.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"i\" at line 3.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "i",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-012",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"i\" at line 3.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"i\" at line 3.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "i",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "||",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "||",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-015",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"n1\", \"n2\" in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"n1\", \"n2\" in \"i\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"n1\", \"n2\".",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-016",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"n1\", \"n2\" in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"n1\", \"n2\" in \"i\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"n1\", \"n2\".",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-017",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"i\" at line 1.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-018",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"i\" at line 1.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-019",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"\" in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"\" in \"i\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"\".",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-020",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"\" in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"\" in \"i\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"\".",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-021",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"n1\", \"n2\" in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"n1\", \"n2\" in \"i\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"n1\", \"n2\".",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-022",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"n1\", \"n2\" in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"n1\", \"n2\" in \"i\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"n1\", \"n2\".",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "L1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "L1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "five",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "five",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-027",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-027/46/460bc6bec6b6d8194806cec1a146d129.php on line 44\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-027/46/460bc6bec6b6d8194806cec1a146d129.php on line 44\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-027/46/460bc6bec6b6d8194806cec1a146d129.php on line 44\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-027/46/460bc6bec6b6d8194806cec1a146d129.php on line 44",
+    "formatted": "TypeError: Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-027/46/460bc6bec6b6d8194806cec1a146d129.php on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-028",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-028/c0/c0c14a35cab6ec3ebced4a1dcd0d5854.php on line 44\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-028/c0/c0c14a35cab6ec3ebced4a1dcd0d5854.php on line 44\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-028/c0/c0c14a35cab6ec3ebced4a1dcd0d5854.php on line 44\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-028/c0/c0c14a35cab6ec3ebced4a1dcd0d5854.php on line 44",
+    "formatted": "TypeError: Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-028/c0/c0c14a35cab6ec3ebced4a1dcd0d5854.php on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "onefive",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "onefive",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-031",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"i\" at line 1.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2.",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-032",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"i\" at line 1.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2.",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-033",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/include-033/df/df28e18661cc453f0cb219d3351a91a8.php on line 44\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/include-033/df/df28e18661cc453f0cb219d3351a91a8.php on line 44\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/include-033/df/df28e18661cc453f0cb219d3351a91a8.php on line 44\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/include-033/df/df28e18661cc453f0cb219d3351a91a8.php on line 44",
+    "formatted": "TypeError: Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/include-033/df/df28e18661cc453f0cb219d3351a91a8.php on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-034",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/include-034/ba/ba2b5de29ef6c83a5558abda3d580fb7.php on line 44\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/include-034/ba/ba2b5de29ef6c83a5558abda3d580fb7.php on line 44\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/include-034/ba/ba2b5de29ef6c83a5558abda3d580fb7.php on line 44\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/include-034/ba/ba2b5de29ef6c83a5558abda3d580fb7.php on line 44",
+    "formatted": "TypeError: Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/include-034/ba/ba2b5de29ef6c83a5558abda3d580fb7.php on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "a,b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "a,b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-041",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"k\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"k\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-042",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"k\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"k\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-043",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"deeper\" is not defined in \"k\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"deeper\" is not defined in \"k\" at line 1.",
+   "rawMessage": "Template \"deeper\" is not defined.",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-044",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"deeper\" is not defined in \"k\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"deeper\" is not defined in \"k\" at line 1.",
+   "rawMessage": "Template \"deeper\" is not defined.",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-047",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unexpected token \"end of template\" (\"end of print statement\" expected) in \"k\" at line 1 column 5.",
+   "formatted": "Twig\\Error\\SyntaxError: Unexpected token \"end of template\" (\"end of print statement\" expected) in \"k\" at line 1 column 5.",
+   "rawMessage": "Unexpected token \"end of template\" (\"end of print statement\" expected).",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": 5
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-048",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unexpected token \"end of template\" (\"end of print statement\" expected) in \"k\" at line 1 column 5.",
+   "formatted": "Twig\\Error\\SyntaxError: Unexpected token \"end of template\" (\"end of print statement\" expected) in \"k\" at line 1 column 5.",
+   "rawMessage": "Unexpected token \"end of template\" (\"end of print statement\" expected).",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": 5
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-049",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unexpected token \"end of template\" (\"end of print statement\" expected) in \"k\" at line 2 column 5.",
+   "formatted": "Twig\\Error\\SyntaxError: Unexpected token \"end of template\" (\"end of print statement\" expected) in \"k\" at line 2 column 5.",
+   "rawMessage": "Unexpected token \"end of template\" (\"end of print statement\" expected).",
+   "templateName": "k",
+   "templateLine": 2,
+   "templateColumn": 5
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-050",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unexpected token \"end of template\" (\"end of print statement\" expected) in \"k\" at line 2 column 5.",
+   "formatted": "Twig\\Error\\SyntaxError: Unexpected token \"end of template\" (\"end of print statement\" expected) in \"k\" at line 2 column 5.",
+   "rawMessage": "Unexpected token \"end of template\" (\"end of print statement\" expected).",
+   "templateName": "k",
+   "templateLine": 2,
+   "templateColumn": 5
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-051",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"k\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"k\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "k",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-052",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"k\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"k\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "k",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "x\na\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-054",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undefined_var\" does not exist in \"k\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undefined_var\" does not exist in \"k\" at line 2.",
+   "rawMessage": "Variable \"undefined_var\" does not exist.",
+   "templateName": "k",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "<K>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "<K>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "3210",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "3210",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-059",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"i\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"i\" at line 2.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "i",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-060",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"i\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"i\" at line 2.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "i",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-061",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-061/f7/f7f3bbbdacdc829310b7add43db08794.php on line 47\") in \"i\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-061/f7/f7f3bbbdacdc829310b7add43db08794.php on line 47\") in \"i\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-061/f7/f7f3bbbdacdc829310b7add43db08794.php on line 47\").",
+   "templateName": "i",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-061/f7/f7f3bbbdacdc829310b7add43db08794.php on line 47",
+    "formatted": "TypeError: Twig\\Template::load(): Argument #1 ($template) must be of type Twig\\TemplateWrapper|array|string, null given, called in /tmp/twig-rs-cache/include-061/f7/f7f3bbbdacdc829310b7add43db08794.php on line 47",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-062",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undefined_name\" does not exist in \"i\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undefined_name\" does not exist in \"i\" at line 3.",
+   "rawMessage": "Variable \"undefined_name\" does not exist.",
+   "templateName": "i",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "x\nk",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-064",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undefined_name\" does not exist in \"i\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undefined_name\" does not exist in \"i\" at line 3.",
+   "rawMessage": "Variable \"undefined_name\" does not exist.",
+   "templateName": "i",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-065",
+  "kind": "twig",
+  "ok": true,
+  "output": "<k>12<k>3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-066",
+  "kind": "twig",
+  "ok": true,
+  "output": "<k>12<k>3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-067",
+  "kind": "twig",
+  "ok": true,
+  "output": "<k>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-068",
+  "kind": "twig",
+  "ok": true,
+  "output": "<k>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-069",
+  "kind": "twig",
+  "ok": true,
+  "output": "[K]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-070",
+  "kind": "twig",
+  "ok": true,
+  "output": "[K]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-071",
+  "kind": "twig",
+  "ok": true,
+  "output": "<1>,<2>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-072",
+  "kind": "twig",
+  "ok": true,
+  "output": "<1>,<2>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-073",
+  "kind": "twig",
+  "ok": true,
+  "output": "name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num|name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num,b|b|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-074",
+  "kind": "twig",
+  "ok": true,
+  "output": "name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num|name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num,b|b|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-075",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"i\" at line 1.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-076",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"i\" at line 1.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-077",
+  "kind": "twig",
+  "ok": true,
+  "output": "|K",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-078",
+  "kind": "twig",
+  "ok": true,
+  "output": "|K",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-079",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"nope\", \"nope2\" in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"nope\", \"nope2\" in \"i\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"nope\", \"nope2\".",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-080",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Unable to find one of the following templates: \"nope\", \"nope2\" in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\LoaderError: Unable to find one of the following templates: \"nope\", \"nope2\" in \"i\" at line 1.",
+   "rawMessage": "Unable to find one of the following templates: \"nope\", \"nope2\".",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-081",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_merge(): Argument #2 must be of type array, string given\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_merge(): Argument #2 must be of type array, string given\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_merge(): Argument #2 must be of type array, string given\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "array_merge(): Argument #2 must be of type array, string given",
+    "formatted": "TypeError: array_merge(): Argument #2 must be of type array, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-082",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_merge(): Argument #2 must be of type array, string given\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_merge(): Argument #2 must be of type array, string given\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_merge(): Argument #2 must be of type array, string given\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "array_merge(): Argument #2 must be of type array, string given",
+    "formatted": "TypeError: array_merge(): Argument #2 must be of type array, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-083",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1576\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1576\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1576\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1576",
+    "formatted": "TypeError: Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1576",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-084",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1576\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1576\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1576\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1576",
+    "formatted": "TypeError: Twig\\TemplateWrapper::render(): Argument #1 ($context) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1576",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-085",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php on line 392\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php on line 392\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php on line 392\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php on line 392",
+    "formatted": "TypeError: Twig\\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php on line 392",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-086",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php on line 392\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php on line 392\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php on line 392\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php on line 392",
+    "formatted": "TypeError: Twig\\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php on line 392",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-087",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>|empty|m",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-088",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>|empty|m",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-089",
+  "kind": "twig",
+  "ok": true,
+  "output": "KK",
+  "deprecations": [
+   "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, remove the argument as \"false\" has no effect.",
+   "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, remove the argument as \"false\" has no effect."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+   }
+  ]
+ },
+ {
+  "id": "include-090",
+  "kind": "twig",
+  "ok": true,
+  "output": "KK",
+  "deprecations": [
+   "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, remove the argument as \"false\" has no effect.",
+   "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, remove the argument as \"false\" has no effect."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+   }
+  ]
+ },
+ {
+  "id": "include-091",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"k\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"k\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "k",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-092",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"k\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"k\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "k",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-093",
+  "kind": "twig",
+  "ok": true,
+  "output": "name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num,0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-094",
+  "kind": "twig",
+  "ok": true,
+  "output": "name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num,0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-095",
+  "kind": "twig",
+  "ok": true,
+  "output": "12",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-096",
+  "kind": "twig",
+  "ok": true,
+  "output": "12",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-097",
+  "kind": "twig",
+  "ok": true,
+  "output": "b||",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-098",
+  "kind": "twig",
+  "ok": true,
+  "output": "b||",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-099",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::includeOnly(): Argument #3 ($variables) must be of type array, string given, called in /tmp/twig-rs-cache/include-099/43/4301f193645057447f428f5057dc0f99.php on line 44\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::includeOnly(): Argument #3 ($variables) must be of type array, string given, called in /tmp/twig-rs-cache/include-099/43/4301f193645057447f428f5057dc0f99.php on line 44\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::includeOnly(): Argument #3 ($variables) must be of type array, string given, called in /tmp/twig-rs-cache/include-099/43/4301f193645057447f428f5057dc0f99.php on line 44\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::includeOnly(): Argument #3 ($variables) must be of type array, string given, called in /tmp/twig-rs-cache/include-099/43/4301f193645057447f428f5057dc0f99.php on line 44",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::includeOnly(): Argument #3 ($variables) must be of type array, string given, called in /tmp/twig-rs-cache/include-099/43/4301f193645057447f428f5057dc0f99.php on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-100",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::includeOnly(): Argument #3 ($variables) must be of type array, string given, called in /tmp/twig-rs-cache/include-100/48/487ca22ba611896b03939a1cc7174376.php on line 44\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::includeOnly(): Argument #3 ($variables) must be of type array, string given, called in /tmp/twig-rs-cache/include-100/48/487ca22ba611896b03939a1cc7174376.php on line 44\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::includeOnly(): Argument #3 ($variables) must be of type array, string given, called in /tmp/twig-rs-cache/include-100/48/487ca22ba611896b03939a1cc7174376.php on line 44\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::includeOnly(): Argument #3 ($variables) must be of type array, string given, called in /tmp/twig-rs-cache/include-100/48/487ca22ba611896b03939a1cc7174376.php on line 44",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::includeOnly(): Argument #3 ($variables) must be of type array, string given, called in /tmp/twig-rs-cache/include-100/48/487ca22ba611896b03939a1cc7174376.php on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-101",
+  "kind": "twig",
+  "ok": true,
+  "output": "K",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-102",
+  "kind": "twig",
+  "ok": true,
+  "output": "K",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-103",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hello {{ name }} <b>||86",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-104",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hello {{ name }} <b>||86",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-105",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"i\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"i\" at line 2.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "i",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-106",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"nope\" is not defined in \"i\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"nope\" is not defined in \"i\" at line 2.",
+   "rawMessage": "Template \"nope\" is not defined.",
+   "templateName": "i",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-107",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Loader\\ArrayLoader::getSourceContext(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1614\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Loader\\ArrayLoader::getSourceContext(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1614\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Loader\\ArrayLoader::getSourceContext(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1614\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Loader\\ArrayLoader::getSourceContext(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1614",
+    "formatted": "TypeError: Twig\\Loader\\ArrayLoader::getSourceContext(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1614",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-108",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Loader\\ArrayLoader::getSourceContext(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1614\") in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Loader\\ArrayLoader::getSourceContext(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1614\") in \"i\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Loader\\ArrayLoader::getSourceContext(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1614\").",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Loader\\ArrayLoader::getSourceContext(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1614",
+    "formatted": "TypeError: Twig\\Loader\\ArrayLoader::getSourceContext(): Argument #1 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 1614",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-109",
+  "kind": "twig",
+  "ok": true,
+  "output": "five src",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-110",
+  "kind": "twig",
+  "ok": true,
+  "output": "five src",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-111",
+  "kind": "twig",
+  "ok": true,
+  "output": "global|global",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-112",
+  "kind": "twig",
+  "ok": true,
+  "output": "mine|global",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-113",
+  "kind": "twig",
+  "ok": true,
+  "output": "KbobKbobKbob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-114",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"i\" at line 1.",
+   "rawMessage": "A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it.",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-115",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"i\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"i\" at line 1.",
+   "rawMessage": "A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it.",
+   "templateName": "i",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-116",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hello bob|X",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-117",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"__string_template__0670627b625924ba35da42d586a84eec\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"__string_template__0670627b625924ba35da42d586a84eec\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "__string_template__0670627b625924ba35da42d586a84eec",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-118",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unexpected token \"end of template\" (\"end of print statement\" expected) in \"__string_template__9ff43002e15bfa7f71e7f19f9dcd8e68\" at line 1 column 5.",
+   "formatted": "Twig\\Error\\SyntaxError: Unexpected token \"end of template\" (\"end of print statement\" expected) in \"__string_template__9ff43002e15bfa7f71e7f19f9dcd8e68\" at line 1 column 5.",
+   "rawMessage": "Unexpected token \"end of template\" (\"end of print statement\" expected).",
+   "templateName": "__string_template__9ff43002e15bfa7f71e7f19f9dcd8e68",
+   "templateLine": 1,
+   "templateColumn": 5
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "include-119",
+  "kind": "twig",
+  "ok": true,
+  "output": "<r>|__string_template__",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

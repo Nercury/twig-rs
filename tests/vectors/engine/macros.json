@@ -1,0 +1,1622 @@
+[
+ {
+  "id": "macros-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "<input type=\"text\" name=\"user\" value=\"\" size=\"20\"/>0\n\n<input type=\"password\" name=\"pwd\" value=\"\" size=\"20\"/>1\n\nT:[1][2][3]\ndef\n<input type=\"text\" name=\"x\" value=\"\" size=\"20\"/>0\n",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing the unknown named argument \"extra\" to the macro \"input\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"macros.twig\" at line 8)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"extra\" to the macro \"input\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"macros.twig\" at line 8)."
+   }
+  ]
+ },
+ {
+  "id": "macros-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "<input type=\"text\" name=\"user\" value=\"\" size=\"20\"/>0\n\n<input type=\"password\" name=\"pwd\" value=\"\" size=\"20\"/>1\n\nT:[1][2][3]\ndef\n<input type=\"text\" name=\"x\" value=\"\" size=\"20\"/>0\n",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing the unknown named argument \"extra\" to the macro \"input\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"macros.twig\" at line 8)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"extra\" to the macro \"input\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"macros.twig\" at line 8)."
+   }
+  ]
+ },
+ {
+  "id": "macros-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "<input type=\"text\" name=\"user\" value=\"\" size=\"20\"/>0\n\n<input type=\"password\" name=\"pwd\" value=\"\" size=\"20\"/>1\n\nT:[1][2][3]\ndef\n<input type=\"text\" name=\"x\" value=\"\" size=\"20\"/>0\n",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing the unknown named argument \"extra\" to the macro \"input\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"macros.twig\" at line 8)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"extra\" to the macro \"input\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"macros.twig\" at line 8)."
+   }
+  ]
+ },
+ {
+  "id": "macros-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "<input type=\"text\" name=\"user\" value=\"\" size=\"20\"/>0\n\n<input type=\"password\" name=\"pwd\" value=\"\" size=\"20\"/>1\n\nT:[1][2][3]\ndef\n<input type=\"text\" name=\"x\" value=\"\" size=\"20\"/>0\n",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing the unknown named argument \"extra\" to the macro \"input\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"macros.twig\" at line 8)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"extra\" to the macro \"input\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"macros.twig\" at line 8)."
+   }
+  ]
+ },
+ {
+  "id": "macros-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,v={\"0\":3,\"foo\":4}",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"index.twig\" at line 1).",
+   "Since twig/twig 3.29: Passing the unknown named argument \"foo\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"index.twig\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"foo\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,v={\"0\":3,\"foo\":4}",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"index.twig\" at line 1).",
+   "Since twig/twig 3.29: Passing the unknown named argument \"foo\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"index.twig\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"foo\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=null,b=2,v=[]",
+  "deprecations": [
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=null,b=2,v=[]",
+  "deprecations": [
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=B,v={\"c\":3}",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing the unknown named argument \"c\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"c\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=B,v={\"c\":3}",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing the unknown named argument \"c\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"c\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=null,b=B,v={\"A\":1}",
+  "deprecations": [
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1).",
+   "Since twig/twig 3.29: Passing the unknown named argument \"A\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"A\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=null,b=B,v={\"A\":1}",
+  "deprecations": [
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1).",
+   "Since twig/twig 3.29: Passing the unknown named argument \"A\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"A\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=null,b=B,v=[]",
+  "deprecations": [
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=null,b=B,v=[]",
+  "deprecations": [
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=B,v=[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=B,v=[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,v=[3]",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,v=[3]",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,v=[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,v=[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,v=[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,v=[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Argument \"a\" is defined twice for macro \"m\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Argument \"a\" is defined twice for macro \"m\" in \"index.twig\" at line 1.",
+   "rawMessage": "Argument \"a\" is defined twice for macro \"m\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-024",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Argument \"a\" is defined twice for macro \"m\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Argument \"a\" is defined twice for macro \"m\" in \"index.twig\" at line 1.",
+   "rawMessage": "Argument \"a\" is defined twice for macro \"m\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-025",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Positional arguments cannot be used after named arguments for macro \"m\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Positional arguments cannot be used after named arguments for macro \"m\" in \"index.twig\" at line 1.",
+   "rawMessage": "Positional arguments cannot be used after named arguments for macro \"m\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-026",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Positional arguments cannot be used after named arguments for macro \"m\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Positional arguments cannot be used after named arguments for macro \"m\" in \"index.twig\" at line 1.",
+   "rawMessage": "Positional arguments cannot be used after named arguments for macro \"m\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-027",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Positional arguments cannot be used after named arguments for macro \"m\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Positional arguments cannot be used after named arguments for macro \"m\" in \"index.twig\" at line 1.",
+   "rawMessage": "Positional arguments cannot be used after named arguments for macro \"m\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-028",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Positional arguments cannot be used after named arguments for macro \"m\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Positional arguments cannot be used after named arguments for macro \"m\" in \"index.twig\" at line 1.",
+   "rawMessage": "Positional arguments cannot be used after named arguments for macro \"m\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-029",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Positional arguments cannot be used after named arguments for macro \"m\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Positional arguments cannot be used after named arguments for macro \"m\" in \"index.twig\" at line 1.",
+   "rawMessage": "Positional arguments cannot be used after named arguments for macro \"m\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-030",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Positional arguments cannot be used after named arguments for macro \"m\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Positional arguments cannot be used after named arguments for macro \"m\" in \"index.twig\" at line 1.",
+   "rawMessage": "Positional arguments cannot be used after named arguments for macro \"m\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,v=[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,v=[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=null,b=9,v=[]",
+  "deprecations": [
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=null,b=9,v=[]",
+  "deprecations": [
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=8,b=9,v=[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=8,b=9,v=[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,v=[3]",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,v=[3]",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=B,v={\"x\":2}",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing the unknown named argument \"x\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"x\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=B,v={\"x\":2}",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing the unknown named argument \"x\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"x\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|{\"0\":2,\"x\":3}1|{\"rest\":5}|[]",
+  "deprecations": [
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"n\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"n\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|{\"0\":2,\"x\":3}1|{\"rest\":5}|[]",
+  "deprecations": [
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"n\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"n\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-043",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"0\":1,\"x\":2}novarargs",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"0\":1,\"x\":2}novarargs",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|{\"varargs\":5}2|{\"varargs\":5}",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing the unknown named argument \"varargs\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1).",
+   "Since twig/twig 3.29: Passing the unknown named argument \"varargs\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"varargs\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"varargs\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|{\"varargs\":5}2|{\"varargs\":5}",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing the unknown named argument \"varargs\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1).",
+   "Since twig/twig 3.29: Passing the unknown named argument \"varargs\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"varargs\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"varargs\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "1234|context,macros,blocks,this,varargs58|context,macros,blocks,this,varargs",
+  "deprecations": [
+   "Since twig/twig 3.29: Not passing a value for the \"macros\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1).",
+   "Since twig/twig 3.29: Not passing a value for the \"blocks\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"macros\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"blocks\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "1234|context,macros,blocks,this,varargs58|context,macros,blocks,this,varargs",
+  "deprecations": [
+   "Since twig/twig 3.29: Not passing a value for the \"macros\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1).",
+   "Since twig/twig 3.29: Not passing a value for the \"blocks\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"macros\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"blocks\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "x,y,varargs",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "x,y,varargs",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "empty|m",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "empty|m",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "no-name",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "no-name",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "<a<b<c>>><d>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "<a<b<c>>><d>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "AB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "AB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "AB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "AB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "23no-x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "23no-x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "BB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-064",
+  "kind": "twig",
+  "ok": true,
+  "output": "BB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-065",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Macro \"mx\" is not defined in template \"index.twig\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Macro \"mx\" is not defined in template \"index.twig\" in \"index.twig\" at line 1.",
+   "rawMessage": "Macro \"mx\" is not defined in template \"index.twig\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-066",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Macro \"mx\" is not defined in template \"index.twig\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Macro \"mx\" is not defined in template \"index.twig\" in \"index.twig\" at line 1.",
+   "rawMessage": "Macro \"mx\" is not defined in template \"index.twig\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-067",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hn",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-068",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hn",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-069",
+  "kind": "twig",
+  "ok": true,
+  "output": "H",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-070",
+  "kind": "twig",
+  "ok": true,
+  "output": "H",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-071",
+  "kind": "twig",
+  "ok": true,
+  "output": "<1><2><1><2>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-072",
+  "kind": "twig",
+  "ok": true,
+  "output": "<1><2><1><2>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-073",
+  "kind": "twig",
+  "ok": true,
+  "output": "<1><2>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-074",
+  "kind": "twig",
+  "ok": true,
+  "output": "<1><2>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-075",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-076",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undefined_name\" does not exist in \"index.twig\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undefined_name\" does not exist in \"index.twig\" at line 3.",
+   "rawMessage": "Variable \"undefined_name\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-077",
+  "kind": "twig",
+  "ok": true,
+  "output": "hi x|hi y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-078",
+  "kind": "twig",
+  "ok": true,
+  "output": "hi x|hi y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-079",
+  "kind": "twig",
+  "ok": true,
+  "output": "hi a",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-080",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"forms\" does not exist in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"forms\" does not exist in \"u\" at line 1.",
+   "rawMessage": "Variable \"forms\" does not exist.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-081",
+  "kind": "twig",
+  "ok": true,
+  "output": "hi b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-082",
+  "kind": "twig",
+  "ok": true,
+  "output": "hi b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-083",
+  "kind": "twig",
+  "ok": true,
+  "output": "hi b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-084",
+  "kind": "twig",
+  "ok": true,
+  "output": "hi b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-085",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-086",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"forms\" does not exist in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"forms\" does not exist in \"u\" at line 1.",
+   "rawMessage": "Variable \"forms\" does not exist.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-087",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Macros imported in the body of template \"u\" are not available because the body was not rendered; move the \"import\" or \"from\" tag inside the block or the macro that uses it in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Macros imported in the body of template \"u\" are not available because the body was not rendered; move the \"import\" or \"from\" tag inside the block or the macro that uses it in \"u\" at line 1.",
+   "rawMessage": "Macros imported in the body of template \"u\" are not available because the body was not rendered; move the \"import\" or \"from\" tag inside the block or the macro that uses it.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-088",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Macros imported in the body of template \"u\" are not available because the body was not rendered; move the \"import\" or \"from\" tag inside the block or the macro that uses it in \"u\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Macros imported in the body of template \"u\" are not available because the body was not rendered; move the \"import\" or \"from\" tag inside the block or the macro that uses it in \"u\" at line 1.",
+   "rawMessage": "Macros imported in the body of template \"u\" are not available because the body was not rendered; move the \"import\" or \"from\" tag inside the block or the macro that uses it.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-089",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"u\" at line 2.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-090",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"u\" at line 2.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-091",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"u\" at line 2.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-092",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\LoaderError",
+   "message": "Template \"missing\" is not defined in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\LoaderError: Template \"missing\" is not defined in \"u\" at line 2.",
+   "rawMessage": "Template \"missing\" is not defined.",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-093",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Macro \"nope\" is not defined in template \"m\" in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Macro \"nope\" is not defined in template \"m\" in \"u\" at line 2.",
+   "rawMessage": "Macro \"nope\" is not defined in template \"m\".",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-094",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Macro \"nope\" is not defined in template \"m\" in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Macro \"nope\" is not defined in template \"m\" in \"u\" at line 2.",
+   "rawMessage": "Macro \"nope\" is not defined in template \"m\".",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-095",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Macro \"nope\" is not defined in template \"m\" in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Macro \"nope\" is not defined in template \"m\" in \"u\" at line 2.",
+   "rawMessage": "Macro \"nope\" is not defined in template \"m\".",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-096",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Macro \"nope\" is not defined in template \"m\" in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Macro \"nope\" is not defined in template \"m\" in \"u\" at line 2.",
+   "rawMessage": "Macro \"nope\" is not defined in template \"m\".",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-097",
+  "kind": "twig",
+  "ok": true,
+  "output": "hi|y|hi|y|n",
+  "deprecations": [
+   "Since twig/twig 3.29: Calling the macro \"hi\" (defined in template \"m\") as \"HI\" is deprecated; macro names will be case-sensitive in Twig 4.0.",
+   "Since twig/twig 3.29: Testing whether the macro \"hi\" (defined in template \"m\") is defined as \"HI\" is deprecated; macro names will be case-sensitive in Twig 4.0 and this test will return false.",
+   "Since twig/twig 3.29: Calling the macro \"hi\" via the \"macro_\"-prefixed name \"macro_hi\" is deprecated; pass the bare macro name to \"Twig\\Node\\Expression\\MacroReferenceExpression\" instead.",
+   "Since twig/twig 3.29: Testing whether the macro \"hi\" is defined via the \"macro_\"-prefixed name \"macro_hi\" is deprecated; pass the bare macro name to \"Twig\\Node\\Expression\\MacroReferenceExpression\" instead."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Calling the macro \"hi\" (defined in template \"m\") as \"HI\" is deprecated; macro names will be case-sensitive in Twig 4.0."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Testing whether the macro \"hi\" (defined in template \"m\") is defined as \"HI\" is deprecated; macro names will be case-sensitive in Twig 4.0 and this test will return false."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Calling the macro \"hi\" via the \"macro_\"-prefixed name \"macro_hi\" is deprecated; pass the bare macro name to \"Twig\\Node\\Expression\\MacroReferenceExpression\" instead."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Testing whether the macro \"hi\" is defined via the \"macro_\"-prefixed name \"macro_hi\" is deprecated; pass the bare macro name to \"Twig\\Node\\Expression\\MacroReferenceExpression\" instead."
+   }
+  ]
+ },
+ {
+  "id": "macros-098",
+  "kind": "twig",
+  "ok": true,
+  "output": "hi|y|hi|y|n",
+  "deprecations": [
+   "Since twig/twig 3.29: Calling the macro \"hi\" (defined in template \"m\") as \"HI\" is deprecated; macro names will be case-sensitive in Twig 4.0.",
+   "Since twig/twig 3.29: Testing whether the macro \"hi\" (defined in template \"m\") is defined as \"HI\" is deprecated; macro names will be case-sensitive in Twig 4.0 and this test will return false.",
+   "Since twig/twig 3.29: Calling the macro \"hi\" via the \"macro_\"-prefixed name \"macro_hi\" is deprecated; pass the bare macro name to \"Twig\\Node\\Expression\\MacroReferenceExpression\" instead.",
+   "Since twig/twig 3.29: Testing whether the macro \"hi\" is defined via the \"macro_\"-prefixed name \"macro_hi\" is deprecated; pass the bare macro name to \"Twig\\Node\\Expression\\MacroReferenceExpression\" instead."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Calling the macro \"hi\" (defined in template \"m\") as \"HI\" is deprecated; macro names will be case-sensitive in Twig 4.0."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Testing whether the macro \"hi\" (defined in template \"m\") is defined as \"HI\" is deprecated; macro names will be case-sensitive in Twig 4.0 and this test will return false."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Calling the macro \"hi\" via the \"macro_\"-prefixed name \"macro_hi\" is deprecated; pass the bare macro name to \"Twig\\Node\\Expression\\MacroReferenceExpression\" instead."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Testing whether the macro \"hi\" is defined via the \"macro_\"-prefixed name \"macro_hi\" is deprecated; pass the bare macro name to \"Twig\\Node\\Expression\\MacroReferenceExpression\" instead."
+   }
+  ]
+ },
+ {
+  "id": "macros-099",
+  "kind": "twig",
+  "ok": true,
+  "output": "hi",
+  "deprecations": [
+   "Since twig/twig 3.29: Omitting parentheses when calling the macro \"hi\" is deprecated and will throw a SyntaxError in Twig 4.0; add parentheses after the macro name in \"u\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Omitting parentheses when calling the macro \"hi\" is deprecated and will throw a SyntaxError in Twig 4.0; add parentheses after the macro name in \"u\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "macros-100",
+  "kind": "twig",
+  "ok": true,
+  "output": "hi",
+  "deprecations": [
+   "Since twig/twig 3.29: Omitting parentheses when calling the macro \"hi\" is deprecated and will throw a SyntaxError in Twig 4.0; add parentheses after the macro name in \"u\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Omitting parentheses when calling the macro \"hi\" is deprecated and will throw a SyntaxError in Twig 4.0; add parentheses after the macro name in \"u\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "macros-101",
+  "kind": "twig",
+  "ok": true,
+  "output": "P|C|y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-102",
+  "kind": "twig",
+  "ok": true,
+  "output": "P|C|y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-103",
+  "kind": "twig",
+  "ok": true,
+  "output": "P",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-104",
+  "kind": "twig",
+  "ok": true,
+  "output": "P",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-105",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"u\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"u\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "u",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-106",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"u\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"u\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "u",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-107",
+  "kind": "twig",
+  "ok": true,
+  "output": "\n\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-108",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undefined_var\" does not exist in \"m\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undefined_var\" does not exist in \"m\" at line 3.",
+   "rawMessage": "Variable \"undefined_var\" does not exist.",
+   "templateName": "m",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-109",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"u\" at line 4.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"u\" at line 4.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "u",
+   "templateLine": 4,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-110",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"u\" at line 4.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"u\" at line 4.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "u",
+   "templateLine": 4,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-111",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Positional arguments cannot be used after named arguments for macro \"m\" in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Positional arguments cannot be used after named arguments for macro \"m\" in \"u\" at line 2.",
+   "rawMessage": "Positional arguments cannot be used after named arguments for macro \"m\".",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-112",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Positional arguments cannot be used after named arguments for macro \"m\" in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Positional arguments cannot be used after named arguments for macro \"m\" in \"u\" at line 2.",
+   "rawMessage": "Positional arguments cannot be used after named arguments for macro \"m\".",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-113",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Argument \"a\" is defined twice for macro \"m\" in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Argument \"a\" is defined twice for macro \"m\" in \"u\" at line 2.",
+   "rawMessage": "Argument \"a\" is defined twice for macro \"m\".",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-114",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Argument \"a\" is defined twice for macro \"m\" in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Argument \"a\" is defined twice for macro \"m\" in \"u\" at line 2.",
+   "rawMessage": "Argument \"a\" is defined twice for macro \"m\".",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-115",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Macro \"nope\" is not defined in template \"u\" in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Macro \"nope\" is not defined in template \"u\" in \"u\" at line 2.",
+   "rawMessage": "Macro \"nope\" is not defined in template \"u\".",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-116",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Macro \"nope\" is not defined in template \"u\" in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Macro \"nope\" is not defined in template \"u\" in \"u\" at line 2.",
+   "rawMessage": "Macro \"nope\" is not defined in template \"u\".",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "macros-117",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"u\" at line 1).",
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"u\" at line 1).",
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"u\" at line 1).",
+   "Since twig/twig 3.29: Passing the unknown named argument \"z\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"u\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"u\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"u\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"u\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"z\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"u\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-118",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [
+   "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"u\" at line 1).",
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"u\" at line 1).",
+   "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"u\" at line 1).",
+   "Since twig/twig 3.29: Passing the unknown named argument \"z\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"u\" at line 1)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing more arguments than the macro \"m\" accepts is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept extra arguments (in \"u\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"u\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"u\" at line 1)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: Passing the unknown named argument \"z\" to the macro \"m\" is deprecated and will throw in Twig 4.0; declare a variadic argument (\"...name\") in the macro definition to accept it (in \"u\" at line 1)."
+   }
+  ]
+ },
+ {
+  "id": "macros-119",
+  "kind": "twig",
+  "ok": true,
+  "output": "gn,varargs,gl|name,items,layout,layouts,nope,one,five,nul,f,t,fl,map,num,gl",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

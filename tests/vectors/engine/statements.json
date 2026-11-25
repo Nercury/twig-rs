@@ -1,0 +1,629 @@
+[
+ {
+  "id": "statements-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "T",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "nested",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "nyn",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "123",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=1,b=2,",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "1032F3;21213;3210L3;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "empty",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "null-empty",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "string-empty",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "done",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "1x1 1y1 2x2 2y2 3x3 3y3 ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,bigitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,bigitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "outer|items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,i",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "3no-y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,loop,i,_keyitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,loop,i,_keyitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,loop,i,_key",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,_iterated,loop,i,_keyitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,_iterated,loop,i,_keyitems,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big,_parent,_seq,_iterated,loop,i,_key",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "a,2(int),3,",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "1230",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-021",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot use a scalar value as an array\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot use a scalar value as an array\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot use a scalar value as an array\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Cannot use a scalar value as an array",
+    "formatted": "Error: Cannot use a scalar value as an array",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "0x1y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "123",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "abc",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "13",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "123",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index0\""
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index\""
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index0\""
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index\""
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index0\""
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index\""
+   }
+  ]
+ },
+ {
+  "id": "statements-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "123",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Increment on non-numeric string is deprecated, use str_increment() instead"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index\""
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Increment on non-numeric string is deprecated, use str_increment() instead"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index\""
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Increment on non-numeric string is deprecated, use str_increment() instead"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index\""
+   }
+  ]
+ },
+ {
+  "id": "statements-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "12gonenokey",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "12",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "21",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>bob</b>|10",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "static",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]empty-string",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "const",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-036",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: Twig\\Markup + int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: Twig\\Markup + int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: Twig\\Markup + int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: Twig\\Markup + int",
+    "formatted": "TypeError: Unsupported operand types: Twig\\Markup + int",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "y=5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "falsy",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "falsy",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "HELLO BOB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-041",
+  "kind": "twig",
+  "ok": true,
+  "output": " mixed ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "in",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-043",
+  "kind": "twig",
+  "ok": true,
+  "output": "ABC",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "1wxbob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "1no-name",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "2gone",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "12",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "z,items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "z",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "done",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "typed",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "U",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "no",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "odd",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "<x>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "bob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "[q]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [
+   "The X is deprecated. in \"index.twig\" at line 1.",
+   "Since acme/pkg 1.2: D2 in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "The X is deprecated. in \"index.twig\" at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since acme/pkg 1.2: D2 in \"index.twig\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "statements-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "[q]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "statements-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [
+   "The X is deprecated. in \"index.twig\" at line 1.",
+   "Since acme/pkg 1.2: D2 in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "The X is deprecated. in \"index.twig\" at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since acme/pkg 1.2: D2 in \"index.twig\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "statements-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [
+   "Dynamic bob in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Dynamic bob in \"index.twig\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "statements-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "ok",
+  "deprecations": [
+   "Since p : P in \"index.twig\" at line 1.",
+   "Since  1.0: V in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since p : P in \"index.twig\" at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since  1.0: V in \"index.twig\" at line 1."
+   }
+  ]
+ }
+]

@@ -1,0 +1,812 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('Hello {{ name }}').render({name: 'x'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('Hello').templateName }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('').templateName }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-003"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('Hello {{ name }}').templateName }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('Hello', 'mytpl').templateName }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-005"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('Hello', name='mytpl').getTemplateName() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{{ x') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{{ x', 'mytpl') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{% if %}') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('x') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string(5).render() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-011"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string(null) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string(['a']) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string(s).render() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "data": {
+    "s": {
+     "$string": "from {{ 'stringable' }}"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['s' => new \\TwigRsString('from {{ \\'stringable\\' }}')];",
+   "id": "string_loader-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string(o) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "data": {
+    "o": {
+     "$object": "TwigRsPlain"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsPlain()];",
+   "id": "string_loader-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('x', ['n']) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-016"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('x', 5).templateName }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-017"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{{ 1 + [] }}').render() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-018"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{{ x }}').render({x: [1]}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-019"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{{ undef.x }}').render() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-020"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('a{{ x }}b').sourceContext.code }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "pending": "TemplateWrapper::getSourceContext() from a template (template stage)",
+   "id": "string_loader-021"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('a').sourceContext.name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "pending": "TemplateWrapper::getSourceContext() from a template (template stage)",
+   "id": "string_loader-022"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('a').sourceContext.path }}|"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "pending": "TemplateWrapper::getSourceContext() from a template (template stage)",
+   "id": "string_loader-023"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('x').render('str') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-024"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{{ g }}').render() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-025"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{{ v }}').render({v: '<b>'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-026"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{{ v }}', 'tpl.txt').render({v: '<b>'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-027"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{{ 1 }}').render() is same as('1') ? 'string' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-028"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('a') is same as(template_from_string('a')) ? 'same' : 'other' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-029"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('a') == template_from_string('a') ? 'eq' : 'ne' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-030"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('x').defaultEscapeStrategy }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-031"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string(template='x').render() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-032"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('x', null, 'extra').render() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-033"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string(...{template: 'spread'}).render() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "pending": "runtime::functions registers its own template_from_string after the misc group, without PHP's binding of spread arguments",
+   "id": "string_loader-034"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string(...{env: 'x'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "pending": "runtime::functions registers its own template_from_string after the misc group, without PHP's binding of spread arguments",
+   "id": "string_loader-035"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string(...{nope: 'x'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "pending": "runtime::functions registers its own template_from_string after the misc group, without PHP's binding of spread arguments",
+   "id": "string_loader-036"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "pending": "runtime::functions registers its own template_from_string after the misc group, without PHP's binding of spread arguments",
+   "id": "string_loader-037"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{{ \"#{x}\" }}').render({x: 1}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "id": "string_loader-038"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{{ v }}').render({v: '<b>'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "pending": "auto-escaping (the EscaperExtension does not register the EscaperNodeVisitor yet)",
+   "id": "string_loader-039"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{{ v }}').templateName }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "id": "string_loader-040"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ template_from_string('{{ v }}', 'x.js').render({v: '<b>'}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "pending": "auto-escaping (the EscaperExtension does not register the EscaperNodeVisitor yet)",
+   "id": "string_loader-041"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ include(template_from_string('{{ 1 + 1 }}')) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "id": "string_loader-042"
+  }
+ ],
+ "isolation": "none"
+}

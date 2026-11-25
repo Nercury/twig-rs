@@ -1,0 +1,423 @@
+[
+ {
+  "id": "escape-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&quot;x&quot;&gt;&amp;amp;&#039;&lt;/a&gt;|&lt;a&gt;|&lt;a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u003E\\u0020\\u0027x\\u0027\\u0020\\u0026\\u0020\\u00E9\\/u\\u007B2028\\u007D",
+  "deprecations": [
+   "Since twig/twig 3.12: Character \"u\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 17 in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Character \"u\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 17 in \"index.twig\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "escape-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\3E \\20 \\27 x\\27 \\20 \\26 \\20 \\E9 ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "%3Ca%3E%20%27x%27%20%26%20%C3%A9%2F%3F%3D",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a&gt;&#x20;&#x27;x&#x27;&#x20;&amp;&#x20;&#x00E9;&#x3A;&#x40;&#x5B;&#x5D;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a&gt;&#x20;&#x27;x&#x27;&#x20;&amp;&#x20;&#x00E9;:@[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "5|1.5|1|||0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "escape-009",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-011",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-012",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"1\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"1\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"1\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-013",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;|&lt;|&lt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "�&lt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "%E9%26lt%3B",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-017",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "rawMessage": "The string to escape is not a valid UTF-8 string.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-018",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "rawMessage": "The string to escape is not a valid UTF-8 string.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-019",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "rawMessage": "The string to escape is not a valid UTF-8 string.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "%E9",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u00C3\\u00A9\\u003C",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;|&lt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;é&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"x-unknown\" to \"UTF-8\" is not allowed"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"UTF-8\" to \"x-unknown\" is not allowed"
+   }
+  ]
+ },
+ {
+  "id": "escape-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;bold&lt;/b&gt;|<b>bold</b>|<b>bold</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "<i>x</i>|\\u003Ci\\u003Ex\\u003C\\/i\\u003E|%3Ci%3Ex%3C%2Fi%3E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;i&gt;x&lt;&#x2F;i&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "bag|bag",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-030",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsThrower could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsThrower could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsThrower could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsThrower could not be converted to string",
+    "formatted": "Error: Object of class TwigRsThrower could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-031",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-032",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003C|&lt;|&lt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;|<b>bold</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003C",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "1&lt;2&lt;3&lt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;|<b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "%3Cbob",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

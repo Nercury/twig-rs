@@ -1,0 +1,1785 @@
+[
+ {
+  "id": "sandbox-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "BOB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "BOB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-003",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-004",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-005",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"title\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"title\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Filter \"title\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-006",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"title\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"title\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Filter \"title\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-007",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+   "message": "Tag \"do\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedTagError: Tag \"do\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Tag \"do\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-008",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+   "message": "Tag \"do\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedTagError: Tag \"do\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Tag \"do\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "12",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "12",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-011",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+   "message": "Function \"cycle\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFunctionError: Function \"cycle\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Function \"cycle\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-012",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+   "message": "Function \"cycle\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFunctionError: Function \"cycle\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Function \"cycle\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "11",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "11",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-015",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-016",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-017",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+   "message": "Tag \"autoescape\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedTagError: Tag \"autoescape\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Tag \"autoescape\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-018",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+   "message": "Tag \"autoescape\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedTagError: Tag \"autoescape\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Tag \"autoescape\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-019",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"title\" is not allowed in \"index.twig\" at line 3.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"title\" is not allowed in \"index.twig\" at line 3.",
+   "rawMessage": "Filter \"title\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-020",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"title\" is not allowed in \"index.twig\" at line 3.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"title\" is not allowed in \"index.twig\" at line 3.",
+   "rawMessage": "Filter \"title\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "sandbox-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "sandbox-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+   "message": "Function \"min\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFunctionError: Function \"min\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Function \"min\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-024",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+   "message": "Function \"min\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFunctionError: Function \"min\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Function \"min\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "12",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "12",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-027",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"capitalize\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"capitalize\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Filter \"capitalize\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-028",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"capitalize\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"capitalize\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Filter \"capitalize\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "24",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "24",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-031",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The callable passed to the \"map\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The callable passed to the \"map\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "rawMessage": "The callable passed to the \"map\" filter must be a Closure in sandbox mode.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-032",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The callable passed to the \"map\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The callable passed to the \"map\" filter must be a Closure in sandbox mode in \"index.twig\" at line 1.",
+   "rawMessage": "The callable passed to the \"map\" filter must be a Closure in sandbox mode.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-033",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"filter\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"filter\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Filter \"filter\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-034",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"filter\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"filter\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Filter \"filter\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "getFoo()|isBar()|getFoo()",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "getFoo()|isBar()|getFoo()",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-037",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"baz\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"baz\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"baz\" property on a \"TwigRsBag\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-038",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"baz\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"baz\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"baz\" property on a \"TwigRsBag\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "pub",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "pub",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-041",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"priv\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"priv\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"priv\" property on a \"TwigRsBag\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-042",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"priv\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"priv\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"priv\" property on a \"TwigRsBag\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-043",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"KONST\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"KONST\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"KONST\" property on a \"TwigRsBag\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-044",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"KONST\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"KONST\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"KONST\" property on a \"TwigRsBag\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-045",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"nul\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"nul\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"nul\" property on a \"TwigRsBag\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-046",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"nul\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"nul\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"nul\" property on a \"TwigRsBag\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "bag",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "bag",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "bag",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "bag",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "bag",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "bag",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "BAG",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "BAG",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-057",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"self\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"self\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"self\" property on a \"TwigRsBag\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-058",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"self\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"self\" property on a \"TwigRsBag\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"self\" property on a \"TwigRsBag\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "y|n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "y|n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "getFoo()",
+  "deprecations": [
+   "Since twig/twig 3.27: The \"attribute\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.27: The \"attribute\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-064",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+   "message": "Function \"attribute\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFunctionError: Function \"attribute\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Function \"attribute\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-065",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>bold</b>|11|11",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-066",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>bold</b>|11|11",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-067",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-068",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-069",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"b\" property on a \"TwigRsAccess\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"b\" property on a \"TwigRsAccess\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"b\" property on a \"TwigRsAccess\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-070",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"b\" property on a \"TwigRsAccess\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"b\" property on a \"TwigRsAccess\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"b\" property on a \"TwigRsAccess\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-071",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-072",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-073",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"c\" property on a \"TwigRsAccess\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"c\" property on a \"TwigRsAccess\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"c\" property on a \"TwigRsAccess\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-074",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"c\" property on a \"TwigRsAccess\" object is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"c\" property on a \"TwigRsAccess\" object is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Calling \"c\" property on a \"TwigRsAccess\" object is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-075",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-076",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-077",
+  "kind": "twig",
+  "ok": true,
+  "output": "xyz",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-078",
+  "kind": "twig",
+  "ok": true,
+  "output": "xyz",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-079",
+  "kind": "twig",
+  "ok": true,
+  "output": "12xyz",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-080",
+  "kind": "twig",
+  "ok": true,
+  "output": "12xyz",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-081",
+  "kind": "twig",
+  "ok": true,
+  "output": "bag",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-082",
+  "kind": "twig",
+  "ok": true,
+  "output": "bag",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-083",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-084",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-085",
+  "kind": "twig",
+  "ok": true,
+  "output": "bob<b>bold</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-086",
+  "kind": "twig",
+  "ok": true,
+  "output": "bob<b>bold</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-087",
+  "kind": "twig",
+  "ok": true,
+  "output": "getFoo()bag",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-088",
+  "kind": "twig",
+  "ok": true,
+  "output": "getFoo()bag",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-089",
+  "kind": "twig",
+  "ok": true,
+  "output": "getFoo()",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-090",
+  "kind": "twig",
+  "ok": true,
+  "output": "getFoo()",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-091",
+  "kind": "twig",
+  "ok": true,
+  "output": "getFoo()",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-092",
+  "kind": "twig",
+  "ok": true,
+  "output": "getFoo()",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-093",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-094",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-095",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-096",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-097",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-098",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-099",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedTestError",
+   "message": "Test \"constant\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedTestError: Test \"constant\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Test \"constant\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-100",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedTestError",
+   "message": "Test \"constant\" is not allowed in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedTestError: Test \"constant\" is not allowed in \"index.twig\" at line 1.",
+   "rawMessage": "Test \"constant\" is not allowed.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-101",
+  "kind": "twig",
+  "ok": true,
+  "output": "[C]",
+  "deprecations": [
+   "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-102",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+   "message": "Tag \"extends\" is not allowed in \"c\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedTagError: Tag \"extends\" is not allowed in \"c\" at line 1.",
+   "rawMessage": "Tag \"extends\" is not allowed.",
+   "templateName": "c",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-103",
+  "kind": "twig",
+  "ok": true,
+  "output": "[PX]",
+  "deprecations": [
+   "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.27: The \"parent\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.27: The \"block\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.27: The \"parent\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.27: The \"block\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.27: The \"parent\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.27: The \"block\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.27: The \"parent\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.27: The \"block\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.27: The \"parent\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.27: The \"block\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.27: The \"parent\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.27: The \"block\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-104",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+   "message": "Tag \"extends\" is not allowed in \"c\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedTagError: Tag \"extends\" is not allowed in \"c\" at line 1.",
+   "rawMessage": "Tag \"extends\" is not allowed.",
+   "templateName": "c",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-105",
+  "kind": "twig",
+  "ok": true,
+  "output": "T",
+  "deprecations": [
+   "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.27: The \"block\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.27: The \"block\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-106",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+   "message": "Tag \"use\" is not allowed in \"u\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedTagError: Tag \"use\" is not allowed in \"u\" at line 1.",
+   "rawMessage": "Tag \"use\" is not allowed.",
+   "templateName": "u",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [
+   "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-107",
+  "kind": "twig",
+  "ok": true,
+  "output": "x\nT",
+  "deprecations": [
+   "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.27: The \"block\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.27: The \"block\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-108",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+   "message": "Tag \"use\" is not allowed in \"u\" at line 2.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedTagError: Tag \"use\" is not allowed in \"u\" at line 2.",
+   "rawMessage": "Tag \"use\" is not allowed.",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [
+   "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-109",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-110",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-111",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-112",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-113",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-114",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-115",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"m\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"m\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "m",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-116",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"m\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"m\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "m",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-117",
+  "kind": "twig",
+  "ok": true,
+  "output": "X",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-118",
+  "kind": "twig",
+  "ok": true,
+  "output": "X",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-119",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"e\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"e\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "e",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [
+   "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-120",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+   "message": "Tag \"extends\" is not allowed in \"e\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedTagError: Tag \"extends\" is not allowed in \"e\" at line 1.",
+   "rawMessage": "Tag \"extends\" is not allowed.",
+   "templateName": "e",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-121",
+  "kind": "twig",
+  "ok": true,
+  "output": "[A]",
+  "deprecations": [
+   "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+   "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-122",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+   "message": "Tag \"extends\" is not allowed in \"c\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedTagError: Tag \"extends\" is not allowed in \"c\" at line 1.",
+   "rawMessage": "Tag \"extends\" is not allowed.",
+   "templateName": "c",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-123",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"p\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"p\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "p",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [
+   "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-124",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+   "message": "Tag \"extends\" is not allowed in \"c\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedTagError: Tag \"extends\" is not allowed in \"c\" at line 1.",
+   "rawMessage": "Tag \"extends\" is not allowed.",
+   "templateName": "c",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "sandbox-125",
+  "kind": "twig",
+  "ok": true,
+  "output": "BOBbob",
+  "deprecations": [
+   "Since twig/twig 3.15: The \"sandbox\" tag is deprecated in \"i\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: The \"sandbox\" tag is deprecated in \"i\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-126",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: The \"sandbox\" tag is deprecated in \"i\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: The \"sandbox\" tag is deprecated in \"i\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-127",
+  "kind": "twig",
+  "ok": true,
+  "output": "BOBbob",
+  "deprecations": [
+   "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-128",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+   "message": "Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"lower\" is not allowed in \"k\" at line 1.",
+   "rawMessage": "Filter \"lower\" is not allowed.",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [
+   "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-129",
+  "kind": "twig",
+  "ok": true,
+  "output": "bagbag",
+  "deprecations": [
+   "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-130",
+  "kind": "twig",
+  "ok": true,
+  "output": "baggetFoo()bag",
+  "deprecations": [
+   "Since twig/twig 3.15: The \"sandbox\" tag is deprecated in \"i\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: The \"sandbox\" tag is deprecated in \"i\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "sandbox-131",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+   "message": "Calling \"baz\" property on a \"TwigRsBag\" object is not allowed in \"k\" at line 1.",
+   "formatted": "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"baz\" property on a \"TwigRsBag\" object is not allowed in \"k\" at line 1.",
+   "rawMessage": "Calling \"baz\" property on a \"TwigRsBag\" object is not allowed.",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: The \"sandbox\" tag is deprecated in \"i\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: The \"sandbox\" tag is deprecated in \"i\" at line 1."
+   }
+  ]
+ }
+]

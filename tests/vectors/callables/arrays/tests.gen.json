@@ -1,0 +1,7159 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "{{ (list is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (s is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (nul is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-003"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (map is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([] is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-005"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({} is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([1, 2] is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({0: 1, 1: 2} is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({1: 'a', 2: 'b'} is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({1: 'a', 0: 'b'} is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (n is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-011"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (f is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (t is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ('' is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ('0' is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (0 is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-016"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([0] is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-017"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (false is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-018"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (' ' is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-019"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (0.0 is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-020"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (undef is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-021"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({a: 1} is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-022"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (list is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-023"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (s is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-024"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (nul is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-025"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (map is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-026"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([] is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-027"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({} is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-028"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([1, 2] is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-029"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({0: 1, 1: 2} is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-030"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({1: 'a', 2: 'b'} is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-031"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({1: 'a', 0: 'b'} is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-032"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (n is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-033"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (f is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-034"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (t is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-035"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ('' is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-036"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ('0' is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-037"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (0 is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-038"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([0] is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-039"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (false is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-040"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (' ' is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-041"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (0.0 is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-042"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (undef is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-043"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({a: 1} is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-044"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (list is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-045"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (s is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-046"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (nul is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-047"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (map is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-048"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([] is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-049"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({} is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-050"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([1, 2] is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-051"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({0: 1, 1: 2} is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-052"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({1: 'a', 2: 'b'} is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-053"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({1: 'a', 0: 'b'} is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-054"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (n is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-055"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (f is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-056"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (t is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-057"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ('' is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-058"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ('0' is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-059"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (0 is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-060"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([0] is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-061"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (false is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-062"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (' ' is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-063"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (0.0 is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-064"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (undef is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-065"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({a: 1} is sequence)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-066"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (list is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-067"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (s is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-068"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (nul is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-069"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (map is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-070"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([] is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-071"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({} is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-072"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([1, 2] is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-073"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({0: 1, 1: 2} is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-074"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({1: 'a', 2: 'b'} is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-075"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({1: 'a', 0: 'b'} is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-076"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (n is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-077"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (f is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-078"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (t is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-079"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ('' is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-080"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ('0' is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-081"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (0 is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-082"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([0] is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-083"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (false is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-084"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (' ' is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-085"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (0.0 is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-086"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (undef is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-087"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ({a: 1} is mapping)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-088"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (1 is iterable(2))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-089"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([] is empty(1))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-090"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([] is sequence(1))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-091"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([] is mapping(1))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-092"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (list is not iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-093"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (nul is not empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-094"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([] is empty(...{value: 1}))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-095"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([] is sequence(...{nope: 1}))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-096"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (undef is empty)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-097"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (undef is iterable)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "tests-098"
+  }
+ ],
+ "isolation": "none"
+}

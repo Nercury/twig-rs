@@ -1,0 +1,144 @@
+[
+ {
+  "id": "charset-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2][??][cba][?][?][?][a?|?][1][2][x][a][2][bc][2][abc|d][6][oll??h][é]",
+  "output_b64": "WzJdW6nDXVtjYmFdW6ldW8NdW6ldW2HDfKldWzFdWzJdW3hdW2FdWzJdW2JjXVsyXVthYmN8ZF1bNl1bb2xsqcNoXVvDqV0=",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "charset-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1][é][é|a]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "charset-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1][é][é]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "charset-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "[][][a][1]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"NOPE-1\" to \"UTF-8\" is not allowed"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"UTF-8\" to \"NOPE-1\" is not allowed"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"NOPE-1\" to \"UTF-8\" is not allowed"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"UTF-8\" to \"NOPE-1\" is not allowed"
+   }
+  ]
+ },
+ {
+  "id": "charset-005",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE-1\" given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE-1\" given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE-1\" given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE-1\" given",
+    "formatted": "ValueError: mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE-1\" given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "charset-006",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE-1\" given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE-1\" given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE-1\" given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE-1\" given",
+    "formatted": "ValueError: mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE-1\" given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "charset-007",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE-1\" given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE-1\" given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE-1\" given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE-1\" given",
+    "formatted": "ValueError: mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE-1\" given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "charset-008",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE-1\" given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE-1\" given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE-1\" given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE-1\" given",
+    "formatted": "ValueError: mb_substr(): Argument #4 ($encoding) must be a valid encoding, \"NOPE-1\" given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

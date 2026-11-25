@@ -22,8 +22,16 @@
 //! starts a fresh [`Visit`] pass per traversal, so one registry can serve several threads.
 
 mod correctness;
+mod escaper;
+mod optimizer;
+mod safe_analysis;
+mod sandbox;
 
 pub use correctness::CorrectnessNodeVisitor;
+pub use escaper::EscaperNodeVisitor;
+pub use optimizer::{OptimizerExtension, OptimizerNodeVisitor};
+pub use safe_analysis::{is_safe_for, safe_strategies};
+pub use sandbox::SandboxNodeVisitor;
 
 use std::collections::BTreeMap;
 use std::sync::Arc;

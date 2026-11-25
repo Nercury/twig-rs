@@ -1,0 +1,1513 @@
+[
+ {
+  "id": "errors-001",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-002",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Modulo by zero\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Modulo by zero\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Modulo by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Modulo by zero",
+    "formatted": "DivisionByZeroError: Modulo by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-003",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-004",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: string + int",
+    "formatted": "TypeError: Unsupported operand types: string + int",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-005",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array + int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: array + int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array + int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: array + int",
+    "formatted": "TypeError: Unsupported operand types: array + int",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-006",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string * int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: string * int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string * int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: string * int",
+    "formatted": "TypeError: Unsupported operand types: string * int",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-007",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Regexp \"/(/\" passed to \"matches\" is not valid: Compilation failed: missing closing parenthesis at offset 1 in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Regexp \"/(/\" passed to \"matches\" is not valid: Compilation failed: missing closing parenthesis at offset 1 in \"index.twig\" at line 1.",
+   "rawMessage": "Regexp \"/(/\" passed to \"matches\" is not valid: Compilation failed: missing closing parenthesis at offset 1.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-008",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Regexp \"bob\" passed to \"matches\" is not valid: Delimiter must not be alphanumeric, backslash, or NUL byte in \"index.twig\" at line 1",
+   "formatted": "Twig\\Error\\RuntimeError: Regexp \"bob\" passed to \"matches\" is not valid: Delimiter must not be alphanumeric, backslash, or NUL byte in \"index.twig\" at line 1",
+   "rawMessage": "Regexp \"bob\" passed to \"matches\" is not valid: Delimiter must not be alphanumeric, backslash, or NUL byte",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-009",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Value of type int is not callable\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Value of type int is not callable\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Value of type int is not callable\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Value of type int is not callable",
+    "formatted": "Error: Value of type int is not callable",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "errors-010",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"has some\" test expects a sequence or a mapping, got \"int\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"has some\" test expects a sequence or a mapping, got \"int\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"has some\" test expects a sequence or a mapping, got \"int\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-011",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variables passed to the \"with\" tag must be a mapping in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variables passed to the \"with\" tag must be a mapping in \"index.twig\" at line 1.",
+   "rawMessage": "Variables passed to the \"with\" tag must be a mapping.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-012",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variables passed to the \"with\" tag must be a mapping in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variables passed to the \"with\" tag must be a mapping in \"index.twig\" at line 1.",
+   "rawMessage": "Variables passed to the \"with\" tag must be a mapping.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-013",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Only arrays and Traversables can be unpacked, string given",
+    "formatted": "Error: Only arrays and Traversables can be unpacked, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-014",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"end\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "line1\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "\n\n1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "errors-018",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-019",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-020",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-021",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-022",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "1, 2and3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "A",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-027",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"end\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-028",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"range() expects at most 3 arguments, 4 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"range() expects at most 3 arguments, 4 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"range() expects at most 3 arguments, 4 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "range() expects at most 3 arguments, 4 given",
+    "formatted": "ArgumentCountError: range() expects at most 3 arguments, 4 given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-029",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"is_iterable() expects exactly 1 argument, 2 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"is_iterable() expects exactly 1 argument, 2 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"is_iterable() expects exactly 1 argument, 2 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "is_iterable() expects exactly 1 argument, 2 given",
+    "formatted": "ArgumentCountError: is_iterable() expects exactly 1 argument, 2 given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "543210",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "range(): Argument #1 ($start) must be a single byte string if argument #2 ($end) is a single byte string, argument #2 ($end) converted to 0"
+   }
+  ]
+ },
+ {
+  "id": "errors-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "1Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "errors-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "bobArray",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "errors-033",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-034",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Modulo by zero\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Modulo by zero\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Modulo by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Modulo by zero",
+    "formatted": "DivisionByZeroError: Modulo by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-035",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-036",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: string + int",
+    "formatted": "TypeError: Unsupported operand types: string + int",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-037",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array + int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: array + int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array + int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: array + int",
+    "formatted": "TypeError: Unsupported operand types: array + int",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-038",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string * int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: string * int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string * int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: string * int",
+    "formatted": "TypeError: Unsupported operand types: string * int",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-039",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Regexp \"/(/\" passed to \"matches\" is not valid: Compilation failed: missing closing parenthesis at offset 1 in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Regexp \"/(/\" passed to \"matches\" is not valid: Compilation failed: missing closing parenthesis at offset 1 in \"index.twig\" at line 1.",
+   "rawMessage": "Regexp \"/(/\" passed to \"matches\" is not valid: Compilation failed: missing closing parenthesis at offset 1.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-040",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Regexp \"bob\" passed to \"matches\" is not valid: Delimiter must not be alphanumeric, backslash, or NUL byte in \"index.twig\" at line 1",
+   "formatted": "Twig\\Error\\RuntimeError: Regexp \"bob\" passed to \"matches\" is not valid: Delimiter must not be alphanumeric, backslash, or NUL byte in \"index.twig\" at line 1",
+   "rawMessage": "Regexp \"bob\" passed to \"matches\" is not valid: Delimiter must not be alphanumeric, backslash, or NUL byte",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-041",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Value of type int is not callable\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Value of type int is not callable\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Value of type int is not callable\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Value of type int is not callable",
+    "formatted": "Error: Value of type int is not callable",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "errors-042",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"has some\" test expects a sequence or a mapping, got \"int\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"has some\" test expects a sequence or a mapping, got \"int\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"has some\" test expects a sequence or a mapping, got \"int\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-043",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variables passed to the \"with\" tag must be a mapping in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variables passed to the \"with\" tag must be a mapping in \"index.twig\" at line 1.",
+   "rawMessage": "Variables passed to the \"with\" tag must be a mapping.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-044",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variables passed to the \"with\" tag must be a mapping in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variables passed to the \"with\" tag must be a mapping in \"index.twig\" at line 1.",
+   "rawMessage": "Variables passed to the \"with\" tag must be a mapping.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-045",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Only arrays and Traversables can be unpacked, string given",
+    "formatted": "Error: Only arrays and Traversables can be unpacked, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-046",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"end\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-047",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 2.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-048",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 5.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 5.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 5,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-049",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 2.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-050",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-051",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-052",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-053",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-054",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Impossible to access an attribute (\"foo\") on a string variable (\"str\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Impossible to access an attribute (\"foo\") on a string variable (\"str\") in \"index.twig\" at line 1.",
+   "rawMessage": "Impossible to access an attribute (\"foo\") on a string variable (\"str\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-055",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "DivisionByZeroError",
+    "message": "Division by zero",
+    "formatted": "DivisionByZeroError: Division by zero",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-056",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Key \"z\" for sequence/mapping with keys \"a, b\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Key \"z\" for sequence/mapping with keys \"a, b\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Key \"z\" for sequence/mapping with keys \"a, b\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "1, 2and3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "A",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-059",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"end\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-060",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"range() expects at most 3 arguments, 4 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"range() expects at most 3 arguments, 4 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"range() expects at most 3 arguments, 4 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "range() expects at most 3 arguments, 4 given",
+    "formatted": "ArgumentCountError: range() expects at most 3 arguments, 4 given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-061",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"is_iterable() expects exactly 1 argument, 2 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"is_iterable() expects exactly 1 argument, 2 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"is_iterable() expects exactly 1 argument, 2 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "is_iterable() expects exactly 1 argument, 2 given",
+    "formatted": "ArgumentCountError: is_iterable() expects exactly 1 argument, 2 given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "543210",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "range(): Argument #1 ($start) must be a single byte string if argument #2 ($end) is a single byte string, argument #2 ($end) converted to 0"
+   }
+  ]
+ },
+ {
+  "id": "errors-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "1Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "errors-064",
+  "kind": "twig",
+  "ok": true,
+  "output": "bobArray",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "errors-065",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unknown argument \"foo\" for filter \"upper()\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Unknown argument \"foo\" for filter \"upper()\" in \"index.twig\" at line 1.",
+   "rawMessage": "Unknown argument \"foo\" for filter \"upper()\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-066",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unknown arguments \"foo\", \"bar\" for filter \"upper()\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Unknown arguments \"foo\", \"bar\" for filter \"upper()\" in \"index.twig\" at line 1.",
+   "rawMessage": "Unknown arguments \"foo\", \"bar\" for filter \"upper()\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-067",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"low\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"low\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"low\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-068",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"high\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"high\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"high\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-069",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Empty array elements are only allowed in destructuring assignments in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Empty array elements are only allowed in destructuring assignments in \"index.twig\" at line 1.",
+   "rawMessage": "Empty array elements are only allowed in destructuring assignments.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-070",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Regexp \"/(/\" passed to \"matches\" is not valid: Compilation failed: missing closing parenthesis at offset 1 in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Regexp \"/(/\" passed to \"matches\" is not valid: Compilation failed: missing closing parenthesis at offset 1 in \"index.twig\" at line 1.",
+   "rawMessage": "Regexp \"/(/\" passed to \"matches\" is not valid: Compilation failed: missing closing parenthesis at offset 1.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-071",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Regexp \"nodelim\" passed to \"matches\" is not valid: Delimiter must not be alphanumeric, backslash, or NUL byte in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Regexp \"nodelim\" passed to \"matches\" is not valid: Delimiter must not be alphanumeric, backslash, or NUL byte in \"index.twig\" at line 1.",
+   "rawMessage": "Regexp \"nodelim\" passed to \"matches\" is not valid: Delimiter must not be alphanumeric, backslash, or NUL byte.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-072",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Positional arguments cannot be used after named arguments for filter \"join\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Positional arguments cannot be used after named arguments for filter \"join\" in \"index.twig\" at line 1.",
+   "rawMessage": "Positional arguments cannot be used after named arguments for filter \"join\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-073",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "errors-074",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Argument \"low\" is defined twice for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Argument \"low\" is defined twice for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Argument \"low\" is defined twice for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-075",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "An exception has been thrown during the compilation of a template (\"Node \"arguments\" does not exist for Node \"Twig\\Node\\Expression\\Test\\ConstantTest\".\") in \"index.twig\".",
+   "formatted": "Twig\\Error\\SyntaxError: An exception has been thrown during the compilation of a template (\"Node \"arguments\" does not exist for Node \"Twig\\Node\\Expression\\Test\\ConstantTest\".\") in \"index.twig\".",
+   "rawMessage": "An exception has been thrown during the compilation of a template (\"Node \"arguments\" does not exist for Node \"Twig\\Node\\Expression\\Test\\ConstantTest\".\").",
+   "templateName": "index.twig",
+   "templateLine": -1,
+   "templateColumn": null,
+   "previous": {
+    "class": "LogicException",
+    "message": "Node \"arguments\" does not exist for Node \"Twig\\Node\\Expression\\Test\\ConstantTest\".",
+    "formatted": "LogicException: Node \"arguments\" does not exist for Node \"Twig\\Node\\Expression\\Test\\ConstantTest\".",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "errors-076",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Array to string conversion\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "Array to string conversion",
+    "formatted": "ErrorException: Array to string conversion",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "errors-077",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Array to string conversion\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "Array to string conversion",
+    "formatted": "ErrorException: Array to string conversion",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "errors-078",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"A non-numeric value encountered\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"A non-numeric value encountered\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"A non-numeric value encountered\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "A non-numeric value encountered",
+    "formatted": "ErrorException: A non-numeric value encountered",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "A non-numeric value encountered"
+   }
+  ]
+ },
+ {
+  "id": "errors-079",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "errors-080",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Undefined array key \"index0\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Undefined array key \"index0\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Undefined array key \"index0\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "Undefined array key \"index0\"",
+    "formatted": "ErrorException: Undefined array key \"index0\"",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index0\""
+   }
+  ]
+ }
+]

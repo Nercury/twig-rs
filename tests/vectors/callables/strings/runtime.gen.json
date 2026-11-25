@@ -1,0 +1,1351 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "{{ 'foo'|e('star') }}|{{ n|e('star') }}|{{ i|e('star') }}|{{ f|e('star') }}|{{ t|e('star') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), []);",
+   "objects": [],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'x'|e('star', 'ISO-8859-1') }}|{{ 'x'|e('star', '') }}|{{ ''|e('star') }}|{{ str|e('star') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é')]);",
+   "objects": [
+    "str"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ arr|e('star') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), []);",
+   "objects": [],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-003"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ plain|e('star') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['plain' => new TwigRsPlain()]);",
+   "objects": [
+    "plain"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ markup|e('star') }}|{{ markup|e('star', null, true) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['markup' => new \\Twig\\Markup('<b>m</b>', 'UTF-8')]);",
+   "objects": [
+    "markup"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-005"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ markup_none|e('star', null, true) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['markup_none' => new \\Twig\\Markup('<b>n</b>', 'UTF-8', [])]);",
+   "objects": [
+    "markup_none"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ s|e('nope') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), []);",
+   "objects": [],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ s|e('html') }}|{{ s|e('star')|e }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), []);",
+   "objects": [],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'x'|e('type') }}|{{ i|e('type') }}|{{ n|e('type') }}|{{ arr|e('type') }}|{{ plain|e('type') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "type",
+     "wrap",
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"type\", fn ($s, $c) => get_debug_type($s));\n$r->setEscaper(\"wrap\", fn ($s, $c) => [$s]);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['plain' => new TwigRsPlain()]);",
+   "objects": [
+    "plain"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str|e('type') }}|{{ iter|e('type') }}|{{ markup|e('type') }}|{{ markup|e('type', null, true) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "type",
+     "wrap",
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"type\", fn ($s, $c) => get_debug_type($s));\n$r->setEscaper(\"wrap\", fn ($s, $c) => [$s]);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é'), 'iter' => new \\ArrayIterator(['a' => '<x>', 'b' => 'y', 0 => 'z']), 'markup' => new \\Twig\\Markup('<b>m</b>', 'UTF-8')]);",
+   "objects": [
+    "str",
+    "iter",
+    "markup"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'x'|e('wrap')|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "type",
+     "wrap",
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"type\", fn ($s, $c) => get_debug_type($s));\n$r->setEscaper(\"wrap\", fn ($s, $c) => [$s]);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), []);",
+   "objects": [],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-011"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'x'|e('wrap') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "type",
+     "wrap",
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"type\", fn ($s, $c) => get_debug_type($s));\n$r->setEscaper(\"wrap\", fn ($s, $c) => [$s]);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), []);",
+   "objects": [],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'x'|e('nope') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "type",
+     "wrap",
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"type\", fn ($s, $c) => get_debug_type($s));\n$r->setEscaper(\"wrap\", fn ($s, $c) => [$s]);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), []);",
+   "objects": [],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ i|e('nope') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "type",
+     "wrap",
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"type\", fn ($s, $c) => get_debug_type($s));\n$r->setEscaper(\"wrap\", fn ($s, $c) => [$s]);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), []);",
+   "objects": [],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{% autoescape 'star' %}{{ s }}|{{ i }}|{{ n }}|{{ markup }}{% endautoescape %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "escapers": [
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['markup' => new \\Twig\\Markup('<b>m</b>', 'UTF-8')]);",
+   "objects": [
+    "markup"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str }}|{{ str|e }}|{{ str|e('html', null, true) }}|{{ str|e('js', null, true) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "safe_classes": [
+     [
+      "TwigRsStr",
+      [
+       "html"
+      ]
+     ]
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->addSafeClass(\"TwigRsStr\", [\"html\"]);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é')]);",
+   "objects": [
+    "str"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-016"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ child }}|{% autoescape 'js' %}{{ str }}{% endautoescape %}|{% autoescape 'html_attr' %}{{ str }}{% endautoescape %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "safe_classes": [
+     [
+      "TwigRsStr",
+      [
+       "html"
+      ]
+     ]
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->addSafeClass(\"TwigRsStr\", [\"html\"]);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é'), 'child' => new TwigRsChild('<i>child</i>')]);",
+   "objects": [
+    "str",
+    "child"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-017"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str }}|{% autoescape 'js' %}{{ str }}|{{ child }}{% endautoescape %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "safe_classes": [
+     [
+      "\\TwigRsStr",
+      [
+       "js"
+      ]
+     ]
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->addSafeClass(\"\\\\TwigRsStr\", [\"js\"]);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é'), 'child' => new TwigRsChild('<i>child</i>')]);",
+   "objects": [
+    "str",
+    "child"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-018"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str }}|{{ child }}|{% autoescape 'html_attr_relaxed' %}{{ str }}{% endautoescape %}|{% autoescape 'js' %}{{ str }}{% endautoescape %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "safe_classes": [
+     [
+      "TwigRsSafeIface",
+      [
+       "html_attr"
+      ]
+     ]
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->addSafeClass(\"TwigRsSafeIface\", [\"html_attr\"]);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é'), 'child' => new TwigRsChild('<i>child</i>')]);",
+   "objects": [
+    "str",
+    "child"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-019"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str }}|{% autoescape 'js' %}{{ child }}{% endautoescape %}|{% autoescape 'url' %}{{ str }}{% endautoescape %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "safe_classes": [
+     [
+      "TwigRsSafeIface",
+      [
+       "all"
+      ]
+     ]
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->addSafeClass(\"TwigRsSafeIface\", [\"all\"]);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é'), 'child' => new TwigRsChild('<i>child</i>')]);",
+   "objects": [
+    "str",
+    "child"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-020"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str }}|{{ child }}|{% autoescape 'js' %}{{ str }}|{{ child }}{% endautoescape %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "safe_classes": [
+     [
+      "TwigRsStr",
+      [
+       "html_attr_relaxed"
+      ]
+     ],
+     [
+      "TwigRsChild",
+      [
+       "js"
+      ]
+     ]
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->addSafeClass(\"TwigRsStr\", [\"html_attr_relaxed\"]);\n$r->addSafeClass(\"TwigRsChild\", [\"js\"]);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é'), 'child' => new TwigRsChild('<i>child</i>')]);",
+   "objects": [
+    "str",
+    "child"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-021"
+  },
+  {
+   "templates": {
+    "index.twig": "{% autoescape 'html_attr' %}{{ str }}|{{ child }}{% endautoescape %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "safe_classes": [
+     [
+      "TwigRsStr",
+      [
+       "html_attr_relaxed"
+      ]
+     ],
+     [
+      "TwigRsChild",
+      [
+       "js"
+      ]
+     ]
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->addSafeClass(\"TwigRsStr\", [\"html_attr_relaxed\"]);\n$r->addSafeClass(\"TwigRsChild\", [\"js\"]);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é'), 'child' => new TwigRsChild('<i>child</i>')]);",
+   "objects": [
+    "str",
+    "child"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-022"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ markup_js }}|{{ markup_none }}|{{ markup }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "safe_classes": [
+     [
+      "Twig\\Markup",
+      [
+       "html"
+      ]
+     ]
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->addSafeClass(\"Twig\\\\Markup\", [\"html\"]);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['markup' => new \\Twig\\Markup('<b>m</b>', 'UTF-8'), 'markup_js' => new \\Twig\\Markup('<b>j</b>', 'UTF-8', ['js']), 'markup_none' => new \\Twig\\Markup('<b>n</b>', 'UTF-8', [])]);",
+   "objects": [
+    "markup",
+    "markup_js",
+    "markup_none"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-023"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ str }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "safe_classes": [
+     [
+      "twigrsstr",
+      [
+       "html"
+      ]
+     ]
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->addSafeClass(\"twigrsstr\", [\"html\"]);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é')]);",
+   "objects": [
+    "str"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-024"
+  },
+  {
+   "templates": {
+    "index.twig": "{% autoescape 'star' %}{{ str }}{% endautoescape %}|{{ str|e('star', null, true) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "setup": {
+    "safe_classes": [
+     [
+      "TwigRsStr",
+      [
+       "html"
+      ]
+     ]
+    ],
+    "escapers": [
+     "star"
+    ]
+   },
+   "data_php": "\nif (!class_exists('TwigRsStr', false)) {\n    interface TwigRsSafeIface {}\n    class TwigRsStr implements TwigRsSafeIface {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsChild extends TwigRsStr {}\n    class TwigRsCounter {\n        private $n = 0;\n        public function __toString(): string { $this->n++; return 'x' . $this->n . 'Y'; }\n    }\n    class TwigRsPlain { public $p = 'v'; }\n    class TwigRsThrowStr {\n        public function __toString(): string { throw new \\RuntimeException('no string'); }\n    }\n    class TwigRsJson implements \\JsonSerializable {\n        public function jsonSerialize(): mixed { return ['j' => '<x>']; }\n    }\n}\n$r = $twig->getRuntime(\\Twig\\Runtime\\EscaperRuntime::class);\n$r->addSafeClass(\"TwigRsStr\", [\"html\"]);\n$r->setEscaper(\"star\", fn ($s, $c) => $s . '**' . $c);\nreturn array_merge(json_decode(\"{\\\"s\\\": \\\"<a href='x'>T&amp; \\\\\\\"q\\\\\\\"</a>\\\", \\\"u\\\": \\\"\\\\u00e9lan VITAL \\\\u01c6 \\\\u00df stra\\\\u00dfe \\\\ufb01 \\\\u0130STANBUL \\\\u03a3\\\\u0391\\\\u03a3\\\", \\\"n\\\": null, \\\"i\\\": 42, \\\"neg\\\": -7, \\\"f\\\": 1.5, \\\"big\\\": 1e+25, \\\"t\\\": true, \\\"fa\\\": false, \\\"arr\\\": [1, \\\"<b>\\\", null], \\\"nested\\\": [[1], \\\"x\\\"], \\\"map\\\": {\\\"a\\\": \\\"<1>\\\", \\\"b\\\": 2}, \\\"empty\\\": \\\"\\\", \\\"zero\\\": \\\"0\\\", \\\"nl\\\": \\\"a\\\\nb\\\\r\\\\nc\\\\rd\\\\n\\\\re\\\", \\\"html\\\": \\\"  <div>\\\\n  <b> x </b>  </div>  \\\"}\", true), ['str' => new TwigRsStr('<b>Str</b> é')]);",
+   "objects": [
+    "str"
+   ],
+   "data_json_rust": {
+    "s": "<a href='x'>T&amp; \"q\"</a>",
+    "u": "élan VITAL ǆ ß straße ﬁ İSTANBUL ΣΑΣ",
+    "n": null,
+    "i": 42,
+    "neg": -7,
+    "f": 1.5,
+    "big": 1e+25,
+    "t": true,
+    "fa": false,
+    "arr": [
+     1,
+     "<b>",
+     null
+    ],
+    "nested": [
+     [
+      1
+     ],
+     "x"
+    ],
+    "map": {
+     "a": "<1>",
+     "b": 2
+    },
+    "empty": "",
+    "zero": "0",
+    "nl": "a\nb\r\nc\rd\n\re",
+    "html": "  <div>\n  <b> x </b>  </div>  "
+   },
+   "id": "runtime-025"
+  }
+ ],
+ "isolation": "none"
+}

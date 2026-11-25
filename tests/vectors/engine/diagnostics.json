@@ -1,0 +1,618 @@
+[
+ {
+  "id": "diagnostics-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "Arrayx",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "6",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "A non-numeric value encountered"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index0\""
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index\""
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index0\""
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index\""
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-010",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: string + int",
+    "formatted": "TypeError: Unsupported operand types: string + int",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 7.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "0.33333333333333",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 0.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 0.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Increment on non-numeric string is deprecated, use str_increment() instead"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index\""
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Increment on non-numeric string is deprecated, use str_increment() instead"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index\""
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "x",
+  "deprecations": [
+   "dep in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "dep in \"index.twig\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "9.2233720368548E+18",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "20",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-022",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Array to string conversion\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "Array to string conversion",
+    "formatted": "ErrorException: Array to string conversion",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Array to string conversion\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "Array to string conversion",
+    "formatted": "ErrorException: Array to string conversion",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-024",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"A non-numeric value encountered\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"A non-numeric value encountered\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"A non-numeric value encountered\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "A non-numeric value encountered",
+    "formatted": "ErrorException: A non-numeric value encountered",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "A non-numeric value encountered"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-030",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Undefined array key \"index0\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Undefined array key \"index0\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Undefined array key \"index0\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "Undefined array key \"index0\"",
+    "formatted": "ErrorException: Undefined array key \"index0\"",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index0\""
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-031",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: string + int",
+    "formatted": "TypeError: Unsupported operand types: string + int",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 7.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "0.33333333333333",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-035",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Array to string conversion\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "Array to string conversion",
+    "formatted": "ErrorException: Array to string conversion",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 0.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 0.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-037",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Undefined array key \"index\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Undefined array key \"index\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Undefined array key \"index\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "Undefined array key \"index\"",
+    "formatted": "ErrorException: Undefined array key \"index\"",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Increment on non-numeric string is deprecated, use str_increment() instead"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key \"index\""
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "x",
+  "deprecations": [
+   "dep in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "dep in \"index.twig\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "diagnostics-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "9.2233720368548E+18",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "diagnostics-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "20",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

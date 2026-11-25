@@ -1,0 +1,1277 @@
+[
+ {
+  "id": "composition_errors-001",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"index.twig\" at line 4.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"index.twig\" at line 4.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "index.twig",
+   "templateLine": 4,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-002",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"index.twig\" at line 4.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"index.twig\" at line 4.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "index.twig",
+   "templateLine": 4,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-003",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 4.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 4.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "c",
+   "templateLine": 4,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-004",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 4.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 4.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "c",
+   "templateLine": 4,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-005",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"p\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"p\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "p",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-006",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"p\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"p\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "p",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-007",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"p\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"p\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "p",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-008",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"p\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"p\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "p",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-009",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "c",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-010",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "c",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-011",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "c",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-012",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "c",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-013",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "c",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-014",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"c\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "c",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-015",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"k\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"k\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "k",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-016",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"k\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"k\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "k",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-017",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"k\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"k\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "k",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-018",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"k\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"k\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "k",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-019",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"k\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"k\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "k",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-020",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"k\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"k\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "k",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-021",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"k2\" at line 4.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"k2\" at line 4.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "k2",
+   "templateLine": 4,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-022",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"k2\" at line 4.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"k2\" at line 4.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "k2",
+   "templateLine": 4,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"u\" at line 4.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"u\" at line 4.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "u",
+   "templateLine": 4,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-024",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"u\" at line 4.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"u\" at line 4.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "u",
+   "templateLine": 4,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-025",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"u\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"u\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "u",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-026",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"u\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"u\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "u",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-027",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"t\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"t\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "t",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-028",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"t\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"t\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "t",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-029",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"e\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"e\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "e",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-030",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"e\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"e\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "e",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-031",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"b\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"b\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "b",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-032",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"b\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"b\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "b",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-033",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"b\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"b\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "b",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-034",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"b\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"b\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "b",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-035",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"index.twig\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-036",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"index.twig\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"index.twig\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "index.twig",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "x\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-038",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"thrower\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"thrower\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"thrower\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-039",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"i\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"i\" at line 2.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2.",
+   "templateName": "i",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-040",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"i\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"i\" at line 2.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2.",
+   "templateName": "i",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-041",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-041/9c/9ccda7143e147e6789462488cbc4caef.php on line 48\") in \"i\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-041/9c/9ccda7143e147e6789462488cbc4caef.php on line 48\") in \"i\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-041/9c/9ccda7143e147e6789462488cbc4caef.php on line 48\").",
+   "templateName": "i",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-041/9c/9ccda7143e147e6789462488cbc4caef.php on line 48",
+    "formatted": "TypeError: Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-041/9c/9ccda7143e147e6789462488cbc4caef.php on line 48",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-042",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-042/01/016a5c93d946cc55baaf409a23841b44.php on line 48\") in \"i\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-042/01/016a5c93d946cc55baaf409a23841b44.php on line 48\") in \"i\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-042/01/016a5c93d946cc55baaf409a23841b44.php on line 48\").",
+   "templateName": "i",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-042/01/016a5c93d946cc55baaf409a23841b44.php on line 48",
+    "formatted": "TypeError: Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-042/01/016a5c93d946cc55baaf409a23841b44.php on line 48",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-043",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-043/10/10ec2de430914d4d1c5f64e94ba2ed47.php on line 55\") in \"i\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-043/10/10ec2de430914d4d1c5f64e94ba2ed47.php on line 55\") in \"i\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-043/10/10ec2de430914d4d1c5f64e94ba2ed47.php on line 55\").",
+   "templateName": "i",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-043/10/10ec2de430914d4d1c5f64e94ba2ed47.php on line 55",
+    "formatted": "TypeError: Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-043/10/10ec2de430914d4d1c5f64e94ba2ed47.php on line 55",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-044",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-044/ae/ae2ffc780ebf739a36fe2875b227a0b2.php on line 55\") in \"i\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-044/ae/ae2ffc780ebf739a36fe2875b227a0b2.php on line 55\") in \"i\" at line 3.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-044/ae/ae2ffc780ebf739a36fe2875b227a0b2.php on line 55\").",
+   "templateName": "i",
+   "templateLine": 3,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-044/ae/ae2ffc780ebf739a36fe2875b227a0b2.php on line 55",
+    "formatted": "TypeError: Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-044/ae/ae2ffc780ebf739a36fe2875b227a0b2.php on line 55",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-045",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"i\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"i\" at line 3.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2.",
+   "templateName": "i",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-046",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"i\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"i\" at line 3.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2.",
+   "templateName": "i",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-047",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"e\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"e\" at line 2.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2.",
+   "templateName": "e",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-048",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"e\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"e\" at line 2.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2.",
+   "templateName": "e",
+   "templateLine": 2,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-049",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-049/8d/8d123f3330921ff60413c5f1c257e3f8.php on line 47\") in \"e\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-049/8d/8d123f3330921ff60413c5f1c257e3f8.php on line 47\") in \"e\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-049/8d/8d123f3330921ff60413c5f1c257e3f8.php on line 47\").",
+   "templateName": "e",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-049/8d/8d123f3330921ff60413c5f1c257e3f8.php on line 47",
+    "formatted": "TypeError: Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-049/8d/8d123f3330921ff60413c5f1c257e3f8.php on line 47",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-050",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-050/d0/d05e8aa020b8bb6bd33c245013ff6470.php on line 47\") in \"e\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-050/d0/d05e8aa020b8bb6bd33c245013ff6470.php on line 47\") in \"e\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-050/d0/d05e8aa020b8bb6bd33c245013ff6470.php on line 47\").",
+   "templateName": "e",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-050/d0/d05e8aa020b8bb6bd33c245013ff6470.php on line 47",
+    "formatted": "TypeError: Twig\\Template::yield(): Argument #1 ($context) must be of type array, int given, called in /tmp/twig-rs-cache/composition_errors-050/d0/d05e8aa020b8bb6bd33c245013ff6470.php on line 47",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-051",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"p\" does not exist in \"c\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"p\" does not exist in \"c\" at line 3.",
+   "rawMessage": "Block \"nope\" on template \"p\" does not exist.",
+   "templateName": "c",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-052",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"p\" does not exist in \"c\" at line 3.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"p\" does not exist in \"c\" at line 3.",
+   "rawMessage": "Block \"nope\" on template \"p\" does not exist.",
+   "templateName": "c",
+   "templateLine": 3,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-053",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"a\" on template \"bob\" does not exist in \"bob\".",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"a\" on template \"bob\" does not exist in \"bob\".",
+   "rawMessage": "Block \"a\" on template \"bob\" does not exist.",
+   "templateName": "bob",
+   "templateLine": 0,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-054",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"a\" on template \"bob\" does not exist in \"bob\".",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"a\" on template \"bob\" does not exist in \"bob\".",
+   "rawMessage": "Block \"a\" on template \"bob\" does not exist.",
+   "templateName": "bob",
+   "templateLine": 0,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-055",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"k\" does not exist in \"k\".",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"k\" does not exist in \"k\".",
+   "rawMessage": "Block \"nope\" on template \"k\" does not exist.",
+   "templateName": "k",
+   "templateLine": 0,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-056",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"k\" does not exist in \"k\".",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"k\" does not exist in \"k\".",
+   "rawMessage": "Block \"nope\" on template \"k\" does not exist.",
+   "templateName": "k",
+   "templateLine": 0,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-057",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"k\" does not exist in \"k\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"k\" does not exist in \"k\" at line 1.",
+   "rawMessage": "Block \"nope\" on template \"k\" does not exist.",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-058",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Block \"nope\" on template \"k\" does not exist in \"k\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Block \"nope\" on template \"k\" does not exist in \"k\" at line 1.",
+   "rawMessage": "Block \"nope\" on template \"k\" does not exist.",
+   "templateName": "k",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-059",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"u\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "composition_errors-060",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"boom!\") in \"u\" at line 2.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"boom!\") in \"u\" at line 2.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"boom!\").",
+   "templateName": "u",
+   "templateLine": 2,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "boom!",
+    "formatted": "RuntimeException: boom!",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

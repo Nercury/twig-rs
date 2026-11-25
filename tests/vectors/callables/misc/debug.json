@@ -1,0 +1,396 @@
+[
+ {
+  "id": "debug-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [
+   "Since twig/twig 3.15: Using \"snake_case\" for variadic arguments is required for a smooth upgrade with Twig 4.0; rename \"fooBar\" to \"foo_bar\" in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Using \"snake_case\" for variadic arguments is required for a smooth upgrade with Twig 4.0; rename \"fooBar\" to \"foo_bar\" in \"index.twig\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "debug-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "int(1)\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "int(1)\nstring(1) \"s\"\nfloat(1.5)\nbool(true)\nNULL\narray(2) {\n  [0]=>\n  int(1)\n  [1]=>\n  array(1) {\n    [\"a\"]=>\n    string(1) \"b\"\n  }\n}\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "array(3) {\n  [\"a\"]=>\n  int(1)\n  [\"b\"]=>\n  array(2) {\n    [0]=>\n    int(1)\n    [1]=>\n    string(1) \"x\"\n  }\n  [\"c\"]=>\n  array(1) {\n    [\"d\"]=>\n    NULL\n  }\n}\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "int(1)\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-014",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"var_dump() expects at least 1 argument, 0 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"var_dump() expects at least 1 argument, 0 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"var_dump() expects at least 1 argument, 0 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "var_dump() expects at least 1 argument, 0 given",
+    "formatted": "ArgumentCountError: var_dump() expects at least 1 argument, 0 given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-015",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"var_dump() does not accept unknown named parameters\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"var_dump() does not accept unknown named parameters\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"var_dump() does not accept unknown named parameters\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "var_dump() does not accept unknown named parameters",
+    "formatted": "ArgumentCountError: var_dump() does not accept unknown named parameters",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-016",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Named parameter $value overwrites previous argument\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $value overwrites previous argument\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Named parameter $value overwrites previous argument\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Named parameter $value overwrites previous argument",
+    "formatted": "Error: Named parameter $value overwrites previous argument",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-017",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"var_dump() expects at least 1 argument, 0 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"var_dump() expects at least 1 argument, 0 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"var_dump() expects at least 1 argument, 0 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "var_dump() expects at least 1 argument, 0 given",
+    "formatted": "ArgumentCountError: var_dump() expects at least 1 argument, 0 given",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: Using \"snake_case\" for variadic arguments is required for a smooth upgrade with Twig 4.0; rename \"fooBar\" to \"foo_bar\" in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Using \"snake_case\" for variadic arguments is required for a smooth upgrade with Twig 4.0; rename \"fooBar\" to \"foo_bar\" in \"index.twig\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "debug-018",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"var_dump() does not accept unknown named parameters\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"var_dump() does not accept unknown named parameters\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"var_dump() does not accept unknown named parameters\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "var_dump() does not accept unknown named parameters",
+    "formatted": "ArgumentCountError: var_dump() does not accept unknown named parameters",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "string(3) \"<b>\"\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "string(3) \"<b>\"\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "float(0.30000000000000004)\nfloat(1.0E+100)\nfloat(-0)\nfloat(1000000000000000)\nfloat(1.0E-5)\nfloat(100)\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "float(NAN)\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "float(-INF)\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "enum(TwigRsSuit::Hearts)\nenum(TwigRsStatus::Active)\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "object(TwigRsPlain)#4311 (1) {\n  [\"p\"]=>\n  string(2) \"pp\"\n}\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "object(ArrayObject)#4299 (1) {\n  [\"storage\":\"ArrayObject\":private]=>\n  array(2) {\n    [0]=>\n    int(1)\n    [1]=>\n    int(2)\n  }\n}\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "object(DateTime)#4500 (3) {\n  [\"date\"]=>\n  string(26) \"2010-10-04 13:45:30.000000\"\n  [\"timezone_type\"]=>\n  int(3)\n  [\"timezone\"]=>\n  string(12) \"Europe/Paris\"\n}\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "object(DateTimeZone)#4674 (2) {\n  [\"timezone_type\"]=>\n  int(3)\n  [\"timezone\"]=>\n  string(12) \"Europe/Paris\"\n}\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "array(2) {\n  [\"a\"]=>\n  string(3) \"ctx\"\n  [\"x\"]=>\n  int(1)\n}\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "array(4) {\n  [\"_parent\"]=>\n  array(0) {\n  }\n  [\"_seq\"]=>\n  array(1) {\n    [0]=>\n    int(1)\n  }\n  [\"i\"]=>\n  int(1)\n  [\"_key\"]=>\n  int(0)\n}\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "array(1) {\n  [\"k\"]=>\n  array(2) {\n    [0]=>\n    int(1)\n    [1]=>\n    array(2) {\n      [0]=>\n      int(2)\n      [1]=>\n      array(1) {\n        [0]=>\n        int(3)\n      }\n    }\n  }\n}\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "string(4) \"é?\u0000\"\n",
+  "output_b64": "c3RyaW5nKDQpICLDqf8AIgo=",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "object(Twig\\Markup)#5573 (3) {\n  [\"content\":\"Twig\\Markup\":private]=>\n  string(8) \"<i>x</i>\"\n  [\"charset\":\"Twig\\Markup\":private]=>\n  string(5) \"UTF-8\"\n  [\"safeStrategies\":\"Twig\\Markup\":private]=>\n  array(1) {\n    [0]=>\n    string(3) \"all\"\n  }\n}\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "int(1)\nint(2)\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "int(3)\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "array(1) {\n  [\"a\"]=>\n  int(1)\n}\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "array(2) {\n  [\"a\"]=>\n  int(1)\n  [\"g\"]=>\n  string(6) \"global\"\n}\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "debug-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

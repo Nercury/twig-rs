@@ -1,0 +1,2983 @@
+[
+ {
+  "id": "filters-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"312\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1, 2, 3\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1, 2 and 3\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1, 2\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"abc\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"42\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"2,3,1\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1,,,1.5,1\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"Array,2\"",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "filters-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"12\"",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "implode(): Passing null to parameter #1 ($separator) of type array|string is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "filters-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1 and Array\"",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "filters-014",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, array returned\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, array returned\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, array returned\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::join(): Return value must be of type string, array returned",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::join(): Return value must be of type string, array returned",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-015",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, null returned\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, null returned\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, null returned\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::join(): Return value must be of type string, null returned",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::join(): Return value must be of type string, null returned",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1.5\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1,2Array3\"",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "filters-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1-2\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1,2\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1+2\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $nope",
+    "formatted": "Error: Unknown named parameter $nope",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-024",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Named parameter $value overwrites previous argument\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $value overwrites previous argument\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Named parameter $value overwrites previous argument\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Named parameter $value overwrites previous argument",
+    "formatted": "Error: Named parameter $value overwrites previous argument",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1.5\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"112\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"12&3\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"one\",\"two\",\"three\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"one\",\"two,three,four\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"one\",\"two\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"one,two\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"1\",\"2\",\"3\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"aa\",\"bb\",\"cc\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"aa\",\"bb\",\"c\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"ab\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"\\u00e9\",\"\\u00e0\",\"\\u00fc\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\",\"c\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"12\",\"45\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-042",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must not be empty\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must not be empty\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must not be empty\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "explode(): Argument #1 ($separator) must not be empty",
+    "formatted": "ValueError: explode(): Argument #1 ($separator) must not be empty",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "explode(): Passing null to parameter #1 ($separator) of type string is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "filters-043",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must not be empty\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must not be empty\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must not be empty\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "explode(): Argument #1 ($separator) must not be empty",
+    "formatted": "ValueError: explode(): Argument #1 ($separator) must not be empty",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-044",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"explode(): Argument #3 ($limit) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"explode(): Argument #3 ($limit) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"explode(): Argument #3 ($limit) must be of type int, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "explode(): Argument #3 ($limit) must be of type int, string given",
+    "formatted": "TypeError: explode(): Argument #3 ($limit) must be of type int, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"abc\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-046",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"explode(): Argument #2 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"explode(): Argument #2 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"explode(): Argument #2 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "explode(): Argument #2 ($string) must be of type string, array given",
+    "formatted": "TypeError: explode(): Argument #2 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-047",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_strlen(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: mb_strlen(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"1\",\".\",\"5\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"1\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"ab\",\"cd\",\"f\"]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 2.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 2.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 2.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 2.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "filters-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"ab\",\"cd\",\"ef\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"\\u00e9\\u00e0\\u00fc\",\"\\u00f6\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"12\",\"34\",\"5\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "[12]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\",\"\",\"c\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\",\"c\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\",\"c\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\",\"c\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":1,\"2\":2,\"0\":3}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-064",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"c\":1,\"b\":2,\"a\":3}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-065",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"4\":\"9\",\"3\":\"10\",\"5\":\"1e1\",\"2\":\"B\",\"1\":\"a\",\"0\":\"b\"}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-066",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"6\":null,\"3\":1.5,\"1\":9,\"0\":\"10\",\"2\":\"9a\",\"4\":\"abc\",\"5\":true}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-067",
+  "kind": "twig",
+  "ok": true,
+  "output": "[3.5,3.2,3.8]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-068",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"0\":3,\"2\":2,\"1\":1}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-069",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":1,\"2\":2,\"0\":3}",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "uasort(): Returning bool from comparison function is deprecated, return an integer less than, equal to, or greater than zero"
+   }
+  ]
+ },
+ {
+  "id": "filters-070",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"b\":1,\"a\":1}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-071",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"sort\" filter expects a sequence or a mapping, got \"null\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"sort\" filter expects a sequence or a mapping, got \"null\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"sort\" filter expects a sequence or a mapping, got \"null\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-072",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"sort\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"sort\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"sort\" filter expects a sequence or a mapping, got \"string\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-073",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-074",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-075",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"uasort(): Argument #2 ($callback) must be a valid callback, function \"nope\" not found or invalid function name\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"uasort(): Argument #2 ($callback) must be a valid callback, function \"nope\" not found or invalid function name\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"uasort(): Argument #2 ($callback) must be a valid callback, function \"nope\" not found or invalid function name\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "uasort(): Argument #2 ($callback) must be a valid callback, function \"nope\" not found or invalid function name",
+    "formatted": "TypeError: uasort(): Argument #2 ($callback) must be a valid callback, function \"nope\" not found or invalid function name",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"sort\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"sort\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "filters-076",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"uasort(): Argument #2 ($callback) must be a valid callback, first array member is not a valid class name or object\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"uasort(): Argument #2 ($callback) must be a valid callback, first array member is not a valid class name or object\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"uasort(): Argument #2 ($callback) must be a valid callback, first array member is not a valid class name or object\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "uasort(): Argument #2 ($callback) must be a valid callback, first array member is not a valid class name or object",
+    "formatted": "TypeError: uasort(): Argument #2 ($callback) must be a valid callback, first array member is not a valid class name or object",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"sort\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"sort\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "filters-077",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"4\":null,\"12\":-1,\"9\":0,\"11\":false,\"8\":1,\"6\":2.5,\"3\":3,\"0\":5,\"1\":\"5\",\"5\":true,\"15\":7,\"16\":8,\"17\":9,\"7\":\"10\",\"13\":\"1e1\",\"2\":\"a\",\"10\":\"b\",\"14\":[1]}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-078",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"4\":null,\"12\":-1,\"9\":0,\"11\":false,\"8\":1,\"6\":2.5,\"3\":3,\"0\":5,\"1\":\"5\",\"5\":true,\"14\":7,\"15\":8,\"16\":9,\"7\":\"10\",\"13\":\"1e1\",\"2\":\"a\",\"10\":\"b\"}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-079",
+  "kind": "twig",
+  "ok": true,
+  "output": "[3,2,1]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-080",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":1,\"0\":2}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-081",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"b\",\"a\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-082",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"0\":3,\"2\":2,\"1\":1}",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "uasort(): Returning bool from comparison function is deprecated, return an integer less than, equal to, or greater than zero"
+   }
+  ]
+ },
+ {
+  "id": "filters-083",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":2,\"0\":1}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-084",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2,\"a\",\"b\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-085",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":1,\"b\":3,\"c\":4}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-086",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\",\"c\",\"z\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-087",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"0\":1,\"x\":1,\"1\":2}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-088",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"null\" for argument 1 in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"null\" for argument 1 in \"index.twig\" at line 1.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"null\" for argument 1.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-089",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"string\" for argument 3 in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"string\" for argument 3 in \"index.twig\" at line 1.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"string\" for argument 3.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-090",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-091",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":1}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-092",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-093",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-094",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: string + int",
+    "formatted": "TypeError: Unsupported operand types: string + int",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-095",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2 in \"index.twig\" at line 1.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"int\" for argument 2.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "A non-numeric value encountered"
+   }
+  ]
+ },
+ {
+  "id": "filters-096",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":1}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-097",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"x\":\"a\",\"0\":\"b\",\"y\":\"c\",\"1\":\"b\"}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-098",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"null\" for argument 2 in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"null\" for argument 2 in \"index.twig\" at line 1.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"null\" for argument 2.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-099",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"merge\" filter expects a sequence or a mapping, got \"string\" for argument 1 in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"merge\" filter expects a sequence or a mapping, got \"string\" for argument 1 in \"index.twig\" at line 1.",
+   "rawMessage": "The \"merge\" filter expects a sequence or a mapping, got \"string\" for argument 1.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-100",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[\"a\",\"b\",\"c\"],{\"3\":\"d\"}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-101",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[\"a\",\"b\",\"c\"],{\"3\":\"d\",\"4\":\"x\",\"5\":\"x\"}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-102",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[\"a\",\"b\",\"c\"],[\"d\",\"x\",\"x\"]]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-103",
+  "kind": "twig",
+  "ok": true,
+  "output": "[{\"a\":1,\"b\":2},{\"c\":3,\"0\":\"z\"}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-104",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1,2,3]]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-105",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1,2],{\"2\":3}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-106",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-107",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #2 ($length) must be greater than 0\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #2 ($length) must be greater than 0\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #2 ($length) must be greater than 0\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "array_chunk(): Argument #2 ($length) must be greater than 0",
+    "formatted": "ValueError: array_chunk(): Argument #2 ($length) must be greater than 0",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-108",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #2 ($length) must be greater than 0\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #2 ($length) must be greater than 0\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #2 ($length) must be greater than 0\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "array_chunk(): Argument #2 ($length) must be greater than 0",
+    "formatted": "ValueError: array_chunk(): Argument #2 ($length) must be greater than 0",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-109",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"batch\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"batch\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"batch\" filter expects a sequence or a mapping, got \"string\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-110",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"ceil(): Argument #1 ($num) must be of type int|float, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"ceil(): Argument #1 ($num) must be of type int|float, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"ceil(): Argument #1 ($num) must be of type int|float, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "ceil(): Argument #1 ($num) must be of type int|float, string given",
+    "formatted": "TypeError: ceil(): Argument #1 ($num) must be of type int|float, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-111",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #2 ($length) must be greater than 0\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #2 ($length) must be greater than 0\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #2 ($length) must be greater than 0\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "array_chunk(): Argument #2 ($length) must be greater than 0",
+    "formatted": "ValueError: array_chunk(): Argument #2 ($length) must be greater than 0",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "ceil(): Passing null to parameter #1 ($num) of type int|float is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "filters-112",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1,2],{\"2\":3}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-113",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1,2],{\"2\":3,\"3\":0}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-114",
+  "kind": "twig",
+  "ok": true,
+  "output": "[{\"1\":\"a\",\"2\":\"b\"},{\"3\":\"c\",\"4\":\"f\"}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-115",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #3 ($preserve_keys) must be of type bool, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #3 ($preserve_keys) must be of type bool, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #3 ($preserve_keys) must be of type bool, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "array_chunk(): Argument #3 ($preserve_keys) must be of type bool, array given",
+    "formatted": "TypeError: array_chunk(): Argument #3 ($preserve_keys) must be of type bool, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-116",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1,2],{\"2\":3,\"3\":\"x\"}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-117",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #2 ($length) must be greater than 0\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #2 ($length) must be greater than 0\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_chunk(): Argument #2 ($length) must be greater than 0\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "array_chunk(): Argument #2 ($length) must be greater than 0",
+    "formatted": "ValueError: array_chunk(): Argument #2 ($length) must be greater than 0",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "The float 1.0E+100 is not representable as an int, cast occurred"
+   }
+  ]
+ },
+ {
+  "id": "filters-118",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1],{\"1\":2},{\"2\":3}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-119",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1,2],{\"2\":3,\"3\":4}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-120",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1,2],{\"2\":3}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-121",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1,2,3]]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-122",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1,2],{\"2\":3,\"3\":\"y\"}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-123",
+  "kind": "twig",
+  "ok": true,
+  "output": "[[1,2],[3,\"x\"]]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-124",
+  "kind": "twig",
+  "ok": true,
+  "output": "[{\"5\":\"a\",\"9\":\"b\"},{\"7\":\"c\",\"8\":\"x\"}]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-125",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-126",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":\"a\",\"2\":\"b\"}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-127",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"x\":{\"id\":3,\"g\":\"x\"},\"y\":{\"id\":2,\"name\":\"b\",\"g\":\"y\"}}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-128",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"x\":\"x\",\"y\":\"y\"}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-129",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,4]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-130",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":2,\"3\":4}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-131",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"column\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"column\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"column\" filter expects a sequence or a mapping, got \"string\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-132",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_column(): Argument #2 ($column_key) must be of type string|int|null, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_column(): Argument #2 ($column_key) must be of type string|int|null, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_column(): Argument #2 ($column_key) must be of type string|int|null, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "array_column(): Argument #2 ($column_key) must be of type string|int|null, array given",
+    "formatted": "TypeError: array_column(): Argument #2 ($column_key) must be of type string|int|null, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-133",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2,3]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "filters-134",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-135",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-136",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-137",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_column(): Argument #3 ($index_key) must be of type string|int|null, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_column(): Argument #3 ($index_key) must be of type string|int|null, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_column(): Argument #3 ($index_key) must be of type string|int|null, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "array_column(): Argument #3 ($index_key) must be of type string|int|null, array given",
+    "formatted": "TypeError: array_column(): Argument #3 ($index_key) must be of type string|int|null, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-138",
+  "kind": "twig",
+  "ok": true,
+  "output": "[null]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-139",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"x\",\"y\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-140",
+  "kind": "twig",
+  "ok": true,
+  "output": "1=5;3=4;4=5;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-141",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"b\":2,\"c\":1}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-142",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":1,\"3\":\"a\"}",
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"filter\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"filter\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "filters-143",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_filter(): Argument #2 ($callback) must be a valid callback or null, function \"nope\" not found or invalid function name\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_filter(): Argument #2 ($callback) must be a valid callback or null, function \"nope\" not found or invalid function name\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_filter(): Argument #2 ($callback) must be a valid callback or null, function \"nope\" not found or invalid function name\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "array_filter(): Argument #2 ($callback) must be a valid callback or null, function \"nope\" not found or invalid function name",
+    "formatted": "TypeError: array_filter(): Argument #2 ($callback) must be a valid callback or null, function \"nope\" not found or invalid function name",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"filter\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"filter\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "filters-144",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"filter\" filter expects a sequence/mapping or \"Traversable\", got \"string\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"filter\" filter expects a sequence/mapping or \"Traversable\", got \"string\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"filter\" filter expects a sequence/mapping or \"Traversable\", got \"string\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-145",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-146",
+  "kind": "twig",
+  "ok": true,
+  "output": "[0,2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-147",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-148",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-149",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"filter\" filter expects a sequence/mapping or \"Traversable\", got \"null\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"filter\" filter expects a sequence/mapping or \"Traversable\", got \"null\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"filter\" filter expects a sequence/mapping or \"Traversable\", got \"null\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-150",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-151",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_filter(): Argument #2 ($callback) must be a valid callback or null, array callback must have exactly two members\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_filter(): Argument #2 ($callback) must be a valid callback or null, array callback must have exactly two members\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_filter(): Argument #2 ($callback) must be a valid callback or null, array callback must have exactly two members\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "array_filter(): Argument #2 ($callback) must be a valid callback or null, array callback must have exactly two members",
+    "formatted": "TypeError: array_filter(): Argument #2 ($callback) must be a valid callback or null, array callback must have exactly two members",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"filter\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"filter\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "filters-152",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,4,6]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-153",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"b\":\"b2\",\"a\":\"a3\",\"c\":\"c1\"}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-154",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"map\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"map\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"map\" filter expects a sequence or a mapping, got \"string\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-155",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-156",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-157",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-158",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $nope",
+    "formatted": "Error: Unknown named parameter $nope",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-159",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":1,\"01\":\"01\"}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-160",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-161",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Call to undefined function nope()\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Call to undefined function nope()\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Call to undefined function nope()\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Call to undefined function nope()",
+    "formatted": "Error: Call to undefined function nope()",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+   }
+  ]
+ },
+ {
+  "id": "filters-162",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"map\" filter expects a sequence or a mapping, got \"null\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"map\" filter expects a sequence or a mapping, got \"null\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"map\" filter expects a sequence or a mapping, got \"null\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-163",
+  "kind": "twig",
+  "ok": true,
+  "output": "8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-164",
+  "kind": "twig",
+  "ok": true,
+  "output": "16",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-165",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-166",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"reduce\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"reduce\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"reduce\" filter expects a sequence or a mapping, got \"string\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-167",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"b2a3c1\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-168",
+  "kind": "twig",
+  "ok": true,
+  "output": "\">12\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-169",
+  "kind": "twig",
+  "ok": true,
+  "output": "40",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-170",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-171",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-172",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"find\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"find\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"find\" filter expects a sequence or a mapping, got \"string\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-173",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"x\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-174",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-175",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"c\",\"b\",\"a\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-176",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"3\":\"c\",\"2\":\"b\",\"1\":\"a\"}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-177",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"y\":\"c\",\"0\":\"b\",\"x\":\"a\"}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-178",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\\u00e9t\\u00e9\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-179",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"321\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-180",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-181",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"5.1\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-182",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-183",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,1]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "array_reverse(): Passing null to parameter #2 ($preserve_keys) of type bool is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "filters-184",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_reverse(): Argument #2 ($preserve_keys) must be of type bool, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_reverse(): Argument #2 ($preserve_keys) must be of type bool, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_reverse(): Argument #2 ($preserve_keys) must be of type bool, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "array_reverse(): Argument #2 ($preserve_keys) must be of type bool, array given",
+    "formatted": "TypeError: array_reverse(): Argument #2 ($preserve_keys) must be of type bool, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-185",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-186",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"a\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-187",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"2\":2,\"1\":1,\"0\":3}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-188",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"ba\\ud83d\\ude00\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-189",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-190",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-191",
+  "kind": "twig",
+  "ok": true,
+  "output": "42",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-192",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-193",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-194",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"a\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-195",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1,2,3\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-196",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-197",
+  "kind": "twig",
+  "ok": true,
+  "output": "true",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-198",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-199",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-200",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\\u00e9\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-201",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-202",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-203",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-204",
+  "kind": "twig",
+  "ok": true,
+  "output": "5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-205",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-206",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-207",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-208",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-209",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-210",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-211",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-212",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-213",
+  "kind": "twig",
+  "ok": true,
+  "output": "-1",
+  "deprecations": [
+   "Since twig/twig 3.21: As the \"|\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.21: As the \"|\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "filters-214",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-215",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":2,\"2\":3}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-216",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"b\":2,\"0\":3,\"1\":4}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-217",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"b\":2,\"3\":3,\"4\":4}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-218",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-219",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-220",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"23\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-221",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"12\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-222",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"345\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-223",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"123\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-224",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"de\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-225",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"ab\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-226",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"23\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-227",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-228",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"t\\u00e9\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-229",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-230",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "filters-231",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_slice(): Argument #2 ($offset) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_slice(): Argument #2 ($offset) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_slice(): Argument #2 ($offset) must be of type int, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "array_slice(): Argument #2 ($offset) must be of type int, string given",
+    "formatted": "TypeError: array_slice(): Argument #2 ($offset) must be of type int, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-232",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #2 ($start) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #2 ($start) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #2 ($start) must be of type int, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_substr(): Argument #2 ($start) must be of type int, string given",
+    "formatted": "TypeError: mb_substr(): Argument #2 ($start) must be of type int, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-233",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"abc\"",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "mb_substr(): Passing null to parameter #2 ($start) of type int is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "filters-234",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1,2,3]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "array_slice(): Passing null to parameter #2 ($offset) of type int is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "filters-235",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"array_slice(): Argument #3 ($length) must be of type ?int, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"array_slice(): Argument #3 ($length) must be of type ?int, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"array_slice(): Argument #3 ($length) must be of type ?int, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "array_slice(): Argument #3 ($length) must be of type ?int, string given",
+    "formatted": "TypeError: array_slice(): Argument #3 ($length) must be of type ?int, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-236",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #3 ($length) must be of type ?int, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #3 ($length) must be of type ?int, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #3 ($length) must be of type ?int, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_substr(): Argument #3 ($length) must be of type ?int, string given",
+    "formatted": "TypeError: mb_substr(): Argument #3 ($length) must be of type ?int, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-237",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"1\":2}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-238",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"bc\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-239",
+  "kind": "twig",
+  "ok": true,
+  "output": "[1]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-240",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":3,\"c\":1}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-241",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-242",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"bc\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-243",
+  "kind": "twig",
+  "ok": true,
+  "output": "\".5\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-244",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-245",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-246",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-247",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2,3]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-248",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"b\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-249",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-250",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-251",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-252",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"5\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-253",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-254",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-255",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\\u00c4\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-256",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-257",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-258",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"4\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-259",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-260",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\\u00e9\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-261",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-262",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-263",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-264",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-265",
+  "kind": "twig",
+  "ok": true,
+  "output": "false",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-266",
+  "kind": "twig",
+  "ok": true,
+  "output": "[0,1]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-267",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",2]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-268",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-269",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-270",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"b\",\"a\",\"c\"]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-271",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-272",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-273",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1-2\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-274",
+  "kind": "twig",
+  "ok": true,
+  "output": "42",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-275",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1-2\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-276",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"3-4\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-277",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $a\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $a\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $a\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $a",
+    "formatted": "Error: Unknown named parameter $a",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-278",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1-2\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-279",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"1-2\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "filters-280",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $arguments\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $arguments\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $arguments\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $arguments",
+    "formatted": "Error: Unknown named parameter $arguments",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

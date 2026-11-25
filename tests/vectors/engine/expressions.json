@@ -1,0 +1,1770 @@
+[
+ {
+  "id": "expressions-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "7",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "9",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "2.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "-4",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "-1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "512",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "-4",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "4",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "4",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "-0.25",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "4",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "2.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "expressions-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: string + int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Unsupported operand types: string + int",
+    "formatted": "TypeError: Unsupported operand types: string + int",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.15: As the \"~\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: As the \"~\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "expressions-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "24",
+  "deprecations": [
+   "Since twig/twig 3.15: As the \"~\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.15: As the \"~\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "expressions-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "-1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "-1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-031",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "The arrow function argument must be a list of variables or a single variable in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: The arrow function argument must be a list of variables or a single variable in \"index.twig\" at line 1.",
+   "rawMessage": "The arrow function argument must be a list of variables or a single variable.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "7",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "6",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "`",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "cb",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-043",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "-3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "4.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "-1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "-3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-064",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-065",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-066",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-067",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-068",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-069",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-070",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-071",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-072",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-073",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-074",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-075",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-076",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-077",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-078",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-079",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-080",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-081",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-082",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-083",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-084",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-085",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-086",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-087",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-088",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,2,3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-089",
+  "kind": "twig",
+  "ok": true,
+  "output": "3,2,1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-090",
+  "kind": "twig",
+  "ok": true,
+  "output": "a,b,c,d,e",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-091",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-092",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-093",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-094",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-095",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-096",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-097",
+  "kind": "twig",
+  "ok": true,
+  "output": "e",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-098",
+  "kind": "twig",
+  "ok": true,
+  "output": "v",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-099",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-100",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-101",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-102",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-103",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-104",
+  "kind": "twig",
+  "ok": true,
+  "output": "last",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-105",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-106",
+  "kind": "twig",
+  "ok": true,
+  "output": "x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-107",
+  "kind": "twig",
+  "ok": true,
+  "output": "x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-108",
+  "kind": "twig",
+  "ok": true,
+  "output": "deep",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-109",
+  "kind": "twig",
+  "ok": true,
+  "output": "x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-110",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-111",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-112",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-113",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-114",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-115",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-116",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-117",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-118",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-119",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-120",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-121",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-122",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-123",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-124",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-125",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-126",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-127",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-128",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-129",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-130",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-131",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-132",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-133",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-134",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-135",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-136",
+  "kind": "twig",
+  "ok": true,
+  "output": "abc",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-137",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-138",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-139",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-140",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-141",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-142",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-143",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-144",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,2,3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-145",
+  "kind": "twig",
+  "ok": true,
+  "output": "a,b,3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-146",
+  "kind": "twig",
+  "ok": true,
+  "output": "a,b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-147",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-148",
+  "kind": "twig",
+  "ok": true,
+  "output": "3,2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-149",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-150",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-151",
+  "kind": "twig",
+  "ok": true,
+  "output": "bob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-152",
+  "kind": "twig",
+  "ok": true,
+  "output": "name",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-153",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,2,3,4",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-154",
+  "kind": "twig",
+  "ok": true,
+  "output": "0,1,2,3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-155",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,2,3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-156",
+  "kind": "twig",
+  "ok": true,
+  "output": "9,2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-157",
+  "kind": "twig",
+  "ok": true,
+  "output": "0,1,a,2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-158",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-159",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-160",
+  "kind": "twig",
+  "ok": true,
+  "output": "c",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-161",
+  "kind": "twig",
+  "ok": true,
+  "output": "2,4,6",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-162",
+  "kind": "twig",
+  "ok": true,
+  "output": "0:1,1:2,2:3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-163",
+  "kind": "twig",
+  "ok": true,
+  "output": "11,12",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-164",
+  "kind": "twig",
+  "ok": true,
+  "output": "bob,bob,bob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-165",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-166",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-167",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-168",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-169",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-170",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-171",
+  "kind": "twig",
+  "ok": true,
+  "output": "oeo",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-172",
+  "kind": "twig",
+  "ok": true,
+  "output": "6",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-173",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "expressions-174",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "expressions-175",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "expressions-176",
+  "kind": "twig",
+  "ok": true,
+  "output": "index.twig",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-177",
+  "kind": "twig",
+  "ok": true,
+  "output": "UTF-8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-178",
+  "kind": "twig",
+  "ok": true,
+  "output": "items,map,name,empty,nul,t,f,zero,s,fl,nested,list,num_keys,big",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-179",
+  "kind": "twig",
+  "ok": true,
+  "output": "BOB",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-180",
+  "kind": "twig",
+  "ok": true,
+  "output": "bob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-181",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,2,3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-182",
+  "kind": "twig",
+  "ok": true,
+  "output": "0,5,10",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-183",
+  "kind": "twig",
+  "ok": true,
+  "output": "123",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-184",
+  "kind": "twig",
+  "ok": true,
+  "output": "1, 2 and 3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-185",
+  "kind": "twig",
+  "ok": true,
+  "output": "x and y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-186",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-187",
+  "kind": "twig",
+  "ok": true,
+  "output": "x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-188",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-189",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-190",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-191",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-192",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-193",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-194",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-195",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-196",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-197",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-198",
+  "kind": "twig",
+  "ok": true,
+  "output": "dz",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-199",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-200",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "expressions-201",
+  "kind": "twig",
+  "ok": true,
+  "output": "empty",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-202",
+  "kind": "twig",
+  "ok": true,
+  "output": "bob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-203",
+  "kind": "twig",
+  "ok": true,
+  "output": "x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-204",
+  "kind": "twig",
+  "ok": true,
+  "output": "0,1,2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-205",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-206",
+  "kind": "twig",
+  "ok": true,
+  "output": "12|1null",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-207",
+  "kind": "twig",
+  "ok": true,
+  "output": "12",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-208",
+  "kind": "twig",
+  "ok": true,
+  "output": "65",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-209",
+  "kind": "twig",
+  "ok": true,
+  "output": "1bob,2bob,3bob|1changed,2changed,3changed",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-210",
+  "kind": "twig",
+  "ok": true,
+  "output": "2,3,41",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "expressions-211",
+  "kind": "twig",
+  "ok": true,
+  "output": "nn",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key 0"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Undefined array key 1"
+   }
+  ]
+ },
+ {
+  "id": "expressions-212",
+  "kind": "twig",
+  "ok": true,
+  "output": "11",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

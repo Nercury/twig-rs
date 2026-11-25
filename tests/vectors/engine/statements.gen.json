@@ -1,0 +1,2924 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "{% if t %}T{% endif %}{% if f %}F{% endif %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{% if zero %}1{% elseif nul %}2{% elseif name %}3{% else %}4{% endif %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{% if f %}1{% elseif f %}2{% else %}3{% endif %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-003"
+  },
+  {
+   "templates": {
+    "index.twig": "{% if items %}{% if map.a == 1 %}nested{% endif %}{% endif %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{% if '0' %}y{% else %}n{% endif %}{% if '0.0' %}y{% else %}n{% endif %}{% if [] %}y{% else %}n{% endif %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-005"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in items %}{{ i }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for k, v in map %}{{ k }}={{ v }},{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in items %}{{ loop.index }}{{ loop.index0 }}{{ loop.revindex }}{{ loop.revindex0 }}{{ loop.first ? 'F' }}{{ loop.last ? 'L' }}{{ loop.length }};{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in [] %}x{% else %}empty{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in nul %}x{% else %}null-empty{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in 's' %}x{% else %}string-empty{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-011"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in 5 %}x{% endfor %}done"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in items %}{% for j in list %}{{ i }}{{ j }}{{ loop.parent.loop.index }} {% endfor %}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in items %}{{ loop.parent|keys|join(',') }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set i = 'outer' %}{% for i in items %}{% endfor %}{{ i }}|{{ _context|keys|join(',') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set x = 1 %}{% for i in items %}{% set x = i %}{% set y = i %}{% endfor %}{{ x }}{{ y ?? 'no-y' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-016"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in items %}{{ _context|keys|join(',') }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-017"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in items %}{{ _context|keys|join(',') }}{% else %}e{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-018"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for k, v in {a: 1, '2': 'b', 3: 'c'} %}{{ k }}{{ k is same as(2) ? '(int)' }},{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-019"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in items %}{% set items = [] %}{{ i }}{% endfor %}{{ items|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-020"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for loop in items %}{{ loop }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-021"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for _key, v in list %}{{ _key }}{{ v }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-022"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in 1..3 %}{{ i }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-023"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for c in 'a'..'c' %}{{ c }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-024"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in items %}{% if loop.index is odd %}{{ i }}{% endif %}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-025"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in items %}{% set loop = null %}{{ i }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-026"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in items %}{{ i }}{% set loop = {index0: 'a'} %}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-027"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for v in map %}{{ v }}{% endfor %}{{ v ?? 'gone' }}{{ _key ?? 'nokey' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-028"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set a = 1 %}{{ a }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-029"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set a, b = 1, 2 %}{{ a }}{{ b }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-030"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set a, b = 1, 2 %}{% set a, b = b, a %}{{ a }}{{ b }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-031"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set c %}<b>{{ name }}</b>{% endset %}{{ c }}|{{ c|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-032"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set e %}static{% endset %}{{ e }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-033"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set f %}{% endset %}[{{ f }}]{{ f is same as('') ? 'empty-string' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-034"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set g %}{{ 'const' }}{% endset %}{{ g }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-035"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set h %}{{ 5 }}{% endset %}{{ h }}{{ h + 1 }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-036"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set x %}{% set y = 5 %}{% endset %}y={{ y }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-037"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set m %}0{% endset %}{{ m ? 'truthy' : 'falsy' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-038"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set e2 %}{{ '' }}{% endset %}{{ e2 ? 'truthy' : 'falsy' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-039"
+  },
+  {
+   "templates": {
+    "index.twig": "{% apply upper %}hello {{ name }}{% endapply %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-040"
+  },
+  {
+   "templates": {
+    "index.twig": "{% apply upper|lower %} Mixed {% endapply %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-041"
+  },
+  {
+   "templates": {
+    "index.twig": "{% apply upper %}{% set q = 'in' %}{% endapply %}{{ q }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-042"
+  },
+  {
+   "templates": {
+    "index.twig": "{% apply upper %}a{% apply lower %}B{% endapply %}c{% endapply %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-043"
+  },
+  {
+   "templates": {
+    "index.twig": "{% with {a: 1, name: 'w'} %}{{ a }}{{ name }}{% endwith %}{{ a ?? 'x' }}{{ name }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-044"
+  },
+  {
+   "templates": {
+    "index.twig": "{% with {a: 1} only %}{{ a }}{{ name ?? 'no-name' }}{% endwith %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-045"
+  },
+  {
+   "templates": {
+    "index.twig": "{% with %}{% set y = 2 %}{{ y }}{% endwith %}{{ y ?? 'gone' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-046"
+  },
+  {
+   "templates": {
+    "index.twig": "{% with map %}{{ a }}{{ b }}{% endwith %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-047"
+  },
+  {
+   "templates": {
+    "index.twig": "{% with {z: 1, items: 9} %}{{ _context|keys|join(',') }}{% endwith %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-048"
+  },
+  {
+   "templates": {
+    "index.twig": "{% with {z: 1} only %}{{ _context|keys|join(',') }}{% endwith %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-049"
+  },
+  {
+   "templates": {
+    "index.twig": "{% do 1 + 2 %}done"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-050"
+  },
+  {
+   "templates": {
+    "index.twig": "{% do items|map(x => x) %}ok"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-051"
+  },
+  {
+   "templates": {
+    "index.twig": "{% types {foo: 'string', bar?: 'int'} %}typed"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-052"
+  },
+  {
+   "templates": {
+    "index.twig": "{% guard filter upper %}U{% else %}noU{% endguard %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-053"
+  },
+  {
+   "templates": {
+    "index.twig": "{% guard function nope %}yes{{ nope() }}{% else %}no{% endguard %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-054"
+  },
+  {
+   "templates": {
+    "index.twig": "{% guard test odd %}odd{% endguard %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-055"
+  },
+  {
+   "templates": {
+    "index.twig": "{% autoescape 'js' %}{{ '<x>' }}{% endautoescape %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-056"
+  },
+  {
+   "templates": {
+    "index.twig": "{% autoescape false %}{{ name }}{% endautoescape %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-057"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in [] %}{% else %}[{{ i ?? 'q' }}]{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-058"
+  },
+  {
+   "templates": {
+    "index.twig": "{% deprecated 'The X is deprecated.' %}{% deprecated 'D2' package='acme/pkg' version='1.2' %}ok"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "id": "statements-059"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in [] %}{% else %}[{{ i ?? 'q' }}]{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-060"
+  },
+  {
+   "templates": {
+    "index.twig": "{% deprecated 'The X is deprecated.' %}{% deprecated 'D2' package='acme/pkg' version='1.2' %}ok"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true
+   },
+   "errors": "collect",
+   "id": "statements-061"
+  },
+  {
+   "templates": {
+    "index.twig": "{% deprecated 'Dynamic ' ~ name %}ok"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "items": [
+     1,
+     2,
+     3
+    ],
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "name": "bob",
+    "empty": [],
+    "nul": null,
+    "t": true,
+    "f": false,
+    "zero": 0,
+    "s": "str",
+    "fl": 1.5,
+    "nested": {
+     "a": {
+      "b": {
+       "c": "deep"
+      }
+     }
+    },
+    "list": [
+     "x",
+     "y"
+    ],
+    "num_keys": {
+     "1": "one",
+     "2": "two"
+    },
+    "big": 9223372036854775807
+   },
+   "id": "statements-062"
+  },
+  {
+   "templates": {
+    "index.twig": "{% deprecated 'P' package='p' %}{% deprecated 'V' version='1.0' %}ok"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "id": "statements-063"
+  }
+ ],
+ "isolation": "none"
+}

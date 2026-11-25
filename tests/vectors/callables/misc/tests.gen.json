@@ -1,0 +1,1826 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "{{ -3 is odd ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '4' is even ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 2.5 is even ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-003"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ null is even ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 0 is odd ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-005"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc' is even ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [1] is even ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '5abc' is odd ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ true is odd ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1.5e3 is even ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 2 is even(2) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-011"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 3 is not odd ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '' is even ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ' 3' is odd ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 9223372036854775807 is odd ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1e100 is even ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-016"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 9 is divisible by(3) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-017"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 9 is divisible by 3 ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-018"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 10 is divisible by(3) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-019"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 9.5 is divisible by(3) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-020"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '9' is divisible by(3) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-021"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'abc' is divisible by(3) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-022"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 9 is divisible by(0) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-023"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 9 is not divisible by(2) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-024"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 9 is divisible by(1.5) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-025"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 9 is divisible by('x') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-026"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ -9 is divisible by(-3) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-027"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 9 is divisible by(num=3) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-028"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1 is same as('1') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-029"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [1] is same as([1]) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-030"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1.0 is same as(1) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-031"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1 is same as 1 ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-032"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ null is same as(null) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-033"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'a' is same as('a') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-034"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ {a: 1, b: 2} is same as({b: 2, a: 1}) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-035"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1 is not same as(true) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-036"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1 is same as(value=1) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-037"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ null is null ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-038"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ null is none ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-039"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ undef is null ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-040"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 0 is null ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-041"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '' is not null ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-042"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ false is none ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-043"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 1 is true }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-044"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 0 is true }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-045"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 'a' is true }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-046"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ null is true }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-047"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ 0 is not true }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-048"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ [] is true ? 'y' : 'n' }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-049"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ '0' is true ? 'y' : 'n' }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-050"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ n is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-051"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ undef is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-052"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'a' is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-053"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ range(1, 2) is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-054"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ range(1, 0)|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-055"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ a.b is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-056"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ a.c is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-057"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ a.b.c is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-058"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [1] is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-059"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (1 + 1) is defined }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-060"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ a|upper is defined }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-061"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ _self is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-062"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random(0) is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "n": null,
+    "a": {
+     "b": 1
+    }
+   },
+   "data_php": "return ['n' => null, 'a' => ['b' => 1]];",
+   "id": "tests-063"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ undef is null ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": true,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "tests-064"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ undef is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": true,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "tests-065"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ undef.x is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": true,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "tests-066"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ undef is even ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": true,
+    "debug": false
+   },
+   "errors": "collect",
+   "id": "tests-067"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ m is true }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "m": {
+     "$markup": ""
+    }
+   },
+   "data_php": "return ['m' => new \\Twig\\Markup('', 'UTF-8')];",
+   "id": "tests-068"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ m is true }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "m": {
+     "$markup": "x"
+    }
+   },
+   "data_php": "return ['m' => new \\Twig\\Markup('x', 'UTF-8')];",
+   "id": "tests-069"
+  },
+  {
+   "templates": {
+    "index.twig": "[{{ m is true ? 'y' : 'n' }}]"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "m": {
+     "$markup": "0"
+    }
+   },
+   "data_php": "return ['m' => new \\Twig\\Markup('0', 'UTF-8')];",
+   "id": "tests-070"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ o is same as(o) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "o": {
+     "$object": "TwigRsPlain"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsPlain()];",
+   "id": "tests-071"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ o is same as(p) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "o": {
+     "$object": "TwigRsPlain"
+    },
+    "p": {
+     "$object": "TwigRsPlain"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsPlain(), 'p' => new \\TwigRsPlain()];",
+   "id": "tests-072"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ e is same as(constant('TwigRsSuit::Hearts')) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": {
+     "$enum": [
+      "TwigRsSuit",
+      "Hearts"
+     ]
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => \\TwigRsSuit::Hearts];",
+   "id": "tests-073"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ o is even ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "o": {
+     "$object": "TwigRsPlain"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsPlain()];",
+   "id": "tests-074"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is odd ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "INF"
+    }
+   },
+   "data_php": "return ['x' => INF];",
+   "id": "tests-075"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is even ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "NAN"
+    }
+   },
+   "data_php": "return ['x' => NAN];",
+   "id": "tests-076"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is divisible by(2) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": {
+     "$float": "INF"
+    }
+   },
+   "data_php": "return ['x' => INF];",
+   "id": "tests-077"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'foo' is constant('TwigRsConsts::FOO') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "tests-078"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'foo' is constant('FOO', o) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "o": {
+     "$object": "TwigRsConsts"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsConsts()];",
+   "id": "tests-079"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ '3' is constant('TwigRsConsts::NUM') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "tests-080"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 3 is constant('TwigRsConsts::NUM') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn [];",
+   "id": "tests-081"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is constant('DATE_ATOM') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "Y-m-d\\TH:i:sP"
+   },
+   "data_php": "return ['x' => 'Y-m-d\\\\TH:i:sP'];",
+   "id": "tests-082"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is constant('DATE_RFC7231') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "x"
+   },
+   "data_php": "return ['x' => 'x'];",
+   "id": "tests-083"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is constant('NOPE') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": 1
+   },
+   "data_php": "return ['x' => 1];",
+   "id": "tests-084"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is constant('TwigRsConsts::NOPE') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": 1
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['x' => 1];",
+   "id": "tests-085"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is constant('Nope::X') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": 1
+   },
+   "data_php": "return ['x' => 1];",
+   "id": "tests-086"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is constant('FOO', 'str') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": 1
+   },
+   "data_php": "return ['x' => 1];",
+   "id": "tests-087"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is constant('FOO', null) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": 1
+   },
+   "data_php": "return ['x' => 1];",
+   "id": "tests-088"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ e is constant('TwigRsSuit::Hearts') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": {
+     "$enum": [
+      "TwigRsSuit",
+      "Hearts"
+     ]
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => \\TwigRsSuit::Hearts];",
+   "id": "tests-089"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ e is constant('Spades', e) ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "e": {
+     "$enum": [
+      "TwigRsSuit",
+      "Hearts"
+     ]
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => \\TwigRsSuit::Hearts];",
+   "id": "tests-090"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is constant('DateTime::RFC7231') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "x"
+   },
+   "data_php": "return ['x' => 'x'];",
+   "pending": "the constant test reads the environment's registry (runtime::Constants), which lacks PHP's constants, visibility checks and the declaring class in deprecations",
+   "id": "tests-091"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is constant('TwigRsConsts::PRIV') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "priv"
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['x' => 'priv'];",
+   "pending": "the constant test reads the environment's registry (runtime::Constants), which lacks PHP's constants, visibility checks and the declaring class in deprecations",
+   "id": "tests-092"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is constant('PHP_EOL') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "\n"
+   },
+   "data_php": "return ['x' => '\n'];",
+   "pending": "the constant test reads the environment's registry (runtime::Constants), which lacks PHP's constants, visibility checks and the declaring class in deprecations",
+   "id": "tests-093"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is constant('E_STRICT') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": 2048
+   },
+   "data_php": "return ['x' => 2048];",
+   "pending": "the constant test reads the environment's registry (runtime::Constants), which lacks PHP's constants, visibility checks and the declaring class in deprecations",
+   "id": "tests-094"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x is constant(name='PHP_EOL') ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "data": {
+    "x": "\n"
+   },
+   "data_php": "return ['x' => '\n'];",
+   "id": "tests-095"
+  }
+ ],
+ "isolation": "none"
+}

@@ -1,0 +1,1256 @@
+[
+ {
+  "id": "autoescape-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|<a href='x'>T&amp; \"q\"</a>|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|&lt;A HREF=&#039;X&#039;&gt;T&amp;AMP; &quot;Q&quot;&lt;/A&gt;|&amp;LT;A HREF=&amp;#039;X&amp;#039;&amp;GT;T&amp;AMP;AMP; &amp;QUOT;Q&amp;QUOT;&amp;LT;/A&amp;GT;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>m</b>|<b>h</b>|&lt;b&gt;j&lt;/b&gt;|<b a=\"1\">a</b>|&lt;b&gt;n&lt;/b&gt;|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;Str&lt;/b&gt; é|&lt;i&gt;child&lt;/i&gt;|42|1.5|1||lit<|a&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|  <b>w</b><br />\n |<a href='x'>T&amp; \"q\"</a>|a<br />\nb<br />\r\nc<br />\rd<br />\n\re|x<<br />\ny",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;div&gt;\n  &lt;b&gt; x &lt;/b&gt;  &lt;/div&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|<a href='x'>T&amp; \"q\"</a>",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "autoescape-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>w</b>|  &lt;b&gt;w&lt;/b&gt;\n |<b>w</b>\n ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;</b>|&lt;B&gt;&amp;LT;A HREF=&amp;#039;X&amp;#039;&amp;GT;T&amp;AMP;AMP; &amp;QUOT;Q&amp;QUOT;&amp;LT;/A&amp;GT;&lt;/B&gt;|<b>&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u003Cb\\u003Eh\\u003C\\/b\\u003E|<b>j</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |<a href='x'>T&amp; \"q\"</a>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|<b a=\"1\">a</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "autoescape-013",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-014",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;A Href=&#039;X&#039;&gt;T&amp;Amp; &quot;Q&quot;&lt;/A&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "&amp;lt;a href=&amp;#039;x&amp;#039;&amp;gt;T&amp;amp;amp; &amp;quot;q&amp;quot;&amp;lt;/a&amp;gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&amp;lt;a href=&amp;#039;x&amp;#039;&amp;gt;T&amp;amp;amp; &amp;quot;q&amp;quot;&amp;lt;/a&amp;gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|[a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;[/a&gt;|T&amp;amp; &quot;q&quot;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|<a href='x'>T&amp; \"q\"</a>|\\u0026lt\\u003Ba\\u0020href\\u003D\\u0026\\u0023039\\u003Bx\\u0026\\u0023039\\u003B\\u0026gt\\u003BT\\u0026amp\\u003Bamp\\u003B\\u0020\\u0026quot\\u003Bq\\u0026quot\\u003B\\u0026lt\\u003B\\/a\\u0026gt\\u003B|\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u003CA\\u0020HREF\\u003D\\u0027X\\u0027\\u003ET\\u0026AMP\\u003B\\u0020\\u0022Q\\u0022\\u003C\\/A\\u003E|\\u0026LT\\u003BA\\u0020HREF\\u003D\\u0026\\u0023039\\u003BX\\u0026\\u0023039\\u003B\\u0026GT\\u003BT\\u0026AMP\\u003BAMP\\u003B\\u0020\\u0026QUOT\\u003BQ\\u0026QUOT\\u003B\\u0026LT\\u003B\\/A\\u0026GT\\u003B",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>m</b>|\\u003Cb\\u003Eh\\u003C\\/b\\u003E|<b>j</b>|\\u003Cb\\u0020a\\u003D\\u00221\\u0022\\u003Ea\\u003C\\/b\\u003E|\\u003Cb\\u003En\\u003C\\/b\\u003E|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Cb\\u003EStr\\u003C\\/b\\u003E\\u0020\\u00E9|\\u003Ci\\u003Echild\\u003C\\/i\\u003E|42|1.5|1||lit<|a\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u0026lt\\u003Ba\\u0020href\\u003D\\u0026\\u0023039\\u003Bx\\u0026\\u0023039\\u003B\\u0026gt\\u003BT\\u0026amp\\u003Bamp\\u003B\\u0020\\u0026quot\\u003Bq\\u0026quot\\u003B\\u0026lt\\u003B\\/a\\u0026gt\\u003B|\\u0020\\u0020\\u003Cb\\u003Ew\\u003C\\/b\\u003E\\u003Cbr\\u0020\\/\\u003E\\n\\u0020|\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|a\\u003Cbr\\u0020\\/\\u003E\\nb\\u003Cbr\\u0020\\/\\u003E\\r\\nc\\u003Cbr\\u0020\\/\\u003E\\rd\\u003Cbr\\u0020\\/\\u003E\\n\\re|x\\u003C\\u003Cbr\\u0020\\/\\u003E\\ny",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u0026lt\\u003Bdiv\\u0026gt\\u003B\\n\\u0020\\u0020\\u0026lt\\u003Bb\\u0026gt\\u003B\\u0020x\\u0020\\u0026lt\\u003B\\/b\\u0026gt\\u003B\\u0020\\u0020\\u0026lt\\u003B\\/div\\u0026gt\\u003B|\\u0026lt\\u003Ba\\u0020href\\u003D\\u0026\\u0023039\\u003Bx\\u0026\\u0023039\\u003B\\u0026gt\\u003BT\\u0026amp\\u003Bamp\\u003B\\u0020\\u0026quot\\u003Bq\\u0026quot\\u003B\\u0026lt\\u003B\\/a\\u0026gt\\u003B|\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "autoescape-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>w</b>|\\u0020\\u0020\\u003Cb\\u003Ew\\u003C\\/b\\u003E\\n\\u0020|<b>w</b>\n ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E</b>|\\u003CB\\u003E\\\\U003CA\\\\U0020HREF\\\\U003D\\\\U0027X\\\\U0027\\\\U003ET\\\\U0026AMP\\\\U003B\\\\U0020\\\\U0022Q\\\\U0022\\\\U003C\\\\\\/A\\\\U003E\\u003C\\/B\\u003E|<b>\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u003Cb\\u003Eh\\u003C\\/b\\u003E|<b>j</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |<a href='x'>T&amp; \"q\"</a>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|<b a=\"1\">a</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "autoescape-030",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-031",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u003CA\\u0020Href\\u003D\\u0027X\\u0027\\u003ET\\u0026Amp\\u003B\\u0020\\u0022Q\\u0022\\u003C\\/A\\u003E|\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u0026amp\\u003Blt\\u003Ba\\u0020href\\u003D\\u0026amp\\u003B\\u0023039\\u003Bx\\u0026amp\\u003B\\u0023039\\u003B\\u0026amp\\u003Bgt\\u003BT\\u0026amp\\u003Bamp\\u003Bamp\\u003B\\u0020\\u0026amp\\u003Bquot\\u003Bq\\u0026amp\\u003Bquot\\u003B\\u0026amp\\u003Blt\\u003B\\/a\\u0026amp\\u003Bgt\\u003B|\\u0026lt\\u003Ba\\u0020href\\u003D\\u0026\\u0023039\\u003Bx\\u0026\\u0023039\\u003B\\u0026gt\\u003BT\\u0026amp\\u003Bamp\\u003B\\u0020\\u0026quot\\u003Bq\\u0026quot\\u003B\\u0026lt\\u003B\\/a\\u0026gt\\u003B|\\u0026lt\\u003Ba\\u0020href\\u003D\\u0026\\u0023039\\u003Bx\\u0026\\u0023039\\u003B\\u0026gt\\u003BT\\u0026amp\\u003Bamp\\u003B\\u0020\\u0026quot\\u003Bq\\u0026quot\\u003B\\u0026lt\\u003B\\/a\\u0026gt\\u003B",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u005Ba\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u005B\\/a\\u003E|T\\u0026amp\\u003B\\u0020\\u0022q\\u0022",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |<a href='x'>T&amp; \"q\"</a>|\\26 lt\\3B a\\20 href\\3D \\26 \\23 039\\3B x\\26 \\23 039\\3B \\26 gt\\3B T\\26 amp\\3B amp\\3B \\20 \\26 quot\\3B q\\26 quot\\3B \\26 lt\\3B \\2F a\\26 gt\\3B |\\5C u003Ca\\5C u0020href\\5C u003D\\5C u0027x\\5C u0027\\5C u003ET\\5C u0026amp\\5C u003B\\5C u0020\\5C u0022q\\5C u0022\\5C u003C\\5C \\2F a\\5C u003E|\\3C A\\20 HREF\\3D \\27 X\\27 \\3E T\\26 AMP\\3B \\20 \\22 Q\\22 \\3C \\2F A\\3E |\\26 LT\\3B A\\20 HREF\\3D \\26 \\23 039\\3B X\\26 \\23 039\\3B \\26 GT\\3B T\\26 AMP\\3B AMP\\3B \\20 \\26 QUOT\\3B Q\\26 QUOT\\3B \\26 LT\\3B \\2F A\\26 GT\\3B ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>m</b>|\\3C b\\3E h\\3C \\2F b\\3E |\\3C b\\3E j\\3C \\2F b\\3E |\\3C b\\20 a\\3D \\22 1\\22 \\3E a\\3C \\2F b\\3E |\\3C b\\3E n\\3C \\2F b\\3E |",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C b\\3E Str\\3C \\2F b\\3E \\20 \\E9 |\\3C i\\3E child\\3C \\2F i\\3E |42|1.5|1||lit<|a\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\26 lt\\3B a\\20 href\\3D \\26 \\23 039\\3B x\\26 \\23 039\\3B \\26 gt\\3B T\\26 amp\\3B amp\\3B \\20 \\26 quot\\3B q\\26 quot\\3B \\26 lt\\3B \\2F a\\26 gt\\3B |\\20 \\20 \\3C b\\3E w\\3C \\2F b\\3E \\3C br\\20 \\2F \\3E \\A \\20 |\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |a\\3C br\\20 \\2F \\3E \\A b\\3C br\\20 \\2F \\3E \\D \\A c\\3C br\\20 \\2F \\3E \\D d\\3C br\\20 \\2F \\3E \\A \\D e|x\\3C \\3C br\\20 \\2F \\3E \\A y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\26 lt\\3B div\\26 gt\\3B \\A \\20 \\20 \\26 lt\\3B b\\26 gt\\3B \\20 x\\20 \\26 lt\\3B \\2F b\\26 gt\\3B \\20 \\20 \\26 lt\\3B \\2F div\\26 gt\\3B |\\26 lt\\3B a\\20 href\\3D \\26 \\23 039\\3B x\\26 \\23 039\\3B \\26 gt\\3B T\\26 amp\\3B amp\\3B \\20 \\26 quot\\3B q\\26 quot\\3B \\26 lt\\3B \\2F a\\26 gt\\3B |\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E ",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "autoescape-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>w</b>|\\20 \\20 \\3C b\\3E w\\3C \\2F b\\3E \\A \\20 |<b>w</b>\n ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E </b>|\\3C B\\3E \\5C 3C\\20 A\\5C 20\\20 HREF\\5C 3D\\20 \\5C 27\\20 X\\5C 27\\20 \\5C 3E\\20 T\\5C 26\\20 AMP\\5C 3B\\20 \\5C 20\\20 \\5C 22\\20 Q\\5C 22\\20 \\5C 3C\\20 \\5C 2F\\20 A\\5C 3E\\20 \\3C \\2F B\\3E |<b>\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E </b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-043",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u003Cb\\u003Eh\\u003C\\/b\\u003E|<b>j</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |<a href='x'>T&amp; \"q\"</a>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|<b a=\"1\">a</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "autoescape-047",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-048",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |\\3C A\\20 Href\\3D \\27 X\\27 \\3E T\\26 Amp\\3B \\20 \\22 Q\\22 \\3C \\2F A\\3E |\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\26 amp\\3B lt\\3B a\\20 href\\3D \\26 amp\\3B \\23 039\\3B x\\26 amp\\3B \\23 039\\3B \\26 amp\\3B gt\\3B T\\26 amp\\3B amp\\3B amp\\3B \\20 \\26 amp\\3B quot\\3B q\\26 amp\\3B quot\\3B \\26 amp\\3B lt\\3B \\2F a\\26 amp\\3B gt\\3B |\\26 lt\\3B a\\20 href\\3D \\26 \\23 039\\3B x\\26 \\23 039\\3B \\26 gt\\3B T\\26 amp\\3B amp\\3B \\20 \\26 quot\\3B q\\26 quot\\3B \\26 lt\\3B \\2F a\\26 gt\\3B |\\26 lt\\3B a\\20 href\\3D \\26 \\23 039\\3B x\\26 \\23 039\\3B \\26 gt\\3B T\\26 amp\\3B amp\\3B \\20 \\26 quot\\3B q\\26 quot\\3B \\26 lt\\3B \\2F a\\26 gt\\3B ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |\\5B a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\5B \\2F a\\3E |T\\26 amp\\3B \\20 \\22 q\\22 ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E|<a href='x'>T&amp; \"q\"</a>|%26lt%3Ba%20href%3D%26%23039%3Bx%26%23039%3B%26gt%3BT%26amp%3Bamp%3B%20%26quot%3Bq%26quot%3B%26lt%3B%2Fa%26gt%3B|%5Cu003Ca%5Cu0020href%5Cu003D%5Cu0027x%5Cu0027%5Cu003ET%5Cu0026amp%5Cu003B%5Cu0020%5Cu0022q%5Cu0022%5Cu003C%5C%2Fa%5Cu003E|%3CA%20HREF%3D%27X%27%3ET%26AMP%3B%20%22Q%22%3C%2FA%3E|%26LT%3BA%20HREF%3D%26%23039%3BX%26%23039%3B%26GT%3BT%26AMP%3BAMP%3B%20%26QUOT%3BQ%26QUOT%3B%26LT%3B%2FA%26GT%3B",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>m</b>|%3Cb%3Eh%3C%2Fb%3E|%3Cb%3Ej%3C%2Fb%3E|%3Cb%20a%3D%221%22%3Ea%3C%2Fb%3E|%3Cb%3En%3C%2Fb%3E|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "%3Cb%3EStr%3C%2Fb%3E%20%C3%A9|%3Ci%3Echild%3C%2Fi%3E|42|1.5|1||lit<|a%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "%26lt%3Ba%20href%3D%26%23039%3Bx%26%23039%3B%26gt%3BT%26amp%3Bamp%3B%20%26quot%3Bq%26quot%3B%26lt%3B%2Fa%26gt%3B|%20%20%3Cb%3Ew%3C%2Fb%3E%3Cbr%20%2F%3E%0A%20|%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E|a%3Cbr%20%2F%3E%0Ab%3Cbr%20%2F%3E%0D%0Ac%3Cbr%20%2F%3E%0Dd%3Cbr%20%2F%3E%0A%0De|x%3C%3Cbr%20%2F%3E%0Ay",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "%26lt%3Bdiv%26gt%3B%0A%20%20%26lt%3Bb%26gt%3B%20x%20%26lt%3B%2Fb%26gt%3B%20%20%26lt%3B%2Fdiv%26gt%3B|%26lt%3Ba%20href%3D%26%23039%3Bx%26%23039%3B%26gt%3BT%26amp%3Bamp%3B%20%26quot%3Bq%26quot%3B%26lt%3B%2Fa%26gt%3B|%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "autoescape-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>w</b>|%20%20%3Cb%3Ew%3C%2Fb%3E%0A%20|<b>w</b>\n ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E|%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E|%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E|%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E|%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E</b>|%3CB%3E%253CA%2520HREF%253D%2527X%2527%253ET%2526AMP%253B%2520%2522Q%2522%253C%252FA%253E%3C%2FB%3E|<b>%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u003Cb\\u003Eh\\u003C\\/b\\u003E|<b>j</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |<a href='x'>T&amp; \"q\"</a>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|<b a=\"1\">a</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "autoescape-064",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-065",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-066",
+  "kind": "twig",
+  "ok": true,
+  "output": "%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E|%3CA%20Href%3D%27X%27%3ET%26Amp%3B%20%22Q%22%3C%2FA%3E|%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-067",
+  "kind": "twig",
+  "ok": true,
+  "output": "%26amp%3Blt%3Ba%20href%3D%26amp%3B%23039%3Bx%26amp%3B%23039%3B%26amp%3Bgt%3BT%26amp%3Bamp%3Bamp%3B%20%26amp%3Bquot%3Bq%26amp%3Bquot%3B%26amp%3Blt%3B%2Fa%26amp%3Bgt%3B|%26lt%3Ba%20href%3D%26%23039%3Bx%26%23039%3B%26gt%3BT%26amp%3Bamp%3B%20%26quot%3Bq%26quot%3B%26lt%3B%2Fa%26gt%3B|%26lt%3Ba%20href%3D%26%23039%3Bx%26%23039%3B%26gt%3BT%26amp%3Bamp%3B%20%26quot%3Bq%26quot%3B%26lt%3B%2Fa%26gt%3B",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-068",
+  "kind": "twig",
+  "ok": true,
+  "output": "%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E|%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E|%5Ba%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%5B%2Fa%3E|T%26amp%3B%20%22q%22",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-069",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|<a href='x'>T&amp; \"q\"</a>|&amp;lt&#x3B;a&#x20;href&#x3D;&amp;&#x23;039&#x3B;x&amp;&#x23;039&#x3B;&amp;gt&#x3B;T&amp;amp&#x3B;amp&#x3B;&#x20;&amp;quot&#x3B;q&amp;quot&#x3B;&amp;lt&#x3B;&#x2F;a&amp;gt&#x3B;|&#x5C;u003Ca&#x5C;u0020href&#x5C;u003D&#x5C;u0027x&#x5C;u0027&#x5C;u003ET&#x5C;u0026amp&#x5C;u003B&#x5C;u0020&#x5C;u0022q&#x5C;u0022&#x5C;u003C&#x5C;&#x2F;a&#x5C;u003E|&lt;A&#x20;HREF&#x3D;&#x27;X&#x27;&gt;T&amp;AMP&#x3B;&#x20;&quot;Q&quot;&lt;&#x2F;A&gt;|&amp;LT&#x3B;A&#x20;HREF&#x3D;&amp;&#x23;039&#x3B;X&amp;&#x23;039&#x3B;&amp;GT&#x3B;T&amp;AMP&#x3B;AMP&#x3B;&#x20;&amp;QUOT&#x3B;Q&amp;QUOT&#x3B;&amp;LT&#x3B;&#x2F;A&amp;GT&#x3B;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-070",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>m</b>|&lt;b&gt;h&lt;&#x2F;b&gt;|&lt;b&gt;j&lt;&#x2F;b&gt;|<b a=\"1\">a</b>|&lt;b&gt;n&lt;&#x2F;b&gt;|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-071",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;Str&lt;&#x2F;b&gt;&#x20;&#x00E9;|&lt;i&gt;child&lt;&#x2F;i&gt;|42|1.5|1||lit<|a&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-072",
+  "kind": "twig",
+  "ok": true,
+  "output": "&amp;lt&#x3B;a&#x20;href&#x3D;&amp;&#x23;039&#x3B;x&amp;&#x23;039&#x3B;&amp;gt&#x3B;T&amp;amp&#x3B;amp&#x3B;&#x20;&amp;quot&#x3B;q&amp;quot&#x3B;&amp;lt&#x3B;&#x2F;a&amp;gt&#x3B;|&#x20;&#x20;&lt;b&gt;w&lt;&#x2F;b&gt;&lt;br&#x20;&#x2F;&gt;&#x0A;&#x20;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|a&lt;br&#x20;&#x2F;&gt;&#x0A;b&lt;br&#x20;&#x2F;&gt;&#x0D;&#x0A;c&lt;br&#x20;&#x2F;&gt;&#x0D;d&lt;br&#x20;&#x2F;&gt;&#x0A;&#x0D;e|x&lt;&lt;br&#x20;&#x2F;&gt;&#x0A;y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-073",
+  "kind": "twig",
+  "ok": true,
+  "output": "&amp;lt&#x3B;div&amp;gt&#x3B;&#x0A;&#x20;&#x20;&amp;lt&#x3B;b&amp;gt&#x3B;&#x20;x&#x20;&amp;lt&#x3B;&#x2F;b&amp;gt&#x3B;&#x20;&#x20;&amp;lt&#x3B;&#x2F;div&amp;gt&#x3B;|&amp;lt&#x3B;a&#x20;href&#x3D;&amp;&#x23;039&#x3B;x&amp;&#x23;039&#x3B;&amp;gt&#x3B;T&amp;amp&#x3B;amp&#x3B;&#x20;&amp;quot&#x3B;q&amp;quot&#x3B;&amp;lt&#x3B;&#x2F;a&amp;gt&#x3B;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "autoescape-074",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>w</b>|&#x20;&#x20;&lt;b&gt;w&lt;&#x2F;b&gt;&#x0A;&#x20;|<b>w</b>\n ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-075",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-076",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;</b>|&lt;B&gt;&amp;LT&#x3B;A&amp;&#x23;X20&#x3B;HREF&amp;&#x23;X3D&#x3B;&amp;&#x23;X27&#x3B;X&amp;&#x23;X27&#x3B;&amp;GT&#x3B;T&amp;AMP&#x3B;AMP&amp;&#x23;X3B&#x3B;&amp;&#x23;X20&#x3B;&amp;QUOT&#x3B;Q&amp;QUOT&#x3B;&amp;LT&#x3B;&amp;&#x23;X2F&#x3B;A&amp;GT&#x3B;&lt;&#x2F;B&gt;|<b>&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-077",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u003Cb\\u003Eh\\u003C\\/b\\u003E|<b>j</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-078",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |<a href='x'>T&amp; \"q\"</a>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-079",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|<b a=\"1\">a</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-080",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "autoescape-081",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-082",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-083",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|&lt;A&#x20;Href&#x3D;&#x27;X&#x27;&gt;T&amp;Amp&#x3B;&#x20;&quot;Q&quot;&lt;&#x2F;A&gt;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-084",
+  "kind": "twig",
+  "ok": true,
+  "output": "&amp;amp&#x3B;lt&#x3B;a&#x20;href&#x3D;&amp;amp&#x3B;&#x23;039&#x3B;x&amp;amp&#x3B;&#x23;039&#x3B;&amp;amp&#x3B;gt&#x3B;T&amp;amp&#x3B;amp&#x3B;amp&#x3B;&#x20;&amp;amp&#x3B;quot&#x3B;q&amp;amp&#x3B;quot&#x3B;&amp;amp&#x3B;lt&#x3B;&#x2F;a&amp;amp&#x3B;gt&#x3B;|&amp;lt&#x3B;a&#x20;href&#x3D;&amp;&#x23;039&#x3B;x&amp;&#x23;039&#x3B;&amp;gt&#x3B;T&amp;amp&#x3B;amp&#x3B;&#x20;&amp;quot&#x3B;q&amp;quot&#x3B;&amp;lt&#x3B;&#x2F;a&amp;gt&#x3B;|&amp;lt&#x3B;a&#x20;href&#x3D;&amp;&#x23;039&#x3B;x&amp;&#x23;039&#x3B;&amp;gt&#x3B;T&amp;amp&#x3B;amp&#x3B;&#x20;&amp;quot&#x3B;q&amp;quot&#x3B;&amp;lt&#x3B;&#x2F;a&amp;gt&#x3B;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-085",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|&#x5B;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&#x5B;&#x2F;a&gt;|T&amp;amp&#x3B;&#x20;&quot;q&quot;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-086",
+  "kind": "twig",
+  "ok": true,
+  "output": "<a href='x'>T&amp; \"q\"</a>|<a href='x'>T&amp; \"q\"</a>|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|<A HREF='X'>T&AMP; \"Q\"</A>|&LT;A HREF=&#039;X&#039;&GT;T&AMP;AMP; &QUOT;Q&QUOT;&LT;/A&GT;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-087",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>m</b>|<b>h</b>|<b>j</b>|<b a=\"1\">a</b>|<b>n</b>|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-088",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>Str</b> é|<i>child</i>|42|1.5|1||lit<|a<a href='x'>T&amp; \"q\"</a>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-089",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|  <b>w</b><br />\n |<a href='x'>T&amp; \"q\"</a>|a<br />\nb<br />\r\nc<br />\rd<br />\n\re|x<<br />\ny",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-090",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;div&gt;\n  &lt;b&gt; x &lt;/b&gt;  &lt;/div&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|<a href='x'>T&amp; \"q\"</a>",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "autoescape-091",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>w</b>|  <b>w</b>\n |<b>w</b>\n ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-092",
+  "kind": "twig",
+  "ok": true,
+  "output": "<a href='x'>T&amp; \"q\"</a>|<a href='x'>T&amp; \"q\"</a>|<a href='x'>T&amp; \"q\"</a>|<a href='x'>T&amp; \"q\"</a>|<a href='x'>T&amp; \"q\"</a>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-093",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b><a href='x'>T&amp; \"q\"</a></b>|<B><A HREF='X'>T&AMP; \"Q\"</A></B>|<b><a href='x'>T&amp; \"q\"</a></b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-094",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|\\u003Cb\\u003Eh\\u003C\\/b\\u003E|<b>j</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-095",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |<a href='x'>T&amp; \"q\"</a>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-096",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;|<b a=\"1\">a</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-097",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "autoescape-098",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-099",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-100",
+  "kind": "twig",
+  "ok": true,
+  "output": "<a href='x'>T&amp; \"q\"</a>|<A Href='X'>T&Amp; \"Q\"</A>|<a href='x'>T&amp; \"q\"</a>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-101",
+  "kind": "twig",
+  "ok": true,
+  "output": "&amp;lt;a href=&amp;#039;x&amp;#039;&amp;gt;T&amp;amp;amp; &amp;quot;q&amp;quot;&amp;lt;/a&amp;gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-102",
+  "kind": "twig",
+  "ok": true,
+  "output": "<a href='x'>T&amp; \"q\"</a>|<a href='x'>T&amp; \"q\"</a>|[a href='x'>T&amp; \"q\"[/a>|T&amp; \"q\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-103",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-104",
+  "kind": "twig",
+  "ok": true,
+  "output": "lit",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-105",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|<b>j</b>|\\u0026lt\\u003Ba\\u0020href\\u003D\\u0026\\u0023039\\u003Bx\\u0026\\u0023039\\u003B\\u0026gt\\u003BT\\u0026amp\\u003Bamp\\u003B\\u0020\\u0026quot\\u003Bq\\u0026quot\\u003B\\u0026lt\\u003B\\/a\\u0026gt\\u003B",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-106",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|<b>j</b>|\\u0026lt\\u003Ba\\u0020href\\u003D\\u0026\\u0023039\\u003Bx\\u0026\\u0023039\\u003B\\u0026gt\\u003BT\\u0026amp\\u003Bamp\\u003B\\u0020\\u0026quot\\u003Bq\\u0026quot\\u003B\\u0026lt\\u003B\\/a\\u0026gt\\u003B",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-107",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |\\3C b\\3E j\\3C \\2F b\\3E |\\26 lt\\3B a\\20 href\\3D \\26 \\23 039\\3B x\\26 \\23 039\\3B \\26 gt\\3B T\\26 amp\\3B amp\\3B \\20 \\26 quot\\3B q\\26 quot\\3B \\26 lt\\3B \\2F a\\26 gt\\3B ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-108",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E |\\3C b\\3E j\\3C \\2F b\\3E |\\26 lt\\3B a\\20 href\\3D \\26 \\23 039\\3B x\\26 \\23 039\\3B \\26 gt\\3B T\\26 amp\\3B amp\\3B \\20 \\26 quot\\3B q\\26 quot\\3B \\26 lt\\3B \\2F a\\26 gt\\3B ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-109",
+  "kind": "twig",
+  "ok": true,
+  "output": "<a href='x'>T&amp; \"q\"</a>|<b>j</b>|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-110",
+  "kind": "twig",
+  "ok": true,
+  "output": "<a href='x'>T&amp; \"q\"</a>|<b>j</b>|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-111",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;b&gt;j&lt;/b&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-112",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;b&gt;j&lt;/b&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-113",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;b&gt;j&lt;/b&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-114",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;b&gt;j&lt;/b&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-115",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;b&gt;j&lt;/b&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-116",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;b&gt;j&lt;/b&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-117",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;b&gt;j&lt;/b&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-118",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|<b>j</b>|\\u0026lt\\u003Ba\\u0020href\\u003D\\u0026\\u0023039\\u003Bx\\u0026\\u0023039\\u003B\\u0026gt\\u003BT\\u0026amp\\u003Bamp\\u003B\\u0020\\u0026quot\\u003Bq\\u0026quot\\u003B\\u0026lt\\u003B\\/a\\u0026gt\\u003B",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-119",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E|<b>j</b>|\\u0026lt\\u003Ba\\u0020href\\u003D\\u0026\\u0023039\\u003Bx\\u0026\\u0023039\\u003B\\u0026gt\\u003BT\\u0026amp\\u003Bamp\\u003B\\u0020\\u0026quot\\u003Bq\\u0026quot\\u003B\\u0026lt\\u003B\\/a\\u0026gt\\u003B",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-120",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "autoescape-121",
+  "kind": "twig",
+  "ok": true,
+  "output": "?<",
+  "output_b64": "6Tw=",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

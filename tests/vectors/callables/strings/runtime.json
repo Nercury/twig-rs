@@ -1,0 +1,254 @@
+[
+ {
+  "id": "runtime-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "foo**UTF-8|**UTF-8|42**UTF-8|1.5**UTF-8|1**UTF-8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "x**ISO-8859-1|x**UTF-8||&lt;b&gt;Str&lt;/b&gt; é**UTF-8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array**UTF-8",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "runtime-004",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;m&lt;/b&gt;**UTF-8|<b>m</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;n&lt;/b&gt;**UTF-8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-007",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\", \"star\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\", \"star\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\", \"star\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;**UTF-8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "string|int|null|array|TwigRsPlain",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "string|ArrayIterator|string|<b>m</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "runtime-013",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\", \"type\", \"wrap\", \"star\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\", \"type\", \"wrap\", \"star\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\", \"type\", \"wrap\", \"star\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-014",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\", \"type\", \"wrap\", \"star\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\", \"type\", \"wrap\", \"star\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\", \"type\", \"wrap\", \"star\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "<a href='x'>T&amp; \"q\"</a>**UTF-8|42**UTF-8|**UTF-8|<b>m</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>Str</b> é|&lt;b&gt;Str&lt;/b&gt; é|<b>Str</b> é|\\u003Cb\\u003EStr\\u003C\\/b\\u003E\\u0020\\u00E9",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "<i>child</i>|\\u003Cb\\u003EStr\\u003C\\/b\\u003E\\u0020\\u00E9|&lt;b&gt;Str&lt;&#x2F;b&gt;&#x20;&#x00E9;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;Str&lt;/b&gt; é|<b>Str</b> é|<i>child</i>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>Str</b> é|<i>child</i>|<b>Str</b> é|\\u003Cb\\u003EStr\\u003C\\/b\\u003E\\u0020\\u00E9",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>Str</b> é|<i>child</i>|<b>Str</b> é",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>Str</b> é|&lt;i&gt;child&lt;/i&gt;|\\u003Cb\\u003EStr\\u003C\\/b\\u003E\\u0020\\u00E9|<i>child</i>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;Str&lt;&#x2F;b&gt;&#x20;&#x00E9;|&lt;i&gt;child&lt;&#x2F;i&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;j&lt;/b&gt;|&lt;b&gt;n&lt;/b&gt;|<b>m</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;Str&lt;/b&gt; é",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "runtime-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>Str</b> é**UTF-8|&lt;b&gt;Str&lt;/b&gt; é**UTF-8",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

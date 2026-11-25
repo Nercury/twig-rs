@@ -1,0 +1,1173 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "line1\n{{ s|batch(2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [1]|merge(\n  [2],\n  'x'\n) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for x in 1..3 %}{{ cycle(['a', 'b'], x) }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-003"
+  },
+  {
+   "templates": {
+    "index.twig": "a\n\n{{ s|sort }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ list|map(v =>\n  v.nope) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-005"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ list|map(v => v ~ undef) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ list|sort((a, b) => undef) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ list|filter(v => undef) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ list|reduce((c, v) => undef) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ list|find(v => undef) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ list|sort((a, b) => 1 // 0) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-011"
+  },
+  {
+   "templates": {
+    "index.twig": "x\n{{ 'a'|split('') }}{{ max(\n1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [1, 2]|map(v => v / 0) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set a = [3, 1]|sort %}{% for k, v in a %}{{ k }}{{ v }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ random([]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [1, 2]|map(v => v)|join }}{{ cycle([], 1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "errors-016"
+  }
+ ],
+ "isolation": "none"
+}

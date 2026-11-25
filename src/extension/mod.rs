@@ -17,6 +17,7 @@ pub mod arguments;
 pub mod callable;
 mod core;
 mod optional;
+pub mod runtime;
 
 pub use self::core::{CoreExtension, EscaperExtension};
 pub use callable::{
@@ -86,6 +87,12 @@ pub trait Extension: Send + Sync + 'static {
     /// Twig: `getExpressionParsers()`.
     fn expression_parsers(&self) -> Vec<ExpressionParserEntry> {
         Vec::new()
+    }
+
+    /// The globals of an extension implementing Twig's `GlobalsInterface` (`getGlobals()`); `None` for extensions
+    /// that do not implement it.
+    fn globals(&self) -> Option<twig_value::Array> {
+        None
     }
 
     /// The extension as `Any`, to reach the concrete type.

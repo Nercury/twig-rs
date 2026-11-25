@@ -1,0 +1,1716 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "{{ (objs|column('name'))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "column"
+     ],
+     "methods": {},
+     "properties": {
+      "stdClass": [
+       "name",
+       "id"
+      ]
+     },
+     "functions": []
+    }
+   },
+   "data_php": "\nif (!function_exists('twig_rs_gen')) {\n    function twig_rs_gen(array $pairs) { foreach ($pairs as $p) { yield $p[0] => $p[1]; } }\n    class TwigRsLogIter implements \\Iterator {\n        private $i = 0;\n        public $log = [];\n        public function __construct(private array $pairs) {}\n        public function current(): mixed { $this->log[] = 'current'; return $this->pairs[$this->i][1]; }\n        public function key(): mixed { $this->log[] = 'key'; return $this->pairs[$this->i][0]; }\n        public function next(): void { $this->log[] = 'next'; $this->i++; }\n        public function rewind(): void { $this->log[] = 'rewind'; $this->i = 0; }\n        public function valid(): bool { $this->log[] = 'valid'; return $this->i < count($this->pairs); }\n    }\n    class TwigRsAgg implements \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsAggGen implements \\IteratorAggregate {\n        public function __construct(private array $pairs) {}\n        public function getIterator(): \\Iterator { return twig_rs_gen($this->pairs); }\n    }\n    class TwigRsCountAccess implements \\ArrayAccess, \\Countable {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function count(): int { return count($this->data); }\n    }\n    class TwigRsAccess implements \\ArrayAccess {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n    }\n    class TwigRsAccessAgg implements \\ArrayAccess, \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsStr {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsCountable implements \\Countable {\n        public function __construct(private int $n) {}\n        public function count(): int { return $this->n; }\n    }\n    class TwigRsPlain {}\n    class TwigRsInvoke {\n        public function __invoke(...$args) { return json_encode($args); }\n    }\n    class TwigRsCmp {\n        public function __invoke($a, $b) { return $b <=> $a; }\n    }\n}\nreturn array_merge(json_decode(base64_decode('eyJsaXN0IjogWzMsIDEsIDJdLCAibWFwIjogeyJiIjogMiwgImEiOiAzLCAiYyI6IDF9LCAibnVtcyI6IHsiMSI6ICJhIiwgIjIiOiAiYiIsICIzIjogImMifSwgIm1peGVkIjogeyJ4IjogImEiLCAiMiI6ICJiIiwgInkiOiAiYyJ9LCAiZW1wdHkiOiBbXSwgIm51bCI6IG51bGwsICJzIjogImFiYyIsICJuIjogNDIsICJmIjogMS41LCAidCI6IHRydWUsICJyb3dzIjogW3siaWQiOiAxLCAibmFtZSI6ICJhIiwgImciOiAieCJ9LCB7ImlkIjogMiwgIm5hbWUiOiAiYiIsICJnIjogInkifSwgeyJpZCI6IDMsICJnIjogIngifV0sICJ3b3JkcyI6IFsiYiIsICJhIiwgIkIiLCAiMTAiLCAiOSIsICIxZTEiXSwgIm1lc3N5IjogWyIxMCIsIDksICI5YSIsIDEuNSwgImFiYyIsIHRydWUsIG51bGxdfQ=='), true), ['objs' => [(object) json_decode(base64_decode('eyJpZCI6IDEsICJuYW1lIjogImEifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDIsICJuYW1lIjogImIifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDN9'), true)]]);",
+   "data_rust": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "objects": {
+    "objs": {
+     "kind": "list",
+     "items": [
+      {
+       "kind": "std",
+       "data": {
+        "id": 1,
+        "name": "a"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 2,
+        "name": "b"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 3
+       }
+      }
+     ]
+    }
+   },
+   "id": "sandbox-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (objs|column('name', 'id'))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "column"
+     ],
+     "methods": {},
+     "properties": {
+      "stdClass": [
+       "name",
+       "id"
+      ]
+     },
+     "functions": []
+    }
+   },
+   "data_php": "\nif (!function_exists('twig_rs_gen')) {\n    function twig_rs_gen(array $pairs) { foreach ($pairs as $p) { yield $p[0] => $p[1]; } }\n    class TwigRsLogIter implements \\Iterator {\n        private $i = 0;\n        public $log = [];\n        public function __construct(private array $pairs) {}\n        public function current(): mixed { $this->log[] = 'current'; return $this->pairs[$this->i][1]; }\n        public function key(): mixed { $this->log[] = 'key'; return $this->pairs[$this->i][0]; }\n        public function next(): void { $this->log[] = 'next'; $this->i++; }\n        public function rewind(): void { $this->log[] = 'rewind'; $this->i = 0; }\n        public function valid(): bool { $this->log[] = 'valid'; return $this->i < count($this->pairs); }\n    }\n    class TwigRsAgg implements \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsAggGen implements \\IteratorAggregate {\n        public function __construct(private array $pairs) {}\n        public function getIterator(): \\Iterator { return twig_rs_gen($this->pairs); }\n    }\n    class TwigRsCountAccess implements \\ArrayAccess, \\Countable {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function count(): int { return count($this->data); }\n    }\n    class TwigRsAccess implements \\ArrayAccess {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n    }\n    class TwigRsAccessAgg implements \\ArrayAccess, \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsStr {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsCountable implements \\Countable {\n        public function __construct(private int $n) {}\n        public function count(): int { return $this->n; }\n    }\n    class TwigRsPlain {}\n    class TwigRsInvoke {\n        public function __invoke(...$args) { return json_encode($args); }\n    }\n    class TwigRsCmp {\n        public function __invoke($a, $b) { return $b <=> $a; }\n    }\n}\nreturn array_merge(json_decode(base64_decode('eyJsaXN0IjogWzMsIDEsIDJdLCAibWFwIjogeyJiIjogMiwgImEiOiAzLCAiYyI6IDF9LCAibnVtcyI6IHsiMSI6ICJhIiwgIjIiOiAiYiIsICIzIjogImMifSwgIm1peGVkIjogeyJ4IjogImEiLCAiMiI6ICJiIiwgInkiOiAiYyJ9LCAiZW1wdHkiOiBbXSwgIm51bCI6IG51bGwsICJzIjogImFiYyIsICJuIjogNDIsICJmIjogMS41LCAidCI6IHRydWUsICJyb3dzIjogW3siaWQiOiAxLCAibmFtZSI6ICJhIiwgImciOiAieCJ9LCB7ImlkIjogMiwgIm5hbWUiOiAiYiIsICJnIjogInkifSwgeyJpZCI6IDMsICJnIjogIngifV0sICJ3b3JkcyI6IFsiYiIsICJhIiwgIkIiLCAiMTAiLCAiOSIsICIxZTEiXSwgIm1lc3N5IjogWyIxMCIsIDksICI5YSIsIDEuNSwgImFiYyIsIHRydWUsIG51bGxdfQ=='), true), ['objs' => [(object) json_decode(base64_decode('eyJpZCI6IDEsICJuYW1lIjogImEifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDIsICJuYW1lIjogImIifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDN9'), true)]]);",
+   "data_rust": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "objects": {
+    "objs": {
+     "kind": "list",
+     "items": [
+      {
+       "kind": "std",
+       "data": {
+        "id": 1,
+        "name": "a"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 2,
+        "name": "b"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 3
+       }
+      }
+     ]
+    }
+   },
+   "id": "sandbox-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (objs|column('name', 'id'))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "column"
+     ],
+     "methods": {},
+     "properties": {
+      "stdClass": [
+       "name"
+      ]
+     },
+     "functions": []
+    }
+   },
+   "data_php": "\nif (!function_exists('twig_rs_gen')) {\n    function twig_rs_gen(array $pairs) { foreach ($pairs as $p) { yield $p[0] => $p[1]; } }\n    class TwigRsLogIter implements \\Iterator {\n        private $i = 0;\n        public $log = [];\n        public function __construct(private array $pairs) {}\n        public function current(): mixed { $this->log[] = 'current'; return $this->pairs[$this->i][1]; }\n        public function key(): mixed { $this->log[] = 'key'; return $this->pairs[$this->i][0]; }\n        public function next(): void { $this->log[] = 'next'; $this->i++; }\n        public function rewind(): void { $this->log[] = 'rewind'; $this->i = 0; }\n        public function valid(): bool { $this->log[] = 'valid'; return $this->i < count($this->pairs); }\n    }\n    class TwigRsAgg implements \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsAggGen implements \\IteratorAggregate {\n        public function __construct(private array $pairs) {}\n        public function getIterator(): \\Iterator { return twig_rs_gen($this->pairs); }\n    }\n    class TwigRsCountAccess implements \\ArrayAccess, \\Countable {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function count(): int { return count($this->data); }\n    }\n    class TwigRsAccess implements \\ArrayAccess {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n    }\n    class TwigRsAccessAgg implements \\ArrayAccess, \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsStr {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsCountable implements \\Countable {\n        public function __construct(private int $n) {}\n        public function count(): int { return $this->n; }\n    }\n    class TwigRsPlain {}\n    class TwigRsInvoke {\n        public function __invoke(...$args) { return json_encode($args); }\n    }\n    class TwigRsCmp {\n        public function __invoke($a, $b) { return $b <=> $a; }\n    }\n}\nreturn array_merge(json_decode(base64_decode('eyJsaXN0IjogWzMsIDEsIDJdLCAibWFwIjogeyJiIjogMiwgImEiOiAzLCAiYyI6IDF9LCAibnVtcyI6IHsiMSI6ICJhIiwgIjIiOiAiYiIsICIzIjogImMifSwgIm1peGVkIjogeyJ4IjogImEiLCAiMiI6ICJiIiwgInkiOiAiYyJ9LCAiZW1wdHkiOiBbXSwgIm51bCI6IG51bGwsICJzIjogImFiYyIsICJuIjogNDIsICJmIjogMS41LCAidCI6IHRydWUsICJyb3dzIjogW3siaWQiOiAxLCAibmFtZSI6ICJhIiwgImciOiAieCJ9LCB7ImlkIjogMiwgIm5hbWUiOiAiYiIsICJnIjogInkifSwgeyJpZCI6IDMsICJnIjogIngifV0sICJ3b3JkcyI6IFsiYiIsICJhIiwgIkIiLCAiMTAiLCAiOSIsICIxZTEiXSwgIm1lc3N5IjogWyIxMCIsIDksICI5YSIsIDEuNSwgImFiYyIsIHRydWUsIG51bGxdfQ=='), true), ['objs' => [(object) json_decode(base64_decode('eyJpZCI6IDEsICJuYW1lIjogImEifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDIsICJuYW1lIjogImIifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDN9'), true)]]);",
+   "data_rust": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "objects": {
+    "objs": {
+     "kind": "list",
+     "items": [
+      {
+       "kind": "std",
+       "data": {
+        "id": 1,
+        "name": "a"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 2,
+        "name": "b"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 3
+       }
+      }
+     ]
+    }
+   },
+   "id": "sandbox-003"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (objs|column('name'))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "column"
+     ],
+     "methods": {},
+     "properties": {},
+     "functions": []
+    }
+   },
+   "data_php": "\nif (!function_exists('twig_rs_gen')) {\n    function twig_rs_gen(array $pairs) { foreach ($pairs as $p) { yield $p[0] => $p[1]; } }\n    class TwigRsLogIter implements \\Iterator {\n        private $i = 0;\n        public $log = [];\n        public function __construct(private array $pairs) {}\n        public function current(): mixed { $this->log[] = 'current'; return $this->pairs[$this->i][1]; }\n        public function key(): mixed { $this->log[] = 'key'; return $this->pairs[$this->i][0]; }\n        public function next(): void { $this->log[] = 'next'; $this->i++; }\n        public function rewind(): void { $this->log[] = 'rewind'; $this->i = 0; }\n        public function valid(): bool { $this->log[] = 'valid'; return $this->i < count($this->pairs); }\n    }\n    class TwigRsAgg implements \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsAggGen implements \\IteratorAggregate {\n        public function __construct(private array $pairs) {}\n        public function getIterator(): \\Iterator { return twig_rs_gen($this->pairs); }\n    }\n    class TwigRsCountAccess implements \\ArrayAccess, \\Countable {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function count(): int { return count($this->data); }\n    }\n    class TwigRsAccess implements \\ArrayAccess {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n    }\n    class TwigRsAccessAgg implements \\ArrayAccess, \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsStr {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsCountable implements \\Countable {\n        public function __construct(private int $n) {}\n        public function count(): int { return $this->n; }\n    }\n    class TwigRsPlain {}\n    class TwigRsInvoke {\n        public function __invoke(...$args) { return json_encode($args); }\n    }\n    class TwigRsCmp {\n        public function __invoke($a, $b) { return $b <=> $a; }\n    }\n}\nreturn array_merge(json_decode(base64_decode('eyJsaXN0IjogWzMsIDEsIDJdLCAibWFwIjogeyJiIjogMiwgImEiOiAzLCAiYyI6IDF9LCAibnVtcyI6IHsiMSI6ICJhIiwgIjIiOiAiYiIsICIzIjogImMifSwgIm1peGVkIjogeyJ4IjogImEiLCAiMiI6ICJiIiwgInkiOiAiYyJ9LCAiZW1wdHkiOiBbXSwgIm51bCI6IG51bGwsICJzIjogImFiYyIsICJuIjogNDIsICJmIjogMS41LCAidCI6IHRydWUsICJyb3dzIjogW3siaWQiOiAxLCAibmFtZSI6ICJhIiwgImciOiAieCJ9LCB7ImlkIjogMiwgIm5hbWUiOiAiYiIsICJnIjogInkifSwgeyJpZCI6IDMsICJnIjogIngifV0sICJ3b3JkcyI6IFsiYiIsICJhIiwgIkIiLCAiMTAiLCAiOSIsICIxZTEiXSwgIm1lc3N5IjogWyIxMCIsIDksICI5YSIsIDEuNSwgImFiYyIsIHRydWUsIG51bGxdfQ=='), true), ['objs' => [(object) json_decode(base64_decode('eyJpZCI6IDEsICJuYW1lIjogImEifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDIsICJuYW1lIjogImIifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDN9'), true)]]);",
+   "data_rust": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "objects": {
+    "objs": {
+     "kind": "list",
+     "items": [
+      {
+       "kind": "std",
+       "data": {
+        "id": 1,
+        "name": "a"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 2,
+        "name": "b"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 3
+       }
+      }
+     ]
+    }
+   },
+   "id": "sandbox-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (objs|column(1))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "column"
+     ],
+     "methods": {},
+     "properties": {
+      "stdClass": [
+       "name"
+      ]
+     },
+     "functions": []
+    }
+   },
+   "data_php": "\nif (!function_exists('twig_rs_gen')) {\n    function twig_rs_gen(array $pairs) { foreach ($pairs as $p) { yield $p[0] => $p[1]; } }\n    class TwigRsLogIter implements \\Iterator {\n        private $i = 0;\n        public $log = [];\n        public function __construct(private array $pairs) {}\n        public function current(): mixed { $this->log[] = 'current'; return $this->pairs[$this->i][1]; }\n        public function key(): mixed { $this->log[] = 'key'; return $this->pairs[$this->i][0]; }\n        public function next(): void { $this->log[] = 'next'; $this->i++; }\n        public function rewind(): void { $this->log[] = 'rewind'; $this->i = 0; }\n        public function valid(): bool { $this->log[] = 'valid'; return $this->i < count($this->pairs); }\n    }\n    class TwigRsAgg implements \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsAggGen implements \\IteratorAggregate {\n        public function __construct(private array $pairs) {}\n        public function getIterator(): \\Iterator { return twig_rs_gen($this->pairs); }\n    }\n    class TwigRsCountAccess implements \\ArrayAccess, \\Countable {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function count(): int { return count($this->data); }\n    }\n    class TwigRsAccess implements \\ArrayAccess {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n    }\n    class TwigRsAccessAgg implements \\ArrayAccess, \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsStr {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsCountable implements \\Countable {\n        public function __construct(private int $n) {}\n        public function count(): int { return $this->n; }\n    }\n    class TwigRsPlain {}\n    class TwigRsInvoke {\n        public function __invoke(...$args) { return json_encode($args); }\n    }\n    class TwigRsCmp {\n        public function __invoke($a, $b) { return $b <=> $a; }\n    }\n}\nreturn array_merge(json_decode(base64_decode('eyJsaXN0IjogWzMsIDEsIDJdLCAibWFwIjogeyJiIjogMiwgImEiOiAzLCAiYyI6IDF9LCAibnVtcyI6IHsiMSI6ICJhIiwgIjIiOiAiYiIsICIzIjogImMifSwgIm1peGVkIjogeyJ4IjogImEiLCAiMiI6ICJiIiwgInkiOiAiYyJ9LCAiZW1wdHkiOiBbXSwgIm51bCI6IG51bGwsICJzIjogImFiYyIsICJuIjogNDIsICJmIjogMS41LCAidCI6IHRydWUsICJyb3dzIjogW3siaWQiOiAxLCAibmFtZSI6ICJhIiwgImciOiAieCJ9LCB7ImlkIjogMiwgIm5hbWUiOiAiYiIsICJnIjogInkifSwgeyJpZCI6IDMsICJnIjogIngifV0sICJ3b3JkcyI6IFsiYiIsICJhIiwgIkIiLCAiMTAiLCAiOSIsICIxZTEiXSwgIm1lc3N5IjogWyIxMCIsIDksICI5YSIsIDEuNSwgImFiYyIsIHRydWUsIG51bGxdfQ=='), true), ['objs' => [(object) json_decode(base64_decode('eyJpZCI6IDEsICJuYW1lIjogImEifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDIsICJuYW1lIjogImIifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDN9'), true)]]);",
+   "data_rust": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "objects": {
+    "objs": {
+     "kind": "list",
+     "items": [
+      {
+       "kind": "std",
+       "data": {
+        "id": 1,
+        "name": "a"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 2,
+        "name": "b"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 3
+       }
+      }
+     ]
+    }
+   },
+   "id": "sandbox-005"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (objs|column(null, 'id')|keys)|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "column",
+      "keys"
+     ],
+     "methods": {},
+     "properties": {
+      "stdClass": [
+       "id"
+      ]
+     },
+     "functions": []
+    }
+   },
+   "data_php": "\nif (!function_exists('twig_rs_gen')) {\n    function twig_rs_gen(array $pairs) { foreach ($pairs as $p) { yield $p[0] => $p[1]; } }\n    class TwigRsLogIter implements \\Iterator {\n        private $i = 0;\n        public $log = [];\n        public function __construct(private array $pairs) {}\n        public function current(): mixed { $this->log[] = 'current'; return $this->pairs[$this->i][1]; }\n        public function key(): mixed { $this->log[] = 'key'; return $this->pairs[$this->i][0]; }\n        public function next(): void { $this->log[] = 'next'; $this->i++; }\n        public function rewind(): void { $this->log[] = 'rewind'; $this->i = 0; }\n        public function valid(): bool { $this->log[] = 'valid'; return $this->i < count($this->pairs); }\n    }\n    class TwigRsAgg implements \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsAggGen implements \\IteratorAggregate {\n        public function __construct(private array $pairs) {}\n        public function getIterator(): \\Iterator { return twig_rs_gen($this->pairs); }\n    }\n    class TwigRsCountAccess implements \\ArrayAccess, \\Countable {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function count(): int { return count($this->data); }\n    }\n    class TwigRsAccess implements \\ArrayAccess {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n    }\n    class TwigRsAccessAgg implements \\ArrayAccess, \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsStr {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsCountable implements \\Countable {\n        public function __construct(private int $n) {}\n        public function count(): int { return $this->n; }\n    }\n    class TwigRsPlain {}\n    class TwigRsInvoke {\n        public function __invoke(...$args) { return json_encode($args); }\n    }\n    class TwigRsCmp {\n        public function __invoke($a, $b) { return $b <=> $a; }\n    }\n}\nreturn array_merge(json_decode(base64_decode('eyJsaXN0IjogWzMsIDEsIDJdLCAibWFwIjogeyJiIjogMiwgImEiOiAzLCAiYyI6IDF9LCAibnVtcyI6IHsiMSI6ICJhIiwgIjIiOiAiYiIsICIzIjogImMifSwgIm1peGVkIjogeyJ4IjogImEiLCAiMiI6ICJiIiwgInkiOiAiYyJ9LCAiZW1wdHkiOiBbXSwgIm51bCI6IG51bGwsICJzIjogImFiYyIsICJuIjogNDIsICJmIjogMS41LCAidCI6IHRydWUsICJyb3dzIjogW3siaWQiOiAxLCAibmFtZSI6ICJhIiwgImciOiAieCJ9LCB7ImlkIjogMiwgIm5hbWUiOiAiYiIsICJnIjogInkifSwgeyJpZCI6IDMsICJnIjogIngifV0sICJ3b3JkcyI6IFsiYiIsICJhIiwgIkIiLCAiMTAiLCAiOSIsICIxZTEiXSwgIm1lc3N5IjogWyIxMCIsIDksICI5YSIsIDEuNSwgImFiYyIsIHRydWUsIG51bGxdfQ=='), true), ['objs' => [(object) json_decode(base64_decode('eyJpZCI6IDEsICJuYW1lIjogImEifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDIsICJuYW1lIjogImIifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDN9'), true)]]);",
+   "data_rust": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "objects": {
+    "objs": {
+     "kind": "list",
+     "items": [
+      {
+       "kind": "std",
+       "data": {
+        "id": 1,
+        "name": "a"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 2,
+        "name": "b"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 3
+       }
+      }
+     ]
+    }
+   },
+   "id": "sandbox-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (rows|column('name'))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "column"
+     ],
+     "methods": {},
+     "properties": {},
+     "functions": []
+    }
+   },
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "sandbox-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (objs|column('name'))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": false,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "column"
+     ],
+     "methods": {},
+     "properties": {},
+     "functions": []
+    }
+   },
+   "data_php": "\nif (!function_exists('twig_rs_gen')) {\n    function twig_rs_gen(array $pairs) { foreach ($pairs as $p) { yield $p[0] => $p[1]; } }\n    class TwigRsLogIter implements \\Iterator {\n        private $i = 0;\n        public $log = [];\n        public function __construct(private array $pairs) {}\n        public function current(): mixed { $this->log[] = 'current'; return $this->pairs[$this->i][1]; }\n        public function key(): mixed { $this->log[] = 'key'; return $this->pairs[$this->i][0]; }\n        public function next(): void { $this->log[] = 'next'; $this->i++; }\n        public function rewind(): void { $this->log[] = 'rewind'; $this->i = 0; }\n        public function valid(): bool { $this->log[] = 'valid'; return $this->i < count($this->pairs); }\n    }\n    class TwigRsAgg implements \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsAggGen implements \\IteratorAggregate {\n        public function __construct(private array $pairs) {}\n        public function getIterator(): \\Iterator { return twig_rs_gen($this->pairs); }\n    }\n    class TwigRsCountAccess implements \\ArrayAccess, \\Countable {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function count(): int { return count($this->data); }\n    }\n    class TwigRsAccess implements \\ArrayAccess {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n    }\n    class TwigRsAccessAgg implements \\ArrayAccess, \\IteratorAggregate {\n        public function __construct(private array $data) {}\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o]; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsStr {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    class TwigRsCountable implements \\Countable {\n        public function __construct(private int $n) {}\n        public function count(): int { return $this->n; }\n    }\n    class TwigRsPlain {}\n    class TwigRsInvoke {\n        public function __invoke(...$args) { return json_encode($args); }\n    }\n    class TwigRsCmp {\n        public function __invoke($a, $b) { return $b <=> $a; }\n    }\n}\nreturn array_merge(json_decode(base64_decode('eyJsaXN0IjogWzMsIDEsIDJdLCAibWFwIjogeyJiIjogMiwgImEiOiAzLCAiYyI6IDF9LCAibnVtcyI6IHsiMSI6ICJhIiwgIjIiOiAiYiIsICIzIjogImMifSwgIm1peGVkIjogeyJ4IjogImEiLCAiMiI6ICJiIiwgInkiOiAiYyJ9LCAiZW1wdHkiOiBbXSwgIm51bCI6IG51bGwsICJzIjogImFiYyIsICJuIjogNDIsICJmIjogMS41LCAidCI6IHRydWUsICJyb3dzIjogW3siaWQiOiAxLCAibmFtZSI6ICJhIiwgImciOiAieCJ9LCB7ImlkIjogMiwgIm5hbWUiOiAiYiIsICJnIjogInkifSwgeyJpZCI6IDMsICJnIjogIngifV0sICJ3b3JkcyI6IFsiYiIsICJhIiwgIkIiLCAiMTAiLCAiOSIsICIxZTEiXSwgIm1lc3N5IjogWyIxMCIsIDksICI5YSIsIDEuNSwgImFiYyIsIHRydWUsIG51bGxdfQ=='), true), ['objs' => [(object) json_decode(base64_decode('eyJpZCI6IDEsICJuYW1lIjogImEifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDIsICJuYW1lIjogImIifQ=='), true), (object) json_decode(base64_decode('eyJpZCI6IDN9'), true)]]);",
+   "data_rust": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "objects": {
+    "objs": {
+     "kind": "list",
+     "items": [
+      {
+       "kind": "std",
+       "data": {
+        "id": 1,
+        "name": "a"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 2,
+        "name": "b"
+       }
+      },
+      {
+       "kind": "std",
+       "data": {
+        "id": 3
+       }
+      }
+     ]
+    }
+   },
+   "id": "sandbox-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([1, 2]|filter('nope'))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "filter",
+      "map",
+      "sort",
+      "find",
+      "reduce"
+     ],
+     "methods": {},
+     "properties": {},
+     "functions": []
+    }
+   },
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "sandbox-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([1, 2]|map('nope'))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "filter",
+      "map",
+      "sort",
+      "find",
+      "reduce"
+     ],
+     "methods": {},
+     "properties": {},
+     "functions": []
+    }
+   },
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "sandbox-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([2, 1]|sort('x'))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "filter",
+      "map",
+      "sort",
+      "find",
+      "reduce"
+     ],
+     "methods": {},
+     "properties": {},
+     "functions": []
+    }
+   },
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "sandbox-011"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([1, 2]|find('x'))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "filter",
+      "map",
+      "sort",
+      "find",
+      "reduce"
+     ],
+     "methods": {},
+     "properties": {},
+     "functions": []
+    }
+   },
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "sandbox-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([1, 2]|reduce('x'))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "filter",
+      "map",
+      "sort",
+      "find",
+      "reduce"
+     ],
+     "methods": {},
+     "properties": {},
+     "functions": []
+    }
+   },
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "sandbox-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([1, 2]|map(v => v * 2))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "filter",
+      "map",
+      "sort",
+      "find",
+      "reduce"
+     ],
+     "methods": {},
+     "properties": {},
+     "functions": []
+    }
+   },
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "sandbox-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([2, 1]|sort((a, b) => a <=> b))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "filter",
+      "map",
+      "sort",
+      "find",
+      "reduce"
+     ],
+     "methods": {},
+     "properties": {},
+     "functions": []
+    }
+   },
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "sandbox-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ ([1, 2]|map('nope'))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": false,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode",
+      "map"
+     ],
+     "methods": {},
+     "properties": {},
+     "functions": []
+    }
+   },
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "sandbox-016"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (max(1, 2))|json_encode(1024) }}{{ (range(1, 2))|json_encode(1024) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "sandbox": {
+    "global": true,
+    "policy": {
+     "tags": [],
+     "filters": [
+      "json_encode"
+     ],
+     "methods": {},
+     "properties": {},
+     "functions": [
+      "max",
+      "range"
+     ]
+    }
+   },
+   "data_json": {
+    "list": [
+     3,
+     1,
+     2
+    ],
+    "map": {
+     "b": 2,
+     "a": 3,
+     "c": 1
+    },
+    "nums": {
+     "1": "a",
+     "2": "b",
+     "3": "c"
+    },
+    "mixed": {
+     "x": "a",
+     "2": "b",
+     "y": "c"
+    },
+    "empty": [],
+    "nul": null,
+    "s": "abc",
+    "n": 42,
+    "f": 1.5,
+    "t": true,
+    "rows": [
+     {
+      "id": 1,
+      "name": "a",
+      "g": "x"
+     },
+     {
+      "id": 2,
+      "name": "b",
+      "g": "y"
+     },
+     {
+      "id": 3,
+      "g": "x"
+     }
+    ],
+    "words": [
+     "b",
+     "a",
+     "B",
+     "10",
+     "9",
+     "1e1"
+    ],
+    "messy": [
+     "10",
+     9,
+     "9a",
+     1.5,
+     "abc",
+     true,
+     null
+    ]
+   },
+   "id": "sandbox-017"
+  }
+ ],
+ "isolation": "none"
+}

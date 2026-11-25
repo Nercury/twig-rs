@@ -1,0 +1,5681 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "macros.twig": "{% macro input(name, value = '', type = 'text', size = 20) %}\n<input type=\"{{ type }}\" name=\"{{ name }}\" value=\"{{ value|e }}\" size=\"{{ size }}\"/>{{ varargs|length }}\n{% endmacro %}\n{% macro list(title, ...items) %}{{ title }}:{% for i in items %}[{{ i }}]{% endfor %}{% endmacro %}\n{% import _self as forms %}\n{% from 'macros.twig' import list as l %}\n{{ forms.input('user') }}\n{{ forms.input('pwd', type='password', extra=1) }}\n{{ l('T', 1, 2, 3) }}\n{{ forms.list is defined ? 'def' : 'undef' }}\n{{ _self.input('x') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-001"
+   },
+   "errors": "collect",
+   "main": "macros.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-001"
+  },
+  {
+   "templates": {
+    "macros.twig": "{% macro input(name, value = '', type = 'text', size = 20) %}\n<input type=\"{{ type }}\" name=\"{{ name }}\" value=\"{{ value|e }}\" size=\"{{ size }}\"/>{{ varargs|length }}\n{% endmacro %}\n{% macro list(title, ...items) %}{{ title }}:{% for i in items %}[{{ i }}]{% endfor %}{% endmacro %}\n{% import _self as forms %}\n{% from 'macros.twig' import list as l %}\n{{ forms.input('user') }}\n{{ forms.input('pwd', type='password', extra=1) }}\n{{ l('T', 1, 2, 3) }}\n{{ forms.list is defined ? 'def' : 'undef' }}\n{{ _self.input('x') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-002"
+   },
+   "errors": "collect",
+   "main": "macros.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-002"
+  },
+  {
+   "templates": {
+    "macros.twig": "{% macro input(name, value = '', type = 'text', size = 20) %}\n<input type=\"{{ type }}\" name=\"{{ name }}\" value=\"{{ value|e }}\" size=\"{{ size }}\"/>{{ varargs|length }}\n{% endmacro %}\n{% macro list(title, ...items) %}{{ title }}:{% for i in items %}[{{ i }}]{% endfor %}{% endmacro %}\n{% import _self as forms %}\n{% from 'macros.twig' import list as l %}\n{{ forms.input('user') }}\n{{ forms.input('pwd', type='password', extra=1) }}\n{{ l('T', 1, 2, 3) }}\n{{ forms.list is defined ? 'def' : 'undef' }}\n{{ _self.input('x') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-003"
+   },
+   "errors": "collect",
+   "main": "macros.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-003"
+  },
+  {
+   "templates": {
+    "macros.twig": "{% macro input(name, value = '', type = 'text', size = 20) %}\n<input type=\"{{ type }}\" name=\"{{ name }}\" value=\"{{ value|e }}\" size=\"{{ size }}\"/>{{ varargs|length }}\n{% endmacro %}\n{% macro list(title, ...items) %}{{ title }}:{% for i in items %}[{{ i }}]{% endfor %}{% endmacro %}\n{% import _self as forms %}\n{% from 'macros.twig' import list as l %}\n{{ forms.input('user') }}\n{{ forms.input('pwd', type='password', extra=1) }}\n{{ l('T', 1, 2, 3) }}\n{{ forms.list is defined ? 'def' : 'undef' }}\n{{ _self.input('x') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-004"
+   },
+   "errors": "collect",
+   "main": "macros.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, 2, 3, foo=4) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-005"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-005"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, 2, 3, foo=4) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-006"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(b=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-007"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(b=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-008"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, c=3) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-009"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, c=3) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-010"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(A=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-011"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-011"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(A=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-012"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-013"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-014"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-015"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-016"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-016"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, 2, 3) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-017"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-017"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, 2, 3) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-018"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-018"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(a=1, b=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-019"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-019"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(a=1, b=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-020"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-020"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(b=2, a=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-021"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-021"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(b=2, a=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-022"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-022"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, a=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-023"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-023"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, a=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-024"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-024"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(a=1, 2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-025"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-025"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(a=1, 2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-026"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-026"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(b=1, 2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-027"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-027"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(b=1, 2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-028"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-028"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, b=2, 3) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-029"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-029"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, b=2, 3) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-030"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-030"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(...[1, 2]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-031"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-031"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(...[1, 2]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-032"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-032"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(...{b: 9}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-033"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-033"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(...{b: 9}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-034"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-034"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(...{b: 9, a: 8}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-035"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-035"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(...{b: 9, a: 8}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-036"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-036"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, ...[2, 3]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-037"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-037"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, ...[2, 3]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-038"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-038"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, ...{x: 2}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-039"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-039"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a, b = 'B') %}a={{ a ?? 'null' }},b={{ b }},v={{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, ...{x: 2}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-040"
+   },
+   "errors": "collect",
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-040"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro n(a, ...rest) %}{{ a }}|{{ rest|json_encode }}{% endmacro %}{{ _self.n(1, 2, x=3) }}{{ _self.n(1, rest=5) }}{{ _self.n() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-041"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-041"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro n(a, ...rest) %}{{ a }}|{{ rest|json_encode }}{% endmacro %}{{ _self.n(1, 2, x=3) }}{{ _self.n(1, rest=5) }}{{ _self.n() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-042"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-042"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro n(...rest) %}{{ rest|json_encode }}{{ varargs ?? 'novarargs' }}{% endmacro %}{{ _self.n(1, x=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-043"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-043"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro n(...rest) %}{{ rest|json_encode }}{{ varargs ?? 'novarargs' }}{% endmacro %}{{ _self.n(1, x=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-044"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-044"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a) %}{{ a }}|{{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, varargs=5) }}{{ _self.m(varargs=5, a=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-045"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-045"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a) %}{{ a }}|{{ varargs|json_encode }}{% endmacro %}{{ _self.m(1, varargs=5) }}{{ _self.m(varargs=5, a=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-046"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-046"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(context, macros, blocks, this) %}{{ context }}{{ macros }}{{ blocks }}{{ this }}|{{ _context|keys|join(',') }}{% endmacro %}{{ _self.m(1, 2, 3, 4) }}{{ _self.m(this=8, context=5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-047"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-047"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(context, macros, blocks, this) %}{{ context }}{{ macros }}{{ blocks }}{{ this }}|{{ _context|keys|join(',') }}{% endmacro %}{{ _self.m(1, 2, 3, 4) }}{{ _self.m(this=8, context=5) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-048"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-048"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(x, y) %}{{ _context|keys|join(',') }}{% endmacro %}{{ _self.m(1, 2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-049"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-049"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(x, y) %}{{ _context|keys|join(',') }}{% endmacro %}{{ _self.m(1, 2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-050"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-050"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro e() %}{% endmacro %}{{ _self.e() is same as('') ? 'empty' : 'markup' }}|{% macro f() %}x{% endmacro %}{{ _self.f() is same as('x') ? 's' : 'm' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-051"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-051"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro e() %}{% endmacro %}{{ _self.e() is same as('') ? 'empty' : 'markup' }}|{% macro f() %}x{% endmacro %}{{ _self.f() is same as('x') ? 's' : 'm' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-052"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-052"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m() %}{{ name ?? 'no-name' }}{% endmacro %}{{ _self.m() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-053"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-053"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m() %}{{ name ?? 'no-name' }}{% endmacro %}{{ _self.m() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-054"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-054"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro tree(items) %}{% for k, v in items %}<{{ k }}{% if v is iterable %}{{ _self.tree(v) }}{% endif %}>{% endfor %}{% endmacro %}{{ _self.tree({a: {b: {c: 1}}, d: 2}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-055"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-055"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro tree(items) %}{% for k, v in items %}<{{ k }}{% if v is iterable %}{{ _self.tree(v) }}{% endif %}>{% endfor %}{% endmacro %}{{ _self.tree({a: {b: {c: 1}}, d: 2}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-056"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-056"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro a() %}A{{ _self.b() }}{% endmacro %}{% macro b() %}B{% endmacro %}{{ _self.a() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-057"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-057"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro a() %}A{{ _self.b() }}{% endmacro %}{% macro b() %}B{% endmacro %}{{ _self.a() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-058"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-058"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro a() %}{% import _self as me %}A{{ me.b() }}{% endmacro %}{% macro b() %}B{% endmacro %}{{ _self.a() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-059"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-059"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro a() %}{% import _self as me %}A{{ me.b() }}{% endmacro %}{% macro b() %}B{% endmacro %}{{ _self.a() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-060"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-060"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro a() %}{% set x = 1 %}{% for i in [1, 2] %}{{ i + x }}{% endfor %}{% endmacro %}{{ _self.a() }}{{ x ?? 'no-x' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-061"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-061"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro a() %}{% set x = 1 %}{% for i in [1, 2] %}{{ i + x }}{% endfor %}{% endmacro %}{{ _self.a() }}{{ x ?? 'no-x' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-062"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-062"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m() %}{{ block('b') }}{% endmacro %}{% block b %}B{% endblock %}{{ _self.m() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-063"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-063"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m() %}{{ block('b') }}{% endmacro %}{% block b %}B{% endblock %}{{ _self.m() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-064"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-064"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set n = 'm' %}{% macro m() %}M{% endmacro %}{{ _self.(n)() }}{{ _self.(n ~ 'x')() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-065"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-065"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set n = 'm' %}{% macro m() %}M{% endmacro %}{{ _self.(n)() }}{{ _self.(n ~ 'x')() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-066"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-066"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro hello() %}H{% endmacro %}{% from _self import hello as hi, hello %}{{ hello() }}{{ hi is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-067"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-067"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro hello() %}H{% endmacro %}{% from _self import hello as hi, hello %}{{ hello() }}{{ hi is defined ? 'y' : 'n' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-068"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-068"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro hello() %}H{% endmacro %}{% from _self import hello as hi %}{{ hi() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-069"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-069"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro hello() %}H{% endmacro %}{% from _self import hello as hi %}{{ hi() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-070"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-070"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro w(v) %}<{{ v }}>{% endmacro %}{% import _self as m %}{{ items|map(v => m.w(v))|join }}{{ items|map(v => _self.w(v))|join }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-071"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-071"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro w(v) %}<{{ v }}>{% endmacro %}{% import _self as m %}{{ items|map(v => m.w(v))|join }}{{ items|map(v => _self.w(v))|join }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-072"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-072"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro w(v) %}<{{ v }}>{% endmacro %}{% from _self import w %}{% for i in items %}{{ w(i) }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-073"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-073"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro w(v) %}<{{ v }}>{% endmacro %}{% from _self import w %}{% for i in items %}{{ w(i) }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-074"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-074"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro w(v) %}{{ v }}{% endmacro %}\n{{ _self.w(\n  undefined_name\n) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-075"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-075"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro w(v) %}{{ v }}{% endmacro %}\n{{ _self.w(\n  undefined_name\n) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-076"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-076"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}{{ forms.hi('x') }}|{% from 'm' import hi %}{{ hi('y') }}",
+    "m": "{% macro hi(n) %}hi {{ n }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-077"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-077"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}{{ forms.hi('x') }}|{% from 'm' import hi %}{{ hi('y') }}",
+    "m": "{% macro hi(n) %}hi {{ n }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-078"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-078"
+  },
+  {
+   "templates": {
+    "u": "{% block a %}{% import 'm' as forms %}{{ forms.hi('a') }}{% endblock %}{% block b %}{{ forms.hi('b') }}{% endblock %}",
+    "m": "{% macro hi(n) %}hi {{ n }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-079"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-079"
+  },
+  {
+   "templates": {
+    "u": "{% block a %}{% import 'm' as forms %}{{ forms.hi('a') }}{% endblock %}{% block b %}{{ forms.hi('b') }}{% endblock %}",
+    "m": "{% macro hi(n) %}hi {{ n }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-080"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-080"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}{% block b %}{{ forms.hi('b') }}{% endblock %}",
+    "m": "{% macro hi(n) %}hi {{ n }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-081"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-081"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}{% block b %}{{ forms.hi('b') }}{% endblock %}",
+    "m": "{% macro hi(n) %}hi {{ n }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-082"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-082"
+  },
+  {
+   "templates": {
+    "u": "{% extends 'p' %}{% import 'm' as forms %}{% block b %}{{ forms.hi('b') }}{% endblock %}",
+    "p": "{% block b %}{% endblock %}",
+    "m": "{% macro hi(n) %}hi {{ n }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-083"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-083"
+  },
+  {
+   "templates": {
+    "u": "{% extends 'p' %}{% import 'm' as forms %}{% block b %}{{ forms.hi('b') }}{% endblock %}",
+    "p": "{% block b %}{% endblock %}",
+    "m": "{% macro hi(n) %}hi {{ n }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-084"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-084"
+  },
+  {
+   "templates": {
+    "u": "{% macro x() %}{{ forms.hi('m') }}{% endmacro %}{% import 'm' as forms %}{{ _self.x() }}",
+    "m": "{% macro hi(n) %}hi {{ n }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-085"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-085"
+  },
+  {
+   "templates": {
+    "u": "{% macro x() %}{{ forms.hi('m') }}{% endmacro %}{% import 'm' as forms %}{{ _self.x() }}",
+    "m": "{% macro hi(n) %}hi {{ n }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-086"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-086"
+  },
+  {
+   "templates": {
+    "u": "{% set x %}{% import 'm' as forms %}{% endset %}{{ forms.hi('c') }}",
+    "m": "{% macro hi(n) %}hi {{ n }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-087"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-087"
+  },
+  {
+   "templates": {
+    "u": "{% set x %}{% import 'm' as forms %}{% endset %}{{ forms.hi('c') }}",
+    "m": "{% macro hi(n) %}hi {{ n }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-088"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-088"
+  },
+  {
+   "templates": {
+    "u": "x\n{% import 'missing' as m %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-089"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-089"
+  },
+  {
+   "templates": {
+    "u": "x\n{% import 'missing' as m %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-090"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-090"
+  },
+  {
+   "templates": {
+    "u": "x\n{% from 'missing' import a %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-091"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-091"
+  },
+  {
+   "templates": {
+    "u": "x\n{% from 'missing' import a %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-092"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-092"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}\n{{ forms.nope() }}",
+    "m": "{% macro hi() %}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-093"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-093"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}\n{{ forms.nope() }}",
+    "m": "{% macro hi() %}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-094"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-094"
+  },
+  {
+   "templates": {
+    "u": "{% from 'm' import nope %}\n{{ nope() }}",
+    "m": "{% macro hi() %}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-095"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-095"
+  },
+  {
+   "templates": {
+    "u": "{% from 'm' import nope %}\n{{ nope() }}",
+    "m": "{% macro hi() %}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-096"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-096"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}{{ forms.HI() }}|{{ forms.HI is defined ? 'y' : 'n' }}|{{ forms.macro_hi() }}|{{ forms.macro_hi is defined ? 'y' : 'n' }}|{{ forms.macro_zz is defined ? 'y' : 'n' }}",
+    "m": "{% macro hi() %}hi{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-097"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-097"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}{{ forms.HI() }}|{{ forms.HI is defined ? 'y' : 'n' }}|{{ forms.macro_hi() }}|{{ forms.macro_hi is defined ? 'y' : 'n' }}|{{ forms.macro_zz is defined ? 'y' : 'n' }}",
+    "m": "{% macro hi() %}hi{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-098"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-098"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}{{ forms.hi }}",
+    "m": "{% macro hi() %}hi{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-099"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-099"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}{{ forms.hi }}",
+    "m": "{% macro hi() %}hi{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-100"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-100"
+  },
+  {
+   "templates": {
+    "u": "{% import 'c' as forms %}{{ forms.parentmacro() }}|{{ forms.childmacro() }}|{{ forms.parentmacro is defined ? 'y' : 'n' }}",
+    "c": "{% extends 'p' %}{% macro childmacro() %}C{% endmacro %}",
+    "p": "{% macro parentmacro() %}P{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-101"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-101"
+  },
+  {
+   "templates": {
+    "u": "{% import 'c' as forms %}{{ forms.parentmacro() }}|{{ forms.childmacro() }}|{{ forms.parentmacro is defined ? 'y' : 'n' }}",
+    "c": "{% extends 'p' %}{% macro childmacro() %}C{% endmacro %}",
+    "p": "{% macro parentmacro() %}P{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-102"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-102"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}{{ _self.parentmacro() }}{% endblock %}",
+    "p": "{% macro parentmacro() %}P{% endmacro %}{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-103"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-103"
+  },
+  {
+   "templates": {
+    "c": "{% extends 'p' %}{% block a %}{{ _self.parentmacro() }}{% endblock %}",
+    "p": "{% macro parentmacro() %}P{% endmacro %}{% block a %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-104"
+   },
+   "errors": "collect",
+   "main": "c",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-104"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}\n\n{{ forms.boom() }}",
+    "m": "{% macro boom() %}\n\n{{ 1 // 0 }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-105"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-105"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}\n\n{{ forms.boom() }}",
+    "m": "{% macro boom() %}\n\n{{ 1 // 0 }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-106"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-106"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}\n\n{{ forms.boom() }}",
+    "m": "{% macro boom() %}\n\n{{ undefined_var }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-107"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-107"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}\n\n{{ forms.boom() }}",
+    "m": "{% macro boom() %}\n\n{{ undefined_var }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-108"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-108"
+  },
+  {
+   "templates": {
+    "u": "{% import _self as forms %}\n{% macro boom() %}\n\n{{ 1 // 0 }}{% endmacro %}\n{{ forms.boom() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-109"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-109"
+  },
+  {
+   "templates": {
+    "u": "{% import _self as forms %}\n{% macro boom() %}\n\n{{ 1 // 0 }}{% endmacro %}\n{{ forms.boom() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-110"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-110"
+  },
+  {
+   "templates": {
+    "u": "{% macro m(a, b) %}{% endmacro %}\n{{ _self.m(a=1, 2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-111"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-111"
+  },
+  {
+   "templates": {
+    "u": "{% macro m(a, b) %}{% endmacro %}\n{{ _self.m(a=1, 2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-112"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-112"
+  },
+  {
+   "templates": {
+    "u": "{% macro m(a, b) %}{% endmacro %}\n{{ _self.m(1, a=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-113"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-113"
+  },
+  {
+   "templates": {
+    "u": "{% macro m(a, b) %}{% endmacro %}\n{{ _self.m(1, a=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-114"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-114"
+  },
+  {
+   "templates": {
+    "u": "{% macro m(a) %}{% endmacro %}\n{{ _self.nope() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-115"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-115"
+  },
+  {
+   "templates": {
+    "u": "{% macro m(a) %}{% endmacro %}\n{{ _self.nope() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-116"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-116"
+  },
+  {
+   "templates": {
+    "u": "{% macro m(a) %}{% endmacro %}{{ _self.m(1, 2) }}{{ _self.m() }}{{ _self.m(z=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-117"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-117"
+  },
+  {
+   "templates": {
+    "u": "{% macro m(a) %}{% endmacro %}{{ _self.m(1, 2) }}{{ _self.m() }}{{ _self.m(z=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": true,
+    "cache": "/tmp/twig-rs-cache/macros-118"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-118"
+  },
+  {
+   "templates": {
+    "u": "{% import 'm' as forms %}{{ forms.hi('g') }}|{{ _context|keys|join(',') }}",
+    "m": "{% macro hi(n) %}{{ n }}{{ _context|keys|join(',') }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/macros-119"
+   },
+   "errors": "collect",
+   "main": "u",
+   "load_all": false,
+   "globals": {
+    "gl": "G"
+   },
+   "data_json": {
+    "name": "bob",
+    "items": [
+     1,
+     2
+    ],
+    "layout": "l1",
+    "layouts": [
+     "missing",
+     "l1"
+    ],
+    "nope": [
+     "n1",
+     "n2"
+    ],
+    "one": [
+     "missing"
+    ],
+    "five": 5,
+    "nul": null,
+    "f": false,
+    "t": true,
+    "fl": 1.5,
+    "map": {
+     "a": 1,
+     "b": 2
+    },
+    "num": {
+     "5": "five",
+     "x": "ex"
+    }
+   },
+   "id": "macros-119"
+  }
+ ],
+ "isolation": "process"
+}

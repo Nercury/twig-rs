@@ -1,0 +1,1183 @@
+[
+ {
+  "id": "variables-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "bob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "deep",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "one",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "one",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "one",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.7 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "variables-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "variables-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "deep",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-043",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "e",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Using null as an array offset is deprecated, use an empty string instead"
+   }
+  ]
+ },
+ {
+  "id": "variables-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "bob",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-058",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-061",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Key \"z\" for sequence/mapping with keys \"a, b\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Key \"z\" for sequence/mapping with keys \"a, b\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Key \"z\" for sequence/mapping with keys \"a, b\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-063",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Key \"z\" for sequence/mapping with keys \"a, b\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Key \"z\" for sequence/mapping with keys \"a, b\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Key \"z\" for sequence/mapping with keys \"a, b\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-064",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-065",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-066",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Key \"9\" for sequence/mapping with keys \"0, 1, 2\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Key \"9\" for sequence/mapping with keys \"0, 1, 2\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Key \"9\" for sequence/mapping with keys \"0, 1, 2\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-067",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Key \"9\" for sequence/mapping with keys \"0, 1, 2\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Key \"9\" for sequence/mapping with keys \"0, 1, 2\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Key \"9\" for sequence/mapping with keys \"0, 1, 2\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-068",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Impossible to access an attribute (\"foo\") on a string variable (\"str\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Impossible to access an attribute (\"foo\") on a string variable (\"str\") in \"index.twig\" at line 1.",
+   "rawMessage": "Impossible to access an attribute (\"foo\") on a string variable (\"str\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-069",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Impossible to access a key (\"foo\") on a string variable (\"str\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Impossible to access a key (\"foo\") on a string variable (\"str\") in \"index.twig\" at line 1.",
+   "rawMessage": "Impossible to access a key (\"foo\") on a string variable (\"str\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-070",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Impossible to invoke a method (\"foo\") on a string variable (\"str\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Impossible to invoke a method (\"foo\") on a string variable (\"str\") in \"index.twig\" at line 1.",
+   "rawMessage": "Impossible to invoke a method (\"foo\") on a string variable (\"str\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-071",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Impossible to access an attribute (\"foo\") on a null variable in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Impossible to access an attribute (\"foo\") on a null variable in \"index.twig\" at line 1.",
+   "rawMessage": "Impossible to access an attribute (\"foo\") on a null variable.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-072",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Impossible to access a key (\"foo\") on a null variable in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Impossible to access a key (\"foo\") on a null variable in \"index.twig\" at line 1.",
+   "rawMessage": "Impossible to access a key (\"foo\") on a null variable.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-073",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Impossible to invoke a method (\"foo\") on a null variable in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Impossible to invoke a method (\"foo\") on a null variable in \"index.twig\" at line 1.",
+   "rawMessage": "Impossible to invoke a method (\"foo\") on a null variable.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-074",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Impossible to access an attribute (\"foo\") on a int variable (\"0\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Impossible to access an attribute (\"foo\") on a int variable (\"0\") in \"index.twig\" at line 1.",
+   "rawMessage": "Impossible to access an attribute (\"foo\") on a int variable (\"0\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-075",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Impossible to invoke a method (\"foo\") on a sequence/mapping in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Impossible to invoke a method (\"foo\") on a sequence/mapping in \"index.twig\" at line 1.",
+   "rawMessage": "Impossible to invoke a method (\"foo\") on a sequence/mapping.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-076",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Key \"x\" does not exist as the sequence/mapping is empty in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Key \"x\" does not exist as the sequence/mapping is empty in \"index.twig\" at line 1.",
+   "rawMessage": "Key \"x\" does not exist as the sequence/mapping is empty.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-077",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Key \"x\" does not exist as the sequence/mapping is empty in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Key \"x\" does not exist as the sequence/mapping is empty in \"index.twig\" at line 1.",
+   "rawMessage": "Key \"x\" does not exist as the sequence/mapping is empty.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-078",
+  "kind": "twig",
+  "ok": true,
+  "output": "deep",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-079",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Key \"x\" for sequence/mapping with keys \"b\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Key \"x\" for sequence/mapping with keys \"b\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Key \"x\" for sequence/mapping with keys \"b\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-080",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-081",
+  "kind": "twig",
+  "ok": true,
+  "output": "one",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-082",
+  "kind": "twig",
+  "ok": true,
+  "output": "one",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-083",
+  "kind": "twig",
+  "ok": true,
+  "output": "one",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-084",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-085",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-086",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-087",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Key \"\" for sequence/mapping with keys \"a, b\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Key \"\" for sequence/mapping with keys \"a, b\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Key \"\" for sequence/mapping with keys \"a, b\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-088",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-089",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-090",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-091",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-092",
+  "kind": "twig",
+  "ok": true,
+  "output": "deep",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-093",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Impossible to access an attribute (\"x\") on a bool variable (\"1\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Impossible to access an attribute (\"x\") on a bool variable (\"1\") in \"index.twig\" at line 1.",
+   "rawMessage": "Impossible to access an attribute (\"x\") on a bool variable (\"1\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-094",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Impossible to access a key (\"x\") on a float variable (\"1.5\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Impossible to access a key (\"x\") on a float variable (\"1.5\") in \"index.twig\" at line 1.",
+   "rawMessage": "Impossible to access a key (\"x\") on a float variable (\"1.5\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-095",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Key \"-1\" for sequence/mapping with keys \"0, 1, 2\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Key \"-1\" for sequence/mapping with keys \"0, 1, 2\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Key \"-1\" for sequence/mapping with keys \"0, 1, 2\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-096",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-097",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Key \"z\" for sequence/mapping with keys \"a, b\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Key \"z\" for sequence/mapping with keys \"a, b\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Key \"z\" for sequence/mapping with keys \"a, b\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-098",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-099",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Key \"bob\" for sequence/mapping with keys \"a, b\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Key \"bob\" for sequence/mapping with keys \"a, b\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Key \"bob\" for sequence/mapping with keys \"a, b\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-100",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-101",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-102",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-103",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-104",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-105",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-106",
+  "kind": "twig",
+  "ok": true,
+  "output": "d",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-107",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-108",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Impossible to access an attribute (\"b\") on a int variable (\"1\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Impossible to access an attribute (\"b\") on a int variable (\"1\") in \"index.twig\" at line 1.",
+   "rawMessage": "Impossible to access an attribute (\"b\") on a int variable (\"1\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-109",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-110",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-111",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "variables-112",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Variable \"undef\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

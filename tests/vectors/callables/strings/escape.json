@@ -1,0 +1,1069 @@
+[
+ {
+  "id": "escape-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;|&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003Ca\\u0020href\\u003D\\u0027x\\u0027\\u003ET\\u0026amp\\u003B\\u0020\\u0022q\\u0022\\u003C\\/a\\u003E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\3C a\\20 href\\3D \\27 x\\27 \\3E T\\26 amp\\3B \\20 \\22 q\\22 \\3C \\2F a\\3E ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "%3Ca%20href%3D%27x%27%3ET%26amp%3B%20%22q%22%3C%2Fa%3E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a&#x20;href&#x3D;&#x27;x&#x27;&gt;T&amp;amp&#x3B;&#x20;&quot;q&quot;&lt;&#x2F;a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u00E9lan\\u0020VITAL\\u0020\\u01C6\\u0020\\u00DF\\u0020stra\\u00DFe\\u0020\\uFB01\\u0020\\u0130STANBUL\\u0020\\u03A3\\u0391\\u03A3|\\E9 lan\\20 VITAL\\20 \\1C6 \\20 \\DF \\20 stra\\DF e\\20 \\FB01 \\20 \\130 STANBUL\\20 \\3A3 \\391 \\3A3 |%C3%A9lan%20VITAL%20%C7%86%20%C3%9F%20stra%C3%9Fe%20%EF%AC%81%20%C4%B0STANBUL%20%CE%A3%CE%91%CE%A3|&#x00E9;lan&#x20;VITAL&#x20;&#x01C6;&#x20;&#x00DF;&#x20;stra&#x00DF;e&#x20;&#xFB01;&#x20;&#x0130;STANBUL&#x20;&#x03A3;&#x0391;&#x03A3;|&#x00E9;lan&#x20;VITAL&#x20;&#x01C6;&#x20;&#x00DF;&#x20;stra&#x00DF;e&#x20;&#xFB01;&#x20;&#x0130;STANBUL&#x20;&#x03A3;&#x0391;&#x03A3;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u0000\\u0001\\b\\t\\n\\u000B\\f\\r\\u001F\\u007F",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "&#xFFFD;&#xFFFD;&#xFFFD;&#x09;&#x0A;&#xFFFD;&#xFFFD;&#x0D;&#xFFFD;&#xFFFD;|\\0 \\9 \\7F ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "&#x0080;&#x009F;&#x00A0;&#x2028;&#x1F600;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u0080\\u009F\\u2028\\uD83D\\uDE00|\\1F600 ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "-_.~%21%2A%28%29|,.-_&#x3A;&#x40;&#x5B;&#x5D;|,.-_:@[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-013",
+  "kind": "twig",
+  "ok": true,
+  "output": ",._|aZ09|&amp;amp;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "a�b�",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "a��b�c�",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "a%FFb",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-017",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "rawMessage": "The string to escape is not a valid UTF-8 string.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-018",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "rawMessage": "The string to escape is not a valid UTF-8 string.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-019",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "rawMessage": "The string to escape is not a valid UTF-8 string.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-020",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.",
+   "rawMessage": "The string to escape is not a valid UTF-8 string.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "42|1.5|1.0E+25|1|||-7|1.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-022",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "escape-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,<b>,",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-026",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-027",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;Str&lt;/b&gt; é|\\u003Cb\\u003EStr\\u003C\\/b\\u003E\\u0020\\u00E9|%3Cb%3EStr%3C%2Fb%3E%20%C3%A9",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;i&gt;child&lt;/i&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-031",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-032",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "v",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-034",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-035",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"no string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "no string",
+    "formatted": "RuntimeException: no string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-036",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"no string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "no string",
+    "formatted": "RuntimeException: no string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-037",
+  "kind": "twig",
+  "ok": true,
+  "output": "<x>,y,z",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-038",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class ArrayIterator could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class ArrayIterator could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class ArrayIterator could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class ArrayIterator could not be converted to string",
+    "formatted": "Error: Object of class ArrayIterator could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "x1Yx2Y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;m&lt;/b&gt;|<b>m</b>|<b>m</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>h</b>|\\u003Cb\\u003Eh\\u003C\\/b\\u003E|%3Cb%3Eh%3C%2Fb%3E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b a=\"1\">a</b>|<b a=\"1\">a</b>|\\3C b\\20 a\\3D \\22 1\\22 \\3E a\\3C \\2F b\\3E ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-043",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;n&lt;/b&gt;|&lt;b&gt;n&lt;/b&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>j</b>|&lt;b&gt;j&lt;/b&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "||",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-046",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"nope\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>m</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;Str&lt;/b&gt; é|\\u003Ci\\u003Echild\\u003C\\/i\\u003E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "42|3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;é&gt;|&lt;|&lt;|&lt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "?&lt;|%E9%26lt%3B",
+  "output_b64": "6SZsdDt8JUU5JTI2bHQlM0I=",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u00E9\\u003C|\\E9 \\3C ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "&#x00E9;&lt;|%E9%3C",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "%E9%26lt%3B|%E9%26lt%3B",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;|&lt;é&gt;|\\u003C\\u00E9\\u003E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"x-unknown\" to \"UTF-8\" is not allowed"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"UTF-8\" to \"x-unknown\" is not allowed"
+   }
+  ]
+ },
+ {
+  "id": "escape-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"x-unknown\" to \"UTF-8\" is not allowed"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"UTF-8\" to \"x-unknown\" is not allowed"
+   }
+  ]
+ },
+ {
+  "id": "escape-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "%C3%A9",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "€&lt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_NOTICE",
+    "message": "iconv(): Detected an illegal character in input string"
+   }
+  ]
+ },
+ {
+  "id": "escape-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "a%3C",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003C|&lt;|&lt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;|<b>m</b>|<b>m</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-064",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003C",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-065",
+  "kind": "twig",
+  "ok": true,
+  "output": "\\u003C|%3C",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-066",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $nope",
+    "formatted": "Error: Unknown named parameter $nope",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-067",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Named parameter $strategy overwrites previous argument\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $strategy overwrites previous argument\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Named parameter $strategy overwrites previous argument\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Named parameter $strategy overwrites previous argument",
+    "formatted": "Error: Named parameter $strategy overwrites previous argument",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-068",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"1\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"1\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"1\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-069",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"1.5\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"1.5\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"1.5\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-070",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"1\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"1\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"1\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-071",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #2 ($strategy) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #2 ($strategy) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #2 ($strategy) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Runtime\\EscaperRuntime::escape(): Argument #2 ($strategy) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+    "formatted": "TypeError: Twig\\Runtime\\EscaperRuntime::escape(): Argument #2 ($strategy) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-072",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #2 ($strategy) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #2 ($strategy) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #2 ($strategy) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Runtime\\EscaperRuntime::escape(): Argument #2 ($strategy) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+    "formatted": "TypeError: Twig\\Runtime\\EscaperRuntime::escape(): Argument #2 ($strategy) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-073",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #3 ($charset) must be of type ?string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #3 ($charset) must be of type ?string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #3 ($charset) must be of type ?string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Runtime\\EscaperRuntime::escape(): Argument #3 ($charset) must be of type ?string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+    "formatted": "TypeError: Twig\\Runtime\\EscaperRuntime::escape(): Argument #3 ($charset) must be of type ?string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-074",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"5\" to \"UTF-8\" is not allowed"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"UTF-8\" to \"5\" is not allowed"
+   }
+  ]
+ },
+ {
+  "id": "escape-075",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #4 ($autoescape) must be of type bool, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #4 ($autoescape) must be of type bool, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #4 ($autoescape) must be of type bool, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Runtime\\EscaperRuntime::escape(): Argument #4 ($autoescape) must be of type bool, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+    "formatted": "TypeError: Twig\\Runtime\\EscaperRuntime::escape(): Argument #4 ($autoescape) must be of type bool, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-076",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #4 ($autoescape) must be of type bool, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #4 ($autoescape) must be of type bool, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Runtime\\EscaperRuntime::escape(): Argument #4 ($autoescape) must be of type bool, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Runtime\\EscaperRuntime::escape(): Argument #4 ($autoescape) must be of type bool, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+    "formatted": "TypeError: Twig\\Runtime\\EscaperRuntime::escape(): Argument #4 ($autoescape) must be of type bool, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-077",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;|\\u003Cb\\u003Em\\u003C\\/b\\u003E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-078",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unknown argument \"strateg\" for filter \"e(strategy, charset, autoescape)\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Unknown argument \"strateg\" for filter \"e(strategy, charset, autoescape)\" in \"index.twig\" at line 1.",
+   "rawMessage": "Unknown argument \"strateg\" for filter \"e(strategy, charset, autoescape)\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-079",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Invalid escaping strategy \"<a href='x'>T&amp; \"q\"</a>\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Invalid escaping strategy \"<a href='x'>T&amp; \"q\"</a>\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\") in \"index.twig\" at line 1.",
+   "rawMessage": "Invalid escaping strategy \"<a href='x'>T&amp; \"q\"</a>\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-080",
+  "kind": "twig",
+  "ok": true,
+  "output": "<a href='x'>T&amp; \"q\"</a>|<a href='x'>T&amp; \"q\"</a>|1,<b>,|<b>m</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-081",
+  "kind": "twig",
+  "ok": true,
+  "output": "&amp;lt;a href=&amp;#039;x&amp;#039;&amp;gt;T&amp;amp;amp; &amp;quot;q&amp;quot;&amp;lt;/a&amp;gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-082",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "escape-083",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Array to string conversion\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "Array to string conversion",
+    "formatted": "ErrorException: Array to string conversion",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "escape-084",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"iconv(): Wrong encoding, conversion from \"x-unknown\" to \"UTF-8\" is not allowed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"iconv(): Wrong encoding, conversion from \"x-unknown\" to \"UTF-8\" is not allowed\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"iconv(): Wrong encoding, conversion from \"x-unknown\" to \"UTF-8\" is not allowed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "iconv(): Wrong encoding, conversion from \"x-unknown\" to \"UTF-8\" is not allowed",
+    "formatted": "ErrorException: iconv(): Wrong encoding, conversion from \"x-unknown\" to \"UTF-8\" is not allowed",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"x-unknown\" to \"UTF-8\" is not allowed"
+   }
+  ]
+ },
+ {
+  "id": "escape-085",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

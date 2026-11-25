@@ -1,0 +1,721 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "{{ dump(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(1, 's', 1.5, true, null, [1, {a: 'b'}]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "data": {
+    "a": 1,
+    "b": [
+     1,
+     "x"
+    ],
+    "c": {
+     "d": null
+    }
+   },
+   "data_php": "return ['a' => 1, 'b' => [1, 'x'], 'c' => ['d' => null]];",
+   "id": "debug-003"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(value=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(foo=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-005"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(1, foo=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(1, value=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(fooBar=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(value=1, other=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(1, 's', 1.5, true, null, [1, {a: 'b'}]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-011"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "data": {
+    "a": 1,
+    "b": [
+     1,
+     "x"
+    ],
+    "c": {
+     "d": null
+    }
+   },
+   "data_php": "return ['a' => 1, 'b' => [1, 'x'], 'c' => ['d' => null]];",
+   "id": "debug-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(value=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(foo=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(1, foo=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(1, value=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-016"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(fooBar=1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-017"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(value=1, other=2) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-018"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump('<b>') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-019"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump('<b>') }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-020"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(0.1 + 0.2, 1e100, -0.0, 1e15, 0.00001, 100.0) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-021"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(x) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "data": {
+    "x": {
+     "$float": "NAN"
+    }
+   },
+   "data_php": "return ['x' => NAN];",
+   "id": "debug-022"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(x) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "data": {
+    "x": {
+     "$float": "-INF"
+    }
+   },
+   "data_php": "return ['x' => -INF];",
+   "id": "debug-023"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(e, s) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "data": {
+    "e": {
+     "$enum": [
+      "TwigRsSuit",
+      "Hearts"
+     ]
+    },
+    "s": {
+     "$enum": [
+      "TwigRsStatus",
+      "Active"
+     ]
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['e' => \\TwigRsSuit::Hearts, 's' => \\TwigRsStatus::Active];",
+   "id": "debug-024"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(o) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "data": {
+    "o": {
+     "$object": "TwigRsPlain"
+    }
+   },
+   "data_php": "\nif (!class_exists('TwigRsConsts', false)) {\n    interface TwigRsIface { const IFACE = 'iface'; }\n    class TwigRsConsts implements TwigRsIface {\n        const FOO = 'foo';\n        const NUM = 3;\n        const ARR = [1, 2];\n        private const PRIV = 'priv';\n        protected const PROT = 'prot';\n    }\n    class TwigRsPlain { public $p = 'pp'; }\n    class TwigRsString {\n        public function __construct(private string $s) {}\n        public function __toString(): string { return $this->s; }\n    }\n    enum TwigRsSuit { case Hearts; case Spades; }\n    enum TwigRsStatus: string { case Active = 'active'; case Inactive = 'inactive'; }\n    enum TwigRsEmpty {}\n}\nreturn ['o' => new \\TwigRsPlain()];",
+   "id": "debug-025"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(o) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "data": {
+    "o": {
+     "$arrayobject": [
+      1,
+      2
+     ]
+    }
+   },
+   "data_php": "return ['o' => new \\ArrayObject([1, 2])];",
+   "id": "debug-026"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(d) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "data": {
+    "d": {
+     "$date": [
+      "DateTime",
+      "2010-10-04 13:45:30",
+      "Europe/Paris"
+     ]
+    }
+   },
+   "data_php": "return ['d' => new \\DateTime('2010-10-04 13:45:30', new \\DateTimeZone('Europe/Paris'))];",
+   "id": "debug-027"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(z) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "data": {
+    "z": {
+     "$tz": "Europe/Paris"
+    }
+   },
+   "data_php": "return ['z' => new \\DateTimeZone('Europe/Paris')];",
+   "id": "debug-028"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set x = 1 %}{{ dump() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "data": {
+    "a": "ctx"
+   },
+   "data_php": "return ['a' => 'ctx'];",
+   "id": "debug-029"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for i in [1] %}{{ dump() }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-030"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump({'k': [1, [2, [3]]]}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-031"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(b) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "data": {
+    "b": {
+     "$bytes": "c3a9ff00"
+    }
+   },
+   "data_php": "return ['b' => hex2bin('c3a9ff00')];",
+   "id": "debug-032"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(m) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "data": {
+    "m": {
+     "$markup": "<i>x</i>"
+    }
+   },
+   "data_php": "return ['m' => new \\Twig\\Markup('<i>x</i>', 'UTF-8')];",
+   "id": "debug-033"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(...[1, 2]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-034"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(...{value: 3}) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-035"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set t = template_from_string('x') %}{{ dump() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug",
+    "string_loader"
+   ],
+   "data": {
+    "a": 1
+   },
+   "data_php": "return ['a' => 1];",
+   "id": "debug-036"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "strict_variables": false,
+    "debug": true
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "globals": {
+    "g": "global"
+   },
+   "data": {
+    "a": 1
+   },
+   "data_php": "return ['a' => 1];",
+   "id": "debug-037"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ dump(1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "strict_variables": false,
+    "debug": false
+   },
+   "errors": "collect",
+   "extensions": [
+    "debug"
+   ],
+   "id": "debug-038"
+  }
+ ],
+ "isolation": "none"
+}

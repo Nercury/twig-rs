@@ -1,0 +1,898 @@
+[
+ {
+  "id": "split-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "one|two|three|one|two,three,four",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "one|two|one,two|1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "0|0|1|12|45",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|2|3|aa|bb|cc|aa|bb|c",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "ab|é|à|ü|1|a|b|c",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "éà|üö|ß|3|a|b|c",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-007",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Unable to split the string passed to \"split\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Unable to split the string passed to \"split\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.",
+   "rawMessage": "Unable to split the string passed to \"split\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "a?|b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "a?b",
+  "output_b64": "Yf9i",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "abc|ab|cd|e|a|b|c|d|e",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "ab|cd",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 2.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 2.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 2.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "split-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "abcde",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-013",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #3 ($length) must be of type ?int, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #3 ($length) must be of type ?int, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_substr(): Argument #3 ($length) must be of type ?int, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_substr(): Argument #3 ($length) must be of type ?int, string given",
+    "formatted": "TypeError: mb_substr(): Argument #3 ($length) must be of type ?int, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "ab|cd",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float-string \"2.5\" to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 2.5 to int loses precision"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float-string \"2.5\" to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "split-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "abcde",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "a|b|c|d|e",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "int|1|2|3|1|.|5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|<b>|Str|</b|> é|<b>m|</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-019",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::splitIntoCharacters(): Argument #1 ($string) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 891\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::splitIntoCharacters(): Argument #1 ($string) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 891\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::splitIntoCharacters(): Argument #1 ($string) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 891\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::splitIntoCharacters(): Argument #1 ($string) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 891",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::splitIntoCharacters(): Argument #1 ($string) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 891",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-020",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"explode(): Argument #2 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"explode(): Argument #2 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"explode(): Argument #2 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "explode(): Argument #2 ($string) must be of type string, array given",
+    "formatted": "TypeError: explode(): Argument #2 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-021",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "mb_strlen(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: mb_strlen(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-022",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::splitIntoCharacters(): Argument #1 ($string) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 891\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::splitIntoCharacters(): Argument #1 ($string) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 891\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::splitIntoCharacters(): Argument #1 ($string) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 891\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::splitIntoCharacters(): Argument #1 ($string) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 891",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::splitIntoCharacters(): Argument #1 ($string) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 891",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-023",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"explode(): Argument #2 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"explode(): Argument #2 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"explode(): Argument #2 ($string) must be of type string, TwigRsPlain given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "explode(): Argument #2 ($string) must be of type string, TwigRsPlain given",
+    "formatted": "TypeError: explode(): Argument #2 ($string) must be of type string, TwigRsPlain given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "x2|Y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-025",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"no string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "no string",
+    "formatted": "RuntimeException: no string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-026",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must not be empty\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must not be empty\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must not be empty\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "explode(): Argument #1 ($separator) must not be empty",
+    "formatted": "ValueError: explode(): Argument #1 ($separator) must not be empty",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "explode(): Passing null to parameter #1 ($separator) of type string is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "split-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "a|b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-028",
+  "kind": "twig",
+  "ok": true,
+  "output": "atrueb",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-029",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must not be empty\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must not be empty\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must not be empty\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "explode(): Argument #1 ($separator) must not be empty",
+    "formatted": "ValueError: explode(): Argument #1 ($separator) must not be empty",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-030",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"explode(): Argument #1 ($separator) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "explode(): Argument #1 ($separator) must be of type string, array given",
+    "formatted": "TypeError: explode(): Argument #1 ($separator) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-031",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"explode(): Argument #3 ($limit) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"explode(): Argument #3 ($limit) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"explode(): Argument #3 ($limit) must be of type int, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "explode(): Argument #3 ($limit) must be of type int, string given",
+    "formatted": "TypeError: explode(): Argument #3 ($limit) must be of type int, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "a,b",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Implicit conversion from float 1.5 to int loses precision"
+   }
+  ]
+ },
+ {
+  "id": "split-033",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::split(), 2 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 3 expected\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::split(), 2 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 3 expected\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::split(), 2 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 3 expected\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "Too few arguments to function Twig\\Extension\\CoreExtension::split(), 2 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 3 expected",
+    "formatted": "ArgumentCountError: Too few arguments to function Twig\\Extension\\CoreExtension::split(), 2 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 3 expected",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "a|b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "a,b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "a",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-037",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Named parameter $charset overwrites previous argument\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $charset overwrites previous argument\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Named parameter $charset overwrites previous argument\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Named parameter $charset overwrites previous argument",
+    "formatted": "Error: Named parameter $charset overwrites previous argument",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-038",
+  "kind": "twig",
+  "ok": true,
+  "output": "123|1, 2 and 3|1|1, 2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-039",
+  "kind": "twig",
+  "ok": true,
+  "output": "abc||5|1,2|1,,,1.5,1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-040",
+  "kind": "twig",
+  "ok": true,
+  "output": "|Array|1,Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "split-041",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, array returned\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, array returned\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, array returned\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::join(): Return value must be of type string, array returned",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::join(): Return value must be of type string, array returned",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-042",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, null returned\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, null returned\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, null returned\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::join(): Return value must be of type string, null returned",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::join(): Return value must be of type string, null returned",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-043",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|1.5|<b>Str</b> é",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-044",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, TwigRsPlain returned\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, TwigRsPlain returned\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, TwigRsPlain returned\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::join(): Return value must be of type string, TwigRsPlain returned",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::join(): Return value must be of type string, TwigRsPlain returned",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-045",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "12",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "implode(): Passing null to parameter #1 ($separator) of type array|string is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "split-047",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"implode(): Argument #1 ($separator) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"implode(): Argument #1 ($separator) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"implode(): Argument #1 ($separator) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "implode(): Argument #1 ($separator) must be of type string, array given",
+    "formatted": "TypeError: implode(): Argument #1 ($separator) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,2Array3",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "split-049",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "112|112",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "<x>,y,z|v+w|<b>Str</b> é|<b>m</b>|1|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>Str</b> é & <b>m</b>|1-2-3|12+3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "1&2|1+2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-054",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $x",
+    "formatted": "Error: Unknown named parameter $x",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "1, 2 and 3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-056",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given",
+    "formatted": "ValueError: mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "a|b|c",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "ab|c|a%C3%7C%A9b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "ab|c|a%C3%7C%A9b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "ab|c|a%C3%7C%A9b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "ab|c",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "split-062",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Array to string conversion\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "Array to string conversion",
+    "formatted": "ErrorException: Array to string conversion",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ }
+]

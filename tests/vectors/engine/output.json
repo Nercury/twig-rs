@@ -1,0 +1,168 @@
+[
+ {
+  "id": "output-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "plain text",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "output-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|-1|0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "output-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|0.3|1.0E+100|-0|0.33333333333333",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "output-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.0E+14|1.0E+15|0.0001|1.0E-5|123456789012345678",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "output-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|||",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "output-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "ab11.51",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "output-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "output-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "Array",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "output-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "Arrayx",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "output-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "ab",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "output-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "abobb|3|no #{interp}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "output-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "9223372036854775807|9.2233720368548E+18|-9.2233720368548E+18",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "output-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "9.2233720368548E+18|0.5|1.0E+20",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "output-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "line1\nline2 bob\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "output-015",
+  "kind": "twig",
+  "ok": true,
+  "output": " a |bx",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "output-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "{{ x }}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "output-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "u00e9|é",
+  "deprecations": [
+   "Since twig/twig 3.12: Character \"u\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 2 in \"index.twig\" at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Character \"u\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 2 in \"index.twig\" at line 1."
+   }
+  ]
+ },
+ {
+  "id": "output-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "ab",
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

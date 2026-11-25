@@ -1,0 +1,2024 @@
+[
+ {
+  "id": "text-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "[a]|[a]|[a  ]|[  a]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "[x]|[12.5]|[\fa]|[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "[2]|[1]|[]|[a  ]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "[b]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "trim(): Invalid '..'-range, no character to the left of '..'"
+   }
+  ]
+ },
+ {
+  "id": "text-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "[b]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "trim(): Invalid '..'-range, no character to the right of '..'"
+   }
+  ]
+ },
+ {
+  "id": "text-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "[b]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "trim(): Invalid '..'-range, '..'-range needs to be incrementing"
+   }
+  ]
+ },
+ {
+  "id": "text-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "[ab]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "trim(): Invalid '..'-range, no character to the left of '..'"
+   }
+  ]
+ },
+ {
+  "id": "text-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "[b]|[]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "trim(): Invalid '..'-range, no character to the right of '..'"
+   }
+  ]
+ },
+ {
+  "id": "text-009",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Trimming side must be \"left\", \"right\" or \"both\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Trimming side must be \"left\", \"right\" or \"both\" in \"index.twig\" at line 1.",
+   "rawMessage": "Trimming side must be \"left\", \"right\" or \"both\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-010",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Trimming side must be \"left\", \"right\" or \"both\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Trimming side must be \"left\", \"right\" or \"both\" in \"index.twig\" at line 1.",
+   "rawMessage": "Trimming side must be \"left\", \"right\" or \"both\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-011",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Trimming side must be \"left\", \"right\" or \"both\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Trimming side must be \"left\", \"right\" or \"both\" in \"index.twig\" at line 1.",
+   "rawMessage": "Trimming side must be \"left\", \"right\" or \"both\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-012",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"trim(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"trim(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"trim(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "trim(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: trim(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-013",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"ltrim(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"ltrim(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"ltrim(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "ltrim(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: ltrim(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-014",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"rtrim(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"rtrim(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"rtrim(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "rtrim(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: rtrim(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "[x0x]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-016",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"trim(): Argument #2 ($characters) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"trim(): Argument #2 ($characters) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"trim(): Argument #2 ($characters) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "trim(): Argument #2 ($characters) must be of type string, array given",
+    "formatted": "TypeError: trim(): Argument #2 ($characters) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "[x ]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "[b>Str</b> é]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-019",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"trim(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"trim(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"trim(): Argument #1 ($string) must be of type string, TwigRsPlain given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "trim(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "formatted": "TypeError: trim(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-020",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Trimming side must be \"left\", \"right\" or \"both\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Trimming side must be \"left\", \"right\" or \"both\" in \"index.twig\" at line 1.",
+   "rawMessage": "Trimming side must be \"left\", \"right\" or \"both\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "[<b>w</b>]|[  &lt;b&gt;w&lt;/b&gt;\n ]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "[<b>w</b>]|[  <b>w</b>]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "[<b>w</b>\n ]|[&lt;b&gt;n&lt;/b&gt;]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "a<br />\nb<br />\r\nc<br />\rd<br />\n\re",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "a<br />\r\nb<br />\n\rc<br />\r<br />\rd||42|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-026",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"nl2br(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"nl2br(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"nl2br(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "nl2br(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: nl2br(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;Str&lt;/b&gt; é|  <b>w</b><br />\n ",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-028",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"nl2br(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"nl2br(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"nl2br(): Argument #1 ($string) must be of type string, TwigRsPlain given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "nl2br(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "formatted": "TypeError: nl2br(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-029",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-030",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "<a><br />\n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;div&gt;\n  &lt;b&gt; x &lt;/b&gt;  &lt;/div&gt;",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "[><x><y>]",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "[><><]",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "[>  a <]|[><]|[>]|[]",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]|[42]|[1.5]|[1]",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1.",
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-037",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"trim(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"trim(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"trim(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "trim(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: trim(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-038",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"trim(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"trim(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"trim(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "trim(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: trim(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   },
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "text-039",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-040",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"no string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "no string",
+    "formatted": "RuntimeException: no string",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-041",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;b&gt;Str&lt;/b&gt; é",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-042",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"preg_replace(): Argument #3 ($subject) must be of type array|string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"preg_replace(): Argument #3 ($subject) must be of type array|string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"preg_replace(): Argument #3 ($subject) must be of type array|string, TwigRsPlain given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "preg_replace(): Argument #3 ($subject) must be of type array|string, TwigRsPlain given",
+    "formatted": "TypeError: preg_replace(): Argument #3 ($subject) must be of type array|string, TwigRsPlain given",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-043",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"no string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"no string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "RuntimeException",
+    "message": "no string",
+    "formatted": "RuntimeException: no string",
+    "code": 0
+   }
+  },
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>w</b>",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "&lt;a href=&#039;x&#039;&gt;T&amp;amp; &quot;q&quot;&lt;/a&gt;",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "a%3E%FF%20%3Cb",
+  "deprecations": [
+   "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+  ],
+  "diagnostics": [
+   {
+    "type": "E_USER_DEPRECATED",
+    "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+   }
+  ]
+ },
+ {
+  "id": "text-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hello World &amp;  a < b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hello <b>World</b><br/>|<p>a<b>b</b></p>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "a  \n b|xyz|1 4",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "a < b c|a < b <br>c||42",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "x|xy|x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-052",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"strip_tags(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"strip_tags(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"strip_tags(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "strip_tags(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: strip_tags(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-053",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"strip_tags(): Argument #2 ($allowed_tags) must be of type array|string|null, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"strip_tags(): Argument #2 ($allowed_tags) must be of type array|string|null, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"strip_tags(): Argument #2 ($allowed_tags) must be of type array|string|null, TwigRsPlain given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "strip_tags(): Argument #2 ($allowed_tags) must be of type array|string|null, TwigRsPlain given",
+    "formatted": "TypeError: strip_tags(): Argument #2 ($allowed_tags) must be of type array|string|null, TwigRsPlain given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>x</b>",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "text-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "Str é|m|<b>x</b>",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "t|x",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "I like apples and oranges.",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "33|xy23",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.51|abc|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "abc",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "strtr(): Ignoring replacement of empty string"
+   }
+  ]
+ },
+ {
+  "id": "text-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "ayc",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "strtr(): Ignoring replacement of empty string"
+   }
+  ]
+ },
+ {
+  "id": "text-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "Arraybc",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "text-063",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-064",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>Str</b> ébc",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-065",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"replace\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"replace\" filter expects a sequence or a mapping, got \"string\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"replace\" filter expects a sequence or a mapping, got \"string\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-066",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"replace\" filter expects a sequence or a mapping, got \"null\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"replace\" filter expects a sequence or a mapping, got \"null\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"replace\" filter expects a sequence or a mapping, got \"null\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-067",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"replace\" filter expects a sequence or a mapping, got \"int\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"replace\" filter expects a sequence or a mapping, got \"int\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"replace\" filter expects a sequence or a mapping, got \"int\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-068",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "The \"replace\" filter expects a sequence or a mapping, got \"TwigRsStr\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: The \"replace\" filter expects a sequence or a mapping, got \"TwigRsStr\" in \"index.twig\" at line 1.",
+   "rawMessage": "The \"replace\" filter expects a sequence or a mapping, got \"TwigRsStr\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-069",
+  "kind": "twig",
+  "ok": true,
+  "output": "<x><x>y|vv",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-070",
+  "kind": "twig",
+  "ok": true,
+  "output": "|four2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-071",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"strtr(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"strtr(): Argument #1 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"strtr(): Argument #1 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "strtr(): Argument #1 ($string) must be of type string, array given",
+    "formatted": "TypeError: strtr(): Argument #1 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-072",
+  "kind": "twig",
+  "ok": true,
+  "output": "[Str</b> é",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-073",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"strtr(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"strtr(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"strtr(): Argument #1 ($string) must be of type string, TwigRsPlain given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "strtr(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "formatted": "TypeError: strtr(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-074",
+  "kind": "twig",
+  "ok": true,
+  "output": "az|cb",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-075",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::replace(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and exactly 2 expected\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::replace(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and exactly 2 expected\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::replace(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and exactly 2 expected\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "Too few arguments to function Twig\\Extension\\CoreExtension::replace(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and exactly 2 expected",
+    "formatted": "ArgumentCountError: Too few arguments to function Twig\\Extension\\CoreExtension::replace(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and exactly 2 expected",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-076",
+  "kind": "twig",
+  "ok": true,
+  "output": "b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-077",
+  "kind": "twig",
+  "ok": true,
+  "output": "ab|42|03.14|ff|FF|10|101|A|1.234568e+3|1.200000E-4|1.234e-5|1.0E+20|18446744073709551615|%|*********x|ab   |+7|    x|ab",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-078",
+  "kind": "twig",
+  "ok": true,
+  "output": "|42|Array|1|1|",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "text-079",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"3 arguments are required, 2 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"3 arguments are required, 2 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"3 arguments are required, 2 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "3 arguments are required, 2 given",
+    "formatted": "ArgumentCountError: 3 arguments are required, 2 given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-080",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown format specifier \"y\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown format specifier \"y\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown format specifier \"y\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "Unknown format specifier \"y\"",
+    "formatted": "ValueError: Unknown format specifier \"y\"",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-081",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"2 arguments are required, 1 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"2 arguments are required, 1 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"2 arguments are required, 1 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "2 arguments are required, 1 given",
+    "formatted": "ArgumentCountError: 2 arguments are required, 1 given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-082",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Argument number specifier must be greater than zero and less than 2147483647\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Argument number specifier must be greater than zero and less than 2147483647\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Argument number specifier must be greater than zero and less than 2147483647\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ValueError",
+    "message": "Argument number specifier must be greater than zero and less than 2147483647",
+    "formatted": "ValueError: Argument number specifier must be greater than zero and less than 2147483647",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-083",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.00000000000000000000000000000000000000000000000000000",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_NOTICE",
+    "message": "sprintf(): Requested precision of 60 digits was truncated to PHP maximum of 53 digits"
+   }
+  ]
+ },
+ {
+  "id": "text-084",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"sprintf(): Argument #1 ($format) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"sprintf(): Argument #1 ($format) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"sprintf(): Argument #1 ($format) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "sprintf(): Argument #1 ($format) must be of type string, array given",
+    "formatted": "TypeError: sprintf(): Argument #1 ($format) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-085",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>Str</b> é|<b>Str</b> é",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-086",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsPlain could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsPlain could not be converted to string",
+    "formatted": "Error: Object of class TwigRsPlain could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-087",
+  "kind": "twig",
+  "ok": true,
+  "output": "12|1000.00|0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-088",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"sprintf() does not accept unknown named parameters\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"sprintf() does not accept unknown named parameters\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"sprintf() does not accept unknown named parameters\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "sprintf() does not accept unknown named parameters",
+    "formatted": "ArgumentCountError: sprintf() does not accept unknown named parameters",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-089",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Named parameter $format overwrites previous argument\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $format overwrites previous argument\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Named parameter $format overwrites previous argument\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Named parameter $format overwrites previous argument",
+    "formatted": "Error: Named parameter $format overwrites previous argument",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-090",
+  "kind": "twig",
+  "ok": true,
+  "output": "a-b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-091",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Argument \"values\" is defined twice for filter \"format\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Argument \"values\" is defined twice for filter \"format\" in \"index.twig\" at line 1.",
+   "rawMessage": "Argument \"values\" is defined twice for filter \"format\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-092",
+  "kind": "twig",
+  "ok": true,
+  "output": "b",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-093",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unknown argument \"format\" for filter \"format(values)\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Unknown argument \"format\" for filter \"format(values)\" in \"index.twig\" at line 1.",
+   "rawMessage": "Unknown argument \"format\" for filter \"format(values)\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-094",
+  "kind": "twig",
+  "ok": true,
+  "output": "   42|7   ||3.14",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-095",
+  "kind": "twig",
+  "ok": true,
+  "output": "b a|INF|0",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "The float INF is not representable as an int, cast occurred"
+   }
+  ]
+ },
+ {
+  "id": "text-096",
+  "kind": "twig",
+  "ok": true,
+  "output": "path-seg%2Ament%20~%C3%A9|-_.~%21%2A%27%28%29%3B%3A%40%26%3D%2B%24%2C%2F%3F%23%5B%5D|a%FFb",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-097",
+  "kind": "twig",
+  "ok": true,
+  "output": "name=Fabien&a%20b=c%26d&arr%5B0%5D=1&arr%5B1%5D=2&t=1&f=0&nested%5Bx%5D=y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-098",
+  "kind": "twig",
+  "ok": true,
+  "output": "a=0.3&b=1.0E%2B25&c=1&d=-0|0=5&1=6|",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-099",
+  "kind": "twig",
+  "ok": true,
+  "output": "1|||42|1.5",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-100",
+  "kind": "twig",
+  "ok": true,
+  "output": "%3Cb%3EStr%3C%2Fb%3E%20%C3%A9",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-101",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"rawurlencode(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"rawurlencode(): Argument #1 ($string) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"rawurlencode(): Argument #1 ($string) must be of type string, TwigRsPlain given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "rawurlencode(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "formatted": "TypeError: rawurlencode(): Argument #1 ($string) must be of type string, TwigRsPlain given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-102",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"rawurlencode(): Argument #1 ($string) must be of type string, ArrayIterator given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"rawurlencode(): Argument #1 ($string) must be of type string, ArrayIterator given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"rawurlencode(): Argument #1 ($string) must be of type string, ArrayIterator given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "rawurlencode(): Argument #1 ($string) must be of type string, ArrayIterator given",
+    "formatted": "TypeError: rawurlencode(): Argument #1 ($string) must be of type string, ArrayIterator given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-103",
+  "kind": "twig",
+  "ok": true,
+  "output": "%3Cb%3Em%3C%2Fb%3E",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-104",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-105",
+  "kind": "twig",
+  "ok": true,
+  "output": "1=x&%C3%A9=y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-106",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"a\":\"\\u00e9\\/<>&'\\\"\",\"b\":[1,1,0.1,true,null],\"c\":[],\"d\":[]}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-107",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\"a\",\"b\"]|{\"1\":\"a\",\"2\":\"b\"}|\"<b>m<\\/b>\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-108",
+  "kind": "twig",
+  "ok": true,
+  "output": "{}|{\"p\":\"v\"}|{\"j\":\"<x>\"}|{\"a\":\"<x>\",\"b\":\"y\",\"0\":\"z\"}|{\"k\":\"v\",\"1\":\"w\"}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-109",
+  "kind": "twig",
+  "ok": true,
+  "output": "\"\\u0000\\u0001\\u001f\\t\\n\\r\\b\\f\\\"\\\\\\/\\u00e9\\ud83d\\ude00\\u2028\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-110",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]|[]|[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-111",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\n    \"a\": [\n        1,\n        []\n    ]\n}|\"/é\"|\"\\u003C\\u0026\\u0027\\u0022\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-112",
+  "kind": "twig",
+  "ok": true,
+  "output": "{\"0\":1}|1.0|null",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-113",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Malformed UTF-8 characters, possibly incorrectly encoded\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Malformed UTF-8 characters, possibly incorrectly encoded\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Malformed UTF-8 characters, possibly incorrectly encoded\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "JsonException",
+    "message": "Malformed UTF-8 characters, possibly incorrectly encoded",
+    "formatted": "JsonException: Malformed UTF-8 characters, possibly incorrectly encoded",
+    "code": 5
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-114",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"json_encode() expects at most 3 arguments, 4 given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"json_encode() expects at most 3 arguments, 4 given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"json_encode() expects at most 3 arguments, 4 given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "json_encode() expects at most 3 arguments, 4 given",
+    "formatted": "ArgumentCountError: json_encode() expects at most 3 arguments, 4 given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-115",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"json_encode(): Argument #2 ($flags) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"json_encode(): Argument #2 ($flags) must be of type int, string given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"json_encode(): Argument #2 ($flags) must be of type int, string given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "json_encode(): Argument #2 ($flags) must be of type int, string given",
+    "formatted": "TypeError: json_encode(): Argument #2 ($flags) must be of type int, string given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-116",
+  "kind": "twig",
+  "ok": true,
+  "output": "|[[1]]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-117",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unknown argument \"options\" for filter \"json_encode(flags, depth)\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Unknown argument \"options\" for filter \"json_encode(flags, depth)\" in \"index.twig\" at line 1.",
+   "rawMessage": "Unknown argument \"options\" for filter \"json_encode(flags, depth)\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-118",
+  "kind": "twig",
+  "ok": true,
+  "output": "|\"é\"",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-119",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $nope",
+    "formatted": "Error: Unknown named parameter $nope",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-120",
+  "kind": "twig",
+  "ok": true,
+  "output": "42|1.5|1.0e+25|null|true",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-121",
+  "kind": "twig",
+  "ok": true,
+  "output": "%E9|%00%E9",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-122",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"UTF-8\" to \"NOPE\" is not allowed"
+   }
+  ]
+ },
+ {
+  "id": "text-123",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_NOTICE",
+    "message": "iconv(): Detected an illegal character in input string"
+   }
+  ]
+ },
+ {
+  "id": "text-124",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_NOTICE",
+    "message": "iconv(): Detected an incomplete multibyte character in input string"
+   }
+  ]
+ },
+ {
+  "id": "text-125",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_NOTICE",
+    "message": "iconv(): Detected an illegal character in input string"
+   }
+  ]
+ },
+ {
+  "id": "text-126",
+  "kind": "twig",
+  "ok": true,
+  "output": "é|[]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-127",
+  "kind": "twig",
+  "ok": true,
+  "output": "42",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-128",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"iconv(): Argument #3 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"iconv(): Argument #3 ($string) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"iconv(): Argument #3 ($string) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "iconv(): Argument #3 ($string) must be of type string, array given",
+    "formatted": "TypeError: iconv(): Argument #3 ($string) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-129",
+  "kind": "twig",
+  "ok": true,
+  "output": "<b>Str</b> é",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-130",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"iconv(): Argument #2 ($to_encoding) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"iconv(): Argument #2 ($to_encoding) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"iconv(): Argument #2 ($to_encoding) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "iconv(): Argument #2 ($to_encoding) must be of type string, array given",
+    "formatted": "TypeError: iconv(): Argument #2 ($to_encoding) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-131",
+  "kind": "twig",
+  "ok": true,
+  "output": "[]",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"UTF-8\" to \"1\" is not allowed"
+   }
+  ]
+ },
+ {
+  "id": "text-132",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"from\" is required for filter \"convert_encoding\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"from\" is required for filter \"convert_encoding\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"from\" is required for filter \"convert_encoding\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-133",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"from\" is required for filter \"convert_encoding\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"from\" is required for filter \"convert_encoding\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"from\" is required for filter \"convert_encoding\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-134",
+  "kind": "twig",
+  "ok": true,
+  "output": "%E9",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "text-135",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"strtr(): Ignoring replacement of empty string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"strtr(): Ignoring replacement of empty string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"strtr(): Ignoring replacement of empty string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "strtr(): Ignoring replacement of empty string",
+    "formatted": "ErrorException: strtr(): Ignoring replacement of empty string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "strtr(): Ignoring replacement of empty string"
+   }
+  ]
+ },
+ {
+  "id": "text-136",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"iconv(): Wrong encoding, conversion from \"UTF-8\" to \"NOPE\" is not allowed\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"iconv(): Wrong encoding, conversion from \"UTF-8\" to \"NOPE\" is not allowed\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"iconv(): Wrong encoding, conversion from \"UTF-8\" to \"NOPE\" is not allowed\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "iconv(): Wrong encoding, conversion from \"UTF-8\" to \"NOPE\" is not allowed",
+    "formatted": "ErrorException: iconv(): Wrong encoding, conversion from \"UTF-8\" to \"NOPE\" is not allowed",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "iconv(): Wrong encoding, conversion from \"UTF-8\" to \"NOPE\" is not allowed"
+   }
+  ]
+ },
+ {
+  "id": "text-137",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"trim(): Invalid '..'-range, '..'-range needs to be incrementing\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"trim(): Invalid '..'-range, '..'-range needs to be incrementing\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"trim(): Invalid '..'-range, '..'-range needs to be incrementing\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "trim(): Invalid '..'-range, '..'-range needs to be incrementing",
+    "formatted": "ErrorException: trim(): Invalid '..'-range, '..'-range needs to be incrementing",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "trim(): Invalid '..'-range, '..'-range needs to be incrementing"
+   }
+  ]
+ }
+]

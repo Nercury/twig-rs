@@ -1,0 +1,2113 @@
+[
+ {
+  "id": "constants-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "9223372036854775807",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-002",
+  "kind": "twig",
+  "ok": true,
+  "output": "-9223372036854775808",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-004",
+  "kind": "twig",
+  "ok": true,
+  "output": "3.1415926535898",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-005",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\n]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-006",
+  "kind": "twig",
+  "ok": true,
+  "output": "30719",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-007",
+  "kind": "twig",
+  "ok": true,
+  "output": "2048",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Constant E_STRICT is deprecated since 8.4, the error level was removed"
+   }
+  ]
+ },
+ {
+  "id": "constants-008",
+  "kind": "twig",
+  "ok": true,
+  "output": "Y-m-d\\TH:i:sP",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-009",
+  "kind": "twig",
+  "ok": true,
+  "output": "D, d M Y H:i:s \\G\\M\\T",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Constant DATE_RFC7231 is deprecated since 8.5, as this format ignores the associated timezone and always uses GMT"
+   }
+  ]
+ },
+ {
+  "id": "constants-010",
+  "kind": "twig",
+  "ok": true,
+  "output": "8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-011",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-012",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-013",
+  "kind": "twig",
+  "ok": true,
+  "output": "null",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-014",
+  "kind": "twig",
+  "ok": true,
+  "output": "8.5.13",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-015",
+  "kind": "twig",
+  "ok": true,
+  "output": "Linux",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-016",
+  "kind": "twig",
+  "ok": true,
+  "output": "128",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-017",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-018",
+  "kind": "twig",
+  "ok": true,
+  "output": "2.2204460492503E-16",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-019",
+  "kind": "twig",
+  "ok": true,
+  "output": "1.7976931348623E+308",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-020",
+  "kind": "twig",
+  "ok": true,
+  "output": "INF",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-021",
+  "kind": "twig",
+  "ok": true,
+  "output": "NAN",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "unexpected NAN value was coerced to string"
+   }
+  ]
+ },
+ {
+  "id": "constants-022",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-023",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-024",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-025",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-026",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Constant MT_RAND_PHP is deprecated since 8.3, as it uses a biased non-standard variant of Mt19937"
+   }
+  ]
+ },
+ {
+  "id": "constants-027",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Constant SUNFUNCS_RET_STRING is deprecated since 8.4, as date_sunrise() and date_sunset() were deprecated in 8.1"
+   }
+  ]
+ },
+ {
+  "id": "constants-028",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"NOPE\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"NOPE\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"NOPE\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-029",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"php_int_max\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"php_int_max\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"php_int_max\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-030",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-031",
+  "kind": "twig",
+  "ok": true,
+  "output": "foo",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-032",
+  "kind": "twig",
+  "ok": true,
+  "output": "foo",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-033",
+  "kind": "twig",
+  "ok": true,
+  "output": "3",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-034",
+  "kind": "twig",
+  "ok": true,
+  "output": "1,2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-035",
+  "kind": "twig",
+  "ok": true,
+  "output": "iface",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-036",
+  "kind": "twig",
+  "ok": true,
+  "output": "iface",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-037",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"TwigRsConsts::NOPE\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"TwigRsConsts::NOPE\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"TwigRsConsts::NOPE\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-038",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"NoClass::FOO\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"NoClass::FOO\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"NoClass::FOO\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-039",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"TwigRsConsts::PRIV\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"TwigRsConsts::PRIV\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"TwigRsConsts::PRIV\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-040",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"TwigRsConsts::PROT\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"TwigRsConsts::PROT\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"TwigRsConsts::PROT\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-041",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "You cannot use the Twig function \"constant\" to access \"TwigRsConsts::class\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: You cannot use the Twig function \"constant\" to access \"TwigRsConsts::class\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string in \"index.twig\" at line 1.",
+   "rawMessage": "You cannot use the Twig function \"constant\" to access \"TwigRsConsts::class\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-042",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "You cannot use the Twig function \"constant\" to access \"TwigRsConsts::CLASS\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: You cannot use the Twig function \"constant\" to access \"TwigRsConsts::CLASS\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string in \"index.twig\" at line 1.",
+   "rawMessage": "You cannot use the Twig function \"constant\" to access \"TwigRsConsts::CLASS\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-043",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "You cannot use the Twig function \"constant\" to access \"Nope::class\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: You cannot use the Twig function \"constant\" to access \"Nope::class\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string in \"index.twig\" at line 1.",
+   "rawMessage": "You cannot use the Twig function \"constant\" to access \"Nope::class\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-044",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "You cannot use the Twig function \"constant\" to access \"::class\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: You cannot use the Twig function \"constant\" to access \"::class\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string in \"index.twig\" at line 1.",
+   "rawMessage": "You cannot use the Twig function \"constant\" to access \"::class\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-045",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"::FOO\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"::FOO\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"::FOO\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-046",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"TwigRsConsts::foo\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"TwigRsConsts::foo\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"TwigRsConsts::foo\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hearts",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "active",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-049",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"TwigRsSuit::Nope\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"TwigRsSuit::Nope\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"TwigRsSuit::Nope\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "Y-m-d\\TH:i:sP",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "D, d M Y H:i:s \\G\\M\\T",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Constant DateTimeInterface::RFC7231 is deprecated since 8.5, as this format ignores the associated timezone and always uses GMT"
+   }
+  ]
+ },
+ {
+  "id": "constants-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "l, d-M-Y H:i:s T",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "128",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "3.31.1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "33101",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-057",
+  "kind": "twig",
+  "ok": true,
+  "output": "3.31",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-058",
+  "kind": "twig",
+  "ok": true,
+  "output": "any",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-059",
+  "kind": "twig",
+  "ok": true,
+  "output": "HalfEven",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-060",
+  "kind": "twig",
+  "ok": true,
+  "output": "ArrayIterator,ArrayObject,CachingIterator,RecursiveArrayIterator,RecursiveCachingIterator,SplDoublyLinkedList,SplFixedArray,SplObjectStorage,SplQueue,SplStack,WeakMap",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-061",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-062",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-063",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-064",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-065",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-066",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-067",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-068",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-069",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-070",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-071",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-072",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot use \"::class\" on string",
+    "formatted": "TypeError: Cannot use \"::class\" on string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-073",
+  "kind": "twig",
+  "ok": true,
+  "output": "[\n]",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-074",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot use \"::class\" on string",
+    "formatted": "TypeError: Cannot use \"::class\" on string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-075",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on int\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on int\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on int\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot use \"::class\" on int",
+    "formatted": "TypeError: Cannot use \"::class\" on int",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-076",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on true\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on true\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on true\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot use \"::class\" on true",
+    "formatted": "TypeError: Cannot use \"::class\" on true",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-077",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on array\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on array\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on array\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot use \"::class\" on array",
+    "formatted": "TypeError: Cannot use \"::class\" on array",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-078",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot use \"::class\" on string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Cannot use \"::class\" on string",
+    "formatted": "TypeError: Cannot use \"::class\" on string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-079",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-080",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-081",
+  "kind": "twig",
+  "ok": true,
+  "output": "8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-082",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::constant(): Argument #3 ($checkDefined) must be of type bool, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::constant(): Argument #3 ($checkDefined) must be of type bool, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::constant(): Argument #3 ($checkDefined) must be of type bool, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::constant(): Argument #3 ($checkDefined) must be of type bool, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::constant(): Argument #3 ($checkDefined) must be of type bool, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-083",
+  "kind": "twig",
+  "ok": true,
+  "output": "8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-084",
+  "kind": "twig",
+  "ok": true,
+  "output": "8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-085",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $nope",
+    "formatted": "Error: Unknown named parameter $nope",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-086",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::constant(), 0 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 1 expected\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::constant(), 0 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 1 expected\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::constant(), 0 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 1 expected\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "Too few arguments to function Twig\\Extension\\CoreExtension::constant(), 0 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 1 expected",
+    "formatted": "ArgumentCountError: Too few arguments to function Twig\\Extension\\CoreExtension::constant(), 0 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 1 expected",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-087",
+  "kind": "twig",
+  "ok": true,
+  "output": "8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-088",
+  "kind": "twig",
+  "ok": true,
+  "output": "foo",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-089",
+  "kind": "twig",
+  "ok": true,
+  "output": "iface",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-090",
+  "kind": "twig",
+  "ok": true,
+  "output": "TwigRsConsts",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-091",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"TwigRsConsts::NOPE\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"TwigRsConsts::NOPE\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"TwigRsConsts::NOPE\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-092",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"TwigRsConsts::PRIV\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"TwigRsConsts::PRIV\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"TwigRsConsts::PRIV\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-093",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-094",
+  "kind": "twig",
+  "ok": true,
+  "output": "y",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-095",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-096",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hearts",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-097",
+  "kind": "twig",
+  "ok": true,
+  "output": "TwigRsSuit",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-098",
+  "kind": "twig",
+  "ok": true,
+  "output": "Y-m-d\\TH:i:sP",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-099",
+  "kind": "twig",
+  "ok": true,
+  "output": "D, d M Y H:i:s \\G\\M\\T",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "Constant DateTimeInterface::RFC7231 is deprecated since 8.5, as this format ignores the associated timezone and always uses GMT"
+   }
+  ]
+ },
+ {
+  "id": "constants-100",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"defined(): Argument #1 ($constant_name) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"defined(): Argument #1 ($constant_name) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"defined(): Argument #1 ($constant_name) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "defined(): Argument #1 ($constant_name) must be of type string, array given",
+    "formatted": "TypeError: defined(): Argument #1 ($constant_name) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-101",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "defined(): Passing null to parameter #1 ($constant_name) of type string is deprecated"
+   },
+   {
+    "type": "E_DEPRECATED",
+    "message": "substr(): Passing null to parameter #1 ($string) of type string is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "constants-102",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"5\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"5\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"5\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-103",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"1.5\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"1.5\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"1.5\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-104",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"1\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"1\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"1\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-105",
+  "kind": "twig",
+  "ok": true,
+  "output": "8",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-106",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "You cannot use the Twig function \"constant\" to access \"TwigRsConsts::class\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: You cannot use the Twig function \"constant\" to access \"TwigRsConsts::class\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string in \"index.twig\" at line 1.",
+   "rawMessage": "You cannot use the Twig function \"constant\" to access \"TwigRsConsts::class\". You could provide an object and call constant(\"class\", $object) or use the class name directly as a string.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-107",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"defined(): Argument #1 ($constant_name) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"defined(): Argument #1 ($constant_name) must be of type string, TwigRsPlain given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"defined(): Argument #1 ($constant_name) must be of type string, TwigRsPlain given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "defined(): Argument #1 ($constant_name) must be of type string, TwigRsPlain given",
+    "formatted": "TypeError: defined(): Argument #1 ($constant_name) must be of type string, TwigRsPlain given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-108",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"TwigRsConsts::\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"TwigRsConsts::\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"TwigRsConsts::\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-109",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Constant \"TwigRsConsts::Array\" is undefined in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Constant \"TwigRsConsts::Array\" is undefined in \"index.twig\" at line 1.",
+   "rawMessage": "Constant \"TwigRsConsts::Array\" is undefined.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_WARNING",
+    "message": "Array to string conversion"
+   }
+  ]
+ },
+ {
+  "id": "constants-110",
+  "kind": "twig",
+  "ok": true,
+  "output": "n",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_DEPRECATED",
+    "message": "defined(): Passing null to parameter #1 ($constant_name) of type string is deprecated"
+   }
+  ]
+ },
+ {
+  "id": "constants-111",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"defined(): Argument #1 ($constant_name) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"defined(): Argument #1 ($constant_name) must be of type string, array given\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"defined(): Argument #1 ($constant_name) must be of type string, array given\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "defined(): Argument #1 ($constant_name) must be of type string, array given",
+    "formatted": "TypeError: defined(): Argument #1 ($constant_name) must be of type string, array given",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-112",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hearts",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-113",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hearts,Spades",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-114",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hearts",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-115",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hearts,Spades",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-116",
+  "kind": "twig",
+  "ok": true,
+  "output": "Active",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-117",
+  "kind": "twig",
+  "ok": true,
+  "output": "Active,Inactive",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-118",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "\"TwigRsEmpty\" is an empty enum in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: \"TwigRsEmpty\" is an empty enum in \"index.twig\" at line 1.",
+   "rawMessage": "\"TwigRsEmpty\" is an empty enum.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-119",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-120",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "\"TwigRsConsts\" is not an enum in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: \"TwigRsConsts\" is not an enum in \"index.twig\" at line 1.",
+   "rawMessage": "\"TwigRsConsts\" is not an enum.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-121",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Enum \"TwigRsConsts\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Enum \"TwigRsConsts\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Enum \"TwigRsConsts\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-122",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "\"TwigRsIface\" is not an enum in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: \"TwigRsIface\" is not an enum in \"index.twig\" at line 1.",
+   "rawMessage": "\"TwigRsIface\" is not an enum.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-123",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Enum \"TwigRsIface\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Enum \"TwigRsIface\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Enum \"TwigRsIface\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-124",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "\"Nope\" is not an enum in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: \"Nope\" is not an enum in \"index.twig\" at line 1.",
+   "rawMessage": "\"Nope\" is not an enum.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-125",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Enum \"Nope\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Enum \"Nope\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Enum \"Nope\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-126",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "\"\" is not an enum in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: \"\" is not an enum in \"index.twig\" at line 1.",
+   "rawMessage": "\"\" is not an enum.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-127",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Enum \"\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Enum \"\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Enum \"\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-128",
+  "kind": "twig",
+  "ok": true,
+  "output": "HalfAwayFromZero",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-129",
+  "kind": "twig",
+  "ok": true,
+  "output": "HalfAwayFromZero,HalfTowardsZero,HalfEven,HalfOdd,TowardsZero,AwayFromZero,NegativeInfinity,PositiveInfinity",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-130",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "\"ArrayObject\" is not an enum in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: \"ArrayObject\" is not an enum in \"index.twig\" at line 1.",
+   "rawMessage": "\"ArrayObject\" is not an enum.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-131",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Enum \"ArrayObject\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Enum \"ArrayObject\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Enum \"ArrayObject\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-132",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "\"DateTime\" is not an enum in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: \"DateTime\" is not an enum in \"index.twig\" at line 1.",
+   "rawMessage": "\"DateTime\" is not an enum.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-133",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Enum \"DateTime\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Enum \"DateTime\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Enum \"DateTime\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-134",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "\"5\" is not an enum in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: \"5\" is not an enum in \"index.twig\" at line 1.",
+   "rawMessage": "\"5\" is not an enum.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-135",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Enum \"5\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Enum \"5\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Enum \"5\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-136",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "\"1.5\" is not an enum in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: \"1.5\" is not an enum in \"index.twig\" at line 1.",
+   "rawMessage": "\"1.5\" is not an enum.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-137",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Enum \"1.5\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Enum \"1.5\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Enum \"1.5\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-138",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "\"1\" is not an enum in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: \"1\" is not an enum in \"index.twig\" at line 1.",
+   "rawMessage": "\"1\" is not an enum.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-139",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "Enum \"1\" does not exist in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: Enum \"1\" does not exist in \"index.twig\" at line 1.",
+   "rawMessage": "Enum \"1\" does not exist.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-140",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-141",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-142",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-143",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-144",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hearts",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-145",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hearts,Spades",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-146",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::enum(): Argument #1 ($enum) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-147",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "TypeError",
+    "message": "Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "formatted": "TypeError: Twig\\Extension\\CoreExtension::enumCases(): Argument #1 ($enum) must be of type string, TwigRsPlain given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-148",
+  "kind": "twig",
+  "ok": true,
+  "output": "active",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-149",
+  "kind": "twig",
+  "ok": true,
+  "output": "same",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-150",
+  "kind": "twig",
+  "ok": true,
+  "output": "active,inactive",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-151",
+  "kind": "twig",
+  "ok": true,
+  "output": "0",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-152",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hearts",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-153",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-154",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hearts",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-155",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hearts",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-156",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Unknown named parameter $nope",
+    "formatted": "Error: Unknown named parameter $nope",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-157",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::enum(), 0 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and exactly 1 expected\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::enum(), 0 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and exactly 1 expected\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::enum(), 0 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and exactly 1 expected\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ArgumentCountError",
+    "message": "Too few arguments to function Twig\\Extension\\CoreExtension::enum(), 0 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and exactly 1 expected",
+    "formatted": "ArgumentCountError: Too few arguments to function Twig\\Extension\\CoreExtension::enum(), 0 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and exactly 1 expected",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-158",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsSuit could not be converted to string\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class TwigRsSuit could not be converted to string\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class TwigRsSuit could not be converted to string\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Object of class TwigRsSuit could not be converted to string",
+    "formatted": "Error: Object of class TwigRsSuit could not be converted to string",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-159",
+  "kind": "twig",
+  "ok": true,
+  "output": "Hearts",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-160",
+  "kind": "twig",
+  "ok": true,
+  "output": "active,inactive",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-161",
+  "kind": "twig",
+  "ok": true,
+  "output": "2",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-162",
+  "kind": "twig",
+  "ok": true,
+  "output": "Inactive",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-163",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "The first argument of the \"enum\" function must be the name of an enum, \"Nope\" given in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: The first argument of the \"enum\" function must be the name of an enum, \"Nope\" given in \"index.twig\" at line 1.",
+   "rawMessage": "The first argument of the \"enum\" function must be the name of an enum, \"Nope\" given.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-164",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "The first argument of the \"enum_cases\" function must be the name of an enum, \"Nope\" given in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: The first argument of the \"enum_cases\" function must be the name of an enum, \"Nope\" given in \"index.twig\" at line 1.",
+   "rawMessage": "The first argument of the \"enum_cases\" function must be the name of an enum, \"Nope\" given.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-165",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "The first argument of the \"enum\" function must be a string in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: The first argument of the \"enum\" function must be a string in \"index.twig\" at line 1.",
+   "rawMessage": "The first argument of the \"enum\" function must be a string.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "constants-166",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "The first argument of the \"enum\" function must be a non-empty enum, \"TwigRsEmpty\" given in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: The first argument of the \"enum\" function must be a non-empty enum, \"TwigRsEmpty\" given in \"index.twig\" at line 1.",
+   "rawMessage": "The first argument of the \"enum\" function must be a non-empty enum, \"TwigRsEmpty\" given.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ }
+]
