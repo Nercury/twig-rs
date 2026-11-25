@@ -182,12 +182,31 @@ dependencies = [
 ]
 
 [[package]]
+name = "twig-date"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "twig-timelib",
+ "twig-value",
+]
+
+[[package]]
 name = "twig-pcre"
 version = "0.1.0"
 dependencies = [
  "cc",
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "twig-test-support"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "twig-value",
 ]
 
 [[package]]

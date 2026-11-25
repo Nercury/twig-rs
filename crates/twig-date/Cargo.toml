@@ -1,0 +1,21 @@
+[package]
+name = "twig-date"
+version = "0.1.0"
+description = "PHP-exact DateTime, DateTimeZone, DateInterval objects and date functions (ext/date) for the twig template engine."
+edition.workspace = true
+rust-version.workspace = true
+license = "BSD-3-Clause AND PHP-3.01"
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+twig-value = { path = "../twig-value" }
+twig-timelib = { path = "../twig-timelib" }
+
+[dev-dependencies]
+serde.workspace = true
+# float_roundtrip: exact parsing of the floats in the oracle vectors (DateInterval fractions, coordinates).
+serde_json = { workspace = true, features = ["float_roundtrip"] }
+
+[lints]
+workspace = true
