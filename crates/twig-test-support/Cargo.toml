@@ -1,0 +1,19 @@
+[package]
+name = "twig-test-support"
+version = "0.1.0"
+description = "Fixture-harness support for twig-rs: Twig's integration fixtures (oracle corpus) as twig-value values."
+edition.workspace = true
+rust-version.workspace = true
+license = "BSD-3-Clause"
+repository.workspace = true
+authors.workspace = true
+publish = false
+
+[dependencies]
+twig-value = { path = "../twig-value" }
+serde.workspace = true
+# float_roundtrip: exact parsing of the few JSON floats of the corpus (DateInterval fractions).
+serde_json = { workspace = true, features = ["float_roundtrip"] }
+
+[lints]
+workspace = true
