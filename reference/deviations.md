@@ -48,6 +48,26 @@ does instead, and why. Anything not listed here is expected to match exactly; a 
 No deviation observable through PHP. Port-level differences (shared zone data via `Arc`, clamped month-table indexes
 where C reads out of bounds, defined error codes where C leaves them uninitialised) are unreachable from PHP.
 
+## Date objects and functions (`twig-date`)
+
+| Area | PHP | twig-rs | Why |
+|---|---|---|---|
+| Not ported | `strftime`/`gmstrftime`, `date_sunrise`/`date_sunset`/`date_sun_info` | Absent | Deprecated/locale dependent; astro.c is not ported and Twig cannot reach it |
+| Host subclasses of date classes | `__debugInfo` consulted by var_dump; class lookup on unserialize of private keys; user-class detection in "not initialised" messages | Not consulted / skipped / any non-built-in class counts as user class | Host subclasses are a twig-rs API concern |
+| `#[\NoDiscard]` warnings on immutable mutators, constant deprecation notices (`DATE_RFC7231`, `SUNFUNCS_*`) | Emitted by the engine | Data available (`classes::GLOBAL_CONSTANTS`, `class_constant_deprecation()`); the twig engine must emit them | Engine-level diagnostics |
+| `date.timezone` INI warning | Warning text on invalid ini value | `set_ini_timezone` returns false only | No INI layer |
+| Failing `DatePeriod::__construct` overloads | Diagnostics of each failed overload | Dropped (hand-ported overload resolution) | Engine overload machinery |
+| Concurrent renders | Per-request last errors and default timezone | Shared by renders that share one `DateContext` | The engine should use one context per render |
+| Out-of-range month names | Undefined behaviour | `""` | No UB in Rust |
+
+## Fixture data (`twig-test-support`, dev only)
+
+Differences in the rebuilt `--DATA--` values that no fixture output depends on: `class_implements()` order for some
+userland classes, anonymous class names and the `SplFileInfo` path (taken from the oracle's eval site), the
+`DateTimeImmutable('now')` of `expressions/attributes.test` (oracle run time), resources (handed to the harness),
+next-free integer keys derived from keys, partial `SimpleXMLElement`, `CallbackFilterIterator` callbacks rebuilt from
+recorded decisions, unsupported `Generator::send()/throw()` and rare SPL methods.
+
 ## Unicode (`twig-unicode`)
 
 | Area | PHP | twig-rs | Why |
