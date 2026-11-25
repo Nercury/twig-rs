@@ -1,0 +1,232 @@
+[
+    {
+        "id": "render-json-data",
+        "kind": "twig",
+        "ok": true,
+        "output": "Hello World: 1 0.3 3.5 3 -1 1,2,3",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "render-php-data",
+        "kind": "twig",
+        "ok": true,
+        "output": "foo bar_x 3 3",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "render-error-runtime",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\LoaderError",
+            "message": "Template \"missing.twig\" is not defined in \"index.twig\" at line 2.",
+            "formatted": "Twig\\Error\\LoaderError: Template \"missing.twig\" is not defined in \"index.twig\" at line 2.",
+            "rawMessage": "Template \"missing.twig\" is not defined.",
+            "templateName": "index.twig",
+            "templateLine": 2,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "render-error-syntax",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unexpected end of template in \"index.twig\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: Unexpected end of template in \"index.twig\" at line 1.",
+            "rawMessage": "Unexpected end of template.",
+            "templateName": "index.twig",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "plain-env-defaults",
+        "kind": "twig",
+        "ok": true,
+        "output": "[] <b> &lt;b&gt;",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "dates-with-timezone",
+        "kind": "twig",
+        "ok": true,
+        "output": "2010-10-04 13:45:00 CEST +02:00 / Mon, 04 Oct 2010",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "deprecation-captured",
+        "kind": "twig",
+        "ok": true,
+        "output": "462",
+        "deprecations": [
+            "Since twig/twig 3.15: As the \"~\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."
+        ],
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.15: As the \"~\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."
+            }
+        ]
+    },
+    {
+        "id": "php-eval-expr",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => 1001.0,\n  1 => 0.30000000000000004,\n  2 => 0,\n  3 => true,\n  4 => -3,\n  5 => -1,\n  6 => -1.0,\n)",
+        "var_dump": "array(7) {\n  [0]=>\n  float(1001)\n  [1]=>\n  float(0.30000000000000004)\n  [2]=>\n  int(0)\n  [3]=>\n  bool(true)\n  [4]=>\n  int(-3)\n  [5]=>\n  int(-1)\n  [6]=>\n  float(-1)\n}\n",
+        "json": "[1001.0,0.30000000000000004,0,true,-3,-1,-1.0]",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "php-eval-code",
+        "kind": "php",
+        "ok": true,
+        "echo": "b,a,10",
+        "type": "string",
+        "var_export": "'003.1|ff|101|1.234568e+4'",
+        "var_dump": "string(24) \"003.1|ff|101|1.234568e+4\"\n",
+        "json": "\"003.1|ff|101|1.234568e+4\"",
+        "json_error": null,
+        "string": "003.1|ff|101|1.234568e+4",
+        "diagnostics": []
+    },
+    {
+        "id": "php-eval-warning",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "int",
+        "var_export": "6",
+        "var_dump": "int(6)\n",
+        "json": "6",
+        "json_error": null,
+        "string": "6",
+        "diagnostics": [
+            {
+                "type": "E_WARNING",
+                "message": "A non-numeric value encountered"
+            }
+        ]
+    },
+    {
+        "id": "php-eval-typed",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'int' => 1,\n  'float' => 1.0,\n  'str' => '1',\n  7 => NULL,\n  'obj' => \n  \\ArrayObject::__set_state(array(\n     'k' => true,\n  )),\n)",
+        "var_dump": "array(5) {\n  [\"int\"]=>\n  int(1)\n  [\"float\"]=>\n  float(1)\n  [\"str\"]=>\n  string(1) \"1\"\n  [7]=>\n  NULL\n  [\"obj\"]=>\n  object(ArrayObject)#1627 (1) {\n    [\"storage\":\"ArrayObject\":private]=>\n    array(1) {\n      [\"k\"]=>\n      bool(true)\n    }\n  }\n}\n",
+        "json": "{\"int\":1,\"float\":1.0,\"str\":\"1\",\"7\":null,\"obj\":{\"k\":true}}",
+        "json_error": null,
+        "typed": {
+            "t": "array",
+            "v": [
+                [
+                    "int",
+                    {
+                        "t": "int",
+                        "v": 1
+                    }
+                ],
+                [
+                    "float",
+                    {
+                        "t": "float",
+                        "v": "1.0"
+                    }
+                ],
+                [
+                    "str",
+                    {
+                        "t": "string",
+                        "v": "1"
+                    }
+                ],
+                [
+                    7,
+                    {
+                        "t": "null"
+                    }
+                ],
+                [
+                    "obj",
+                    {
+                        "t": "object",
+                        "class": "ArrayObject",
+                        "id": 1627,
+                        "entries": {
+                            "t": "array",
+                            "v": [
+                                [
+                                    "k",
+                                    {
+                                        "t": "bool",
+                                        "v": true
+                                    }
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            ]
+        },
+        "diagnostics": []
+    },
+    {
+        "id": "fixture-run",
+        "kind": "fixture",
+        "file": "tags/if/expression.test",
+        "message": "\"if\" takes an expression as a test",
+        "legacy": false,
+        "exception_expected": false,
+        "deprecation_expected": "",
+        "skipped": null,
+        "cases": [
+            {
+                "index": 0,
+                "phase": "render",
+                "error": null,
+                "output": "A1",
+                "expected": "A1",
+                "pass": true,
+                "deprecations": [],
+                "render_deprecations": []
+            },
+            {
+                "index": 1,
+                "phase": "render",
+                "error": null,
+                "output": "A2",
+                "expected": "A2",
+                "pass": true,
+                "deprecations": [],
+                "render_deprecations": []
+            },
+            {
+                "index": 2,
+                "phase": "render",
+                "error": null,
+                "output": "A3",
+                "expected": "A3",
+                "pass": true,
+                "deprecations": [],
+                "render_deprecations": []
+            }
+        ]
+    }
+]

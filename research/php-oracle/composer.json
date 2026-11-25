@@ -1,0 +1,32 @@
+{
+    "name": "twig-rs/php-oracle",
+    "description": "Reference oracle for twig-rs: renders templates with PHP Twig 3.31.1 on PHP 8.5 and runs Twig's own PHPUnit suite.",
+    "type": "project",
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": ">=8.5",
+        "twig/twig": "3.31.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6.29",
+        "psr/container": "^2.0",
+        "symfony/phpunit-bridge": "^7.3"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Twig\\Tests\\": "vendor/twig/twig/tests/"
+        }
+    },
+    "config": {
+        "preferred-install": {
+            "twig/twig": "source",
+            "*": "dist"
+        },
+        "sort-packages": true,
+        "allow-plugins": false,
+        "platform": {
+            "php": "8.5.13"
+        }
+    },
+    "minimum-stability": "stable"
+}

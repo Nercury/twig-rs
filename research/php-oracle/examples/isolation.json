@@ -1,0 +1,5 @@
+{"isolation": "process", "cases": [
+  {"id": "class-a", "templates": {"index.twig": "{{ o }}"}, "data_php": "class Dup { function __toString(): string { return 'A'; } } return ['o' => new Dup()]"},
+  {"id": "class-b", "templates": {"index.twig": "{{ o }}"}, "data_php": "class Dup { function __toString(): string { return 'B'; } } return ['o' => new Dup()]"},
+  {"id": "binary-output", "templates": {"index.twig": "{{ s|raw }}"}, "data_php": "return ['s' => \"\\xC3\\x28abc\"]"}
+]}

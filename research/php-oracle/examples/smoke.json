@@ -1,0 +1,38 @@
+[
+  {"id": "render-json-data",
+   "templates": {"index.twig": "{{ name|title }}: {{ 1.0 }} {{ 0.1 + 0.2 }} {{ 7 / 2 }} {{ 10 // 3 }} {{ -7 % 3 }} {{ [3, 1, 2]|sort|join(',') }}"},
+   "data_json": {"name": "hello world"}},
+
+  {"id": "render-php-data",
+   "templates": {"index.twig": "{{ obj.foo }} {{ obj.bar('x') }} {{ list|length }} {{ m|length }}", "unused.twig": "{{ unused }}"},
+   "data_php": "return ['obj' => new \\Twig\\Tests\\TwigTestFoo(), 'list' => new \\ArrayObject([1, 2, 3]), 'm' => new \\Twig\\Markup('été', 'UTF-8')]"},
+
+  {"id": "render-error-runtime",
+   "templates": {"index.twig": "\n{% include 'missing.twig' %}"}},
+
+  {"id": "render-error-syntax",
+   "templates": {"index.twig": "{% for x in [1] %}{{ x }}"}},
+
+  {"id": "plain-env-defaults",
+   "env": "plain",
+   "templates": {"index.twig": "[{{ undefined_var }}] {{ '<b>' }} {{ html }}"},
+   "data_json": {"html": "<b>"}},
+
+  {"id": "dates-with-timezone",
+   "timezone": "Europe/Paris",
+   "templates": {"index.twig": "{{ ts|date('Y-m-d H:i:s T P') }} / {{ ts|date('D, d M Y', 'America/New_York') }}"},
+   "data_php": "return ['ts' => mktime(13, 45, 0, 10, 4, 2010)]"},
+
+  {"id": "deprecation-captured",
+   "templates": {"index.twig": "{{ '42' ~ 1 + 41 }}"}},
+
+  {"id": "php-eval-expr", "php": "[1.0 + '1e3', 0.1 + 0.2, 7 <=> '7', '10' == '1e1', intdiv(-7, 2), -7 % 3, fmod(-7, 3)]"},
+
+  {"id": "php-eval-code", "php_code": "$a = ['b' => 1, 'a' => 2, 10 => 3]; asort($a); echo implode(',', array_keys($a)); return sprintf('%05.1f|%x|%b|%e', 3.14159, 255, 5, 12345.678);"},
+
+  {"id": "php-eval-warning", "php": "'5 apples' + 1"},
+
+  {"id": "php-eval-typed", "php": "['int' => 1, 'float' => 1.0, 'str' => '1', 7 => null, 'obj' => new \\ArrayObject(['k' => true])]", "typed": true},
+
+  {"id": "fixture-run", "fixture": "tags/if/expression.test"}
+]

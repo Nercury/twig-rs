@@ -1,0 +1,14 @@
+--TEST--
+conditional "block" tag with "extends" tag
+--TEMPLATE--
+{% extends "layout.twig" %}
+
+{% if false %}
+    {% block content %}FOO{% endblock %}
+{% endif %}
+--TEMPLATE(layout.twig)--
+{% block content %}{% endblock %}
+--DATA--
+return []
+--EXCEPTION--
+Twig\Error\SyntaxError: A "block" tag cannot be under a "if" tag (line 4) in "index.twig" at line 5.

@@ -1,0 +1,19 @@
+--TEST--
+macro
+--TEMPLATE--
+{% from _self import test %}
+{% import _self as macros %}
+
+{% macro test(blocks) -%}
+    {{ blocks }}
+{%- endmacro %}
+
+{{ test(blocks) }}
+{{ test(blocks: blocks) }}
+{{ macros.test(blocks: blocks) }}
+--DATA--
+return ['blocks' => 'foo']
+--EXPECT--
+foo
+foo
+foo

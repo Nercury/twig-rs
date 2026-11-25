@@ -1,0 +1,29 @@
+# PHP oracle
+
+PHP 8.5.13 + Twig 3.31.1 in Docker, used to answer "what does PHP Twig do?" and to generate test vectors.
+The protocol is documented at the top of `runner.php` and in `reference/twig/test-suite.md` §7.
+
+```bash
+cd research/php-oracle
+docker build -t twig-oracle:3.31.1 .                       # once (oracle.sh also builds on demand)
+
+echo '[{"templates":{"index.twig":"{{ 0.1 + 0.2 }}"}}]' | ./oracle.sh --pretty   # render
+echo '[{"php":"1.0 + \"1e3\""}]' | ./oracle.sh --pretty                           # evaluate PHP
+echo '[{"fixture":"filters/abs.test","typed":true}]' | ./oracle.sh --pretty       # run one upstream fixture
+
+./oracle.sh suite integration      # Twig's integration suite: 488 tests, 486 pass, 2 skipped
+./oracle.sh suite all              # full PHPUnit suite: 2986 tests, 2981 pass, 5 skipped
+```
+
+From Git Bash on Windows keep `MSYS_NO_PATHCONV=1` (oracle.sh sets it) and write JSON batches to files instead of
+inline heredocs, which mangle backslashes.
+
+| File | Role |
+|---|---|
+| `Dockerfile`, `composer.json`, `composer.lock` | Pinned image (base image digest, Twig commit, PHPUnit 9.6) |
+| `runner.php`, `lib.php` | JSON batch runner: `twig`, `php` and `fixture` case kinds, optional process isolation |
+| `run-suite.sh`, `phpunit-twig.xml` | Runs Twig's PHPUnit suite inside the image |
+| `tools/parse-fixtures.php` | Dumps how `IntegrationTestCase` parses every fixture |
+| `tools/export-corpus.php` | Regenerates `tests/twig/oracle-corpus.json` (parsed fixtures, actual results, typed DATA trees, PHP state) |
+| `tools/fixture_parser_reference.py` | Regex-free reference port of the fixture parser (matches PHP on all 488 fixtures) |
+| `examples/` | Sample batches and outputs |

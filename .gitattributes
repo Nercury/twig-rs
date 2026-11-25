@@ -1,0 +1,3 @@
+# Upstream test data must stay byte-exact.
+tests/twig/Fixtures/** -text
+tests/twig/oracle-corpus.json -text

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  PHPUnit 9.6 configuration for running Twig 3.31.1's own test suite.
+  The Dockerfile copies this file to /oracle/vendor/twig/twig/phpunit-oracle.xml, so every path below is
+  relative to the Twig repository root (several Twig tests assume that the working directory is the Twig root,
+  and "vendor/autoload.php" there is a symlink to /oracle/vendor).
+  Mirrors Twig's phpunit.xml.dist: same error conversion flags, error_reporting=-1, Symfony listener.
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         cacheResult="false"
+         bootstrap="vendor/autoload.php">
+  <testsuites>
+    <testsuite name="integration">
+      <file>tests/IntegrationTest.php</file>
+    </testsuite>
+    <testsuite name="all">
+      <directory>tests/</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <ini name="error_reporting" value="-1" />
+  </php>
+  <listeners>
+    <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+  </listeners>
+</phpunit>

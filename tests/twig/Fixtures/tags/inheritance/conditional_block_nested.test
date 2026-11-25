@@ -1,0 +1,40 @@
+--TEST--
+conditional "block" tag with "extends" tag (nested)
+--TEMPLATE--
+{% extends "layout.twig" %}
+
+{% block content_base %}
+    {{ parent() -}}
+    index
+{% endblock %}
+
+{% block content_layout -%}
+    {{ parent() -}}
+    nested_index
+{% endblock %}
+--TEMPLATE(layout.twig)--
+{% extends "base.twig" %}
+
+{% block content_layout -%}
+    nested_layout
+{% endblock -%}
+
+{% block content_base %}
+    {{ parent() -}}
+    layout
+    {% if true -%}
+        {{ block('content_layout') -}}
+    {% endif %}
+{% endblock %}
+--TEMPLATE(base.twig)--
+{% block content_base %}
+    base
+{% endblock %}
+--DATA--
+return []
+--EXPECT--
+base
+layout
+    nested_layout
+nested_index
+index
