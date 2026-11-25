@@ -95,37 +95,30 @@ listed in a `NOTICE` file before the first publish; the licence review happens t
 
 ## Phases
 
-Done so far: workspace and CI, the PHP-level crates (`twig-value`, `twig-pcre`, `twig-timelib`, `twig-date`,
-`twig-unicode`), the syntax layer (lexer, AST, extension registry, expression parser, all core tags,
-CorrectnessNodeVisitor), `twig-test-support` and the fixture harness with its ratchet. A `NOTICE` file is still
-missing (phase 6).
-
-### 3. Engine core
-Design and work split: [engine.md](engine.md).
-- LLTL instruction set, codegen from the visited AST in Twig compile order, line table.
-- VM: frames with COW context, output sink with capture stack, for-loop opcodes, name/attribute opcodes,
-  call binding (named args, variadics, needs_environment/context/charset), macros, blocks and inheritance
-  (`yield_block`/`yield_parent_block` ported), traits, embed, include, `with`, `apply`, `set`, `guard`,
-  `deprecated`, `types`, `do`, `flush`.
-- Runtime: `Environment` (options, extensions, globals, template cache), loaders (Array, Filesystem with
-  normalisation and namespaces, Chain), `Template`/`TemplateWrapper`, `getAttribute`, escaper visitor + runtime
-  `Markup`, optimizer visitor, error model (`updateRepr`, wrapping of non-Twig errors).
-- Exit: the "pure data" fixtures (≈262) pass.
-
-### 4. Extensions
-- Core filters/functions/tests/operators (`reference/twig/core-extension.md` §4-§7), escaper strategies, sandbox
-  (policy, checker, visitor), debug `dump`, string loader, attribute extension, test-harness extension.
-- Exit: every fixture without dates or non-UTF-8 charsets passes.
+Done so far: workspace and CI; the PHP-level crates (`twig-value`, `twig-pcre`, `twig-timelib`, `twig-date`,
+`twig-unicode`); the syntax layer (lexer, AST, extension registry, expression parser, all core tags,
+CorrectnessNodeVisitor); the engine ([engine.md](engine.md): LLTL codegen, VM, runtime, composition, sandbox runtime,
+escaper/optimizer/sandbox visitors, loaders, all core callables); `twig-test-support` and the fixture harness, which
+runs every upstream fixture end to end (488 of 500 cases at the end of phase 4).
 
 ### 5. Full parity
-- Dates wired in: Twig's `convertDate`/`formatDate`/`modifyDate` on top of `twig-date`, then `date`, `date_modify`
-  and DateTime objects in data. PHP test classes, remaining fixtures, error
-  message/line parity, deprecations, remaining unit-test ports, `reference/deviations.md` complete.
-- Exit: 486/486 non-skipped fixtures pass; oracle vector suites green.
+- **Integration** (in progress): visitor registration, CoreExtension settings, `enum()` compile-time checks, constant
+  table, duplicate registrations, escaper runtime hook, security error kinds, non-Twig throwable model, CJK charsets in
+  iconv. Exit: 500/500 fixture cases.
+- **Unit-test ports**: the behaviour-level PHPUnit tests classified A/B in `reference/twig/test-suite.md` §6
+  (getAttribute matrix and error table, Environment, errors and line attribution, sandbox matrix, extensions,
+  callables, loaders, template wrapper, runtime loaders).
+- **Differential fuzzing**: generators of random templates and data per construct family (expressions and operators,
+  filters/functions/tests, control flow and scoping, composition, escaping, sandbox, errors and lines, dates and
+  number formatting), rendered by the oracle and by twig-rs; mismatches are minimised into regression vectors and
+  fixed. Repeat until several rounds find nothing new.
+- **Deviations audit**: every entry in `reference/deviations.md` re-checked; anything fixable gets fixed.
+- Exit: all fixture cases pass, ported unit tests pass, fuzz rounds run dry.
 
 ### 6. Product
-- Public API review and docs, examples, README, benchmarks, compiled-template caching (optional), non-UTF-8
-  charsets, licence review and publishing.
+- Public API review (Environment builder, conversions from Rust types and serde data into values, host object
+  ergonomics), docs and examples, README, benchmarks against PHP Twig, compiled-template caching (optional),
+  `NOTICE` and licence review, publishing.
 
 ## Open questions
 
