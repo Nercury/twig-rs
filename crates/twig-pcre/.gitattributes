@@ -1,0 +1,3 @@
+# Vendored PCRE2 sources and oracle vectors must stay byte-exact.
+pcre2/** -text
+tests/vectors/** -text

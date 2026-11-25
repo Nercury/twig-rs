@@ -4,10 +4,19 @@ version = "0.1.0"
 description = "PCRE2 10.44 with PHP preg semantics for the twig template engine's matches operator."
 edition.workspace = true
 rust-version.workspace = true
-license = "BSD-3-Clause AND PHP-3.01"
+# Rust port of PHP's ext/pcre front end: PHP-3.01. Vendored PCRE2 (pcre2/): BSD-3-Clause.
+# Its JIT compiler sljit (pcre2/sljit/): BSD-2-Clause. See pcre2/LICENCE.
+license = "BSD-3-Clause AND BSD-2-Clause AND PHP-3.01"
 repository.workspace = true
 authors.workspace = true
 links = "twig_pcre2"
+include = ["/build.rs", "/src", "/pcre2", "/tests", "/Cargo.toml"]
+
+[features]
+default = ["jit"]
+## Compile PCRE2's JIT (sljit) like PHP's default `--with-pcre-jit` build. Without it every match runs in
+## the interpreter, whose backtrack/recursion limit behaviour differs from PHP's JIT-enabled build.
+jit = []
 
 [build-dependencies]
 cc.workspace = true
@@ -18,3 +27,4 @@ serde_json.workspace = true
 
 [lints.rust]
 unsafe_op_in_unsafe_fn = "deny"
+missing_docs = "warn"
