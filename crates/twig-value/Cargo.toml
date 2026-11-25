@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "PHP-exact value model and builtin functions used by the twig template engine."
 edition.workspace = true
 rust-version.workspace = true
-license = "BSD-3-Clause AND PHP-3.01 AND Zend-2.0"
+license = "BSD-3-Clause AND PHP-3.01 AND Zend-2.0 AND MIT"
 repository.workspace = true
 authors.workspace = true
 
@@ -12,6 +12,7 @@ authors.workspace = true
 indexmap.workspace = true
 foldhash.workspace = true
 memchr.workspace = true
+xxhash-rust = { version = "0.8", features = ["xxh3"] }
 
 [dev-dependencies]
 serde.workspace = true
