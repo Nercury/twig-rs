@@ -1,3 +1,6 @@
+# Text files use LF everywhere; byte-exact data opts out below and in per-crate .gitattributes.
+* text=auto eol=lf
+
 # Upstream test data must stay byte-exact.
 tests/twig/Fixtures/** -text
 tests/twig/oracle-corpus.json -text
