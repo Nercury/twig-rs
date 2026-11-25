@@ -1,6 +1,15 @@
+mod arguments;
+mod ast;
+mod expression_parser_test;
+mod extensions;
+mod fixtures;
+mod limits;
+mod parser_test;
+mod registry;
 mod support;
-
-mod array_expression;
-mod can_only_assign_to_names;
-mod named_and_default_args;
-mod string_expression;
+mod syntax_probes;
+mod tag_probes;
+mod tags;
+mod token_parser_test;
+mod traverser;
+mod vectors;

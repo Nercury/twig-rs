@@ -1,21 +1,57 @@
-use std::env;
-use std::fs;
-use twig::environment::Environment;
-use twig::tokens::Lexer;
+//! Tokenizes `templates/fos_login.html.twig` with the Twig lexer and prints the tokens.
+//!
+//! ```bash
+//! cargo run --example lex_tokens [path/to/template.twig]
+//! ```
 
-/// Tokenises twig template and prints the tokens.
-fn main() {
-    let path = env::current_dir()
-        .unwrap()
-        .join("templates/fos_login.html.twig");
+use std::path::PathBuf;
+use std::process::ExitCode;
 
-    let template = fs::read_to_string(&path)
-        .unwrap_or_else(|e| panic!("failed to open example template at {path:?}: {e}"));
+use twig::Source;
+use twig::deprecation::Deprecation;
+use twig::lexer::Lexer;
 
-    let env = Environment::default().init_all();
-    let lexer = Lexer::default(&env.lexing);
+fn main() -> ExitCode {
+    let path = std::env::args_os()
+        .nth(1)
+        .map(PathBuf::from)
+        .unwrap_or_else(|| {
+            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("templates/fos_login.html.twig")
+        });
+    let code = match std::fs::read(&path) {
+        Ok(code) => code,
+        Err(error) => {
+            eprintln!("cannot read {}: {error}", path.display());
+            return ExitCode::FAILURE;
+        }
+    };
+    let name = path
+        .file_name()
+        .map_or_else(String::new, |name| name.to_string_lossy().into_owned());
+    let source = Source::with_path(code, name, path.display().to_string());
 
-    for token in lexer.tokens(&template) {
-        println!("{token:?}");
+    let mut deprecations: Vec<Deprecation> = Vec::new();
+    let stream = match Lexer::default().tokenize(&source, &mut deprecations) {
+        Ok(stream) => stream,
+        Err(error) => {
+            eprintln!("{}: {error}", error.kind().class_name());
+            return ExitCode::FAILURE;
+        }
+    };
+    for token in stream.tokens() {
+        let offset = token
+            .offset()
+            .map_or_else(|| "-".to_owned(), |offset| offset.to_string());
+        println!(
+            "{:>4}:{:<6} {:<24} {:?}",
+            token.line(),
+            offset,
+            token.ty().name(),
+            token.value()
+        );
     }
+    for deprecation in &deprecations {
+        eprintln!("deprecation: {deprecation}");
+    }
+    ExitCode::SUCCESS
 }

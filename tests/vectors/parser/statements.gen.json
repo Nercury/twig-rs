@@ -1,0 +1,1687 @@
+[
+ {
+  "id": "body-single-node",
+  "source": "{% if a %}x{% endif %}"
+ },
+ {
+  "id": "body-nodes",
+  "source": "a{{ b }}c"
+ },
+ {
+  "id": "body-empty",
+  "source": ""
+ },
+ {
+  "id": "tag-line-is-name-line",
+  "source": "{%\nif a\n%}x{% endif %}"
+ },
+ {
+  "id": "block-must-start-with-name",
+  "source": "{% 1 %}"
+ },
+ {
+  "id": "block-must-start-with-name-string",
+  "source": "{% 'if' %}"
+ },
+ {
+  "id": "block-must-start-with-name-eof",
+  "source": "{%"
+ },
+ {
+  "id": "unknown-tag",
+  "source": "{% foo %}"
+ },
+ {
+  "id": "unknown-tag-suggestion",
+  "source": "{% includ %}"
+ },
+ {
+  "id": "unknown-tag-many-suggestions",
+  "source": "{% e %}"
+ },
+ {
+  "id": "unknown-tag-str-contains",
+  "source": "{% fo %}"
+ },
+ {
+  "id": "unknown-removed-tags",
+  "source": "{% filter upper %}x{% endfilter %}"
+ },
+ {
+  "id": "unknown-spaceless",
+  "source": "{% spaceless %}x{% endspaceless %}"
+ },
+ {
+  "id": "unknown-raw",
+  "source": "{% raw %}x{% endraw %}"
+ },
+ {
+  "id": "unknown-sandbox-without-extension",
+  "source": "{% sandbox %}x{% endsandbox %}"
+ },
+ {
+  "id": "stray-endif",
+  "source": "{% endif %}"
+ },
+ {
+  "id": "stray-endblock",
+  "source": "{% endblock %}"
+ },
+ {
+  "id": "stray-else",
+  "source": "{% else %}"
+ },
+ {
+  "id": "unexpected-tag-in-body",
+  "source": "{% if x %}{% foo %}{% endif %}"
+ },
+ {
+  "id": "unexpected-tag-near-line",
+  "source": "{% if x %}\n{% endfor %}"
+ },
+ {
+  "id": "unexpected-tag-near-line-2",
+  "source": "{% if x %}\n\n  {{ y }}{% endfor %}"
+ },
+ {
+  "id": "unexpected-tag-nested-body",
+  "source": "{% for a in b %}{% if a %}{% endfor %}{% endif %}"
+ },
+ {
+  "id": "end-tag-followed-by-name",
+  "source": "{% if x %}{% endif x %}"
+ },
+ {
+  "id": "tag-name-is-operator",
+  "source": "{% not %}"
+ },
+ {
+  "id": "tag-whitespace-control",
+  "source": "a  {%- if true -%}  b  {%- endif -%}  c"
+ },
+ {
+  "id": "tag-line-whitespace-control",
+  "source": "a \n {%~ if true ~%} \n b \n {%~ endif ~%} \n c"
+ },
+ {
+  "id": "tag-eats-newline",
+  "source": "{% if true %}\nX{% endif %}\nY"
+ },
+ {
+  "id": "nested-tags-lines",
+  "source": "{% if a %}\n  {% for b in c %}\n    {{ b }}\n  {% endfor %}\n{% endif %}"
+ },
+ {
+  "id": "documentation-on-tags",
+  "source": "{## Print #}\n{{ answer }}\n{## If #}\n{% if enabled %}E{% endif %}\n{## Do #}\n{% do max() %}\n{## Text #}\nText"
+ },
+ {
+  "id": "documentation-multiple",
+  "source": "{## one #}{## two #}{% do 1 %}"
+ },
+ {
+  "id": "documentation-inline-before-tag-name",
+  "source": "{% ## not tag documentation\ndo max() %}"
+ },
+ {
+  "id": "documentation-empty-comment",
+  "source": "{##}{{ answer }}"
+ },
+ {
+  "id": "documentation-not-crossing-line-tag",
+  "source": "{## Not do documentation #}\n{% line 10 %}{% do max() %}"
+ },
+ {
+  "id": "documentation-not-crossing-verbatim",
+  "source": "{## Not do documentation #}\n{% verbatim %}{% endverbatim %}{% do max() %}"
+ },
+ {
+  "id": "documentation-trim-markers",
+  "source": "A \n{##- The main content #}\n{% block content %}B{% endblock %}"
+ },
+ {
+  "id": "apply-basic",
+  "source": "{% apply upper %}hello {{ name }}{% endapply %}"
+ },
+ {
+  "id": "apply-chain",
+  "source": "{% apply lower|escape('html') %}<B>{% endapply %}"
+ },
+ {
+  "id": "apply-arguments",
+  "source": "{% apply replace({'a': 'b'})|default('x', 'y') %}a{% endapply %}"
+ },
+ {
+  "id": "apply-nested",
+  "source": "{% apply upper %}{% apply lower %}X{% endapply %}y{% endapply %}"
+ },
+ {
+  "id": "apply-lines",
+  "source": "{% apply\nupper\n|\nlower %}\nx\n{% endapply %}"
+ },
+ {
+  "id": "apply-empty-body",
+  "source": "{% apply upper %}{% endapply %}"
+ },
+ {
+  "id": "apply-no-filter",
+  "source": "{% apply %}"
+ },
+ {
+  "id": "apply-extra-token",
+  "source": "{% apply upper x %}x{% endapply %}"
+ },
+ {
+  "id": "apply-operator",
+  "source": "{% apply upper ~ \"x\" %}x{% endapply %}"
+ },
+ {
+  "id": "apply-grouping",
+  "source": "{% apply ('a' ~ 'b') %}x{% endapply %}"
+ },
+ {
+  "id": "apply-unknown-filter",
+  "source": "{% apply nope %}x{% endapply %}"
+ },
+ {
+  "id": "apply-unclosed",
+  "source": "{% apply upper %}x"
+ },
+ {
+  "id": "apply-end-name",
+  "source": "{% apply upper %}x{% endapply upper %}"
+ },
+ {
+  "id": "apply-trailing-pipe",
+  "source": "{% apply upper| %}x{% endapply %}"
+ },
+ {
+  "id": "apply-deprecated-filter",
+  "source": "{% apply spaceless %}x{% endapply %}"
+ },
+ {
+  "id": "autoescape-default",
+  "source": "{% autoescape %}{{ v }}{% endautoescape %}"
+ },
+ {
+  "id": "autoescape-js",
+  "source": "{% autoescape 'js' %}{{ v }}{% endautoescape %}"
+ },
+ {
+  "id": "autoescape-false",
+  "source": "{% autoescape false %}{{ v }}{% endautoescape %}"
+ },
+ {
+  "id": "autoescape-true",
+  "source": "{% autoescape true %}{{ v }}{% endautoescape %}"
+ },
+ {
+  "id": "autoescape-number",
+  "source": "{% autoescape 1 %}{{ v }}{% endautoescape %}"
+ },
+ {
+  "id": "autoescape-float",
+  "source": "{% autoescape 1.5 %}{{ v }}{% endautoescape %}"
+ },
+ {
+  "id": "autoescape-null",
+  "source": "{% autoescape null %}{{ v }}{% endautoescape %}"
+ },
+ {
+  "id": "autoescape-variable",
+  "source": "{% autoescape v %}{{ v }}{% endautoescape %}"
+ },
+ {
+  "id": "autoescape-concat",
+  "source": "{% autoescape 'ht' ~ 'ml' %}x{% endautoescape %}"
+ },
+ {
+  "id": "autoescape-sequence",
+  "source": "{% autoescape ['html'] %}x{% endautoescape %}"
+ },
+ {
+  "id": "autoescape-parenthesized",
+  "source": "{% autoescape ('js') %}x{% endautoescape %}"
+ },
+ {
+  "id": "autoescape-two-strings",
+  "source": "{% autoescape 'html' 'js' %}x{% endautoescape %}"
+ },
+ {
+  "id": "autoescape-unclosed",
+  "source": "{% autoescape %}x"
+ },
+ {
+  "id": "autoescape-nested",
+  "source": "{% autoescape 'js' %}{% autoescape false %}{{ v }}{% endautoescape %}{% endautoescape %}"
+ },
+ {
+  "id": "autoescape-error-line",
+  "source": "{% autoescape\nv\n%}x{% endautoescape %}"
+ },
+ {
+  "id": "block-basic",
+  "source": "{% block content %}Hello{% endblock %}"
+ },
+ {
+  "id": "block-end-name",
+  "source": "{% block content %}Hello{% endblock content %}"
+ },
+ {
+  "id": "block-end-name-mismatch",
+  "source": "{% block a %}x{% endblock b %}"
+ },
+ {
+  "id": "block-end-name-mismatch-line",
+  "source": "{% block a %}x{% endblock\nb\n%}"
+ },
+ {
+  "id": "block-end-two-names",
+  "source": "{% block a %}x{% endblock a b %}"
+ },
+ {
+  "id": "block-shorthand",
+  "source": "{% block c 'z' %}"
+ },
+ {
+  "id": "block-shorthand-expression",
+  "source": "{% block title page.title|upper %}"
+ },
+ {
+  "id": "block-shorthand-end-tag",
+  "source": "{% block a 'x' %}{% endblock %}"
+ },
+ {
+  "id": "block-minus-name",
+  "source": "{% block a-b %}"
+ },
+ {
+  "id": "block-dot-name",
+  "source": "{% block a.b %}"
+ },
+ {
+  "id": "block-number-name",
+  "source": "{% block 1 %}"
+ },
+ {
+  "id": "block-operator-name",
+  "source": "{% block and %}"
+ },
+ {
+  "id": "block-operator-name-no-space",
+  "source": "{% block in%}{% endblock %}"
+ },
+ {
+  "id": "block-duplicate",
+  "source": "{% block a %}{% endblock %}\n{% block a %}{% endblock %}"
+ },
+ {
+  "id": "block-duplicate-nested",
+  "source": "{% block a %}{% block a %}{% endblock %}{% endblock %}"
+ },
+ {
+  "id": "block-unclosed",
+  "source": "{% block a %}\n\nabc"
+ },
+ {
+  "id": "block-nested",
+  "source": "{% block a %}A{% block b %}B{% endblock %}{% endblock %}"
+ },
+ {
+  "id": "block-in-if",
+  "source": "{% if x %}{% block a %}x{% endblock %}{% endif %}"
+ },
+ {
+  "id": "block-parent",
+  "source": "{% extends 'x' %}{% block b %}{{ parent() }}{% endblock %}"
+ },
+ {
+  "id": "block-parent-without-extends",
+  "source": "{% block b %}{{ parent() }}{% endblock %}"
+ },
+ {
+  "id": "block-parent-outside-block",
+  "source": "{% extends 'x' %}{{ parent() }}"
+ },
+ {
+  "id": "block-documentation",
+  "source": "{## The main content #}\n{% block content %}Hello{% endblock %}"
+ },
+ {
+  "id": "block-documentation-multiple",
+  "source": "{## The main content #}\n{## Displayed on every page #}\n{% block content %}Hello{% endblock %}"
+ },
+ {
+  "id": "block-documentation-child",
+  "source": "{% extends 'base' %}\n{## The main content #}\n{% block content %}Hello{% endblock %}"
+ },
+ {
+  "id": "block-documentation-unrelated",
+  "source": "{## Not block documentation #}\nHello\n{% block content %}Hello{% endblock %}"
+ },
+ {
+  "id": "block-documentation-requires-line-break",
+  "source": "{% block ## Description %}Hello{% endblock %}"
+ },
+ {
+  "id": "block-named-docs",
+  "source": "{% block title docs=\"The page title\" %}"
+ },
+ {
+  "id": "block-scope-imports",
+  "source": "{% block a %}{% import _self as m %}{{ m.x() }}{% endblock %}{{ m.x() }}"
+ },
+ {
+  "id": "block-blank-text-body",
+  "source": "{% block a %}  {% endblock %}"
+ },
+ {
+  "id": "deprecated-basic",
+  "source": "{% deprecated 'The template is deprecated.' %}"
+ },
+ {
+  "id": "deprecated-options",
+  "source": "{% deprecated 'x' package='a/b' version='1.0' %}"
+ },
+ {
+  "id": "deprecated-version-first",
+  "source": "{% deprecated 'x' version='1.0' package='a/b' %}"
+ },
+ {
+  "id": "deprecated-repeated-option",
+  "source": "{% deprecated 'x' package='a' version='1' package='b' %}"
+ },
+ {
+  "id": "deprecated-expressions",
+  "source": "{% deprecated 'x ' ~ name package=pkg|upper %}"
+ },
+ {
+  "id": "deprecated-unknown-option",
+  "source": "{% deprecated 'x' foo='a' %}"
+ },
+ {
+  "id": "deprecated-missing-equals",
+  "source": "{% deprecated 'x' package 'a' %}"
+ },
+ {
+  "id": "deprecated-empty",
+  "source": "{% deprecated %}"
+ },
+ {
+  "id": "deprecated-string-option",
+  "source": "{% deprecated 'x' 'package'='a' %}"
+ },
+ {
+  "id": "deprecated-option-line",
+  "source": "{% deprecated 'x'\nfoo\n=\n'a' %}"
+ },
+ {
+  "id": "do-basic",
+  "source": "{% do 1 + 2 %}"
+ },
+ {
+  "id": "do-assignment",
+  "source": "{% do a = b = 'foo' %}"
+ },
+ {
+  "id": "do-sequence-destructuring",
+  "source": "{% do [x, y] = [1, 2] %}"
+ },
+ {
+  "id": "do-mapping-destructuring",
+  "source": "{% do {a, b: c} = map %}"
+ },
+ {
+  "id": "do-empty",
+  "source": "{% do %}"
+ },
+ {
+  "id": "do-two-expressions",
+  "source": "{% do 1 2 %}"
+ },
+ {
+  "id": "do-function",
+  "source": "{% do max(1, 2) %}"
+ },
+ {
+  "id": "embed-basic",
+  "source": "{% embed 'base' %}{% block content %}C{% endblock %}{% endembed %}"
+ },
+ {
+  "id": "embed-options",
+  "source": "{% embed 'base' ignore missing with {a: 1} only %}{% endembed %}"
+ },
+ {
+  "id": "embed-with",
+  "source": "{% embed 'base' with vars %}{% endembed %}"
+ },
+ {
+  "id": "embed-only",
+  "source": "{% embed 'base' only %}{% endembed %}"
+ },
+ {
+  "id": "embed-expression",
+  "source": "{% embed ['a', 'b']|first %}{% endembed %}"
+ },
+ {
+  "id": "embed-content-outside-blocks",
+  "source": "{% embed 'b' %}\n  text\n{% endembed %}"
+ },
+ {
+  "id": "embed-print-outside-blocks",
+  "source": "{% embed 'b' %}{{ x }}{% endembed %}"
+ },
+ {
+  "id": "embed-explicit-extends",
+  "source": "{% embed 'b' %}{% extends 'c' %}{% endembed %}"
+ },
+ {
+  "id": "embed-unexpected-end-tag",
+  "source": "{% embed 'b' %}{% endif %}{% endembed %}"
+ },
+ {
+  "id": "embed-unexpected-end-tag-line",
+  "source": "\n{% embed 'b' %}\n{% endif %}{% endembed %}"
+ },
+ {
+  "id": "embed-nested",
+  "source": "{% embed 'a' %}{% block x %}{% embed 'b' %}{% block y %}Y{% endblock %}{% endembed %}{% endblock %}{% endembed %}"
+ },
+ {
+  "id": "embed-two",
+  "source": "{% embed \"first\" %}{% endembed %}{% embed \"second\" %}{% endembed %}"
+ },
+ {
+  "id": "embed-parent",
+  "source": "{% embed 'b' %}{% block a %}{{ parent() }}{% endblock %}{% endembed %}"
+ },
+ {
+  "id": "embed-outer-imports-not-visible",
+  "source": "{% from _self import m %}{% embed 'b' %}{% block a %}{{ m() }}{% endblock %}{% endembed %}"
+ },
+ {
+  "id": "embed-own-imports",
+  "source": "{% embed 'b' %}{% from _self import m %}{% block a %}{{ m() }}{% endblock %}{% endembed %}"
+ },
+ {
+  "id": "embed-in-block",
+  "source": "{% block a %}{% embed 'b' %}{% block c %}C{% endblock %}{% endembed %}{% endblock %}"
+ },
+ {
+  "id": "embed-in-child-template",
+  "source": "{% extends 'x' %}{% embed 'b' %}{% endembed %}"
+ },
+ {
+  "id": "embed-macro",
+  "source": "{% embed 'b' %}{% macro m() %}M{% endmacro %}{% endembed %}"
+ },
+ {
+  "id": "embed-blocks-separate",
+  "source": "{% block a %}A{% endblock %}{% embed 'b' %}{% block a %}B{% endblock %}{% endembed %}"
+ },
+ {
+  "id": "embed-unclosed",
+  "source": "{% embed 'b' %}"
+ },
+ {
+  "id": "embed-unclosed-body",
+  "source": "{% embed 'b' %}{% block a %}{% endblock %}"
+ },
+ {
+  "id": "embed-end-name",
+  "source": "{% embed 'b' %}{% endembed x %}"
+ },
+ {
+  "id": "embed-wrong-option-order",
+  "source": "{% embed 'b' with {} ignore missing %}{% endembed %}"
+ },
+ {
+  "id": "embed-block-under-if",
+  "source": "{% embed 'b' %}{% if x %}{% block a %}{% endblock %}{% endif %}{% endembed %}"
+ },
+ {
+  "id": "embed-lines",
+  "source": "a\n{% embed 'b'\n%}\n{% block c %}\nC\n{% endblock %}\n{% endembed %}\nz"
+ },
+ {
+  "id": "embed-whitespace-body",
+  "source": "{% embed 'b' %}\n\n  \n{% endembed %}"
+ },
+ {
+  "id": "embed-guard-discarded",
+  "source": "{% guard function nope %}{% embed 'b' %}{% endembed %}{% endguard %}{% embed 'c' %}{% endembed %}"
+ },
+ {
+  "id": "extends-basic",
+  "source": "{% extends 'base' %}{% block a %}A{% endblock %}"
+ },
+ {
+  "id": "extends-empty",
+  "source": "{% extends %}"
+ },
+ {
+  "id": "extends-two-expressions",
+  "source": "{% extends 'b' 'c' %}"
+ },
+ {
+  "id": "extends-twice",
+  "source": "{% extends 'b' %}{% extends 'c' %}"
+ },
+ {
+  "id": "extends-twice-lines",
+  "source": "{% extends 'b' %}\n\n{% extends 'c' %}"
+ },
+ {
+  "id": "extends-in-block",
+  "source": "{% extends 'b' %}\n{% block a %}{% extends 'c' %}{% endblock %}"
+ },
+ {
+  "id": "extends-in-macro",
+  "source": "{% extends 'b' %}{% macro m() %}{% extends 'c' %}{% endmacro %}"
+ },
+ {
+  "id": "extends-only-in-block",
+  "source": "{% block a %}{% extends 'c' %}{% endblock %}"
+ },
+ {
+  "id": "extends-in-if",
+  "source": "{% if x %}{% extends 'b' %}{% endif %}"
+ },
+ {
+  "id": "extends-in-if-twice",
+  "source": "{% if x %}{% extends 'b' %}{% else %}{% extends 'c' %}{% endif %}"
+ },
+ {
+  "id": "extends-content",
+  "source": "{% extends 'b' %}text"
+ },
+ {
+  "id": "extends-print",
+  "source": "{% extends 'b' %}{{ x }}"
+ },
+ {
+  "id": "extends-blank",
+  "source": "{% extends 'b' %}\n   \n{% block a %}{% endblock %}\n"
+ },
+ {
+  "id": "extends-bom",
+  "source": "\ufeff  {% extends 'b' %}"
+ },
+ {
+  "id": "extends-bom-text",
+  "source": "\ufeffx{% extends 'b' %}"
+ },
+ {
+  "id": "extends-allowed-root-nodes",
+  "source": "{% extends 'b' %}{% set a = 1 %}{% set b %}text{{ x }}{% endset %}{% do 1 %}{% deprecated 'x' %}{% import _self as m %}{% from _self import n %}{% macro k() %}{% endmacro %}{% types a: 'x' %}{% flush %}{% with %}{% endwith %}{% if x %}{% endif %}{% for x in y %}{% endfor %}{% guard function max %}{% endguard %}{% autoescape %}{% endautoescape %}{% use 'u' %}"
+ },
+ {
+  "id": "extends-include",
+  "source": "{% extends 'b' %}{% include 'c' %}"
+ },
+ {
+  "id": "extends-embed",
+  "source": "{% extends 'b' %}{% embed 'c' %}{% endembed %}"
+ },
+ {
+  "id": "extends-apply",
+  "source": "{% extends 'b' %}{% apply upper %}{% endapply %}"
+ },
+ {
+  "id": "extends-if-text",
+  "source": "{% extends 'b' %}\n{% if x %}\ntext{% endif %}"
+ },
+ {
+  "id": "extends-for-print",
+  "source": "{% extends 'b' %}{% for x in y %}{{ x }}{% endfor %}"
+ },
+ {
+  "id": "extends-with-text",
+  "source": "{% extends 'b' %}{% with %}x{% endwith %}"
+ },
+ {
+  "id": "extends-block-under-if",
+  "source": "{% extends 'b' %}{% if true %}\n{% block a %}{% endblock %}{% endif %}"
+ },
+ {
+  "id": "extends-block-under-for",
+  "source": "{% extends 'b' %}\n{% for x in y %}{% block a %}{% endblock %}{% endfor %}"
+ },
+ {
+  "id": "extends-block-under-set",
+  "source": "{% extends 'b' %}{% set x %}{% block a %}{% endblock %}{% endset %}"
+ },
+ {
+  "id": "extends-block-under-tag-in-block",
+  "source": "{% extends 'b' %}{% block a %}{% if x %}{% block c %}{% endblock %}{% endif %}{% endblock %}"
+ },
+ {
+  "id": "extends-block-under-tag-in-macro",
+  "source": "{% extends 'b' %}{% macro m() %}{% if x %}{% block c %}{% endblock %}{% endif %}{% endmacro %}"
+ },
+ {
+  "id": "extends-block-under-guard",
+  "source": "{% extends 'b' %}{% guard function max %}{% block a %}{% endblock %}{% endguard %}"
+ },
+ {
+  "id": "extends-block-under-autoescape",
+  "source": "{% extends 'b' %}{% autoescape %}{% block a %}{% endblock %}{% endautoescape %}"
+ },
+ {
+  "id": "extends-later",
+  "source": "{% block a %}A{% endblock %}{% extends 'b' %}"
+ },
+ {
+  "id": "extends-parse-error-wins",
+  "source": "x{% extends 'b' %}{{ 1 2 }}"
+ },
+ {
+  "id": "extends-conditional",
+  "source": "{% extends x ? 'a' : 'b' %}"
+ },
+ {
+  "id": "extends-sequence",
+  "source": "{% extends ['a', 'b'] %}"
+ },
+ {
+  "id": "extends-blocks-traits-order",
+  "source": "{% extends 'b' %}{% use 'u' %}{% block a %}{% endblock %}{% macro m() %}{% endmacro %}"
+ },
+ {
+  "id": "flush-basic",
+  "source": "{% flush %}"
+ },
+ {
+  "id": "flush-argument",
+  "source": "{% flush x %}"
+ },
+ {
+  "id": "for-basic",
+  "source": "{% for x in items %}{{ x }}{% endfor %}"
+ },
+ {
+  "id": "for-key-value",
+  "source": "{% for k, v in items %}{{ k }}{{ v }}{% endfor %}"
+ },
+ {
+  "id": "for-else",
+  "source": "{% for x in items %}{{ x }}{% else %}none{% endfor %}"
+ },
+ {
+  "id": "for-else-line",
+  "source": "{% for x in items %}{{ x }}{%\nelse\n%}none{% endfor %}"
+ },
+ {
+  "id": "for-three-targets",
+  "source": "{% for a, b, c in {x: 1} %}{{ a }}{% endfor %}"
+ },
+ {
+  "id": "for-missing-in",
+  "source": "{% for x %}"
+ },
+ {
+  "id": "for-number-target",
+  "source": "{% for 1 in x %}{% endfor %}"
+ },
+ {
+  "id": "for-if-clause",
+  "source": "{% for x in y if x %}{% endfor %}"
+ },
+ {
+  "id": "for-unclosed",
+  "source": "{% for x in y %}"
+ },
+ {
+  "id": "for-unclosed-else",
+  "source": "{% for x in y %}{% else %}"
+ },
+ {
+  "id": "for-double-else",
+  "source": "{% for x in y %}{% else %}{% else %}{% endfor %}"
+ },
+ {
+  "id": "for-reserved-target",
+  "source": "{% for true in x %}{% endfor %}"
+ },
+ {
+  "id": "for-reserved-key",
+  "source": "{% for null, v in x %}{% endfor %}"
+ },
+ {
+  "id": "for-operator-target",
+  "source": "{% for in in [1, 2] %}{{ in }}{% endfor %}"
+ },
+ {
+  "id": "for-operator-two-words-target",
+  "source": "{% for not in in x %}{% endfor %}"
+ },
+ {
+  "id": "for-documentation",
+  "source": "{% for ## Product identifier\n    product_id, ## Product\n    product in products\n%}{% endfor %}"
+ },
+ {
+  "id": "for-nested",
+  "source": "{% for a in b %}{% for c in a %}{{ c }}{% endfor %}{% endfor %}"
+ },
+ {
+  "id": "for-end-name",
+  "source": "{% for x in y %}{% endfor x %}"
+ },
+ {
+  "id": "for-trailing-comma",
+  "source": "{% for a, in y %}{% endfor %}"
+ },
+ {
+  "id": "for-sequence-expression",
+  "source": "{% for x in 1..3 %}{{ x }}{% endfor %}"
+ },
+ {
+  "id": "from-basic",
+  "source": "{% from _self import m %}{{ m() }}"
+ },
+ {
+  "id": "from-alias",
+  "source": "{% from 'x' import m as n, k %}{{ n() }}{{ k() }}"
+ },
+ {
+  "id": "from-same-macro-twice",
+  "source": "{% from _self import m as n, m as o %}{{ o() }}{{ n() }}"
+ },
+ {
+  "id": "from-missing-import",
+  "source": "{% from _self %}"
+ },
+ {
+  "id": "from-import-nothing",
+  "source": "{% from _self import %}"
+ },
+ {
+  "id": "from-as-nothing",
+  "source": "{% from _self import m as %}"
+ },
+ {
+  "id": "from-trailing-comma",
+  "source": "{% from _self import m, %}"
+ },
+ {
+  "id": "from-operator-name",
+  "source": "{% from _self import and %}"
+ },
+ {
+  "id": "from-reserved-alias",
+  "source": "{% from _self import m as true %}"
+ },
+ {
+  "id": "from-in-block",
+  "source": "{% block b %}{% from _self import m %}{{ m() }}{% endblock %}"
+ },
+ {
+  "id": "from-scope-inner-block",
+  "source": "{% macro n() %}N{% endmacro %}{% block a %}{% from _self import n %}{{ n() }}{% block b %}{{ n() }}{% endblock %}{% endblock %}"
+ },
+ {
+  "id": "from-scope-main-visible",
+  "source": "{% from _self import n %}{% block a %}{% block b %}{{ n() }}{% endblock %}{% endblock %}"
+ },
+ {
+  "id": "from-shadows-function",
+  "source": "{% from _self import max %}{{ max(1, 2) }}"
+ },
+ {
+  "id": "from-in-macro",
+  "source": "{% macro a() %}{% from _self import b %}{{ b() }}{% endmacro %}"
+ },
+ {
+  "id": "from-defined",
+  "source": "{% from _self import m %}{{ m is defined }}{{ m() is defined }}"
+ },
+ {
+  "id": "from-string-name",
+  "source": "{% from _self import 'm' %}"
+ },
+ {
+  "id": "guard-function-exists",
+  "source": "{% guard function max %}{{ max(1, 2) }}{% endguard %}"
+ },
+ {
+  "id": "guard-function-missing",
+  "source": "{% guard function nope %}{{ nope() }}{% endguard %}"
+ },
+ {
+  "id": "guard-function-missing-else",
+  "source": "{% guard function nope %}{{ nope() }}{% else %}N{% endguard %}"
+ },
+ {
+  "id": "guard-function-exists-else",
+  "source": "{% guard function max %}M{% else %}{{ nope() }}{% endguard %}"
+ },
+ {
+  "id": "guard-filter",
+  "source": "{% guard filter upper %}{{ 'a'|upper }}{% else %}{{ 'a'|nope }}{% endguard %}"
+ },
+ {
+  "id": "guard-filter-missing",
+  "source": "{% guard filter nope %}{{ 'a'|nope }}{% else %}{{ 'a'|upper }}{% endguard %}"
+ },
+ {
+  "id": "guard-test",
+  "source": "{% guard test even %}{{ 1 is even }}{% endguard %}"
+ },
+ {
+  "id": "guard-test-two-words",
+  "source": "{% guard test divisible by %}{{ 4 is divisible by(2) }}{% endguard %}"
+ },
+ {
+  "id": "guard-test-one-word-of-two",
+  "source": "{% guard test divisible %}D{% else %}N{% endguard %}"
+ },
+ {
+  "id": "guard-test-missing",
+  "source": "{% guard test nope %}{{ 1 is nope }}{% else %}N{% endguard %}"
+ },
+ {
+  "id": "guard-unknown-type",
+  "source": "{% guard foo max %}{% endguard %}"
+ },
+ {
+  "id": "guard-no-type",
+  "source": "{% guard %}{% endguard %}"
+ },
+ {
+  "id": "guard-no-name",
+  "source": "{% guard function %}{% endguard %}"
+ },
+ {
+  "id": "guard-unclosed",
+  "source": "{% guard function nope %}"
+ },
+ {
+  "id": "guard-unclosed-else",
+  "source": "{% guard function max %}{% else %}"
+ },
+ {
+  "id": "guard-unknown-tag-in-discarded",
+  "source": "{% guard function nope %}{% nope %}{% endguard %}"
+ },
+ {
+  "id": "guard-discarded-block",
+  "source": "{% guard function nope %}{% block b %}{% endblock %}{% endguard %}{% block b %}{% endblock %}"
+ },
+ {
+  "id": "guard-discarded-macro",
+  "source": "{% guard function nope %}{% macro m() %}{% endmacro %}{% endguard %}"
+ },
+ {
+  "id": "guard-discarded-import",
+  "source": "{% guard function nope %}{% from _self import m %}{% endguard %}{{ m() }}"
+ },
+ {
+  "id": "guard-discarded-extends",
+  "source": "{% guard function nope %}{% extends 'b' %}{% endguard %}"
+ },
+ {
+  "id": "guard-nested",
+  "source": "{% guard function max %}{% guard filter nope %}X{% else %}Y{% endguard %}{% endguard %}"
+ },
+ {
+  "id": "guard-unknown-in-taken-branch",
+  "source": "{% guard function nope %}{% else %}{{ nope() }}{% endguard %}"
+ },
+ {
+  "id": "guard-end-name",
+  "source": "{% guard function max %}{% endguard max %}"
+ },
+ {
+  "id": "guard-double-else",
+  "source": "{% guard function max %}{% else %}{% else %}{% endguard %}"
+ },
+ {
+  "id": "guard-type-operator",
+  "source": "{% guard function and %}{% endguard %}"
+ },
+ {
+  "id": "guard-test-defined",
+  "source": "{% guard test defined %}{{ x is defined }}{% endguard %}"
+ },
+ {
+  "id": "if-basic",
+  "source": "{% if a %}A{% endif %}"
+ },
+ {
+  "id": "if-elseif-else",
+  "source": "{% if a %}A{% elseif b %}B{% elseif c %}C{% else %}D{% endif %}"
+ },
+ {
+  "id": "if-else",
+  "source": "{% if a %}A{% else %}B{% endif %}"
+ },
+ {
+  "id": "if-empty-bodies",
+  "source": "{% if a %}{% elseif b %}{% else %}{% endif %}"
+ },
+ {
+  "id": "if-primitive-condition",
+  "source": "{% if a == 1 %}A{% elseif not b %}B{% elseif c is defined %}C{% endif %}"
+ },
+ {
+  "id": "if-no-condition",
+  "source": "{% if %}{% endif %}"
+ },
+ {
+  "id": "if-elseif-no-condition",
+  "source": "{% if a %}{% elseif %}{% endif %}"
+ },
+ {
+  "id": "if-elseif-after-else",
+  "source": "{% if a %}{% else %}{% elseif b %}{% endif %}"
+ },
+ {
+  "id": "if-unclosed",
+  "source": "{% if x %}\n\nabc"
+ },
+ {
+  "id": "if-unclosed-else",
+  "source": "{% if x %}{% else %}"
+ },
+ {
+  "id": "if-unclosed-elseif",
+  "source": "{% if x %}{% elseif y %}"
+ },
+ {
+  "id": "if-nested-unclosed",
+  "source": "{% if a %}{% if b %}{% endif %}"
+ },
+ {
+  "id": "if-double-else",
+  "source": "{% if a %}{% else %}{% else %}{% endif %}"
+ },
+ {
+  "id": "if-end-name",
+  "source": "{% if a %}{% endif a %}"
+ },
+ {
+  "id": "if-lines",
+  "source": "{% if a %}\n{% elseif b %}\n{% else %}\n{% endif %}"
+ },
+ {
+  "id": "import-basic",
+  "source": "{% import _self as forms %}{{ forms.input() }}"
+ },
+ {
+  "id": "import-template",
+  "source": "{% import 'forms.html' as forms %}{{ forms.input('a') }}"
+ },
+ {
+  "id": "import-missing-as",
+  "source": "{% import _self %}"
+ },
+ {
+  "id": "import-dotted-alias",
+  "source": "{% import _self as m.n %}"
+ },
+ {
+  "id": "import-operator-alias",
+  "source": "{% import _self as in %}"
+ },
+ {
+  "id": "import-reserved-alias",
+  "source": "{% import _self as true %}"
+ },
+ {
+  "id": "import-two-aliases",
+  "source": "{% import _self as a, b %}"
+ },
+ {
+  "id": "import-in-block",
+  "source": "{% block b %}{% import _self as f %}{{ f.m() }}{% endblock %}"
+ },
+ {
+  "id": "import-without-parentheses",
+  "source": "{% import _self as macros %}{{ macros.foo }}{{ macros.bar }}"
+ },
+ {
+  "id": "import-without-parentheses-reused",
+  "source": "{% import _self as macros %}{{ macros.foo ?? 'x' }}{{ macros.foo ?: 'x' }}\n{{ name|default(macros.foo) }}"
+ },
+ {
+  "id": "import-without-parentheses-dynamic",
+  "source": "{% import _self as macros %}{{ macros.(name) ?: \"x\" }}"
+ },
+ {
+  "id": "import-parentheses-and-not",
+  "source": "{% import _self as macros %}{{ macros.foo() }}{{ macros.foo }}"
+ },
+ {
+  "id": "import-defined",
+  "source": "{% import _self as macros %}{{ macros.foo is defined }}{{ macros.foo() is defined }}"
+ },
+ {
+  "id": "import-self-without-import",
+  "source": "{{ _self.foo }}{{ _self.foo() }}"
+ },
+ {
+  "id": "import-reserved-name",
+  "source": "{% import _self as context %}{{ context.m() }}"
+ },
+ {
+  "id": "include-basic",
+  "source": "{% include 'a' %}"
+ },
+ {
+  "id": "include-all-options",
+  "source": "{% include 'a' ignore missing with {b: 1} only %}"
+ },
+ {
+  "id": "include-with",
+  "source": "{% include 'a' with vars %}"
+ },
+ {
+  "id": "include-only",
+  "source": "{% include 'a' only %}"
+ },
+ {
+  "id": "include-ignore-missing",
+  "source": "{% include ['a', 'b'] ignore missing %}"
+ },
+ {
+  "id": "include-wrong-order",
+  "source": "{% include 'b' with {} ignore missing %}"
+ },
+ {
+  "id": "include-only-before-with",
+  "source": "{% include 'b' only with {} %}"
+ },
+ {
+  "id": "include-ignore-without-missing",
+  "source": "{% include 'b' ignore %}"
+ },
+ {
+  "id": "include-with-only",
+  "source": "{% include 'b' with only %}"
+ },
+ {
+  "id": "include-empty",
+  "source": "{% include %}"
+ },
+ {
+  "id": "include-with-nothing",
+  "source": "{% include 'a' with %}"
+ },
+ {
+  "id": "include-expression",
+  "source": "{% include 'a' ~ b|lower %}"
+ },
+ {
+  "id": "macro-basic",
+  "source": "{% macro input(name, value = \"\", type = \"text\") %}<input>{% endmacro %}"
+ },
+ {
+  "id": "macro-implicit-defaults",
+  "source": "{% macro marco (po, lo = true) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-variadic",
+  "source": "{% macro m(a, ...rest) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-variadic-only",
+  "source": "{% macro m(...rest) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-trailing-comma",
+  "source": "{% macro m(a, b,) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-constant-defaults",
+  "source": "{% macro m(a = -1, b = +2, c = [1, {c: 'd'}], d = null, e = 'x', f = true, g = 1.5) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-end-name",
+  "source": "{% macro m() %}{% endmacro m %}"
+ },
+ {
+  "id": "macro-end-name-mismatch",
+  "source": "{% macro m() %}{% endmacro n %}"
+ },
+ {
+  "id": "macro-variadic-not-last",
+  "source": "{% macro m(...rest, a) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-variadic-default",
+  "source": "{% macro m(...rest = 1) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-variadic-trailing-comma",
+  "source": "{% macro m(...rest,) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-variadic-duplicate",
+  "source": "{% macro m(a, ...a) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-duplicate-argument",
+  "source": "{% macro m(a, a) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-varargs-argument",
+  "source": "{% macro m(varargs) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-variadic-varargs",
+  "source": "{% macro m(...varargs) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-reserved-arguments",
+  "source": "{% macro m(context, macros, blocks, this) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-reserved-duplicate",
+  "source": "{% macro m(context, context) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-reserved-variadic",
+  "source": "{% macro m(a, ...context) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-true-argument",
+  "source": "{% macro m(true) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-true-variadic",
+  "source": "{% macro m(...True) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-non-constant-default",
+  "source": "{% macro m(a = b) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-concat-default",
+  "source": "{% macro m(a = 1 + 1) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-interpolated-default",
+  "source": "{% macro m(a = \"x#{y}\") %}{% endmacro %}"
+ },
+ {
+  "id": "macro-mapping-key-default",
+  "source": "{% macro m(a = {(k): 1}) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-spread-default",
+  "source": "{% macro m(a = [...b]) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-default-error-line",
+  "source": "{% macro m(a\n=\nb) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-colon-default",
+  "source": "{% macro m(a: 1) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-no-parentheses",
+  "source": "{% macro m %}"
+ },
+ {
+  "id": "macro-string-argument",
+  "source": "{% macro m(\"a\") %}{% endmacro %}"
+ },
+ {
+  "id": "macro-variadic-no-name",
+  "source": "{% macro m(...) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-operator-name",
+  "source": "{% macro and() %}{% endmacro %}"
+ },
+ {
+  "id": "macro-unclosed",
+  "source": "{% macro m() %}x"
+ },
+ {
+  "id": "macro-in-block",
+  "source": "{% block a %}{% macro m() %}{% endmacro %}{% endblock %}"
+ },
+ {
+  "id": "macro-in-if",
+  "source": "{% if x %}{% macro m() %}{% endmacro %}{% endif %}"
+ },
+ {
+  "id": "macro-redefined",
+  "source": "{% macro input() %}{% endmacro %}\n{% macro input() %}{% endmacro %}\n{% macro input() %}{% endmacro %}"
+ },
+ {
+  "id": "macro-documentation",
+  "source": "{## Input macro #}\n{% macro input(## Name argument\nname, ## Value argument\nvalue) %}{% endmacro %}"
+ },
+ {
+  "id": "macro-documentation-duplicate",
+  "source": "{## First #}{% macro input() %}{% endmacro %}{## Second #}{% macro input() %}{% endmacro %}"
+ },
+ {
+  "id": "macro-scope",
+  "source": "{% macro m() %}{% import _self as x %}{{ x.y() }}{% endmacro %}{{ x.y() }}"
+ },
+ {
+  "id": "macro-body-error-first",
+  "source": "{% macro m(a, a) %}{{ 1 2 }}{% endmacro %}"
+ },
+ {
+  "id": "macro-arguments-lines",
+  "source": "{% macro m(\na,\nb = 1\n) %}{% endmacro %}"
+ },
+ {
+  "id": "sandbox-text",
+  "source": "{% sandbox %}x{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "sandbox-print",
+  "source": "{% sandbox %}{{ x }}{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "sandbox-include",
+  "source": "{% sandbox %}{% include 'a' %}{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "sandbox-includes",
+  "source": "{% sandbox %}\n  {% include 'a' %}\n  {% include 'b' %}\n{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "sandbox-include-and-text",
+  "source": "{% sandbox %}{% include 'a' %}x{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "sandbox-embed",
+  "source": "{% sandbox %}{% embed 'a' %}{% endembed %}{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "sandbox-if",
+  "source": "{% sandbox %}{% if x %}{% endif %}{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "sandbox-if-lines",
+  "source": "{% sandbox %}\n{% if x %}{% endif %}\n{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "sandbox-empty",
+  "source": "{% sandbox %}{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "sandbox-unclosed",
+  "source": "{% sandbox %}x",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "sandbox-print-line",
+  "source": "{% sandbox %}\n{% include 'a' %}\n\n{{ x }}{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "sandbox-argument",
+  "source": "{% sandbox x %}{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "set-basic",
+  "source": "{% set a = 'b' %}"
+ },
+ {
+  "id": "set-multiple",
+  "source": "{% set a, b = 'c', 'd' %}"
+ },
+ {
+  "id": "set-count-mismatch",
+  "source": "{% set a, b = 1 %}"
+ },
+ {
+  "id": "set-count-mismatch-line",
+  "source": "{% set a, b = 1\n%}\nx"
+ },
+ {
+  "id": "set-capture",
+  "source": "{% set a %}x{{ y }}{% endset %}"
+ },
+ {
+  "id": "set-capture-text",
+  "source": "{% set a %} <b> {% endset %}"
+ },
+ {
+  "id": "set-capture-empty",
+  "source": "{% set a %}{% endset %}"
+ },
+ {
+  "id": "set-capture-constant-print",
+  "source": "{% set a %}{{ 'c' }}{% endset %}"
+ },
+ {
+  "id": "set-capture-variable-print",
+  "source": "{% set a %}{{ c }}{% endset %}"
+ },
+ {
+  "id": "set-capture-multi-target",
+  "source": "{% set a, b %}x{% endset %}"
+ },
+ {
+  "id": "set-attribute-target",
+  "source": "{% set a.b = 1 %}"
+ },
+ {
+  "id": "set-no-target",
+  "source": "{% set %}"
+ },
+ {
+  "id": "set-two-assignments",
+  "source": "{% set a = 1 b = 2 %}"
+ },
+ {
+  "id": "set-chained",
+  "source": "{% set d = e = 3 %}"
+ },
+ {
+  "id": "set-operator-target",
+  "source": "{% set in = 1 %}"
+ },
+ {
+  "id": "set-two-word-operator-target",
+  "source": "{% set b-and = 1 %}"
+ },
+ {
+  "id": "set-reserved-target",
+  "source": "{% set none = 1 %}"
+ },
+ {
+  "id": "set-reserved-target-case",
+  "source": "{% set NuLL = 1 %}"
+ },
+ {
+  "id": "set-documentation",
+  "source": "{% set ## First name\n    first_name, ## Last name\n    last_name = user.first_name, user.last_name\n%}"
+ },
+ {
+  "id": "set-unclosed-capture",
+  "source": "{% set a %}x"
+ },
+ {
+  "id": "set-capture-end-name",
+  "source": "{% set a %}x{% endset a %}"
+ },
+ {
+  "id": "set-trailing-comma-values",
+  "source": "{% set a, b = 1, %}"
+ },
+ {
+  "id": "types-empty",
+  "source": "{% types %}"
+ },
+ {
+  "id": "types-empty-mapping",
+  "source": "{% types {} %}"
+ },
+ {
+  "id": "types-basic",
+  "source": "{% types {foo: \"bar\"} %}"
+ },
+ {
+  "id": "types-trailing-comma",
+  "source": "{% types {foo: \"bar\",} %}"
+ },
+ {
+  "id": "types-optional",
+  "source": "{% types {foo?: \"bar\"} %}"
+ },
+ {
+  "id": "types-optional-spaced",
+  "source": "{% types {foo ? : 'bar'} %}"
+ },
+ {
+  "id": "types-multiple",
+  "source": "{% types {foo: \"foo\", bar?: \"foo\", baz: \"baz\"} %}"
+ },
+ {
+  "id": "types-not-enclosed",
+  "source": "{% types foo: \"foo\", bar: \"bar\" %}"
+ },
+ {
+  "id": "types-duplicate",
+  "source": "{% types a: 'x', b: 'y', a: 'z' %}"
+ },
+ {
+  "id": "types-documentation",
+  "source": "{% types {\n## The foo variable\nfoo: 'foo',\n## The bar variable\nbar?: 'bar',\n} %}"
+ },
+ {
+  "id": "types-elvis-space",
+  "source": "{% types a ? : 'x' %}"
+ },
+ {
+  "id": "types-name-value",
+  "source": "{% types a: b %}"
+ },
+ {
+  "id": "types-string-name",
+  "source": "{% types 'a': 'x' %}"
+ },
+ {
+  "id": "types-missing-comma",
+  "source": "{% types a: 'x' b: 'y' %}"
+ },
+ {
+  "id": "types-unclosed-mapping",
+  "source": "{% types {a: 'x' %}"
+ },
+ {
+  "id": "types-missing-colon",
+  "source": "{% types a 'x' %}"
+ },
+ {
+  "id": "types-interpolated",
+  "source": "{% types a: \"x#{y}\" %}"
+ },
+ {
+  "id": "use-basic",
+  "source": "{% use 'blocks.html' %}"
+ },
+ {
+  "id": "use-with",
+  "source": "{% use 'blocks.html' with a as b, c %}"
+ },
+ {
+  "id": "use-with-repeated",
+  "source": "{% use 'blocks.html' with a as b, a as c %}"
+ },
+ {
+  "id": "use-variable",
+  "source": "{% use x %}"
+ },
+ {
+  "id": "use-concat",
+  "source": "{% use 'b' ~ 'c' %}"
+ },
+ {
+  "id": "use-number",
+  "source": "{% use 1 %}"
+ },
+ {
+  "id": "use-trailing-comma",
+  "source": "{% use 'b' with a, %}"
+ },
+ {
+  "id": "use-in-block",
+  "source": "{% block x %}{% use 'b' %}{% endblock %}"
+ },
+ {
+  "id": "use-two",
+  "source": "{% use 'a' %}{% use 'b' with c %}"
+ },
+ {
+  "id": "use-parent",
+  "source": "{% use 'a' %}{% block b %}{{ parent() }}{% endblock %}"
+ },
+ {
+  "id": "use-with-string",
+  "source": "{% use 'a' with 'b' %}"
+ },
+ {
+  "id": "use-error-line",
+  "source": "{% use\nx\n%}"
+ },
+ {
+  "id": "with-basic",
+  "source": "{% with %}x{% endwith %}"
+ },
+ {
+  "id": "with-variables",
+  "source": "{% with {a: 1} %}{{ a }}{% endwith %}"
+ },
+ {
+  "id": "with-only",
+  "source": "{% with {a: 1} only %}{{ a }}{% endwith %}"
+ },
+ {
+  "id": "with-only-as-variables",
+  "source": "{% with only %}x{% endwith %}"
+ },
+ {
+  "id": "with-extra-token",
+  "source": "{% with {a: 1} x %}{% endwith %}"
+ },
+ {
+  "id": "with-unclosed",
+  "source": "{% with {a: 1} %}"
+ },
+ {
+  "id": "with-number",
+  "source": "{% with 1 %}{% endwith %}"
+ },
+ {
+  "id": "module-child-body-cleanup",
+  "source": "{% extends \"base\" %}\n\n{% block header %}\n    header\n{% endblock %}\n\n{% set foo = 'bar' %}\n\n{% block footer %}\n    footer\n{% endblock %}\n"
+ },
+ {
+  "id": "module-parent-body",
+  "source": "{% block header %}\n    header\n{% endblock %}\n\n{% set foo = 'bar' %}\n\n{% block footer %}\n    footer\n{% endblock %}\n"
+ },
+ {
+  "id": "module-child-single-block",
+  "source": "{% extends 'b' %}{% block a %}{% endblock %}"
+ },
+ {
+  "id": "module-everything",
+  "source": "{% extends 'b' %}{% use 'u' %}{% import _self as m %}{% macro z() %}{% endmacro %}{% block a %}{% embed 'e' %}{% endembed %}{% endblock %}"
+ },
+ {
+  "id": "module-name",
+  "source": "{{ x }}",
+  "name": "foo.twig"
+ },
+ {
+  "id": "module-error-name",
+  "source": "{% if %}",
+  "name": "foo.twig"
+ },
+ {
+  "id": "line0-multiple-extends",
+  "source": "{% line 0 %}{% extends 'a' %}{% extends 'b' %}"
+ },
+ {
+  "id": "line0-embed-extends",
+  "source": "{% line 0 %}{% embed 'b' %}{% extends 'c' %}{% endembed %}"
+ },
+ {
+  "id": "line0-embed-text-line3",
+  "source": "{% line 0 %}{% embed 'b' %}text{% line 3 %}{% endembed %}"
+ },
+ {
+  "id": "line0-block-under-if",
+  "source": "{% line 0 %}{% extends 'b' %}{% if x %}{% block a %}{% endblock %}{% endif %}"
+ },
+ {
+  "id": "line0-sandbox-if",
+  "source": "{% sandbox %}{% if x %}{% endif %}{% line 0 %}{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "line0-macro-dup",
+  "source": "{% line 0 %}{% macro m(a, a) %}{% endmacro %}{% line 9 %}"
+ },
+ {
+  "id": "line0-block-dup",
+  "source": "{% line 0 %}{% block a %}{% endblock %}{% block a %}{% line 4 %}{% endblock %}"
+ },
+ {
+  "id": "line0-root-deprecation",
+  "source": "{% line 0 %}{% if x %}{% use 'a' %}{% endif %}"
+ },
+ {
+  "id": "line0-macro-parentheses",
+  "source": "{% line 0 %}{% import _self as m %}{{ m.x }}"
+ },
+ {
+  "id": "line0-unknown-tag",
+  "source": "{% line 0 %}{% foo %}"
+ },
+ {
+  "id": "line0-set-count",
+  "source": "{% line 0 %}{% set a, b = 1 %}{% line 5 %}x"
+ },
+ {
+  "id": "root-deprecation-use-in-if",
+  "source": "{% if x %}{% use 'b' %}{% endif %}"
+ },
+ {
+  "id": "root-deprecation-macro-in-macro",
+  "source": "{% macro a() %}{% macro b() %}{% endmacro %}{% endmacro %}"
+ },
+ {
+  "id": "root-deprecation-in-embed",
+  "source": "{% embed 'b' %}{% block a %}{% use 'c' %}{% endblock %}{% endembed %}"
+ },
+ {
+  "id": "root-deprecation-extends-in-for",
+  "source": "{% for x in y %}{% extends 'b' %}{% endfor %}"
+ },
+ {
+  "id": "root-deprecation-single-root",
+  "source": "{% use 'b' %}"
+ },
+ {
+  "id": "root-deprecation-in-guard",
+  "source": "{% guard function max %}{% use 'b' %}{% endguard %}"
+ }
+]

@@ -1,0 +1,3753 @@
+{
+    "filters": [
+        {
+            "name": "date",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::formatDate",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "date",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "format",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "timezone",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "date_modify",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::modifyDate",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "date",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "modifier",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "format",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::sprintf",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "format",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "values",
+                        "optional": true,
+                        "default": null,
+                        "variadic": true,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "replace",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::replace",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "str",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "from",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "number_format",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::formatNumber",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "number",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "decimal",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "decimalPoint",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "thousandSep",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "abs",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "abs",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "num",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": "abs"
+            }
+        },
+        {
+            "name": "round",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::round",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "value",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "precision",
+                        "optional": true,
+                        "default": "0",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "method",
+                        "optional": true,
+                        "default": "'common'",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "url_encode",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::urlencode",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "url",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "json_encode",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "json_encode",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "value",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "flags",
+                        "optional": true,
+                        "default": "0",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "depth",
+                        "optional": true,
+                        "default": "512",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": "json_encode"
+            }
+        },
+        {
+            "name": "convert_encoding",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::convertEncoding",
+                "required": 3,
+                "params": [
+                    {
+                        "name": "string",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "to",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "from",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "title",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": true,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 2,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::titleCase",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "charset",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "string",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "capitalize",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": true,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 2,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::capitalize",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "charset",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "string",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "upper",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": true,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 2,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::upper",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "charset",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "string",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "lower",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": true,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 2,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::lower",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "charset",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "string",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "striptags",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::striptags",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "string",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "allowable_tags",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "trim",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::trim",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "string",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "characterMask",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "side",
+                        "optional": true,
+                        "default": "'both'",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "nl2br",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": [
+                "html"
+            ],
+            "has_is_safe_callback": false,
+            "pre_escape": "html",
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::nl2br",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "string",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "spaceless",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": [
+                "twig/twig",
+                "3.12",
+                null,
+                null,
+                null
+            ],
+            "is_safe": [
+                "html"
+            ],
+            "has_is_safe_callback": false,
+            "pre_escape": "html",
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::spaceless",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "content",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "join",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::join",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "value",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "glue",
+                        "optional": true,
+                        "default": "''",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "and",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "split",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": true,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 2,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::split",
+                "required": 3,
+                "params": [
+                    {
+                        "name": "charset",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "value",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "delimiter",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "limit",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "sort",
+            "node_class": "FilterExpression",
+            "needs_environment": true,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": true,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 3,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::sort",
+                "required": 3,
+                "params": [
+                    {
+                        "name": "env",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "isSandboxed",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "array",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "arrow",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "merge",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::merge",
+                "required": 0,
+                "params": [
+                    {
+                        "name": "arrays",
+                        "optional": true,
+                        "default": null,
+                        "variadic": true,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "batch",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::batch",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "items",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "size",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "fill",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "preserveKeys",
+                        "optional": true,
+                        "default": "true",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "column",
+            "node_class": "FilterExpression",
+            "needs_environment": true,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": true,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 3,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::column",
+                "required": 4,
+                "params": [
+                    {
+                        "name": "env",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "isSandboxed",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "array",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "name",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "index",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "filter",
+            "node_class": "FilterExpression",
+            "needs_environment": true,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": true,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 3,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::filter",
+                "required": 4,
+                "params": [
+                    {
+                        "name": "env",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "isSandboxed",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "array",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "arrow",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "map",
+            "node_class": "FilterExpression",
+            "needs_environment": true,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": true,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 3,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::map",
+                "required": 4,
+                "params": [
+                    {
+                        "name": "env",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "isSandboxed",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "array",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "arrow",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "reduce",
+            "node_class": "FilterExpression",
+            "needs_environment": true,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": true,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 3,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::reduce",
+                "required": 4,
+                "params": [
+                    {
+                        "name": "env",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "isSandboxed",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "array",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "arrow",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "initial",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "find",
+            "node_class": "FilterExpression",
+            "needs_environment": true,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": true,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 3,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::find",
+                "required": 4,
+                "params": [
+                    {
+                        "name": "env",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "isSandboxed",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "array",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "arrow",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "reverse",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": true,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 2,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::reverse",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "charset",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "item",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "preserveKeys",
+                        "optional": true,
+                        "default": "false",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "shuffle",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": true,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 2,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::shuffle",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "charset",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "item",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "length",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": true,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 2,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::length",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "charset",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "thing",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "slice",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": true,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 2,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::slice",
+                "required": 3,
+                "params": [
+                    {
+                        "name": "charset",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "item",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "start",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "length",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "preserveKeys",
+                        "optional": true,
+                        "default": "false",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "first",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": true,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 2,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::first",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "charset",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "item",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "last",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": true,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 2,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::last",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "charset",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "item",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "default",
+            "node_class": "DefaultFilter",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::default",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "value",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "default",
+                        "optional": true,
+                        "default": "''",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "keys",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::keys",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "array",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "invoke",
+            "node_class": "FilterExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::invoke",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "arrow",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "arguments",
+                        "optional": true,
+                        "default": null,
+                        "variadic": true,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "escape",
+            "node_class": "EscapeFilter",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": true,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Runtime\\EscaperRuntime::escape",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "string",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "strategy",
+                        "optional": true,
+                        "default": "'html'",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "charset",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "autoescape",
+                        "optional": true,
+                        "default": "false",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "e",
+            "node_class": "EscapeFilter",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": true,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Runtime\\EscaperRuntime::escape",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "string",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "strategy",
+                        "optional": true,
+                        "default": "'html'",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "charset",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "autoescape",
+                        "optional": true,
+                        "default": "false",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "raw",
+            "node_class": "RawFilter",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": [
+                "all"
+            ],
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": null
+        }
+    ],
+    "functions": [
+        {
+            "name": "parent",
+            "node_class": "FunctionExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": true,
+            "min_required": 0,
+            "callable": null
+        },
+        {
+            "name": "block",
+            "node_class": "FunctionExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": true,
+            "min_required": 0,
+            "callable": null
+        },
+        {
+            "name": "attribute",
+            "node_class": "FunctionExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": true,
+            "min_required": 0,
+            "callable": null
+        },
+        {
+            "name": "max",
+            "node_class": "FunctionExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 0,
+            "callable": {
+                "reflection_name": "max",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "value",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "values",
+                        "optional": true,
+                        "default": null,
+                        "variadic": true,
+                        "array": false
+                    }
+                ],
+                "string": "max"
+            }
+        },
+        {
+            "name": "min",
+            "node_class": "FunctionExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 0,
+            "callable": {
+                "reflection_name": "min",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "value",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "values",
+                        "optional": true,
+                        "default": null,
+                        "variadic": true,
+                        "array": false
+                    }
+                ],
+                "string": "min"
+            }
+        },
+        {
+            "name": "range",
+            "node_class": "FunctionExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 0,
+            "callable": {
+                "reflection_name": "range",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "start",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "end",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "step",
+                        "optional": true,
+                        "default": "1",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": "range"
+            }
+        },
+        {
+            "name": "constant",
+            "node_class": "FunctionExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 0,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::constant",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "constant",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "object",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "checkDefined",
+                        "optional": true,
+                        "default": "false",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "cycle",
+            "node_class": "FunctionExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 0,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::cycle",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "values",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "position",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "random",
+            "node_class": "FunctionExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": true,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::random",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "charset",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "values",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "max",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "date",
+            "node_class": "FunctionExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 0,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::convertDate",
+                "required": 0,
+                "params": [
+                    {
+                        "name": "date",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "timezone",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "include",
+            "node_class": "FunctionExpression",
+            "needs_environment": true,
+            "needs_context": true,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": [
+                "all"
+            ],
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 2,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::include",
+                "required": 3,
+                "params": [
+                    {
+                        "name": "env",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "context",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "template",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "variables",
+                        "optional": true,
+                        "default": "array ()",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "withContext",
+                        "optional": true,
+                        "default": "true",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "ignoreMissing",
+                        "optional": true,
+                        "default": "false",
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "sandboxed",
+                        "optional": true,
+                        "default": "false",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "include_only",
+            "node_class": "FunctionExpression",
+            "needs_environment": true,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": [
+                "all"
+            ],
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::includeOnly",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "env",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "template",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "variables",
+                        "optional": true,
+                        "default": "array ()",
+                        "variadic": false,
+                        "array": true
+                    },
+                    {
+                        "name": "ignoreMissing",
+                        "optional": true,
+                        "default": "false",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "source",
+            "node_class": "FunctionExpression",
+            "needs_environment": true,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": [
+                "all"
+            ],
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::source",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "env",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "name",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "ignoreMissing",
+                        "optional": true,
+                        "default": "false",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "enum_cases",
+            "node_class": "EnumCasesFunction",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 0,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::enumCases",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "enum",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "enum",
+            "node_class": "EnumFunction",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 0,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::enum",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "enum",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "dump",
+            "node_class": "FunctionExpression",
+            "needs_environment": true,
+            "needs_context": true,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": true,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": [
+                "html"
+            ],
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 2,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\DebugExtension::dump",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "env",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "context",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "vars",
+                        "optional": true,
+                        "default": null,
+                        "variadic": true,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "template_from_string",
+            "node_class": "FunctionExpression",
+            "needs_environment": true,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\StringLoaderExtension::templateFromString",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "env",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "template",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "name",
+                        "optional": true,
+                        "default": "NULL",
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "render_sandboxed",
+            "node_class": "RenderSandboxedFunction",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": true,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": null,
+            "has_parser_callable": false,
+            "min_required": 0,
+            "callable": {
+                "reflection_name": "Twig\\Runtime\\SandboxBridgeRuntime::render",
+                "required": 2,
+                "params": [
+                    {
+                        "name": "name",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    },
+                    {
+                        "name": "context",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": true
+                    }
+                ],
+                "string": null
+            }
+        }
+    ],
+    "tests": [
+        {
+            "name": "even",
+            "node_class": "EvenTest",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": true,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": false,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": null
+        },
+        {
+            "name": "odd",
+            "node_class": "OddTest",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": true,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": false,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": null
+        },
+        {
+            "name": "defined",
+            "node_class": "DefinedTest",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": true,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": false,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": null
+        },
+        {
+            "name": "same as",
+            "node_class": "SameasTest",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": true,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": true,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": null
+        },
+        {
+            "name": "none",
+            "node_class": "NullTest",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": true,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": false,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": null
+        },
+        {
+            "name": "null",
+            "node_class": "NullTest",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": true,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": false,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": null
+        },
+        {
+            "name": "divisible by",
+            "node_class": "DivisiblebyTest",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": true,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": true,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": null
+        },
+        {
+            "name": "constant",
+            "node_class": "ConstantTest",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": false,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": false,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": null
+        },
+        {
+            "name": "empty",
+            "node_class": "TestExpression",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": true,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": false,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::testEmpty",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "value",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "iterable",
+            "node_class": "NonStringCoercingInputTest",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": true,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": false,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "is_iterable",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "value",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": "is_iterable"
+            }
+        },
+        {
+            "name": "sequence",
+            "node_class": "NonStringCoercingInputTest",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": true,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": false,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::testSequence",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "value",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "mapping",
+            "node_class": "NonStringCoercingInputTest",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": true,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": false,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": {
+                "reflection_name": "Twig\\Extension\\CoreExtension::testMapping",
+                "required": 1,
+                "params": [
+                    {
+                        "name": "value",
+                        "optional": false,
+                        "default": null,
+                        "variadic": false,
+                        "array": false
+                    }
+                ],
+                "string": null
+            }
+        },
+        {
+            "name": "true",
+            "node_class": "TrueTest",
+            "needs_environment": false,
+            "needs_context": false,
+            "needs_charset": false,
+            "needs_is_sandboxed": false,
+            "is_variadic": false,
+            "always_allowed_in_sandbox": true,
+            "deprecation": null,
+            "is_safe": null,
+            "has_is_safe_callback": false,
+            "pre_escape": null,
+            "preserves_safety": null,
+            "one_mandatory_argument": false,
+            "has_parser_callable": false,
+            "min_required": 1,
+            "callable": null
+        }
+    ],
+    "tags": [
+        "apply",
+        "for",
+        "if",
+        "extends",
+        "include",
+        "block",
+        "use",
+        "macro",
+        "import",
+        "from",
+        "set",
+        "types",
+        "flush",
+        "do",
+        "embed",
+        "with",
+        "deprecated",
+        "guard",
+        "autoescape",
+        "sandbox"
+    ],
+    "expression_parsers": [
+        {
+            "string": "prefix(not)",
+            "class": "UnaryOperatorExpressionParser",
+            "name": "not",
+            "precedence": 50,
+            "associativity": null,
+            "precedence_change": [
+                "twig/twig",
+                "3.15",
+                70
+            ],
+            "aliases": [],
+            "tokens": [
+                "not"
+            ],
+            "description": ""
+        },
+        {
+            "string": "prefix(...)",
+            "class": "SpreadExpressionParser",
+            "name": "...",
+            "precedence": 512,
+            "associativity": null,
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "..."
+            ],
+            "description": "Spread operator"
+        },
+        {
+            "string": "prefix(-)",
+            "class": "UnaryOperatorExpressionParser",
+            "name": "-",
+            "precedence": 500,
+            "associativity": null,
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "-"
+            ],
+            "description": ""
+        },
+        {
+            "string": "prefix(+)",
+            "class": "UnaryOperatorExpressionParser",
+            "name": "+",
+            "precedence": 500,
+            "associativity": null,
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "+"
+            ],
+            "description": ""
+        },
+        {
+            "string": "prefix(()",
+            "class": "GroupingExpressionParser",
+            "name": "(",
+            "precedence": 0,
+            "associativity": null,
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "("
+            ],
+            "description": "Explicit group expression (a)"
+        },
+        {
+            "string": "infix(?:)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "?:",
+            "precedence": 5,
+            "associativity": "Right",
+            "precedence_change": null,
+            "aliases": [
+                "? :"
+            ],
+            "tokens": [
+                "?:",
+                "? :"
+            ],
+            "description": "Elvis operator (a ?: b)"
+        },
+        {
+            "string": "infix(??)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "??",
+            "precedence": 300,
+            "associativity": "Right",
+            "precedence_change": [
+                "twig/twig",
+                "3.15",
+                5
+            ],
+            "aliases": [],
+            "tokens": [
+                "??"
+            ],
+            "description": "Null coalescing operator (a ?? b)"
+        },
+        {
+            "string": "infix(or)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "or",
+            "precedence": 10,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "or"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(xor)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "xor",
+            "precedence": 12,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "xor"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(and)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "and",
+            "precedence": 15,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "and"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(b-or)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "b-or",
+            "precedence": 16,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "b-or"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(b-xor)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "b-xor",
+            "precedence": 17,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "b-xor"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(b-and)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "b-and",
+            "precedence": 18,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "b-and"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(==)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "==",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "=="
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(!=)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "!=",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "!="
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(<=>)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "<=>",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "<=>"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(<)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "<",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "<"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(>)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": ">",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                ">"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(>=)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": ">=",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                ">="
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(<=)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "<=",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "<="
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(not in)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "not in",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "not in"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(in)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "in",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "in"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(matches)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "matches",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "matches"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(starts with)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "starts with",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "starts with"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(ends with)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "ends with",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "ends with"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(has some)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "has some",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "has some"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(has every)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "has every",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "has every"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(===)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "===",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "==="
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(!==)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "!==",
+            "precedence": 20,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "!=="
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(..)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "..",
+            "precedence": 25,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                ".."
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(+)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "+",
+            "precedence": 30,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "+"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(-)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "-",
+            "precedence": 30,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "-"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(~)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "~",
+            "precedence": 40,
+            "associativity": "Left",
+            "precedence_change": [
+                "twig/twig",
+                "3.15",
+                27
+            ],
+            "aliases": [],
+            "tokens": [
+                "~"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(*)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "*",
+            "precedence": 60,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "*"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(/)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "/",
+            "precedence": 60,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "/"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(//)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "//",
+            "precedence": 60,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "//"
+            ],
+            "description": "Floor division"
+        },
+        {
+            "string": "infix(%)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "%",
+            "precedence": 60,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "%"
+            ],
+            "description": ""
+        },
+        {
+            "string": "infix(**)",
+            "class": "BinaryOperatorExpressionParser",
+            "name": "**",
+            "precedence": 200,
+            "associativity": "Right",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "**"
+            ],
+            "description": "Exponentiation operator"
+        },
+        {
+            "string": "infix(?)",
+            "class": "ConditionalTernaryExpressionParser",
+            "name": "?",
+            "precedence": 0,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "?"
+            ],
+            "description": "Conditional operator (a ? b : c)"
+        },
+        {
+            "string": "infix(=)",
+            "class": "AssignmentExpressionParser",
+            "name": "=",
+            "precedence": 0,
+            "associativity": "Right",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "="
+            ],
+            "description": "Assignment operator"
+        },
+        {
+            "string": "infix(is)",
+            "class": "IsExpressionParser",
+            "name": "is",
+            "precedence": 100,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "is"
+            ],
+            "description": "Twig tests"
+        },
+        {
+            "string": "infix(is not)",
+            "class": "IsNotExpressionParser",
+            "name": "is not",
+            "precedence": 100,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "is not"
+            ],
+            "description": "Twig tests"
+        },
+        {
+            "string": "infix(|)",
+            "class": "FilterExpressionParser",
+            "name": "|",
+            "precedence": 512,
+            "associativity": "Left",
+            "precedence_change": [
+                "twig/twig",
+                "3.21",
+                300
+            ],
+            "aliases": [],
+            "tokens": [
+                "|"
+            ],
+            "description": "Twig filter call"
+        },
+        {
+            "string": "infix(()",
+            "class": "FunctionExpressionParser",
+            "name": "(",
+            "precedence": 512,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "("
+            ],
+            "description": "Twig function call"
+        },
+        {
+            "string": "infix(.)",
+            "class": "DotExpressionParser",
+            "name": ".",
+            "precedence": 512,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [
+                "?."
+            ],
+            "tokens": [
+                ".",
+                "?."
+            ],
+            "description": "Get an attribute on a variable"
+        },
+        {
+            "string": "infix([)",
+            "class": "SquareBracketExpressionParser",
+            "name": "[",
+            "precedence": 512,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "["
+            ],
+            "description": "Array access"
+        },
+        {
+            "string": "infix(=>)",
+            "class": "ArrowExpressionParser",
+            "name": "=>",
+            "precedence": 250,
+            "associativity": "Left",
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [
+                "=>"
+            ],
+            "description": "Arrow function (x => expr)"
+        },
+        {
+            "string": "prefix(literal)",
+            "class": "LiteralExpressionParser",
+            "name": "literal",
+            "precedence": 0,
+            "associativity": null,
+            "precedence_change": null,
+            "aliases": [],
+            "tokens": [],
+            "description": "A literal value (boolean, string, number, sequence, mapping, ...)"
+        }
+    ],
+    "precedence_changes": [
+        [
+            "prefix(not)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "prefix(-)",
+            [
+                "infix(|)"
+            ]
+        ],
+        [
+            "prefix(+)",
+            [
+                "infix(|)"
+            ]
+        ],
+        [
+            "infix(or)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(xor)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(and)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(b-or)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(b-xor)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(b-and)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(==)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(!=)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(<=>)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(<)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(>)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(>=)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(<=)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(not in)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(in)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(matches)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(starts with)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(ends with)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(has some)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(has every)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(===)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(!==)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(..)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(+)",
+            [
+                "infix(??)",
+                "infix(~)"
+            ]
+        ],
+        [
+            "infix(-)",
+            [
+                "infix(??)",
+                "infix(~)"
+            ]
+        ],
+        [
+            "infix(~)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(*)",
+            [
+                "prefix(not)",
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(/)",
+            [
+                "prefix(not)",
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(//)",
+            [
+                "prefix(not)",
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(%)",
+            [
+                "prefix(not)",
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(**)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(is)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(is not)",
+            [
+                "infix(??)"
+            ]
+        ],
+        [
+            "infix(=>)",
+            [
+                "infix(??)"
+            ]
+        ]
+    ],
+    "operator_tokens": [
+        "not",
+        "...",
+        "-",
+        "+",
+        "(",
+        "?:",
+        "? :",
+        "??",
+        "or",
+        "xor",
+        "and",
+        "b-or",
+        "b-xor",
+        "b-and",
+        "==",
+        "!=",
+        "<=>",
+        "<",
+        ">",
+        ">=",
+        "<=",
+        "not in",
+        "in",
+        "matches",
+        "starts with",
+        "ends with",
+        "has some",
+        "has every",
+        "===",
+        "!==",
+        "..",
+        "+",
+        "-",
+        "~",
+        "*",
+        "/",
+        "//",
+        "%",
+        "**",
+        "?",
+        "=",
+        "is",
+        "is not",
+        "|",
+        "(",
+        ".",
+        "?.",
+        "[",
+        "=>"
+    ],
+    "visitors": [
+        [
+            "CorrectnessNodeVisitor",
+            -255
+        ],
+        [
+            "EscaperNodeVisitor",
+            0
+        ],
+        [
+            "YieldNotReadyNodeVisitor",
+            255
+        ],
+        [
+            "OptimizerNodeVisitor",
+            255
+        ],
+        [
+            "SandboxNodeVisitor",
+            0
+        ]
+    ]
+}

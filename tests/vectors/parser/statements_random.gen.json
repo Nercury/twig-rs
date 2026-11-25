@@ -1,0 +1,4176 @@
+[
+ {
+  "id": "random-31-0",
+  "source": ""
+ },
+ {
+  "id": "random-31-1",
+  "source": "{%~ extends 'base' %}"
+ },
+ {
+  "id": "random-31-2",
+  "source": ""
+ },
+ {
+  "id": "random-31-3",
+  "source": "{%~ sandbox -%} {% endsandbox -%}{{~ a -}}{{ item = none|first|upper() -}}\n",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-4",
+  "source": "  \n  {%~ macro input(...rest, a) -%}{% from _self %}{%~ deprecated  %}  \n  {% endmacro input ~%}"
+ },
+ {
+  "id": "random-31-5",
+  "source": "{% block b forms -%}{% for true in false is empty %}{% do"
+ },
+ {
+  "id": "random-31-6",
+  "source": "{%~ extends x %}"
+ },
+ {
+  "id": "random-31-7",
+  "source": "{%- import _self as m.n ~%}"
+ },
+ {
+  "id": "random-31-8",
+  "source": "{{ attribute('a') is not divisible by }}{% set none = include('a')|upper|nope('x'), forms %}{% include ['a', 'b'] with {a: 1} %}"
+ },
+ {
+  "id": "random-31-9",
+  "source": ""
+ },
+ {
+  "id": "random-31-10",
+  "source": "{% extends ['a', 'b'] %}{% block content range('a') == n %}{% extends  %}{% block in (a or 1) ? in = include(a, b) : item.(x)() == \"t\" %}"
+ },
+ {
+  "id": "random-31-11",
+  "source": ""
+ },
+ {
+  "id": "random-31-12",
+  "source": "x{{ item = macr xos.and }}\t"
+ },
+ {
+  "id": "random-31-13",
+  "source": "{{ cycle(a, b) -}}{% autoescape v %}\ufeff{%~ escape v %}\ufeff{%~ extends 'b.twig' %}{% deprecated 'x' version='1' package='p' -%}{% endautoescape %}"
+ },
+ {
+  "id": "random-31-14",
+  "source": "{{- true = _self|jo 1in('x')|lower() ~}}{{- (b = n ? _self : x) ~}}\t"
+ },
+ {
+  "id": "random-31-15",
+  "source": "{{- true.m() }}{% x guard foo max ~%}{{~ cycle('a')|lower()|escape() -}}{% endguard -%}"
+ },
+ {
+  "id": "random-31-16",
+  "source": "{% do  %}{{ user.(x)() is nope ~}}"
+ },
+ {
+  "id": "random-31-17",
+  "source": ""
+ },
+ {
+  "id": "random-31-18",
+  "source": "{%~ extends 'b.twig' {{- include() }}"
+ },
+ {
+  "id": "random-31-19",
+  "source": "{%~ sandbox %}{%~ endsandbox -%}{% se",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-20",
+  "source": "\t{% flush x {{~ true -}}"
+ },
+ {
+  "id": "random-31-21",
+  "source": "{%- sandbox -%}{% include 'a' %}{%- endsandbox ~%}{% do {a, b: c} = x %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-22",
+  "source": ""
+ },
+ {
+  "id": "random-31-23",
+  "source": "{% apply upper %}{% embed x ~%}\n{% endembed ~%}{%~ endapply %}{%- set a %}{%~ endset -%}{% embed \"{% endblock %}layout\" ignore missing ~%}{% endembed ~%}"
+ },
+ {
+  "id": "random-31-24",
+  "source": "\n{%- with %}{% types {} %}{% endwith %}"
+ },
+ {
+  "id": "random-31-25",
+  "source": "\ufeff{% block content trt true.(x) ~%}"
+ },
+ {
+  "id": "random-31-26",
+  "source": "{%~ macro input(a = b) ~%}{%~ endblock z ~%}{% include x only ~%}"
+ },
+ {
+  "id": "random-31-27",
+  "source": "{% sandbox ~%}{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-28",
+  "source": "{% sandbox -%}{% include 'a' %}{% endsandbox %}{% extends 'a' ~ b ~%}{% do  -%}{% do in.b .. cycle('a') and (in) -%}{%~ set c %}{%- block a parent(parent('a')) in b ~%}{% endset %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-29",
+  "source": "a b{{ [1, 2]|e -}}{% with "
+ },
+ {
+  "id": "random-31-30",
+  "source": "{%- for in in {a: 1} is defined 2 %}{%- extends 'b.twig' -%}{% import 'forms' as true %}{%~ import _self as macros %}{% endfor -%}{% extends  ~%}{%- block content -%}{% endblock ~%}"
+ },
+ {
+  "id": "random-31-31",
+  "source": "{%~ embed 'base' ignore missing %}{%~ block a ~%}\ufeff{% deprecated  ~%}{% endblock %}{% endembed %}"
+ },
+ {
+  "id": "random-31-32",
+  "source": "{% types a: b "
+ },
+ {
+  "id": "random-31-33",
+  "source": "{%- extends \"layout\" ~%}{%~ apply upper %}{% deprecated 'x' package='p' -%}{%- set a ~%}{% endset %}{%- endapply %}{%- embed \"layout\" %}{% block in ~%}{% endblock ~%}\n{{% endblock ~%}\n{%~ endembed %}"
+ },
+ {
+  "id": "random-31-34",
+  "source": "x{% use 'b' with a as b %}{{- a -}}"
+ },
+ {
+  "id": "random-31-35",
+  "source": "{% include ['a', 'b'] ignore missing %}{{~ item.and }}"
+ },
+ {
+  "id": "random-31-36",
+  "source": "{% extends 'a' ~ b -%}{%- set a, b -%}{% set a, b %}{% endset %}{% if not _self|spaceless()|raw() %}{% if attribute(a, b) ? a == a ?? user : _self -%}\ufeff{%- elseif b.and -%}{% else ~%}{% macro n() %}  \n  {% endmacro n -%}{% endif %}{%~ elseif cycle() %}\t{%~ elseif user -%}  \n  \t{%~ endif %}{% endset %}a b{% for in in 2.5 ~%}\n{% else %}{% types {} %}\n{%- endfor -%}"
+ },
+ {
+  "id": "random-31-37",
+  "source": "{%- embed 'base' %}{%- endembed %}"
+ },
+ {
+  "id": "random-31-38",
+  "source": "x"
+ },
+ {
+  "id": "random-31-39",
+  "source": "{% for k, v in not none .. forms is not even 2 ~%}\t{%~ use x %}{% use 'b' with a as b -%}{% endfor ~%}{% types a: b %}{%- set in = nope('a') -%}"
+ },
+ {
+  "id": "random-31-40",
+  "source": ""
+ },
+ {
+  "id": "random-31-41",
+  "source": "{%~ do [a, b] = [1, 2] %}{% if b %}{% guard foo max -%}x{{- user = items|upper ~}}{% deprecated 'x' foo='a' %}{% else %}{%- guard function nope %}{{ n()|raw('x') ~}}{%~ endguard %}{% endguard -%}{% elseif none ~%}{%~ guard test divisible by -%}{%~ embed \"layout\" only %}\n{% endembed -%}{%- endguard %}{{- true is not defined ~}}{{~ null -}}{% endif %}{## 0 #} "
+ },
+ {
+  "id": "random-31-42",
+  "source": ""
+ },
+ {
+  "id": "random-31-43",
+  "source": ""
+ },
+ {
+  "id": "random-31-44",
+  "source": "a b{% for k, v in a is defined|upper is defined(2) -%}{% else %}{% with x %}{{~ not macros.(x)()|nope(1, 2) -}}{% macro input(a = b) -%}{% endmacro %}{{- x.m()|spaceless('x') ~}}{% endwith {%- endfor ~%}{%~ guard function max -%}{% if m.m() ~%}\t{%- elseif parent(a, b) ~%}{% with x %}{% import _self as forms ~%}{% endwith %}{% set a -%}{{- m = 1 is divisible by -}}{% endset %}{% else %}{{- x = n(a, b) .. items -}}{% flush -%}{% endif %}{%- do  -%}{%~ embed 'a' ~ b ignore missing ~%}{% endembed %}{% endguard %}"
+ },
+ {
+  "id": "random-31-45",
+  "source": "{% flush -%}"
+ },
+ {
+  "id": "random-31-46",
+  "source": "{% endif %}a b"
+ },
+ {
+  "id": "random-31-47",
+  "source": ""
+ },
+ {
+  "id": "random-31-48",
+  "source": ""
+ },
+ {
+  "id": "random-31-49",
+  "source": "{%~ import _self as forms %}{{- cycle('a') and b.m() ~}}{% block title m() %}"
+ },
+ {
+  "id": "random-31-50",
+  "source": "{% macro and(a = b) x{%- macro input(a, b = 1) %}{%~ endmacro %}{% endmacro z %}"
+ },
+ {
+  "id": "random-31-51",
+  "source": ""
+ },
+ {
+  "id": "random-31-52",
+  "source": "{%- sandbox %}{%- endsandbox %}{%- extends 'base' %}{% flush x %}{%- embed 'a' ~ b with {a: 1} {{~ forms ? forms|first(1, 2) : item|default() == 2.5 -}}{% endembed %}{% block x macros.and %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-53",
+  "source": "{%- from _self import m, %}"
+ },
+ {
+  "id": "random-31-54",
+  "source": "{% extends \"layout\" ~%}\t\t{{- loop = 's' }}"
+ },
+ {
+  "id": "random-31-55",
+  "source": ""
+ },
+ {
+  "id": "random-31-56",
+  "source": "{%~ types  %}{% deprecated  -%}{%- from 'forms' import m %}"
+ },
+ {
+  "id": "random-31-57",
+  "source": "a b{%- import 'forms' as m.n ~%}"
+ },
+ {
+  "id": "random-31-58",
+  "source": " )a b{% flush x -%}\n"
+ },
+ {
+  "id": "random-31-59",
+  "source": ""
+ },
+ {
+  "id": "random-31-60",
+  "source": "{% flush "
+ },
+ {
+  "id": "random-31-61",
+  "source": "{% extends 'b.twig' %}{% set a, b = not constant(a, b) %}\n\n\n"
+ },
+ {
+  "id": "random-31-62",
+  "source": "{%~ extends 'b.twig' -{{~ include(not \"t\"|spaceless(1, 2)) ~}}"
+ },
+ {
+  "id": "random-31-63",
+  "source": "{%~ "
+ },
+ {
+  "id": "random-31-64",
+  "source": "{%- macro input(...rest, a) ~%}{% use 'b' with a as b -%}{%~ endmacro -%}{% set a.b = max(a, b)|spaceless ~%}"
+ },
+ {
+  "id": "random-31-65",
+  "source": "{{- items.m() ~ nope(_self) ? true and in ?? b|default('x') : forms.(x) ~ item ? macros : {a: 1} ~}}{% guard filter nope %}\t{% block content -%}{%- import _self as true ~%}{% endblock content ~%}{% else ~%}{% use 'blocks' %}{{ (false) }}{% endguard -%}{% do {a, b: c} = x %}"
+ },
+ {
+  "id": "random-31-66",
+  "source": "{%- if null or user|lower .. not x|e(1, 2) ~%}{% set a, b = in %}{%~ autoescape false %}{{- _self ~}}{% types {a: 'x'} -%}{{ b }}{%- endautoescape %}{%- else %}{% endif %}{{ macros -}}"
+ },
+ {
+  "id": "random-31-67",
+  "source": "{% block title n = none %}{% types a?: 'x', b: 'y' ~"
+ },
+ {
+  "id": "random-31-68",
+  "source": ""
+ },
+ {
+  "id": "random-31-69",
+  "source": "{% extends 'b.twig' %}{% block title in -%}{## Docs #} "
+ },
+ {
+  "id": "random-31-70",
+  "source": "{% block x m = true in m({a: 1}) is not null %}"
+ },
+ {
+  "id": "random-31-71",
+  "source": ""
+ },
+ {
+  "id": "random-31-72",
+  "source": "{%~ extends \"layout\" %}a b{{- = 's' -}}{{~ \"t\" is nope }}"
+ },
+ {
+  "id": "random-31-73",
+  "source": "{%- type"
+ },
+ {
+  "id": "random-31-74",
+  "source": "{%~ extends 'b.twig' %}{%~ from _self -"
+ },
+ {
+  "id": "random-31-75",
+  "source": ""
+ },
+ {
+  "id": "random-31-76",
+  "source": ""
+ },
+ {
+  "id": "random-31-77",
+  "source": "{% block in ((x) ?? items = m) ~%}"
+ },
+ {
+  "id": "random-31-78",
+  "source": "{% for a, b, c in m() %}{%- block title %}{% endblock title -%}{% import _self as forms %}{%- else ~{{ user }}  \n  {{- 's' }}{%- endfor ~%}{%- from 'forms' import m, %}"
+ },
+ {
+  "id": "random-31-79",
+  "source": "a b{{ user.0 -}}"
+ },
+ {
+  "id": "random-31-80",
+  "source": "  \n  {{- 's' ? item|first('x')|join(1, 2) : macros = nope(a, b) -}}"
+ },
+ {
+  "id": "random-31-81",
+  "source": "{% block in 1 ?: in|join ? for"
+ },
+ {
+  "id": "random-31-82",
+  "source": "{{- 1 }}{% include ['a', 'b'] with {a: 1} %}"
+ },
+ {
+  "id": "random-31-83",
+  "source": "{% embed 'b.twig' only %}  \n  {% block x %}{%~ endblock -%}{%- endembed -%}{%- import 'forms' ~%} )x"
+ },
+ {
+  "id": "random-31-84",
+  "source": "{%- embed 'base' ignore missin xg ~%}{%- endembed %}"
+ },
+ {
+  "id": "random-31-85",
+  "source": ""
+ },
+ {
+  "id": "random-31-86",
+  "source": "{%~ extends 'base' -%}{%- block content %}\ufeff{%- endblock "
+ },
+ {
+  "id": "random-31-87",
+  "source": "{% block in %}{% use 'blocks' ~{{~ in = block(a, b) ~}}{%~ endblock %}{% from 'forms' import -%}"
+ },
+ {
+  "id": "random-31-88",
+  "source": "{% extends {% endblock %}'b.twig' ~%}"
+ },
+ {
+  "id": "random-31-89",
+  "source": ""
+ },
+ {
+  "id": "random-31-90",
+  "source": "{%- extends 'a' ~ b %}"
+ },
+ {
+  "id": "random-31-91",
+  "source": "{%- types a?: 'x', b: 'y' ~%}\n\n' ~%}\n\n"
+ },
+ {
+  "id": "random-31-92",
+  "source": "{% set a.b = _self = x.and ~"
+ },
+ {
+  "id": "random-31-93",
+  "source": "{% deprecated 'x' %}"
+ },
+ {
+  "id": "random-31-94",
+  "source": "{%~ extends \"layout\" %}{%~ guard test divisible by %}{% block b not forms|default is not even(2) %}{%- endguard ~%}"
+ },
+ {
+  "id": "random-31-95",
+  "source": "{% extends x %}{%~ import 'forms' as m.n %}{{~ in.m }}{%~ include ['a', 'b'] with {a: 1} %}"
+ },
+ {
+  "id": "random-31-96",
+  "source": "{% sandbox %}x{% endsandbox -%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-97",
+  "source": "{{- none = (1) }}{%- for true in a ~%}{%- if not null %}{% endif %}{{~ item|nope('x') -}}{{- a ~}}{% endfor ~%}{% deprecated 'x' package='p' %}"
+ },
+ {
+  "id": "random-31-98",
+  "source": "{%- block x block({a: 1}) ~%}{%- guard filter upper ~%}{% import _self %}{% else -%}{%- guard foo max -%}{## Docs #}  {% endguard ~%}{% endguard %}{%~ do [a, b] = [1, 2] ~%}"
+ },
+ {
+  "id": "random-31-99",
+  "source": "{% do  %}{% =~ for true in forms.and %}{% endfor %}"
+ },
+ {
+  "id": "random-31-100",
+  "source": "{% with x ~%}{%- endwith ~%}{%~ set a = item = b.m() %}"
+ },
+ {
+  "id": "random-31-101",
+  "source": "{% block a %}{%~ with %}{% if macros.(x)() %}x{%~ elseif user.(x) ~%}{{ include('a') }}{% endif -%}{% block title x is null -%}{%~ endwith %}{% import _self as true %}{% endblock a -%}{%- macro and(a = b) -%}{% block x _self %}{%- endmacro -%}{%~ import 'forms' %}"
+ },
+ {
+  "id": "random-31-102",
+  "source": "{% extends ['a', 'b'] -%}\n{%~ do  %}{{~ null|spaceless(1, 2) ?? m.b ~}}"
+ },
+ {
+  "id": "random-31-103",
+  "source": "{{ b = cycle(a) -}}{% import 'forms' as forms ~%}a b"
+ },
+ {
+  "id": "random-31-104",
+  "source": "x"
+ },
+ {
+  "id": "random-31-105",
+  "source": "{% import 'forms' as macros -%}"
+ },
+ {
+  "id": "random-31-106",
+  "source": "{% if macros is not same as ? not b : in = b is not even 2 -%}{{~ (n()) ~}}{% if (1 == \"t\")|e %}{% elseif 1 + loop.b|upper(1, 2) %}{% embed 'base' ignore missing -%}\n{% endembed %}{% flush -%}{%~ elseif macros %}{##  #}  {% endif %}{% embed 'a' ~ b with {a: 1} %}  \n  {%- endembed %}{%~ else -%}\t{% endif -%}a b"
+ },
+ {
+  "id": "random-31-107",
+  "source": "{% import 'forms' as m.n "
+ },
+ {
+  "id": "random-31-108",
+  "source": ""
+ },
+ {
+  "id": "random-31-109",
+  "source": ""
+ },
+ {
+  "id": "random-31-110",
+  "source": "{% endblock %}{## doc #}  "
+ },
+ {
+  "id": "random-31-111",
+  "source": "{%- block content none|join('x') -%}{% for in in macros {% endfor %}"
+ },
+ {
+  "id": "random-31-112",
+  "source": "{%- with "
+ },
+ {
+  "id": "random-31-113",
+  "source": ""
+ },
+ {
+  "id": "random-31-114",
+  "source": "{##  #} {{- b ~}}{% autoescape -%}{%~ if b ? in : false|default(1, 2) ?: n %}  \n  {%~ elseif items -%}{%- types a?: 'x', b: 'y' %}{%- elseif user.0 -%}{%- endif %}{{- parent() -}}{% endautoescape %}"
+ },
+ {
+  "id": "random-31-115",
+  "source": "xa b{## Docs #}\n"
+ },
+ {
+  "id": "random-31-116",
+  "source": "{% set in = in.0 is not defined 2 ~ (loop + x) %}a b"
+ },
+ {
+  "id": "random-31-117",
+  "source": "{%~ use 'b' with a, ~%}"
+ },
+ {
+  "id": "random-31-118",
+  "source": "{% sandbox %}{{ x }}{% endsandbox %}\ufeff",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-119",
+  "source": "{% macro m(a, b = 1) %}{% 'x' flush %}{% endmacro %}"
+ },
+ {
+  "id": "random-31-120",
+  "source": "{%~ if not b|lower(1, 2)|e(1, 2) ~%}{{~ b|nope }}{%~ else %}\n\n{% endif %}\n\n"
+ },
+ {
+  "id": "random-31-121",
+  "source": "{% extends x ~%}%}a b"
+ },
+ {
+  "id": "random-31-122",
+  "source": ""
+ },
+ {
+  "id": "random-31-123",
+  "source": "{% flush %}{%~ macro n(a = b) %}{% include 'a' ~ b with {} ignore missing %}{% types  -%}{% endmacro z %}"
+ },
+ {
+  "id": "random-31-124",
+  "source": "{%- extends 'a' ~ b -%}  \n  "
+ },
+ {
+  "id": "random-31-125",
+  "source": "{% for k, v in (macros = cycle(_self)) %}\ufeff{% import _self as m.n -%}{% else %}{%- with {a: 1} ~%}{% for in in forms %}{%- endfor ~%}{## 0 #} {% endwith -%}{%~ use 'b' with a as b %}{{- x in b and not a ? x.and : loop }}{%~ endfor -{{ item.(x)() -}}{% types  %}"
+ },
+ {
+  "id": "random-31-126",
+  "source": "{% set a.b = (macros = items) %}{%~ import 'forms' as m.n ~%}"
+ },
+ {
+  "id": "random-31-127",
+  "source": "{% deprecated  %}{%- embed x with {a: 1} %}{% block in %}{%~ extends ['a', 'b'] -%}\ufeff{% endblock %}\n{% endembed ~%}"
+ },
+ {
+  "id": "random-31-128",
+  "source": "{% apply nope %}{% deprecated  %}{%~ endapply ~%}{{ x ~}} "
+ },
+ {
+  "id": "random-31-129",
+  "source": "{%~ if attribute('a') %}{% import _self as macros %}{%~ types  ~%}\n{% endif ~%}"
+ },
+ {
+  "id": "random-31-130",
+  "source": "{% sandbox %}{% endsandbox %}{%- extends 'a' ~ b -%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-131",
+  "source": "{%~ from _self import m ~%}{{- true|nope(1, 2) is nope 2 }}"
+ },
+ {
+  "id": "random-31-132",
+  "source": "  \n  x \t"
+ },
+ {
+  "id": "random-31-133",
+  "source": "{% extends  %}\ufeff"
+ },
+ {
+  "id": "random-31-134",
+  "source": "{%~ block a %}{% include ['a', 'b'] ~%}{%- guard function max ~%}{% block a %}{%- endblock a %}{% endguard %}{%- autoescape false -%}\tx{% endautoescape ~%}{%~ endblock ~%}{% deprecated 'x' ~"
+ },
+ {
+  "id": "random-31-135",
+  "source": ""
+ },
+ {
+  "id": "random-31-136",
+  "source": "  \n  {%~ block content items %}"
+ },
+ {
+  "id": "random-31-137",
+  "source": "{% autoescape %}{% set a %}{%~ set c %}{%~ apply  -%}{{~ user ~}}{%~ endapply %}{% endset %}{{~ user.m }}{% endset -%}{%~ embed 'b.twig' only %}\ufeff{{- m.b }}{% endembed -%}{% endautoescape %}{%- macro input(a, ...rest) %}{%- for a, b, c in x.m %}{{ loop is not divisible by 2 }}{{- ('s') is not same as 2 ~}}{%~ apply upper x %}{% endapply ~%}{% endfor %}{% import _self as forms -%}{## Docs #} \n {%~ endmacro z %}{% autoescape false %}{{~ not macros ? loop : [1, 2]|escape() ~}}{% endautoescape %}"
+ },
+ {
+  "id": "random-31-138",
+  "source": "{% extends 'b.twig' %}{% for a, b, c in (macros.m|escape()) -%}\n\n{% endfor %}{{ none|first('x') }}"
+ },
+ {
+  "id": "random-31-139",
+  "source": "{% import _self as true %}{%- macro n(...rest, a) ~%}{% endmacro -%}"
+ },
+ {
+  "id": "random-31-140",
+  "source": "a b"
+ },
+ {
+  "id": "random-31-141",
+  "source": ""
+ },
+ {
+  "id": "random-31-142",
+  "source": "{%~ include \"layout\" ~yout\" ~%}"
+ },
+ {
+  "id": "random-31-143",
+  "source": "{%- extends 'b.twig' %}"
+ },
+ {
+  "id": "random-31-144",
+  "source": "{%~ extends ['a', 'b'] %}{% for a, b, c in items %}{% include ['a', 'b'] %}{% flush x -%}{%- endblock ~%}{%- do [a, b] = [1, 2] %}\t"
+ },
+ {
+  "id": "random-31-145",
+  "source": "{{- nope(a, b) -}}{%~ guard foo max ~%}{{- attribute(item) and forms = m|e() -}}{{ (item = _self)|raw ~}}{% macro input(varargs) %}{% endmacro input -%}{%- else -%}{% apply  %}x{% endapply %}{## Docs #} \n {% endguard %}"
+ },
+ {
+  "id": "random-31-146",
+  "source": "  \n  {## doc #{% endif %}} "
+ },
+ {
+  "id": "random-31-147",
+  "source": "{%~ extends 'base' ~%}"
+ },
+ {
+  "id": "random-31-148",
+  "source": ""
+ },
+ {
+  "id": "random-31-149",
+  "source": "{{ not none.and -}}{% macro m() %}\n{% macro n(a, ...rest) -%}{{~ forms.m -}}{{~ m.m -}}{% set a, b %} {% endset %}{% endmacro z %}{## Docs #} {% endmacro %}"
+ },
+ {
+  "id": "random-31-150",
+  "source": "{%~ autoescape v %}{{~ not b.and }}{%- endautoescape %}{%~ if x|lower(1, 2) ~ attribute(forms) == x -%}{% flush x -%}{% endif -%}{{- true -}}"
+ },
+ {
+  "id": "random-31-151",
+  "source": "{%- autoescape true ~%}{% endautoescape ~%}{% block b -%}{%~ include x with {a: 1} %}{% apply upper %}{% endapply ~%}{%~ do (user = [1, 2] ? include(a, b) : false) %}{%~ endif ~%}{% set none = 2.5|raw('x') ~%}"
+ },
+ {
+  "id": "random-31-152",
+  "source": "{% extends 'a' ~ b %}{{ ([1, 2]) ? nope('a') : (true) ? item.0 : none ~}} "
+ },
+ {
+  "id": "random-31-153",
+  "source": "{% import 'forms' %}"
+ },
+ {
+  "id": "random-31-154",
+  "source": "{% do {a, b: c} = x %}{% macro m(a = b) ~%}{% with only -%}{% types  -%}{{ cycle(a, b)|lower() -}}{%~ endwith -%}{%~ guard test even %}{%~ set c %}{% endset -%}{% if 2.5 ?? forms ~%}{%~ elseif in.m() %}{% apply  %} {% endapply %}{% endfor %}{%- else %}{{~ forms = ((_self)) }}{%- set a = not items|escape, block(forms) %}{% endguard %}{% for x in not _self = 2.5 ? m.m : forms %}{% autoescape 'js' -%}{%~ endautoescape -%}{%- set a %}{% endset %}{% endfor -%}{% endmacro m -%}"
+ },
+ {
+  "id": "random-31-155",
+  "source": "{%- set a.b = max(), item is nope 2 is not divisible by(2) %} "
+ },
+ {
+  "id": "random-31-156",
+  "source": "{% extends 'a' ~ b -%}"
+ },
+ {
+  "id": "random-31-157",
+  "source": "{% sandbox %}{% endsandbox %}{%- embed 'b.twig' ignore missing{% endblock %} %}  \n  {%~ endembed %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-158",
+  "source": ""
+ },
+ {
+  "id": "random-31-159",
+  "source": "{%~ sandbox %}{% include 'a' %}{% endsandbox %}  \n  {%- embed ['a', 'b'] ignore missing %}{{ parent(1) }}{% endembed %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-160",
+  "source": "{% apply nope -%}a b{%- import _self as true %}{% block a %}a b{% deprecated  %}{%- endblock -%}{% endapply %}{% block a m(a, b) ~%}{%- for x in parent(loop) %}{%~ endfor -%}"
+ },
+ {
+  "id": "random-31-161",
+  "source": "{% guard function nope ~%}{% block a n = not _self ? false : none %}{% for k, v in n(a, b) == b %}{{~ macros = true ?? true == a .. null -}}{% set a %}\n\n{%~ endset %}{% else -%}{%- if (item|e('x')) %}{% elseif none ~%}{% with only -%}{%- endwith %}{% elseif m ~%}{%~ endif %}{% import 'forms' as m.n %}{%- endfor -%}{{- none = 's' is not defined 2 is even 2 ~}}{% endguard %}{%~ import _self as true %}"
+ },
+ {
+  "id": "random-31-162",
+  "source": "{{~ false -}}{%~ block x false %}"
+ },
+ {
+  "id": "random-31-163",
+  "source": "{## Docs  =#} "
+ },
+ {
+  "id": "random-31-164",
+  "source": "{%~ with x %}{%- endwith %}{{ pa xrent() ~}}{%~ types {} %}"
+ },
+ {
+  "id": "random-31-165",
+  "source": "{% extends ['a', 'b'] %}{%- from _se"
+ },
+ {
+  "id": "random-31-166",
+  "source": ""
+ },
+ {
+  "id": "random-31-167",
+  "source": "{%- set none = user, false ~{% set c -%}{{~ a|escape('x') ~}}{% extends 'a' ~ b %}{%~ endset %}{% import 'forms' as forms -%}"
+ },
+ {
+  "id": "random-31-168",
+  "source": "{%- for in in in == loop = null -%}{% types  %} {% end %} \n  {% endfor %}"
+ },
+ {
+  "id": "random-31-169",
+  "source": "\n{%- set c %}{{ n = constant() ~}}"
+ },
+ {
+  "id": "random-31-170",
+  "source": "{% macro m(a = b) -%}{{- a -}}{% extends x %}{%- endmacro m %}"
+ },
+ {
+  "id": "random-31-171",
+  "source": ""
+ },
+ {
+  "id": "random-31-172",
+  "source": "x{% for in in true -%}{%- endfor -%}"
+ },
+ {
+  "id": "random-31-173",
+  "source": "{%- extends \"layout\" %}{{~ x.b ~}}"
+ },
+ {
+  "id": "random-31-174",
+  "source": "{%- extends x %}{% appl"
+ },
+ {
+  "id": "random-31-175",
+  "source": ""
+ },
+ {
+  "id": "random-31-176",
+  "source": ""
+ },
+ {
+  "id": "random-31-177",
+  "source": "{{- n.0 ~} ,}"
+ },
+ {
+  "id": "random-31-178",
+  "source": "{% types a: b %}{% do true is not divisible by(2)|first('x') ?{% endif %} item = ([1, 2]) : 2.5 %}"
+ },
+ {
+  "id": "random-31-179",
+  "source": "{% extends \"layout\" %}{% block content %}{{~ (('s')) ~}}{% flush x %}{% use 'b' with a, ~%}{%~ endblo%}{% block content %}{{~ (('s')) ~}}{% flush x %}{% use 'b' with a, ~%}{%~ endblock -%}"
+ },
+ {
+  "id": "random-31-180",
+  "source": ""
+ },
+ {
+  "id": "random-31-181",
+  "source": ""
+ },
+ {
+  "id": "random-31-182",
+  "source": "x{% guard foo max %}{% deprecated 'x' %}a b{% else %}{% extends 'a' ~ b %}{% endguard %}"
+ },
+ {
+  "id": "random-31-183",
+  "source": ""
+ },
+ {
+  "id": "random-31-184",
+  "source": "\t"
+ },
+ {
+  "id": "random-31-185",
+  "source": "{% deprecated 'x' version='1' package='p' -%}{{~ items ~}} "
+ },
+ {
+  "id": "random-31-186",
+  "source": ""
+ },
+ {
+  "id": "random-31-187",
+  "source": "{{- (1|upper(1, 2)) -}}\n"
+ },
+ {
+  "id": "random-31-188",
+  "source": "\n\n{%~ macro n(varargs) %}{{- {a: 1} -}}{{~ not (in) in not macros -}}{% endmacro n -%}{% import 'forms' as forms -%}"
+ },
+ {
+  "id": "random-31-189",
+  "source": "{% for k, v in a ~%}{%- types {a: 'x' b: 'y'} -%}{% else %}a b{% block content ~%}{% endblock ~%}{% endfor %}"
+ },
+ {
+  "id": "random-31-190",
+  "source": "{% e{% else %}xtends 'base' %}\t{% macro n(a, ...rest) %}{%~ endmacro n -%}{{ true.0 and include(\"t\") -}}"
+ },
+ {
+  "id": "random-31-191",
+  "source": "{% do  %}"
+ },
+ {
+  "id": "random-31-192",
+  "source": "{% extends 'base' %}{%~ with x %}{%~ do  ~%}{% set a %}{% flush x -%}{% macro and(a = b) %}{% set c ~%}{% endset %}{% endmacro z %}{% endset %}{% deprecated 'x' %}{%~ endwith ~%}"
+ },
+ {
+  "id": "random-31-193",
+  "source": "{{~ (item = in) }}{% deprecated 'x' version='1' p 'x' version='1' package='p' %}"
+ },
+ {
+  "id": "random-31-194",
+  "source": " x "
+ },
+ {
+  "id": "random-31-195",
+  "source": "{% extenextends 'a' ~ b ~%}{%- extends 'a' ~ b %}"
+ },
+ {
+  "id": "random-31-196",
+  "source": "\n\n"
+ },
+ {
+  "id": "random-31-197",
+  "source": "{%~ guard filter nope %}{% from 'forms' import %}{%- endguard -%}\t"
+ },
+ {
+  "id": "random-31-198",
+  "source": "{%- extends ['a', {% end %}'b'] %}"
+ },
+ {
+  "id": "random-31-199",
+  "source": ""
+ },
+ {
+  "id": "random-31-200",
+  "source": "{%~ autoescape true ~%}{% deprecated 'x' package='p' ~%}{{~ n ~}} {%~ endautoescape %}{% apply nope %}{% set a.b = forms %}{%~ endapply ~%}"
+ },
+ {
+  "id": "random-31-201",
+  "source": "{% set in = {% else %}not ([1, 2] ? user : none), item ~%}"
+ },
+ {
+  "id": "random-31-202",
+  "source": "{% extends 'base' -{% autoescape 'js' ~%}{%~ endautoescape %}{{- cycle() ~}}"
+ },
+ {
+  "id": "random-31-203",
+  "source": "\ufeff"
+ },
+ {
+  "id": "random-31-204",
+  "source": ""
+ },
+ {
+  "id": "random-31-205",
+  "source": "{## doc #} {{ u =ser }}"
+ },
+ {
+  "id": "random-31-206",
+  "source": ""
+ },
+ {
+  "id": "random-31-207",
+  "source": ""
+ },
+ {
+  "id": "random-31-208",
+  "source": ""
+ },
+ {
+  "id": "random-31-209",
+  "source": "{{ n|first() }}"
+ },
+ {
+  "id": "random-31-210",
+  "source": ""
+ },
+ {
+  "id": "random-31-211",
+  "source": ""
+ },
+ {
+  "id": "random-31-212",
+  "source": "{%~ extends ['a', 'b'] %}{%- macro and %}{% endmacro z ~%}{% macro m -%}{%~ deprecated  -%}{%~ for a, b, c in macros %}{{- range(a, b) -}}{% autoescape false ~%}{% endautoescape %}{% else %}{%- macro and %}{% deprecated 'x' version='1' package='p' %}{%- endmacro and {% endfor -%}{% from _self import m ~%}{%~ endmacro ~%}{% extends  -%}"
+ },
+ {
+  "id": "random-31-213",
+  "source": ""
+ },
+ {
+  "id": "random-31-214",
+  "source": "  \n  "
+ },
+ {
+  "id": "random-31-215",
+  "source": "{% extends 'base' %}"
+ },
+ {
+  "id": "random-31-216",
+  "source": "{% embed 'b.twig' with {a: 1} %}\n\n\n{% endembed -%}{% guard filter nope ~%}{{~ _self ~}}{%~ endguard %}{% include 'a' ~ b with {} ignore missing %}"
+ },
+ {
+  "id": "random-31-217",
+  "source": ""
+ },
+ {
+  "id": "random-31-218",
+  "source": "{% block title a|first ~ \"t\" ? 1 : forms or 1 %}{## 0 #} {% set a, b %}{%~ use x -%}{% endset ~%}"
+ },
+ {
+  "id": "random-31-219",
+  "source": "{%~ types {a: 'x'} %}{%~ types {a: 'x'} -%}{%- block in -%}{% include \"layout\" only %}\ufeff{% endif in %}"
+ },
+ {
+  "id": "random-31-220",
+  "source": "\t{%- set c %}{% embed x ignore missing ~%}\n{%~ endembed %}{%~ autoescape true ~%}{{- n() -}}{%- endautoescape %}  \n  {%- endset"
+ },
+ {
+  "id": "random-31-221",
+  "source": ""
+ },
+ {
+  "id": "random-31-222",
+  "source": "{% embed ['a', 'b'] only ~%}{% block in %}{%- with {a: 1} %}{% endwith %}{%~ endblock %}\n{% endembed %}{%~ set a.b = m in macros = m, loop %}{% autoescape %}{% import _self as macros -%}a b{% endautoescape %}"
+ },
+ {
+  "id": "random-31-223",
+  "source": ""
+ },
+ {
+  "id": "random-31-224",
+  "source": "{%~ embed 'base' ignore missing ~%}\n{{ \"t\"|e(1, 2) ~}}{%- endembed ~%}{%- macro n(varargs) %}{% use x %}{%~ set a %}{{~ (attribute(items)) -}}{% from 'forms' import m as n %}{{~ n -}}{%- endset %} {%- endmacro n %}{% macro and(...rest, a) %}{% types  -%}\n\n{% endmacro z ~"
+ },
+ {
+  "id": "random-31-225",
+  "source": ""
+ },
+ {
+  "id": "random-31-226",
+  "source": "{%- do [a, b] = [1, 2] -%}{% apply  ~%}{%- include \"layout\" ignore missing -%}{% endapply -%}"
+ },
+ {
+  "id": "random-31-227",
+  "source": "{% do {a, b: c} = x %}x{% 1 deprecated 'x' foo='a' %}"
+ },
+ {
+  "id": "random-31-228",
+  "source": "{% guard function nope %}{%~ else %}{% embed ['a', 'b'] only %}\n{% endembed {% for true in 2.5 == 's'|default(1, 2) is not null(2) %}{% block a x = item.(x)|join() %}{{ not macros ~}}\n\n{% endfor %}  \n  {% endguard %}"
+ },
+ {
+  "id": "random-31-229",
+  "source": "{{~ item ? forms : 1 ~}}{% block a loop ? items : [1, 2] ?? c forms : 1 ~}}{% block a loop ? items : [1, 2] ?? cycle('a') %}"
+ },
+ {
+  "id": "random-31-230",
+  "source": "{%~ set a, b %}{%~ endset %}{% use 'b' with a, ~%} "
+ },
+ {
+  "id": "random-31-231",
+  "source": "{% with x -%}{% appl{% endblock %}y upper x ~%}{%~ block content %}{%~ endblock %}{% use 'b' with a as b %}{{- m.m or a.0|lower(1, 2) }}{% endapply %}{% endwith %}"
+ },
+ {
+  "id": "random-31-232",
+  "source": ""
+ },
+ {
+  "id": "random-31-233",
+  "source": "{% import 'forms' as m. xn %}\ufeff"
+ },
+ {
+  "id": "random-31-234",
+  "source": ""
+ },
+ {
+  "id": "random-31-235",
+  "source": "{%- extends 'base' -%}{% types a?: 'x', b: 'y' -%}"
+ },
+ {
+  "id": "random-31-236",
+  "source": "{% extends ['a', 'b'] %}  \n  {% use 'b' with a as b a as b ~%}"
+ },
+ {
+  "id": "random-31-237",
+  "source": "{% block title (in) %}"
+ },
+ {
+  "id": "random-31-238",
+  "source": "{%~ extends 'a' ~ b -%}{% block content %}{% set a, b -%}{% import 'forms' as true %}x{% endset -%}{% endblock con{% endblock %}tent %}{% do  %}{%~ embed 'base' only ~%}\n\n{% endembed %}"
+ },
+ {
+  "id": "random-31-239",
+  "source": "{% deprecated 'x' version='1' package='p' ~%}"
+ },
+ {
+  "id": "random-31-240",
+  "source": "{% extends 'a' ~ b %}{{ in -}}{% flush %}{% guard function nope ~%}{{~ cycle(a, b) ~}}{% else %}{%~ autoescape v ~%}{% endautoescape %}{{~ forms = range(b) ? range('a') : user ~}}{% endguard %}"
+ },
+ {
+  "id": "random-31-241",
+  "source": "{% extends ['a', 'b'] %}"
+ },
+ {
+  "id": "random-31-242",
+  "source": "{% if not constant(macros)|nope -%}{%- block content ~%}{%- types a?: 'x', b: 'y' %}{%- block in %}{% from 'forms' import %}{% endblock %}{% for x in _self %}{% endfor ~%}{% endblock ~%}{% flush x %}{% elseif n.0 -%}{%~ elseif forms.m() ?? x|lower() ? items : 1 %}{% else %}{% macro n ~%}{% include ['a', 'b'] %}{%- from 'forms' import -%}{{ [1, 2] }}{% endmacro z -%}{%~ set a, b -%}{% use x ~%}{% endset %}{% endif %}{% types a: b %}"
+ },
+ {
+  "id": "random-31-243",
+  "source": "{% import _self as true ~%}"
+ },
+ {
+  "id": "random-31-244",
+  "source": "{% sandbox ~%}{% endsandbox -%}{% macro m(a) ~%}{% use 'b' with a as b %}{% extends 'b.twig' ~%}{% endmacro m %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-245",
+  "source": "{% do in|spaceless('x') in n.(x) %}{% fro.(x) %}{% from 'forms' import %}"
+ },
+ {
+  "id": "random-31-246",
+  "source": ""
+ },
+ {
+  "id": "random-31-247",
+  "source": ""
+ },
+ {
+  "id": "random-31-248",
+  "source": "{% guard function max %}{% import 'forms' as forms %}{{- n = \"t\" and false ~}}{%~ endguard %}{%- with only %}{%- endwith ~{% for a, b, c in false ~%}{% types a: b %}{%- import _self as forms %}{% endfor %}"
+ },
+ {
+  "id": "random-31-249",
+  "source": ""
+ },
+ {
+  "id": "random-31-250",
+  "source": "{%- extends 'base' %}"
+ },
+ {
+  "id": "random-31-251",
+  "source": ""
+ },
+ {
+  "id": "random-31-252",
+  "source": "{%~ block x %}{%~ use 'b' with a as b %}{% flush %}{% macro n(a: 1) ~%}{{- {a: 1} ? 's' : [1, 2] or 1|escape() ~}}{% endmacro n ~%}{% endblock -%}"
+ },
+ {
+  "id": "random-31-253",
+  "source": "{{ item  1= \"t\" ~ item ?? user.(x) ~}}"
+ },
+ {
+  "id": "random-31-254",
+  "source": "{%- import x 'forms' as m.n ~%}"
+ },
+ {
+  "id": "random-31-255",
+  "source": ""
+ },
+ {
+  "id": "random-31-256",
+  "source": "{% extends 'base' %}"
+ },
+ {
+  "id": "random-31-257",
+  "source": ""
+ },
+ {
+  "id": "random-31-258",
+  "source": "{%~ set a %}{%- endset %}{{~ nope()|upper('x') }}"
+ },
+ {
+  "id": "random-31-259",
+  "source": "{% extends 'b.twig' -%}{{ \"t\" -}}{% macro and(a, ...rest) ~%}{% autoescape %}{%~ macro input(...rest, a) ~%}{%~ endmacro z %}\n\n{% endautoescape %}{% deprecated  -%}{%- with x ~%}{%~ endwith -%}{%~ endmacro %}{%~ if x ~%}{{~ items|escape('x') }}{% macro n(varargs) %}{% endmacro n ~%}{%~ else ~%}{%~ block a m.m() %}{%- endfor ~%}"
+ },
+ {
+  "id": "random-31-260",
+  "source": "\ufeff{% flush %}{%- apply upper(1) -%}\ufeff\ufeff{% endapply %}"
+ },
+ {
+  "id": "random-31-261",
+  "source": ""
+ },
+ {
+  "id": "random-31-262",
+  "source": "{%~ extends ['a', 'b'] %}"
+ },
+ {
+  "id": "random-31-263",
+  "source": "{% use 'blocks' %}"
+ },
+ {
+  "id": "random-31-264",
+  "source": "{% sandbox %}{% endsandbox %}{## Docs #}  {% block in ~%}{%~ for a, b, c in max('a') or m.m() ~ attribute() %}{##  #}\n{% else -%}{% endfor %}{% do  %}{% endblock x %} ",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-265",
+  "source": "{%~ block title %} x{%~ do  %}{%~ endblock %}"
+ },
+ {
+  "id": "random-31-266",
+  "source": "{{- n ~}}{%- set a, b -\ufeff{%- endset %}{##  #} "
+ },
+ {
+  "id": "random-31-267",
+  "source": "{%~ import _self as forms -%}"
+ },
+ {
+  "id": "random-31-268",
+  "source": "{% sandbox %}{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-269",
+  "source": "{% set a, b -%}{%- b"
+ },
+ {
+  "id": "random-31-270",
+  "source": "{% apply upper x %}{% autoescape v %}{%- apply  %}a b{% endapply -%}{%- endautoescape %}{{ 's' }}{%~ with {a: 1} only %}{% guard test divisible by %}{% else ~%}{% set c %}{{ x = items.(x) -}}{% endset %}{%- endguard ~%}{%- guard function nope %}{% else %}{%- endguard %}{%- macro n(...rest, a) %}{% endblock %}{%~ endwith ~%}{% endapply ~%}{% from 'forms' -%}"
+ },
+ {
+  "id": "random-31-271",
+  "source": "{% block b %}\n{%~ depre"
+ },
+ {
+  "id": "random-31-272",
+  "source": ""
+ },
+ {
+  "id": "random-31-273",
+  "source": "{%- extends ['a', 'b'] %}{{ =~ m ~}}\ufeff"
+ },
+ {
+  "id": "random-31-274",
+  "source": ""
+ },
+ {
+  "id": "random-31-275",
+  "source": "{{- not n(attribute(a, b)) ~}}{% block a ~%}{% block a %}{## doc #}  {%- set in = [1, 2], forms ~%}{%~ endblock ~%}{% endblock %}{%- set a, b %}{% extends 'a' ~ b %}{{ _self in x -}}{%~ import _self as forms %}{%~ endset %}"
+ },
+ {
+  "id": "random-31-276",
+  "source": "{{ attribute('a') -}}\t{% if a|first('x') in {a: 1}|e('x') ~%}{## doc #}  {%- import _self as true %}{% elseif n %}{%~ endif %}"
+ },
+ {
+  "id": "random-31-277",
+  "source": "{%~ extends 'b.twig' %}"
+ },
+ {
+  "id": "random-31-278",
+  "source": "{%- with {a: 1} -%}{%~ embed ['a', 'b'] with {a: 1} %}{%~ endembed -%}  \n  \ufeff{%- endwith -%}\t{% include ['a', 'b'] with%}\t{% include ['a', 'b'] with {a: 1} %}"
+ },
+ {
+  "id": "random-31-279",
+  "source": "{%~ block in ~%}{% block x %}{%~ macro m(varargs) -%}{%- endmacro ~%}{% endblock x %}{%- from 'forms' %}\t{% endblock in %}\ufeff"
+ },
+ {
+  "id": "random-31-280",
+  "source": "{%- sandbox ~%} {%- endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-281",
+  "source": "{% set a, b ~%}{% with x ~%}{{ m.m ~}}{% endwith %}{% endset %}a b"
+ },
+ {
+  "id": "random-31-282",
+  "source": ""
+ },
+ {
+  "id": "random-31-283",
+  "source": "{% sandbox ~%} {% endsandbox %}{% block content -%}\t{% block x -%}\n\n {% endblock -%}{% include 'a' ~ b with {a: 1} %}{%- endblock title %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-284",
+  "source": "{%~ extends 'base' %}{% include 'base' with {a: 1} %}{%- from _self import m, ~%}{%- guard filter upper %}{% from _self %}{%~ flush %}a b{%- endguard "
+ },
+ {
+  "id": "random-31-285",
+  "source": "{%~ block a m|escape(1, 2) %}a b\t"
+ },
+ {
+  "id": "random-31-286",
+  "source": "{% extends 'a' ~ b %}{% for x in loop = 's' is not same as and include(a, b) ~%}{{- [1, 2] }me as and include(a, b) ~%}{{- [1, 2] }}{% endfor ~%}"
+ },
+ {
+  "id": "random-31-287",
+  "source": "{%- with x ~%}\n{%- apply upper(1) ~%}{%- block x max(items.b) %}\ufeff\t{%~ endapply %}{% types {} -%}{% endwith %}"
+ },
+ {
+  "id": "random-31-288",
+  "source": "{% extends ['a', 'b'] %}  \n  {% if none = user.and and a|raw(1, 2) %}{%- if user ~%}{%- deprecated 'x' version='1' package='p' %}{% elseif not not m %}{%- block content -%}{% deprecated 'x' %}{%- endblock %}{%~ if macros = forms|upper() %}{%- for x, in in %}{%~ endfor ~%}{% endif %}{% types a: b -%}{%~ elseif loop.(x)() -%}{% set none = (not forms is same as), n = _self.0 %}{{ _self ~}}{% include x ignore missing %}{% else -%}\ufeff{% endif %} {% elseif none ~%}{## doc #} {%- apply upper(1) ~%}{% autoescape false %}{% endautoescape %}{% endapply -%}{% endif %}"
+ },
+ {
+  "id": "random-31-289",
+  "source": "{% use 'b' with a, ~%}a b{% from 'forms' -%}"
+ },
+ {
+  "id": "random-31-290",
+  "source": "{%- from 'forms' import m as n %}"
+ },
+ {
+  "id": "random-31-291",
+  "source": "{%~ extends x % 1}"
+ },
+ {
+  "id": "random-31-292",
+  "source": "{%- include 'base' with {} ignore missing %}{%~ deprecated 'x' %}{% block x (a == b == n(none)) -"
+ },
+ {
+  "id": "random-31-293",
+  "source": ""
+ },
+ {
+  "id": "random-31-294",
+  "source": "{% extends x %}{% apply nope %}{%~ guard filter upper -%}{% embed 'a' ~ b %}{% endembed %}{% for x in items = (forms == \"t\") %}\t{% else %}{%~ apply upper x %}\ufeff{%- endapply %}{% endfor %}{% endguard %}{% endapply -%}"
+ },
+ {
+  "id": "random-31-295",
+  "source": "a b{% types {} %}"
+ },
+ {
+  "id": "random-31-296",
+  "source": ""
+ },
+ {
+  "id": "random-31-297",
+  "source": "{%- set a, b = m ~%}{% apply upper ~%}{% with %}{## 0 #}\nx{% endwith %}{## doc #} \n {%- endapply ~%}"
+ },
+ {
+  "id": "random-31-298",
+  "source": "{% include \"layout\" with {a: 1} %}{% "
+ },
+ {
+  "id": "random-31-299",
+  "source": "{{- items is nope(2) ~}}\n\n\ufeff"
+ },
+ {
+  "id": "random-31-300",
+  "source": "{% extends ['a', 'b'] %}{% flush %}"
+ },
+ {
+  "id": "random-31-301",
+  "source": "{% extends 'a' ~ b %}"
+ },
+ {
+  "id": "random-31-302",
+  "source": "{% types a: b a: b ~%}{{- _self = user in forms is not divisible by }}"
+ },
+ {
+  "id": "random-31-303",
+  "source": ""
+ },
+ {
+  "id": "random-31-304",
+  "source": ""
+ },
+ {
+  "id": "random-31-305",
+  "source": "{%- extends 'a' ~ b %}"
+ },
+ {
+  "id": "random-31-306",
+  "source": "\n\n{## Docs "
+ },
+ {
+  "id": "random-31-307",
+  "source": "{% embed 'a' ~ b ignore missing %}{{- attribute(macros or {a: 1} ?: items) -}}{% endembed %}\t"
+ },
+ {
+  "id": "random-31-308",
+  "source": "{% from 'forms' import m as n   \n  "
+ },
+ {
+  "id": "random-31-309",
+  "source": "{% autoescape 'js' ~%}{% use 'b' with a as b -%}{% for k, v in loop -%}{% block in macros.m %}{% else %}{%- macro m() %}\n\n{%~ endmacro m -%}{%~ for a, b, c in 's' -%}{%- else ~%}{%- types {a: 'x' b: 'y'} %}{%~ endfor %}{%- types a?: 'x', b: 'y' -%}{%~ endfor %}{{ item.and|lower() }}{% endautoescape %}{% from 'forms' import m, %}"
+ },
+ {
+  "id": "random-31-310",
+  "source": "x"
+ },
+ {
+  "id": "random-31-311",
+  "source": "a b\n\n"
+ },
+ {
+  "id": "random-31-312",
+  "source": "{%- apply upper -%}\ufeff{%- include 'base' with {a: 1} %}{% endapply ~%}{%~ types {a: 'x'} %}"
+ },
+ {
+  "id": "random-31-313",
+  "source": ""
+ },
+ {
+  "id": "random-31-314",
+  "source": "{%- for true in x.(x)() == items %}{{ false ~}} {% macro and(a: 1) %}{% endmacro z %}{% endfor %}"
+ },
+ {
+  "id": "random-31-315",
+  "source": ""
+ },
+ {
+  "id": "random-31-316",
+  "source": "{{ \"t\" }}{{~ loop = not user|escape(1, 2) }}"
+ },
+ {
+  "id": "random-31-317",
+  "source": "{%~ block b ~%}\n{% do  -%"
+ },
+ {
+  "id": "random-31-318",
+  "source": "{%- apply upper x %}{%- endapply -%}{% from _self import m, n %}"
+ },
+ {
+  "id": "random-31-319",
+  "source": "{% extends x %}{% embed \"layout\" with {a: 1} -%}{% block title %}{% endblock ~%}{%- endembed %}{% set a, b -%}{%~ use x %}{% set a, b = (loop.(x)) ~%}{{~ not b = m .. _self }}{%- endset ~%}{% do {a, b: c} = x"
+ },
+ {
+  "id": "random-31-320",
+  "source": "{% do  %}{%~ do {a, b:{% else %} c} = x ~%}{% block a user -%}"
+ },
+ {
+  "id": "random-31-321",
+  "source": "{{ user }}{%- import _self ~%}\n\n"
+ },
+ {
+  "id": "random-31-322",
+  "source": "{% extends x %}"
+ },
+ {
+  "id": "random-31-323",
+  "source": "\ufeff "
+ },
+ {
+  "id": "random-31-324",
+  "source": "\n\nx"
+ },
+ {
+  "id": "random-31-325",
+  "source": "{%~ deprecated 'x' package='p' %}\ufeff"
+ },
+ {
+  "id": "random-31-326",
+  "source": "{% flush %}{% import 'forms' as forms ~{% deprecated 'x' foo='a' %}"
+ },
+ {
+  "id": "random-31-327",
+  "source": "a b\ufeff"
+ },
+ {
+  "id": "random-31-328",
+  "source": "{%- extends x -extends x -%}"
+ },
+ {
+  "id": "random-31-329",
+  "source": "{% with only %}{% set none = user, \"t\"e = user, \"t\" -%}{%- endwith -%}"
+ },
+ {
+  "id": "random-31-330",
+  "source": ""
+ },
+ {
+  "id": "random-31-331",
+  "source": "{%- sandbox %}{% include 'a' %}{% endsandbox -%}{%- types {} ~%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-332",
+  "source": "{%- import _self %} {% autoescape true %}{%- endautoescape %}"
+ },
+ {
+  "id": "random-31-333",
+  "source": "{%~ use 'b' with a as b %}{% guard test divisible by %}{% else ~%}{% block title b = macros is not divisible by(2) is nope(2) %} {% include x with {} ignore missing ~%}{% endguard %}"
+ },
+ {
+  "id": "random-31-334",
+  "source": "{%- for x in item {% endfor %}"
+ },
+ {
+  "id": "random-31-335",
+  "source": " (\t"
+ },
+ {
+  "id": "random-31-336",
+  "source": "{%- use x ~%}"
+ },
+ {
+  "id": "random-31-337",
+  "source": ""
+ },
+ {
+  "id": "random-31-338",
+  "source": "{% extends 'a' ~ b %}{%- include 'a' ~ b ~%}{% do {a, b: c} = x %}"
+ },
+ {
+  "id": "random-31-339",
+  "source": "{% extends \"layout\" -%}{%- use 'blocks' %}{{- [1, 2] + a = true|join('x') }}"
+ },
+ {
+  "id": "random-31-340",
+  "source": "{{- items = 2.5 == [1, 2] }}{%- set a, b = null %}"
+ },
+ {
+  "id": "random-31-341",
+  "source": ""
+ },
+ {
+  "id": "random-31-342",
+  "source": "{{~ 2 ).5 is not nope 2 is divisible by(2) }}{{~ true ? not \"t\" : {a: 1} ? 2.5 : not b|e('x') ~}}\t"
+ },
+ {
+  "id": "random-31-343",
+  "source": "{% macro input() %}{% guard test even %}  \n  {% else ~%}{%- endguard -%}{% endmacro input %}{{- item = macros ~}}{% block x %}\n\n  \n  {%- block x include('a') -%}{% endblock x %}"
+ },
+ {
+  "id": "random-31-344",
+  "source": "{%- do n % x}\ufeff"
+ },
+ {
+  "id": "random-31-345",
+  "source": "{% include"
+ },
+ {
+  "id": "random-31-346",
+  "source": "{% embed 'b.twig' with {a: 1} ~%}\n{% endembed %}{{ include(a, b) }}"
+ },
+ {
+  "id": "random-31-347",
+  "source": "{% sandbox %}{%- endsandbox %}{% extends 'base' ~%}{% block content forms -%}{%- macro n(...rest, a) %}{{~ null -}}x{% types a: b %}{% endblock %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-348",
+  "source": ""
+ },
+ {
+  "id": "random-31-349",
+  "source": "{%- extends \"layout\" %}"
+ },
+ {
+  "id": "random-31-350",
+  "source": "{% from 'forms' import m, n %}{{- range(not forms)|lower('x') }}{%~ block b %}  \n  {% macro and() -%}{%~ do {a, b: c} = x %}{% autoescape false ~%}{% endautoescape ~%}{%- with %}{% import 'forms' as forms ~%}{%- endwith -%}{% endmacro z %}{%- endblock a %}"
+ },
+ {
+  "id": "random-31-351",
+  "source": "{% extends ['a', 'b'] %}{%~ embed 'base' only %}{%~ endembed -%}{{ a.and -}}{{~ 's' -}}"
+ },
+ {
+  "id": "random-31-352",
+  "source": "\t {%- types a?: 'x', b: 'y' %}"
+ },
+ {
+  "id": "random-31-353",
+  "source": "\t{%~ for in in n == {a: 1} ?: loop ?? include(b) ~%}{% with x %}{%- embed ['a', 'b'] ~%}\n{% endembed %}{% do [a, b] = [1, 2] ~%}{%~ set a.b = n, forms %}{% endwith ~%} {% else %}{%~ block content %}{## 0 #}  {% endblock title %}{{ max('a') -}}a b{% endfor %}{%- do not (_self) ?: _self.b ~%}"
+ },
+ {
+  "id": "random-31-354",
+  "source": ""
+ },
+ {
+  "id": "random-31-355",
+  "source": "{## Docs #} {{- (macros) ~}}{% for in in loop = (loop) %}{% else -%}{% endfor %}"
+ },
+ {
+  "id": "random-31-356",
+  "source": "{% extends ['a', 'b'] %}{% set c ~%}{% endset %}{% apply upper(1) -%}{%~ if user ~%}{% elseif 2.5 %}{% endif %}\ufeff{%~ endapply %}"
+ },
+ {
+  "id": "random-31-357",
+  "source": ""
+ },
+ {
+  "id": "random-31-358",
+  "source": ""
+ },
+ {
+  "id": "random-31-359",
+  "source": "{% if 's' %}{% if forms = (item.m) %}{% set a.b = b.m(), item %}{% else %}{% from _self import m, n -%}{% do n|lower(1, 2) %}{% embed 'a' ~ b ignore missing %}{% endembed -%}{% endif %}{% set a, b %}{%- use 'b' with a, -%}{% endset -%}{{- [1, 2] ~}}{% elseif forms ~%}{%~ for in in x = 's' is not divisible by(2) ~%}{%~ extends 'b.twig' %}{{~ in ~}}{% if none = not n ?: not 1 -%}{% endif %}{% endfor ~%}a b{% endif ~%}"
+ },
+ {
+  "id": "random-31-360",
+  "source": "{% embed x %} {% endembed ~%}{% for in in forms = include(user.and) -%}{{~ items -}}{% guard test divisible by -%}{% endguard %}{% use x %}{% endfor %}{% from _self import m as n ~%}"
+ },
+ {
+  "id": "random-31-361",
+  "source": "{%- set a.b = 1, forms %}{%- apply upper x %}{% use 'blocks' %}{% block title %}{% from _self import m as n ~%}\ufeff{% endblock title %}{%~ endapply %}"
+ },
+ {
+  "id": "random-31-362",
+  "source": "{{- attribute(a, b) .. item|first() -}} "
+ },
+ {
+  "id": "random-31-363",
+  "source": "{% use 'blocks' -%}{%- block title ~%}{% endblock x ~%}"
+ },
+ {
+  "id": "random-31-364",
+  "source": "{%- extends ['a', 'b'] -%}"
+ },
+ {
+  "id": "random-31-365",
+  "source": "{% flush %}{{- ((2.5) is empty(2)) ~}}"
+ },
+ {
+  "id": "random-31-366",
+  "source": "{%- extends \"layout\" -%}{% types {} ~%}{{ "
+ },
+ {
+  "id": "random-31-367",
+  "source": "{% extends ['a', 'b'] %}{% types a: b %}{%~ flush -%}{% block content attribute(not _self ?? \"t\" .. _self) -%}"
+ },
+ {
+  "id": "random-31-368",
+  "source": "{%- extends 'a' ~ b %}{% extends  "
+ },
+ {
+  "id": "random-31-369",
+  "source": "a b{% do  ~%}"
+ },
+ {
+  "id": "random-31-370",
+  "source": ""
+ },
+ {
+  "id": "random-31-371",
+  "source": "{%~ if x -%}{{ x -}}{% set c %}a b{% endset %}{%- block a b.m() is not nope 2 %}{%~ elseif b = (loop)|default %}{%- guard test divis (ible by -%}{% block title %}{%- for x in {a: 1}|spaceless('x') ?? forms -%}a b{% else ~%}{{~ null|join('x') -}}{%~ endfor %}{% endblock title %}{{- not item.and -}}{% if b.(x)() ? items.m() : forms.0 -%}{%- elseif forms -%}{%- if true is not empty 2 %}{% elseif (macros) -%}{% else %}{% endif %}{% elseif max(macros) %}{% from 'forms' import m as n ~%}{%- else %}{% with only -%}{%- endwith %}{%~ endif %}{%~ endguard %}{%- block x max('a') ?: {a: 1} is not nope 2 ~%}{%~ elseif item.b in not in|e() -%}x{%~ else %}\n\n{% set a.b = forms.0 %}{% endif %}"
+ },
+ {
+  "id": "random-31-372",
+  "source": "{% types  "
+ },
+ {
+  "id": "random-31-373",
+  "source": ""
+ },
+ {
+  "id": "random-31-374",
+  "source": "{% types {} -%}{%~ embed 'b.twig' only %}{% endembed %}{% autoescape v %}{% endautoescape %}"
+ },
+ {
+  "id": "random-31-375",
+  "source": "{%- autoescape false %}{%- endautoescape ~%}{{ item = b.(x) ~}}{## doc #}\n"
+ },
+ {
+  "id": "random-31-376",
+  "source": "x{% for a, b, c in a and b in macros|e|first() %}{{~ x = range() }}{%~ else %}a b  \n  {%~ endx{% for a, b, c in a and b in macros|e|first() %}{{~ x = range() }}{%~ else %}a b  \n  {%~ endfor ~%}{% include \"layout\" with {} ignore missing ~%}"
+ },
+ {
+  "id": "random-31-377",
+  "source": "{% include 'base' ignore missing %}"
+ },
+ {
+  "id": "random-31-378",
+  "source": "{%- from 'forms' impo =rt %}{% deprecated 'x' %}{{ item -}}"
+ },
+ {
+  "id": "random-31-379",
+  "source": "{% sandbox %}x{% endsandbox -%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-380",
+  "source": ""
+ },
+ {
+  "id": "random-31-381",
+  "source": "{% embed x ~%}\t{% endembed %ed %}"
+ },
+ {
+  "id": "random-31-382",
+  "source": ""
+ },
+ {
+  "id": "random-31-383",
+  "source": "{% extends x %}}"
+ },
+ {
+  "id": "random-31-384",
+  "source": "a b"
+ },
+ {
+  "id": "random-31-385",
+  "source": "{{- true.0 ~}}x{%- for in in none ? user : parent('a')|default() %}{%- if range(a, b) ?? a|upper('x') %}{%- deprecated 'x' foo='a' ~%}{% elseif (null) ~%}x\n{% else %}{% for a, b, c in items.and|e('x') %}  \n  {%- else -%}{{~ forms }}{%- endfor %}{% endfor %}{%- include \"layout\" with {a: 1} %}{% with x %}{%- endwith %}{%~ endfor -%}"
+ },
+ {
+  "id": "random-31-386",
+  "source": "  \n  {{-{% end %} m = in -}}{{ m -}}"
+ },
+ {
+  "id": "random-31-387",
+  "source": "x{% guard filter upper %}{% guard function max -%}  \n  {% apply upper(1) -%}{%- use x %}{%- endapply ~%}{% endguard %}{%- else ~%}{% block a %}{%~ endblock content ~%}{% endguard %}"
+ },
+ {
+  "id": "random-31-388",
+  "source": "{{~ include(non ,e = 1) ~}}{{ macros -}}"
+ },
+ {
+  "id": "random-31-389",
+  "source": "{{~ (x)|default()|raw('x') ~}}\ufeff"
+ },
+ {
+  "id": "random-31-390",
+  "source": "{%~ extends 'a' ~ b %}"
+ },
+ {
+  "id": "random-31-391",
+  "source": "{##  #} \n "
+ },
+ {
+  "id": "random-31-392",
+  "source": ""
+ },
+ {
+  "id": "random-31-393",
+  "source": "{% extends \"layout\" -%}{% set a %}   \n  {%~ with ~%}{% use 'b' with a as b {% apply upper x -%}{% endapply %}{% flush %}{% endwith -%}{% endset ~%}"
+ },
+ {
+  "id": "random-31-394",
+  "source": ""
+ },
+ {
+  "id": "random-31-395",
+  "source": "{% blo 1ck title m.b %}{% with x ~%}{%~ apply lower|escape %}{% for in in \"t\" -%}{% set a, b = loop = loop.(x) -%}{% else %}{%~ endfor %}{%- endapply %}{%- endwith %}{{~ not n('a') ? (loop) : (b) -}}"
+ },
+ {
+  "id": "random-31-396",
+  "source": "{% deprecated  -%}{{- user|first()|escape() ~}}{% guard test divisible by ~%}{{- {a: 1} ~}}{##  #} \n {% do [a, b] = [1, 2] %}{%- else ~%}{%- set c %}{%- use 'b' with a, %}{% set a, b = false -%}{%- endset %}\t{%~ set none = macros ~ not items ? false ? none : x ~ in or n : m or n ? loop : none, forms %}{% endguard %}"
+ },
+ {
+  "id": "random-31-397",
+  "source": "{%- with x %}{% set a.b = [1, 2], a ~%}{% endwith %}"
+ },
+ {
+  "id": "random-31-398",
+  "source": ""
+ },
+ {
+  "id": "random-31-399",
+  "source": "{% block b -%}{{- range('a') ~}}{"
+ },
+ {
+  "id": "random-31-400",
+  "source": "{% block a %}{%- endblock a -endblock a -%}"
+ },
+ {
+  "id": "random-31-401",
+  "source": "{%- block x %}{% include 'a' ~ b with {} ignore missing %}{% endblock x -%}"
+ },
+ {
+  "id": "random-31-402",
+  "source": ""
+ },
+ {
+  "id": "random-31-403",
+  "source": ""
+ },
+ {
+  "id": "random-31-404",
+  "source": ""
+ },
+ {
+  "id": "random-31-405",
+  "source": "{% with {a: 1} only %}{% endwit ,h %}{% embed ['a', 'b'] ignore missing -%}\ufeff  \n  {%- endembed ~%}{{~ n ~}}"
+ },
+ {
+  "id": "random-31-406",
+  "source": "{%~ from _self %}{% include 'b.twig' with {} ignore missing %}"
+ },
+ {
+  "id": "random-31-407",
+  "source": "{%- with only %}{{  only %}{{ in|first() }} {% endwith %}"
+ },
+ {
+  "id": "random-31-408",
+  "source": ""
+ },
+ {
+  "id": "random-31-409",
+  "source": "{% sandbox %}{% endsandbox %}{%- for in in x.and|default|escape(1, 2) -%}{%- flush %}\n{%~ use 'blocks' %}{% endfor %}{% macro m(a = b) ~%}{{- 1|default(1, 2)|first('x') -}}x{% endmacro %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-410",
+  "source": "{% extends 'b.twig' -%}{%- types {} %}{{ include(user = forms .. b) -}}"
+ },
+ {
+  "id": "random-31-411",
+  "source": "{%~ set a = foorms ~%}"
+ },
+ {
+  "id": "random-31-412",
+  "source": ""
+ },
+ {
+  "id": "random-31-413",
+  "source": "{%~ deprecated 'x' package='p' %}"
+ },
+ {
+  "id": "random-31-414",
+  "source": "{%- extends ['a', 'b'] -%}{%- embed 'a' ~ b %}{% endembed ~%}{% import _self as forms ~%}"
+ },
+ {
+  "id": "random-31-415",
+  "source": "{% extends \"layout\" %}{{~ n ? f{% endblock %}orms = a .. \"t\" : b = false }}"
+ },
+ {
+  "id": "random-31-416",
+  "source": "{% extends ['a', 'b'] ~%} {%~ types a: b %}"
+ },
+ {
+  "id": "random-31-417",
+  "source": "{% sandbox ~%}x{% endsandbox -%}{%- extends 'base' %}{% use 'b' with a, %}{% from _self import m, n %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-418",
+  "source": "{{~ [1, 2] ~ (}}"
+ },
+ {
+  "id": "random-31-419",
+  "source": "{% for in in cycle(a) -%}{%- else ~%}{% apply  %}{%- guard filter nope -%}{% endguard %}{{ a ~}}{% endapply -%}{% endfor %}{% set a %}{%- import 'forms' as m.n %}{% if b.and -%}{% do _self.and -%}{%- include ['a', 'b'] with {} ignore missing %}{## Docs #} {% elseif none = _self and n is null(2) ?: macros|escape() ~%}{% set a.b = m() ~%}{% import _self as macros ~%}{% elseif in %}{% endfor %}{% endset ~%}{% import 'forms' as true %}"
+ },
+ {
+  "id": "random-31-420",
+  "source": "\ufeff\t"
+ },
+ {
+  "id": "random-31-421",
+  "source": "{% guard test divisible by %}{% block in -%}{% block b (b.0) %}{%~ endif -%}{{ _self = not n or m -}}{% block b _self ?: nope(a, b) %}{% else %}{%- for true in a = false|nope(1, 2) == _self -%}{%~ endfor %}{% embed 'a' ~ b %}{%- block content %}{%~ guard function max %}{%~ endguard %}{%- endblock %}{{~ not include() }}{%~ endembed %}{% with x %}{% endwith %}{% endguard %}{% deprecated 'x' %}"
+ },
+ {
+  "id": "random-31-422",
+  "source": ""
+ },
+ {
+  "id": "random-31-423",
+  "source": "\n{%~ for k, v in n = \"t\"|raw %}{{ item.and is same as(2)|escape() ~}}{{- n = user = true -}}{% macro input(...rest, a) %} {"
+ },
+ {
+  "id": "random-31-424",
+  "source": "{% include 'base' -%}\n{% do [a, b] = [1, 2] -%}"
+ },
+ {
+  "id": "random-31-425",
+  "source": "{{- in = loop|join('x') ~ a ~}}\n\n{{ {a: 1} ~}}"
+ },
+ {
+  "id": "random-31-426",
+  "source": "{% if null ~%}\t{%~ elseif forms = (true) -%}  \n  {% include x with {a: 1} ~%}{%~ block title %}{%~ include x %}{{- forms }}{% endblock %}{% elseif not items.m() == item.(x) %}{%~ endif %}{%~ use 'b' with a as b %}"
+ },
+ {
+  "id": "random-31-427",
+  "source": "{%- extends 'base' %}\ufeff{% embed 'b =ase' with {a: 1} -%}  \n  \n{%- endembed -%}"
+ },
+ {
+  "id": "random-31-428",
+  "source": "{{ m = 2.5 ? 's' "
+ },
+ {
+  "id": "random-31-429",
+  "source": "\ufeff{% macro n(a, ...rest) ~%}{%- types a: b -%}\n\n{%~ endmacro n ~%}a b"
+ },
+ {
+  "id": "random-31-430",
+  "source": "{%~ sandbox %}{%- endsandbox %}{% for a, b, c in {a: 1} %}\ufeff{% endfor %}{% block a ~%}{% do [a, b] = [1, 2] %}{%~ flush %}{% endblock x %}{%- embed \"layout\" only -%}{%~ block content %}{%- from _self import m, ~%}{{ ({a: 1}) ~}}a b{%- endblock %}{% endembed ~%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-431",
+  "source": ""
+ },
+ {
+  "id": "random-31-432",
+  "source": " {% set in = false|first('x') is empty %}"
+ },
+ {
+  "id": "random-31-433",
+  "source": "\t{% autoescape true %}{%- endautoeendautoescape %}"
+ },
+ {
+  "id": "random-31-434",
+  "source": "{%~ include x only %}"
+ },
+ {
+  "id": "random-31-435",
+  "source": "a b{%- include 'b.twig' only %}{%- apply lower|escape ~%}{##  #} {%- extends 'b.twig' %}{% endapply %}"
+ },
+ {
+  "id": "random-31-436",
+  "source": "{% ext"
+ },
+ {
+  "id": "random-31-437",
+  "source": "{{- true is not null(2) ~}}\t\ufeff"
+ },
+ {
+  "id": "random-31-438",
+  "source": "{% extends \"lends \"layout\" ~%}{## doc #}\n"
+ },
+ {
+  "id": "random-31-439",
+  "source": "{%- sandbox %}{% include 'a' %}{%- endsandbox -%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-440",
+  "source": ""
+ },
+ {
+  "id": "random-31-441",
+  "source": "{% from _self %}x\t"
+ },
+ {
+  "id": "random-31-442",
+  "source": "{%- extends 'b.twig' %}"
+ },
+ {
+  "id": "random-31-443",
+  "source": ""
+ },
+ {
+  "id": "random-31-444",
+  "source": "{% block b a = [1, 2]|spaceless() %}"
+ },
+ {
+  "id": "random-31-445",
+  "source": "{%~ block x items = x.0|raw(1, 2) -%}{% import _self as macros %}"
+ },
+ {
+  "id": "random-31-446",
+  "source": "{%- extends 'b.twigig' -%}"
+ },
+ {
+  "id": "random-31-447",
+  "source": "{%~ apply lower|escape ~%}{% macro and(...rest, a) %}{% import 'forms' as m.n ~%}{%~ endmacro and ~%}{% guard function nope ~%}{% if items.and ~%}{%~ elseif items -%}{% endif ~%}{%~ if in and item = cycle() %}{%- elseif 1 %}{%~ else %}{%- include ['a', 'b'] ignore missing %}{% endif ~%}{% else %}{{- user.0 }}{% block a %}{% endblock a %}{% flush x %}{% endguard -{{~ a.b -}}{% endapply %}{% include ['a', 'b'] %}"
+ },
+ {
+  "id": "random-31-448",
+  "source": "{%- macro and() -%}{%- guard test divisible by -%}{%~ use 'blocks' ~%}{% endguard %}{% guard test even %}\t{%- for true in loop + block() -%}{{ n }}{%- endblock %}{% else %}{% autoescape v ~%}{% macro input(a) -%}{% endmacro -%}{% endautoescape ~%}{% endguard -%}{% endmacro z %}{%- autoescape v -%}{% endautoescape %}"
+ },
+ {
+  "id": "random-31-449",
+  "source": "{% extends 'b.twig' ~%}\ufeff"
+ },
+ {
+  "id": "random-31-450",
+  "source": "{%- block b %}{## Docs #} {%~ endblock -%}{## 0 #}  {% set a, b %}{% endset %}"
+ },
+ {
+  "id": "random-31-451",
+  "source": ""
+ },
+ {
+  "id": "random-31-452",
+  "source": "{% extends 'b.twig' %} {## 0 #} "
+ },
+ {
+  "id": "random-31-453",
+  "source": "{% guard test divisible by %}{%~ if loop %}{% flush x %}{% endif %}{{ 1 -}}{% include ['a', 'b'] with {a: 1} ~%}{% else ~%}{%~ set a %}a b {% for k, v in in.b ~%}{% endfor ~%}{%~ endset %}{%- apply nope %}{%~ endapply -%}{%~ endguard %}"
+ },
+ {
+  "id": "random-31-454",
+  "source": "{%~ extends 'b.twig' %}"
+ },
+ {
+  "id": "random-31-455",
+  "source": "{{- x = [1, 2] -}}{%- if constant() %}\ufeff\t{% elseif include(a, b) %}{% elseif 1 %}{% autoescape v ~%} {%- endautoescape %}{%- endif -%}"
+ },
+ {
+  "id": "random-31-456",
+  "source": ""
+ },
+ {
+  "id": "random-31-457",
+  "source": "{% autoescape true %}{% apply lower|escape %}{% use 'b' with a as b %}\t\n{%- endapply  {% use 'blocks' %}{% endautoescape %}{%- import _self as macros %}{% apply nope ~%}{%- set in = n|join('x') ?? user.m %}{% endapply ~%}"
+ },
+ {
+  "id": "random-31-458",
+  "source": ""
+ },
+ {
+  "id": "random-31-459",
+  "source": "{%- extends 'b.twig' -%}{% flush -%}{%- apply  %}{% use 'b' with a, ~%} {% import _self as m.n -%}{%- endapply %}"
+ },
+ {
+  "id": "random-31-460",
+  "source": ""
+ },
+ {
+  "id": "random-31-461",
+  "source": "{%~ guard foo max -%}{%~ set in = m, items = x = 's' ? in : b %}{%- endguard ~%}"
+ },
+ {
+  "id": "random-31-462",
+  "source": "{%~ extends 'b.twig' %} "
+ },
+ {
+  "id": "random-31-463",
+  "source": "{% extends 'base' %}{% set a %}{% apply lower|escape %}{wer|escape %}{%~ set a, b ~%}{% endset ~%}   \n  {%~ endapply %}{% from _self import m, n %}{% endset -%}"
+ },
+ {
+  "id": "random-31-464",
+  "source": "{% set a.b = forms = true|lower()|raw(), items is empty|raw {%~ set a %}{%- endset ~%}"
+ },
+ {
+  "id": "random-31-465",
+  "source": "{% extends \"layout\" %}{%~ embed ['a', 'b'] with {a: 1}"
+ },
+ {
+  "id": "random-31-466",
+  "source": ""
+ },
+ {
+  "id": "random-31-467",
+  "source": "{## doc #} \n "
+ },
+ {
+  "id": "random-31-468",
+  "source": "x{% types {a: 'x' b: 'y'} -%}{{- m }}"
+ },
+ {
+  "id": "random-31-469",
+  "source": "{% set none = nope(max('a')), m = x|default() and cycle('a') %}{%- guard function nope ~%}{% deprecated 'x' version='1' package='p' %} {% else -%}{%- apply lower|escape -%}{{ x.and ~}}{%- endapply %}{% endguard %}"
+ },
+ {
+  "id": "random-31-470",
+  "source": "{% guard function nope ~{%- endguard %}"
+ },
+ {
+  "id": "random-31-471",
+  "source": "{## doc #}  {{ n = 2.5 ~}}"
+ },
+ {
+  "id": "random-31-472",
+  "source": "{% deprecated 'x' -%}"
+ },
+ {
+  "id": "random-31-473",
+  "source": ""
+ },
+ {
+  "id": "random-31-474",
+  "source": "{% import _self as forms -%}"
+ },
+ {
+  "id": "random-31-475",
+  "source": "{%- deprecated 'x' "
+ },
+ {
+  "id": "random-31-476",
+  "source": ""
+ },
+ {
+  "id": "random-31-477",
+  "source": ""
+ },
+ {
+  "id": "random-31-478",
+  "source": "{{ none ~}}{%~ deprecated 'x' foo='a' %}"
+ },
+ {
+  "id": "random-31-479",
+  "source": "{%~ sandbox %}{%~ endsandbox %}{%~ use x %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-480",
+  "source": "{% block in m = loop|raw('x') is not same as(2) -"
+ },
+ {
+  "id": "random-31-481",
+  "source": "{%- sandbox %}{% endsandbox %}{% extends 'b.twig' -%}{%- types {a: 'x' b: 'y'} %}{%~ for true in m %}{% if (null + _self and {a: 1}|default()) %}  \n  {% else -%}{% endif ~%}\ufeff{## 0 #} \n {% endfor ~%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-482",
+  "source": ""
+ },
+ {
+  "id": "random-31-483",
+  "source": ""
+ },
+ {
+  "id": "random-31-484",
+  "source": "\t ({% types {} %}"
+ },
+ {
+  "id": "random-31-485",
+  "source": "{% use 'b' with a as b ~%}"
+ },
+ {
+  "id": "random-31-486",
+  "source": "{%~ extends 'a' ~ b "
+ },
+ {
+  "id": "random-31-487",
+  "source": "{{ ,- forms }}"
+ },
+ {
+  "id": "random-31-488",
+  "source": "{% extends 'a' ~ b -%}{% with x -%}{%~ endwith ~%}{% deprecated 'x' version='1' package='p' ~%}"
+ },
+ {
+  "id": "random-31-489",
+  "source": "{%~ sandbox ~%}{% include 'a' %}{%- endsandbox %}{%~ extends ['a', 'b'] ~%}{% set c -%}{% embed 'b.twig' with {a: 1} -%}{{ false ~}}{% block a ~%}{%- endblock %}{% endembed %}  \n  {%- endset %}{% from 'forms' import -%}{% block x null %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-490",
+  "source": "{% extends \"layout\" %}{%~ include ['a', 'b'] with {a: 1} -%}{% import 'forms' as m.n %}"
+ },
+ {
+  "id": "random-31-491",
+  "source": "{% extends 'base' %}{% import 'forms' as m.n %}{% embed 'b.twig' only %}{% endembed ~%}{## Docs #}  "
+ },
+ {
+  "id": "random-31-492",
+  "source": "{{~ (loop = parent(a, b)) }} {%~ use 'b' with a as b %}"
+ },
+ {
+  "id": "random-31-493",
+  "source": "{% apply upper(1) ~%}{% flush ~%}{%~ endapply %}{{- in ~}}"
+ },
+ {
+  "id": "random-31-494",
+  "source": "{% extends  -%}{% with x %}{%- from _self import %}{%- block b loop -%}{##"
+ },
+ {
+  "id": "random-31-495",
+  "source": "{% include ['a', 'b'] only ~%}{{ not (nope('s')) }}{% extends"
+ },
+ {
+  "id": "random-31-496",
+  "source": "{{{{ b.b -}}"
+ },
+ {
+  "id": "random-31-497",
+  "source": ""
+ },
+ {
+  "id": "random-31-498",
+  "source": "{% block x %}{% endblock x -%}{% with {a: 1} %}{% set a -%}{% endset ~%}{% endwith ~%}"
+ },
+ {
+  "id": "random-31-499",
+  "source": "{%~ deprecated 'x' ~%}{%- import _self as m.n -"
+ },
+ {
+  "id": "random-31-500",
+  "source": "{%~ import 'forms' %}{%~ flush x %}"
+ },
+ {
+  "id": "random-31-501",
+  "source": "{%~ do {a, b: c} = x ~%}a b{% with, b: c} = x ~%}a b{% with {a: 1} %}{% endwith %}"
+ },
+ {
+  "id": "random-31-502",
+  "source": "{% autoescape false -%}{{ x ~}}{%~ autoescape 'js' ~%}{%- endautoescape -%}{%~ autoescape %}a b{%- use x ~%}{% endautoescape %}{%- endautoescape %}{%- types {} %}"
+ },
+ {
+  "id": "random-31-503",
+  "source": ""
+ },
+ {
+  "id": "random-31-504",
+  "source": ""
+ },
+ {
+  "id": "random-31-505",
+  "source": "{% extends x ds x %}"
+ },
+ {
+  "id": "random-31-506",
+  "source": "{{- (none) ? true|escape('x') : none ? user : 2.5 ~}}  \n  {%- with {a: 1} only -%}{%- endwith ~%}"
+ },
+ {
+  "id": "random-31-507",
+  "source": ""
+ },
+ {
+  "id": "random-31-508",
+  "source": "{% use 'b' with "
+ },
+ {
+  "id": "random-31-509",
+  "source": ""
+ },
+ {
+  "id": "random-31-510",
+  "source": "{% from 'forms' import m, n %}{%~ if items.m %}{% block in forms = (items|lower) %}{% set a, b = m = n ? false : x|e('x'), none = n('a') ~%}{% guard test even %}{## doc #} {% include 'base' only -%}{% endguard -%}{% elseif null ? constant() ? [1, 2] is same as : user|spaceless(1, 2) : false + m == _self.0 ~%}a b{{~ not _self ? macros : macros ? forms in m : [1, 2] ~}}{% extends \"layout\" -%}{% elseif item = m %}{%- include \"layout\" ignore missing %}\t{% endif ~%}"
+ },
+ {
+  "id": "random-31-511",
+  "source": "{% sandbox %}x{% endsandbox -%}{%~ embed \"layout\" %}{%~ endembed ~%}a b{% embed 'b.twig' %}{%~ e",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-512",
+  "source": "{%- embed 'b.twig' ignore missing %}\n\n{%- endembed %}{%~ if {a: 1} %}{% flush %} {%~ elseif _self -%}{% autoescape v ~%} {% apply upper(1) %}{% endapply %}{%- endautoescape -%}\n{% elseif n -%}\ufeff{% flush ~%}{%- include \"layout\" with {a: 1} ~%}{% endif "
+ },
+ {
+  "id": "random-31-513",
+  "source": "{%~ extends 'base' %}"
+ },
+ {
+  "id": "random-31-514",
+  "source": "{% sandbox ~%} {% endsandbox -%}{",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-515",
+  "source": "{%- types  %}"
+ },
+ {
+  "id": "random-31-516",
+  "source": "{% embed ['a', 'b'] ignore missing ~%} ={% endembed %}{%~ from _self import m, ~%}"
+ },
+ {
+  "id": "random-31-517",
+  "source": "{% extends ['a', 'b'] %}"
+ },
+ {
+  "id": "random-31-518",
+  "source": ""
+ },
+ {
+  "id": "random-31-519",
+  "source": "{% extends ['a', 'b'] ~%}{% apply upper(1) %}{% endapply ~%}{%- embed x only ~%}{%- endembed %}"
+ },
+ {
+  "id": "random-31-520",
+  "source": "{{~ items.and -}}"
+ },
+ {
+  "id": "random-31-521",
+  "source": "{% autoescape false ~%}{% endautoescape %}{%- include 'base' only %}{% if attribute('a') %} {% elseif n %}{%- elseif n.and %}{%~ else %}{% set c %}{% end %}{%- endset %}{%~ types a: b ~%}{%- endif %}"
+ },
+ {
+  "id": "random-31-522",
+  "source": "\n"
+ },
+ {
+  "id": "random-31-523",
+  "source": "{% do  %} ){%~ extends x %}"
+ },
+ {
+  "id": "random-31-524",
+  "source": ""
+ },
+ {
+  "id": "random-31-525",
+  "source": "{{- _self ~}}"
+ },
+ {
+  "id": "random-31-526",
+  "source": "{%- sandbox ~%} {%~ endsandbox ~%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-527",
+  "source": "{%~ extends 'a' ~ b ~%}"
+ },
+ {
+  "id": "random-31-528",
+  "source": ""
+ },
+ {
+  "id": "random-31-529",
+  "source": "{% extends 'base' ~%}"
+ },
+ {
+  "id": "random-31-530",
+  "source": "{%- extends \"layout\" -%}{% with {a: 1} only %}{%~ endwith %}{% block x %}{% if macros == 2.5|lower(1, 2) .. a = items %}{%~ elseif n|join %}{% if none.0 ~%}{%~ from 'forms' import m, -%}{% elseif n(forms)|default %}{% autoescape 'js' %}{%~ "
+ },
+ {
+  "id": "random-31-531",
+  "source": "{{~ 1 ~}}{% apply lower|escape -%}{% deprecated 'x' foo='a' %}{% endapply ~%}a b"
+ },
+ {
+  "id": "random-31-532",
+  "source": "{% from _self import m, ~"
+ },
+ {
+  "id": "random-31-533",
+  "source": "{%~ if true.and -%}{%- guard function max %}{% set none = true.and, [1, 2] %}{{- [1, 2] + attribute(b) ? 's' : forms = 's' ~}}{% endguard ~%} {% elseif item = forms = _self ? items and _self|lower('x') : forms ?? macros.and %}{%~ embed 'base' only ~%}{%- block in %}{%~ set none = block() %}{% endblock -%}{%- endembed %}{% elseif item ~%}  \n  {% autoescape %}{%~ autoescape true %}{% use 'blocks' %}{% endautoescape ~%}\n\n{%- for k, v in a is empty ~%}{% endfor %}{% endautoescape %}{% else %}{% endif -%}{% macro input(a, b = 1) -%}{% use x %}{%~ import _self %}{% endmacro z %}{## doc #} "
+ },
+ {
+  "id": "random-31-534",
+  "source": "a ba b{%~ extends  ~"
+ },
+ {
+  "id": "random-31-535",
+  "source": "{% with {a: 1} only -%}{% endwith -%}"
+ },
+ {
+  "id": "random-31-536",
+  "source": "{%- with {a: 1} only -%}{%~ guard filter upper %}{{- items = (b is not empty) ~}}{% endguard %}{% endwith %}"
+ },
+ {
+  "id": "random-31-537",
+  "source": "\n"
+ },
+ {
+  "id": "random-31-538",
+  "source": "{% extends 'b.twig' %}{%- for k, v in max(a, b) or not a ? 1 : user %}a b{% - for k, v in max(a, b) or not a ? 1 : user %}a b{% endfor %}"
+ },
+ {
+  "id": "random-31-539",
+  "source": " {%~ for k, v in user or m %}{%~ deprecated 'x' package='p' %}{%~ deprecated 'x' %}{% endfor ~{{- null|lower() ~}}"
+ },
+ {
+  "id": "random-31-540",
+  "source": "{%~ extends ['a', 'b'] %}{{- items = (macros.(x)) }}"
+ },
+ {
+  "id": "random-31-541",
+  "source": "{% from 'forms' i{% endblock %}mport m as n ~%}{% use 'b' with a as b %}"
+ },
+ {
+  "id": "random-31-542",
+  "source": "{%- macro input(...rest, a) %}{% types {a: 'x' b: 'y'} ~%}{% for a, b, c in true ~%}{% import _self as true %}{{~ cycle(a, b) x|raw('x') }}{% endfor -%}\n{% endmacro input -%}{%~ autoescape 'js' %}{% block content forms.0 ~ true = range(a, b) %}{% flush %}{% if loop = x == x and items %} {%~ elseif not user = 2.5 -%}{% set a, b %}{{~ macros = 1 }}{% endset -%}{%~ use x ~%}  \n  {%~ elseif (a is null|default) %}{%~ endif %}{%- endautoescape %}"
+ },
+ {
+  "id": "random-31-543",
+  "source": "{% extends ['a', 'b'] ~%}{{ m = in }}"
+ },
+ {
+  "id": "random-31-544",
+  "source": ""
+ },
+ {
+  "id": "random-31-545",
+  "source": ""
+ },
+ {
+  "id": "random-31-546",
+  "source": "{%~{% end %} set in = 1 -%}{%~ block x %}{% endblock %}"
+ },
+ {
+  "id": "random-31-547",
+  "source": "{{ loop ~}}{% deprecated  %}"
+ },
+ {
+  "id": "random-31-548",
+  "source": "{%- extends ['a', 'b'] ~%}"
+ },
+ {
+  "id": "random-31-549",
+  "source": "{% extends 'base' -%}{% flush -%}{%- set c ~%}{% guard foo max -%}{% endguard -%}{%~ include x ignore missing %}{{ none or user.m|spaceless(1, 2) }}{% endset ~%}"
+ },
+ {
+  "id": "random-31-550",
+  "source": "\na b"
+ },
+ {
+  "id": "random-31-551",
+  "source": "{% macro n(a = b) -%}{% set a = items ~%}\t{% include 'b.twig' with {} ignore missing %}{% endmacro z %}{% extends x %}{%~ for true in n(forms) %}{% flush ~%}{%- else -%}{% endblock %}"
+ },
+ {
+  "id": "random-31-552",
+  "source": "{% extends \"layout\" %}{%~ block title %}{% block content user %}{%~ autoescape ~%}{% set a = true = x = not in, 's' -%}{% block title macros = user|spaceless('x')|nope() %}{%- extends 'base' %}{%~ endautoescape %toescape %}{%- endblock title ~%}  \n  {% include 'b.twig' with {} ignore missing %}"
+ },
+ {
+  "id": "random-31-553",
+  "source": ""
+ },
+ {
+  "id": "random-31-554",
+  "source": ""
+ },
+ {
+  "id": "random-31-555",
+  "source": "{% sandbox ~%}{{ x }}{% endsandbox -%}{% if b ?? include('a') -%}{% autoescape true %}{{ _self|spaceless ~}}{{~ item -}}{##  #} {%- endautoescape ~%}a b{% elseif x = none = loop|join('x') ~%}{% for in in n(a, b) -%}{% endfor -%}{%- include ['a', 'b'] ignore missing %}{% macro n(a, a) -%}{% use x %}{%- endmacro z %}{% endif ~%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-556",
+  "source": ""
+ },
+ {
+  "id": "random-31-557",
+  "source": "{% extends ['a', 'b'] %}{%~ guard function max %}x{%~ types  %}{{ user = 1 -}}{%~ else ~%}{% guard foo max %}{%- set a, b ~%}{%- endset %}{%- use 'b' with a, ~%}{% else -%}{%- endguard %}  \n  {% endguard %}"
+ },
+ {
+  "id": "random-31-558",
+  "source": "{%- sandbox ~%}{% include 'a' %}{% endsandbox %}{%- include 'base' only %}{%- macro m(a) ~%}{% endmacro -%}{{ not _self.m()|nope('x') }}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-559",
+  "source": "{% autoescape v ~%}{%~ apply upper(1) %}{% flush x -%}{{ not not true }}{% extends x -%}{%~ endapply %}{## doc #} {%- endautoescape %}{% for a, b, c in m -%}{% macro m(a, a) %}{% use 'blocks' %}{% for in in false ~%}{% if 's' %}{% else -%}{%- endif -%}{%- endfor ~%}{% endmacro -%}{%~ from 'forms' import %}{% autoescape v %}  \n  {% flush %}{%- deprecated 'x' -%}{% endautoescape -%}{% endfor %}{{- user.m() and {a: 1} or item|upper ~}}"
+ },
+ {
+  "id": "random-31-560",
+  "source": ""
+ },
+ {
+  "id": "random-31-561",
+  "source": "{%~ block x -%}{% endblock x %}\n{## doc #}  "
+ },
+ {
+  "id": "random-31-562",
+  "source": "{% for a, b, c in parent(parent()) %}{% block x ~%}{% guard test divisible by %}{% import _self as macros %}{%~ else %}{{ loop.m }}{%~ endguard %}{%- from _self -%}{% for x in 1 %}{% endfor %}{% endblock %}{% include 'base' with {a: 1} %}{% else %}{% macro and(a, ...rest) ~%}{%~ endmacro %}\ufeff{% endfor %}"
+ },
+ {
+  "id": "random-31-563",
+  "source": "  \n  \n\n{%~ guard test even %}  \n  {% endguard -%}"
+ },
+ {
+  "id": "random-31-564",
+  "source": ""
+ },
+ {
+  "id": "random-31-565",
+  "source": "{%- sandbox %} {% endsandbox -%}{## 0 #} \n {{ in }}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-566",
+  "source": "{%~ include x ~%}x{%~ guard function nope %}{%- deprecated 'x' foo='a' %}{% endguard ~%}"
+ },
+ {
+  "id": "random-31-567",
+  "source": "{%~ flush ~%}{{- true  'x'-}}\ufeff"
+ },
+ {
+  "id": "random-31-568",
+  "source": "{{~ _self = [1, 2] ? {a: 1} .. false ?? m() : ({a: 1})|raw() -}}{%~ extends 'a' ~ b %}"
+ },
+ {
+  "id": "random-31-569",
+  "source": "{% extends x %} "
+ },
+ {
+  "id": "random-31-570",
+  "source": "{% do  ~%}{%~ set a = b = (\"t\")|default %}"
+ },
+ {
+  "id": "random-31-571",
+  "source": "{%~ set c %}{% macro n(a: 1) %}{% apply upper %}{% endapply %}\n\n{%~ endmacro %}\n{%- endset -%}{##  #}  "
+ },
+ {
+  "id": "random-31-572",
+  "source": "{% end %} "
+ },
+ {
+  "id": "random-31-573",
+  "source": "{%~ sandbox %}{% endsandbox ~%} {%- for true in m = n in macros is empty(2) %}{{~ (false) -}}{{ true.0 ~}}{{~ \"t\" or x|join ~",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-574",
+  "source": "{% extends 'a' ~ b %}{% use 'b' with a as b'b' with a as b %}"
+ },
+ {
+  "id": "random-31-575",
+  "source": ""
+ },
+ {
+  "id": "random-31-576",
+  "source": "{%- extends \"layout\" -%}{% embed x ~%}\ufeff{{- forms in nope() ? none = user is not same as(2) : constant(a, b) ~ ({a: 1}) -}}{% (- endembed %}"
+ },
+ {
+  "id": "random-31-577",
+  "source": "{% set a ~%} {% endset ~%}"
+ },
+ {
+  "id": "random-31-578",
+  "source": ""
+ },
+ {
+  "id": "random-31-579",
+  "source": "{%- guard filter nope %}\n\n{{ loop ~}}{% endguard %}\n\ufeff"
+ },
+ {
+  "id": "random-31-580",
+  "source": ""
+ },
+ {
+  "id": "random-31-581",
+  "source": ""
+ },
+ {
+  "id": "random-31-582",
+  "source": ""
+ },
+ {
+  "id": "random-31-583",
+  "source": "{% extends {% endif %}['a', 'b'] %}"
+ },
+ {
+  "id": "random-31-584",
+  "source": "{{ a.(x)() }}{%~ import _self as m.n %a.(x)() }}{%~ import _self as m.n %}"
+ },
+ {
+  "id": "random-31-585",
+  "source": "{% extends \"layout\" -%}{% import 'forms' as forms %}"
+ },
+ {
+  "id": "random-31-586",
+  "source": "\ufeff{{- (n = item) is empty 2 ~}}{% import _self as m.n %}"
+ },
+ {
+  "id": "random-31-587",
+  "source": "{{~ a ~}}{{- a.and ~ b }}a b"
+ },
+ {
+  "id": "random-31-588",
+  "source": "{% extends 'b.twig' ~a b"
+ },
+ {
+  "id": "random-31-589",
+  "source": "{%- embed 'base' with {a: 1} %}{% block title %}{% use 'blocks' ~%}{%- for x in m == item = n ?: true %}{% embed 'a' ~ b only %}\n{% endembed %}{% endfor %}{% block title include() %}{% endblock %}\n{%~ endembed %}"
+ },
+ {
+  "id": "random-31-590",
+  "source": "{% sandbox %}x{% endsandbox %}{%~ apply  %}\t{% endappl =y %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-591",
+  "source": "{% import 'forms' as forms %}\n\n{% block content \"t\" -%}"
+ },
+ {
+  "id": "random-31-592",
+  "source": "{% extends 'b.twig' %}"
+ },
+ {
+  "id": "random-31-593",
+  "source": ""
+ },
+ {
+  "id": "random-31-594",
+  "source": "{% autoescape -%}{% endautoescape -%}"
+ },
+ {
+  "id": "random-31-595",
+  "source": "{{- n.(x)() ~}}{% autoescape 'js' -%}{% types a: b -%}{%~ endautoescape ~%}{%- deprecated 'x' package='p' %}"
+ },
+ {
+  "id": "random-31-596",
+  "source": "{%- extends x %}"
+ },
+ {
+  "id": "random-31-597",
+  "source": "{% e"
+ },
+ {
+  "id": "random-31-598",
+  "source": ""
+ },
+ {
+  "id": "random-31-599",
+  "source": "{% macro m %}{% endmacro %}\ufeff"
+ },
+ {
+  "id": "random-31-600",
+  "source": ""
+ },
+ {
+  "id": "random-31-601",
+  "source": ""
+ },
+ {
+  "id": "random-31-602",
+  "source": ""
+ },
+ {
+  "id": "random-31-603",
+  "source": "{{- max() }} {% embed 'b.twig' ~%}\n\ufeff{%~ endembed %}"
+ },
+ {
+  "id": "random-31-604",
+  "source": ""
+ },
+ {
+  "id": "random-31-605",
+  "source": "{ 1% types {a: 'x'} %}"
+ },
+ {
+  "id": "random-31-606",
+  "source": ""
+ },
+ {
+  "id": "random-31-607",
+  "source": "{%- extends x %}"
+ },
+ {
+  "id": "random-31-608",
+  "source": "\ufeff{{ nope(null) in user|default('x') is not null(2) -}}"
+ },
+ {
+  "id": "random-31-609",
+  "source": "{%- extends x %}{%- use x %}{{ b }}{%- extends 'a' ~ b -%}"
+ },
+ {
+  "id": "random-31-610",
+  "source": "\ufeff{% if (loop.0) %}{{ items }}  \n  {% else -%}{% block content -%}  \n  {% extends 'a' ~ b -{% endblock %}{%~ endif ~%}"
+ },
+ {
+  "id": "random-31-611",
+  "source": "{% if 's'|e('x') + 1|lower is not same as(2) ~%}{%- guard filter nope %} {%~ embed x ignore missing %}{{ b.(x) -}}  \n  {% endembed %}{% else %}{{- forms }}{% set a = true, null == 2.5 %}{% set a.b = include() in (loop)|raw('x') %}{% endguard -%}{% elseif x.m() %}\n\n{%- extends \"layout\" %}{% extends \"layout\" ~%}{% elseif n -%}{% guard function max %}{%- endguard -%}{% apply upper x %}{%- apply nope -%}{%- endapply %}{% endapply %}{% if 1 -%}a b{% endif ~%}{% else %}{% import 'forms' as m.n %}a b{% endif %}{{~ a -}}{% embed \"layout\" %}{%- endembed %}"
+ },
+ {
+  "id": "random-31-612",
+  "source": "{%~ extends 'b.twig' ~%}{{~ not null is empty 2 ? none ? item : items|lower('x') : in = a ? true : \"t\" -}}{{ n = true is nope 2 -}}"
+ },
+ {
+  "id": "random-31-613",
+  "source": ""
+ },
+ {
+  "id": "random-31-614",
+  "source": "{% extends 'b.twig' -%}"
+ },
+ {
+  "id": "random-31-615",
+  "source": "{%~ for a, b, c in forms %}{% deprecated 'x' version='1' package='p' -%}{%~ block title x -%}{%- endfor ~%}{% for k, v in n -%}{%~ set a, b = x + m = m is not defined 2 ~%}{% set none = (item.b), not m = x|upper(1, 2) ~%}{%~ endfor %}{{~ (item.b) ~}}"
+ },
+ {
+  "id": "random-31-616",
+  "source": "{%- auto"
+ },
+ {
+  "id": "random-31-617",
+  "source": "{% with x %}a b{%~ set a %}x{%~ endset %}{% endwith %}"
+ },
+ {
+  "id": "random-31-618",
+  "source": "{%- extends 'a' ~ b %}\n{% for in in not user = {a: 1}|raw(1, 2) %}{% for x, in a -%}{%- else %}{%~ use 'b' with a as b ~%}{%~ guard function max %}{% set a ~%}\n{% endset -%}{%- endguard %}{% endfor ~%}{% endfor ~%}"
+ },
+ {
+  "id": "random-31-619",
+  "source": ""
+ },
+ {
+  "id": "random-31-620",
+  "source": ""
+ },
+ {
+  "id": "random-31-621",
+  "source": "\n{% import _self as true %}% import _self as true %}\ufeff"
+ },
+ {
+  "id": "random-31-622",
+  "source": "{% apply upper x %}{% endapply ~%}{% do  %}"
+ },
+ {
+  "id": "random-31-623",
+  "source": "{%~ flush x %}{% with x %}{%- endwith %}"
+ },
+ {
+  "id": "random-31-624",
+  "source": "{{- m() ? (2.5) : user and user ~}}"
+ },
+ {
+  "id": "random-31-625",
+  "source": "{## Docs #} {{- {a: 1} ~ _self is not divisible by(2) }}"
+ },
+ {
+  "id": "random-31-626",
+  "source": "{% if x %}\ufeff{% embed ['a', 'b'] ~%}{% block x %}{% endblock %}{{ 's' or none|escape('x')|nope('x') -}}{%- endembed %}{% elseif user ? parent(macros) ? constant(_self) : a.m : (forms.(x)()) %}{%- with ~%} {%~ macro n(a, b = 1) %}{% endmacro z -%}{% set in = (loop.0), macros = (macros) %}{% endwith %}{% set a = true.m()|first -{% endmacro z -%}{% set in = (loop.0), macros = (macros) %}{% endwith %}{% set a = true.m()|first -%}{%~ else %}{% endif %}{%~ do {a, b: c} = x %}{{- x.b -}}"
+ },
+ {
+  "id": "random-31-627",
+  "source": ""
+ },
+ {
+  "id": "random-31-628",
+  "source": "{%- extends 'a' ~ b %}{{~ false ~}}{% macro input(a, b = 1) ~%}{% macro input(a, b = 1) %}{% embed 'base' only %}{% endembed %}{% use 'blocks' %}{%~ guard function nope -%}\n{% endguard %}{% endblock input ~%}{%~ endmacro input ~%}"
+ },
+ {
+  "id": "random-31-629",
+  "source": "{%  xinclude 'a' ~ b ignore missing %}"
+ },
+ {
+  "id": "random-31-630",
+  "source": "{%- sandbox -%}x{%- endsandbox %}  \n  ",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-631",
+  "source": "{%- types {} %}"
+ },
+ {
+  "id": "random-31-632",
+  "source": "{% extends 'base' -%}"
+ },
+ {
+  "id": "random-31-633",
+  "source": " 'x'{{ range() ~}}"
+ },
+ {
+  "id": "random-31-634",
+  "source": "{{- m }}{% import _self as forms %}{% macro and(a, b = 1) -%}{% set in = 1, items = include() -%}{%~ include 'b.twig' %}{% set a.b = 2.5 in item.b|lower, loop = item|spaceless(1, 2) in null is null 2 ~%}{% endmacro %}"
+ },
+ {
+  "id": "random-31-635",
+  "source": "{% extends \"layout\" ~%}{% im"
+ },
+ {
+  "id": "random-31-636",
+  "source": "{{- {% end %}true }}"
+ },
+ {
+  "id": "random-31-637",
+  "source": "\n\n"
+ },
+ {
+  "id": "random-31-638",
+  "source": "{% import 'forms' {% embed ['a', 'b'] %}{%- endembed -%}{{- m.(x) -}}"
+ },
+ {
+  "id": "random-31-639",
+  "source": "{{~ (user|lower(1, 2)) ~}}{%- apply upper %}{%~ flush x %}{%- autoescape 'js' %}{{ cycle() ?: _self ~}}{% endautoescape %}{% block title null %}{% endapply %}{{- true = cycle('a') }}"
+ },
+ {
+  "id": "random-31-640",
+  "source": "{% extends ['a', 'b'] -%}"
+ },
+ {
+  "id": "random-31-641",
+  "source": "{% flush x , %}\n"
+ },
+ {
+  "id": "random-31-642",
+  "source": "{%~ set c -%}{% endset -%}"
+ },
+ {
+  "id": "random-31-643",
+  "source": "x"
+ },
+ {
+  "id": "random-31-644",
+  "source": "{%~ block content forms.m() %}"
+ },
+ {
+  "id": "random-31-645",
+  "source": "{%- macro m(a, a) ~%}\ufeff{%- 'x' autoescape v %}{%~ endautoescape %}a b{%- endmacro %}  \n  \n\n"
+ },
+ {
+  "id": "random-31-646",
+  "source": "{{ 's' }}{{ a.and ~}}"
+ },
+ {
+  "id": "random-31-647",
+  "source": "{% ) flush x %}"
+ },
+ {
+  "id": "random-31-648",
+  "source": ""
+ },
+ {
+  "id": "random-31-649",
+  "source": "{% from _self import m, %}"
+ },
+ {
+  "id": "random-31-650",
+  "source": ""
+ },
+ {
+  "id": "random-31-651",
+  "source": "{%- extends 'a' ~ b ~%}\t{## 0 #}  "
+ },
+ {
+  "id": "random-31-652",
+  "source": "{% guard foo max {% else %}{% endguard ~%}a b"
+ },
+ {
+  "id": "random-31-653",
+  "source": "{% extends \"layout\" %}{{ m.m() ? user : items -}}{%- flush x -%}x"
+ },
+ {
+  "id": "random-31-654",
+  "source": "{% block in forms = true = macros or forms|default ~%}{{ tru =e }}{%- import _self %}"
+ },
+ {
+  "id": "random-31-655",
+  "source": "{## doc #}  "
+ },
+ {
+  "id": "random-31-656",
+  "source": "{% extends 'a' ~ b %}{% set a, b %}{% apply  %}{%- for x, in true = 2.5 is same 1 as 2|nope %}  \n  {%- endfor %}{% endapply ~%}{% for a, b, c in in -%}x{%~ import _self as true ~%}{%~ endfor %}{%~ endset %}"
+ },
+ {
+  "id": "random-31-657",
+  "source": ""
+ },
+ {
+  "id": "random-31-658",
+  "source": "{%- with {a: 1} only %}{% endwith %}{%- autoescape v %}{% endautoescape %}{% do [a, b] = [1, 2] %}"
+ },
+ {
+  "id": "random-31-659",
+  "source": "{% macro input ~%}{% endmacro z -%}{% if ({a: 1}) %}\n{% from 'forms' ~%}{% elseif none %}{%- types {a: 'x' b: 'y'} %}{{- a == loop is nope }}{% extends 'b.twig' ~%}{% endif %}"
+ },
+ {
+  "id": "random-31-660",
+  "source": "{%~ sandbox %} {% endsandbox %}a ",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-661",
+  "source": "{% apply nope %}\n\n\n{{- {a: 1} -}}{%~ endapply ~%}{%- flush x %}{% apply upper %}{% with only %}"
+ },
+ {
+  "id": "random-31-662",
+  "source": "{{- macros -}}"
+ },
+ {
+  "id": "random-31-663",
+  "source": "{% import _self ~%}"
+ },
+ {
+  "id": "random-31-664",
+  "source": "{%- types a: b -%}{% block b macros %}"
+ },
+ {
+  "id": "random-31-665",
+  "source": "{%~ types a?: 'x', b: 'y' -%}"
+ },
+ {
+  "id": "random-31-666",
+  "source": "{% apply  %}{##  #} {% set a %}\n\n\ufeff{{ m('a') }}{% endset %}{%~ use 'b' with a, ~%}{% endapply ~%}"
+ },
+ {
+  "id": "random-31-667",
+  "source": "{% autoescape 'js' ~%}{% embed 'base' with {a: 1} %}\t{%~ endembed ~%}\n{% endautoescape -%}  \n  {% flush ~%}"
+ },
+ {
+  "id": "random-31-668",
+  "source": "{% import 'forms' ~%}{% set a, b %}\ufeff{{~ range(a, b) ?: (a)|first(1, 2) -}}{% from 'forms' import m, n ~%}{% endset %}"
+ },
+ {
+  "id": "random-31-669",
+  "source": "{% guard function nope %}{%~ block in %}{%~ for a, b, c in m = b = [1, 2] == macros ?: \"t\" %}{% set a.b = _self is not even(2) ~ user is same as ~%}{%- else ~%}{%~ endfor %}{% endblock in %}{{~ m = {a: 1} ? _self = x : _self|e|e('x') -}}{% endguard ~%}  \n  "
+ },
+ {
+  "id": "random-31-670",
+  "source": "\t"
+ },
+ {
+  "id": "random-31-671",
+  "source": "{{ items.b is not nope ~}}{%~ with -%}{% endwith -%}"
+ },
+ {
+  "id": "random-31-672",
+  "source": ""
+ },
+ {
+  "id": "random-31-673",
+  "source": "{% extends x -%}\n\n"
+ },
+ {
+  "id": "random-31-674",
+  "source": "{%- extends ['a', 'b'] ~%}{%~ with {a: 1} only %}{{~ none -}}{% import 'forms' as m.n -%}{% endwith -%}\ufeff"
+ },
+ {
+  "id": "random-31-675",
+  "source": "{{- n.m }}\n\n{%~ if macros = parent('a')|e() %}{%~ elseif none ~%}\n\n{%~ extends x -%}\n\n{%- elseif in.(x)() %}{% else %}{%- do {a, b: c} = x %}{% do [a, b] = [1, 2] %}{% endfor %}"
+ },
+ {
+  "id": "random-31-676",
+  "source": "{% extends 'base' %}{%~ autoescape %}{% apply lower|escape %}{%- embed 'a' ~ b only %}{% block a %}\n{%~ endblock ~%}{%- endembed %}{%- embed x with {a: 1} %}{%~ endembed %}{% guard test divisible by %}{% use 'blocks' %}{% endguard %}{% endapply ~%}{% endautoescape ~%}{%- use 'bl 1ocks' %}{% autoescape 'js' %}{%~ endautoescape %}"
+ },
+ {
+  "id": "random-31-677",
+  "source": "{%~ with {a: 1} %}{% endwith %}\t{% set a.b = not true and forms, b -%}"
+ },
+ {
+  "id": "random-31-678",
+  "source": "{% flush x %}a b"
+ },
+ {
+  "id": "random-31-679",
+  "source": "{% sandbox %}{% include 'a' %}{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-680",
+  "source": ""
+ },
+ {
+  "id": "random-31-681",
+  "source": ""
+ },
+ {
+  "id": "random-31-682",
+  "source": ""
+ },
+ {
+  "id": "random-31-683",
+  "source": "{% extendsxtends \"layout\" %}{% types  ~%}"
+ },
+ {
+  "id": "random-31-684",
+  "source": "{## Docs #} {{ (_self)|join('x') + x = a }}"
+ },
+ {
+  "id": "random-31-685",
+  "source": "{%~ block a %}{% do [a, b] = [1, 2] %}{% set a, b -%}{% from _self import m, n ~%}{% endset -%}{%- include 'b.twig' ignore missing %}{%- endblock a %}\n\n"
+ },
+ {
+  "id": "random-31-686",
+  "source": "{## 0 #} {%~ block title m ~%}{% block in 2.5 %}"
+ },
+ {
+  "id": "random-31-687",
+  "source": ""
+ },
+ {
+  "id": "random-31-688",
+  "source": "{% autoescape true %}{% from 'forms' import %}{{ m ~}}{%~ macro m(a, ..."
+ },
+ {
+  "id": "random-31-689",
+  "source": "{{ nope(a, b) -}}  \n  "
+ },
+ {
+  "id": "random-31-690",
+  "source": "{%- if m and null in false in n = n.(x)() %}{%- from 'forms' import m %}{%- elseif m.(x) -%}{%~ use 'b' with a, %}{{~ not user|join|first }}{%~ elseif item.m ~%}{% else ~%}{% from 'forms' import m as n %}{% endif ~%}{## 0 #} "
+ },
+ {
+  "id": "random-31-691",
+  "source": ""
+ },
+ {
+  "id": "random-31-692",
+  "source": "{%- extends 'base' %} {{- [1, 2] ~}}{%~ set a %}  \n  {##  #} {%~ endset %}"
+ },
+ {
+  "id": "random-31-693",
+  "source": ""
+ },
+ {
+  "id": "random-31-694",
+  "source": "  \n  "
+ },
+ {
+  "id": "random-31-695",
+  "source": "{% extends 'b.twig' %}{%~ apply upper %}{% deprecated 'x' version='1' package='p' %}"
+ },
+ {
+  "id": "random-31-696",
+  "source": "{%~ sandbox %}x{%- endsandbox %}{% extends ['a', 'b'] %}{%~ set a %}{{- a = [1, 2] .. null ? (false) : not block() -}}{% if macros %}{%- do [a, b] =",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-697",
+  "source": "  \n  {%- for x in m == not loop|default('x') %}\n{%- endfor "
+ },
+ {
+  "id": "random-31-698",
+  "source": "{% autoescape true %}{%- guard function nope -%}{% set none = [1, 2] == n %}{{- in = (loop)|upper('x') ~}}{%- endguard ~%}{% endautoescape -%}"
+ },
+ {
+  "id": "random-31-699",
+  "source": "{%- if n = _self.(x)|spaceless ~%}a b{% elseif b -%}{% elseif macros ~%}{{- b = item.b -}}{% endif %}{%- flush x %}  \n  "
+ },
+ {
+  "id": "random-31-700",
+  "source": "{%~ extends 'b.twig' "
+ },
+ {
+  "id": "random-31-701",
+  "source": ""
+ },
+ {
+  "id": "random-31-702",
+  "source": "{%~ extends x %}"
+ },
+ {
+  "id": "random-31-703",
+  "source": "{% autoescape 'js' %}{%~ with %}{% use x %}{%- endwith %}{%- endautoescape ~%}{%~ guard test even -%}{%~ endguard %}\n"
+ },
+ {
+  "id": "random-31-704",
+  "source": "{% set in = _self, none .. block('a') %}{% embed x \n{{- 2.5 ~}}{% endembed %}{{~ b is same as 2 ~}}"
+ },
+ {
+  "id": "random-31-705",
+  "source": "{%~ extends 'b.twig' %}{## 0 #} {%- from 'forms' import m %}"
+ },
+ {
+  "id": "random-31-706",
+  "source": ""
+ },
+ {
+  "id": "random-31-707",
+  "source": "{%~ extends 'b.twig' -%}{% with only %}{% autoescape %}{%~ endautoescape -%} {% endwith %}{% guard filter upper ~%}{%~ block in -%}{% extend{% endif %}s 'b.twig' ~%}{% set a.b = none, not null %}{%~ set a %}{% from 'forms' %}{%~ endset ~%}{% endblock a %}{{ constant() is not nope }}{% endguard -%}\ufeff"
+ },
+ {
+  "id": "random-31-708",
+  "source": "{{ (item) ~}}a b{%~ for k, v in a ~%}{%~ block b loop %}{%- else -%}\n\na b{% endfor %}"
+ },
+ {
+  "id": "random-31-709",
+  "source": "{% block content %}{% from 'forms' t %}{% from 'forms' import m ~%}{% endblock %}{% extends 'a' ~ b %}"
+ },
+ {
+  "id": "random-31-710",
+  "source": "{%~ with x %}{% endwith -%}{%- autoescape -%}{% extends x   \n  {%~ with x %}{%~ embed 'base' only %}{{- 1 ? (none) : user -}} {% endembed -%}{% block b ~%}{{- include() and 's' -}}{%- endblock x %}{% endwith %}{% endautoescape ~%}"
+ },
+ {
+  "id": "random-31-711",
+  "source": "{{- not , n(user) }}{% macro input(...rest, a) -%}{% if a.m() -%}{% elseif parent(((loop))) %}{% elseif not attribute() ? user : in ~%}{% with {a: 1} -%}{% endwith %}\n\n{%- with x %}{%~ endwith %}{% else %}{% endif %}{{ b.b -}}{%- endmacro ~%}\n"
+ },
+ {
+  "id": "random-31-712",
+  "source": ""
+ },
+ {
+  "id": "random-31-713",
+  "source": "{% extends 'base' %}{% guard filter nope ~%}\n\n{% else ~%}  \n  {%- types {a: 'x' b: 'y'} %{% endblock %}}x{%- endguard -%}"
+ },
+ {
+  "id": "random-31-714",
+  "source": "{% flush x %}{% from _self import m, n %}{% include ['a', 'b'] with {a: 1} ~%}"
+ },
+ {
+  "id": "random-31-715",
+  "source": "{% extends 'b.twig' %}{% deprecated 'x' foo='a' %}"
+ },
+ {
+  "id": "random-31-716",
+  "source": "{% extends 'a' ~ b %}{{- attribute(m|nope()) }}{{ true.0 -}}"
+ },
+ {
+  "id": "random-31-717",
+  "source": "a b{{ macros.m -}}"
+ },
+ {
+  "id": "random-31-718",
+  "source": ""
+ },
+ {
+  "id": "random-31-719",
+  "source": ""
+ },
+ {
+  "id": "random-31-720",
+  "source": "{%- extends ['a', 'b'] -%}{%~ deprecated 'x' %}{## doc #} "
+ },
+ {
+  "id": "random-31-721",
+  "source": "{% types a: b ~%}{% from 'forms' import m as n %}{% if not item|{% endblock %}spaceless('x') is null(2) -%}{% elseif n = _self ~%}{% deprecated 'x' package='p' %}{%~ set a, b %}{%~ embed 'b.twig' with {a: 1} %}{% endembed -%}{% endset %}{% elseif true = nope() == {a: 1} %}{{~ 1 is divisible by 2|lower() ~}}{%- for a, b, c in include('a') .. x %}{%- endfor ~%}{{ null -}}{%- endif %}"
+ },
+ {
+  "id": "random-31-722",
+  "source": "{%~ include ['a', 'b'] with {} ignore missing %}{% guard foo max ~%}{% else %}{% endguard %}"
+ },
+ {
+  "id": "random-31-723",
+  "source": ""
+ },
+ {
+  "id": "random-31-724",
+  "source": "{%~ autoescape true %}  \n  {% from _self import m %}{% endautoescape %}"
+ },
+ {
+  "id": "random-31-725",
+  "source": "{%~ guard test even -%}{{~ not b ~ a|escape() ~}}x{% else -%}{% block x %}\t{% types {a: 'x'} %}{% embed 'a' ~ b only %}{% block content %}{% endblock ~%}{{~ items.(x)() -}}{% endembed %}{% endblock -%}{% endguard %}{%~ deprecated 'x' foo='a' -%}{% if none %}{%~ with {a: 1} ~%}{{- m(n()) ~}}{%~ from _self import m, n %}\t{%~ endwith %}{% elseif items %}{% flush ~%}{% elseif not cycle(b) ~ n -%}{{~ (_self = null) }}{{- ('s'|nope() ? m|escape() : n) }}{%- if user = null|join() %}\n\t{%- elseif macros %}{% embed x ignore missing %}{% block in -%}{{- true.(x)() }}{% endblock ~%}{% endembed -%}a b{%- elseif true = null %}{% use 'blocks' %}{% else %}{%- with %}{%- import _self as macros %}{% endwith %}{% endif %}{% else %}{%~ for in in _self %} {% import 'forms' as m.n %}{%- endfor %}{% block b x = user = items == n %}{% endif %}"
+ },
+ {
+  "id": "random-31-726",
+  "source": "{%~ flush x ~%}"
+ },
+ {
+  "id": "random-31-727",
+  "source": "\n"
+ },
+ {
+  "id": "random-31-728",
+  "source": "{%~ extends \"layout\" %}"
+ },
+ {
+  "id": "random-31-729",
+  "source": "{% if forms.b ? false is even 2 : (item)|upper -%}{% elseif ({a: 1})|default ~%}{% embed 'base' with {a: 1} %}{{~ {a: 1} or {a: 1} ~ x|lower() + a.b }}{% endembed %}{% block content ~%}{%~ endblock content -%}{% flush x ~%}{%- else -%}{%~ flush %}{% block a [1, 2] and n ~%}x{%~ endif -%} {%~ embed 'base' %}{%- endembed %}"
+ },
+ {
+  "id": "random-31-730",
+  "source": "{% extends x %}{% set a = item = nope()|join(1, 2) -%}{%- guard function nope ~%}{% endguard %}"
+ },
+ {
+  "id": "random-31-731",
+  "source": "{{~ block =() -}}"
+ },
+ {
+  "id": "random-31-732",
+  "source": "{% if block(a, b) %}{%~ import _self as true %}{%- elseif not items|join(1, 2) %}{% import 'forms' as true %}{%~ deprecated 'x' version='1' package='p' ~%}{% import 'forms' as forms %}{%~ else -%}{{- items = m ~ 1 ? loop = false ? [1, 2]|default('x') : items.m : none.(x) ~}}{% with ~%}{%- guard filter nope %}{%- embed x ignore missing ~%}x{% block x %}\n{% endblock %}{% endembed %}{% else %}{% endguard %}{% from _self import m, n %}\ufeff{% - items = m ~ 1 ? loop = false ? [1, 2]|default('x') : items.m : none.(x) ~}}{% with ~%}{%- guard filter nope %}{%- embed x ignore missing ~%}x{% block x %}\n{% endblock %}{% endembed %}{% else %}{% endguard %}{% from _self import m, n %}\ufeff{% endwith %}{%~ endif %}{{~ forms.and }}"
+ },
+ {
+  "id": "random-31-733",
+  "source": "{%- extends 'b.twig' -%}"
+ },
+ {
+  "id": "random-31-734",
+  "source": ""
+ },
+ {
+  "id": "random-31-735",
+  "source": "{{~ 's' ~}}{%~ do  %}"
+ },
+ {
+  "id": "random-31-736",
+  "source": "{% sandbox %} {%- endsandbox -%}{%- import _self as m.n %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-737",
+  "source": "{% block x max('a')|join %}{%- types {a: 'x'} ~%}{## doc #}  "
+ },
+ {
+  "id": "random-31-738",
+  "source": "{% block title %}\ufeff{% endblock b ~%}{% extends 'base' %}"
+ },
+ {
+  "id": "random-31-739",
+  "source": "{% flush -%}x{%- do  %}"
+ },
+ {
+  "id": "random-31-740",
+  "source": "{{- in.m }}{%- guard function nope ~%}\t\n\n{% else ~%}{% endguard %}"
+ },
+ {
+  "id": "random-31-741",
+  "source": "{% extends  %} "
+ },
+ {
+  "id": "random-31-742",
+  "source": "\t{%~ import 'forms' %}{{~ parent('a')|join(1, 2) in items.b in a ~}}"
+ },
+ {
+  "id": "random-31-743",
+  "source": ""
+ },
+ {
+  "id": "random-31-744",
+  "source": "{{~"
+ },
+ {
+  "id": "random-31-745",
+  "source": "\n"
+ },
+ {
+  "id": "random-31-746",
+  "source": "{% block title %}{% e"
+ },
+ {
+  "id": "random-31-747",
+  "source": ""
+ },
+ {
+  "id": "random-31-748",
+  "source": "{% set a.b = block(_self) -%}{% extends 'b.twig' ~%}"
+ },
+ {
+  "id": "random-31-749",
+  "source": "{{- true.and }}{%~ guard test even %}{% endguard  )%}{%~ extends \"layout\" %}"
+ },
+ {
+  "id": "random-31-750",
+  "source": ""
+ },
+ {
+  "id": "random-31-751",
+  "source": "\n\n"
+ },
+ {
+  "id": "random-31-752",
+  "source": "{%- include ['a', 'b'] with {} ignore missing %}{%~ block cont"
+ },
+ {
+  "id": "random-31-753",
+  "source": "{% sandbox ~%}{% include 'a' %}{% endsandbox %}{%- extends \"layout\" -%}\n\n{% deprecated 'x' version='1' package='p' -%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-754",
+  "source": "{% do not [1, 2] is empty 2 == 2.5 or _self %}{{~ a = 's' ~}}{%~ macro n(a, ...rest) %} {% use 'blocks' ~%}{% endmacro %}"
+ },
+ {
+  "id": "random-31-755",
+  "source": ""
+ },
+ {
+  "id": "random-31-756",
+  "source": ""
+ },
+ {
+  "id": "random-31-757",
+  "source": ""
+ },
+ {
+  "id": "random-31-758",
+  "source": "\n{% block a 1|nope() %}"
+ },
+ {
+  "id": "random-31-759",
+  "source": "{%- extends 'a' ~ b %}x"
+ },
+ {
+  "id": "random-31-760",
+  "source": "{% if 's' %}{% elseif x -%}{% import _"
+ },
+ {
+  "id": "random-31-761",
+  "source": "{% set a, b -%}{% do {a, b: c} = x %}{% endset %}{{~ true ~}}"
+ },
+ {
+  "id": "random-31-762",
+  "source": "{%~ block b %}{%~ autoescape false %}{%- endautoescape %}{## Docs #} \n {% deprecated 'x' ~%}{%- endblock b %}{% block b %}\ufeff{%~ extends \"layout\" %}{% endblock %}"
+ },
+ {
+  "id": "random-31-763",
+  "source": ""
+ },
+ {
+  "id": "random-31-764",
+  "source": "{%- embed 'a' ~ b with {a: 1} ~%}{% block x %} {{~ user ?: in.m ~}}{% endblock %}{{~ m ? m|raw() : not items ? n(a, b)|e('x') : constant('a') ? x : b.(x) ~}}{% endembed %}{%- embed \"layout\" only %}{{ not _self ?? forms ? false ? 's' : user : null ~}}\n{% endembed ~%}"
+ },
+ {
+  "id": "random-31-765",
+  "source": "{{ x.and -}}{%~ block in %}{% guard test divisible by %}{%- else ~%}{{- _self -}}{%~ use x %}{% use 'blocks' %}{% endguard ~%}{%~ flush %}{%~ block a -%}{% types  %}\n\nx{% endblock ~%}{% endblock ~%}{{~ m = (macros) + item }}"
+ },
+ {
+  "id": "random-31-766",
+  "source": "{% apply lower|escape -%}{%~ embed 'b.twig' only %}{%~ endembed ~%}{%- endapply -%}{% guard function max %}{%- set c %}{%~ endset -%}{%~ with {a: 1} only ~%}{%- block a -%}{%- embed \"layout\" with {a: 1} %}{{- in }}{% endembed -%}{% endblock %}{% endwith ~%}x{%~ else %}{% 'x' endguard -%}x"
+ },
+ {
+  "id": "random-31-767",
+  "source": "{% set a %}{% types {a: 'x' b: 'y'} %}{%~ set a.b = 1|nope and not m|join %}{##  #} {% endset ~%}{{~ none ? macros : not items }}{{~ item|join() ~}}"
+ },
+ {
+  "id": "random-31-768",
+  "source": "{%~ extends ['a', 'b'] %}"
+ },
+ {
+  "id": "random-31-769",
+  "source": "{% guard test even %}{% import 'forms' as macros %}{{~ constant('a') ~}}{% do (macros|upper('x')) -%}{% else %}{% endguard %}{%~ macro input(a, b = 1) ~%}{%- endblock %}"
+ },
+ {
+  "id": "random-31-770",
+  "source": "{% if (1|default) is defined %}{% elseif range() %}{{ [1, 2] ? in : _self + items ? macros : loop ~}}{{- _self.0 -}}{% from _self import ~%}{%~ endif ~%}"
+ },
+ {
+  "id": "random-31-771",
+  "source": "{% extends 'b.twig' ~%}{% import _self as true %}{%- macro input(a, ...rest) -%}{%~ autoescape v ~%}{{~ not true = n ~}}{{- a.(x) }}{%~ endautoescape %}{% endblock -%}"
+ },
+ {
+  "id": "random-31-772",
+  "source": "{{- n.(x)() is not same as 2 + macros = in.(x)() ~}}"
+ },
+ {
+  "id": "random-31-773",
+  "source": "x"
+ },
+ {
+  "id": "random-31-774",
+  "source": ""
+ },
+ {
+  "id": "random-31-775",
+  "source": "{% flush ~%}{%~ use 'b' with a, ~%}{%~ flush -%}"
+ },
+ {
+  "id": "random-31-776",
+  "source": "{%~ with only %}{%- flush %}{%~ block a macros.b %}{{ not b.and|escape('x') }}{%~ endwith ~%}"
+ },
+ {
+  "id": "random-31-777",
+  "source": "{## 0 #}  {{~ null and loop ~}}{{~ range() is defined(2) ~}}"
+ },
+ {
+  "id": "random-31-778",
+  "source": "{% import 'forms' as macros ~%}a b{% do {a, b: c} = x %}"
+ },
+ {
+  "id": "random-31-779",
+  "source": "{%~ guard function nope -%}{% endguard %}{% guard test even -%}{% endguard %}"
+ },
+ {
+  "id": "random-31-780",
+  "source": "{%- macro and() %}  \n  {%- if forms.(x) %}{%- elseif x.b %}{%~ elseif 2.5 is not null 2|escape %}{{ max(a, b) -}}{## 0 #} {% endfor ~%}{%~ endmacro z ~%}\t"
+ },
+ {
+  "id": "random-31-781",
+  "source": ""
+ },
+ {
+  "id": "random-31-782",
+  "source": "{%- block x -%}{% endblock %}{%~ embed x %}\n{% block content ~%}{%- block title -%}{%~ import 'forms' as forms -%}{% endblock b %}x{% set a %}{% endset ~%}{% endblock -%}{% endembed -%}{% deprecated 'x' -%}"
+ },
+ {
+  "id": "random-31-783",
+  "source": "{%- extends \"layout\" -%}{{{% end %} not b ~}}"
+ },
+ {
+  "id": "random-31-784",
+  "source": "  \n  "
+ },
+ {
+  "id": "random-31-785",
+  "source": "{% extends \"layout\" ~%}\n\n"
+ },
+ {
+  "id": "random-31-786",
+  "source": "{% apply upper x %}\t   \n  {% endapply %}"
+ },
+ {
+  "id": "random-31-787",
+  "source": "{% extends 'base' %}{% extends 'a' ~ b -%}{% embed 'b.twig' only -%}{{~ n('a') }}{% endembed ~%}"
+ },
+ {
+  "id": "random-31-788",
+  "source": "\n{%~ do  %}{{- forms = items }}"
+ },
+ {
+  "id": "random-31-789",
+  "source": ""
+ },
+ {
+  "id": "random-31-790",
+  "source": "{{- true.0 ~}}{% import 'forms' as m.n -%}{%~ autoescape 'js' %}{% deprecated 'x' package='p' %}{{ none.(x) -}}{%- endautoescape %}"
+ },
+ {
+  "id": "random-31-791",
+  "source": "{{- 2.5 ? loop : null ~}}{% macro input ~%}{%- endblock ~%}"
+ },
+ {
+  "id": "random-31-792",
+  "source": "{{- block(1) -}}\n"
+ },
+ {
+  "id": "random-31-793",
+  "source": "{% macro n(a, ...rest) %}{## Docs #} {%- guard filter nope ~%}{% include x with {} ignore missing ~%}{%- else -%}{% use x %}{% block in %}\n{% endblock %}{% endguard %}{% endmacro %}{% for x, in macros ? 's' : nope() is empty 2 %}{{- 1 }}{{- macros = range(a, b) ~}}{{- a ? in : include(a, b) in 2.5 is not divisible by -}}{%~ endfor %}"
+ },
+ {
+  "id": "random-31-794",
+  "source": ""
+ },
+ {
+  "id": "random-31-795",
+  "source": ""
+ },
+ {
+  "id": "random-31-796",
+  "source": "  \n  x "
+ },
+ {
+  "id": "random-31-797",
+  "source": "{{ m or \"t\"|spaceless() in x|join('x') + not [1, 2] }} {% do  ~%}"
+ },
+ {
+  "id": "random-31-798",
+  "source": "{%~ sandbox ~%}{% include 'a' %}{% endsandbox ~%}{%~ extends 'b.twig' %}{% autoescape v %}{%~ types  %}{% extends 'a' ~ b -%}{% endautoescape -%}  \n  ",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-799",
+  "source": "{{~ max(a, b) -}}"
+ },
+ {
+  "id": "random-31-800",
+  "source": ""
+ },
+ {
+  "id": "random-31-801",
+  "source": "{% sandbox %}{{ x }}{% endsandbox %}{% extends ['a', 'b'] %}{% block b -%}{% set a %}{% include \"layout\" only %}{{ m is null|e|e() }}{%- endset %}{% endblock b -%}{% from 'forms' import m as n m is null|e|e() }}{%- endset %}{% endblock b -%}{% from 'forms' import m as n -%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-802",
+  "source": ""
+ },
+ {
+  "id": "random-31-803",
+  "source": "{% guard function nope -%}{% endguard ~%}{{ true.and|raw(1, 2) -}}"
+ },
+ {
+  "id": "random-31-804",
+  "source": "{%- do [a, b] = [1, 2] -%}a b{{~ {a: 1} is same as 2 ~"
+ },
+ {
+  "id": "random-31-805",
+  "source": ""
+ },
+ {
+  "id": "random-31-806",
+  "source": "{%- extends 'base' ~%}{{ _self -"
+ },
+ {
+  "id": "random-31-807",
+  "source": "{%- sandbox %}{%- endsandbox -%}{%~ with {a: 1} %}a b{% endwith ~%}{{ include() and loop",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-808",
+  "source": ""
+ },
+ {
+  "id": "random-31-809",
+  "source": "{% embed 'a' ~ b only %}{%- endembed -%}{{- items.0 }}"
+ },
+ {
+  "id": "random-31-810",
+  "source": ""
+ },
+ {
+  "id": "random-31-811",
+  "source": "{%~ sandbox %}{% include 'a' %}{% endsandbox ~%}{%~ extends  %}{%~ block in x ?? [1, 2] is defined(2) is defined %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-812",
+  "source": "\n\n{%~ set none = none, block('a') + false %}{%~ import 'forms' %}"
+ },
+ {
+  "id": "random-31-813",
+  "source": ""
+ },
+ {
+  "id": "random-31-814",
+  "source": "{{~ 's' } ,}"
+ },
+ {
+  "id": "random-31-815",
+  "source": ""
+ },
+ {
+  "id": "random-31-816",
+  "source": "{% sandbox %}{%~ endsandbox ~%}\n{% types {a: 'x'} %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-817",
+  "source": "{%- extends 'base' ~%}{%- for a, b, c in include() ? _self.0 : b %}{%~ endfor -%}{%- with only %}{%~ embed 'base' with {a: 1} %}{% endembed ~%}{% endwith %}"
+ },
+ {
+  "id": "random-31-818",
+  "source": "{% sandbox -%}{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-819",
+  "source": ""
+ },
+ {
+  "id": "random-31-820",
+  "source": "{%~ extends \"layout\" %}"
+ },
+ {
+  "id": "random-31-821",
+  "source": "{% block content none = include('a') %}{% autoescape v ~%}{%~ endautoescape -%}  \n  "
+ },
+ {
+  "id": "random-31-822",
+  "source": "{% extends 'base' %}{% types {a: 'x'} %}{{~ macros|e('x') ~}"
+ },
+ {
+  "id": "random-31-823",
+  "source": "xx"
+ },
+ {
+  "id": "random-31-824",
+  "source": "x{% set c %}{%~ set a, b = true.(x)()|upper(1, 2) -%}{{- range(constant(a, b)) }}{% apply  ~%}{{ forms ~ \"t\" .. 1|nope('x')|upper('x') }}{% for k, v in in.m() %}\ufeff{%~ endfor ~%}{% endapply -%}{%~ endset -%}{% set c %}{% endset %}"
+ },
+ {
+  "id": "random-31-825",
+  "source": " ( "
+ },
+ {
+  "id": "random-31-826",
+  "source": "{%~ import 'forms' as true %}{% macro m(a = b) %}{% use 'b' with a, -%}{% endmacro z ~%}{{~ parent('a') ~}}"
+ },
+ {
+  "id": "random-31-827",
+  "source": "{{- {a: 1} ~}}{% apply upper x %}{%- block in false %}{%- endapply -%}{% if (max('a') ? true ? items : item"
+ },
+ {
+  "id": "random-31-828",
+  "source": " "
+ },
+ {
+  "id": "random-31-829",
+  "source": "{% extends 'base' %}{% types {a: 'x'} ~%}{%- types {a: 'x'} %}"
+ },
+ {
+  "id": "random-31-830",
+  "source": "\n{{- (constant(null))|lower() }}{%- for k, v in m|upper('x') %}{% endfor %}"
+ },
+ {
+  "id": "random-31-831",
+  "source": "{%~ autoescape 'js' %}{{- _self }}{## Docs #}\n{{~ constant('a') ~}}{%- endautoescape -%}{% set none = n(), [1, 2]|spaceless('x') ~%}{%- set a.b = false|first, null %}"
+ },
+ {
+  "id": "random-31-832",
+  "source": "{{ x -}}"
+ },
+ {
+  "id": "random-31-833",
+  "source": "{{ item -}}"
+ },
+ {
+  "id": "random-31-834",
+  "source": "{%~ sandbox %}{% include 'a' %}{%~ endsandbox ~%}{% extends ['",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-835",
+  "source": "{{~ \"t\"|first(1, 2) and none = 's' ? false : macros ~}}{%~ from _self import %}"
+ },
+ {
+  "id": "random-31-836",
+  "source": ""
+ },
+ {
+  "id": "random-31-837",
+  "source": "{% sandbox %}{% include 'a' %}{%~ endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-838",
+  "source": ""
+ },
+ {
+  "id": "random-31-839",
+  "source": "{%- deprecated 'x' version='1' package='p' {% macro m(a, ...rest) ~%}{{~ cycle() }}{% types a: b %}{%- block in %}{% if macros.and ~%}{%~ elseif in -%}{% endif ~%} \ufeff{% endblock b %}{%~ endmacro z -%}"
+ },
+ {
+  "id": "random-31-840",
+  "source": "x \t"
+ },
+ {
+  "id": "random-31-841",
+  "source": ""
+ },
+ {
+  "id": "random-31-842",
+  "source": "{% autoescape v %}\n\n{%- flush x ~%}{% autoescape %}{%- set a.b = _self.m %}{% endautoescape %}{% endautoescape %}"
+ },
+ {
+  "id": "random-31-843",
+  "source": " \n{%- with {a: 1} only %}{%- set in = m = "
+ },
+ {
+  "id": "random-31-844",
+  "source": "{% block b nope([1, 2] ? in : a) ? 's' : (constant('a')) %}{% autoescape v %}{% do {a, b: c} = nope([1, 2] ? in : a) ? 's' : (constant('a')) %}{% autoescape v %}{% do {a, b: c} = x %}{% types a?: 'x', b: 'y' ~%}{% endautoescape ~%}\n"
+ },
+ {
+  "id": "random-31-845",
+  "source": "{%- sandbox -%}{{ x }}{%- endsandbox %}{%- extends 'b.twig' %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-846",
+  "source": "{% extends x \tx"
+ },
+ {
+  "id": "random-31-847",
+  "source": "{% extends ['a', 'b'] -%}"
+ },
+ {
+  "id": "random-31-848",
+  "source": ""
+ },
+ {
+  "id": "random-31-849",
+  "source": "{% if user.0 %}\t{% guard foo max -%}{% endguard -%}{%- else ~%}{% import 'forms' as m.n -%}{%- endif %}{{~ (m = n in \"t\") ~}}{% depre- else ~%}{% import 'forms' as m.n -%}{%- endif %}{{~ (m = n in \"t\") ~}}{% deprecated  %}"
+ },
+ {
+  "id": "random-31-850",
+  "source": "{%- extends ['a', 'b'] %}"
+ },
+ {
+  "id": "random-31-851",
+  "source": "  \n  {% types  -"
+ },
+ {
+  "id": "random-31-852",
+  "source": "{% do {a, b: c} = x %}{{~ none = items = parent(\"t\") -}}"
+ },
+ {
+  "id": "random-31-853",
+  "source": "{%~ apply lower|escape %}{%- endapply -%}"
+ },
+ {
+  "id": "random-31-854",
+  "source": "{%- include \"layout\" with {} ignore missing ~%}{% deprecated 'x' package='p' %}"
+ },
+ {
+  "id": "random-31-855",
+  "source": "\t\t"
+ },
+ {
+  "id": "random-31-856",
+  "source": "{% extends ['a', 'b'] ~%}\t"
+ },
+ {
+  "id": "random-31-857",
+  "source": "{% guard filter upper %}a b {% else ~%}{% autoescape 'js' ~%}{%~ import 'forms' as macros -%}{%~ do cycle('a') ~%}x{%- endautoescape %}x{%- endguard %}"
+ },
+ {
+  "id": "random-31-858",
+  "source": "x{% flush %}{%- with x %}{% macro and -%}{%~ use x -%}{% endmacro %}{% guard filter nope %}{%~ extends ['a', 'b'] %}{{~ 1|upper('x') is not nope }}{{ forms = user = m .. m.0 ~}}{% endguard %}{{- not ( [1, 2] is not empty(2) }}{%~ endwith -%}"
+ },
+ {
+  "id": "random-31-859",
+  "source": "{{ a }}"
+ },
+ {
+  "id": "random-31-860",
+  "source": "{{- n -}}"
+ },
+ {
+  "id": "random-31-861",
+  "source": "{% set a = (none) in x|spaceless(1, 2)|spaceless('x'), block('a') %}"
+ },
+ {
+  "id": "random-31-862",
+  "source": "{{~ macros is not 'x' nope(2) + item -}}\t"
+ },
+ {
+  "id": "random-31-863",
+  "source": "{% extends 'base' %}{% autoescape true %}{{ 2.5 is null 2 is same as -}}{% endautoescape %}"
+ },
+ {
+  "id": "random-31-864",
+  "source": ""
+ },
+ {
+  "id": "random-31-865",
+  "source": ""
+ },
+ {
+  "id": "random-31-866",
+  "source": "{% extends x ~%}"
+ },
+ {
+  "id": "random-31-867",
+  "source": "{% types a?: 'x', b: 'y' ~%}  \n  "
+ },
+ {
+  "id": "random-31-868",
+  "source": ""
+ },
+ {
+  "id": "random-31-869",
+  "source": "a b{% apply upper -%}{ 1%- endapply %}"
+ },
+ {
+  "id": "random-31-870",
+  "source": ""
+ },
+ {
+  "id": "random-31-871",
+  "source": "  \n  {% set a, b %}\t{%~ endset %}{% block"
+ },
+ {
+  "id": "random-31-872",
+  "source": ""
+ },
+ {
+  "id": "random-31-873",
+  "source": "  \n  \ufeff"
+ },
+ {
+  "id": "random-31-874",
+  "source": ""
+ },
+ {
+  "id": "random-31-875",
+  "source": "{## doc #} {% for x, in (not null|nope(1, 2)) %}{% else %}{% for x in {a: 1} is defined 2 %}{%~ from _self import m, n ~%}{%~ set c ~%}{{~ block(a, b) + not forms == not none = m }}{% endset %}\n\n{% endfor %}{% block title in = user ~ 2.5|lower -%}{%~ include ['a', 'b'] with {a: 1} %}{%- endfor %}"
+ },
+ {
+  "id": "random-31-876",
+  "source": "{% do not _self.(x)() ~ items = {a: 1}|escape(1, 2) -"
+ },
+ {
+  "id": "random-31-877",
+  "source": "{% extends 'base' % )}"
+ },
+ {
+  "id": "random-31-878",
+  "source": "{% extends 'a' ~ b -%}{% for x in x.m ~%}{{- null -}}{%- endfor %}{{- \"t\" ~}}{% deprecated 'x' %}"
+ },
+ {
+  "id": "random-31-879",
+  "source": "{% from _self import m, n ~%}"
+ },
+ {
+  "id": "random-31-880",
+  "source": ""
+ },
+ {
+  "id": "random-31-881",
+  "source": "{% extends \"layout\" %}{%- set a ( %}{%~ do {a, b: c} = x -%}{%~ endset %}"
+ },
+ {
+  "id": "random-31-882",
+  "source": "{%~ extends x ~%}{%~ from _self import m, n ~%}{{ forms }}"
+ },
+ {
+  "id": "random-31-883",
+  "source": ""
+ },
+ {
+  "id": "random-31-884",
+  "source": "{% extends 'base' -%}{%- from 'forms' import m, %}{% block x false %}{% set a.b = false %}"
+ },
+ {
+  "id": "random-31-885",
+  "source": "{% extends 'b.twig' %}{%- extends 'b.twig'{% else %} -%}"
+ },
+ {
+  "id": "random-31-886",
+  "source": "{% guard test divisible by %}{% endguard %}"
+ },
+ {
+  "id": "random-31-887",
+  "source": "{{ loop }}"
+ },
+ {
+  "id": "random-31-888",
+  "source": "{% extends ['a', "
+ },
+ {
+  "id": "random-31-889",
+  "source": ""
+ },
+ {
+  "id": "random-31-890",
+  "source": "\ta b"
+ },
+ {
+  "id": "random-31-891",
+  "source": "{%- extendsends 'base' -%}{%- use x -%}"
+ },
+ {
+  "id": "random-31-892",
+  "source": "{%- macro m(a, ...rest) {% endmacro m %}a b{% types {} %}"
+ },
+ {
+  "id": "random-31-893",
+  "source": ""
+ },
+ {
+  "id": "random-31-894",
+  "source": "\ufeff{%- use 'b' with a, %}{%- set a = item.(x)() ? parent(a, b) : forms is same as(2) in not in ? b : x ~%}"
+ },
+ {
+  "id": "random-31-895",
+  "source": "{%- extends x %}"
+ },
+ {
+  "id": "random-31-896",
+  "source": "{%- deprecated 'x' package='p' ~%}%- deprecated 'x' package='p' ~%}"
+ },
+ {
+  "id": "random-31-897",
+  "source": "{% macro input(...rest, a) ~%}{% import 'forms' as forms %}{% flush x %}{%- endmacro ~%}{% apply upper x ~%}{%~ endapply %}\n\n"
+ },
+ {
+  "id": "random-31-898",
+  "source": "{% extends \"layout\" ~%}{% with {a: 1} -%}{%~ endwith %}{% guard filter nope ~%}\ufeff{% deprecated 'x' foo='a' ~%}{% from 'forms' import m, n ~%}{% endguard %}"
+ },
+ {
+  "id": "random-31-899",
+  "source": "{% extends 'a' ~ b ~%}"
+ },
+ {
+  "id": "random-31-900",
+  "source": "{%~ sandbox %}{% include 'a' %}{%- endsandbox %} {% if items = _self.and %}\n{%- deprecated 'x' ~%}{% elseif item = item is nope 2 in attribute() %}{% endif ~%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-901",
+  "source": "a b"
+ },
+ {
+  "id": "random-31-902",
+  "source": "{% extends \"layout\" %}x"
+ },
+ {
+  "id": "random-31-903",
+  "source": "{% apply  %}{%- do parent(a, b) ~%}\ufeff{{ b ~}}{% endapply %}{% with %}{% extends 'base' ~%}{{~ macros.and ? forms.0 : x.and ~}}{% endwith ~%} "
+ },
+ {
+  "id": "random-31-904",
+  "source": "{% sandbox ~%}{{ x }}{% endsandbox -%}{{ m = n = n|escape(1, 2) -}}{%- with only ~%}{%- endwith %}{%- types {} %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-905",
+  "source": "{% extends 'base' %}"
+ },
+ {
+  "id": "random-31-906",
+  "source": ""
+ },
+ {
+  "id": "random-31-907",
+  "source": "{% macro n() -%}\t{%~ set in = true %}a b{% endmacro -%}{% types a?: 'x', b: 'y' {{ x -}}"
+ },
+ {
+  "id": "random-31-908",
+  "source": ""
+ },
+ {
+  "id": "random-31-909",
+  "source": "{% use x "
+ },
+ {
+  "id": "random-31-910",
+  "source": ""
+ },
+ {
+  "id": "random-31-911",
+  "source": "{% extends \"layout\" -%}{% use x -%}"
+ },
+ {
+  "id": "random-31-912",
+  "source": "{%~ sandbox -%}x{% endsandbox %}{%~ for x, in not 1 -%}  \n  {## Docs #} \n\n{% endfor -{% macro n() -%}{{~ 2.5 -}}{% block a b = (n)|default('x') %}{% endmacro ~%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-913",
+  "source": "{% set a %}{{ a ~}}{% endset %}{% block x ~%}{% apply nope %}{%~ endapply %}{%- deprecated 'x' package='p' %}x{% endblock -%} "
+ },
+ {
+  "id": "random-31-914",
+  "source": "{%- with only %}{%~ endw{%- with only %}{%~ endwith %}\ufeff"
+ },
+ {
+  "id": "random-31-915",
+  "source": "{%- set a = null %}{% embed 'base' %}{%- endembed %}{% set a %}{%- block x macros -%}{##  #} \n {% eendembed %}{% set a %}{%- block x macros -%}{##  #} \n {% endset %}"
+ },
+ {
+  "id": "random-31-916",
+  "source": ""
+ },
+ {
+  "id": "random-31-917",
+  "source": "{% extends x -%}{% set a %}\t{% if m = x ? null and true == none : a ? false : none in b %}{{ include(a, b)|spaceless ?: b = items is nope(2) ~}}{%~ set none = items = n.b ~%} {%~ endif %}{% block x ~%}{%~ macro input() %}{% endmacro input ~%}{% macro n(a = b) %}{%- endmacro -%}{% endblock -%}{% endset %}{%~ set a, b = not b|raw()|join(1, 2), macros ? macros.m : nope('a')|nope() ~%}{{- not none = in|upper('x') }}"
+ },
+ {
+  "id": "random-31-918",
+  "source": ""
+ },
+ {
+  "id": "random-31-919",
+  "source": "{## 0 #} \ufeff"
+ },
+ {
+  "id": "random-31-920",
+  "source": "{% include 'base' only %}{% apply upper(1) %}{% import 'forms' as forms %}{% endapply -%}{% if loop.(x)()|nope(1, 2) %}{% endif %}"
+ },
+ {
+  "id": "random-31-921",
+  "source": "{%~ guard function max ~%}{%~ endguar (d ~%}"
+ },
+ {
+  "id": "random-31-922",
+  "source": "{% set a, b = none.and ? (max()) : ({a: 1}) is same as(2), \"t\" -%}{## Docs #} {% apply lower|escape ~%}{% endapply %}"
+ },
+ {
+  "id": "random-31-923",
+  "source": "{% extends x ~%}{##  #} \n {% embed 'b.twig' %}\n{{~ 1 }}{%~ endembed ~%}"
+ },
+ {
+  "id": "random-31-924",
+  "source": ""
+ },
+ {
+  "id": "random-31-925",
+  "source": ""
+ },
+ {
+  "id": "random-31-926",
+  "source": "{% ex"
+ },
+ {
+  "id": "random-31-927",
+  "source": ""
+ },
+ {
+  "id": "random-31-928",
+  "source": "{% extends 'b.twig' -%}{%- extends 'base' %}{{ 'x'~ x.and }}"
+ },
+ {
+  "id": "random-31-929",
+  "source": "{%~ ) autoescape v %}{% apply nope -%}{% endapply %}{% endautoescape %}{{- nope(a, b) ~}}"
+ },
+ {
+  "id": "random-31-930",
+  "source": "{% sandbox -%}{% include 'a' %}{%- endsandbox %}{% block x -%}{% endblock -%}{%- block content ~%}x{%- endblock ~%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-931",
+  "source": ""
+ },
+ {
+  "id": "random-31-932",
+  "source": ""
+ },
+ {
+  "id": "random-31-933",
+  "source": "{% extends 'b.twig' ~%}{% deprecated 'x' version='1' package='p' %} a b"
+ },
+ {
+  "id": "random-31-934",
+  "source": "{{~ _self.b ?: loop = n = user -}}  \n  {% do in %}"
+ },
+ {
+  "id": "random-31-935",
+  "source": "\ufeff{{ not none -}}"
+ },
+ {
+  "id": "random-31-936",
+  "source": "{% macro m() -%}{% block a range(a, b) ?: false %}{%- endmacro %}"
+ },
+ {
+  "id": "random-31-937",
+  "source": "{% extends ['a', 'b'] %}{## doc #}\n"
+ },
+ {
+  "id": "random-31-938",
+  "source": "{% guard filter nope %}{% endguard %}{{~ items = user = in is divisible by -}}{% import _self %}"
+ },
+ {
+  "id": "random-31-939",
+  "source": "{% do  %}  %}"
+ },
+ {
+  "id": "random-31-940",
+  "source": "{% embed 'base' ~%}{{- block() }}\ufeff{% endembed %}"
+ },
+ {
+  "id": "random-31-941",
+  "source": ""
+ },
+ {
+  "id": "random-31-942",
+  "source": "{%- block b item ?? loop ?: 1 ? _self = user|first() : in = not item %}\n{% guard filter nope -%}\n\n{% endguard ~%}"
+ },
+ {
+  "id": "random-31-943",
+  "source": "{%~ with x ~%}{{ _self = false is not empty 2 is same as(2) -}}{%~ block content -%}{% macro input(a, ...rest) -%}{% if a.m() %}{%- elseif false %} {%- else %}\n\n{% endif ~%}{% endmacro %}{%- block content ~%}{%- endblock %}{% endblock %}{%~ endwith -%}{dmacro %}{%- block content ~%}{%- endblock %}{% endblock %}{%~ endwith -%}{%- apply upper ~%}{% set none = in.and ? {a: 1} : not forms.m -%}\t{% endapply %}"
+ },
+ {
+  "id": "random-31-944",
+  "source": "{% macro and(a, b = 1) %}{%~ autoescape 'js' -%}{%- extends x %}\n\n{%- en{% endif %}dautoescape %}{% use 'b' with a, %}{##  #} {% endmacro %}"
+ },
+ {
+  "id": "random-31-945",
+  "source": "{% extends 'a' ~ b -"
+ },
+ {
+  "id": "random-31-946",
+  "source": "{{ user|e() ? in|e() : _self.b {% endblock %}in x.b }}"
+ },
+ {
+  "id": "random-31-947",
+  "source": "{% extends 'a"
+ },
+ {
+  "id": "random-31-948",
+  "source": "{{ (m) -}}{%- extends 'b.twig' %}"
+ },
+ {
+  "id": "random-31-949",
+  "source": "{%~ for in in loop ~%}{{ loop.m() }}{## Docs #} {% import _self as macros 'x' %}{%~ else %}{{ m.(x)() ? false ? not false : forms|nope('x') : true.(x) ~}}{%~ endfor %}{{~ a = ([1, 2])|spaceless ~}}"
+ },
+ {
+  "id": "random-31-950",
+  "source": "{% sandbox %}{% include 'a' %}{% endsandbox %}{%~ if n.(x)() ?: a|e is empty ~%}{% include \"layout\" %}{% from 'forms' import m, n -%}{%~ elseif not _self.(x) -%}{% flush %}{% deprecated 'x' foo='a' %}{%",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-951",
+  "source": "{%- from _self import ~%}"
+ },
+ {
+  "id": "random-31-952",
+  "source": ""
+ },
+ {
+  "id": "random-31-953",
+  "source": "{% sandbox %}{% endsandbox ~%}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-954",
+  "source": "{%- do  %}{%~ use x %}"
+ },
+ {
+  "id": "random-31-955",
+  "source": "{{- m() "
+ },
+ {
+  "id": "random-31-956",
+  "source": ""
+ },
+ {
+  "id": "random-31-957",
+  "source": "a bx{% include ['a', 'b'] ignore missing %}"
+ },
+ {
+  "id": "random-31-958",
+  "source": "{%- extends 'base' %}{#{% endif %}# doc #}\n{%~ apply nope %}{% endapply %}"
+ },
+ {
+  "id": "random-31-959",
+  "source": "{% sandbox %}{{ x }}{% endsandbox %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-960",
+  "source": ""
+ },
+ {
+  "id": "random-31-961",
+  "source": "\ufeff"
+ },
+ {
+  "id": "random-31-962",
+  "source": "{% sandbox ~%} {% endsandbox %}{{- n 'x'(items) is not defined 2 + cycle('a') -}} \ufeff",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-963",
+  "source": ""
+ },
+ {
+  "id": "random-31-964",
+  "source": "{{~ _self|raw(1, 2) ?? not loop ?: item }}{{~ loop = forms.0|e() }}"
+ },
+ {
+  "id": "random-31-965",
+  "source": "{% do [a, b] = [1, 2] -%}"
+ },
+ {
+  "id": "random-31-966",
+  "source": ""
+ },
+ {
+  "id": "random-31-967",
+  "source": "{% do user.m() -%}"
+ },
+ {
+  "id": "random-31-968",
+  "source": "{%~ deprecated 'x' foo='a' %}{{- 's' ~}}{%~ block a ~%}{% autoescape true %}{{ items -}}{% endautoescape -%}{%- endif a %}"
+ },
+ {
+  "id": "random-31-969",
+  "source": "{%~ set a %}{% set a, b %}{%~ use 'blocks' %}{% extends ['a', 'b'] %}{%~ endset %}{% block x x %}{%~ endset x{%~ flush x %}"
+ },
+ {
+  "id": "random-31-970",
+  "source": "{%- extends x -%}{{ _self ~}}{%- extends 'a' ~ b %}"
+ },
+ {
+  "id": "random-31-971",
+  "source": "\n{% else %}\n"
+ },
+ {
+  "id": "random-31-972",
+  "source": "{%~ extends \"layout\" %}"
+ },
+ {
+  "id": "random-31-973",
+  "source": ""
+ },
+ {
+  "id": "random-31-974",
+  "source": "\n\n{## {% else %}Docs #}\n"
+ },
+ {
+  "id": "random-31-975",
+  "source": ""
+ },
+ {
+  "id": "random-31-976",
+  "source": "\ufeff{## doc #} {% flush x % )}"
+ },
+ {
+  "id": "random-31-977",
+  "source": "{% guard function nope %}{% embed ['a', 'b'] with {a: 1} %}{%~ endembed -%}a b{%~ endguard ~%}"
+ },
+ {
+  "id": "random-31-978",
+  "source": "{%- extends 'base' ~%}"
+ },
+ {
+  "id": "random-31-979",
+  "source": "{{- {a: 1} is not divisible by(2) is not nope ?: x.and }}"
+ },
+ {
+  "id": "random-31-980",
+  "source": ""
+ },
+ {
+  "id": "random-31-981",
+  "source": "{% extends 'a' ~ b %}{{- items.0 ~}}"
+ },
+ {
+  "id": "random-31-982",
+  "source": "{% extends 'base' %} "
+ },
+ {
+  "id": "random-31-983",
+  "source": ""
+ },
+ {
+  "id": "random-31-984",
+  "source": "{% extends \"layout\" -%}{{- {% else %}n -}}"
+ },
+ {
+  "id": "random-31-985",
+  "source": "{% sandbox -%}{% include 'a' %}{% endsandbox %}{% include \"layout\" with {a: 1} %}",
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "random-31-986",
+  "source": "{% flush %}"
+ },
+ {
+  "id": "random-31-987",
+  "source": "{{- null -}}{% macro input(a, b = 1) %}{% include \"layout\" ignore missing %}{% macro n(varargs) %}{%- macro m(a: 1) ~%}{% types {a: 'x'} %}{%~ endmacro z %}\t{% autoescape true %}{%~ if macros.(x)() ~%}\t{% elseif nope(a, b) -%}{% endif ~%}{%~ endautoescape %}{% endmacro n %}{{ a = (_self) }}{% endmacro %}"
+ },
+ {
+  "id": "random-31-988",
+  "source": "{% endif %}\n"
+ },
+ {
+  "id": "random-31-989",
+  "source": ""
+ },
+ {
+  "id": "random-31-990",
+  "source": "{{~ [1, 2] ~}}"
+ },
+ {
+  "id": "random-31-991",
+  "source": "{% endblock %}x"
+ },
+ {
+  "id": "random-31-992",
+  "source": "{% include ['a', 'b'] ignore missing -%}{{- not null and a ?: forms or (items ~ _self) }}{{ item.b }}"
+ },
+ {
+  "id": "random-31-993",
+  "source": ""
+ },
+ {
+  "id": "random-31-994",
+  "source": "{%- autoescape false ~%}{%- endautoescape ~%}{% block title attributescape ~%}{% block title attribute() %}"
+ },
+ {
+  "id": "random-31-995",
+  "source": "{%~ flush x -%}"
+ },
+ {
+  "id": "random-31-996",
+  "source": "{% use 'b' with a as b %}\n\n"
+ },
+ {
+  "id": "random-31-997",
+  "source": "{{~ constant() }}{%~ do  %}{% set a, b %}{{~ \"t\" ~}}{%- endset %}"
+ },
+ {
+  "id": "random-31-998",
+  "source": "{% deprecated  %}{{~ forms ?: x = {a: 1}|e() ~}}{% block title x|first ? _self : _self = _self -%}"
+ },
+ {
+  "id": "random-31-999",
+  "source": "{{ {a: 1} ~}}{% types a: b %}{% with x -%}{%~ endwith %}"
+ }
+]

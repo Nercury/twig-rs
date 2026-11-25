@@ -1,0 +1,5465 @@
+[
+{
+  "id": "empty",
+  "source": "",
+  "tokens": [
+    [-1,"",1,0,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "text-only",
+  "source": "Hello world",
+  "tokens": [
+    [0,"Hello world",1,0,null],
+    [-1,"",1,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "hello-name",
+  "source": "Hello {{ name }}!",
+  "tokens": [
+    [0,"Hello ",1,0,null],
+    [2,"",1,6,null],
+    [5,"name",1,9,null],
+    [4,"",1,14,null],
+    [0,"!",1,16,null],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "if-block",
+  "source": "{% if a %}x{% endif %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"if",1,3,null],
+    [5,"a",1,6,null],
+    [3,"",1,8,null],
+    [0,"x",1,10,null],
+    [1,"",1,11,null],
+    [5,"endif",1,14,null],
+    [3,"",1,20,null],
+    [-1,"",1,22,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "if-else-newline",
+  "source": "{% if a %}x{% else %}y{% endif %}\n",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"if",1,3,null],
+    [5,"a",1,6,null],
+    [3,"",1,8,null],
+    [0,"x",1,10,null],
+    [1,"",1,11,null],
+    [5,"else",1,14,null],
+    [3,"",1,19,null],
+    [0,"y",1,21,null],
+    [1,"",1,22,null],
+    [5,"endif",1,25,null],
+    [3,"",1,31,null],
+    [-1,"",2,34,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "attributes",
+  "source": "{{ a.b.c }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,".",1,4,null],
+    [5,"b",1,5,null],
+    [8,".",1,6,null],
+    [5,"c",1,7,null],
+    [4,"",1,9,null],
+    [-1,"",1,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "float-attribute",
+  "source": "{{ a.0.1 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,".",1,4,null],
+    [6,{"float":"0.1","bits":"3fb999999999999a"},1,5,null],
+    [4,"",1,9,null],
+    [-1,"",1,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "subscripts",
+  "source": "{{ a[0][\"b\"] }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"[",1,4,null],
+    [6,{"int":"0"},1,5,null],
+    [9,"]",1,6,null],
+    [8,"[",1,7,null],
+    [7,"b",1,8,null],
+    [9,"]",1,11,null],
+    [4,"",1,13,null],
+    [-1,"",1,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ternary",
+  "source": "{{ a ? b : c }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"?",1,5,null],
+    [5,"b",1,7,null],
+    [9,":",1,9,null],
+    [5,"c",1,11,null],
+    [4,"",1,13,null],
+    [-1,"",1,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "elvis",
+  "source": "{{ a ?: b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"?:",1,5,null],
+    [5,"b",1,8,null],
+    [4,"",1,10,null],
+    [-1,"",1,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "elvis-spaced",
+  "source": "{{ a ? : b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"? :",1,5,null],
+    [5,"b",1,9,null],
+    [4,"",1,11,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "elvis-spaced-newline",
+  "source": "{{ a ?\n\t: b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"? :",1,5,null],
+    [5,"b",2,10,null],
+    [4,"",2,12,null],
+    [-1,"",2,14,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "null-coalesce",
+  "source": "{{ a ?? b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"??",1,5,null],
+    [5,"b",1,8,null],
+    [4,"",1,10,null],
+    [-1,"",1,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "null-safe",
+  "source": "{{ a?.b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"?.",1,4,null],
+    [5,"b",1,6,null],
+    [4,"",1,8,null],
+    [-1,"",1,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "null-safe-number",
+  "source": "{{ true ?.5 : 1 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"true",1,3,null],
+    [8,"?.",1,8,null],
+    [6,{"int":"5"},1,10,null],
+    [9,":",1,12,null],
+    [6,{"int":"1"},1,14,null],
+    [4,"",1,16,null],
+    [-1,"",1,18,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "call-arguments",
+  "source": "{{ f(a, b = 1, c: 2) }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"f",1,3,null],
+    [8,"(",1,4,null],
+    [5,"a",1,5,null],
+    [9,",",1,6,null],
+    [5,"b",1,8,null],
+    [8,"=",1,10,null],
+    [6,{"int":"1"},1,12,null],
+    [9,",",1,13,null],
+    [5,"c",1,15,null],
+    [9,":",1,16,null],
+    [6,{"int":"2"},1,18,null],
+    [9,")",1,19,null],
+    [4,"",1,21,null],
+    [-1,"",1,23,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "filters",
+  "source": "{{ x|upper|default(\"y\") }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [8,"|",1,4,null],
+    [5,"upper",1,5,null],
+    [8,"|",1,10,null],
+    [5,"default",1,11,null],
+    [8,"(",1,18,null],
+    [7,"y",1,19,null],
+    [9,")",1,22,null],
+    [4,"",1,24,null],
+    [-1,"",1,26,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "arrow",
+  "source": "{{ (a) => a * 2 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [8,"(",1,3,null],
+    [5,"a",1,4,null],
+    [9,")",1,5,null],
+    [8,"=>",1,7,null],
+    [5,"a",1,10,null],
+    [8,"*",1,12,null],
+    [6,{"int":"2"},1,14,null],
+    [4,"",1,16,null],
+    [-1,"",1,18,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "spread",
+  "source": "{{ [1, ...a] }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [8,"[",1,3,null],
+    [6,{"int":"1"},1,4,null],
+    [9,",",1,5,null],
+    [8,"...",1,7,null],
+    [5,"a",1,10,null],
+    [9,"]",1,11,null],
+    [4,"",1,13,null],
+    [-1,"",1,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "mapping",
+  "source": "{{ {a, b: 2, 'c': 3, 4: 5, (1+1): 6, ...{z: 1}} }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [9,"{",1,3,null],
+    [5,"a",1,4,null],
+    [9,",",1,5,null],
+    [5,"b",1,7,null],
+    [9,":",1,8,null],
+    [6,{"int":"2"},1,10,null],
+    [9,",",1,11,null],
+    [7,"c",1,13,null],
+    [9,":",1,16,null],
+    [6,{"int":"3"},1,18,null],
+    [9,",",1,19,null],
+    [6,{"int":"4"},1,21,null],
+    [9,":",1,22,null],
+    [6,{"int":"5"},1,24,null],
+    [9,",",1,25,null],
+    [8,"(",1,27,null],
+    [6,{"int":"1"},1,28,null],
+    [8,"+",1,29,null],
+    [6,{"int":"1"},1,30,null],
+    [9,")",1,31,null],
+    [9,":",1,32,null],
+    [6,{"int":"6"},1,34,null],
+    [9,",",1,35,null],
+    [8,"...",1,37,null],
+    [9,"{",1,40,null],
+    [5,"z",1,41,null],
+    [9,":",1,42,null],
+    [6,{"int":"1"},1,44,null],
+    [9,"}",1,45,null],
+    [9,"}",1,46,null],
+    [4,"",1,48,null],
+    [-1,"",1,50,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "spread-number",
+  "source": "{{ 1...5 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [8,"...",1,4,null],
+    [6,{"int":"5"},1,7,null],
+    [4,"",1,9,null],
+    [-1,"",1,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "set",
+  "source": "{% set a = 1 %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"set",1,3,null],
+    [5,"a",1,7,null],
+    [8,"=",1,9,null],
+    [6,{"int":"1"},1,11,null],
+    [3,"",1,13,null],
+    [-1,"",1,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "destructuring",
+  "source": "{% do [x, y] = [1, 2] %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"do",1,3,null],
+    [8,"[",1,6,null],
+    [5,"x",1,7,null],
+    [9,",",1,8,null],
+    [5,"y",1,10,null],
+    [9,"]",1,11,null],
+    [8,"=",1,13,null],
+    [8,"[",1,15,null],
+    [6,{"int":"1"},1,16,null],
+    [9,",",1,17,null],
+    [6,{"int":"2"},1,19,null],
+    [9,"]",1,20,null],
+    [3,"",1,22,null],
+    [-1,"",1,24,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "multiline-expression",
+  "source": "{{\n  a\n  +\n  b\n}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",2,5,null],
+    [8,"+",3,9,null],
+    [5,"b",4,13,null],
+    [4,"",5,15,null],
+    [-1,"",5,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "two-prints",
+  "source": "{{ x }}{{ y }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [2,"",1,7,null],
+    [5,"y",1,10,null],
+    [4,"",1,12,null],
+    [-1,"",1,14,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-not-in",
+  "source": "{{ a not in b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"not in",1,5,null],
+    [5,"b",1,12,null],
+    [4,"",1,14,null],
+    [-1,"",1,16,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-not-in-whitespace",
+  "source": "{{ a not   in\n b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"not in",1,5,null],
+    [5,"b",2,15,null],
+    [4,"",2,17,null],
+    [-1,"",2,19,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-not-in-tab",
+  "source": "{{ a not\tin b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"not in",1,5,null],
+    [5,"b",1,12,null],
+    [4,"",1,14,null],
+    [-1,"",1,16,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-is-not",
+  "source": "{{ a is not b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"is not",1,5,null],
+    [5,"b",1,12,null],
+    [4,"",1,14,null],
+    [-1,"",1,16,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-is-not-closing",
+  "source": "{{ a is not}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"is",1,5,null],
+    [5,"not",1,8,null],
+    [4,"",1,11,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-starts-with",
+  "source": "{{ a starts with b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"starts with",1,5,null],
+    [5,"b",1,17,null],
+    [4,"",1,19,null],
+    [-1,"",1,21,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-ends-with",
+  "source": "{{ a ends  with b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"ends with",1,5,null],
+    [5,"b",1,16,null],
+    [4,"",1,18,null],
+    [-1,"",1,20,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-has-some-every",
+  "source": "{{ a has some b }}{{ a has every b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"has some",1,5,null],
+    [5,"b",1,14,null],
+    [4,"",1,16,null],
+    [2,"",1,18,null],
+    [5,"a",1,21,null],
+    [8,"has every",1,23,null],
+    [5,"b",1,33,null],
+    [4,"",1,35,null],
+    [-1,"",1,37,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-matches",
+  "source": "{{ a matches b }}{{ a matches(b) }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"matches",1,5,null],
+    [5,"b",1,13,null],
+    [4,"",1,15,null],
+    [2,"",1,17,null],
+    [5,"a",1,20,null],
+    [8,"matches",1,22,null],
+    [8,"(",1,29,null],
+    [5,"b",1,30,null],
+    [9,")",1,31,null],
+    [4,"",1,33,null],
+    [-1,"",1,35,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-bitwise",
+  "source": "{{ 1 b-and 2 b-or 3 b-xor 4 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [8,"b-and",1,5,null],
+    [6,{"int":"2"},1,11,null],
+    [8,"b-or",1,13,null],
+    [6,{"int":"3"},1,18,null],
+    [8,"b-xor",1,20,null],
+    [6,{"int":"4"},1,26,null],
+    [4,"",1,28,null],
+    [-1,"",1,30,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-b-and-digit",
+  "source": "{{ 1 b-and2 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [5,"b",1,5,null],
+    [8,"-",1,6,null],
+    [5,"and2",1,7,null],
+    [4,"",1,12,null],
+    [-1,"",1,14,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-b-and-paren",
+  "source": "{{ 1 b-and(2) }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [8,"b-and",1,5,null],
+    [8,"(",1,10,null],
+    [6,{"int":"2"},1,11,null],
+    [9,")",1,12,null],
+    [4,"",1,14,null],
+    [-1,"",1,16,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-logical",
+  "source": "{{ a and b or c xor d }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"and",1,5,null],
+    [5,"b",1,9,null],
+    [8,"or",1,11,null],
+    [5,"c",1,14,null],
+    [8,"xor",1,16,null],
+    [5,"d",1,20,null],
+    [4,"",1,22,null],
+    [-1,"",1,24,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-not",
+  "source": "{{ not a }}{{ not(a) }}{{ not[1] }}{{ not{a:1} }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [8,"not",1,3,null],
+    [5,"a",1,7,null],
+    [4,"",1,9,null],
+    [2,"",1,11,null],
+    [8,"not",1,14,null],
+    [8,"(",1,17,null],
+    [5,"a",1,18,null],
+    [9,")",1,19,null],
+    [4,"",1,21,null],
+    [2,"",1,23,null],
+    [8,"not",1,26,null],
+    [8,"[",1,29,null],
+    [6,{"int":"1"},1,30,null],
+    [9,"]",1,31,null],
+    [4,"",1,33,null],
+    [2,"",1,35,null],
+    [8,"not",1,38,null],
+    [9,"{",1,41,null],
+    [5,"a",1,42,null],
+    [9,":",1,43,null],
+    [6,{"int":"1"},1,44,null],
+    [9,"}",1,45,null],
+    [4,"",1,47,null],
+    [-1,"",1,49,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-not-prefix-names",
+  "source": "{{ notx }}{{ notable }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"notx",1,3,null],
+    [4,"",1,8,null],
+    [2,"",1,10,null],
+    [5,"notable",1,13,null],
+    [4,"",1,21,null],
+    [-1,"",1,23,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-comparisons",
+  "source": "{{ 1 <=> 2 }}{{ 1 === 2 }}{{ 1 !== 2 }}{{ 1 == 2 }}{{ 1 != 2 }}{{ 1 >= 2 }}{{ 1 <= 2 }}{{ 1 < 2 }}{{ 1 > 2 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [8,"<=>",1,5,null],
+    [6,{"int":"2"},1,9,null],
+    [4,"",1,11,null],
+    [2,"",1,13,null],
+    [6,{"int":"1"},1,16,null],
+    [8,"===",1,18,null],
+    [6,{"int":"2"},1,22,null],
+    [4,"",1,24,null],
+    [2,"",1,26,null],
+    [6,{"int":"1"},1,29,null],
+    [8,"!==",1,31,null],
+    [6,{"int":"2"},1,35,null],
+    [4,"",1,37,null],
+    [2,"",1,39,null],
+    [6,{"int":"1"},1,42,null],
+    [8,"==",1,44,null],
+    [6,{"int":"2"},1,47,null],
+    [4,"",1,49,null],
+    [2,"",1,51,null],
+    [6,{"int":"1"},1,54,null],
+    [8,"!=",1,56,null],
+    [6,{"int":"2"},1,59,null],
+    [4,"",1,61,null],
+    [2,"",1,63,null],
+    [6,{"int":"1"},1,66,null],
+    [8,">=",1,68,null],
+    [6,{"int":"2"},1,71,null],
+    [4,"",1,73,null],
+    [2,"",1,75,null],
+    [6,{"int":"1"},1,78,null],
+    [8,"<=",1,80,null],
+    [6,{"int":"2"},1,83,null],
+    [4,"",1,85,null],
+    [2,"",1,87,null],
+    [6,{"int":"1"},1,90,null],
+    [8,"<",1,92,null],
+    [6,{"int":"2"},1,94,null],
+    [4,"",1,96,null],
+    [2,"",1,98,null],
+    [6,{"int":"1"},1,101,null],
+    [8,">",1,103,null],
+    [6,{"int":"2"},1,105,null],
+    [4,"",1,107,null],
+    [-1,"",1,109,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-range",
+  "source": "{{ 1..5 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [8,"..",1,4,null],
+    [6,{"int":"5"},1,6,null],
+    [4,"",1,8,null],
+    [-1,"",1,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-arithmetic",
+  "source": "{{ 7 // 2 ** 3 ~ 1 * 2 / 3 % 4 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"7"},1,3,null],
+    [8,"//",1,5,null],
+    [6,{"int":"2"},1,8,null],
+    [8,"**",1,10,null],
+    [6,{"int":"3"},1,13,null],
+    [8,"~",1,15,null],
+    [6,{"int":"1"},1,17,null],
+    [8,"*",1,19,null],
+    [6,{"int":"2"},1,21,null],
+    [8,"/",1,23,null],
+    [6,{"int":"3"},1,25,null],
+    [8,"%",1,27,null],
+    [6,{"int":"4"},1,29,null],
+    [4,"",1,31,null],
+    [-1,"",1,33,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-unary",
+  "source": "{{ 1 - -2 + +3 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [8,"-",1,5,null],
+    [8,"-",1,7,null],
+    [6,{"int":"2"},1,8,null],
+    [8,"+",1,10,null],
+    [8,"+",1,12,null],
+    [6,{"int":"3"},1,13,null],
+    [4,"",1,15,null],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-filter-named-and",
+  "source": "{{ 'a'|and }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"a",1,3,null],
+    [8,"|",1,6,null],
+    [5,"and",1,7,null],
+    [4,"",1,11,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-filter-two-spaces-and",
+  "source": "{{ 'x' |  and }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"x",1,3,null],
+    [8,"|",1,7,null],
+    [8,"and",1,10,null],
+    [4,"",1,14,null],
+    [-1,"",1,16,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-attribute-named-and",
+  "source": "{{ foo.and }}{{ foo . and }}{{ foo .and }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"foo",1,3,null],
+    [8,".",1,6,null],
+    [5,"and",1,7,null],
+    [4,"",1,11,null],
+    [2,"",1,13,null],
+    [5,"foo",1,16,null],
+    [8,".",1,20,null],
+    [5,"and",1,22,null],
+    [4,"",1,26,null],
+    [2,"",1,28,null],
+    [5,"foo",1,31,null],
+    [8,".",1,35,null],
+    [5,"and",1,36,null],
+    [4,"",1,40,null],
+    [-1,"",1,42,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-attribute-two-spaces-and",
+  "source": "{{ x.  and }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [8,".",1,4,null],
+    [8,"and",1,7,null],
+    [4,"",1,11,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-newline-dot-and",
+  "source": "{{ x\n.and }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [8,".",2,5,null],
+    [8,"and",2,6,null],
+    [4,"",2,10,null],
+    [-1,"",2,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-newline-pipe-and",
+  "source": "{{ x\n|and }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [8,"|",2,5,null],
+    [8,"and",2,6,null],
+    [4,"",2,10,null],
+    [-1,"",2,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-dot-newline-and",
+  "source": "{{ x.\nand }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [8,".",1,4,null],
+    [5,"and",2,6,null],
+    [4,"",2,10,null],
+    [-1,"",2,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-in",
+  "source": "{{ a in b }}{{ a in(b) }}{{ a in[1] }}{{ a in{} }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"in",1,5,null],
+    [5,"b",1,8,null],
+    [4,"",1,10,null],
+    [2,"",1,12,null],
+    [5,"a",1,15,null],
+    [8,"in",1,17,null],
+    [8,"(",1,19,null],
+    [5,"b",1,20,null],
+    [9,")",1,21,null],
+    [4,"",1,23,null],
+    [2,"",1,25,null],
+    [5,"a",1,28,null],
+    [8,"in",1,30,null],
+    [8,"[",1,32,null],
+    [6,{"int":"1"},1,33,null],
+    [9,"]",1,34,null],
+    [4,"",1,36,null],
+    [2,"",1,38,null],
+    [5,"a",1,41,null],
+    [8,"in",1,43,null],
+    [9,"{",1,45,null],
+    [9,"}",1,46,null],
+    [4,"",1,48,null],
+    [-1,"",1,50,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-in-closing",
+  "source": "{{ a in}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [5,"in",1,5,null],
+    [4,"",1,7,null],
+    [-1,"",1,9,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-is-defined",
+  "source": "{{ x is defined }}{{ x isdefined }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [8,"is",1,5,null],
+    [5,"defined",1,8,null],
+    [4,"",1,16,null],
+    [2,"",1,18,null],
+    [5,"x",1,21,null],
+    [5,"isdefined",1,23,null],
+    [4,"",1,33,null],
+    [-1,"",1,35,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-uppercase",
+  "source": "{{ AND }}{{ TRUE }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"AND",1,3,null],
+    [4,"",1,7,null],
+    [2,"",1,9,null],
+    [5,"TRUE",1,12,null],
+    [4,"",1,17,null],
+    [-1,"",1,19,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-words-as-names",
+  "source": "{{ literal }}{{ in }}{{ is }}{{ and }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"literal",1,3,null],
+    [4,"",1,11,null],
+    [2,"",1,13,null],
+    [8,"in",1,16,null],
+    [4,"",1,19,null],
+    [2,"",1,21,null],
+    [8,"is",1,24,null],
+    [4,"",1,27,null],
+    [2,"",1,29,null],
+    [8,"and",1,32,null],
+    [4,"",1,36,null],
+    [-1,"",1,38,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-and-end-of-line",
+  "source": "{{ 1 and\n0}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [8,"and",1,5,null],
+    [6,{"int":"0"},2,9,null],
+    [4,"",2,10,null],
+    [-1,"",2,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-block-in",
+  "source": "{% block in%}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"block",1,3,null],
+    [5,"in",1,9,null],
+    [3,"",1,11,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-or-paren",
+  "source": "{{ a or(b) }}{{ a|or }}{{ a or }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"or",1,5,null],
+    [8,"(",1,7,null],
+    [5,"b",1,8,null],
+    [9,")",1,9,null],
+    [4,"",1,11,null],
+    [2,"",1,13,null],
+    [5,"a",1,16,null],
+    [8,"|",1,17,null],
+    [5,"or",1,18,null],
+    [4,"",1,21,null],
+    [2,"",1,23,null],
+    [5,"a",1,26,null],
+    [8,"or",1,28,null],
+    [4,"",1,31,null],
+    [-1,"",1,33,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-startswith",
+  "source": "{{ a startswith b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [5,"startswith",1,5,null],
+    [5,"b",1,16,null],
+    [4,"",1,18,null],
+    [-1,"",1,20,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-compact",
+  "source": "{{ a?:b }}{{ a ?b:c }}{{ a=>b }}{{ a = b }}{{ a==b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"?:",1,4,null],
+    [5,"b",1,6,null],
+    [4,"",1,8,null],
+    [2,"",1,10,null],
+    [5,"a",1,13,null],
+    [8,"?",1,15,null],
+    [5,"b",1,16,null],
+    [9,":",1,17,null],
+    [5,"c",1,18,null],
+    [4,"",1,20,null],
+    [2,"",1,22,null],
+    [5,"a",1,25,null],
+    [8,"=>",1,26,null],
+    [5,"b",1,28,null],
+    [4,"",1,30,null],
+    [2,"",1,32,null],
+    [5,"a",1,35,null],
+    [8,"=",1,37,null],
+    [5,"b",1,39,null],
+    [4,"",1,41,null],
+    [2,"",1,43,null],
+    [5,"a",1,46,null],
+    [8,"==",1,47,null],
+    [5,"b",1,49,null],
+    [4,"",1,51,null],
+    [-1,"",1,53,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-bang",
+  "source": "{{ a ! b }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"!\".","line":1,"column":6,"message":"Unexpected character \"!\" in \"index\" at line 1 column 6."},
+  "deprecations": []
+},
+{
+  "id": "op-question-end",
+  "source": "{{ a? }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"?",1,4,null],
+    [4,"",1,6,null],
+    [-1,"",1,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-not-in-paren",
+  "source": "{{ a not in(b) }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"not in",1,5,null],
+    [8,"(",1,11,null],
+    [5,"b",1,12,null],
+    [9,")",1,13,null],
+    [4,"",1,15,null],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-is-not-paren",
+  "source": "{{ a is not(b) }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"is not",1,5,null],
+    [8,"(",1,11,null],
+    [5,"b",1,12,null],
+    [9,")",1,13,null],
+    [4,"",1,15,null],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-not-not",
+  "source": "{{ not not a }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [8,"not",1,3,null],
+    [8,"not",1,7,null],
+    [5,"a",1,11,null],
+    [4,"",1,13,null],
+    [-1,"",1,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "name-utf8",
+  "source": "{{ café }}{{ é }}{{ 日本 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"café",1,3,null],
+    [4,"",1,9,null],
+    [2,"",1,11,null],
+    [5,"é",1,14,null],
+    [4,"",1,17,null],
+    [2,"",1,19,null],
+    [5,"日本",1,22,null],
+    [4,"",1,29,null],
+    [-1,"",1,31,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "name-tag-section-sign",
+  "source": "{% § %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"§",1,3,null],
+    [3,"",1,6,null],
+    [-1,"",1,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "name-function-section-sign",
+  "source": "{{ §() }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"§",1,3,null],
+    [8,"(",1,5,null],
+    [9,")",1,6,null],
+    [4,"",1,8,null],
+    [-1,"",1,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "name-nbsp",
+  "source": "{{ a }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a ",1,3,null],
+    [4,"",1,6,null],
+    [-1,"",1,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "name-underscore",
+  "source": "{{ _a1 }}{{ a_b.c_d }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"_a1",1,3,null],
+    [4,"",1,7,null],
+    [2,"",1,9,null],
+    [5,"a_b",1,12,null],
+    [8,".",1,15,null],
+    [5,"c_d",1,16,null],
+    [4,"",1,20,null],
+    [-1,"",1,22,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "name-del",
+  "source": "{{  }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"",1,3,null],
+    [4,"",1,5,null],
+    [-1,"",1,7,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "name-latin1",
+  "source_b64": "e3sgY2Fm6SB9fQ==",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,{"b64":"Y2Fm6Q=="},1,3,null],
+    [4,"",1,8,null],
+    [-1,"",1,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-integers",
+  "source": "{{ 0 }}{{ 1 }}{{ 007 }}{{ 00 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"0"},1,3,null],
+    [4,"",1,5,null],
+    [2,"",1,7,null],
+    [6,{"int":"1"},1,10,null],
+    [4,"",1,12,null],
+    [2,"",1,14,null],
+    [6,{"int":"7"},1,17,null],
+    [4,"",1,21,null],
+    [2,"",1,23,null],
+    [6,{"int":"0"},1,26,null],
+    [4,"",1,29,null],
+    [-1,"",1,31,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-floats",
+  "source": "{{ 1.0 }}{{ 1.5 }}{{ 0.0 }}{{ 0.1 }}{{ 3.14159265358979 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"float":"1","bits":"3ff0000000000000"},1,3,null],
+    [4,"",1,7,null],
+    [2,"",1,9,null],
+    [6,{"float":"1.5","bits":"3ff8000000000000"},1,12,null],
+    [4,"",1,16,null],
+    [2,"",1,18,null],
+    [6,{"float":"0","bits":"0000000000000000"},1,21,null],
+    [4,"",1,25,null],
+    [2,"",1,27,null],
+    [6,{"float":"0.1","bits":"3fb999999999999a"},1,30,null],
+    [4,"",1,34,null],
+    [2,"",1,36,null],
+    [6,{"float":"3.1415926535898","bits":"400921fb54442d11"},1,39,null],
+    [4,"",1,56,null],
+    [-1,"",1,58,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-exponents",
+  "source": "{{ 1e3 }}{{ 1E2 }}{{ 1.5e3 }}{{ 1e+3 }}{{ 1e-3 }}{{ 1.0e20 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"float":"1000","bits":"408f400000000000"},1,3,null],
+    [4,"",1,7,null],
+    [2,"",1,9,null],
+    [6,{"float":"100","bits":"4059000000000000"},1,12,null],
+    [4,"",1,16,null],
+    [2,"",1,18,null],
+    [6,{"float":"1500","bits":"4097700000000000"},1,21,null],
+    [4,"",1,27,null],
+    [2,"",1,29,null],
+    [6,{"float":"1000","bits":"408f400000000000"},1,32,null],
+    [4,"",1,37,null],
+    [2,"",1,39,null],
+    [6,{"float":"0.001","bits":"3f50624dd2f1a9fc"},1,42,null],
+    [4,"",1,47,null],
+    [2,"",1,49,null],
+    [6,{"float":"1.0E+20","bits":"4415af1d78b58c40"},1,52,null],
+    [4,"",1,59,null],
+    [-1,"",1,61,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-underscores",
+  "source": "{{ 1_000 }}{{ 1_000.000_1e1_0 }}{{ 1_0.5_0 }}{{ 1e3_0 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1000"},1,3,null],
+    [4,"",1,9,null],
+    [2,"",1,11,null],
+    [6,{"float":"10000001000000","bits":"42a2309d03c48000"},1,14,null],
+    [4,"",1,30,null],
+    [2,"",1,32,null],
+    [6,{"float":"10.5","bits":"4025000000000000"},1,35,null],
+    [4,"",1,43,null],
+    [2,"",1,45,null],
+    [6,{"float":"1.0E+30","bits":"46293e5939a08cea"},1,48,null],
+    [4,"",1,54,null],
+    [-1,"",1,56,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-double-underscore",
+  "source": "{{ 1__2 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [5,"__2",1,4,null],
+    [4,"",1,8,null],
+    [-1,"",1,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-trailing-underscore",
+  "source": "{{ 1_ }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [5,"_",1,4,null],
+    [4,"",1,6,null],
+    [-1,"",1,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-bare-exponent",
+  "source": "{{ 1e }}{{ 1e+ }}{{ 1e_3 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [5,"e",1,4,null],
+    [4,"",1,6,null],
+    [2,"",1,8,null],
+    [6,{"int":"1"},1,11,null],
+    [5,"e",1,12,null],
+    [8,"+",1,13,null],
+    [4,"",1,15,null],
+    [2,"",1,17,null],
+    [6,{"int":"1"},1,20,null],
+    [5,"e_3",1,21,null],
+    [4,"",1,25,null],
+    [-1,"",1,27,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-trailing-dot",
+  "source": "{{ 1. }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [8,".",1,4,null],
+    [4,"",1,6,null],
+    [-1,"",1,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-leading-dot",
+  "source": "{{ .5 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [8,".",1,3,null],
+    [6,{"int":"5"},1,4,null],
+    [4,"",1,6,null],
+    [-1,"",1,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-hex-binary",
+  "source": "{{ 0x1A }}{{ 0b11 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"0"},1,3,null],
+    [5,"x1A",1,4,null],
+    [4,"",1,8,null],
+    [2,"",1,10,null],
+    [6,{"int":"0"},1,13,null],
+    [5,"b11",1,14,null],
+    [4,"",1,18,null],
+    [-1,"",1,20,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-int-max",
+  "source": "{{ 9223372036854775807 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"9223372036854775807"},1,3,null],
+    [4,"",1,23,null],
+    [-1,"",1,25,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-int-overflow",
+  "source": "{{ 9223372036854775808 }}{{ 922337203685477580700 }}{{ 123456789012345678 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"float":"9.2233720368548E+18","bits":"43e0000000000000"},1,3,null],
+    [4,"",1,23,null],
+    [2,"",1,25,null],
+    [6,{"float":"9.2233720368548E+20","bits":"4449000000000000"},1,28,null],
+    [4,"",1,50,null],
+    [2,"",1,52,null],
+    [6,{"int":"123456789012345678"},1,55,null],
+    [4,"",1,74,null],
+    [-1,"",1,76,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-infinite",
+  "source": "{{ 1e1000 }}{{ 1e-400 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"float":"INF","bits":"7ff0000000000000"},1,3,null],
+    [4,"",1,10,null],
+    [2,"",1,12,null],
+    [6,{"float":"0","bits":"0000000000000000"},1,15,null],
+    [4,"",1,22,null],
+    [-1,"",1,24,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-precision",
+  "source": "{{ 100000000000005.0 }}{{ 0.30000000000000004 }}{{ 0.000012345 }}{{ 1.5.3 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"float":"1.0000000000000E+14","bits":"42d6bcc41e900140"},1,3,null],
+    [4,"",1,21,null],
+    [2,"",1,23,null],
+    [6,{"float":"0.3","bits":"3fd3333333333334"},1,26,null],
+    [4,"",1,46,null],
+    [2,"",1,48,null],
+    [6,{"float":"1.2345E-5","bits":"3ee9e3abe16fc70d"},1,51,null],
+    [4,"",1,63,null],
+    [2,"",1,65,null],
+    [6,{"float":"1.5","bits":"3ff8000000000000"},1,68,null],
+    [8,".",1,71,null],
+    [6,{"int":"3"},1,72,null],
+    [4,"",1,74,null],
+    [-1,"",1,76,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "num-negative",
+  "source": "{{ -1 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [8,"-",1,3,null],
+    [6,{"int":"1"},1,4,null],
+    [4,"",1,6,null],
+    [-1,"",1,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "str-basic",
+  "source": "{{ 'abc' }}{{ \"abc\" }}{{ '' }}{{ \"\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"abc",1,3,null],
+    [4,"",1,9,null],
+    [2,"",1,11,null],
+    [7,"abc",1,14,null],
+    [4,"",1,20,null],
+    [2,"",1,22,null],
+    [7,"",1,25,null],
+    [4,"",1,28,null],
+    [2,"",1,30,null],
+    [7,"",1,33,null],
+    [4,"",1,36,null],
+    [-1,"",1,38,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "str-esc-unknown",
+  "source": "{{ '\\a\\b\\e' }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"abe",1,3,null],
+    [4,"",1,12,null],
+    [-1,"",1,14,null]
+  ],
+  "deprecations": ["Since twig/twig 3.12: Character \"a\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 2 in \"index\" at line 1.","Since twig/twig 3.12: Character \"b\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 4 in \"index\" at line 1.","Since twig/twig 3.12: Character \"e\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 6 in \"index\" at line 1."]
+},
+{
+  "id": "str-esc-u",
+  "source": "{{ \"\\u0041\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"u0041",1,3,null],
+    [4,"",1,12,null],
+    [-1,"",1,14,null]
+  ],
+  "deprecations": ["Since twig/twig 3.12: Character \"u\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 2 in \"index\" at line 1."]
+},
+{
+  "id": "str-esc-upper-x",
+  "source": "{{ '\\X41' }}{{ '\\8' }}{{ '\\9' }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"X41",1,3,null],
+    [4,"",1,10,null],
+    [2,"",1,12,null],
+    [7,"8",1,15,null],
+    [4,"",1,20,null],
+    [2,"",1,22,null],
+    [7,"9",1,25,null],
+    [4,"",1,30,null],
+    [-1,"",1,32,null]
+  ],
+  "deprecations": ["Since twig/twig 3.12: Character \"X\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 2 in \"index\" at line 1.","Since twig/twig 3.12: Character \"8\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 2 in \"index\" at line 1.","Since twig/twig 3.12: Character \"9\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 2 in \"index\" at line 1."]
+},
+{
+  "id": "str-esc-hex",
+  "source": "{{ '\\x41\\x4a\\x4' }}{{ '\\x' }}{{ '\\xfg' }}{{ '\\xF' }}{{ '\\xFFF' }}{{ '\\x6' }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"AJ\u0004",1,3,null],
+    [4,"",1,17,null],
+    [2,"",1,19,null],
+    [7,"x",1,22,null],
+    [4,"",1,27,null],
+    [2,"",1,29,null],
+    [7,"\u000fg",1,32,null],
+    [4,"",1,39,null],
+    [2,"",1,41,null],
+    [7,"\u000f",1,44,null],
+    [4,"",1,50,null],
+    [2,"",1,52,null],
+    [7,{"b64":"/0Y="},1,55,null],
+    [4,"",1,63,null],
+    [2,"",1,65,null],
+    [7,"\u0006",1,68,null],
+    [4,"",1,74,null],
+    [-1,"",1,76,null]
+  ],
+  "deprecations": ["Since twig/twig 3.12: Character \"x\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 2 in \"index\" at line 1."]
+},
+{
+  "id": "str-esc-octal",
+  "source": "{{ '\\12a' }}{{ '\\1234' }}{{ '\\777' }}{{ '\\400' }}{{ '\\065\\x64' }}{{ '\\0' }}{{ '\\00' }}{{ '\\0000' }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"\na",1,3,null],
+    [4,"",1,10,null],
+    [2,"",1,12,null],
+    [7,"S4",1,15,null],
+    [4,"",1,23,null],
+    [2,"",1,25,null],
+    [7,{"b64":"/w=="},1,28,null],
+    [4,"",1,35,null],
+    [2,"",1,37,null],
+    [7,"\u0000",1,40,null],
+    [4,"",1,47,null],
+    [2,"",1,49,null],
+    [7,"5d",1,52,null],
+    [4,"",1,63,null],
+    [2,"",1,65,null],
+    [7,"\u0000",1,68,null],
+    [4,"",1,73,null],
+    [2,"",1,75,null],
+    [7,"\u0000",1,78,null],
+    [4,"",1,84,null],
+    [2,"",1,86,null],
+    [7,"\u00000",1,89,null],
+    [4,"",1,97,null],
+    [-1,"",1,99,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "str-esc-interpolation",
+  "source": "{{ '\\#{x}' }}{{ '\\#' }}{{ \"App\\#{var}\" }}{{ \"\\#\" }}{{ \"a\\#{b}c\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"#{x}",1,3,null],
+    [4,"",1,11,null],
+    [2,"",1,13,null],
+    [7,"#",1,16,null],
+    [4,"",1,21,null],
+    [2,"",1,23,null],
+    [7,"App#{var}",1,26,null],
+    [4,"",1,39,null],
+    [2,"",1,41,null],
+    [7,"#",1,44,null],
+    [4,"",1,49,null],
+    [2,"",1,51,null],
+    [7,"a#{b}c",1,54,null],
+    [4,"",1,64,null],
+    [-1,"",1,66,null]
+  ],
+  "deprecations": ["Since twig/twig 3.12: Character \"#\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 2 in \"index\" at line 1.","Since twig/twig 3.12: Character \"#\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 2 in \"index\" at line 1."]
+},
+{
+  "id": "str-esc-quotes",
+  "source": "{{ \"a\\'b\" }}{{ 'a\\\"b' }}{{ \"foo \\\" bar\" }}{{ 'foo \\' bar' }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"a'b",1,3,null],
+    [4,"",1,10,null],
+    [2,"",1,12,null],
+    [7,"a\"b",1,15,null],
+    [4,"",1,22,null],
+    [2,"",1,24,null],
+    [7,"foo \" bar",1,27,null],
+    [4,"",1,40,null],
+    [2,"",1,42,null],
+    [7,"foo ' bar",1,45,null],
+    [4,"",1,58,null],
+    [-1,"",1,60,null]
+  ],
+  "deprecations": ["Since twig/twig 3.12: Character \"'\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 3 in \"index\" at line 1.","Since twig/twig 3.12: Character \"\"\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 3 in \"index\" at line 1."]
+},
+{
+  "id": "str-esc-specials",
+  "source": "{{ '\\f\\n\\r\\t\\v' }}{{ '\\\\f\\\\n\\\\r\\\\t\\\\v' }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"\f\n\r\t\u000b",1,3,null],
+    [4,"",1,16,null],
+    [2,"",1,18,null],
+    [7,"\\f\\n\\r\\t\\v",1,21,null],
+    [4,"",1,39,null],
+    [-1,"",1,41,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "str-esc-backslashes",
+  "source": "{{ 'App\\\\Test' }}{{ 'App\\Test' }}{{ 'Ymd\\\\THis' }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"App\\Test",1,3,null],
+    [4,"",1,15,null],
+    [2,"",1,17,null],
+    [7,"AppTest",1,20,null],
+    [4,"",1,31,null],
+    [2,"",1,33,null],
+    [7,"Ymd\\THis",1,36,null],
+    [4,"",1,48,null],
+    [-1,"",1,50,null]
+  ],
+  "deprecations": ["Since twig/twig 3.12: Character \"T\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 5 in \"index\" at line 1."]
+},
+{
+  "id": "str-esc-utf8",
+  "source": "{{ 'a\\é' }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"aé",1,3,null],
+    [4,"",1,10,null],
+    [-1,"",1,12,null]
+  ],
+  "deprecations": [{"b64":"U2luY2UgdHdpZy90d2lnIDMuMTI6IENoYXJhY3RlciAiwyIgc2hvdWxkIG5vdCBiZSBlc2NhcGVkOyB0aGUgIlwiIGNoYXJhY3RlciBpcyBpZ25vcmVkIGluIFR3aWcgMyBidXQgd2lsbCBub3QgYmUgaW4gVHdpZyA0LiBQbGVhc2UgcmVtb3ZlIHRoZSBleHRyYSAiXCIgY2hhcmFjdGVyIGF0IHBvc2l0aW9uIDMgaW4gImluZGV4IiBhdCBsaW5lIDEu"}]
+},
+{
+  "id": "str-hash",
+  "source": "{{ \"#\" }}{{ \"a # b\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"#",1,4,null],
+    [4,"",1,7,null],
+    [2,"",1,9,null],
+    [7,"a # b",1,13,null],
+    [4,"",1,20,null],
+    [-1,"",1,22,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "str-nul",
+  "source": "{{ \"\u0000\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"\u0000",1,3,null],
+    [4,"",1,7,null],
+    [-1,"",1,9,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "str-crlf",
+  "source": "{{ 'a\r\nb' }}{{ \"a\rb\" }}{{ x }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"a\nb",1,3,null],
+    [4,"",2,10,null],
+    [2,"",2,12,null],
+    [7,"a\nb",2,15,null],
+    [4,"",3,21,null],
+    [2,"",3,23,null],
+    [5,"x",3,26,null],
+    [4,"",3,28,null],
+    [-1,"",3,30,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "str-esc-position-after-crlf",
+  "source": "{{ 'a\r\n\\q' }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"a\nq",1,3,null],
+    [4,"",2,11,null],
+    [-1,"",2,13,null]
+  ],
+  "deprecations": ["Since twig/twig 3.12: Character \"q\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 4 in \"index\" at line 1."]
+},
+{
+  "id": "str-esc-line",
+  "source": "\n\n{{ 'x\\q' }}",
+  "tokens": [
+    [0,"\n\n",1,0,null],
+    [2,"",3,2,null],
+    [7,"xq",3,5,null],
+    [4,"",3,11,null],
+    [-1,"",3,13,null]
+  ],
+  "deprecations": ["Since twig/twig 3.12: Character \"q\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 3 in \"index\" at line 3."]
+},
+{
+  "id": "str-esc-multiline-line",
+  "source": "{{ 'a\nb\\q' }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"a\nbq",1,3,null],
+    [4,"",2,11,null],
+    [-1,"",2,13,null]
+  ],
+  "deprecations": ["Since twig/twig 3.12: Character \"q\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 5 in \"index\" at line 1."]
+},
+{
+  "id": "str-esc-interpolated-parts",
+  "source": "{{ \"a\\q#{b}\\w\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"aq",1,4,null],
+    [10,"",1,7,null],
+    [5,"b",1,9,null],
+    [11,"",1,10,null],
+    [7,"w",1,11,null],
+    [4,"",1,15,null],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": ["Since twig/twig 3.12: Character \"q\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 3 in \"index\" at line 1.","Since twig/twig 3.12: Character \"w\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 2 in \"index\" at line 1."]
+},
+{
+  "id": "str-unterminated-single",
+  "source": "{{ 'abc }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"'\".","line":1,"column":4,"message":"Unexpected character \"'\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "str-unterminated-escaped-quote",
+  "source": "{{ 'a\\' }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"'\".","line":1,"column":4,"message":"Unexpected character \"'\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "str-unterminated-double",
+  "source": "{{ \"abc }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"\"\".","line":1,"column":null,"message":"Unclosed \"\"\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "str-trailing-backslash",
+  "source": "{{ \"abc\\",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"\\\".","line":1,"column":8,"message":"Unexpected character \"\\\" in \"index\" at line 1 column 8."},
+  "deprecations": []
+},
+{
+  "id": "str-unterminated-interpolation",
+  "source": "{{ \"#{\" }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"\"\".","line":1,"column":null,"message":"Unclosed \"\"\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "str-unterminated-interpolation-2",
+  "source": "{{ \"a#{1\" }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"\"\".","line":1,"column":null,"message":"Unclosed \"\"\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "str-unterminated-eof-single",
+  "source": "{{ 'abc",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"'\".","line":1,"column":4,"message":"Unexpected character \"'\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "str-unterminated-eof-double",
+  "source": "{{ \"abc",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"\"\".","line":1,"column":null,"message":"Unclosed \"\"\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "str-quote-only",
+  "source": "{{ \"",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"\"\".","line":1,"column":null,"message":"Unclosed \"\"\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "str-utf8-long-ja",
+  "source": "{{ \"日本では、春になると桜の花が咲きます。\" }}{{ '日本では、春になると桜の花が咲きます。' }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"日本では、春になると桜の花が咲きます。",1,3,null],
+    [4,"",1,63,null],
+    [2,"",1,65,null],
+    [7,"日本では、春になると桜の花が咲きます。",1,68,null],
+    [4,"",1,128,null],
+    [-1,"",1,130,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-basic",
+  "source": "{{ \"foo #{bar} baz\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"foo ",1,4,null],
+    [10,"",1,8,null],
+    [5,"bar",1,10,null],
+    [11,"",1,13,null],
+    [7," baz",1,14,null],
+    [4,"",1,20,null],
+    [-1,"",1,22,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-only",
+  "source": "{{ \"#{x}\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [10,"",1,4,null],
+    [5,"x",1,6,null],
+    [11,"",1,7,null],
+    [4,"",1,10,null],
+    [-1,"",1,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-nested",
+  "source": "{{ \"bar #{ \"foo#{bar}\" }\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"bar ",1,4,null],
+    [10,"",1,8,null],
+    [7,"foo",1,12,null],
+    [10,"",1,15,null],
+    [5,"bar",1,17,null],
+    [11,"",1,20,null],
+    [11,"",1,23,null],
+    [4,"",1,26,null],
+    [-1,"",1,28,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-nested-block",
+  "source": "{% foo \"bar #{ \"foo#{bar}\" }\" %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"foo",1,3,null],
+    [7,"bar ",1,8,null],
+    [10,"",1,12,null],
+    [7,"foo",1,16,null],
+    [10,"",1,19,null],
+    [5,"bar",1,21,null],
+    [11,"",1,24,null],
+    [11,"",1,27,null],
+    [3,"",1,30,null],
+    [-1,"",1,32,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-mapping",
+  "source": "{{ \"a#{ {x: 1}|length }b\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"a",1,4,null],
+    [10,"",1,5,null],
+    [9,"{",1,8,null],
+    [5,"x",1,9,null],
+    [9,":",1,10,null],
+    [6,{"int":"1"},1,12,null],
+    [9,"}",1,13,null],
+    [8,"|",1,14,null],
+    [5,"length",1,15,null],
+    [11,"",1,22,null],
+    [7,"b",1,23,null],
+    [4,"",1,26,null],
+    [-1,"",1,28,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-concat",
+  "source": "{{ \"a#{1}\" \"b\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"a",1,4,null],
+    [10,"",1,5,null],
+    [6,{"int":"1"},1,7,null],
+    [11,"",1,8,null],
+    [7,"b",1,11,null],
+    [4,"",1,15,null],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-hash-text",
+  "source": "{{ \"bar # baz\" }}{{ \"me # this is NOT an inline comment\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"bar # baz",1,4,null],
+    [4,"",1,15,null],
+    [2,"",1,17,null],
+    [7,"me # this is NOT an inline comment",1,21,null],
+    [4,"",1,57,null],
+    [-1,"",1,59,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-unclosed-paren",
+  "source": "{{ \"#{ 1 )\" }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"#{\".","line":1,"column":null,"message":"Unclosed \"#{\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "interp-paren-brace",
+  "source": "{{ \"#{ (1 }\" }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"(\".","line":1,"column":null,"message":"Unclosed \"(\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "interp-multiline",
+  "source": "{{ \"#{\n x }\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [10,"",1,4,null],
+    [5,"x",2,8,null],
+    [11,"",2,10,null],
+    [4,"",2,13,null],
+    [-1,"",2,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-unclosed-variable",
+  "source": "\n{% set a = \"#{ x ",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"variable\".","line":2,"column":null,"message":"Unclosed \"variable\" in \"index\" at line 2."},
+  "deprecations": []
+},
+{
+  "id": "interp-end-line",
+  "source": "{{ \"#{ x \n}\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [10,"",1,4,null],
+    [5,"x",1,7,null],
+    [11,"",2,10,null],
+    [4,"",2,13,null],
+    [-1,"",2,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-deep",
+  "source": "{{ \"#{ \"#{ \"x\" }\" }\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [10,"",1,4,null],
+    [10,"",1,8,null],
+    [7,"x",1,11,null],
+    [11,"",1,15,null],
+    [11,"",1,18,null],
+    [4,"",1,21,null],
+    [-1,"",1,23,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-several",
+  "source": "{{ \"a #{b} #{c}\" }}{{ \"#{a}#{b}\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"a ",1,4,null],
+    [10,"",1,6,null],
+    [5,"b",1,8,null],
+    [11,"",1,9,null],
+    [7," ",1,10,null],
+    [10,"",1,11,null],
+    [5,"c",1,13,null],
+    [11,"",1,14,null],
+    [4,"",1,17,null],
+    [2,"",1,19,null],
+    [10,"",1,23,null],
+    [5,"a",1,25,null],
+    [11,"",1,26,null],
+    [10,"",1,27,null],
+    [5,"b",1,29,null],
+    [11,"",1,30,null],
+    [4,"",1,33,null],
+    [-1,"",1,35,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-concat-inside",
+  "source": "{{ \"#{ a ~ \"b\" }\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [10,"",1,4,null],
+    [5,"a",1,7,null],
+    [8,"~",1,9,null],
+    [7,"b",1,11,null],
+    [11,"",1,15,null],
+    [4,"",1,18,null],
+    [-1,"",1,20,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-double-hash",
+  "source": "{{ \"##{a}\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"#",1,4,null],
+    [10,"",1,5,null],
+    [5,"a",1,7,null],
+    [11,"",1,8,null],
+    [4,"",1,11,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-empty",
+  "source": "{{ \"#{}\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [10,"",1,4,null],
+    [11,"",1,6,null],
+    [4,"",1,9,null],
+    [-1,"",1,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "interp-crlf",
+  "source": "{{ \"a\r\n#{x}\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"a\n",1,4,null],
+    [10,"",2,7,null],
+    [5,"x",2,9,null],
+    [11,"",2,10,null],
+    [4,"",2,13,null],
+    [-1,"",2,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "br-nested-mappings",
+  "source": "{{ {\"a\":{\"b\":\"c\"}} }}{{ {a: {b: 1}} }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [9,"{",1,3,null],
+    [7,"a",1,4,null],
+    [9,":",1,7,null],
+    [9,"{",1,8,null],
+    [7,"b",1,9,null],
+    [9,":",1,12,null],
+    [7,"c",1,13,null],
+    [9,"}",1,16,null],
+    [9,"}",1,17,null],
+    [4,"",1,19,null],
+    [2,"",1,21,null],
+    [9,"{",1,24,null],
+    [5,"a",1,25,null],
+    [9,":",1,26,null],
+    [9,"{",1,28,null],
+    [5,"b",1,29,null],
+    [9,":",1,30,null],
+    [6,{"int":"1"},1,32,null],
+    [9,"}",1,33,null],
+    [9,"}",1,34,null],
+    [4,"",1,36,null],
+    [-1,"",1,38,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "br-unclosed-paren",
+  "source": "{{ (1 + 3 }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"(\".","line":1,"column":null,"message":"Unclosed \"(\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "br-unclosed-bracket",
+  "source": "{{ obj[\"a\" }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"[\".","line":1,"column":null,"message":"Unclosed \"[\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "br-unclosed-brace",
+  "source": "{{ ({ a: 1) }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"{\".","line":1,"column":null,"message":"Unclosed \"{\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "br-unclosed-nested",
+  "source": "{{ (([1]) + 3 }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"(\".","line":1,"column":null,"message":"Unclosed \"(\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "br-unexpected-paren",
+  "source": "{{ 1 + 3) }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected \")\".","line":1,"column":9,"message":"Unexpected \")\" in \"index\" at line 1 column 9."},
+  "deprecations": []
+},
+{
+  "id": "br-unexpected-bracket",
+  "source": "{{ obj] }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected \"]\".","line":1,"column":7,"message":"Unexpected \"]\" in \"index\" at line 1 column 7."},
+  "deprecations": []
+},
+{
+  "id": "br-unexpected-brace",
+  "source": "{{ { a: 1 }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected \"}\".","line":1,"column":12,"message":"Unexpected \"}\" in \"index\" at line 1 column 12."},
+  "deprecations": []
+},
+{
+  "id": "br-unexpected-paren-2",
+  "source": "{{ ([1] + 3)) }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected \")\".","line":1,"column":13,"message":"Unexpected \")\" in \"index\" at line 1 column 13."},
+  "deprecations": []
+},
+{
+  "id": "br-print-single-brace",
+  "source": "{{ x }",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected \"}\".","line":1,"column":6,"message":"Unexpected \"}\" in \"index\" at line 1 column 6."},
+  "deprecations": []
+},
+{
+  "id": "br-unclosed-at-eof",
+  "source": "{{ [1, 2",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"[\".","line":1,"column":null,"message":"Unclosed \"[\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "br-unclosed-multiline",
+  "source": "{{ [1,\n2",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"[\".","line":1,"column":null,"message":"Unclosed \"[\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "br-punctuation",
+  "source": "{{ a, b: c }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [9,",",1,4,null],
+    [5,"b",1,6,null],
+    [9,":",1,7,null],
+    [5,"c",1,9,null],
+    [4,"",1,11,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "br-paren-multiline",
+  "source": "{{ (\n1\n }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"(\".","line":1,"column":null,"message":"Unclosed \"(\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "br-block-unclosed",
+  "source": "{% if (a %}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"(\".","line":1,"column":null,"message":"Unclosed \"(\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "br-unexpected-second-line",
+  "source": "{{ x }}\n{{ ) }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected \")\".","line":2,"column":4,"message":"Unexpected \")\" in \"index\" at line 2 column 4."},
+  "deprecations": []
+},
+{
+  "id": "br-mismatch-line",
+  "source": "{{ [\n1,\n(2\n] }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"(\".","line":3,"column":null,"message":"Unclosed \"(\" in \"index\" at line 3."},
+  "deprecations": []
+},
+{
+  "id": "br-empty-mapping",
+  "source": "{{ {} }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [9,"{",1,3,null],
+    [9,"}",1,4,null],
+    [4,"",1,6,null],
+    [-1,"",1,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "char-dollar",
+  "source": "{{ $x }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"$\".","line":1,"column":4,"message":"Unexpected character \"$\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "char-at",
+  "source": "{{ @ }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"@\".","line":1,"column":4,"message":"Unexpected character \"@\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "char-semicolon",
+  "source": "{{ ; }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \";\".","line":1,"column":4,"message":"Unexpected character \";\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "char-nul",
+  "source": "{{ \u0000 }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"\u0000\".","line":1,"column":4,"message":"Unexpected character \"\u0000\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "char-backtick",
+  "source": "{{ ` }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"`\".","line":1,"column":4,"message":"Unexpected character \"`\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "char-backslash",
+  "source": "{{ \\ }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"\\\".","line":1,"column":4,"message":"Unexpected character \"\\\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "char-column-bytes",
+  "source": "{{ é + $ }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"$\".","line":1,"column":9,"message":"Unexpected character \"$\" in \"index\" at line 1 column 9."},
+  "deprecations": []
+},
+{
+  "id": "char-column-crlf",
+  "source": "x\r\n{{ é + $ }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"$\".","line":2,"column":9,"message":"Unexpected character \"$\" in \"index\" at line 2 column 9."},
+  "deprecations": []
+},
+{
+  "id": "char-third-line",
+  "source": "\n\n{{ & }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"&\".","line":3,"column":4,"message":"Unexpected character \"&\" in \"index\" at line 3 column 4."},
+  "deprecations": []
+},
+{
+  "id": "char-caret",
+  "source": "{{ 'a' ^ }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"^\".","line":1,"column":8,"message":"Unexpected character \"^\" in \"index\" at line 1 column 8."},
+  "deprecations": []
+},
+{
+  "id": "char-tab-dollar",
+  "source": "{{\t$ }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"$\".","line":1,"column":4,"message":"Unexpected character \"$\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "char-nul-before-close",
+  "source": "{{ x\u0000}}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"\u0000\".","line":1,"column":5,"message":"Unexpected character \"\u0000\" in \"index\" at line 1 column 5."},
+  "deprecations": []
+},
+{
+  "id": "unclosed-var-no-space",
+  "source": "{{ x",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [-1,"",1,4,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "unclosed-var-space",
+  "source": "{{ x ",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"variable\".","line":1,"column":null,"message":"Unclosed \"variable\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "unclosed-block-newline",
+  "source": "\n{% if x\n",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"block\".","line":2,"column":null,"message":"Unclosed \"block\" in \"index\" at line 2."},
+  "deprecations": []
+},
+{
+  "id": "unclosed-block-open",
+  "source": "{%",
+  "tokens": [
+    [1,"",1,0,null],
+    [-1,"",1,2,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "unclosed-block-open-space",
+  "source": "{% ",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"block\".","line":1,"column":null,"message":"Unclosed \"block\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "unclosed-var-open",
+  "source": "{{",
+  "tokens": [
+    [2,"",1,0,null],
+    [-1,"",1,2,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "unclosed-var-open-space",
+  "source": "{{ ",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"variable\".","line":1,"column":null,"message":"Unclosed \"variable\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "unclosed-var-lexertest",
+  "source": "\n\n{{\n\nbar\n\n\n",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"variable\".","line":3,"column":null,"message":"Unclosed \"variable\" in \"index\" at line 3."},
+  "deprecations": []
+},
+{
+  "id": "unclosed-block-lexertest",
+  "source": "\n\n{%\n\nbar\n\n\n",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"block\".","line":3,"column":null,"message":"Unclosed \"block\" in \"index\" at line 3."},
+  "deprecations": []
+},
+{
+  "id": "unclosed-interpolation-space",
+  "source": "{{ \"#{ x ",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"variable\".","line":1,"column":null,"message":"Unclosed \"variable\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "unclosed-inline-comment-swallows",
+  "source": "{{ x #}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [-1,"",1,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "unclosed-inline-comment-number",
+  "source": "{{ 1 #}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [-1,"",1,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "unclosed-block-crlf",
+  "source": "{% if x\r\n",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"block\".","line":1,"column":null,"message":"Unclosed \"block\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "unclosed-trim-openers",
+  "source": "{%-",
+  "tokens": [
+    [1,"",1,0,null],
+    [-1,"",1,3,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "unclosed-trim-var",
+  "source": "{{-",
+  "tokens": [
+    [2,"",1,0,null],
+    [-1,"",1,3,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "unclosed-trim-var-space",
+  "source": "{{- ",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"variable\".","line":1,"column":null,"message":"Unclosed \"variable\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "unclosed-var-newline",
+  "source": "{{ x\n",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"variable\".","line":1,"column":null,"message":"Unclosed \"variable\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "unclosed-second-var",
+  "source": "{{ x }} {{ y",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [0," ",1,7,null],
+    [2,"",1,8,null],
+    [5,"y",1,11,null],
+    [-1,"",1,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-basic",
+  "source": "{# a #}b",
+  "tokens": [
+    [0,"b",1,7,null],
+    [-1,"",1,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-trim-both",
+  "source": "{#- a -#}  b",
+  "tokens": [
+    [0,"b",1,11,null],
+    [-1,"",1,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-trim-left",
+  "source": "a  {#- x #}",
+  "tokens": [
+    [0,"a",1,0,null],
+    [-1,"",1,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-eats-newline",
+  "source": "a\n{# x #}\nb",
+  "tokens": [
+    [0,"a\n",1,0,null],
+    [0,"b",3,10,null],
+    [-1,"",3,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-eats-crlf",
+  "source": "a\n{# x #}\r\nb",
+  "tokens": [
+    [0,"a\n",1,0,null],
+    [0,"b",3,11,null],
+    [-1,"",3,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-eats-cr",
+  "source": "a\n{# x #}\rb",
+  "tokens": [
+    [0,"a\n",1,0,null],
+    [0,"b",3,10,null],
+    [-1,"",3,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-line-trim-right",
+  "source": "{# a ~#}  \n b",
+  "tokens": [
+    [0,"\n b",1,10,null],
+    [-1,"",2,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-line-trim-left",
+  "source": "  {#~ a #}",
+  "tokens": [
+    [-1,"",1,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-hash-brace",
+  "source": "{#}#}after",
+  "tokens": [
+    [0,"after",1,5,null],
+    [-1,"",1,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-unclosed-after-print",
+  "source": "{{ x }}{#}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed comment.","line":1,"column":null,"message":"Unclosed comment in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "comment-unclosed",
+  "source": "line1\n{# a ",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed comment.","line":2,"column":null,"message":"Unclosed comment in \"index\" at line 2."},
+  "deprecations": []
+},
+{
+  "id": "comment-with-tags",
+  "source": "{# {{ x }} #}",
+  "tokens": [
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-empty-doc-like",
+  "source": "{##}",
+  "tokens": [
+    [-1,"",1,4,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-empty-doc-like-text",
+  "source": "{##}b",
+  "tokens": [
+    [0,"b",1,4,null],
+    [-1,"",1,5,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-mixed",
+  "source": "{## doc ##}a{##}b{## d2 -##}  c",
+  "tokens": [
+    [0,"a",1,11,"doc"],
+    [0,"b",1,16,null],
+    [0,"c",1,30,"d2"],
+    [-1,"",1,31,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-hash-closer",
+  "source": "{## doc #}{{ x }}",
+  "tokens": [
+    [2,"",1,10,"doc"],
+    [5,"x",1,13,null],
+    [4,"",1,15,null],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-skips-newline-text",
+  "source": "{## a ##}\n{{ x }}",
+  "tokens": [
+    [2,"",2,10,"a"],
+    [5,"x",2,13,null],
+    [4,"",2,15,null],
+    [-1,"",2,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-skips-space-text",
+  "source": "{## a ##} {{ x }}",
+  "tokens": [
+    [0," ",1,9,null],
+    [2,"",1,10,"a"],
+    [5,"x",1,13,null],
+    [4,"",1,15,null],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-attaches-to-text",
+  "source": "{## a ##}text{{ x }}",
+  "tokens": [
+    [0,"text",1,9,"a"],
+    [2,"",1,13,null],
+    [5,"x",1,16,null],
+    [4,"",1,18,null],
+    [-1,"",1,20,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-crlf",
+  "source": "{## multi\r\n line ##}{{ x }}",
+  "tokens": [
+    [2,"",2,20,"multi\n line"],
+    [5,"x",2,23,null],
+    [4,"",2,25,null],
+    [-1,"",2,27,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-blank",
+  "source": "{##  ##}{{ x }}",
+  "tokens": [
+    [2,"",1,8,null],
+    [5,"x",1,11,null],
+    [4,"",1,13,null],
+    [-1,"",1,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-joined",
+  "source": "{## a ##}{## b ##}{{ x }}",
+  "tokens": [
+    [2,"",1,18,"a\nb"],
+    [5,"x",1,21,null],
+    [4,"",1,23,null],
+    [-1,"",1,25,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-cleared-by-verbatim",
+  "source": "{## x ##}{% verbatim %}v{% endverbatim %}{{ y }}",
+  "tokens": [
+    [0,"v",1,23,null],
+    [2,"",1,41,null],
+    [5,"y",1,44,null],
+    [4,"",1,46,null],
+    [-1,"",1,48,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-cleared-by-line",
+  "source": "{## x ##}{% line 3 %}{{ y }}",
+  "tokens": [
+    [2,"",3,21,null],
+    [5,"y",3,24,null],
+    [4,"",3,26,null],
+    [-1,"",3,28,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-inline",
+  "source": "{{ x ## inline doc\n }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",2,20,"inline doc"],
+    [-1,"",2,22,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-inline-two",
+  "source": "{{ x ## d1\n ## d2\n }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",3,19,"d1\nd2"],
+    [-1,"",3,21,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "inline-comment",
+  "source": "{{ x # c\n }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",2,10,null],
+    [-1,"",2,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "inline-comment-cr",
+  "source": "{{ x # c\r y }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [5,"y",2,10,null],
+    [4,"",2,12,null],
+    [-1,"",2,14,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-trim-open",
+  "source": "{##- a ##}",
+  "tokens": [
+    [-1,"",1,10,"a"]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-line-trim-open",
+  "source": "{##~ a ##}",
+  "tokens": [
+    [-1,"",1,10,"a"]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-trim-both",
+  "source": "a {##- doc -##} b",
+  "tokens": [
+    [0,"a",1,0,null],
+    [0,"b",1,16,"doc"],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-line-trim-close",
+  "source": "{## a ~##}  b",
+  "tokens": [
+    [0,"b",1,12,"a"],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-inline-hash",
+  "source": "{#\n            Some regular comment # this is an inline comment\n        #}",
+  "tokens": [
+    [-1,"",3,74,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-unclosed",
+  "source": "{## a",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed comment.","line":1,"column":null,"message":"Unclosed comment in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "doc-opener-only",
+  "source": "{##",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed comment.","line":1,"column":null,"message":"Unclosed comment in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "comment-opener-only",
+  "source": "{#",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed comment.","line":1,"column":null,"message":"Unclosed comment in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "comment-hash-only",
+  "source": "{# #",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed comment.","line":1,"column":null,"message":"Unclosed comment in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "comment-lines",
+  "source": "{# a #}\n\n{{ x }}",
+  "tokens": [
+    [0,"\n",2,8,null],
+    [2,"",3,9,null],
+    [5,"x",3,12,null],
+    [4,"",3,14,null],
+    [-1,"",3,16,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-at-eof",
+  "source": "{## a ##}",
+  "tokens": [
+    [-1,"",1,9,"a"]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-in-if",
+  "source": "{% if x %}{## doc ##}{% endif %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"if",1,3,null],
+    [5,"x",1,6,null],
+    [3,"",1,8,null],
+    [1,"",1,21,"doc"],
+    [5,"endif",1,24,null],
+    [3,"",1,30,null],
+    [-1,"",1,32,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-hashes",
+  "source": "{## ## ##}",
+  "tokens": [
+    [-1,"",1,10,"##"]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-newline-closer",
+  "source": "{## a\n#}",
+  "tokens": [
+    [-1,"",2,8,"a"]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-triple-hash",
+  "source": "{### a ###}",
+  "tokens": [
+    [-1,"",1,11,"# a #"]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-trim-doc-closer",
+  "source": "{# a -##}",
+  "tokens": [
+    [-1,"",1,9,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-line-trim-both",
+  "source": "{#~ a ~#}\t \nb",
+  "tokens": [
+    [0,"\nb",1,11,null],
+    [-1,"",2,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "doc-after-print",
+  "source": "{{ 1 }}{## d ##}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [4,"",1,5,null],
+    [-1,"",1,16,"d"]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-multiline-lines",
+  "source": "{# a\r\nb #}{{ x }}",
+  "tokens": [
+    [2,"",2,10,null],
+    [5,"x",2,13,null],
+    [4,"",2,15,null],
+    [-1,"",2,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-trim-both",
+  "source": "a  {{- 1 -}}  b",
+  "tokens": [
+    [0,"a",1,0,null],
+    [2,"",1,3,null],
+    [6,{"int":"1"},1,7,null],
+    [4,"",1,9,null],
+    [0,"b",1,14,null],
+    [-1,"",1,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-line-trim-both",
+  "source": "a \n {{~ 1 ~}} \n b",
+  "tokens": [
+    [0,"a \n",1,0,null],
+    [2,"",2,4,null],
+    [6,{"int":"1"},2,8,null],
+    [4,"",2,10,null],
+    [0,"\n b",2,14,null],
+    [-1,"",3,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-form-feed",
+  "source": "a\f{{- 1 -}}\fb",
+  "tokens": [
+    [0,"a\f",1,0,null],
+    [2,"",1,2,null],
+    [6,{"int":"1"},1,6,null],
+    [4,"",1,8,null],
+    [0,"b",1,12,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-nul",
+  "source": "a\u0000{{- 1 -}}\u0000b",
+  "tokens": [
+    [0,"a",1,0,null],
+    [2,"",1,2,null],
+    [6,{"int":"1"},1,6,null],
+    [4,"",1,8,null],
+    [0,"\u0000b",1,11,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-if-trim",
+  "source": "{%- if true -%}\n  a  \n{%- endif -%}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"if",1,4,null],
+    [5,"true",1,7,null],
+    [3,"",1,12,null],
+    [0,"a",2,18,null],
+    [1,"",3,22,null],
+    [5,"endif",3,26,null],
+    [3,"",3,32,null],
+    [-1,"",3,35,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-block-eats-newline",
+  "source": "x {% if true %}\ny{% endif %}\nz",
+  "tokens": [
+    [0,"x ",1,0,null],
+    [1,"",1,2,null],
+    [5,"if",1,5,null],
+    [5,"true",1,8,null],
+    [3,"",1,13,null],
+    [0,"y",2,16,null],
+    [1,"",2,17,null],
+    [5,"endif",2,20,null],
+    [3,"",2,26,null],
+    [0,"z",3,29,null],
+    [-1,"",3,30,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-print-keeps-newline",
+  "source": "{{ 1 }}\n{{ 2 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [4,"",1,5,null],
+    [0,"\n",1,7,null],
+    [2,"",2,8,null],
+    [6,{"int":"2"},2,11,null],
+    [4,"",2,13,null],
+    [-1,"",2,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-crlf-text",
+  "source": "a\r\nb",
+  "tokens": [
+    [0,"a\nb",1,0,null],
+    [-1,"",2,4,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-crlf-prints",
+  "source": "{{ 1 }}\r\n{{ 2 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [4,"",1,5,null],
+    [0,"\n",1,7,null],
+    [2,"",2,9,null],
+    [6,{"int":"2"},2,12,null],
+    [4,"",2,14,null],
+    [-1,"",2,16,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-crlf-blocks",
+  "source": "{% if true %}\r\nX{% endif %}\r\nY",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"if",1,3,null],
+    [5,"true",1,6,null],
+    [3,"",1,11,null],
+    [0,"X",2,15,null],
+    [1,"",2,16,null],
+    [5,"endif",2,19,null],
+    [3,"",2,25,null],
+    [0,"Y",3,29,null],
+    [-1,"",3,30,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-cr-blocks",
+  "source": "{% if true %}\rX{% endif %}\rY",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"if",1,3,null],
+    [5,"true",1,6,null],
+    [3,"",1,11,null],
+    [0,"X",2,14,null],
+    [1,"",2,15,null],
+    [5,"endif",2,18,null],
+    [3,"",2,24,null],
+    [0,"Y",3,27,null],
+    [-1,"",3,28,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-line-trim-block",
+  "source": "a {%~ if true ~%} \n b",
+  "tokens": [
+    [0,"a",1,0,null],
+    [1,"",1,2,null],
+    [5,"if",1,6,null],
+    [5,"true",1,9,null],
+    [3,"",1,14,null],
+    [0,"\n b",1,18,null],
+    [-1,"",2,21,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-trim-then-number",
+  "source": "{{-1}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [4,"",1,4,null],
+    [-1,"",1,6,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-number-trim-close",
+  "source": "{{ 5-}}{{ 5 -}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"5"},1,3,null],
+    [4,"",1,4,null],
+    [2,"",1,7,null],
+    [6,{"int":"5"},1,10,null],
+    [4,"",1,12,null],
+    [-1,"",1,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-empty-trimmed-print",
+  "source": "{{- -}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [4,"",1,4,null],
+    [-1,"",1,7,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-line-trim-comment",
+  "source": "a {#~ c ~#} \n b",
+  "tokens": [
+    [0,"a",1,0,null],
+    [0,"\n b",1,12,null],
+    [-1,"",2,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-line-trim-tabs",
+  "source": "a\t{%~ x ~%}\t\nb",
+  "tokens": [
+    [0,"a",1,0,null],
+    [1,"",1,2,null],
+    [5,"x",1,6,null],
+    [3,"",1,8,null],
+    [0,"\nb",1,12,null],
+    [-1,"",2,14,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-vertical-tab",
+  "source": "a\u000b{{~ 1 ~}}\u000bb",
+  "tokens": [
+    [0,"a",1,0,null],
+    [2,"",1,2,null],
+    [6,{"int":"1"},1,6,null],
+    [4,"",1,8,null],
+    [0,"b",1,12,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-line-trim-keeps-crlf",
+  "source": "a \r\n{{~ 1 }}",
+  "tokens": [
+    [0,"a \n",1,0,null],
+    [2,"",2,4,null],
+    [6,{"int":"1"},2,8,null],
+    [4,"",2,10,null],
+    [-1,"",2,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-trim-crlf",
+  "source": "{{ 1 -}}\r\n\r\nb",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [4,"",1,5,null],
+    [0,"b",3,12,null],
+    [-1,"",3,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-block-trim-newlines",
+  "source": "{% x -%}\n\n b",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"x",1,3,null],
+    [3,"",1,5,null],
+    [0,"b",3,11,null],
+    [-1,"",3,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-block-one-newline",
+  "source": "{% x %}\n\nb",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"x",1,3,null],
+    [3,"",1,5,null],
+    [0,"\nb",2,8,null],
+    [-1,"",3,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-block-line-trim",
+  "source": "{% x ~%}  \n b",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"x",1,3,null],
+    [3,"",1,5,null],
+    [0,"\n b",1,10,null],
+    [-1,"",2,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-line-chars",
+  "source": "{{ 1 ~}}\t\u0000\u000b\n",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [4,"",1,5,null],
+    [0,"\n",1,11,null],
+    [-1,"",2,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-trim-before-block",
+  "source": "a\n\n{%- x %}",
+  "tokens": [
+    [0,"a",1,0,null],
+    [1,"",3,3,null],
+    [5,"x",3,7,null],
+    [3,"",3,9,null],
+    [-1,"",3,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-plain",
+  "source": "a {% x %} b",
+  "tokens": [
+    [0,"a ",1,0,null],
+    [1,"",1,2,null],
+    [5,"x",1,5,null],
+    [3,"",1,7,null],
+    [0," b",1,9,null],
+    [-1,"",1,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-print-newline-end",
+  "source": "{{ x }}\n",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [0,"\n",1,7,null],
+    [-1,"",2,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-comment-newlines",
+  "source": "{# x #}\n\n",
+  "tokens": [
+    [0,"\n",2,8,null],
+    [-1,"",3,9,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-comment-trim-newlines",
+  "source": "{#- x -#}\n\n y",
+  "tokens": [
+    [0,"y",3,12,null],
+    [-1,"",3,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-form-feed-close",
+  "source": "{{ x \f}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [-1,"",1,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-form-feed-newline-close",
+  "source": "{{ x \f\n}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [-1,"",2,9,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ws-vertical-tab-close",
+  "source": "{{ x\u000b}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [-1,"",1,7,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-newlines",
+  "source": "{% verbatim %}\nx{{ y }}{% endverbatim %}\nY",
+  "tokens": [
+    [0,"\nx{{ y }}",2,14,null],
+    [0,"\nY",2,40,null],
+    [-1,"",3,42,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-line-trim",
+  "source": "A {%~ verbatim ~%}  x  {%~ endverbatim ~%}  \n B",
+  "tokens": [
+    [0,"A",1,0,null],
+    [0,"x",1,20,null],
+    [0,"\n B",1,44,null],
+    [-1,"",2,47,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-trim",
+  "source": "A {%- verbatim -%}  x  {%- endverbatim -%}  \n B",
+  "tokens": [
+    [0,"A",1,0,null],
+    [0,"x",2,20,null],
+    [0,"B",2,46,null],
+    [-1,"",2,47,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-unclosed",
+  "source": "{% verbatim %}abc",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected end of file: Unclosed \"verbatim\" block.","line":1,"column":null,"message":"Unexpected end of file: Unclosed \"verbatim\" block in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "verbatim-unclosed-line",
+  "source": "\n{% verbatim %}\nabc",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected end of file: Unclosed \"verbatim\" block.","line":2,"column":null,"message":"Unexpected end of file: Unclosed \"verbatim\" block in \"index\" at line 2."},
+  "deprecations": []
+},
+{
+  "id": "verbatim-not-nested",
+  "source": "{% verbatim %}{% verbatim %}x{% endverbatim %}y{% endverbatim %}",
+  "tokens": [
+    [0,"{% verbatim %}x",1,14,null],
+    [0,"y",1,46,null],
+    [1,"",1,47,null],
+    [5,"endverbatim",1,50,null],
+    [3,"",1,62,null],
+    [-1,"",1,64,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-with-argument",
+  "source": "{% verbatim x %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"verbatim",1,3,null],
+    [5,"x",1,12,null],
+    [3,"",1,14,null],
+    [-1,"",1,16,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "raw-is-a-tag",
+  "source": "{% raw %}x{% endraw %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"raw",1,3,null],
+    [3,"",1,7,null],
+    [0,"x",1,9,null],
+    [1,"",1,10,null],
+    [5,"endraw",1,13,null],
+    [3,"",1,20,null],
+    [-1,"",1,22,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-compact",
+  "source": "{%verbatim%}x{%endverbatim%}",
+  "tokens": [
+    [0,"x",1,12,null],
+    [-1,"",1,28,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-crlf",
+  "source": "{% verbatim %}a\r\nb{% endverbatim %}",
+  "tokens": [
+    [0,"a\nb",2,14,null],
+    [-1,"",2,35,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-line-quirk",
+  "source": "{% verbatim %}\na\nb\n{% endverbatim %}{{ x }}",
+  "tokens": [
+    [0,"\na\nb\n",4,14,null],
+    [2,"",4,36,null],
+    [5,"x",4,39,null],
+    [4,"",4,41,null],
+    [-1,"",4,43,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-trim-inner",
+  "source": "{% verbatim -%}  x  {%- endverbatim %}",
+  "tokens": [
+    [0,"x",1,17,null],
+    [-1,"",1,38,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-comment-inside",
+  "source": "{% verbatim %}{# x #}{% endverbatim %}",
+  "tokens": [
+    [0,"{# x #}",1,14,null],
+    [-1,"",1,38,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-multiline-tags",
+  "source": "{%\nverbatim\n%}x{%\nendverbatim\n%}y",
+  "tokens": [
+    [0,"x",5,14,null],
+    [0,"y",5,32,null],
+    [-1,"",5,33,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-trim-close",
+  "source": "{% verbatim %}x{% endverbatim -%}\n\ny",
+  "tokens": [
+    [0,"x",3,14,null],
+    [0,"y",3,35,null],
+    [-1,"",3,36,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-line-trim-close",
+  "source": "{% verbatim %}x{% endverbatim ~%} \t\ny",
+  "tokens": [
+    [0,"x",1,14,null],
+    [0,"\ny",1,35,null],
+    [-1,"",2,37,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-mixed-trims",
+  "source": "{%- verbatim %}x{%~ endverbatim %}",
+  "tokens": [
+    [0,"x",1,15,null],
+    [-1,"",1,34,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-then-print",
+  "source": "{% verbatim %}{{ x }}{%endverbatim%}{{ y }}",
+  "tokens": [
+    [0,"{{ x }}",1,14,null],
+    [2,"",1,36,null],
+    [5,"y",1,39,null],
+    [4,"",1,41,null],
+    [-1,"",1,43,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-unterminated-closer",
+  "source": "{% verbatim %}x{% endverbatim",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected end of file: Unclosed \"verbatim\" block.","line":1,"column":null,"message":"Unexpected end of file: Unclosed \"verbatim\" block in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "verbatim-trim-text",
+  "source": "{% verbatim %}x  {%- endverbatim %}",
+  "tokens": [
+    [0,"x",1,14,null],
+    [-1,"",1,35,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-trim-before",
+  "source": "a  {%- verbatim %}x{% endverbatim %}",
+  "tokens": [
+    [0,"a",1,0,null],
+    [0,"x",1,18,null],
+    [-1,"",1,36,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-line-trim-compact",
+  "source": "{% verbatim %}  x  {%~endverbatim%}",
+  "tokens": [
+    [0,"  x",1,14,null],
+    [-1,"",1,35,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "verbatim-string-inside",
+  "source": "{% verbatim %}{{ \"#{\" }}{% endverbatim %}",
+  "tokens": [
+    [0,"{{ \"#{\" }}",1,14,null],
+    [-1,"",1,41,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-lexertest",
+  "source": "foo\nbar\n{% line 10 %}\n{{\nbaz\n}}\n",
+  "tokens": [
+    [0,"foo\nbar\n",1,0,null],
+    [0,"\n",10,21,null],
+    [2,"",11,22,null],
+    [5,"baz",12,25,null],
+    [4,"",13,29,null],
+    [0,"\n",13,31,null],
+    [-1,"",14,32,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-lexertest-inline",
+  "source": "foo\nbar{% line 10 %}{{\nbaz\n}}\n",
+  "tokens": [
+    [0,"foo\nbar",1,0,null],
+    [2,"",10,20,null],
+    [5,"baz",11,23,null],
+    [4,"",12,27,null],
+    [0,"\n",12,29,null],
+    [-1,"",13,30,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-then-parse-error",
+  "source": "{% line 5 %}{{ x }}\n{{ y",
+  "tokens": [
+    [2,"",5,12,null],
+    [5,"x",5,15,null],
+    [4,"",5,17,null],
+    [0,"\n",5,19,null],
+    [2,"",6,20,null],
+    [5,"y",6,23,null],
+    [-1,"",6,24,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-zero",
+  "source": "{% line 0 %}{{ x",
+  "tokens": [
+    [2,"",0,12,null],
+    [5,"x",0,15,null],
+    [-1,"",0,16,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-saturates",
+  "source": "{% line 99999999999999999999 %}{{ x }}",
+  "tokens": [
+    [2,"",9223372036854775807,31,null],
+    [5,"x",9223372036854775807,34,null],
+    [4,"",9223372036854775807,36,null],
+    [-1,"",9223372036854775807,38,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-int-max",
+  "source": "{% line 9223372036854775807 %}{{ x }}",
+  "tokens": [
+    [2,"",9223372036854775807,30,null],
+    [5,"x",9223372036854775807,33,null],
+    [4,"",9223372036854775807,35,null],
+    [-1,"",9223372036854775807,37,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-trim-right-not-recognized",
+  "source": "{% line 5 -%}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"line",1,3,null],
+    [6,{"int":"5"},1,8,null],
+    [3,"",1,10,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-trim-left",
+  "source": "{%- line 7 %}",
+  "tokens": [
+    [-1,"",7,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-compact",
+  "source": "{%line 3%}x",
+  "tokens": [
+    [0,"x",3,10,null],
+    [-1,"",3,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-trims-text",
+  "source": "a {%- line 7 %}\nb",
+  "tokens": [
+    [0,"a",1,0,null],
+    [0,"\nb",7,15,null],
+    [-1,"",8,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-keeps-newline",
+  "source": "{% line 5 %}\n",
+  "tokens": [
+    [0,"\n",5,12,null],
+    [-1,"",6,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-multiline-tag",
+  "source": "{%\nline\n5\n%}{{ x }}",
+  "tokens": [
+    [2,"",5,12,null],
+    [5,"x",5,15,null],
+    [4,"",5,17,null],
+    [-1,"",5,19,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-leading-zeros",
+  "source": "{% line 007 %}{{ x }}",
+  "tokens": [
+    [2,"",7,14,null],
+    [5,"x",7,17,null],
+    [4,"",7,19,null],
+    [-1,"",7,21,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-negative",
+  "source": "{% line -5 %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"line",1,3,null],
+    [8,"-",1,8,null],
+    [6,{"int":"5"},1,9,null],
+    [3,"",1,11,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-garbage",
+  "source": "{% line 5x %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"line",1,3,null],
+    [6,{"int":"5"},1,8,null],
+    [5,"x",1,9,null],
+    [3,"",1,11,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-missing-number",
+  "source": "{% line %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"line",1,3,null],
+    [3,"",1,8,null],
+    [-1,"",1,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-line-trim",
+  "source": "{% line 5 ~%}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"line",1,3,null],
+    [6,{"int":"5"},1,8,null],
+    [3,"",1,10,null],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "line-error-line",
+  "source": "{% line 2 %}\n{{ x $ }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"$\".","line":3,"column":6,"message":"Unexpected character \"$\" in \"index\" at line 3 column 6."},
+  "deprecations": []
+},
+{
+  "id": "line-deprecation-line",
+  "source": "{% line 3 %}{{ 'a\\q' }}",
+  "tokens": [
+    [2,"",3,12,null],
+    [7,"aq",3,15,null],
+    [4,"",3,21,null],
+    [-1,"",3,23,null]
+  ],
+  "deprecations": ["Since twig/twig 3.12: Character \"q\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 3 in \"index\" at line 3."]
+},
+{
+  "id": "line-zero-error",
+  "source": "{% line 0 %}{{ x $ }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"$\".","line":0,"column":18,"message":"Unexpected character \"$\" in \"index\"."},
+  "deprecations": []
+},
+{
+  "id": "line-unclosed-bracket",
+  "source": "{% line 10 %}{{ (1 }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"(\".","line":10,"column":null,"message":"Unclosed \"(\" in \"index\" at line 10."},
+  "deprecations": []
+},
+{
+  "id": "cr-line-count",
+  "source": "a\rb{{ x }}",
+  "tokens": [
+    [0,"a\nb",1,0,null],
+    [2,"",2,3,null],
+    [5,"x",2,6,null],
+    [4,"",2,8,null],
+    [-1,"",2,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "crlf-line-count",
+  "source": "a\r\n\r\nb{{ x }}",
+  "tokens": [
+    [0,"a\n\nb",1,0,null],
+    [2,"",3,6,null],
+    [5,"x",3,9,null],
+    [4,"",3,11,null],
+    [-1,"",3,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "crlf-before-close",
+  "source": "{{ x\r\n}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",2,6,null],
+    [-1,"",2,8,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "crlf-inside-print",
+  "source": "{{\r\nx\r\n}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",2,4,null],
+    [4,"",3,7,null],
+    [-1,"",3,9,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "crlf-block",
+  "source": "{% x\r\n%}\r\ny",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"x",1,3,null],
+    [3,"",2,6,null],
+    [0,"y",3,10,null],
+    [-1,"",3,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "crlf-unexpected",
+  "source": "\r\n\r\n{{ $ }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"$\".","line":3,"column":4,"message":"Unexpected character \"$\" in \"index\" at line 3 column 4."},
+  "deprecations": []
+},
+{
+  "id": "bom",
+  "source": "﻿  {% extends 'b' %}",
+  "tokens": [
+    [0,"﻿  ",1,0,null],
+    [1,"",1,5,null],
+    [5,"extends",1,8,null],
+    [7,"b",1,16,null],
+    [3,"",1,20,null],
+    [-1,"",1,22,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "open-at-end",
+  "source": "a{{",
+  "tokens": [
+    [0,"a",1,0,null],
+    [2,"",1,1,null],
+    [-1,"",1,3,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "block-open-at-end",
+  "source": "a{%",
+  "tokens": [
+    [0,"a",1,0,null],
+    [1,"",1,1,null],
+    [-1,"",1,3,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "comment-open-at-end",
+  "source": "a{#",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed comment.","line":1,"column":null,"message":"Unclosed comment in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "empty-print",
+  "source": "{{}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [4,"",1,2,null],
+    [-1,"",1,4,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "empty-block",
+  "source": "{%%}",
+  "tokens": [
+    [1,"",1,0,null],
+    [3,"",1,2,null],
+    [-1,"",1,4,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "empty-print-space",
+  "source": "{{ }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [4,"",1,3,null],
+    [-1,"",1,5,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "empty-block-space",
+  "source": "{% %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [3,"",1,3,null],
+    [-1,"",1,5,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "extra-closers",
+  "source": "{{ x }}}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [0,"}}",1,7,null],
+    [-1,"",1,9,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "triple-braces",
+  "source": "{{{ x }}}",
+  "tokens": [
+    [2,"",1,0,null],
+    [9,"{",1,2,null],
+    [5,"x",1,4,null],
+    [9,"}",1,6,null],
+    [4,"",1,7,null],
+    [-1,"",1,9,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "block-open-percent",
+  "source": "{%%",
+  "tokens": [
+    [1,"",1,0,null],
+    [8,"%",1,2,null],
+    [-1,"",1,3,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "filter-call",
+  "source": "{{ x|e(\"html\") }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [8,"|",1,4,null],
+    [5,"e",1,5,null],
+    [8,"(",1,6,null],
+    [7,"html",1,7,null],
+    [9,")",1,13,null],
+    [4,"",1,15,null],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "long-text",
+  "source": "abababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab",
+  "tokens": [
+    [0,{"len":1000,"crc32":"57c7c548"},1,0,null],
+    [-1,"",1,1000,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "long-name",
+  "source": "{{ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,{"len":1000,"crc32":"3b41c9e6"},1,3,null],
+    [4,"",1,1004,null],
+    [-1,"",1,1006,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "jit-sq-string-8190",
+  "source_parts": [["{{ '",1],["\\n",8190],["' }}",1]],
+  "tokens": [
+    [2,"",1,0,null],
+    [7,{"len":8190,"crc32":"f8c025f6"},1,3,null],
+    [4,"",1,16386,null],
+    [-1,"",1,16388,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "jit-sq-string-8191",
+  "source_parts": [["{{ '",1],["\\n",8191],["' }}",1]],
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"'\".","line":1,"column":4,"message":"Unexpected character \"'\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "jit-sq-string-quotes-8191",
+  "source_parts": [["{{ 'a",1],["\\'",8191],["' }}",1]],
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"'\".","line":1,"column":4,"message":"Unexpected character \"'\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "jit-dq-string-8190",
+  "source_parts": [["{{ \"",1],["\\n",8190],["\" }}",1]],
+  "tokens": [
+    [2,"",1,0,null],
+    [7,{"len":8190,"crc32":"f8c025f6"},1,3,null],
+    [4,"",1,16386,null],
+    [-1,"",1,16388,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "jit-dq-string-8191",
+  "source_parts": [["{{ \"",1],["\\n",8191],["\" }}",1]],
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"\\\".","line":1,"column":5,"message":"Unexpected character \"\\\" in \"index\" at line 1 column 5."},
+  "deprecations": []
+},
+{
+  "id": "jit-dq-part-4914",
+  "source_parts": [["{{ \"",1],["\\n",4913],["#\" }}",1]],
+  "tokens": [
+    [2,"",1,0,null],
+    [7,{"len":4914,"crc32":"44d208eb"},1,4,null],
+    [4,"",1,9833,null],
+    [-1,"",1,9835,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "jit-dq-part-4915",
+  "source_parts": [["{{ \"",1],["\\n",4914],["#\" }}",1]],
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"\\\".","line":1,"column":5,"message":"Unexpected character \"\\\" in \"index\" at line 1 column 5."},
+  "deprecations": []
+},
+{
+  "id": "jit-dq-part-hashes-4915",
+  "source_parts": [["{{ \"",1],["a#",4915],["\" }}",1]],
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"a\".","line":1,"column":5,"message":"Unexpected character \"a\" in \"index\" at line 1 column 5."},
+  "deprecations": []
+},
+{
+  "id": "jit-dq-part-before-interpolation",
+  "source_parts": [["{{ \"",1],["#",4914],["#{x}\" }}",1]],
+  "tokens": [
+    [2,"",1,0,null],
+    [7,{"len":4914,"crc32":"657dfd97"},1,4,null],
+    [10,"",1,4918,null],
+    [5,"x",1,4920,null],
+    [11,"",1,4921,null],
+    [4,"",1,4924,null],
+    [-1,"",1,4926,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "jit-dq-part-after-interpolation",
+  "source_parts": [["{{ \"#{x}",1],["#",4915],["\" }}",1]],
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"#\".","line":1,"column":9,"message":"Unexpected character \"#\" in \"index\" at line 1 column 9."},
+  "deprecations": []
+},
+{
+  "id": "jit-number-4911",
+  "source_parts": [["{{ 1",1],["_1",4911],[" }}",1]],
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"float":"INF","bits":"7ff0000000000000"},1,3,null],
+    [4,"",1,9827,null],
+    [-1,"",1,9829,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "jit-number-4912",
+  "source_parts": [["{{ 1",1],["_1",4912],[" }}",1]],
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"1\".","line":1,"column":4,"message":"Unexpected character \"1\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "jit-number-fraction-4909",
+  "source_parts": [["{{ 1.1",1],["_1",4909],[" }}",1]],
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"float":"1.1111111111111","bits":"3ff1c71c71c71c72"},1,3,null],
+    [4,"",1,9825,null],
+    [-1,"",1,9827,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "jit-number-fraction-4910",
+  "source_parts": [["{{ 1.1",1],["_1",4910],[" }}",1]],
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"1\".","line":1,"column":4,"message":"Unexpected character \"1\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "jit-number-exponent-attempt-4910",
+  "source_parts": [["{{ 1",1],["_1",4910],["e }}",1]],
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"float":"INF","bits":"7ff0000000000000"},1,3,null],
+    [5,"e",1,9824,null],
+    [4,"",1,9826,null],
+    [-1,"",1,9828,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "jit-number-exponent-attempt-4911",
+  "source_parts": [["{{ 1",1],["_1",4911],["e }}",1]],
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"1\".","line":1,"column":4,"message":"Unexpected character \"1\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "jit-number-fraction-exponent-4907",
+  "source_parts": [["{{ 1",1],["_1",4907],[".1e1 }}",1]],
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"float":"INF","bits":"7ff0000000000000"},1,3,null],
+    [4,"",1,9823,null],
+    [-1,"",1,9825,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "jit-number-fraction-exponent-4908",
+  "source_parts": [["{{ 1",1],["_1",4908],[".1e1 }}",1]],
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"1\".","line":1,"column":4,"message":"Unexpected character \"1\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "jit-number-signed-exponent-attempt",
+  "source_parts": [["{{ 1.1",1],["_1",4909],["e+ }}",1]],
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"1\".","line":1,"column":4,"message":"Unexpected character \"1\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "expect-float-value",
+  "source": "{{ 1 1e20 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [6,{"float":"1.0E+20","bits":"4415af1d78b58c40"},1,5,null],
+    [4,"",1,10,null],
+    [-1,"",1,12,null]
+  ],
+  "expect": {"skip":2,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"number\" of value \"1.0E+20\" (\"end of print statement\" expected).","line":1,"column":6,"message":"Unexpected token \"number\" of value \"1.0E+20\" (\"end of print statement\" expected) in \"index\" at line 1 column 6."}},
+  "deprecations": []
+},
+{
+  "id": "expect-zero",
+  "source": "{{ 1 0 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [6,{"int":"0"},1,5,null],
+    [4,"",1,7,null],
+    [-1,"",1,9,null]
+  ],
+  "expect": {"skip":2,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"number\" (\"end of print statement\" expected).","line":1,"column":6,"message":"Unexpected token \"number\" (\"end of print statement\" expected) in \"index\" at line 1 column 6."}},
+  "deprecations": []
+},
+{
+  "id": "expect-zero-string",
+  "source": "{{ 1 \"0\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [7,"0",1,5,null],
+    [4,"",1,9,null],
+    [-1,"",1,11,null]
+  ],
+  "expect": {"skip":2,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"string\" (\"end of print statement\" expected).","line":1,"column":6,"message":"Unexpected token \"string\" (\"end of print statement\" expected) in \"index\" at line 1 column 6."}},
+  "deprecations": []
+},
+{
+  "id": "expect-float",
+  "source": "{{ 1 1.5 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [6,{"float":"1.5","bits":"3ff8000000000000"},1,5,null],
+    [4,"",1,9,null],
+    [-1,"",1,11,null]
+  ],
+  "expect": {"skip":2,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"number\" of value \"1.5\" (\"end of print statement\" expected).","line":1,"column":6,"message":"Unexpected token \"number\" of value \"1.5\" (\"end of print statement\" expected) in \"index\" at line 1 column 6."}},
+  "deprecations": []
+},
+{
+  "id": "expect-zero-float",
+  "source": "{{ 1 0.0 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [6,{"float":"0","bits":"0000000000000000"},1,5,null],
+    [4,"",1,9,null],
+    [-1,"",1,11,null]
+  ],
+  "expect": {"skip":2,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"number\" (\"end of print statement\" expected).","line":1,"column":6,"message":"Unexpected token \"number\" (\"end of print statement\" expected) in \"index\" at line 1 column 6."}},
+  "deprecations": []
+},
+{
+  "id": "expect-eof",
+  "source": "{{ x",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [-1,"",1,4,null]
+  ],
+  "expect": {"skip":2,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"end of template\" (\"end of print statement\" expected).","line":1,"column":5,"message":"Unexpected token \"end of template\" (\"end of print statement\" expected) in \"index\" at line 1 column 5."}},
+  "deprecations": []
+},
+{
+  "id": "expect-string",
+  "source": "{{ 'a' 'b' }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"a",1,3,null],
+    [7,"b",1,7,null],
+    [4,"",1,11,null],
+    [-1,"",1,13,null]
+  ],
+  "expect": {"skip":2,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"string\" of value \"b\" (\"end of print statement\" expected).","line":1,"column":8,"message":"Unexpected token \"string\" of value \"b\" (\"end of print statement\" expected) in \"index\" at line 1 column 8."}},
+  "deprecations": []
+},
+{
+  "id": "expect-name-after-number",
+  "source": "{{ 1__2 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [5,"__2",1,4,null],
+    [4,"",1,8,null],
+    [-1,"",1,10,null]
+  ],
+  "expect": {"skip":2,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"name\" of value \"__2\" (\"end of print statement\" expected).","line":1,"column":5,"message":"Unexpected token \"name\" of value \"__2\" (\"end of print statement\" expected) in \"index\" at line 1 column 5."}},
+  "deprecations": []
+},
+{
+  "id": "expect-column-crlf",
+  "source": "x\r\n{{ 1__2 }}",
+  "tokens": [
+    [0,"x\n",1,0,null],
+    [2,"",2,3,null],
+    [6,{"int":"1"},2,6,null],
+    [5,"__2",2,7,null],
+    [4,"",2,11,null],
+    [-1,"",2,13,null]
+  ],
+  "expect": {"skip":3,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"name\" of value \"__2\" (\"end of print statement\" expected).","line":2,"column":5,"message":"Unexpected token \"name\" of value \"__2\" (\"end of print statement\" expected) in \"index\" at line 2 column 5."}},
+  "deprecations": []
+},
+{
+  "id": "expect-closing-line",
+  "source": "{% from 'forms.twig'\n  %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"from",1,3,null],
+    [7,"forms.twig",1,8,null],
+    [3,"",2,23,null],
+    [-1,"",2,25,null]
+  ],
+  "expect": {"skip":3,"type":5,"value":"import","message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"end of statement block\" (\"name\" expected with value \"import\").","line":2,"column":3,"message":"Unexpected token \"end of statement block\" (\"name\" expected with value \"import\") in \"index\" at line 2 column 3."}},
+  "deprecations": []
+},
+{
+  "id": "expect-message",
+  "source": "{{ {\"a\"} }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [9,"{",1,3,null],
+    [7,"a",1,4,null],
+    [9,"}",1,7,null],
+    [4,"",1,9,null],
+    [-1,"",1,11,null]
+  ],
+  "expect": {"skip":3,"type":9,"value":":","message":"A mapping key must be followed by a colon (:)","error":{"class":"Twig\\Error\\SyntaxError","raw":"A mapping key must be followed by a colon (:). Unexpected token \"punctuation\" of value \"}\" (\"punctuation\" expected with value \":\").","line":1,"column":8,"message":"A mapping key must be followed by a colon (:). Unexpected token \"punctuation\" of value \"}\" (\"punctuation\" expected with value \":\") in \"index\" at line 1 column 8."}},
+  "deprecations": []
+},
+{
+  "id": "expect-message-2",
+  "source": "{{ [1, 2 3] }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [8,"[",1,3,null],
+    [6,{"int":"1"},1,4,null],
+    [9,",",1,5,null],
+    [6,{"int":"2"},1,7,null],
+    [6,{"int":"3"},1,9,null],
+    [9,"]",1,10,null],
+    [4,"",1,12,null],
+    [-1,"",1,14,null]
+  ],
+  "expect": {"skip":5,"type":9,"value":",","message":"A sequence element must be followed by a comma","error":{"class":"Twig\\Error\\SyntaxError","raw":"A sequence element must be followed by a comma. Unexpected token \"number\" of value \"3\" (\"punctuation\" expected with value \",\").","line":1,"column":10,"message":"A sequence element must be followed by a comma. Unexpected token \"number\" of value \"3\" (\"punctuation\" expected with value \",\") in \"index\" at line 1 column 10."}},
+  "deprecations": []
+},
+{
+  "id": "expect-success",
+  "source": "{% if x %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"if",1,3,null],
+    [5,"x",1,6,null],
+    [3,"",1,8,null],
+    [-1,"",1,10,null]
+  ],
+  "expect": {"skip":3,"type":3,"value":null,"message":null,"token":[3,"",1,8,null]},
+  "deprecations": []
+},
+{
+  "id": "expect-eof-end",
+  "source": "{{ x }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [-1,"",1,7,null]
+  ],
+  "expect": {"skip":3,"type":-1,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected end of template.","line":1,"column":null,"message":"Unexpected end of template in \"index\" at line 1."}},
+  "deprecations": []
+},
+{
+  "id": "expect-line-zero",
+  "source": "{% line 0 %}{{ x",
+  "tokens": [
+    [2,"",0,12,null],
+    [5,"x",0,15,null],
+    [-1,"",0,16,null]
+  ],
+  "expect": {"skip":2,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"end of template\" (\"end of print statement\" expected).","line":0,"column":17,"message":"Unexpected token \"end of template\" (\"end of print statement\" expected) in \"index\"."}},
+  "deprecations": []
+},
+{
+  "id": "expect-value-mismatch",
+  "source": "{{ x }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [-1,"",1,7,null]
+  ],
+  "expect": {"skip":1,"type":5,"value":"y","message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"name\" of value \"x\" (\"name\" expected with value \"y\").","line":1,"column":4,"message":"Unexpected token \"name\" of value \"x\" (\"name\" expected with value \"y\") in \"index\" at line 1 column 4."}},
+  "deprecations": []
+},
+{
+  "id": "expect-number-zero",
+  "source": "{{ 0 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"0"},1,3,null],
+    [4,"",1,5,null],
+    [-1,"",1,7,null]
+  ],
+  "expect": {"skip":1,"type":5,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"number\" (\"name\" expected).","line":1,"column":4,"message":"Unexpected token \"number\" (\"name\" expected) in \"index\" at line 1 column 4."}},
+  "deprecations": []
+},
+{
+  "id": "expect-string-zero",
+  "source": "{{ \"0\" }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"0",1,3,null],
+    [4,"",1,7,null],
+    [-1,"",1,9,null]
+  ],
+  "expect": {"skip":1,"type":5,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"string\" (\"name\" expected).","line":1,"column":4,"message":"Unexpected token \"string\" (\"name\" expected) in \"index\" at line 1 column 4."}},
+  "deprecations": []
+},
+{
+  "id": "expect-infinite",
+  "source": "{{ 1e1000 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"float":"INF","bits":"7ff0000000000000"},1,3,null],
+    [4,"",1,10,null],
+    [-1,"",1,12,null]
+  ],
+  "expect": {"skip":1,"type":5,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"number\" of value \"INF\" (\"name\" expected).","line":1,"column":4,"message":"Unexpected token \"number\" of value \"INF\" (\"name\" expected) in \"index\" at line 1 column 4."}},
+  "deprecations": []
+},
+{
+  "id": "expect-custom-message",
+  "source": "{{ x }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [-1,"",1,7,null]
+  ],
+  "expect": {"skip":1,"type":8,"value":null,"message":"Custom","error":{"class":"Twig\\Error\\SyntaxError","raw":"Custom. Unexpected token \"name\" of value \"x\" (\"operator\" expected).","line":1,"column":4,"message":"Custom. Unexpected token \"name\" of value \"x\" (\"operator\" expected) in \"index\" at line 1 column 4."}},
+  "deprecations": []
+},
+{
+  "id": "expect-falsy-message",
+  "source": "{{ x }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [-1,"",1,7,null]
+  ],
+  "expect": {"skip":1,"type":8,"value":"0","message":"0","error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"name\" of value \"x\" (\"operator\" expected).","line":1,"column":4,"message":"Unexpected token \"name\" of value \"x\" (\"operator\" expected) in \"index\" at line 1 column 4."}},
+  "deprecations": []
+},
+{
+  "id": "expect-bc-operator-value",
+  "source": "{{ 1, 2 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [9,",",1,4,null],
+    [6,{"int":"2"},1,6,null],
+    [4,"",1,8,null],
+    [-1,"",1,10,null]
+  ],
+  "expect": {"skip":2,"type":8,"value":"(","message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"punctuation\" of value \",\" (\"operator\" expected with value \"(\").","line":1,"column":5,"message":"Unexpected token \"punctuation\" of value \",\" (\"operator\" expected with value \"(\") in \"index\" at line 1 column 5."}},
+  "deprecations": []
+},
+{
+  "id": "expect-bc-operator-type",
+  "source": "{{ 1, 2 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [9,",",1,4,null],
+    [6,{"int":"2"},1,6,null],
+    [4,"",1,8,null],
+    [-1,"",1,10,null]
+  ],
+  "expect": {"skip":2,"type":8,"value":null,"message":null,"token":[9,",",1,4,null]},
+  "deprecations": []
+},
+{
+  "id": "expect-line-column",
+  "source": "{{\n\n  x }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",3,6,null],
+    [4,"",3,8,null],
+    [-1,"",3,10,null]
+  ],
+  "expect": {"skip":1,"type":6,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"name\" of value \"x\" (\"number\" expected).","line":3,"column":3,"message":"Unexpected token \"name\" of value \"x\" (\"number\" expected) in \"index\" at line 3 column 3."}},
+  "deprecations": []
+},
+{
+  "id": "expect-column-utf8",
+  "source": "{{ é x }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"é",1,3,null],
+    [5,"x",1,6,null],
+    [4,"",1,8,null],
+    [-1,"",1,10,null]
+  ],
+  "expect": {"skip":2,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"name\" of value \"x\" (\"end of print statement\" expected).","line":1,"column":7,"message":"Unexpected token \"name\" of value \"x\" (\"end of print statement\" expected) in \"index\" at line 1 column 7."}},
+  "deprecations": []
+},
+{
+  "id": "expect-verbatim-text",
+  "source": "{% verbatim %}x{% endverbatim %}",
+  "tokens": [
+    [0,"x",1,14,null],
+    [-1,"",1,32,null]
+  ],
+  "expect": {"skip":0,"type":1,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"text\" of value \"x\" (\"begin of statement block\" expected).","line":1,"column":15,"message":"Unexpected token \"text\" of value \"x\" (\"begin of statement block\" expected) in \"index\" at line 1 column 15."}},
+  "deprecations": []
+},
+{
+  "id": "expect-verbatim-text-line",
+  "source": "a\n{% verbatim %}\nx\n{% endverbatim %}",
+  "tokens": [
+    [0,"a\n",1,0,null],
+    [0,"\nx\n",4,16,null],
+    [-1,"",4,36,null]
+  ],
+  "expect": {"skip":1,"type":5,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"text\" of value \"\nx\n\" (\"name\" expected).","line":4,"column":15,"message":"Unexpected token \"text\" of value \"\nx\n\" (\"name\" expected) in \"index\" at line 4 column 15."}},
+  "deprecations": []
+},
+{
+  "id": "expect-text-value",
+  "source": "  \n x",
+  "tokens": [
+    [0,"  \n x",1,0,null],
+    [-1,"",2,5,null]
+  ],
+  "expect": {"skip":0,"type":5,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"text\" of value \"  \n x\" (\"name\" expected).","line":1,"column":1,"message":"Unexpected token \"text\" of value \"  \n x\" (\"name\" expected) in \"index\" at line 1 column 1."}},
+  "deprecations": []
+},
+{
+  "id": "expect-name-zero-template",
+  "source": "{{ x }}",
+  "name": "0",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [-1,"",1,7,null]
+  ],
+  "expect": {"skip":1,"type":6,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"name\" of value \"x\" (\"number\" expected).","line":1,"column":4,"message":"Unexpected token \"name\" of value \"x\" (\"number\" expected) at line 1 column 4."}},
+  "deprecations": []
+},
+{
+  "id": "expect-empty-template-name",
+  "source": "{{ x }}",
+  "name": "",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [-1,"",1,7,null]
+  ],
+  "expect": {"skip":1,"type":6,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"name\" of value \"x\" (\"number\" expected).","line":1,"column":4,"message":"Unexpected token \"name\" of value \"x\" (\"number\" expected) at line 1 column 4."}},
+  "deprecations": []
+},
+{
+  "id": "expect-line-directive",
+  "source": "{% line 5 %}{{ x }}\n{{ y",
+  "tokens": [
+    [2,"",5,12,null],
+    [5,"x",5,15,null],
+    [4,"",5,17,null],
+    [0,"\n",5,19,null],
+    [2,"",6,20,null],
+    [5,"y",6,23,null],
+    [-1,"",6,24,null]
+  ],
+  "expect": {"skip":6,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"end of template\" (\"end of print statement\" expected).","line":6,"column":5,"message":"Unexpected token \"end of template\" (\"end of print statement\" expected) in \"index\" at line 6 column 5."}},
+  "deprecations": []
+},
+{
+  "id": "expect-null-safe-number",
+  "source": "{{ true ?.5 : 1 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"true",1,3,null],
+    [8,"?.",1,8,null],
+    [6,{"int":"5"},1,10,null],
+    [9,":",1,12,null],
+    [6,{"int":"1"},1,14,null],
+    [4,"",1,16,null],
+    [-1,"",1,18,null]
+  ],
+  "expect": {"skip":4,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"punctuation\" of value \":\" (\"end of print statement\" expected).","line":1,"column":13,"message":"Unexpected token \"punctuation\" of value \":\" (\"end of print statement\" expected) in \"index\" at line 1 column 13."}},
+  "deprecations": []
+},
+{
+  "id": "expect-spread-number",
+  "source": "{{ 1...5 }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [8,"...",1,4,null],
+    [6,{"int":"5"},1,7,null],
+    [4,"",1,9,null],
+    [-1,"",1,11,null]
+  ],
+  "expect": {"skip":2,"type":4,"value":null,"message":null,"error":{"class":"Twig\\Error\\SyntaxError","raw":"Unexpected token \"operator\" of value \"...\" (\"end of print statement\" expected).","line":1,"column":5,"message":"Unexpected token \"operator\" of value \"...\" (\"end of print statement\" expected) in \"index\" at line 1 column 5."}},
+  "deprecations": []
+},
+{
+  "id": "expect-types-elvis",
+  "source": "{% types a ? : 'x' %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"types",1,3,null],
+    [5,"a",1,9,null],
+    [8,"? :",1,11,null],
+    [7,"x",1,15,null],
+    [3,"",1,19,null],
+    [-1,"",1,21,null]
+  ],
+  "expect": {"skip":3,"type":9,"value":":","message":"A type name must be followed by a colon (:)","error":{"class":"Twig\\Error\\SyntaxError","raw":"A type name must be followed by a colon (:). Unexpected token \"operator\" of value \"? :\" (\"punctuation\" expected with value \":\").","line":1,"column":12,"message":"A type name must be followed by a colon (:). Unexpected token \"operator\" of value \"? :\" (\"punctuation\" expected with value \":\") in \"index\" at line 1 column 12."}},
+  "deprecations": []
+},
+{
+  "id": "appendix-blocks-newlines",
+  "source": "{% if true %}\nX{% endif %}\nY{{ 1 }}\nZ",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"if",1,3,null],
+    [5,"true",1,6,null],
+    [3,"",1,11,null],
+    [0,"X",2,14,null],
+    [1,"",2,15,null],
+    [5,"endif",2,18,null],
+    [3,"",2,24,null],
+    [0,"Y",3,27,null],
+    [2,"",3,28,null],
+    [6,{"int":"1"},3,31,null],
+    [4,"",3,33,null],
+    [0,"\nZ",3,35,null],
+    [-1,"",4,37,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "appendix-block-name-minus",
+  "source": "{% block a-b %}",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"block",1,3,null],
+    [5,"a",1,9,null],
+    [8,"-",1,10,null],
+    [5,"b",1,11,null],
+    [3,"",1,13,null],
+    [-1,"",1,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "error-template-name-zero",
+  "source": "{{ $ }}",
+  "name": "0",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"$\".","line":1,"column":4,"message":"Unexpected character \"$\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "error-template-name-quote",
+  "source": "{{ $ }}",
+  "name": "dir/a \"b\".twig",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"$\".","line":1,"column":4,"message":"Unexpected character \"$\" in \"dir/a \"b\".twig\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "opt-lexertest-overriding",
+  "source": "[# comment #]{# variable #}/# if true #/true/# endif #/",
+  "options": {"tag_comment":["[#","#]"],"tag_block":["/#","#/"],"tag_variable":["{#","#}"]},
+  "tokens": [
+    [2,"",1,13,null],
+    [5,"variable",1,16,null],
+    [4,"",1,25,null],
+    [1,"",1,27,null],
+    [5,"if",1,30,null],
+    [5,"true",1,33,null],
+    [3,"",1,38,null],
+    [0,"true",1,40,null],
+    [1,"",1,44,null],
+    [5,"endif",1,47,null],
+    [3,"",1,53,null],
+    [-1,"",1,55,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-custom-doc-comment",
+  "source": "[## doc ##][##]x{# y #}",
+  "options": {"tag_comment":["[#","#]"]},
+  "tokens": [
+    [0,"x{# y #}",1,15,"doc"],
+    [-1,"",1,23,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-space-in-delimiter",
+  "source": "A{{ x }}B",
+  "options": {"tag_variable":["{ {","}}"]},
+  "tokens": [
+    [0,"A",1,0,null],
+    [0,"{{ x }}B",1,1,null],
+    [-1,"",1,9,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-space-in-delimiter-2",
+  "source": "A{ { x }}B",
+  "options": {"tag_variable":["{ {","}}"]},
+  "tokens": [
+    [0,"A{ { x }}B",1,0,null],
+    [-1,"",1,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-nel-in-delimiter",
+  "source_b64": "QXuFeyB4IH19Qnt7IHkgfX0=",
+  "options": {"tag_variable":[{"b64":"e4V7"},"}}"]},
+  "tokens": [
+    [0,{"b64":"QXuFeyB4IH19Qg=="},1,0,null],
+    [0,"{{ y }}",1,10,null],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-space-in-closer",
+  "source": "{{ x } }{{ y }}",
+  "options": {"tag_variable":["{{","} }"]},
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected \"}\".","line":1,"column":6,"message":"Unexpected \"}\" in \"index\" at line 1 column 6."},
+  "deprecations": []
+},
+{
+  "id": "opt-space-in-line-closer",
+  "source": "{% line 4 % }\n{{ x }}{% line 7 %}{{ y }}",
+  "options": {"tag_block":["{%","% }"]},
+  "tokens": [
+    [0,"\n",4,13,null],
+    [2,"",5,14,null],
+    [5,"x",5,17,null],
+    [4,"",5,19,null],
+    [1,"",5,21,null],
+    [5,"line",5,24,null],
+    [6,{"int":"7"},5,29,null],
+    [3,"",5,31,null],
+    [2,"",5,33,null],
+    [5,"y",5,36,null],
+    [4,"",5,38,null],
+    [-1,"",5,40,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-empty-trim",
+  "source": "{{ 1 }}a {{- 1 }}",
+  "options": {"whitespace_trim":""},
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [4,"",1,5,null],
+    [0,"a",1,7,null],
+    [2,"",1,9,null],
+    [8,"-",1,11,null],
+    [6,{"int":"1"},1,13,null],
+    [4,"",1,15,null],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-dollar-interpolation",
+  "source": "{{ \"a${b}c\" }}{{ \"a#{b}c\" }}",
+  "options": {"interpolation":["${","}"]},
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"#\".","line":1,"column":20,"message":"Unexpected character \"#\" in \"index\" at line 1 column 20."},
+  "deprecations": []
+},
+{
+  "id": "opt-double-brace-interpolation-end",
+  "source": "{{ \"a#{ b }}c\" }}{{ \"a#{ {x: 1} }}c\" }}",
+  "options": {"interpolation":["#{","}}"]},
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"a",1,4,null],
+    [10,"",1,5,null],
+    [5,"b",1,8,null],
+    [11,"",1,10,null],
+    [7,"c",1,12,null],
+    [4,"",1,15,null],
+    [2,"",1,17,null],
+    [7,"a",1,21,null],
+    [10,"",1,22,null],
+    [9,"{",1,25,null],
+    [5,"x",1,26,null],
+    [9,":",1,27,null],
+    [6,{"int":"1"},1,29,null],
+    [9,"}",1,30,null],
+    [11,"",1,32,null],
+    [7,"c",1,34,null],
+    [4,"",1,37,null],
+    [-1,"",1,39,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-space-interpolation",
+  "source": "{{ \"a#{ b } c\" }}",
+  "options": {"interpolation":["#{"," }"]},
+  "tokens": [
+    [2,"",1,0,null],
+    [7,"a",1,4,null],
+    [10,"",1,5,null],
+    [5,"b",1,8,null],
+    [11,"",1,10,null],
+    [7," c",1,11,null],
+    [4,"",1,15,null],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-erb-style",
+  "source": "<%= x %><% if y %>z<% endif %>",
+  "options": {"tag_block":["<%","%>"],"tag_variable":["<%=","%>"]},
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,4,null],
+    [4,"",1,6,null],
+    [1,"",1,8,null],
+    [5,"if",1,11,null],
+    [5,"y",1,14,null],
+    [3,"",1,16,null],
+    [0,"z",1,18,null],
+    [1,"",1,19,null],
+    [5,"endif",1,22,null],
+    [3,"",1,28,null],
+    [-1,"",1,30,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-same-block-and-var",
+  "source": "{% x %}",
+  "options": {"tag_variable":["{%","%}"]},
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"x",1,3,null],
+    [3,"",1,5,null],
+    [-1,"",1,7,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-line-chars",
+  "source": "{{ 1 ~}} xx\ny{{~ 2 }}ax {{~ 3 }}",
+  "options": {"whitespace_line_chars":" x"},
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [4,"",1,5,null],
+    [0,"\ny",1,11,null],
+    [2,"",2,13,null],
+    [6,{"int":"2"},2,17,null],
+    [4,"",2,19,null],
+    [0,"ax",2,21,null],
+    [2,"",2,24,null],
+    [6,{"int":"3"},2,28,null],
+    [4,"",2,30,null],
+    [-1,"",2,32,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-trim-chars",
+  "source": "a {{+ 1 +}} b {{* 2 *}} c",
+  "options": {"whitespace_trim":"+","whitespace_line_trim":"*"},
+  "tokens": [
+    [0,"a",1,0,null],
+    [2,"",1,2,null],
+    [6,{"int":"1"},1,6,null],
+    [4,"",1,8,null],
+    [0,"b",1,12,null],
+    [2,"",1,14,null],
+    [6,{"int":"2"},1,18,null],
+    [4,"",1,20,null],
+    [0,"c",1,24,null],
+    [-1,"",1,25,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-hash-comment-closer",
+  "source": "{# a #b{## c #d",
+  "options": {"tag_comment":["{#","#"]},
+  "tokens": [
+    [0,"b",1,6,null],
+    [0," c #d",1,10,null],
+    [-1,"",1,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-empty-variable-opener",
+  "source": "a{%b%}c",
+  "options": {"tag_variable":["","}}"]},
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,0,null],
+    [9,"{",1,1,null],
+    [8,"%",1,2,null],
+    [5,"b",1,3,null],
+    [8,"%",1,4,null],
+    [9,"}",1,5,null],
+    [5,"c",1,6,null],
+    [-1,"",1,7,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-long-delimiters",
+  "source": "<?twig x ?>\n<?twig- y -?>",
+  "options": {"tag_variable":["<?twig","?>"]},
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,7,null],
+    [4,"",1,9,null],
+    [2,"",2,12,null],
+    [5,"y",2,20,null],
+    [4,"",2,22,null],
+    [-1,"",2,25,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-verbatim-custom",
+  "source": "[% verbatim %]{{ x }}[%- endverbatim -%] y",
+  "options": {"tag_block":["[%","%]"]},
+  "tokens": [
+    [0,"{{ x }}",1,14,null],
+    [0,"y",1,41,null],
+    [-1,"",1,42,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ops-lexertest-overlapping",
+  "source": "{{ custom not 1 }}{{ custom 1 }}{{ shared 1 }}{{ not false }}{{ 1 not in [2] }}",
+  "operators": ["not","...","-","+","(","custom","shared","custom not","shared","?:","? :","??","or","xor","and","b-or","b-xor","b-and","==","!=","<=>","<",">",">=","<=","not in","in","matches","starts with","ends with","has some","has every","===","!==","..","+","-","~","*","/","//","%","**","?","=","is","is not","|","(",".","?.","[","=>"],
+  "tokens": [
+    [2,"",1,0,null],
+    [8,"custom not",1,3,null],
+    [6,{"int":"1"},1,14,null],
+    [4,"",1,16,null],
+    [2,"",1,18,null],
+    [8,"custom",1,21,null],
+    [6,{"int":"1"},1,28,null],
+    [4,"",1,30,null],
+    [2,"",1,32,null],
+    [8,"shared",1,35,null],
+    [6,{"int":"1"},1,42,null],
+    [4,"",1,44,null],
+    [2,"",1,46,null],
+    [8,"not",1,49,null],
+    [5,"false",1,53,null],
+    [4,"",1,59,null],
+    [2,"",1,61,null],
+    [6,{"int":"1"},1,64,null],
+    [8,"not in",1,66,null],
+    [8,"[",1,73,null],
+    [6,{"int":"2"},1,74,null],
+    [9,"]",1,75,null],
+    [4,"",1,77,null],
+    [-1,"",1,79,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ops-non-ascii",
+  "source": "{{ нет a }}{{ aнет }}{{ a ≠ b }}",
+  "operators": ["not","...","-","+","(","нет","?:","? :","??","or","xor","and","b-or","b-xor","b-and","==","!=","<=>","<",">",">=","<=","not in","in","matches","starts with","ends with","has some","has every","===","!==","..","+","-","~","*","/","//","%","**","?","=","is","is not","|","(",".","?.","[","=>","≠"],
+  "tokens": [
+    [2,"",1,0,null],
+    [8,"нет",1,3,null],
+    [5,"a",1,10,null],
+    [4,"",1,12,null],
+    [2,"",1,14,null],
+    [5,"aнет",1,17,null],
+    [4,"",1,25,null],
+    [2,"",1,27,null],
+    [5,"a",1,30,null],
+    [8,"≠",1,32,null],
+    [5,"b",1,36,null],
+    [4,"",1,38,null],
+    [-1,"",1,40,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ops-letter-digit",
+  "source": "{{ a x2 b }}{{ a x2(b) }}{{ x2 }}",
+  "operators": ["not","...","-","+","(","?:","? :","??","or","xor","and","b-or","b-xor","b-and","==","!=","<=>","<",">",">=","<=","not in","in","matches","starts with","ends with","has some","has every","===","!==","..","+","-","~","*","/","//","%","**","?","=","is","is not","|","(",".","?.","[","=>","x2"],
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"x2",1,5,null],
+    [5,"b",1,8,null],
+    [4,"",1,10,null],
+    [2,"",1,12,null],
+    [5,"a",1,15,null],
+    [8,"x2",1,17,null],
+    [8,"(",1,19,null],
+    [5,"b",1,20,null],
+    [9,")",1,21,null],
+    [4,"",1,23,null],
+    [2,"",1,25,null],
+    [8,"x2",1,28,null],
+    [4,"",1,31,null],
+    [-1,"",1,33,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ops-spaced-symbols",
+  "source": "{{ a <  > b }}{{ a <\n> b }}{{ a <> b }}",
+  "operators": ["not","...","-","+","(","?:","? :","??","or","xor","and","b-or","b-xor","b-and","==","!=","<=>","<",">",">=","<=","not in","in","matches","starts with","ends with","has some","has every","===","!==","..","+","-","~","*","/","//","%","**","?","=","is","is not","|","(",".","?.","[","=>","< >"],
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"< >",1,5,null],
+    [5,"b",1,10,null],
+    [4,"",1,12,null],
+    [2,"",1,14,null],
+    [5,"a",1,17,null],
+    [8,"< >",1,19,null],
+    [5,"b",2,23,null],
+    [4,"",2,25,null],
+    [2,"",2,27,null],
+    [5,"a",2,30,null],
+    [8,"<",2,32,null],
+    [8,">",2,33,null],
+    [5,"b",2,35,null],
+    [4,"",2,37,null],
+    [-1,"",2,39,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-cr-dot-and",
+  "source": "{{ x\r.and }}{{ x\r|and }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [8,".",2,5,null],
+    [5,"and",2,6,null],
+    [4,"",2,10,null],
+    [2,"",2,12,null],
+    [5,"x",2,15,null],
+    [8,"|",3,17,null],
+    [5,"and",3,18,null],
+    [4,"",3,22,null],
+    [-1,"",3,24,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-dot-tab-and",
+  "source": "{{ x.\tand }}{{ x|\fand }}{{ x.\u000band }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [8,".",1,4,null],
+    [5,"and",1,6,null],
+    [4,"",1,10,null],
+    [2,"",1,12,null],
+    [5,"x",1,15,null],
+    [8,"|",1,16,null],
+    [5,"and",1,18,null],
+    [4,"",1,22,null],
+    [2,"",1,24,null],
+    [5,"x",1,27,null],
+    [8,".",1,28,null],
+    [5,"and",1,30,null],
+    [4,"",1,34,null],
+    [-1,"",1,36,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-dot-newline-twice-and",
+  "source": "{{ x.\n\nand }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [8,".",1,4,null],
+    [8,"and",3,7,null],
+    [4,"",3,11,null],
+    [-1,"",3,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-not-vt-ff-in",
+  "source": "{{ a not\u000bin b }}{{ a not\fin b }}{{ a not \r\n in b }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"a",1,3,null],
+    [8,"not in",1,5,null],
+    [5,"b",1,12,null],
+    [4,"",1,14,null],
+    [2,"",1,16,null],
+    [5,"a",1,19,null],
+    [8,"not in",1,21,null],
+    [5,"b",1,28,null],
+    [4,"",1,30,null],
+    [2,"",1,32,null],
+    [5,"a",1,35,null],
+    [8,"not in",1,37,null],
+    [5,"b",2,47,null],
+    [4,"",2,49,null],
+    [-1,"",2,51,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-lookahead-vt-ff",
+  "source": "{{ not\u000bx }}{{ not\fx }}{{ not\rx }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [8,"not",1,3,null],
+    [5,"x",1,7,null],
+    [4,"",1,9,null],
+    [2,"",1,11,null],
+    [8,"not",1,14,null],
+    [5,"x",1,18,null],
+    [4,"",1,20,null],
+    [2,"",1,22,null],
+    [8,"not",1,25,null],
+    [5,"x",2,29,null],
+    [4,"",2,31,null],
+    [-1,"",2,33,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-lookahead-close-paren",
+  "source": "{{ (not) }}",
+  "tokens": [
+    [2,"",1,0,null],
+    [8,"(",1,3,null],
+    [8,"not",1,4,null],
+    [9,")",1,7,null],
+    [4,"",1,9,null],
+    [-1,"",1,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "op-lookahead-nul",
+  "source": "{{ a and\u0000 }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"\u0000\".","line":1,"column":9,"message":"Unexpected character \"\u0000\" in \"index\" at line 1 column 9."},
+  "deprecations": []
+},
+{
+  "id": "opt-operator-at-start",
+  "source": "<not x><in x><|in x><.in x>",
+  "options": {"tag_variable":["<",">"]},
+  "tokens": [
+    [2,"",1,0,null],
+    [8,"not",1,1,null],
+    [5,"x",1,5,null],
+    [4,"",1,6,null],
+    [2,"",1,7,null],
+    [8,"in",1,8,null],
+    [5,"x",1,11,null],
+    [4,"",1,12,null],
+    [2,"",1,13,null],
+    [8,"|",1,14,null],
+    [5,"in",1,15,null],
+    [5,"x",1,18,null],
+    [4,"",1,19,null],
+    [2,"",1,20,null],
+    [8,".",1,21,null],
+    [5,"in",1,22,null],
+    [5,"x",1,25,null],
+    [4,"",1,26,null],
+    [-1,"",1,27,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "opt-numeric-delimiters",
+  "source": "a1.0 x %}b1 y %}c",
+  "options": {"tag_block":["1","%}"],"tag_variable":["1.0","}}"]},
+  "tokens": [
+    [0,"a",1,0,null],
+    [1,"",1,1,null],
+    [5,"x",1,5,null],
+    [3,"",1,7,null],
+    [0,"b",1,9,null],
+    [1,"",1,10,null],
+    [5,"y",1,12,null],
+    [3,"",1,14,null],
+    [0,"c",1,16,null],
+    [-1,"",1,17,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-rtrim-set",
+  "source": "a \t\n\r\u0000\u000b{{- 1 }}",
+  "tokens": [
+    [0,"a",1,0,null],
+    [2,"",3,7,null],
+    [6,{"int":"1"},3,11,null],
+    [4,"",3,13,null],
+    [-1,"",3,15,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-rtrim-form-feed",
+  "source": "a\f{{- 1 }}",
+  "tokens": [
+    [0,"a\f",1,0,null],
+    [2,"",1,2,null],
+    [6,{"int":"1"},1,6,null],
+    [4,"",1,8,null],
+    [-1,"",1,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-trim-block-open",
+  "source": "a \n{%- x %}",
+  "tokens": [
+    [0,"a",1,0,null],
+    [1,"",2,3,null],
+    [5,"x",2,7,null],
+    [3,"",2,9,null],
+    [-1,"",2,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-trim-comment-open",
+  "source": "a \n{#- c #}",
+  "tokens": [
+    [0,"a",1,0,null],
+    [-1,"",2,11,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-trim-doc-open",
+  "source": "a \n{##- d ##}",
+  "tokens": [
+    [0,"a",1,0,null],
+    [-1,"",2,13,"d"]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-line-trim-set",
+  "source": "a\n \t\u0000\u000b{{~ 1 }}",
+  "tokens": [
+    [0,"a\n",1,0,null],
+    [2,"",2,6,null],
+    [6,{"int":"1"},2,10,null],
+    [4,"",2,12,null],
+    [-1,"",2,14,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-line-trim-keeps-crlf",
+  "source": "a \r\n{{~ 1 }}",
+  "tokens": [
+    [0,"a \n",1,0,null],
+    [2,"",2,4,null],
+    [6,{"int":"1"},2,8,null],
+    [4,"",2,10,null],
+    [-1,"",2,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-line-trim-block-open",
+  "source": "a\n \t{%~ x %}",
+  "tokens": [
+    [0,"a\n",1,0,null],
+    [1,"",2,4,null],
+    [5,"x",2,8,null],
+    [3,"",2,10,null],
+    [-1,"",2,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-line-trim-comment-open",
+  "source": "a\n \t{#~ c #}",
+  "tokens": [
+    [0,"a\n",1,0,null],
+    [-1,"",2,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-trim-close-set",
+  "source": "{{ 1 -}} \t\n\u000b\f\r b",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [4,"",1,5,null],
+    [0,"b",3,15,null],
+    [-1,"",3,16,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-trim-close-nul",
+  "source": "{{ 1 -}}\u0000b",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [4,"",1,5,null],
+    [0,"\u0000b",1,8,null],
+    [-1,"",1,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-trim-block-close",
+  "source": "{% x -%}\n\n b",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"x",1,3,null],
+    [3,"",1,5,null],
+    [0,"b",3,11,null],
+    [-1,"",3,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-trim-comment-close",
+  "source": "{# c -#}\n\n b",
+  "tokens": [
+    [0,"b",3,11,null],
+    [-1,"",3,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-trim-doc-close",
+  "source": "{## d -##}\n\n b",
+  "tokens": [
+    [0,"b",3,13,"d"],
+    [-1,"",3,14,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-line-trim-close-set",
+  "source": "{{ 1 ~}} \t\u0000\u000b\nb",
+  "tokens": [
+    [2,"",1,0,null],
+    [6,{"int":"1"},1,3,null],
+    [4,"",1,5,null],
+    [0,"\nb",1,12,null],
+    [-1,"",2,14,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-line-trim-block-close",
+  "source": "{% x ~%}  \n b",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"x",1,3,null],
+    [3,"",1,5,null],
+    [0,"\n b",1,10,null],
+    [-1,"",2,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-line-trim-comment-close",
+  "source": "{# c ~#}\t \nb",
+  "tokens": [
+    [0,"\nb",1,10,null],
+    [-1,"",2,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-line-trim-doc-close",
+  "source": "{## d ~##}  b",
+  "tokens": [
+    [0,"b",1,12,"d"],
+    [-1,"",1,13,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-block-crlf",
+  "source": "{% x %}\r\n\r\nb",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"x",1,3,null],
+    [3,"",1,5,null],
+    [0,"\nb",2,9,null],
+    [-1,"",3,12,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-block-cr",
+  "source": "{% x %}\r\rb",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"x",1,3,null],
+    [3,"",1,5,null],
+    [0,"\nb",2,8,null],
+    [-1,"",3,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-comment-newline",
+  "source": "{# c #}\n\nb",
+  "tokens": [
+    [0,"\nb",2,8,null],
+    [-1,"",3,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-print-keeps-newline",
+  "source": "{{ x }}\nb",
+  "tokens": [
+    [2,"",1,0,null],
+    [5,"x",1,3,null],
+    [4,"",1,5,null],
+    [0,"\nb",1,7,null],
+    [-1,"",2,9,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-verbatim-plain",
+  "source": "{% verbatim %}\nx{% endverbatim %}\nb",
+  "tokens": [
+    [0,"\nx",2,14,null],
+    [0,"\nb",2,33,null],
+    [-1,"",3,35,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-line-plain",
+  "source": "{% line 5 %}\nb",
+  "tokens": [
+    [0,"\nb",5,12,null],
+    [-1,"",6,14,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-ws-empty-comment-trims",
+  "source": "a {#--#} b",
+  "tokens": [
+    [0,"a",1,0,null],
+    [0,"b",1,9,null],
+    [-1,"",1,10,null]
+  ],
+  "deprecations": []
+},
+{
+  "id": "ref-err-unclosed-bracket",
+  "source": "{{ [1,\n2",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"[\".","line":1,"column":null,"message":"Unclosed \"[\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "ref-err-unclosed-paren",
+  "source": "{{ (\n1",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"(\".","line":1,"column":null,"message":"Unclosed \"(\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "ref-err-unclosed-brace",
+  "source": "{{ {a:\n1",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"{\".","line":1,"column":null,"message":"Unclosed \"{\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "ref-err-unclosed-string-line",
+  "source": "\n{{ \"abc }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"\"\".","line":2,"column":null,"message":"Unclosed \"\"\" in \"index\" at line 2."},
+  "deprecations": []
+},
+{
+  "id": "ref-err-unclosed-interpolation",
+  "source": "{{ \"#{ x",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"#{\".","line":1,"column":null,"message":"Unclosed \"#{\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "ref-err-unclosed-block",
+  "source": "\n{%\n\nx\n",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"block\".","line":2,"column":null,"message":"Unclosed \"block\" in \"index\" at line 2."},
+  "deprecations": []
+},
+{
+  "id": "ref-err-unclosed-variable",
+  "source": "{{\nx\n",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"variable\".","line":1,"column":null,"message":"Unclosed \"variable\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "ref-err-bang",
+  "source": "{{ ! }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected character \"!\".","line":1,"column":4,"message":"Unexpected character \"!\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "ref-err-verbatim-line",
+  "source": "{%\nverbatim\n%}abc",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected end of file: Unclosed \"verbatim\" block.","line":3,"column":null,"message":"Unexpected end of file: Unclosed \"verbatim\" block in \"index\" at line 3."},
+  "deprecations": []
+},
+{
+  "id": "ref-err-comment-line",
+  "source": "a\n\n{# x\n",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed comment.","line":3,"column":null,"message":"Unclosed comment in \"index\" at line 3."},
+  "deprecations": []
+},
+{
+  "id": "ref-err-unexpected-bracket",
+  "source": "{{ ] }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unexpected \"]\".","line":1,"column":4,"message":"Unexpected \"]\" in \"index\" at line 1 column 4."},
+  "deprecations": []
+},
+{
+  "id": "ref-err-mismatch",
+  "source": "{{ [1) }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"[\".","line":1,"column":null,"message":"Unclosed \"[\" in \"index\" at line 1."},
+  "deprecations": []
+},
+{
+  "id": "ref-err-mismatch-line",
+  "source": "{{ (\n[1\n) }}",
+  "error": {"class":"Twig\\Error\\SyntaxError","raw":"Unclosed \"[\".","line":2,"column":null,"message":"Unclosed \"[\" in \"index\" at line 2."},
+  "deprecations": []
+},
+{
+  "id": "ref-unclosed-if",
+  "source": "{% if x %}\n\nabc",
+  "tokens": [
+    [1,"",1,0,null],
+    [5,"if",1,3,null],
+    [5,"x",1,6,null],
+    [3,"",1,8,null],
+    [0,"\nabc",2,11,null],
+    [-1,"",3,15,null]
+  ],
+  "deprecations": []
+}
+]

@@ -1,0 +1,318 @@
+[
+    {
+        "id": "from-call",
+        "source": "{% from _self import m %}{{ m(1, a = 2) }}{{ m is defined }}{{ m() is defined }}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ImportNode @1 #from\n        [expr] Expression\\Variable\\ContextVariable @1\n          .name = \"_self\"\n          .ignore_strict_check = false\n          .always_defined = false\n        [var] Expression\\Variable\\AssignMacroVariable @1\n          .global = true\n          [var] Expression\\Variable\\MacroVariable @1\n            .name = NULL\n      [1] PrintNode @1\n        [expr] Expression\\MacroReferenceExpression @1\n          .name = \"m\"\n          .(call_parentheses) = true\n          [template] Expression\\Variable\\MacroVariable @1\n            .name = NULL\n          [arguments] Expression\\ArrayExpression @1\n            [0] Expression\\Variable\\LocalVariable @1\n              .name = 0\n            [1] Expression\\ConstantExpression @1\n              .value = 1\n            [2] Expression\\ConstantExpression @1\n              .value = \"a\"\n            [3] Expression\\ConstantExpression @1\n              .value = 2\n      [2] PrintNode @1\n        [expr] Expression\\Test\\DefinedTest @1\n          .name = \"defined\"\n          .type = \"test\"\n          .twig_callable = Twig\\TwigTest(defined)\n          [node] Expression\\MacroReferenceExpression @1\n            .name = \"m\"\n            .(defined_test) = true\n            .(call_parentheses) = false\n            [template] Expression\\Variable\\MacroVariable @1\n              .name = NULL\n            [arguments] Expression\\ArrayExpression @1\n      [3] PrintNode @1\n        [expr] Expression\\Test\\DefinedTest @1\n          .name = \"defined\"\n          .type = \"test\"\n          .twig_callable = Twig\\TwigTest(defined)\n          [node] Expression\\MacroReferenceExpression @1\n            .name = \"m\"\n            .(defined_test) = true\n            .(call_parentheses) = true\n            [template] Expression\\Variable\\MacroVariable @1\n              .name = NULL\n            [arguments] Expression\\ArrayExpression @1\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": [
+            "Since twig/twig 3.29: Using parentheses when testing a macro with the \"defined\" test is deprecated and will throw a SyntaxError in Twig 4.0; remove the parentheses after the macro name in \"index\" at line 1."
+        ]
+    },
+    {
+        "id": "from-alias",
+        "source": "{% from 'x' import m as n, k %}{{ n(context: 1) }}{{ k }}{{ k() }}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ImportNode @1 #from\n        [expr] Expression\\ConstantExpression @1\n          .value = \"x\"\n        [var] Expression\\Variable\\AssignMacroVariable @1\n          .global = true\n          [var] Expression\\Variable\\MacroVariable @1\n            .name = NULL\n      [1] PrintNode @1\n        [expr] Expression\\MacroReferenceExpression @1\n          .name = \"m\"\n          .(call_parentheses) = true\n          [template] Expression\\Variable\\MacroVariable @1\n            .name = NULL\n          [arguments] Expression\\ArrayExpression @1\n            [0] Expression\\ConstantExpression @1\n              .value = \"context\"\n            [1] Expression\\ConstantExpression @1\n              .value = 1\n      [2] PrintNode @1\n        [expr] Expression\\Variable\\ContextVariable @1\n          .name = \"k\"\n          .ignore_strict_check = false\n          .always_defined = false\n      [3] PrintNode @1\n        [expr] Expression\\MacroReferenceExpression @1\n          .name = \"k\"\n          .(call_parentheses) = true\n          [template] Expression\\Variable\\MacroVariable @1\n            .name = NULL\n          [arguments] Expression\\ArrayExpression @1\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "from-same-macro-twice",
+        "source": "{% from _self import m as n, m as o %}{{ o() }}{{ n() }}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unknown \"n\" function. Did you mean \"min\", \"enum\", \"range\", \"parent\", \"random\", \"include\", \"constant\", \"enum_cases\", \"include_only\" in \"index\" at line 1?"
+        },
+        "deprecations": []
+    },
+    {
+        "id": "from-reserved-alias",
+        "source": "{% from _self import m as true %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "You cannot assign a value to \"true\" in \"index\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "from-shadows-function",
+        "source": "{% from _self import max %}{{ max(1, 2) }}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ImportNode @1 #from\n        [expr] Expression\\Variable\\ContextVariable @1\n          .name = \"_self\"\n          .ignore_strict_check = false\n          .always_defined = false\n        [var] Expression\\Variable\\AssignMacroVariable @1\n          .global = true\n          [var] Expression\\Variable\\MacroVariable @1\n            .name = NULL\n      [1] PrintNode @1\n        [expr] Expression\\MacroReferenceExpression @1\n          .name = \"max\"\n          .(call_parentheses) = true\n          [template] Expression\\Variable\\MacroVariable @1\n            .name = NULL\n          [arguments] Expression\\ArrayExpression @1\n            [0] Expression\\Variable\\LocalVariable @1\n              .name = 0\n            [1] Expression\\ConstantExpression @1\n              .value = 1\n            [2] Expression\\Variable\\LocalVariable @1\n              .name = 1\n            [3] Expression\\ConstantExpression @1\n              .value = 2\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "from-lines",
+        "source": "{% from _self\nimport m %}\n{{ m\n(\n1\n) }}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ImportNode @1 #from\n        [expr] Expression\\Variable\\ContextVariable @1\n          .name = \"_self\"\n          .ignore_strict_check = false\n          .always_defined = false\n        [var] Expression\\Variable\\AssignMacroVariable @1\n          .global = true\n          [var] Expression\\Variable\\MacroVariable @1\n            .name = NULL\n      [1] PrintNode @3\n        [expr] Expression\\MacroReferenceExpression @4\n          .name = \"m\"\n          .(call_parentheses) = true\n          [template] Expression\\Variable\\MacroVariable @1\n            .name = NULL\n          [arguments] Expression\\ArrayExpression @4\n            [0] Expression\\Variable\\LocalVariable @4\n              .name = 0\n            [1] Expression\\ConstantExpression @5\n              .value = 1\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "from-filter-not-macro",
+        "source": "{% from _self import m %}{{ 1|m }}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unknown \"m\" filter. Did you mean \"map\", \"trim\", \"merge\", \"format\", \"column\", \"date_modify\", \"number_format\" in \"index\" at line 1?"
+        },
+        "deprecations": []
+    },
+    {
+        "id": "from-dot-not-macro",
+        "source": "{% from _self import m %}{{ m.a() }}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ImportNode @1 #from\n        [expr] Expression\\Variable\\ContextVariable @1\n          .name = \"_self\"\n          .ignore_strict_check = false\n          .always_defined = false\n        [var] Expression\\Variable\\AssignMacroVariable @1\n          .global = true\n          [var] Expression\\Variable\\MacroVariable @1\n            .name = NULL\n      [1] PrintNode @1\n        [expr] Expression\\GetAttrExpression @1\n          .type = \"method\"\n          .ignore_strict_check = false\n          .optimizable = true\n          .null_safe = false\n          .is_short_circuited = false\n          .var_name = NULL\n          [node] Expression\\Variable\\ContextVariable @1\n            .name = \"m\"\n            .ignore_strict_check = false\n            .always_defined = false\n          [attribute] Expression\\ConstantExpression @1\n            .value = \"a\"\n          [arguments] Expression\\ArrayExpression @1\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "import-call",
+        "source": "{% import _self as forms %}{{ forms.input(1, b = 2) }}{{ forms.input }}{{ forms.(n)() }}{{ forms.0() }}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ImportNode @1 #import\n        [expr] Expression\\Variable\\ContextVariable @1\n          .name = \"_self\"\n          .ignore_strict_check = false\n          .always_defined = false\n        [var] Expression\\Variable\\AssignMacroVariable @1\n          .global = true\n          [var] Expression\\Variable\\MacroVariable @1\n            .name = \"forms\"\n      [1] PrintNode @1\n        [expr] Expression\\MacroReferenceExpression @1\n          .name = \"input\"\n          .(call_parentheses) = true\n          [template] Expression\\Variable\\MacroVariable @1\n            .name = \"forms\"\n          [arguments] Expression\\ArrayExpression @1\n            [0] Expression\\Variable\\LocalVariable @1\n              .name = 0\n            [1] Expression\\ConstantExpression @1\n              .value = 1\n            [2] Expression\\ConstantExpression @1\n              .value = \"b\"\n            [3] Expression\\ConstantExpression @1\n              .value = 2\n      [2] PrintNode @1\n        [expr] Expression\\MacroReferenceExpression @1\n          .name = \"input\"\n          .(call_parentheses) = false\n          [template] Expression\\Variable\\MacroVariable @1\n            .name = \"forms\"\n          [arguments] Expression\\ArrayExpression @1\n      [3] PrintNode @1\n        [expr] Expression\\MacroReferenceExpression @1\n          .name = NULL\n          .(call_parentheses) = true\n          [template] Expression\\Variable\\MacroVariable @1\n            .name = \"forms\"\n          [arguments] Expression\\ArrayExpression @1\n          [name] Expression\\Variable\\ContextVariable @1\n            .name = \"n\"\n            .ignore_strict_check = false\n            .always_defined = false\n      [4] PrintNode @1\n        [expr] Expression\\MacroReferenceExpression @1\n          .name = \"0\"\n          .(call_parentheses) = true\n          [template] Expression\\Variable\\MacroVariable @1\n            .name = \"forms\"\n          [arguments] Expression\\ArrayExpression @1\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": [
+            "Since twig/twig 3.29: Omitting parentheses when calling the macro \"input\" is deprecated and will throw a SyntaxError in Twig 4.0; add parentheses after the macro name in \"index\" at line 1."
+        ]
+    },
+    {
+        "id": "import-reserved",
+        "source": "{% import _self as context %}{{ context.m() }}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ImportNode @1 #import\n        [expr] Expression\\Variable\\ContextVariable @1\n          .name = \"_self\"\n          .ignore_strict_check = false\n          .always_defined = false\n        [var] Expression\\Variable\\AssignMacroVariable @1\n          .global = true\n          [var] Expression\\Variable\\MacroVariable @1\n            .name = \"͜context\"\n      [1] PrintNode @1\n        [expr] Expression\\MacroReferenceExpression @1\n          .name = \"m\"\n          .(call_parentheses) = true\n          [template] Expression\\Variable\\MacroVariable @1\n            .name = \"͜context\"\n          [arguments] Expression\\ArrayExpression @1\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "import-reserved-true",
+        "source": "{% import _self as true %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "You cannot assign a value to \"true\" in \"index\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "import-method-named-args",
+        "source": "{% import _self as f %}{{ f.m(True: 1, context = 2) }}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ImportNode @1 #import\n        [expr] Expression\\Variable\\ContextVariable @1\n          .name = \"_self\"\n          .ignore_strict_check = false\n          .always_defined = false\n        [var] Expression\\Variable\\AssignMacroVariable @1\n          .global = true\n          [var] Expression\\Variable\\MacroVariable @1\n            .name = \"f\"\n      [1] PrintNode @1\n        [expr] Expression\\MacroReferenceExpression @1\n          .name = \"m\"\n          .(call_parentheses) = true\n          [template] Expression\\Variable\\MacroVariable @1\n            .name = \"f\"\n          [arguments] Expression\\ArrayExpression @1\n            [0] Expression\\ConstantExpression @1\n              .value = \"True\"\n            [1] Expression\\ConstantExpression @1\n              .value = 1\n            [2] Expression\\ConstantExpression @1\n              .value = \"context\"\n            [3] Expression\\ConstantExpression @1\n              .value = 2\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "import-shadowed-variable",
+        "source": "{% import _self as a %}{{ a.b }}{{ a['b'] }}{{ a?.b }}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ImportNode @1 #import\n        [expr] Expression\\Variable\\ContextVariable @1\n          .name = \"_self\"\n          .ignore_strict_check = false\n          .always_defined = false\n        [var] Expression\\Variable\\AssignMacroVariable @1\n          .global = true\n          [var] Expression\\Variable\\MacroVariable @1\n            .name = \"a\"\n      [1] PrintNode @1\n        [expr] Expression\\MacroReferenceExpression @1\n          .name = \"b\"\n          .(call_parentheses) = false\n          [template] Expression\\Variable\\MacroVariable @1\n            .name = \"a\"\n          [arguments] Expression\\ArrayExpression @1\n      [2] PrintNode @1\n        [expr] Expression\\GetAttrExpression @1\n          .type = \"array\"\n          .ignore_strict_check = false\n          .optimizable = true\n          .null_safe = false\n          .is_short_circuited = false\n          .var_name = NULL\n          [node] Expression\\Variable\\ContextVariable @1\n            .name = \"a\"\n            .ignore_strict_check = false\n            .always_defined = false\n          [attribute] Expression\\ConstantExpression @1\n            .value = \"b\"\n          [arguments] Expression\\ArrayExpression @1\n      [3] PrintNode @1\n        [expr] Expression\\MacroReferenceExpression @1\n          .name = \"b\"\n          .(call_parentheses) = false\n          [template] Expression\\Variable\\MacroVariable @1\n            .name = \"a\"\n          [arguments] Expression\\ArrayExpression @1\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": [
+            "Since twig/twig 3.29: Omitting parentheses when calling the macro \"b\" is deprecated and will throw a SyntaxError in Twig 4.0; add parentheses after the macro name in \"index\" at line 1."
+        ]
+    },
+    {
+        "id": "import-defined",
+        "source": "{% import _self as f %}{{ f.m is defined }}{{ f.m() is defined }}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ImportNode @1 #import\n        [expr] Expression\\Variable\\ContextVariable @1\n          .name = \"_self\"\n          .ignore_strict_check = false\n          .always_defined = false\n        [var] Expression\\Variable\\AssignMacroVariable @1\n          .global = true\n          [var] Expression\\Variable\\MacroVariable @1\n            .name = \"f\"\n      [1] PrintNode @1\n        [expr] Expression\\Test\\DefinedTest @1\n          .name = \"defined\"\n          .type = \"test\"\n          .twig_callable = Twig\\TwigTest(defined)\n          [node] Expression\\MacroReferenceExpression @1\n            .name = \"m\"\n            .(defined_test) = true\n            .(call_parentheses) = false\n            [template] Expression\\Variable\\MacroVariable @1\n              .name = \"f\"\n            [arguments] Expression\\ArrayExpression @1\n      [2] PrintNode @1\n        [expr] Expression\\Test\\DefinedTest @1\n          .name = \"defined\"\n          .type = \"test\"\n          .twig_callable = Twig\\TwigTest(defined)\n          [node] Expression\\MacroReferenceExpression @1\n            .name = \"m\"\n            .(defined_test) = true\n            .(call_parentheses) = true\n            [template] Expression\\Variable\\MacroVariable @1\n              .name = \"f\"\n            [arguments] Expression\\ArrayExpression @1\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": [
+            "Since twig/twig 3.29: Using parentheses when testing a macro with the \"defined\" test is deprecated and will throw a SyntaxError in Twig 4.0; remove the parentheses after the macro name in \"index\" at line 1."
+        ]
+    },
+    {
+        "id": "import-in-block-not-global",
+        "source": "{% block b %}{% import _self as f %}{{ f.m() }}{% endblock %}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] BlockReferenceNode @1 #block\n      .name = \"b\"\n  [blocks] Nodes @0\n    [b] BodyNode @1\n      [0] BlockNode @1\n        .name = \"b\"\n        [body] Nodes @1\n          [0] ImportNode @1 #import\n            [expr] Expression\\Variable\\ContextVariable @1\n              .name = \"_self\"\n              .ignore_strict_check = false\n              .always_defined = false\n            [var] Expression\\Variable\\AssignMacroVariable @1\n              .global = false\n              [var] Expression\\Variable\\MacroVariable @1\n                .name = \"f\"\n          [1] PrintNode @1\n            [expr] Expression\\MacroReferenceExpression @1\n              .name = \"m\"\n              .(call_parentheses) = true\n              [template] Expression\\Variable\\MacroVariable @1\n                .name = \"f\"\n              [arguments] Expression\\ArrayExpression @1\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "from-in-block-not-global",
+        "source": "{% block b %}{% from _self import m %}{{ m() }}{% endblock %}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] BlockReferenceNode @1 #block\n      .name = \"b\"\n  [blocks] Nodes @0\n    [b] BodyNode @1\n      [0] BlockNode @1\n        .name = \"b\"\n        [body] Nodes @1\n          [0] ImportNode @1 #from\n            [expr] Expression\\Variable\\ContextVariable @1\n              .name = \"_self\"\n              .ignore_strict_check = false\n              .always_defined = false\n            [var] Expression\\Variable\\AssignMacroVariable @1\n              .global = false\n              [var] Expression\\Variable\\MacroVariable @1\n                .name = NULL\n          [1] PrintNode @1\n            [expr] Expression\\MacroReferenceExpression @1\n              .name = \"m\"\n              .(call_parentheses) = true\n              [template] Expression\\Variable\\MacroVariable @1\n                .name = NULL\n              [arguments] Expression\\ArrayExpression @1\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "import-scope-inner-block",
+        "source": "{% block a %}{% from _self import n %}{{ n() }}{% block b %}{{ n() }}{% endblock %}{% endblock %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unknown \"n\" function. Did you mean \"min\", \"enum\", \"range\", \"parent\", \"random\", \"include\", \"constant\", \"enum_cases\", \"include_only\" in \"index\" at line 1?"
+        },
+        "deprecations": []
+    },
+    {
+        "id": "import-scope-main-visible",
+        "source": "{% from _self import n %}{% block a %}{% block b %}{{ n() }}{% endblock %}{% endblock %}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ImportNode @1 #from\n        [expr] Expression\\Variable\\ContextVariable @1\n          .name = \"_self\"\n          .ignore_strict_check = false\n          .always_defined = false\n        [var] Expression\\Variable\\AssignMacroVariable @1\n          .global = true\n          [var] Expression\\Variable\\MacroVariable @1\n            .name = NULL\n      [1] BlockReferenceNode @1 #block\n        .name = \"a\"\n  [blocks] Nodes @0\n    [a] BodyNode @1\n      [0] BlockNode @1\n        .name = \"a\"\n        [body] BlockReferenceNode @1 #block\n          .name = \"b\"\n    [b] BodyNode @1\n      [0] BlockNode @1\n        .name = \"b\"\n        [body] PrintNode @1\n          [expr] Expression\\MacroReferenceExpression @1\n            .name = \"n\"\n            .(call_parentheses) = true\n            [template] Expression\\Variable\\MacroVariable @1\n              .name = NULL\n            [arguments] Expression\\ArrayExpression @1\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "import-scope-ends-with-block",
+        "source": "{% block a %}{% from _self import n %}{% endblock %}{{ n() }}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unknown \"n\" function. Did you mean \"min\", \"enum\", \"range\", \"parent\", \"random\", \"include\", \"constant\", \"enum_cases\", \"include_only\" in \"index\" at line 1?"
+        },
+        "deprecations": []
+    },
+    {
+        "id": "parent-in-block",
+        "source": "{% extends 'x' %}{% block b %}{{ parent() }}{% endblock %}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ConfigNode @1 #extends\n  [blocks] Nodes @0\n    [b] BodyNode @1\n      [0] BlockNode @1\n        .name = \"b\"\n        [body] PrintNode @1\n          [expr] Expression\\ParentExpression @1\n            .output = false\n            .name = \"b\"\n            .sandboxed_function_name = \"parent\"\n            .sandboxed_function = Twig\\TwigFunction(parent)\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [parent] Expression\\ConstantExpression @1\n    .value = \"x\"\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "parent-before-extends",
+        "source": "{% block b %}{{ parent() }}{% endblock %}{% extends 'x' %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Calling the \"parent\" function on a template that does not call \"extends\" or \"use\" is forbidden in \"index\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "parent-no-extends",
+        "source": "{% block b %}{{ parent() }}{% endblock %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Calling the \"parent\" function on a template that does not call \"extends\" or \"use\" is forbidden in \"index\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "parent-outside-block",
+        "source": "{% extends 'x' %}{{ parent() }}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Calling the \"parent\" function outside of a block is forbidden in \"index\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "parent-nested-block",
+        "source": "{% extends 'x' %}{% block a %}{% block b %}{{ parent() }}{% endblock %}{% endblock %}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ConfigNode @1 #extends\n  [blocks] Nodes @0\n    [a] BodyNode @1\n      [0] BlockNode @1\n        .name = \"a\"\n        [body] BlockReferenceNode @1 #block\n          .name = \"b\"\n    [b] BodyNode @1\n      [0] BlockNode @1\n        .name = \"b\"\n        [body] PrintNode @1\n          [expr] Expression\\ParentExpression @1\n            .output = false\n            .name = \"b\"\n            .sandboxed_function_name = \"parent\"\n            .sandboxed_function = Twig\\TwigFunction(parent)\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [parent] Expression\\ConstantExpression @1\n    .value = \"x\"\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "block-shorthand",
+        "source": "{% block c 'z' %}{% block d -1|abs %}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] BlockReferenceNode @1 #block\n        .name = \"c\"\n      [1] BlockReferenceNode @1 #block\n        .name = \"d\"\n  [blocks] Nodes @0\n    [c] BodyNode @1\n      [0] BlockNode @1\n        .name = \"c\"\n        [body] Nodes @0\n          [0] PrintNode @1\n            [expr] Expression\\ConstantExpression @1\n              .value = \"z\"\n    [d] BodyNode @1\n      [0] BlockNode @1\n        .name = \"d\"\n        [body] Nodes @0\n          [0] PrintNode @1\n            [expr] Expression\\Unary\\NegUnary @1\n              .with_parentheses = false\n              [node] Expression\\FilterExpression @1\n                .name = \"abs\"\n                .type = \"filter\"\n                .twig_callable = Twig\\TwigFilter(abs)\n                [node] Expression\\ConstantExpression @1\n                  .value = 1\n                [filter] Expression\\ConstantExpression @1\n                  .value = \"abs\"\n                [arguments] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": [
+            "Since twig/twig 3.21: As the \"|\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index\" at line 1."
+        ]
+    },
+    {
+        "id": "block-documentation",
+        "source": "{## the block ##}{% block b %}x{% endblock %}{## other ##}\n{% block c %}{% endblock %}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] BlockReferenceNode @1 #block\n        .name = \"b\"\n      [1] BlockReferenceNode @2 #block\n        .name = \"c\"\n  [blocks] Nodes @0\n    [b] BodyNode @1\n      [0] BlockNode @1 doc=\"the block\"\n        .name = \"b\"\n        [body] TextNode @1\n          .data = \"x\"\n    [c] BodyNode @2\n      [0] BlockNode @2 doc=\"other\"\n        .name = \"c\"\n        [body] Nodes @2\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "block-duplicate",
+        "source": "{% block a %}{% endblock %}\n{% block a %}{% endblock %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The block 'a' has already been defined line 1 in \"index\" at line 2."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "block-end-name",
+        "source": "{% block a %}x{% endblock a %}{% block b %}x{% endblock c %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Expected endblock for block \"b\" (but \"c\" given) in \"index\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "block-unknown-tag-in-body",
+        "source": "{% block a %}\n\n{% foo %}{% endblock %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unexpected \"foo\" tag (expecting closing tag for the \"block\" tag defined near line 2) in \"index\" at line 3."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "block-unclosed",
+        "source": "{% block a %}\n\nabc",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unexpected token \"end of template\" (\"end of statement block\" expected) in \"index\" at line 3 column 4."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "block-end-extra",
+        "source": "{% block a %}x{% endblock a b %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unexpected token \"name\" of value \"b\" (\"end of statement block\" expected) in \"index\" at line 1 column 29."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "unknown-tag-suggestions",
+        "source": "{% bloc %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unknown \"bloc\" tag. Did you mean \"block\" in \"index\" at line 1?"
+        },
+        "deprecations": []
+    },
+    {
+        "id": "unknown-tag-no-suggestions",
+        "source": "{% zzz %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unknown \"zzz\" tag in \"index\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "stray-end-tag",
+        "source": "{% endblock %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unknown \"endblock\" tag in \"index\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "block-must-start-with-name",
+        "source": "{% 1 %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "A block must start with a tag name in \"index\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "child-template-cleanup",
+        "source": "{% extends 'x' %}\n  {% block a %}{% endblock %}\n\n{% block b %}B{% endblock %}  \n",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [0] ConfigNode @1 #extends\n  [blocks] Nodes @0\n    [a] BodyNode @2\n      [0] BlockNode @2\n        .name = \"a\"\n        [body] Nodes @2\n    [b] BodyNode @4\n      [0] BlockNode @4\n        .name = \"b\"\n        [body] TextNode @4\n          .data = \"B\"\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [parent] Expression\\ConstantExpression @1\n    .value = \"x\"\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "child-template-bom",
+        "source": "﻿  {% extends 'b' %}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] Nodes @1\n      [1] ConfigNode @1 #extends\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [parent] Expression\\ConstantExpression @1\n    .value = \"b\"\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "child-template-content",
+        "source": "{% extends 'x' %}text{% block a %}{% endblock %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "A template that extends another one cannot include content outside Twig blocks. Did you forget to put the content inside a {% block %} tag in \"index\" at line 1?"
+        },
+        "deprecations": []
+    },
+    {
+        "id": "extends-twice",
+        "source": "{% extends 'x' %}{% extends 'y' %}{% block a %}{{ parent() }}{% endblock %}",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Multiple extends tags are forbidden in \"index\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "tag-lines",
+        "source": "{%\nblock\nb\n%}{{ x }}{%\nendblock\n%}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] BlockReferenceNode @2 #block\n      .name = \"b\"\n  [blocks] Nodes @0\n    [b] BodyNode @2\n      [0] BlockNode @2\n        .name = \"b\"\n        [body] PrintNode @4\n          [expr] Expression\\Variable\\ContextVariable @4\n            .name = \"x\"\n            .ignore_strict_check = false\n            .always_defined = false\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    },
+    {
+        "id": "tag-documentation",
+        "source": "{## doc ##}{% extends 'x' %}",
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = false\n  .escaper = false\n  [body] BodyNode @0\n    [0] ConfigNode @1 #extends doc=\"doc\"\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [parent] Expression\\ConstantExpression @1\n    .value = \"x\"\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": []
+    }
+]
