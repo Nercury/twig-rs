@@ -1,0 +1,458 @@
+{
+    "generator": "tests/fixtures/vectors/format_matching.gen.php",
+    "phpunit": "9.6.39",
+    "cases": [
+        {
+            "format": "Twig\\Error\\RuntimeError: Regexp \"3\" passed to \"matches\" is not valid: Delimiter must not be alphanumeric%sbackslash%sin \"index.twig\" at line 2",
+            "string": "Twig\\Error\\RuntimeError: Regexp \"3\" passed to \"matches\" is not valid: Delimiter must not be alphanumeric, backslash, or NUL byte in \"index.twig\" at line 2",
+            "matches": true
+        },
+        {
+            "format": "Twig\\Error\\RuntimeError: Regexp \"3\" passed to \"matches\" is not valid: Delimiter must not be alphanumeric%sbackslash%sin \"index.twig\" at line 2",
+            "string": "Twig\\Error\\RuntimeError: Regexp \"3\" passed to \"matches\" is not valid: Delimiter must not be alphanumeric or backslash in \"index.twig\" at line 2",
+            "matches": true
+        },
+        {
+            "format": "Did you forget to put the content inside a {% block %} tag?",
+            "string": "Did you forget to put the content inside a {% block %} tag?",
+            "matches": true
+        },
+        {
+            "format": "a{% block %}b",
+            "string": "a{X block %}b",
+            "matches": false
+        },
+        {
+            "format": "%%",
+            "string": "%",
+            "matches": true
+        },
+        {
+            "format": "%%",
+            "string": "%%",
+            "matches": false
+        },
+        {
+            "format": "%%s",
+            "string": "%s",
+            "matches": true
+        },
+        {
+            "format": "%%s",
+            "string": "x",
+            "matches": false
+        },
+        {
+            "format": "%%%s",
+            "string": "%abc",
+            "matches": true
+        },
+        {
+            "format": "%e",
+            "string": "/",
+            "matches": true
+        },
+        {
+            "format": "%e",
+            "string": "\\",
+            "matches": false
+        },
+        {
+            "format": "a%eb",
+            "string": "a/b",
+            "matches": true
+        },
+        {
+            "format": "%s",
+            "string": "abc",
+            "matches": true
+        },
+        {
+            "format": "%s",
+            "string": "",
+            "matches": false
+        },
+        {
+            "format": "%s",
+            "string": "a\nb",
+            "matches": false
+        },
+        {
+            "format": "%s",
+            "string": "a\rb",
+            "matches": false
+        },
+        {
+            "format": "x%sy",
+            "string": "x y",
+            "matches": true
+        },
+        {
+            "format": "x%sy",
+            "string": "xy",
+            "matches": false
+        },
+        {
+            "format": "%S",
+            "string": "",
+            "matches": true
+        },
+        {
+            "format": "%S",
+            "string": "abc",
+            "matches": true
+        },
+        {
+            "format": "%S",
+            "string": "a\nb",
+            "matches": false
+        },
+        {
+            "format": "x%Sy",
+            "string": "xy",
+            "matches": true
+        },
+        {
+            "format": "%a",
+            "string": "",
+            "matches": false
+        },
+        {
+            "format": "%a",
+            "string": "a\nb",
+            "matches": true
+        },
+        {
+            "format": "%a",
+            "string": "x",
+            "matches": true
+        },
+        {
+            "format": "x%ay",
+            "string": "x\n\ny",
+            "matches": true
+        },
+        {
+            "format": "%A",
+            "string": "",
+            "matches": true
+        },
+        {
+            "format": "%A",
+            "string": "a\nb",
+            "matches": true
+        },
+        {
+            "format": "%w",
+            "string": "",
+            "matches": true
+        },
+        {
+            "format": "%w",
+            "string": " \t\n\r\u000b\f",
+            "matches": true
+        },
+        {
+            "format": "a%wb",
+            "string": "a  b",
+            "matches": true
+        },
+        {
+            "format": "a%wb",
+            "string": "a-b",
+            "matches": false
+        },
+        {
+            "format": "%i",
+            "string": "42",
+            "matches": true
+        },
+        {
+            "format": "%i",
+            "string": "-42",
+            "matches": true
+        },
+        {
+            "format": "%i",
+            "string": "+42",
+            "matches": true
+        },
+        {
+            "format": "%i",
+            "string": "4.2",
+            "matches": false
+        },
+        {
+            "format": "%i",
+            "string": "",
+            "matches": false
+        },
+        {
+            "format": "%d",
+            "string": "42",
+            "matches": true
+        },
+        {
+            "format": "%d",
+            "string": "-42",
+            "matches": false
+        },
+        {
+            "format": "%d",
+            "string": "007",
+            "matches": true
+        },
+        {
+            "format": "%x",
+            "string": "deadBEEF",
+            "matches": true
+        },
+        {
+            "format": "%x",
+            "string": "xyz",
+            "matches": false
+        },
+        {
+            "format": "%x",
+            "string": "",
+            "matches": false
+        },
+        {
+            "format": "%f",
+            "string": "1.5",
+            "matches": true
+        },
+        {
+            "format": "%f",
+            "string": "-1.5e10",
+            "matches": true
+        },
+        {
+            "format": "%f",
+            "string": ".5",
+            "matches": true
+        },
+        {
+            "format": "%f",
+            "string": "5.",
+            "matches": true
+        },
+        {
+            "format": "%f",
+            "string": "1E-3",
+            "matches": true
+        },
+        {
+            "format": "%f",
+            "string": "abc",
+            "matches": false
+        },
+        {
+            "format": "%f",
+            "string": "+.5E+3",
+            "matches": true
+        },
+        {
+            "format": "%c",
+            "string": "a",
+            "matches": true
+        },
+        {
+            "format": "%c",
+            "string": "",
+            "matches": false
+        },
+        {
+            "format": "%c",
+            "string": "ab",
+            "matches": false
+        },
+        {
+            "format": "%c",
+            "string": "\n",
+            "matches": true
+        },
+        {
+            "format": "%z",
+            "string": "%z",
+            "matches": true
+        },
+        {
+            "format": "%z",
+            "string": "z",
+            "matches": false
+        },
+        {
+            "format": "%",
+            "string": "%",
+            "matches": true
+        },
+        {
+            "format": "100%",
+            "string": "100%",
+            "matches": true
+        },
+        {
+            "format": "%.",
+            "string": "%.",
+            "matches": true
+        },
+        {
+            "format": "%\\s",
+            "string": "%\\s",
+            "matches": true
+        },
+        {
+            "format": "\\%s",
+            "string": "\\abc",
+            "matches": true
+        },
+        {
+            "format": "a.b",
+            "string": "a.b",
+            "matches": true
+        },
+        {
+            "format": "a.b",
+            "string": "axb",
+            "matches": false
+        },
+        {
+            "format": "(a|b)*",
+            "string": "(a|b)*",
+            "matches": true
+        },
+        {
+            "format": "(a|b)*",
+            "string": "a",
+            "matches": false
+        },
+        {
+            "format": "[x]{2}",
+            "string": "[x]{2}",
+            "matches": true
+        },
+        {
+            "format": "^$",
+            "string": "^$",
+            "matches": true
+        },
+        {
+            "format": "a/b#c",
+            "string": "a/b#c",
+            "matches": true
+        },
+        {
+            "format": "\\d",
+            "string": "\\d",
+            "matches": true
+        },
+        {
+            "format": "\\d",
+            "string": "1",
+            "matches": false
+        },
+        {
+            "format": "NUL\u0000byte",
+            "string": "NUL\u0000byte",
+            "matches": true
+        },
+        {
+            "format": "abc",
+            "string": "abc",
+            "matches": true
+        },
+        {
+            "format": "abc",
+            "string": "abcd",
+            "matches": false
+        },
+        {
+            "format": "abc",
+            "string": "xabc",
+            "matches": false
+        },
+        {
+            "format": "abc",
+            "string": "abc\n",
+            "matches": true
+        },
+        {
+            "format": "abc",
+            "string": "abc\n\n",
+            "matches": false
+        },
+        {
+            "format": "abc",
+            "string": "abc\r\n",
+            "matches": true
+        },
+        {
+            "format": "abc%s",
+            "string": "abcd\n",
+            "matches": true
+        },
+        {
+            "format": "abc\n",
+            "string": "abc",
+            "matches": false
+        },
+        {
+            "format": "abc\n",
+            "string": "abc\n",
+            "matches": true
+        },
+        {
+            "format": "a\r\nb",
+            "string": "a\nb",
+            "matches": true
+        },
+        {
+            "format": "a\nb",
+            "string": "a\r\nb",
+            "matches": true
+        },
+        {
+            "format": "a\rb",
+            "string": "a\nb",
+            "matches": false
+        },
+        {
+            "format": "a\r\r\nb",
+            "string": "a\r\nb",
+            "matches": false
+        },
+        {
+            "format": "é",
+            "string": "é",
+            "matches": true
+        },
+        {
+            "format": "%c",
+            "string": "é",
+            "matches": false
+        },
+        {
+            "format": "%c%c",
+            "string": "é",
+            "matches": true
+        },
+        {
+            "format": "%s",
+            "string": "?(",
+            "matches": true,
+            "string_b64": "wyg="
+        },
+        {
+            "format": "%a",
+            "string": "?",
+            "matches": true,
+            "string_b64": "/w=="
+        },
+        {
+            "format": "ABC",
+            "string": "abc",
+            "matches": false
+        }
+    ]
+}

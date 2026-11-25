@@ -14,6 +14,18 @@ authors.workspace = true
 [dependencies]
 regex.workspace = true
 
+[dev-dependencies]
+libtest-mimic.workspace = true
+serde.workspace = true
+# float_roundtrip: exact parsing of the floats of the oracle corpus (DateInterval fractions).
+serde_json = { workspace = true, features = ["float_roundtrip"] }
+
+# The Twig 3.31.1 fixture suite (libtest-mimic runner, see the header of tests/fixtures.rs).
+[[test]]
+name = "fixtures"
+path = "tests/fixtures.rs"
+harness = false
+
 [lints]
 workspace = true
 
