@@ -1,0 +1,171 @@
+twig-unicode NOTICE
+===================
+
+twig-unicode is part of twig-rs (https://github.com/Nercury/twig-rs), Copyright (c) 2015-2026 Nerijus Arlauskas and
+twig-rs contributors, and is distributed under the BSD 3-Clause licence in LICENSE. It contains software and data of
+the third parties listed below: code ported to Rust (translated from the upstream source, keeping its algorithm) and
+data. Each entry says what twig-unicode contains, where, and under which licence; Part 2 reproduces the licence
+texts. Entry numbers and licence letters are those of the NOTICE file of the twig-rs repository, which covers all
+its crates.
+
+The SPDX expression in the `license` field of Cargo.toml combines these licences:
+
+  BSD-3-Clause AND PHP-3.01 AND Unicode-3.0 AND MIT
+
+Acknowledgment required by the PHP License:
+
+  This product includes PHP software, freely available from <http://www.php.net/software/>.
+
+
+Part 1: Third-party sources
+---------------------------
+
+ 3. PHP 8.5.13 (https://www.php.net/, https://github.com/php/php-src)
+    Licence C (PHP License 3.01). Copyright (c) 1999 - 2024 The PHP Group.
+    - Ports of ext/mbstring (mbstring.c, php_unicode.c) and the layout of the tables that php-src generates from the
+      Unicode Character Database (ext/mbstring/unicode_data.h, written by ext/mbstring/ucgendat/ucgendat.php).
+    php_unicode.c contains third-party code under its own licence: entry 11.
+
+11. ucdata-2.5 (php-src ext/mbstring/php_unicode.c is based on it)
+    Licence K (MIT). Copyright 2001 Computing Research Labs, New Mexico State University.
+    - src/case.rs, src/props.rs: the case mapping and property lookups ported from php_unicode.c.
+
+12. Unicode Character Database 17.0 (https://www.unicode.org/ucd/)
+    Licence L (Unicode License v3). Copyright (c) 1991-2025 Unicode, Inc.
+    - src/tables.rs, converted from php-src's ext/mbstring/unicode_data.h, which php-src generates from the UCD.
+
+
+Part 2: Licence texts
+---------------------
+
+C. PHP: The PHP License, version 3.01
+.....................................
+
+--------------------------------------------------------------------
+                  The PHP License, version 3.01
+Copyright (c) 1999 - 2024 The PHP Group. All rights reserved.
+--------------------------------------------------------------------
+
+Redistribution and use in source and binary forms, with or without
+modification, is permitted provided that the following conditions
+are met:
+
+  1. Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+
+  2. Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
+
+  3. The name "PHP" must not be used to endorse or promote products
+     derived from this software without prior written permission. For
+     written permission, please contact group@php.net.
+
+  4. Products derived from this software may not be called "PHP", nor
+     may "PHP" appear in their name, without prior written permission
+     from group@php.net.  You may indicate that your software works in
+     conjunction with PHP by saying "Foo for PHP" instead of calling
+     it "PHP Foo" or "phpfoo"
+
+  5. The PHP Group may publish revised and/or new versions of the
+     license from time to time. Each version will be given a
+     distinguishing version number.
+     Once covered code has been published under a particular version
+     of the license, you may always continue to use it under the terms
+     of that version. You may also choose to use such covered code
+     under the terms of any subsequent version of the license
+     published by the PHP Group. No one other than the PHP Group has
+     the right to modify the terms applicable to covered code created
+     under this License.
+
+  6. Redistributions of any form whatsoever must retain the following
+     acknowledgment:
+     "This product includes PHP software, freely available from
+     <http://www.php.net/software/>".
+
+THIS SOFTWARE IS PROVIDED BY THE PHP DEVELOPMENT TEAM ``AS IS'' AND
+ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE PHP
+DEVELOPMENT TEAM OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+OF THE POSSIBILITY OF SUCH DAMAGE.
+
+--------------------------------------------------------------------
+
+This software consists of voluntary contributions made by many
+individuals on behalf of the PHP Group.
+
+The PHP Group can be contacted via Email at group@php.net.
+
+For more information on the PHP Group and the PHP project,
+please see <http://www.php.net>.
+
+PHP includes the Zend Engine, freely available at
+<http://www.zend.com>.
+
+
+K. ucdata-2.5 (as quoted in php-src ext/mbstring/php_unicode.c): MIT
+....................................................................
+
+Copyright 2001 Computing Research Labs, New Mexico State University
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+
+L. Unicode Character Database: Unicode License v3
+.................................................
+
+UNICODE LICENSE V3
+
+COPYRIGHT AND PERMISSION NOTICE
+
+Copyright (c) 1991-2025 Unicode, Inc.
+
+NOTICE TO USER: Carefully read the following legal agreement. BY
+DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
+SOFTWARE, YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE
+TERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT
+DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of data files and any associated documentation (the "Data Files") or
+software and any associated documentation (the "Software") to deal in the
+Data Files or Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, and/or sell
+copies of the Data Files or Software, and to permit persons to whom the
+Data Files or Software are furnished to do so, provided that either (a)
+this copyright and permission notice appear with all copies of the Data
+Files or Software, or (b) this copyright and permission notice appear in
+associated Documentation.
+
+THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+THIRD PARTY RIGHTS.
+
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE
+BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES,
+OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA
+FILES OR SOFTWARE.
+
+Except as contained in this notice, the name of a copyright holder shall
+not be used in advertising or otherwise to promote the sale, use or other
+dealings in these Data Files or Software without prior written
+authorization of the copyright holder.

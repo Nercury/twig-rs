@@ -1,12 +1,17 @@
 twig-rs NOTICE
 ==============
 
-twig-rs (https://github.com/Nercury/twig-rs) is distributed under the BSD 3-Clause licence in LICENSE (copyright
-the Rust Twig Team), except the optional crate twig-iconv: it follows the GNU C Library's iconv sources and is
-distributed as a whole under the GNU Lesser General Public License, version 2.1 or later (crates/twig-iconv/LICENSE,
-entry 18). twig-rs contains software and data of the third parties listed below: code ported to Rust (translated
-from the upstream source, keeping its algorithm), files copied unchanged ("vendored"), and data. Each entry says
-what twig-rs contains, where, and under which licence. Part 2 reproduces the licence texts.
+twig-rs (https://github.com/Nercury/twig-rs) is Copyright (c) 2015-2026 Nerijus Arlauskas and twig-rs contributors
+and is distributed under the BSD 3-Clause licence in LICENSE, with two exceptions: twig-timelib, a port of timelib,
+is distributed like timelib under the MIT licence (crates/twig-timelib/LICENSE-timelib, entry 13), and the optional
+crate twig-iconv follows the GNU C Library's iconv sources and is distributed as a whole under the GNU Lesser General
+Public License, version 2.1 or later (crates/twig-iconv/LICENSE, entry 18). twig-rs contains software and data of
+the third parties listed below: code ported to Rust (translated from the upstream source, keeping its algorithm),
+files copied unchanged ("vendored"), and data. Each entry says what twig-rs contains, where, and under which
+licence. Part 2 reproduces the licence texts.
+
+Each published crate ships its licence files and, except twig-timelib, a NOTICE with the entries of this file that
+concern it (crates/<crate>/NOTICE, with the same entry numbers and licence letters); the twig crate ships this file.
 
 The SPDX expression in the `license` field of each crate's Cargo.toml combines the licences of what that crate
 contains:
@@ -37,6 +42,9 @@ Part 1: Third-party sources
     Licence A (BSD-3-Clause). Copyright (c) 2009-present by the Twig Team.
     - twig (src/): the lexer, parser, node classes, node visitors, compile order, runtime, extensions, escaper and
       loaders port Twig's PHP code, including its messages.
+    - twig-value (src/builtins/format/math.rs: the `round` filter, CoreExtension::round()) and twig-pcre
+      (src/preg.rs: the `matches` operator, CoreExtension::matches(), and MatchesBinary's checks of constant
+      patterns, with their messages).
     - twig (tests/twig/Fixtures/): Twig's integration fixtures, vendored unchanged; tests/twig/oracle-corpus.json
       and the ported PHPUnit tests (tests/upstream/) derive from Twig's test suite.
     - twig-test-support: Rust versions of the PHP classes of Twig's test suite.
@@ -144,8 +152,8 @@ Part 1: Third-party sources
     - twig (templates/fos_login.html.twig, the sample template of the lex_tokens example).
 
 Dependencies from crates.io are not part of these sources and carry their own licences; `cargo deny check` checks the
-licences of the whole dependency graph against deny.toml. twig-value's hash('xxh128') uses the xxhash-rust crate (BSL-1.0), a Rust
-implementation of xxHash (Yann Collet).
+licences of the whole dependency graph against deny.toml. twig-value's hash('xxh128') uses the xxhash-rust crate
+(BSL-1.0), a Rust implementation of xxHash (Yann Collet).
 
 
 Part 2: Licence texts

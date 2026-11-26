@@ -1,5 +1,7 @@
 twig-timelib is a Rust port of timelib 2022.17 (https://github.com/derickr/timelib) as bundled with PHP 8.5.13
-(php-src ext/date/lib). timelib's licence and copyright notice:
+(php-src ext/date/lib). It is part of twig-rs (https://github.com/Nercury/twig-rs), Copyright (c) 2015-2026 Nerijus
+Arlauskas and twig-rs contributors, and is distributed, like timelib, under the MIT licence below. timelib's licence
+and copyright notice:
 
 The MIT License (MIT)
 

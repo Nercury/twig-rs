@@ -1,0 +1,187 @@
+twig-iconv NOTICE
+=================
+
+twig-iconv is part of twig-rs (https://github.com/Nercury/twig-rs), Copyright (c) 2015-2026 Nerijus Arlauskas and
+twig-rs contributors. It reproduces the iconv() of the GNU C Library by following glibc's sources closely (entry 18)
+and is therefore distributed as a whole under the GNU Lesser General Public License, version 2.1 or later; LICENSE
+holds the licence text. It also contains software and data of the other third parties listed below. Each entry says
+what twig-iconv contains, where, and under which licence; Part 2 reproduces the licence texts. Entry numbers and
+licence letters are those of the NOTICE file of the twig-rs repository, which covers all its crates.
+
+twig-iconv is optional: the twig crate uses it only with its `glibc-iconv` cargo feature or when a program passes it
+as an environment's iconv backend.
+
+The SPDX expression in the `license` field of Cargo.toml combines these licences:
+
+  LGPL-2.1-or-later AND PHP-3.01 AND Unicode-3.0
+
+Acknowledgment required by the PHP License:
+
+  This product includes PHP software, freely available from <http://www.php.net/software/>.
+
+
+Part 1: Third-party sources
+---------------------------
+
+ 3. PHP 8.5.13 (https://www.php.net/, https://github.com/php/php-src)
+    Licence C (PHP License 3.01). Copyright (c) 1999 - 2024 The PHP Group.
+    - src/iconv.rs: PHP_FUNCTION(iconv), php_iconv_string() and _php_check_ignore() of ext/iconv/iconv.c, ported
+      to Rust.
+
+12. Unicode Character Database 17.0 (https://www.unicode.org/ucd/)
+    Licence L (Unicode License v3). Copyright (c) 1991-2025 Unicode, Inc.
+    - src/iconv_tables.rs: the part of iconv's transliteration table that glibc generates from the UCD
+      (translit_combining, see entry 18).
+
+18. GNU C Library 2.41, iconv (https://www.gnu.org/software/libc/)
+    Licence R (LGPL-2.1-or-later). Copyright (C) 1997-2025 Free Software Foundation, Inc.
+    - src/iconv.rs, src/iconv/*.rs: the conversion driver (iconv/skeleton.c, loop.c, gconv_simple.c,
+      gconv_trans.c, gconv_charset.c) and the charset modules (iconvdata/*.c) are followed closely to reproduce
+      glibc's behaviour.
+    - Data measured from glibc's iconv() and locale data in the oracle image rather than copied from glibc's
+      sources: the charset tables, names and aliases and the transliteration table of the C.UTF-8 locale
+      (translit_neutral and translit_combining) (src/iconv_tables.rs, src/iconv/cjk_tables.rs,
+      src/iconv/data/*.bin; the *.gen.php scripts next to them generate them).
+
+
+Part 2: Licence texts
+---------------------
+
+C. PHP: The PHP License, version 3.01
+.....................................
+
+--------------------------------------------------------------------
+                  The PHP License, version 3.01
+Copyright (c) 1999 - 2024 The PHP Group. All rights reserved.
+--------------------------------------------------------------------
+
+Redistribution and use in source and binary forms, with or without
+modification, is permitted provided that the following conditions
+are met:
+
+  1. Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+
+  2. Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
+
+  3. The name "PHP" must not be used to endorse or promote products
+     derived from this software without prior written permission. For
+     written permission, please contact group@php.net.
+
+  4. Products derived from this software may not be called "PHP", nor
+     may "PHP" appear in their name, without prior written permission
+     from group@php.net.  You may indicate that your software works in
+     conjunction with PHP by saying "Foo for PHP" instead of calling
+     it "PHP Foo" or "phpfoo"
+
+  5. The PHP Group may publish revised and/or new versions of the
+     license from time to time. Each version will be given a
+     distinguishing version number.
+     Once covered code has been published under a particular version
+     of the license, you may always continue to use it under the terms
+     of that version. You may also choose to use such covered code
+     under the terms of any subsequent version of the license
+     published by the PHP Group. No one other than the PHP Group has
+     the right to modify the terms applicable to covered code created
+     under this License.
+
+  6. Redistributions of any form whatsoever must retain the following
+     acknowledgment:
+     "This product includes PHP software, freely available from
+     <http://www.php.net/software/>".
+
+THIS SOFTWARE IS PROVIDED BY THE PHP DEVELOPMENT TEAM ``AS IS'' AND
+ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE PHP
+DEVELOPMENT TEAM OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+OF THE POSSIBILITY OF SUCH DAMAGE.
+
+--------------------------------------------------------------------
+
+This software consists of voluntary contributions made by many
+individuals on behalf of the PHP Group.
+
+The PHP Group can be contacted via Email at group@php.net.
+
+For more information on the PHP Group and the PHP project,
+please see <http://www.php.net>.
+
+PHP includes the Zend Engine, freely available at
+<http://www.zend.com>.
+
+
+L. Unicode Character Database: Unicode License v3
+.................................................
+
+UNICODE LICENSE V3
+
+COPYRIGHT AND PERMISSION NOTICE
+
+Copyright (c) 1991-2025 Unicode, Inc.
+
+NOTICE TO USER: Carefully read the following legal agreement. BY
+DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
+SOFTWARE, YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE
+TERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT
+DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of data files and any associated documentation (the "Data Files") or
+software and any associated documentation (the "Software") to deal in the
+Data Files or Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, and/or sell
+copies of the Data Files or Software, and to permit persons to whom the
+Data Files or Software are furnished to do so, provided that either (a)
+this copyright and permission notice appear with all copies of the Data
+Files or Software, or (b) this copyright and permission notice appear in
+associated Documentation.
+
+THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+THIRD PARTY RIGHTS.
+
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE
+BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES,
+OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA
+FILES OR SOFTWARE.
+
+Except as contained in this notice, the name of a copyright holder shall
+not be used in advertising or otherwise to promote the sale, use or other
+dealings in these Data Files or Software without prior written
+authorization of the copyright holder.
+
+
+R. GNU C Library: GNU Lesser General Public License, version 2.1 or later
+.........................................................................
+
+Copyright (C) 1997-2025 Free Software Foundation, Inc.
+This file is part of the GNU C Library.
+
+The GNU C Library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+The GNU C Library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with the GNU C Library; if not, see
+<https://www.gnu.org/licenses/>.
+
+The text of the GNU Lesser General Public License, version 2.1, is in LICENSE.
