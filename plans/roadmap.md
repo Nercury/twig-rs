@@ -116,9 +116,8 @@ runs every upstream fixture end to end (488 of 500 cases at the end of phase 4).
 - Exit: all fixture cases pass, ported unit tests pass, fuzz rounds run dry.
 
 ### 6. Product
-- Public API review (Environment builder, conversions from Rust types and serde data into values, host object
-  ergonomics), docs and examples, README, benchmarks against PHP Twig, compiled-template caching (optional),
-  `NOTICE` and licence review, publishing.
+Plan: [product.md](product.md) — API ergonomics (re-exports, context building, serde, simple callables), docs and
+examples, benchmarks and profiling, CI matrix and cargo-deny, `NOTICE`, licence review, release.
 
 ## Open questions
 
