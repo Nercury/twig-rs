@@ -7,7 +7,7 @@ use std::sync::{Arc, LazyLock, Mutex};
 use twig_value::object::{CallArgs, ClassRef, FetchMode, ObjectRef, PropertyCheck, Visibility};
 use twig_value::param::{DeclaredType, TypeMask, UserArg};
 use twig_value::types::get_debug_type;
-use twig_value::{ArrayKey, Diagnostics, ThrowableClass, Value, convert};
+use twig_value::{ArrayKey, Diagnostics, KeyRef, ThrowableClass, Value, convert};
 
 use super::sandbox::Violation;
 use crate::ast::CallType;
@@ -174,6 +174,26 @@ pub(crate) fn get_attribute(
     arguments: Value,
     op: &GetAttrOp,
 ) -> Result<Value, Exception> {
+    // An existing element of an array under a string or int item: the key the array branch builds (`(string)` of
+    // the item, then the array offset) is the item's own symtable key, and nothing before the lookup has an effect
+    // (only objects meet the sandbox checks).
+    if op.call_type != CallType::Method
+        && matches!(arguments, Value::Array(_))
+        && let Value::Array(array) = &object
+    {
+        let key = match &item {
+            Value::String(name) => Some(KeyRef::sym(name)),
+            Value::Int(i) => Some(KeyRef::Int(*i)),
+            _ => None,
+        };
+        if let Some(value) = key.and_then(|key| array.get_ref(key)) {
+            return Ok(if op.defined_test {
+                Value::Bool(true)
+            } else {
+                value.clone()
+            });
+        }
+    }
     // `array $arguments = []` (TWIG/src/Extension/CoreExtension.php): no weak coercion reaches an array, so
     // zend_verify_arg_error() names the value (`zend_zval_value_name()`: `true`/`false` for booleans)
     let arguments = match arguments {
