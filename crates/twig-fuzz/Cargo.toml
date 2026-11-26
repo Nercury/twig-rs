@@ -9,6 +9,10 @@ repository.workspace = true
 authors.workspace = true
 publish = false
 
+[features]
+# Exact glibc iconv in the twig-rs runner (cases with non-basic charsets compare exactly instead of as a deviation).
+glibc-iconv = ["twig/glibc-iconv"]
+
 [dependencies]
 twig = { path = "../.." }
 twig-value.workspace = true

@@ -55,7 +55,9 @@ data, registering extensions) is Rust-native; running inside PHP is out of scope
   timezonedb 2026.6, plus a port of PHP's `DateTime`/`DateTimeZone`/`DateInterval` behaviour.
 - **Unicode** case mapping and properties follow mbstring's tables (Unicode 17.0, generated with the same rules as
   php-src's `ucgendat.php`, without porting LGPL libmbfl code). UTF-8 is fully supported first; other charsets
-  (iconv, `convert_encoding`, `charset` option) come later.
+  (`charset` option) come later. iconv: a clean-room default in `twig-value` covers the Unicode charsets, ASCII and
+  ISO-8859-1; exact glibc iconv for every other charset is the optional LGPL crate `twig-iconv` (feature
+  `glibc-iconv`).
 - **Floats** format with the recipes in `reference/php/engine-semantics.md` §5. `**` and other libm-dependent
   results use a port of glibc 2.41's FMA `pow` variant (ARM optimized-routines lineage, MIT), the one the oracle runs.
 - **Template-name hashes** (`template_from_string`) use XXH3-128 like PHP's `hash('xxh128')`.
@@ -73,7 +75,9 @@ crates/twig-unicode generated Unicode 17.0 tables + mbstring-compatible case map
 crates/twig-pcre    vendored PCRE2 10.44 (C) + PHP preg pattern parsing and error texts
 crates/twig-timelib timelib port + timezonedb
 crates/twig-date    PHP's ext/date layer (DateTime*, DateTimeZone, DateInterval, date functions) on twig-timelib
+crates/twig-iconv   optional (feature `glibc-iconv`, LGPL-2.1-or-later): exact glibc iconv for every charset
 crates/twig-test-support  dev-only: fixture DATA/CONFIG trees -> values, Rust versions of PHP test classes
+crates/twig-fuzz    dev-only: differential testing against the oracle (generators, runner, diff, minimiser)
 tests/twig/         vendored Twig 3.31.1 fixtures, oracle corpus, harness inputs
 ```
 
@@ -110,8 +114,8 @@ all fixed or classified). Remaining:
 
 ### 6. Product
 Plan: [product.md](product.md). Done: re-exports, `From` conversions, `context!`, serde feature, `from_fn` callables,
-crate guide and examples, cargo-deny configuration, `NOTICE`, criterion benchmarks with a PHP comparison. In progress:
-moving the glibc-derived iconv into an opt-in LGPL crate (`twig-iconv`) behind a clean-room default. Next: rendering
+crate guide and examples, cargo-deny configuration, `NOTICE`, criterion benchmarks with a PHP comparison. The glibc-derived
+iconv now lives in the opt-in LGPL crate `twig-iconv` behind a clean-room default. Next: rendering
 conveniences, host-object guide, a performance pass (render is 1.7–2.6× slower than PHP Twig, compile 11–13× faster),
 release preparation.
 

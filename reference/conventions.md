@@ -26,13 +26,18 @@ twig ──► twig-date ──► twig-value ──► twig-unicode
   │          └───────► twig-timelib
   ├────► twig-value
   ├────► twig-pcre
-  └────► twig-unicode
+  ├────► twig-unicode
+  └ ─ ─► twig-iconv (optional, feature `glibc-iconv`; LGPL-2.1-or-later) ──► twig-value
 
 twig-test-support (dev only) ──► twig-value
+twig-fuzz (dev only)         ──► twig, twig-value, twig-date, twig-test-support
 ```
 
 - Nothing depends on `twig`. Low-level crates (`twig-unicode`, `twig-timelib`, `twig-pcre`) depend on nothing in the
   workspace. `twig-test-support` is a dev-dependency only (fixture DATA conversion, PHP test classes).
+- The default build stays permissively licensed: code derived from LGPL sources (glibc's iconv) lives only in the
+  optional `twig-iconv` crate. Never port LGPL code (glibc, libmbfl) into other crates; derive behaviour from
+  specifications, PHP-licensed sources and black-box oracle observations instead.
 - Crate names never contain "php" or "zend" (PHP License 3.01 clause 4, Zend Engine License). Module and function
   names may describe the PHP behaviour they reproduce.
 

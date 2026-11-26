@@ -143,7 +143,7 @@ Environment::load(name)
 ## Remaining work
 
 1. Non-UTF-8 charsets beyond the single-byte ones in the mbstring functions (`upper`, `length`, `slice`, ...: tables
-   for multi-byte and table-based encodings) and any iconv charsets `twig-value` still lacks.
+   for multi-byte and table-based encodings). iconv covers every charset only with the `glibc-iconv` feature.
 2. A code generation hook for node and expression classes defined by extensions (today: `The "%s" node class cannot
    be compiled by twig-rs.`), and their escaping/sandbox classification.
 3. Compiled-template caching across processes (optional, roadmap phase 6).
