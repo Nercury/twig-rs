@@ -71,15 +71,17 @@ filters, functions, tests, extensions and tags, loaders, the sandbox, errors and
 
 ## Installation
 
+Version 0.2.0 is not on crates.io yet. Until it is, depend on the repository's `revive` branch:
+
 ```toml
 [dependencies]
-twig = "0.2"
+twig = { git = "https://github.com/Nercury/twig-rs", branch = "revive" }
 # or, with `twig::to_context` and `twig::to_value` for data that implements serde's `Serialize`:
-# twig = { version = "0.2", features = ["serde"] }
+# twig = { git = "https://github.com/Nercury/twig-rs", branch = "revive", features = ["serde"] }
 ```
 
-The development version is the repository: `twig = { git = "https://github.com/Nercury/twig-rs" }`. Changes
-between versions are listed in [`CHANGELOG.md`](CHANGELOG.md).
+Once published, this becomes `twig = "0.2"` (`features = ["serde"]` as above). Changes between versions are listed
+in [`CHANGELOG.md`](CHANGELOG.md).
 
 Building needs Rust 1.88 or newer and a C compiler (PCRE2 is compiled from the sources PHP bundles).
 
@@ -94,7 +96,7 @@ The `glibc-iconv` feature adds the other charsets (the ISO-8859 family, Windows 
 Shift_JIS, ISO-2022-JP, GB2312, GBK, GB18030, BIG5, EUC-KR, ...) through the `twig-iconv` crate:
 
 ```toml
-twig = { version = "0.2", features = ["glibc-iconv"] }
+twig = { git = "https://github.com/Nercury/twig-rs", branch = "revive", features = ["glibc-iconv"] }
 ```
 
 `twig-iconv` reproduces glibc's iconv by following glibc's sources, so it is licensed under the **GNU LGPL 2.1 or
