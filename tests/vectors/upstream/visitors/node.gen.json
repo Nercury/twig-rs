@@ -1,0 +1,184 @@
+[
+ {
+  "id": "filter_test/provide_tests",
+  "php_code": "\n$describe = static function (\\Throwable $e) use (&$describe): array {\n    $out = ['class' => $e::class, 'message' => $e->getMessage()];\n    if ($e->getPrevious()) {\n        $out['previous'] = $describe($e->getPrevious());\n    }\n    return $out;\n};\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(), ['autoescape' => false]);\n$env->addFilter(new \\Twig\\TwigFilter('anonymous', static function () {}));\n$env->addFilter(new \\Twig\\TwigFilter('bar', static function (\\Twig\\Environment $env, ...$args) { return json_encode(['env', ...$args]); }, ['needs_environment' => true]));\n$env->addFilter(new \\Twig\\TwigFilter('barbar', static function ($context, $string, $arg1 = null, $arg2 = null, array $args = []) { return json_encode(['context', $string, $arg1, $arg2, $args]); }, ['needs_context' => true, 'is_variadic' => true]));\n$env->addFilter(new \\Twig\\TwigFilter('bar_sandbox', static function (bool $isSandboxed, $string) { return json_encode([$isSandboxed, $string]); }, ['needs_is_sandboxed' => true]));\n$env->addFilter(new \\Twig\\TwigFilter('bar_all', static function (string $charset, \\Twig\\Environment $env, array $context, bool $isSandboxed, $string) { return json_encode([$charset, 'env', 'context', $isSandboxed, $string]); }, ['needs_charset' => true, 'needs_environment' => true, 'needs_context' => true, 'needs_is_sandboxed' => true]));\n$render = static function (string $template) use ($env, $describe) {\n    try {\n        return ['output' => $env->createTemplate($template, 'index')->render([])];\n    } catch (\\Throwable $e) {\n        return ['error' => $describe($e)];\n    }\n};\n\nreturn array_map($render, ['{{ \"foo\"|upper|number_format(2, \".\", \",\") }}', '{{ 0|date(timezone=\"America/Chicago\", format=\"d/m/Y H:i:s P\") }}', '{{ 0|date(timezone=\"America/Chicago\") }}', '{{ \"abc\"|reverse(preserve_keys=true) }}', '{{ \"abc\"|reverse(preserveKeys=true) }}', '{{ \"foo\"|anonymous }}', '{{ \"abc\"|bar_sandbox }}', '{{ \"abc\"|bar_all }}', '{{ \"abc\"|bar }}', '{{ \"abc\"|bar(\"bar\") }}', '{{ \"abc\"|barbar }}', '{{ \"abc\"|barbar(foo=\"bar\") }}', '{{ \"abc\"|barbar(arg2=\"bar\") }}', '{{ \"abc\"|barbar(\"1\", \"2\", \"3\", foo=\"bar\") }}']);\n"
+ },
+ {
+  "id": "filter_test/compile_errors",
+  "php_code": "\n$describe = static function (\\Throwable $e) use (&$describe): array {\n    $out = ['class' => $e::class, 'message' => $e->getMessage()];\n    if ($e->getPrevious()) {\n        $out['previous'] = $describe($e->getPrevious());\n    }\n    return $out;\n};\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(), ['autoescape' => false]);\n$env->addFilter(new \\Twig\\TwigFilter('anonymous', static function () {}));\n$env->addFilter(new \\Twig\\TwigFilter('bar', static function (\\Twig\\Environment $env, ...$args) { return json_encode(['env', ...$args]); }, ['needs_environment' => true]));\n$env->addFilter(new \\Twig\\TwigFilter('barbar', static function ($context, $string, $arg1 = null, $arg2 = null, array $args = []) { return json_encode(['context', $string, $arg1, $arg2, $args]); }, ['needs_context' => true, 'is_variadic' => true]));\n$env->addFilter(new \\Twig\\TwigFilter('bar_sandbox', static function (bool $isSandboxed, $string) { return json_encode([$isSandboxed, $string]); }, ['needs_is_sandboxed' => true]));\n$env->addFilter(new \\Twig\\TwigFilter('bar_all', static function (string $charset, \\Twig\\Environment $env, array $context, bool $isSandboxed, $string) { return json_encode([$charset, 'env', 'context', $isSandboxed, $string]); }, ['needs_charset' => true, 'needs_environment' => true, 'needs_context' => true, 'needs_is_sandboxed' => true]));\n$render = static function (string $template) use ($env, $describe) {\n    try {\n        return ['output' => $env->createTemplate($template, 'index')->render([])];\n    } catch (\\Throwable $e) {\n        return ['error' => $describe($e)];\n    }\n};\n\n$errors = [];\nforeach (['{{ 0|date(foobar=\"America/Chicago\") }}', '{{ 0|replace(to=\"foo\") }}'] as $template) {\n    try {\n        // the bare node of the upstream test has no source: a template without a name compiles the same way\n        $env->setLoader(new \\Twig\\Loader\\ArrayLoader(['' => $template]));\n        $env->compileSource(new \\Twig\\Source($template, ''));\n        $errors[] = null;\n    } catch (\\Throwable $e) {\n        $errors[] = $describe($e);\n    }\n}\n\nreturn $errors;\n"
+ },
+ {
+  "id": "call_test/arbitrary_arguments_in_templates",
+  "php_code": "\n$describe = static function (\\Throwable $e) use (&$describe): array {\n    $out = ['class' => $e::class, 'message' => $e->getMessage()];\n    if ($e->getPrevious()) {\n        $out['previous'] = $describe($e->getPrevious());\n    }\n    return $out;\n};\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(), ['autoescape' => false]);\n$env->addFilter(new \\Twig\\TwigFilter('anonymous', static function () {}));\n$env->addFilter(new \\Twig\\TwigFilter('bar', static function (\\Twig\\Environment $env, ...$args) { return json_encode(['env', ...$args]); }, ['needs_environment' => true]));\n$env->addFilter(new \\Twig\\TwigFilter('barbar', static function ($context, $string, $arg1 = null, $arg2 = null, array $args = []) { return json_encode(['context', $string, $arg1, $arg2, $args]); }, ['needs_context' => true, 'is_variadic' => true]));\n$env->addFilter(new \\Twig\\TwigFilter('bar_sandbox', static function (bool $isSandboxed, $string) { return json_encode([$isSandboxed, $string]); }, ['needs_is_sandboxed' => true]));\n$env->addFilter(new \\Twig\\TwigFilter('bar_all', static function (string $charset, \\Twig\\Environment $env, array $context, bool $isSandboxed, $string) { return json_encode([$charset, 'env', 'context', $isSandboxed, $string]); }, ['needs_charset' => true, 'needs_environment' => true, 'needs_context' => true, 'needs_is_sandboxed' => true]));\n$render = static function (string $template) use ($env, $describe) {\n    try {\n        return ['output' => $env->createTemplate($template, 'index')->render([])];\n    } catch (\\Throwable $e) {\n        return ['error' => $describe($e)];\n    }\n};\n\nif (!function_exists('twig_rs_custom_call_test_function')) {\n    function twig_rs_custom_call_test_function($required) {}\n}\n$env->addFunction(new \\Twig\\TwigFunction('foo', static function () {}, ['is_variadic' => true]));\n$env->addFunction(new \\Twig\\TwigFunction('bar', 'twig_rs_custom_call_test_function', ['is_variadic' => true]));\n\nreturn [$render('{{ foo() }}'), $render('{{ bar() }}')];\n"
+ },
+ {
+  "id": "macro_reference_test/0",
+  "templates": {
+   "index": "{% macro hello(who = 'you') %}hi {{ who }}{% endmacro %}{% import _self as mac %}{{ mac.(name)() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_json": {
+   "name": "hello"
+  }
+ },
+ {
+  "id": "macro_reference_test/1",
+  "templates": {
+   "index": "{% macro hello(who = 'you') %}hi {{ who }}{% endmacro %}{% import _self as mac %}{{ mac.(name)('me') }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_json": {
+   "name": "hello"
+  }
+ },
+ {
+  "id": "macro_reference_test/2",
+  "templates": {
+   "index": "{% macro hello() %}hi{% endmacro %}{% import _self as mac %}{{ mac.(name)() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_json": {
+   "name": "missing"
+  }
+ },
+ {
+  "id": "macro_reference_test/3",
+  "templates": {
+   "index": "{% macro hello() %}hi{% endmacro %}{% import _self as mac %}{{ mac.(name ~ 'lo')() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_json": {
+   "name": "hel"
+  }
+ },
+ {
+  "id": "macro_reference_test/4",
+  "templates": {
+   "index": "{% macro hello() %}hi{% endmacro %}{{ _self.(name)() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_json": {
+   "name": "hello"
+  }
+ },
+ {
+  "id": "macro_reference_test/5",
+  "templates": {
+   "index": "{% macro hello() %}hi{% endmacro %}{% import _self as mac %}{{ mac.(name) is defined ? 'y' : 'n' }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_json": {
+   "name": "hello"
+  }
+ },
+ {
+  "id": "macro_reference_test/6",
+  "templates": {
+   "index": "{% macro hello() %}hi{% endmacro %}{% import _self as mac %}{{ mac.(name) is defined ? 'y' : 'n' }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_json": {
+   "name": "nope"
+  }
+ },
+ {
+  "id": "macro_reference_test/7",
+  "templates": {
+   "index": "{% macro hello() %}hi{% endmacro %}{% import _self as mac %}{{ mac.(name)() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_json": {
+   "name": "HELLO"
+  }
+ },
+ {
+  "id": "macro_reference_test/8",
+  "templates": {
+   "index": "{% macro hello() %}hi{% endmacro %}{% import _self as mac %}{{ mac.(name)() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_json": {
+   "name": 1
+  }
+ },
+ {
+  "id": "macro_reference_test/9",
+  "templates": {
+   "index": "{% macro hello() %}hi{% endmacro %}{% import _self as mac %}{{ mac.(name)() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_json": {
+   "name": null
+  }
+ },
+ {
+  "id": "macro_reference_test/10",
+  "templates": {
+   "index": "{% macro hello() %}hi{% endmacro %}{% import _self as mac %}{{ mac.(name)() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_json": {
+   "name": [
+    "hello"
+   ]
+  }
+ },
+ {
+  "id": "macro_reference_test/11",
+  "templates": {
+   "index": "{% macro hello() %}hi{% endmacro %}{% import _self as mac %}{{ mac.(name) }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_json": {
+   "name": "hello"
+  }
+ }
+]

@@ -1,0 +1,505 @@
+[
+    {
+        "id": "sandbox_bridge_extension_test",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'value' => '<strong>Fabien</strong>',\n  ),\n  1 => \n  array (\n    'value' => '\\\\u003Cstrong\\\\u003EFabien\\\\u003C\\\\/strong\\\\u003E',\n  ),\n  2 => \n  array (\n    'value' => '<strong>Fabien</strong>',\n  ),\n  3 => \n  array (\n    'value' => '<strong>Fabien</strong>',\n  ),\n  4 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Error\\\\SyntaxError',\n      'message' => 'The \"output_strategy\" argument of the \"render_sandboxed\" function must be a non-empty literal string other than \"all\" in \"index\" at line 1.',\n    ),\n  ),\n  5 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Error\\\\SyntaxError',\n      'message' => 'The \"output_strategy\" argument of the \"render_sandboxed\" function must be a non-empty literal string other than \"all\" in \"index\" at line 1.',\n    ),\n  ),\n  6 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Error\\\\SyntaxError',\n      'message' => 'Value for argument \"output_strategy\" is required for function \"render_sandboxed\" in \"index\" at line 1.',\n    ),\n  ),\n)",
+        "var_dump": "array(7) {\n  [0]=>\n  array(1) {\n    [\"value\"]=>\n    string(23) \"<strong>Fabien</strong>\"\n  }\n  [1]=>\n  array(1) {\n    [\"value\"]=>\n    string(44) \"\\u003Cstrong\\u003EFabien\\u003C\\/strong\\u003E\"\n  }\n  [2]=>\n  array(1) {\n    [\"value\"]=>\n    string(23) \"<strong>Fabien</strong>\"\n  }\n  [3]=>\n  array(1) {\n    [\"value\"]=>\n    string(23) \"<strong>Fabien</strong>\"\n  }\n  [4]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(22) \"Twig\\Error\\SyntaxError\"\n      [\"message\"]=>\n      string(139) \"The \"output_strategy\" argument of the \"render_sandboxed\" function must be a non-empty literal string other than \"all\" in \"index\" at line 1.\"\n    }\n  }\n  [5]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(22) \"Twig\\Error\\SyntaxError\"\n      [\"message\"]=>\n      string(139) \"The \"output_strategy\" argument of the \"render_sandboxed\" function must be a non-empty literal string other than \"all\" in \"index\" at line 1.\"\n    }\n  }\n  [6]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(22) \"Twig\\Error\\SyntaxError\"\n      [\"message\"]=>\n      string(102) \"Value for argument \"output_strategy\" is required for function \"render_sandboxed\" in \"index\" at line 1.\"\n    }\n  }\n}\n",
+        "json": "[{\"value\":\"<strong>Fabien</strong>\"},{\"value\":\"\\\\u003Cstrong\\\\u003EFabien\\\\u003C\\\\/strong\\\\u003E\"},{\"value\":\"<strong>Fabien</strong>\"},{\"value\":\"<strong>Fabien</strong>\"},{\"error\":{\"class\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"The \\\"output_strategy\\\" argument of the \\\"render_sandboxed\\\" function must be a non-empty literal string other than \\\"all\\\" in \\\"index\\\" at line 1.\"}},{\"error\":{\"class\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"The \\\"output_strategy\\\" argument of the \\\"render_sandboxed\\\" function must be a non-empty literal string other than \\\"all\\\" in \\\"index\\\" at line 1.\"}},{\"error\":{\"class\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"Value for argument \\\"output_strategy\\\" is required for function \\\"render_sandboxed\\\" in \\\"index\\\" at line 1.\"}}]",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/disallowed_tag",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedTagError',\n    'message' => 'Tag \"if\" is not allowed in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(39) \"Twig\\Sandbox\\SecurityNotAllowedTagError\"\n    [\"message\"]=>\n    string(45) \"Tag \"if\" is not allowed in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedTagError\",\"message\":\"Tag \\\"if\\\" is not allowed in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/disallowed_filter",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError',\n    'message' => 'Filter \"upper\" is not allowed in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(42) \"Twig\\Sandbox\\SecurityNotAllowedFilterError\"\n    [\"message\"]=>\n    string(51) \"Filter \"upper\" is not allowed in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError\",\"message\":\"Filter \\\"upper\\\" is not allowed in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/disallowed_function",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFunctionError',\n    'message' => 'Function \"max\" is not allowed in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(44) \"Twig\\Sandbox\\SecurityNotAllowedFunctionError\"\n    [\"message\"]=>\n    string(51) \"Function \"max\" is not allowed in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFunctionError\",\"message\":\"Function \\\"max\\\" is not allowed in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/disallowed_test",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedTestError',\n    'message' => 'Test \"funky\" is not allowed in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(40) \"Twig\\Sandbox\\SecurityNotAllowedTestError\"\n    [\"message\"]=>\n    string(49) \"Test \"funky\" is not allowed in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedTestError\",\"message\":\"Test \\\"funky\\\" is not allowed in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/rendering_directly_on_the_sandbox_environment",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError',\n    'message' => 'Filter \"upper\" is not allowed in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(42) \"Twig\\Sandbox\\SecurityNotAllowedFilterError\"\n    [\"message\"]=>\n    string(51) \"Filter \"upper\" is not allowed in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError\",\"message\":\"Filter \\\"upper\\\" is not allowed in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/method_denied",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedMethodError',\n    'message' => 'Calling \"getname\" method on a \"TwigRsSandboxTestObject\" object is not allowed in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(42) \"Twig\\Sandbox\\SecurityNotAllowedMethodError\"\n    [\"message\"]=>\n    string(99) \"Calling \"getname\" method on a \"TwigRsSandboxTestObject\" object is not allowed in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedMethodError\",\"message\":\"Calling \\\"getname\\\" method on a \\\"TwigRsSandboxTestObject\\\" object is not allowed in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/property_denied",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedPropertyError',\n    'message' => 'Calling \"name\" property on a \"TwigRsSandboxTestObject\" object is not allowed in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(44) \"Twig\\Sandbox\\SecurityNotAllowedPropertyError\"\n    [\"message\"]=>\n    string(98) \"Calling \"name\" property on a \"TwigRsSandboxTestObject\" object is not allowed in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedPropertyError\",\"message\":\"Calling \\\"name\\\" property on a \\\"TwigRsSandboxTestObject\\\" object is not allowed in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/to_string_denied",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedMethodError',\n    'message' => 'Calling \"__tostring\" method on a \"TwigRsSandboxTestObject\" object is not allowed in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(42) \"Twig\\Sandbox\\SecurityNotAllowedMethodError\"\n    [\"message\"]=>\n    string(102) \"Calling \"__tostring\" method on a \"TwigRsSandboxTestObject\" object is not allowed in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedMethodError\",\"message\":\"Calling \\\"__tostring\\\" method on a \\\"TwigRsSandboxTestObject\\\" object is not allowed in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/join_of_non_iterable_object",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Error\\\\RuntimeError',\n    'message' => 'An exception has been thrown during the rendering of a template (\"Object of class class@anonymous could not be converted to string\") in \"index\" at line 1.',\n    'previous' => \n    array (\n      'class' => 'Error',\n      'message' => 'Object of class class@anonymous could not be converted to string',\n    ),\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(3) {\n    [\"class\"]=>\n    string(23) \"Twig\\Error\\RuntimeError\"\n    [\"message\"]=>\n    string(154) \"An exception has been thrown during the rendering of a template (\"Object of class class@anonymous could not be converted to string\") in \"index\" at line 1.\"\n    [\"previous\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(5) \"Error\"\n      [\"message\"]=>\n      string(64) \"Object of class class@anonymous could not be converted to string\"\n    }\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Error\\\\RuntimeError\",\"message\":\"An exception has been thrown during the rendering of a template (\\\"Object of class class@anonymous could not be converted to string\\\") in \\\"index\\\" at line 1.\",\"previous\":{\"class\":\"Error\",\"message\":\"Object of class class@anonymous could not be converted to string\"}}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/join_of_stringable_denied",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedMethodError',\n    'message' => 'Calling \"__tostring\" method on a \"TwigRsSandboxTestObject\" object is not allowed in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(42) \"Twig\\Sandbox\\SecurityNotAllowedMethodError\"\n    [\"message\"]=>\n    string(102) \"Calling \"__tostring\" method on a \"TwigRsSandboxTestObject\" object is not allowed in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedMethodError\",\"message\":\"Calling \\\"__tostring\\\" method on a \\\"TwigRsSandboxTestObject\\\" object is not allowed in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/markup_with_content_denied",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedMethodError',\n    'message' => 'Calling \"withcontent\" method on a \"Twig\\\\Markup\" object is not allowed in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(42) \"Twig\\Sandbox\\SecurityNotAllowedMethodError\"\n    [\"message\"]=>\n    string(91) \"Calling \"withcontent\" method on a \"Twig\\Markup\" object is not allowed in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedMethodError\",\"message\":\"Calling \\\"withcontent\\\" method on a \\\"Twig\\\\Markup\\\" object is not allowed in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/included_templates_are_sandboxed",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError',\n    'message' => 'Filter \"upper\" is not allowed in \"partial\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(42) \"Twig\\Sandbox\\SecurityNotAllowedFilterError\"\n    [\"message\"]=>\n    string(53) \"Filter \"upper\" is not allowed in \"partial\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError\",\"message\":\"Filter \\\"upper\\\" is not allowed in \\\"partial\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/extends_denied",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedTagError',\n    'message' => 'Tag \"extends\" is not allowed in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(39) \"Twig\\Sandbox\\SecurityNotAllowedTagError\"\n    [\"message\"]=>\n    string(50) \"Tag \"extends\" is not allowed in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedTagError\",\"message\":\"Tag \\\"extends\\\" is not allowed in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/use_denied",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedTagError',\n    'message' => 'Tag \"use\" is not allowed in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(39) \"Twig\\Sandbox\\SecurityNotAllowedTagError\"\n    [\"message\"]=>\n    string(46) \"Tag \"use\" is not allowed in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedTagError\",\"message\":\"Tag \\\"use\\\" is not allowed in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/use_checked_before_the_trait_is_loaded",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedTagError',\n    'message' => 'Tag \"use\" is not allowed in \"receiver\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(39) \"Twig\\Sandbox\\SecurityNotAllowedTagError\"\n    [\"message\"]=>\n    string(49) \"Tag \"use\" is not allowed in \"receiver\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedTagError\",\"message\":\"Tag \\\"use\\\" is not allowed in \\\"receiver\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/auto_escaping_requires_the_escape_filter",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError',\n    'message' => 'Filter \"escape\" is not allowed in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(42) \"Twig\\Sandbox\\SecurityNotAllowedFilterError\"\n    [\"message\"]=>\n    string(52) \"Filter \"escape\" is not allowed in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError\",\"message\":\"Filter \\\"escape\\\" is not allowed in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/create_template_denied",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError',\n    'message' => 'Filter \"lower\" is not allowed in \"__string_template__cf5d1f511edf02185c7a528b65e26a62\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(42) \"Twig\\Sandbox\\SecurityNotAllowedFilterError\"\n    [\"message\"]=>\n    string(97) \"Filter \"lower\" is not allowed in \"__string_template__cf5d1f511edf02185c7a528b65e26a62\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError\",\"message\":\"Filter \\\"lower\\\" is not allowed in \\\"__string_template__cf5d1f511edf02185c7a528b65e26a62\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/already_used_environment",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'LogicException',\n    'message' => 'The environment passed to \"Twig\\\\Sandbox\\\\Sandbox\" must be dedicated to it: pass a freshly built environment that has no \"Twig\\\\Extension\\\\SandboxExtension\" registered and has not been used yet.',\n    'previous' => \n    array (\n      'class' => 'LogicException',\n      'message' => 'Unable to register extension \"Twig\\\\Extension\\\\SandboxExtension\" as extensions have already been initialized.',\n    ),\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(3) {\n    [\"class\"]=>\n    string(14) \"LogicException\"\n    [\"message\"]=>\n    string(190) \"The environment passed to \"Twig\\Sandbox\\Sandbox\" must be dedicated to it: pass a freshly built environment that has no \"Twig\\Extension\\SandboxExtension\" registered and has not been used yet.\"\n    [\"previous\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(14) \"LogicException\"\n      [\"message\"]=>\n      string(107) \"Unable to register extension \"Twig\\Extension\\SandboxExtension\" as extensions have already been initialized.\"\n    }\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"LogicException\",\"message\":\"The environment passed to \\\"Twig\\\\Sandbox\\\\Sandbox\\\" must be dedicated to it: pass a freshly built environment that has no \\\"Twig\\\\Extension\\\\SandboxExtension\\\" registered and has not been used yet.\",\"previous\":{\"class\":\"LogicException\",\"message\":\"Unable to register extension \\\"Twig\\\\Extension\\\\SandboxExtension\\\" as extensions have already been initialized.\"}}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/environment_with_a_sandbox_extension",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'LogicException',\n    'message' => 'The environment passed to \"Twig\\\\Sandbox\\\\Sandbox\" must be dedicated to it: pass a freshly built environment that has no \"Twig\\\\Extension\\\\SandboxExtension\" registered and has not been used yet.',\n    'previous' => \n    array (\n      'class' => 'LogicException',\n      'message' => 'Unable to register extension \"Twig\\\\Extension\\\\SandboxExtension\" as it is already registered.',\n    ),\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(3) {\n    [\"class\"]=>\n    string(14) \"LogicException\"\n    [\"message\"]=>\n    string(190) \"The environment passed to \"Twig\\Sandbox\\Sandbox\" must be dedicated to it: pass a freshly built environment that has no \"Twig\\Extension\\SandboxExtension\" registered and has not been used yet.\"\n    [\"previous\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(14) \"LogicException\"\n      [\"message\"]=>\n      string(91) \"Unable to register extension \"Twig\\Extension\\SandboxExtension\" as it is already registered.\"\n    }\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"LogicException\",\"message\":\"The environment passed to \\\"Twig\\\\Sandbox\\\\Sandbox\\\" must be dedicated to it: pass a freshly built environment that has no \\\"Twig\\\\Extension\\\\SandboxExtension\\\" registered and has not been used yet.\",\"previous\":{\"class\":\"LogicException\",\"message\":\"Unable to register extension \\\"Twig\\\\Extension\\\\SandboxExtension\\\" as it is already registered.\"}}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/foreign_template_wrapper/0",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Error\\\\RuntimeError',\n    'message' => 'A \"Twig\\\\TemplateWrapper\" can only be used with the \"Twig\\\\Environment\" that created it in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(23) \"Twig\\Error\\RuntimeError\"\n    [\"message\"]=>\n    string(107) \"A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Error\\\\RuntimeError\",\"message\":\"A \\\"Twig\\\\TemplateWrapper\\\" can only be used with the \\\"Twig\\\\Environment\\\" that created it in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/foreign_template_wrapper/1",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Error\\\\RuntimeError',\n    'message' => 'A \"Twig\\\\TemplateWrapper\" can only be used with the \"Twig\\\\Environment\" that created it in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(23) \"Twig\\Error\\RuntimeError\"\n    [\"message\"]=>\n    string(107) \"A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Error\\\\RuntimeError\",\"message\":\"A \\\"Twig\\\\TemplateWrapper\\\" can only be used with the \\\"Twig\\\\Environment\\\" that created it in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/foreign_template_wrapper/2",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Error\\\\RuntimeError',\n    'message' => 'A \"Twig\\\\TemplateWrapper\" can only be used with the \"Twig\\\\Environment\" that created it in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(23) \"Twig\\Error\\RuntimeError\"\n    [\"message\"]=>\n    string(107) \"A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Error\\\\RuntimeError\",\"message\":\"A \\\"Twig\\\\TemplateWrapper\\\" can only be used with the \\\"Twig\\\\Environment\\\" that created it in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/foreign_template_wrapper/3",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Error\\\\RuntimeError',\n    'message' => 'A \"Twig\\\\TemplateWrapper\" can only be used with the \"Twig\\\\Environment\" that created it in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(23) \"Twig\\Error\\RuntimeError\"\n    [\"message\"]=>\n    string(107) \"A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Error\\\\RuntimeError\",\"message\":\"A \\\"Twig\\\\TemplateWrapper\\\" can only be used with the \\\"Twig\\\\Environment\\\" that created it in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/foreign_template_wrapper/4",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Error\\\\RuntimeError',\n    'message' => 'A \"Twig\\\\TemplateWrapper\" can only be used with the \"Twig\\\\Environment\" that created it in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(23) \"Twig\\Error\\RuntimeError\"\n    [\"message\"]=>\n    string(107) \"A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Error\\\\RuntimeError\",\"message\":\"A \\\"Twig\\\\TemplateWrapper\\\" can only be used with the \\\"Twig\\\\Environment\\\" that created it in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/foreign_template_wrapper/5",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Error\\\\RuntimeError',\n    'message' => 'A \"Twig\\\\TemplateWrapper\" can only be used with the \"Twig\\\\Environment\" that created it in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(23) \"Twig\\Error\\RuntimeError\"\n    [\"message\"]=>\n    string(107) \"A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Error\\\\RuntimeError\",\"message\":\"A \\\"Twig\\\\TemplateWrapper\\\" can only be used with the \\\"Twig\\\\Environment\\\" that created it in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/foreign_template_wrapper/6",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Error\\\\RuntimeError',\n    'message' => 'A \"Twig\\\\TemplateWrapper\" can only be used with the \"Twig\\\\Environment\" that created it in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(23) \"Twig\\Error\\RuntimeError\"\n    [\"message\"]=>\n    string(107) \"A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Error\\\\RuntimeError\",\"message\":\"A \\\"Twig\\\\TemplateWrapper\\\" can only be used with the \\\"Twig\\\\Environment\\\" that created it in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/foreign_template_wrapper/7",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Error\\\\RuntimeError',\n    'message' => 'A \"Twig\\\\TemplateWrapper\" can only be used with the \"Twig\\\\Environment\" that created it in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(23) \"Twig\\Error\\RuntimeError\"\n    [\"message\"]=>\n    string(107) \"A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Error\\\\RuntimeError\",\"message\":\"A \\\"Twig\\\\TemplateWrapper\\\" can only be used with the \\\"Twig\\\\Environment\\\" that created it in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_test/foreign_template_wrapper/8",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Error\\\\RuntimeError',\n    'message' => 'A \"Twig\\\\TemplateWrapper\" can only be used with the \"Twig\\\\Environment\" that created it in \"index\" at line 1.',\n  ),\n)",
+        "var_dump": "array(1) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(23) \"Twig\\Error\\RuntimeError\"\n    [\"message\"]=>\n    string(107) \"A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it in \"index\" at line 1.\"\n  }\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Error\\\\RuntimeError\",\"message\":\"A \\\"Twig\\\\TemplateWrapper\\\" can only be used with the \\\"Twig\\\\Environment\\\" that created it in \\\"index\\\" at line 1.\"}}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_state_change_test/enable_sandbox_after_first_render",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'value' => 'FOO',\n  ),\n  1 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError',\n      'message' => 'Filter \"upper\" is not allowed in \"t\" at line 1.',\n    ),\n  ),\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  array(1) {\n    [\"value\"]=>\n    string(3) \"FOO\"\n  }\n  [1]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(42) \"Twig\\Sandbox\\SecurityNotAllowedFilterError\"\n      [\"message\"]=>\n      string(47) \"Filter \"upper\" is not allowed in \"t\" at line 1.\"\n    }\n  }\n}\n",
+        "json": "[{\"value\":\"FOO\"},{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError\",\"message\":\"Filter \\\"upper\\\" is not allowed in \\\"t\\\" at line 1.\"}}]",
+        "json_error": null,
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.29: The \"Twig\\Extension\\SandboxExtension::enableSandbox()\" method is deprecated, use \"Twig\\Sandbox\\Sandbox\" to render untrusted templates instead."
+            }
+        ]
+    },
+    {
+        "id": "sandbox_state_change_test/set_security_policy_tightening",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'value' => 'FOO',\n  ),\n  1 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError',\n      'message' => 'Filter \"upper\" is not allowed in \"t\" at line 1.',\n    ),\n  ),\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  array(1) {\n    [\"value\"]=>\n    string(3) \"FOO\"\n  }\n  [1]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(42) \"Twig\\Sandbox\\SecurityNotAllowedFilterError\"\n      [\"message\"]=>\n      string(47) \"Filter \"upper\" is not allowed in \"t\" at line 1.\"\n    }\n  }\n}\n",
+        "json": "[{\"value\":\"FOO\"},{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError\",\"message\":\"Filter \\\"upper\\\" is not allowed in \\\"t\\\" at line 1.\"}}]",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_state_change_test/pre_warmed_parent_template_through_extends",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'value' => 'childHI',\n  ),\n  1 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError',\n      'message' => 'Filter \"upper\" is not allowed in \"parent.twig\" at line 1.',\n    ),\n  ),\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  array(1) {\n    [\"value\"]=>\n    string(7) \"childHI\"\n  }\n  [1]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(42) \"Twig\\Sandbox\\SecurityNotAllowedFilterError\"\n      [\"message\"]=>\n      string(57) \"Filter \"upper\" is not allowed in \"parent.twig\" at line 1.\"\n    }\n  }\n}\n",
+        "json": "[{\"value\":\"childHI\"},{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError\",\"message\":\"Filter \\\"upper\\\" is not allowed in \\\"parent.twig\\\" at line 1.\"}}]",
+        "json_error": null,
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.29: The \"Twig\\Extension\\SandboxExtension::enableSandbox()\" method is deprecated, use \"Twig\\Sandbox\\Sandbox\" to render untrusted templates instead."
+            }
+        ]
+    },
+    {
+        "id": "sandbox_state_change_test/pre_warmed_shared_via_sandboxed_include",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'value' => 'OK',\n  ),\n  1 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError',\n      'message' => 'Filter \"upper\" is not allowed in \"shared\" at line 1.',\n    ),\n  ),\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  array(1) {\n    [\"value\"]=>\n    string(2) \"OK\"\n  }\n  [1]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(42) \"Twig\\Sandbox\\SecurityNotAllowedFilterError\"\n      [\"message\"]=>\n      string(52) \"Filter \"upper\" is not allowed in \"shared\" at line 1.\"\n    }\n  }\n}\n",
+        "json": "[{\"value\":\"OK\"},{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError\",\"message\":\"Filter \\\"upper\\\" is not allowed in \\\"shared\\\" at line 1.\"}}]",
+        "json_error": null,
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+            }
+        ]
+    },
+    {
+        "id": "sandbox_state_change_test/macro_from_pre_warmed_template",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'value' => 'WORLD',\n  ),\n  1 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError',\n      'message' => 'Filter \"upper\" is not allowed in \"macros.twig\" at line 1.',\n    ),\n  ),\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  array(1) {\n    [\"value\"]=>\n    string(5) \"WORLD\"\n  }\n  [1]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(42) \"Twig\\Sandbox\\SecurityNotAllowedFilterError\"\n      [\"message\"]=>\n      string(57) \"Filter \"upper\" is not allowed in \"macros.twig\" at line 1.\"\n    }\n  }\n}\n",
+        "json": "[{\"value\":\"WORLD\"},{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError\",\"message\":\"Filter \\\"upper\\\" is not allowed in \\\"macros.twig\\\" at line 1.\"}}]",
+        "json_error": null,
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.29: The \"Twig\\Extension\\SandboxExtension::enableSandbox()\" method is deprecated, use \"Twig\\Sandbox\\Sandbox\" to render untrusted templates instead."
+            }
+        ]
+    },
+    {
+        "id": "sandbox_state_change_test/sandbox_tag_around_include_of_pre_warmed_template",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'value' => 'OK',\n  ),\n  1 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError',\n      'message' => 'Filter \"upper\" is not allowed in \"shared\" at line 1.',\n    ),\n  ),\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  array(1) {\n    [\"value\"]=>\n    string(2) \"OK\"\n  }\n  [1]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(42) \"Twig\\Sandbox\\SecurityNotAllowedFilterError\"\n      [\"message\"]=>\n      string(52) \"Filter \"upper\" is not allowed in \"shared\" at line 1.\"\n    }\n  }\n}\n",
+        "json": "[{\"value\":\"OK\"},{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError\",\"message\":\"Filter \\\"upper\\\" is not allowed in \\\"shared\\\" at line 1.\"}}]",
+        "json_error": null,
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.15: The \"sandbox\" tag is deprecated in \"wrapper\" at line 1."
+            }
+        ]
+    },
+    {
+        "id": "sandbox_state_change_test/tag_bypass_through_pre_warmed_parent",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'value' => '12',\n  ),\n  1 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedTagError',\n      'message' => 'Tag \"for\" is not allowed in \"parent.twig\" at line 1.',\n    ),\n  ),\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  array(1) {\n    [\"value\"]=>\n    string(2) \"12\"\n  }\n  [1]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(39) \"Twig\\Sandbox\\SecurityNotAllowedTagError\"\n      [\"message\"]=>\n      string(52) \"Tag \"for\" is not allowed in \"parent.twig\" at line 1.\"\n    }\n  }\n}\n",
+        "json": "[{\"value\":\"12\"},{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedTagError\",\"message\":\"Tag \\\"for\\\" is not allowed in \\\"parent.twig\\\" at line 1.\"}}]",
+        "json_error": null,
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.29: The \"Twig\\Extension\\SandboxExtension::enableSandbox()\" method is deprecated, use \"Twig\\Sandbox\\Sandbox\" to render untrusted templates instead."
+            }
+        ]
+    },
+    {
+        "id": "sandbox_state_change_test/function_bypass_through_pre_warmed_parent",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'value' => '1',\n  ),\n  1 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFunctionError',\n      'message' => 'Function \"range\" is not allowed in \"parent.twig\" at line 1.',\n    ),\n  ),\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  array(1) {\n    [\"value\"]=>\n    string(1) \"1\"\n  }\n  [1]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(44) \"Twig\\Sandbox\\SecurityNotAllowedFunctionError\"\n      [\"message\"]=>\n      string(59) \"Function \"range\" is not allowed in \"parent.twig\" at line 1.\"\n    }\n  }\n}\n",
+        "json": "[{\"value\":\"1\"},{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFunctionError\",\"message\":\"Function \\\"range\\\" is not allowed in \\\"parent.twig\\\" at line 1.\"}}]",
+        "json_error": null,
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.29: The \"Twig\\Extension\\SandboxExtension::enableSandbox()\" method is deprecated, use \"Twig\\Sandbox\\Sandbox\" to render untrusted templates instead."
+            }
+        ]
+    },
+    {
+        "id": "sandbox_state_change_test/dynamic_parent_filter_rejected_when_reached_via_macro_import",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError',\n      'message' => 'Filter \"evil\" is not allowed in \"middle.twig\" at line 1.',\n    ),\n  ),\n  1 => 0,\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(42) \"Twig\\Sandbox\\SecurityNotAllowedFilterError\"\n      [\"message\"]=>\n      string(56) \"Filter \"evil\" is not allowed in \"middle.twig\" at line 1.\"\n    }\n  }\n  [1]=>\n  int(0)\n}\n",
+        "json": "[{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError\",\"message\":\"Filter \\\"evil\\\" is not allowed in \\\"middle.twig\\\" at line 1.\"}},0]",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "sandbox_state_change_test/dynamic_parent_function_rejected_when_reached_via_macro_import",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Sandbox\\\\SecurityNotAllowedFunctionError',\n      'message' => 'Function \"evil\" is not allowed in \"middle.twig\" at line 1.',\n    ),\n  ),\n  1 => 0,\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(44) \"Twig\\Sandbox\\SecurityNotAllowedFunctionError\"\n      [\"message\"]=>\n      string(58) \"Function \"evil\" is not allowed in \"middle.twig\" at line 1.\"\n    }\n  }\n  [1]=>\n  int(0)\n}\n",
+        "json": "[{\"error\":{\"class\":\"Twig\\\\Sandbox\\\\SecurityNotAllowedFunctionError\",\"message\":\"Function \\\"evil\\\" is not allowed in \\\"middle.twig\\\" at line 1.\"}},0]",
+        "json_error": null,
+        "diagnostics": []
+    }
+]

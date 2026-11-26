@@ -1,0 +1,189 @@
+[
+    {
+        "id": "filter_test/provide_tests",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'output' => '0.00',\n  ),\n  1 => \n  array (\n    'output' => '31/12/1969 18:00:00 -06:00',\n  ),\n  2 => \n  array (\n    'output' => 'December 31, 1969 18:00',\n  ),\n  3 => \n  array (\n    'output' => 'cba',\n  ),\n  4 => \n  array (\n    'output' => 'cba',\n  ),\n  5 => \n  array (\n    'output' => '',\n  ),\n  6 => \n  array (\n    'output' => '[false,\"abc\"]',\n  ),\n  7 => \n  array (\n    'output' => '[\"UTF-8\",\"env\",\"context\",false,\"abc\"]',\n  ),\n  8 => \n  array (\n    'output' => '[\"env\",\"abc\"]',\n  ),\n  9 => \n  array (\n    'output' => '[\"env\",\"abc\",\"bar\"]',\n  ),\n  10 => \n  array (\n    'output' => '[\"context\",\"abc\",null,null,[]]',\n  ),\n  11 => \n  array (\n    'output' => '[\"context\",\"abc\",null,null,{\"foo\":\"bar\"}]',\n  ),\n  12 => \n  array (\n    'output' => '[\"context\",\"abc\",null,\"bar\",[]]',\n  ),\n  13 => \n  array (\n    'output' => '[\"context\",\"abc\",\"1\",\"2\",{\"0\":\"3\",\"foo\":\"bar\"}]',\n  ),\n)",
+        "var_dump": "array(14) {\n  [0]=>\n  array(1) {\n    [\"output\"]=>\n    string(4) \"0.00\"\n  }\n  [1]=>\n  array(1) {\n    [\"output\"]=>\n    string(26) \"31/12/1969 18:00:00 -06:00\"\n  }\n  [2]=>\n  array(1) {\n    [\"output\"]=>\n    string(23) \"December 31, 1969 18:00\"\n  }\n  [3]=>\n  array(1) {\n    [\"output\"]=>\n    string(3) \"cba\"\n  }\n  [4]=>\n  array(1) {\n    [\"output\"]=>\n    string(3) \"cba\"\n  }\n  [5]=>\n  array(1) {\n    [\"output\"]=>\n    string(0) \"\"\n  }\n  [6]=>\n  array(1) {\n    [\"output\"]=>\n    string(13) \"[false,\"abc\"]\"\n  }\n  [7]=>\n  array(1) {\n    [\"output\"]=>\n    string(37) \"[\"UTF-8\",\"env\",\"context\",false,\"abc\"]\"\n  }\n  [8]=>\n  array(1) {\n    [\"output\"]=>\n    string(13) \"[\"env\",\"abc\"]\"\n  }\n  [9]=>\n  array(1) {\n    [\"output\"]=>\n    string(19) \"[\"env\",\"abc\",\"bar\"]\"\n  }\n  [10]=>\n  array(1) {\n    [\"output\"]=>\n    string(30) \"[\"context\",\"abc\",null,null,[]]\"\n  }\n  [11]=>\n  array(1) {\n    [\"output\"]=>\n    string(41) \"[\"context\",\"abc\",null,null,{\"foo\":\"bar\"}]\"\n  }\n  [12]=>\n  array(1) {\n    [\"output\"]=>\n    string(31) \"[\"context\",\"abc\",null,\"bar\",[]]\"\n  }\n  [13]=>\n  array(1) {\n    [\"output\"]=>\n    string(47) \"[\"context\",\"abc\",\"1\",\"2\",{\"0\":\"3\",\"foo\":\"bar\"}]\"\n  }\n}\n",
+        "json": "[{\"output\":\"0.00\"},{\"output\":\"31/12/1969 18:00:00 -06:00\"},{\"output\":\"December 31, 1969 18:00\"},{\"output\":\"cba\"},{\"output\":\"cba\"},{\"output\":\"\"},{\"output\":\"[false,\\\"abc\\\"]\"},{\"output\":\"[\\\"UTF-8\\\",\\\"env\\\",\\\"context\\\",false,\\\"abc\\\"]\"},{\"output\":\"[\\\"env\\\",\\\"abc\\\"]\"},{\"output\":\"[\\\"env\\\",\\\"abc\\\",\\\"bar\\\"]\"},{\"output\":\"[\\\"context\\\",\\\"abc\\\",null,null,[]]\"},{\"output\":\"[\\\"context\\\",\\\"abc\\\",null,null,{\\\"foo\\\":\\\"bar\\\"}]\"},{\"output\":\"[\\\"context\\\",\\\"abc\\\",null,\\\"bar\\\",[]]\"},{\"output\":\"[\\\"context\\\",\\\"abc\\\",\\\"1\\\",\\\"2\\\",{\\\"0\\\":\\\"3\\\",\\\"foo\\\":\\\"bar\\\"}]\"}]",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "filter_test/compile_errors",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'class' => 'Twig\\\\Error\\\\SyntaxError',\n    'message' => 'Unknown argument \"foobar\" for filter \"date(format, timezone)\" at line 1.',\n  ),\n  1 => \n  array (\n    'class' => 'Twig\\\\Error\\\\SyntaxError',\n    'message' => 'Value for argument \"from\" is required for filter \"replace\" at line 1.',\n  ),\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  array(2) {\n    [\"class\"]=>\n    string(22) \"Twig\\Error\\SyntaxError\"\n    [\"message\"]=>\n    string(72) \"Unknown argument \"foobar\" for filter \"date(format, timezone)\" at line 1.\"\n  }\n  [1]=>\n  array(2) {\n    [\"class\"]=>\n    string(22) \"Twig\\Error\\SyntaxError\"\n    [\"message\"]=>\n    string(69) \"Value for argument \"from\" is required for filter \"replace\" at line 1.\"\n  }\n}\n",
+        "json": "[{\"class\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"Unknown argument \\\"foobar\\\" for filter \\\"date(format, timezone)\\\" at line 1.\"},{\"class\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"Value for argument \\\"from\\\" is required for filter \\\"replace\\\" at line 1.\"}]",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "call_test/arbitrary_arguments_in_templates",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Error\\\\SyntaxError',\n      'message' => 'The last parameter of \"Closure\" for function \"foo\" must be an array with default value, eg. \"array $arg = []\" in \"index (string template 3938aa463974ff96355da68be6206367)\".',\n    ),\n  ),\n  1 => \n  array (\n    'error' => \n    array (\n      'class' => 'Twig\\\\Error\\\\SyntaxError',\n      'message' => 'The last parameter of \"twig_rs_custom_call_test_function\" for function \"bar\" must be an array with default value, eg. \"array $arg = []\" in \"index (string template 2f81e271974137f5ddc6d8d31ab2980d)\".',\n    ),\n  ),\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(22) \"Twig\\Error\\SyntaxError\"\n      [\"message\"]=>\n      string(172) \"The last parameter of \"Closure\" for function \"foo\" must be an array with default value, eg. \"array $arg = []\" in \"index (string template 3938aa463974ff96355da68be6206367)\".\"\n    }\n  }\n  [1]=>\n  array(1) {\n    [\"error\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(22) \"Twig\\Error\\SyntaxError\"\n      [\"message\"]=>\n      string(198) \"The last parameter of \"twig_rs_custom_call_test_function\" for function \"bar\" must be an array with default value, eg. \"array $arg = []\" in \"index (string template 2f81e271974137f5ddc6d8d31ab2980d)\".\"\n    }\n  }\n}\n",
+        "json": "[{\"error\":{\"class\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"The last parameter of \\\"Closure\\\" for function \\\"foo\\\" must be an array with default value, eg. \\\"array $arg = []\\\" in \\\"index (string template 3938aa463974ff96355da68be6206367)\\\".\"}},{\"error\":{\"class\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"The last parameter of \\\"twig_rs_custom_call_test_function\\\" for function \\\"bar\\\" must be an array with default value, eg. \\\"array $arg = []\\\" in \\\"index (string template 2f81e271974137f5ddc6d8d31ab2980d)\\\".\"}}]",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "macro_reference_test/0",
+        "kind": "twig",
+        "ok": true,
+        "output": "hi you",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_reference_test/1",
+        "kind": "twig",
+        "ok": true,
+        "output": "hi me",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_reference_test/2",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Macro \"missing\" is not defined in template \"index\" in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: Macro \"missing\" is not defined in template \"index\" in \"index\" at line 1.",
+            "rawMessage": "Macro \"missing\" is not defined in template \"index\".",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_reference_test/3",
+        "kind": "twig",
+        "ok": true,
+        "output": "hi",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_reference_test/4",
+        "kind": "twig",
+        "ok": true,
+        "output": "hi",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_reference_test/5",
+        "kind": "twig",
+        "ok": true,
+        "output": "y",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_reference_test/6",
+        "kind": "twig",
+        "ok": true,
+        "output": "n",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_reference_test/7",
+        "kind": "twig",
+        "ok": true,
+        "output": "hi",
+        "deprecations": [
+            "Since twig/twig 3.29: Calling the macro \"hello\" (defined in template \"index\") as \"HELLO\" is deprecated; macro names will be case-sensitive in Twig 4.0."
+        ],
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.29: Calling the macro \"hello\" (defined in template \"index\") as \"HELLO\" is deprecated; macro names will be case-sensitive in Twig 4.0."
+            }
+        ]
+    },
+    {
+        "id": "macro_reference_test/8",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Macro \"1\" is not defined in template \"index\" in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: Macro \"1\" is not defined in template \"index\" in \"index\" at line 1.",
+            "rawMessage": "Macro \"1\" is not defined in template \"index\".",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_reference_test/9",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Macro \"\" is not defined in template \"index\" in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: Macro \"\" is not defined in template \"index\" in \"index\" at line 1.",
+            "rawMessage": "Macro \"\" is not defined in template \"index\".",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_reference_test/10",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Macro \"Array\" is not defined in template \"index\" in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: Macro \"Array\" is not defined in template \"index\" in \"index\" at line 1.",
+            "rawMessage": "Macro \"Array\" is not defined in template \"index\".",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": [
+            {
+                "type": "E_WARNING",
+                "message": "Array to string conversion"
+            }
+        ]
+    },
+    {
+        "id": "macro_reference_test/11",
+        "kind": "twig",
+        "ok": true,
+        "output": "hi",
+        "deprecations": [
+            "Since twig/twig 3.29: Omitting parentheses when calling a macro is deprecated and will throw a SyntaxError in Twig 4.0; add parentheses after the macro name in \"index\" at line 1."
+        ],
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.29: Omitting parentheses when calling a macro is deprecated and will throw a SyntaxError in Twig 4.0; add parentheses after the macro name in \"index\" at line 1."
+            }
+        ]
+    }
+]

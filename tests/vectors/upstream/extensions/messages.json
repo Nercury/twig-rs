@@ -1,0 +1,167 @@
+[
+    {
+        "id": "cycle-empty",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "The \"cycle\" function expects a non-empty sequence in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: The \"cycle\" function expects a non-empty sequence in \"index\" at line 1.",
+            "rawMessage": "The \"cycle\" function expects a non-empty sequence.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "cycle-arrayobject",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "The \"cycle\" function expects a non-empty sequence in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: The \"cycle\" function expects a non-empty sequence in \"index\" at line 1.",
+            "rawMessage": "The \"cycle\" function expects a non-empty sequence.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "random-empty",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "The \"random\" function cannot pick from an empty sequence or mapping in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: The \"random\" function cannot pick from an empty sequence or mapping in \"index\" at line 1.",
+            "rawMessage": "The \"random\" function cannot pick from an empty sequence or mapping.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "sandboxed-include",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+            "message": "Filter \"e\" is not allowed in \"included\" at line 1.",
+            "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"e\" is not allowed in \"included\" at line 1.",
+            "rawMessage": "Filter \"e\" is not allowed.",
+            "templateName": "included",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [
+            "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+        ],
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+            }
+        ]
+    },
+    {
+        "id": "sandboxed-include-preloaded",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+            "message": "Filter \"e\" is not allowed in \"included\" at line 1.",
+            "formatted": "Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"e\" is not allowed in \"included\" at line 1.",
+            "rawMessage": "Filter \"e\" is not allowed.",
+            "templateName": "included",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [
+            "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+        ],
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+            }
+        ]
+    },
+    {
+        "id": "sandboxed-include-assigned",
+        "kind": "twig",
+        "ok": true,
+        "output": "[&lt;script&gt;]",
+        "deprecations": [
+            "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+        ],
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+            }
+        ]
+    },
+    {
+        "id": "cycle-non-countable",
+        "kind": "twig",
+        "ok": true,
+        "output": "odd",
+        "deprecations": [
+            "Since twig/twig 3.12: Passing a non-countable sequence of values to \"Twig\\Extension\\CoreExtension::cycle()\" is deprecated."
+        ],
+        "diagnostics": [
+            {
+                "type": "E_USER_DEPRECATED",
+                "message": "Since twig/twig 3.12: Passing a non-countable sequence of values to \"Twig\\Extension\\CoreExtension::cycle()\" is deprecated."
+            }
+        ]
+    },
+    {
+        "id": "unknown-escaper",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => 'Twig\\\\Error\\\\RuntimeError',\n  1 => 'Invalid escaping strategy \"bar\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").',\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  string(23) \"Twig\\Error\\RuntimeError\"\n  [1]=>\n  string(107) \"Invalid escaping strategy \"bar\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\").\"\n}\n",
+        "json": "[\"Twig\\\\Error\\\\RuntimeError\",\"Invalid escaping strategy \\\"bar\\\" (valid ones: \\\"html\\\", \\\"js\\\", \\\"url\\\", \\\"css\\\", \\\"html_attr\\\", \\\"html_attr_relaxed\\\").\"]",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "unknown-escaper-custom",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  0 => 'Twig\\\\Error\\\\RuntimeError',\n  1 => 'Invalid escaping strategy \"bar\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\", \"foo\").',\n)",
+        "var_dump": "array(2) {\n  [0]=>\n  string(23) \"Twig\\Error\\RuntimeError\"\n  [1]=>\n  string(114) \"Invalid escaping strategy \"bar\" (valid ones: \"html\", \"js\", \"url\", \"css\", \"html_attr\", \"html_attr_relaxed\", \"foo\").\"\n}\n",
+        "json": "[\"Twig\\\\Error\\\\RuntimeError\",\"Invalid escaping strategy \\\"bar\\\" (valid ones: \\\"html\\\", \\\"js\\\", \\\"url\\\", \\\"css\\\", \\\"html_attr\\\", \\\"html_attr_relaxed\\\", \\\"foo\\\").\"]",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "callable-arguments-extractor",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'date' => \n  array (\n    'ok' => \n    array (\n      0 => '\\'U\\'',\n      1 => 'NULL',\n    ),\n    'deprecations' => \n    array (\n    ),\n  ),\n  'positional_after_named' => \n  array (\n    'error' => 'Twig\\\\Error\\\\SyntaxError',\n    'message' => 'Positional arguments cannot be used after named arguments for function \"date\" in \"test.twig\" at line 2.',\n    'deprecations' => \n    array (\n    ),\n  ),\n  'defined_twice' => \n  array (\n    'error' => 'Twig\\\\Error\\\\SyntaxError',\n    'message' => 'Argument \"format\" is defined twice for function \"date\" in \"test.twig\" at line 2.',\n    'deprecations' => \n    array (\n    ),\n  ),\n  'unknown' => \n  array (\n    'error' => 'Twig\\\\Error\\\\SyntaxError',\n    'message' => 'Unknown argument \"unknown\" for function \"date(format, timestamp)\".',\n    'deprecations' => \n    array (\n    ),\n  ),\n  'unknowns' => \n  array (\n    'error' => 'Twig\\\\Error\\\\SyntaxError',\n    'message' => 'Unknown arguments \"unknown1\", \"unknown2\" for function \"date(format, timestamp)\".',\n    'deprecations' => \n    array (\n    ),\n  ),\n  'static' => \n  array (\n    'ok' => \n    array (\n      0 => '\\'arg1\\'',\n    ),\n    'deprecations' => \n    array (\n    ),\n  ),\n  'variadic_conv' => \n  array (\n    'ok' => \n    array (\n      0 => 'Twig\\\\Node\\\\Expression\\\\ConstantExpression\n  attributes:\n    value: \\'a\\' @0',\n      1 => 'Twig\\\\Node\\\\Expression\\\\ConstantExpression\n  attributes:\n    value: 12 @0',\n      2 => 'Twig\\\\Node\\\\Expression\\\\VariadicExpression\n  nodes:\n    0: Twig\\\\Node\\\\Expression\\\\ConstantExpression\n         attributes:\n           value: \\'some_text_variadic\\'\n    1: Twig\\\\Node\\\\Expression\\\\ConstantExpression\n         attributes:\n           value: \\'a\\'\n    2: Twig\\\\Node\\\\Expression\\\\ConstantExpression\n         attributes:\n           value: \\'some_number_variadic\\'\n    3: Twig\\\\Node\\\\Expression\\\\ConstantExpression\n         attributes:\n           value: 12 @2',\n    ),\n    'deprecations' => \n    array (\n      0 => 'Since twig/twig 3.15: Using \"snake_case\" for variadic arguments is required for a smooth upgrade with Twig 4.0; rename \"someNumberVariadic\" to \"some_number_variadic\" in \"test.twig\" at line 2.',\n    ),\n  ),\n  'error' => \n  array (\n    'error' => 'Twig\\\\Error\\\\SyntaxError',\n    'message' => 'Value for argument \"some_name\" is required for function \"custom_static_function\" in \"test.twig\" at line 2.',\n    'deprecations' => \n    array (\n    ),\n  ),\n  'arbitrary' => \n  array (\n    'error' => 'Twig\\\\Error\\\\SyntaxError',\n    'message' => 'The last parameter of \"CallableTestClassX::customFunctionWithArbitraryArguments\" for function \"foo\" must be an array with default value, eg. \"array $arg = []\".',\n    'deprecations' => \n    array (\n    ),\n  ),\n  'invalid' => \n  array (\n    'error' => 'LogicException',\n    'message' => 'Callback for function \"foo\" is not callable in the current scope.',\n    'deprecations' => \n    array (\n    ),\n  ),\n  'invalid_null' => \n  array (\n    'error' => 'LogicException',\n    'message' => 'Callback for function \"foo\" is not callable in the current scope.',\n    'deprecations' => \n    array (\n    ),\n  ),\n  'arbitrary_function' => \n  array (\n    'error' => 'Twig\\\\Error\\\\SyntaxError',\n    'message' => 'The last parameter of \"custom_call_test_function_x\" for function \"foo\" must be an array with default value, eg. \"array $arg = []\".',\n    'deprecations' => \n    array (\n    ),\n  ),\n  'arbitrary_object' => \n  array (\n    'error' => 'Twig\\\\Error\\\\SyntaxError',\n    'message' => 'The last parameter of \"CallableTestClassX::__invoke\" for function \"foo\" must be an array with default value, eg. \"array $arg = []\".',\n    'deprecations' => \n    array (\n    ),\n  ),\n)",
+        "var_dump": "array(13) {\n  [\"date\"]=>\n  array(2) {\n    [\"ok\"]=>\n    array(2) {\n      [0]=>\n      string(3) \"'U'\"\n      [1]=>\n      string(4) \"NULL\"\n    }\n    [\"deprecations\"]=>\n    array(0) {\n    }\n  }\n  [\"positional_after_named\"]=>\n  array(3) {\n    [\"error\"]=>\n    string(22) \"Twig\\Error\\SyntaxError\"\n    [\"message\"]=>\n    string(103) \"Positional arguments cannot be used after named arguments for function \"date\" in \"test.twig\" at line 2.\"\n    [\"deprecations\"]=>\n    array(0) {\n    }\n  }\n  [\"defined_twice\"]=>\n  array(3) {\n    [\"error\"]=>\n    string(22) \"Twig\\Error\\SyntaxError\"\n    [\"message\"]=>\n    string(80) \"Argument \"format\" is defined twice for function \"date\" in \"test.twig\" at line 2.\"\n    [\"deprecations\"]=>\n    array(0) {\n    }\n  }\n  [\"unknown\"]=>\n  array(3) {\n    [\"error\"]=>\n    string(22) \"Twig\\Error\\SyntaxError\"\n    [\"message\"]=>\n    string(66) \"Unknown argument \"unknown\" for function \"date(format, timestamp)\".\"\n    [\"deprecations\"]=>\n    array(0) {\n    }\n  }\n  [\"unknowns\"]=>\n  array(3) {\n    [\"error\"]=>\n    string(22) \"Twig\\Error\\SyntaxError\"\n    [\"message\"]=>\n    string(80) \"Unknown arguments \"unknown1\", \"unknown2\" for function \"date(format, timestamp)\".\"\n    [\"deprecations\"]=>\n    array(0) {\n    }\n  }\n  [\"static\"]=>\n  array(2) {\n    [\"ok\"]=>\n    array(1) {\n      [0]=>\n      string(6) \"'arg1'\"\n    }\n    [\"deprecations\"]=>\n    array(0) {\n    }\n  }\n  [\"variadic_conv\"]=>\n  array(2) {\n    [\"ok\"]=>\n    array(3) {\n      [0]=>\n      string(71) \"Twig\\Node\\Expression\\ConstantExpression\n  attributes:\n    value: 'a' @0\"\n      [1]=>\n      string(70) \"Twig\\Node\\Expression\\ConstantExpression\n  attributes:\n    value: 12 @0\"\n      [2]=>\n      string(446) \"Twig\\Node\\Expression\\VariadicExpression\n  nodes:\n    0: Twig\\Node\\Expression\\ConstantExpression\n         attributes:\n           value: 'some_text_variadic'\n    1: Twig\\Node\\Expression\\ConstantExpression\n         attributes:\n           value: 'a'\n    2: Twig\\Node\\Expression\\ConstantExpression\n         attributes:\n           value: 'some_number_variadic'\n    3: Twig\\Node\\Expression\\ConstantExpression\n         attributes:\n           value: 12 @2\"\n    }\n    [\"deprecations\"]=>\n    array(1) {\n      [0]=>\n      string(191) \"Since twig/twig 3.15: Using \"snake_case\" for variadic arguments is required for a smooth upgrade with Twig 4.0; rename \"someNumberVariadic\" to \"some_number_variadic\" in \"test.twig\" at line 2.\"\n    }\n  }\n  [\"error\"]=>\n  array(3) {\n    [\"error\"]=>\n    string(22) \"Twig\\Error\\SyntaxError\"\n    [\"message\"]=>\n    string(106) \"Value for argument \"some_name\" is required for function \"custom_static_function\" in \"test.twig\" at line 2.\"\n    [\"deprecations\"]=>\n    array(0) {\n    }\n  }\n  [\"arbitrary\"]=>\n  array(3) {\n    [\"error\"]=>\n    string(22) \"Twig\\Error\\SyntaxError\"\n    [\"message\"]=>\n    string(159) \"The last parameter of \"CallableTestClassX::customFunctionWithArbitraryArguments\" for function \"foo\" must be an array with default value, eg. \"array $arg = []\".\"\n    [\"deprecations\"]=>\n    array(0) {\n    }\n  }\n  [\"invalid\"]=>\n  array(3) {\n    [\"error\"]=>\n    string(14) \"LogicException\"\n    [\"message\"]=>\n    string(65) \"Callback for function \"foo\" is not callable in the current scope.\"\n    [\"deprecations\"]=>\n    array(0) {\n    }\n  }\n  [\"invalid_null\"]=>\n  array(3) {\n    [\"error\"]=>\n    string(14) \"LogicException\"\n    [\"message\"]=>\n    string(65) \"Callback for function \"foo\" is not callable in the current scope.\"\n    [\"deprecations\"]=>\n    array(0) {\n    }\n  }\n  [\"arbitrary_function\"]=>\n  array(3) {\n    [\"error\"]=>\n    string(22) \"Twig\\Error\\SyntaxError\"\n    [\"message\"]=>\n    string(130) \"The last parameter of \"custom_call_test_function_x\" for function \"foo\" must be an array with default value, eg. \"array $arg = []\".\"\n    [\"deprecations\"]=>\n    array(0) {\n    }\n  }\n  [\"arbitrary_object\"]=>\n  array(3) {\n    [\"error\"]=>\n    string(22) \"Twig\\Error\\SyntaxError\"\n    [\"message\"]=>\n    string(131) \"The last parameter of \"CallableTestClassX::__invoke\" for function \"foo\" must be an array with default value, eg. \"array $arg = []\".\"\n    [\"deprecations\"]=>\n    array(0) {\n    }\n  }\n}\n",
+        "json": "{\"date\":{\"ok\":[\"'U'\",\"NULL\"],\"deprecations\":[]},\"positional_after_named\":{\"error\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"Positional arguments cannot be used after named arguments for function \\\"date\\\" in \\\"test.twig\\\" at line 2.\",\"deprecations\":[]},\"defined_twice\":{\"error\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"Argument \\\"format\\\" is defined twice for function \\\"date\\\" in \\\"test.twig\\\" at line 2.\",\"deprecations\":[]},\"unknown\":{\"error\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"Unknown argument \\\"unknown\\\" for function \\\"date(format, timestamp)\\\".\",\"deprecations\":[]},\"unknowns\":{\"error\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"Unknown arguments \\\"unknown1\\\", \\\"unknown2\\\" for function \\\"date(format, timestamp)\\\".\",\"deprecations\":[]},\"static\":{\"ok\":[\"'arg1'\"],\"deprecations\":[]},\"variadic_conv\":{\"ok\":[\"Twig\\\\Node\\\\Expression\\\\ConstantExpression\\n  attributes:\\n    value: 'a' @0\",\"Twig\\\\Node\\\\Expression\\\\ConstantExpression\\n  attributes:\\n    value: 12 @0\",\"Twig\\\\Node\\\\Expression\\\\VariadicExpression\\n  nodes:\\n    0: Twig\\\\Node\\\\Expression\\\\ConstantExpression\\n         attributes:\\n           value: 'some_text_variadic'\\n    1: Twig\\\\Node\\\\Expression\\\\ConstantExpression\\n         attributes:\\n           value: 'a'\\n    2: Twig\\\\Node\\\\Expression\\\\ConstantExpression\\n         attributes:\\n           value: 'some_number_variadic'\\n    3: Twig\\\\Node\\\\Expression\\\\ConstantExpression\\n         attributes:\\n           value: 12 @2\"],\"deprecations\":[\"Since twig/twig 3.15: Using \\\"snake_case\\\" for variadic arguments is required for a smooth upgrade with Twig 4.0; rename \\\"someNumberVariadic\\\" to \\\"some_number_variadic\\\" in \\\"test.twig\\\" at line 2.\"]},\"error\":{\"error\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"Value for argument \\\"some_name\\\" is required for function \\\"custom_static_function\\\" in \\\"test.twig\\\" at line 2.\",\"deprecations\":[]},\"arbitrary\":{\"error\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"The last parameter of \\\"CallableTestClassX::customFunctionWithArbitraryArguments\\\" for function \\\"foo\\\" must be an array with default value, eg. \\\"array $arg = []\\\".\",\"deprecations\":[]},\"invalid\":{\"error\":\"LogicException\",\"message\":\"Callback for function \\\"foo\\\" is not callable in the current scope.\",\"deprecations\":[]},\"invalid_null\":{\"error\":\"LogicException\",\"message\":\"Callback for function \\\"foo\\\" is not callable in the current scope.\",\"deprecations\":[]},\"arbitrary_function\":{\"error\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"The last parameter of \\\"custom_call_test_function_x\\\" for function \\\"foo\\\" must be an array with default value, eg. \\\"array $arg = []\\\".\",\"deprecations\":[]},\"arbitrary_object\":{\"error\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"The last parameter of \\\"CallableTestClassX::__invoke\\\" for function \\\"foo\\\" must be an array with default value, eg. \\\"array $arg = []\\\".\",\"deprecations\":[]}}",
+        "json_error": null,
+        "diagnostics": []
+    }
+]

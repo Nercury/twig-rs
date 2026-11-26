@@ -1,0 +1,74 @@
+[
+ {
+  "id": "documentation_whitespace_control/0",
+  "templates": {
+   "index": "A \n{##- The main content #}\n{% block content %}B{% endblock %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false,
+   "optimizations": 0
+  },
+  "name": "opening whitespace trim marker"
+ },
+ {
+  "id": "documentation_whitespace_control/1",
+  "templates": {
+   "index": "A \n  {##~ The main content #}\n{% block content %}B{% endblock %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false,
+   "optimizations": 0
+  },
+  "name": "opening line whitespace trim marker"
+ },
+ {
+  "id": "documentation_whitespace_control/2",
+  "templates": {
+   "index": "A{## The main content -##}\n  {% block content %}B{% endblock %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false,
+   "optimizations": 0
+  },
+  "name": "closing whitespace trim marker"
+ },
+ {
+  "id": "documentation_whitespace_control/3",
+  "templates": {
+   "index": "A{## The main content ~##}  \n{% block content %}B{% endblock %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false,
+   "optimizations": 0
+  },
+  "name": "closing line whitespace trim marker"
+ },
+ {
+  "id": "shortcut_assignment_named_docs_remains_valid",
+  "templates": {
+   "index": "{% block title docs=\"The page title\" %}"
+  },
+  "main": "index",
+  "env": "plain"
+ },
+ {
+  "id": "documentation_comment_requires_a_line_break",
+  "templates": {
+   "index": "{% block ## Description %}Hello{% endblock %}"
+  },
+  "main": "index",
+  "env": "plain"
+ },
+ {
+  "id": "undefined_handlers",
+  "php_code": "\n$describe = static function (\\Throwable $e) use (&$describe): array {\n    $out = ['class' => $e::class, 'message' => $e->getMessage()];\n    if ($e->getPrevious()) {\n        $out['previous'] = $describe($e->getPrevious());\n    }\n    return $out;\n};\n\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(), ['cache' => false, 'autoescape' => false]);\n$env->registerUndefinedFunctionCallback(static fn ($name) => throw new \\Twig\\Error\\SyntaxError('boom.'));\ntry {\n    (new \\Twig\\Parser($env))->parse($env->tokenize(new \\Twig\\Source('{% guard function boom %}{% endguard %}', '')));\n    $parsed = null;\n} catch (\\Throwable $e) {\n    $parsed = $describe($e);\n}\n\n// beyond the upstream test: the guard renders its else branch\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['index' => '{% guard function boom %}yes{% else %}no{% endguard %}']), ['cache' => false, 'autoescape' => false]);\n$env->registerUndefinedFunctionCallback(static fn ($name) => throw new \\Twig\\Error\\SyntaxError('boom.'));\n\nreturn ['parse_error' => $parsed, 'render' => $env->render('index')];\n"
+ }
+]

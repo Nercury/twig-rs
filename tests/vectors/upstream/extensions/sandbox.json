@@ -1,0 +1,2101 @@
+{
+    "testAllowedTestsCanBeUpdatedViaSetter": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTestError",
+        "message": "Test \"null\" is not allowed.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxFilterBypassesAllowList": {
+        "ok": true,
+        "output": "FABIEN",
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxFilterFromUndefinedCallbackUsesParsedCallable": {
+        "ok": true,
+        "output": "FABIEN",
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxFilterStillEnforcedWhenFlagNotSet": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+        "message": "Filter \"gated_upper\" is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxFilterStillEnforcesToStringPolicyOnArguments": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxFunctionAlsoCoversRangeOperator": {
+        "ok": true,
+        "output": "1",
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxFunctionBypassesAllowList": {
+        "ok": true,
+        "output": "hi fabien",
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxFunctionFromUndefinedCallbackUsesParsedCallable": {
+        "ok": true,
+        "output": "FABIEN",
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxFunctionStillEnforcedWhenFlagNotSet": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+        "message": "Function \"gated_greet\" is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxFunctionStillEnforcesToStringPolicyOnArguments": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxParserCallableFunctionFromUndefinedCallbackUsesParsedCallable": {
+        "ok": true,
+        "output": "literal",
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxTagBypassesAllowList": {
+        "ok": true,
+        "output": "always-allowed",
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxTagStillEnforcedWhenFlagNotSet": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"gated_tag\" is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxTestBypassesAllowList": {
+        "ok": true,
+        "output": "yes",
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxTestStillEnforcedWhenFlagNotSet": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTestError",
+        "message": "Test \"gated_even\" is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testAlwaysAllowedInSandboxTestStillEnforcesToStringPolicyOnInput": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testColumnFilterUnaffectedOutsideSandbox": {
+        "ok": true,
+        "output": "bar",
+        "deprecations": []
+    },
+    "testDynamicTestInputMapsAfterBoundArguments": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testFilterInputTypeSkipsToStringWrap": {
+        "ok": true,
+        "output": "ok",
+        "deprecations": []
+    },
+    "testIfSandBoxIsDisabledAfterSyntaxError": {
+        "ok": false,
+        "class": "Twig\\Error\\SyntaxError",
+        "message": "Unexpected \"}\" in \"1_syntax_error\" at line 1 column 17.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+        ]
+    },
+    "testIfSandBoxIsDisabledAfterSyntaxErrorLegacy": {
+        "ok": false,
+        "class": "Twig\\Error\\SyntaxError",
+        "message": "Unexpected \"}\" in \"1_syntax_error\" at line 1 column 17.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.15: The \"sandbox\" tag is deprecated in \"1_syntax_error_wrapper_legacy\" at line 1."
+        ]
+    },
+    "testImplicitBooleanCoercionDoesNotRequireAllowListingTests": {
+        "ok": true,
+        "output": "acdef",
+        "deprecations": []
+    },
+    "testImportedTemplateMacroReferenceWithBadIdentifierDoesNotInjectPhp": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "Macro \"foo + 1; trigger_error(\"BAD-IMPORT-REF\") //\" is not defined in template \"m\" in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testMacrosInASandbox": {
+        "ok": true,
+        "output": "<p>username</p>",
+        "deprecations": []
+    },
+    "testMultipleClassMatchesViaInheritanceInAllowedMethods/1": {
+        "ok": true,
+        "output": "",
+        "deprecations": []
+    },
+    "testMultipleClassMatchesViaInheritanceInAllowedMethods/2": {
+        "ok": true,
+        "output": "",
+        "deprecations": []
+    },
+    "testMultipleClassMatchesViaInheritanceInAllowedMethods/3": {
+        "ok": true,
+        "output": "",
+        "deprecations": []
+    },
+    "testMultipleClassMatchesViaInheritanceInAllowedMethods/4": {
+        "ok": true,
+        "output": "",
+        "deprecations": []
+    },
+    "testNeedsIsSandboxedFilterFollowsSourcePolicy/in": {
+        "ok": true,
+        "output": "foo:on",
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testNeedsIsSandboxedFilterFollowsSourcePolicy/out": {
+        "ok": true,
+        "output": "foo:off",
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testNeedsIsSandboxedFilterReceivesFalseWhenNotSandboxed": {
+        "ok": true,
+        "output": "foo:off",
+        "deprecations": []
+    },
+    "testNeedsIsSandboxedFilterReceivesTrueWhenSandboxed": {
+        "ok": true,
+        "output": "foo:on",
+        "deprecations": []
+    },
+    "testNeedsIsSandboxedFunctionWithoutSandboxExtension": {
+        "ok": true,
+        "output": "foo:off",
+        "deprecations": []
+    },
+    "testNeedsIsSandboxedTestReceivesFalseWhenNotSandboxed": {
+        "ok": true,
+        "output": "on",
+        "deprecations": []
+    },
+    "testNeedsIsSandboxedTestReceivesTrueWhenSandboxed": {
+        "ok": true,
+        "output": "on",
+        "deprecations": []
+    },
+    "testNormalizedNamedArgumentDoesNotFallThroughToSafeVariadic": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testNormalizedNamedFilterArgumentDoesNotFallThroughToSafeVariadic": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testNormalizedNamedTestArgumentDoesNotFallThroughToSafeVariadic": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testOpenPhpParamTypesStillWrap/interface param": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\CountableFooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testOpenPhpParamTypesStillWrap/non-final class param": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\StringablePlainObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSafeDynamicTestInputTypeSkipsToStringWrap": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "An exception has been thrown during the rendering of a template (\"{closure:{closure:Standard input code:573}:573}(): Argument #2 ($value) must be of type int, Twig\\Tests\\Extension\\FooObject given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 45\") in \"index\" at line 1.",
+        "previous": "TypeError",
+        "deprecations": []
+    },
+    "testSafePhpParamTypesSkipToStringWrap/bool param": {
+        "ok": true,
+        "output": "ok",
+        "deprecations": []
+    },
+    "testSafePhpParamTypesSkipToStringWrap/float param": {
+        "ok": true,
+        "output": "ok",
+        "deprecations": []
+    },
+    "testSafePhpParamTypesSkipToStringWrap/int param": {
+        "ok": true,
+        "output": "ok",
+        "deprecations": []
+    },
+    "testSafePhpParamTypesSkipToStringWrap/int|float union param": {
+        "ok": true,
+        "output": "ok",
+        "deprecations": []
+    },
+    "testSafePhpParamTypesSkipToStringWrap/non-stringable class param": {
+        "ok": true,
+        "output": "ok",
+        "deprecations": []
+    },
+    "testSafePhpParamTypesSkipToStringWrap/nullable int param with null value": {
+        "ok": true,
+        "output": "ok",
+        "deprecations": []
+    },
+    "testSafeTestInputTypeDoesNotWrapNestedTestReturn": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "An exception has been thrown during the rendering of a template (\"{closure:{closure:Standard input code:576}:576}(): Argument #1 ($value) must be of type int, Twig\\Tests\\Extension\\FooObject given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 45\") in \"index\" at line 1.",
+        "previous": "TypeError",
+        "deprecations": []
+    },
+    "testSafeTestInputTypeSkipsToStringWrap": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "An exception has been thrown during the rendering of a template (\"{closure:{closure:Standard input code:571}:571}(): Argument #1 ($value) must be of type int, Twig\\Tests\\Extension\\FooObject given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 45\") in \"index\" at line 1.",
+        "previous": "TypeError",
+        "deprecations": []
+    },
+    "testSafeVariadicPhpTypeSkipsToStringWrap": {
+        "ok": true,
+        "output": "ok",
+        "deprecations": []
+    },
+    "testSandboxAllowDestructuring": {
+        "ok": true,
+        "output": "bar-foo",
+        "deprecations": []
+    },
+    "testSandboxAllowFilter": {
+        "ok": true,
+        "output": "FABIEN",
+        "deprecations": []
+    },
+    "testSandboxAllowFunction": {
+        "ok": true,
+        "output": "bar",
+        "deprecations": []
+    },
+    "testSandboxAllowMethodFoo": {
+        "ok": true,
+        "output": "foo",
+        "deprecations": []
+    },
+    "testSandboxAllowMethodToString": {
+        "ok": true,
+        "output": "foo",
+        "deprecations": []
+    },
+    "testSandboxAllowMethodToStringDisabled": {
+        "ok": true,
+        "output": "foo",
+        "deprecations": []
+    },
+    "testSandboxAllowMethodsCaseInsensitive/getFooBar/1_basic8": {
+        "ok": true,
+        "output": "foobarfoobar",
+        "deprecations": []
+    },
+    "testSandboxAllowMethodsCaseInsensitive/getFooBar/1_basic9": {
+        "ok": true,
+        "output": "foobarfoobar",
+        "deprecations": []
+    },
+    "testSandboxAllowMethodsCaseInsensitive/getFoobar/1_basic8": {
+        "ok": true,
+        "output": "foobarfoobar",
+        "deprecations": []
+    },
+    "testSandboxAllowMethodsCaseInsensitive/getFoobar/1_basic9": {
+        "ok": true,
+        "output": "foobarfoobar",
+        "deprecations": []
+    },
+    "testSandboxAllowMethodsCaseInsensitive/getfoobar/1_basic8": {
+        "ok": true,
+        "output": "foobarfoobar",
+        "deprecations": []
+    },
+    "testSandboxAllowMethodsCaseInsensitive/getfoobar/1_basic9": {
+        "ok": true,
+        "output": "foobarfoobar",
+        "deprecations": []
+    },
+    "testSandboxAllowProperty": {
+        "ok": true,
+        "output": "bar",
+        "deprecations": []
+    },
+    "testSandboxAllowRangeOperator": {
+        "ok": true,
+        "output": "1",
+        "deprecations": []
+    },
+    "testSandboxAllowTag": {
+        "ok": true,
+        "output": "foo",
+        "deprecations": []
+    },
+    "testSandboxAllowedMagicCallMethod": {
+        "ok": true,
+        "output": "call:hello",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/constant_test": {
+        "ok": true,
+        "output": "",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/do_assignment_discarded": {
+        "ok": true,
+        "output": "1",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/do_object_discarded": {
+        "ok": true,
+        "output": "",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/do_sequence_destructuring_discarded": {
+        "ok": true,
+        "output": "5",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/is_defined1": {
+        "ok": true,
+        "output": "1",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/is_defined2": {
+        "ok": true,
+        "output": "",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/is_null": {
+        "ok": true,
+        "output": "",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/is_sameas": {
+        "ok": true,
+        "output": "1",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/is_sameas_from_another_method": {
+        "ok": true,
+        "output": "",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/is_sameas_from_another_method_no_brackets": {
+        "ok": true,
+        "output": "",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/is_sameas_from_array": {
+        "ok": true,
+        "output": "1",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/is_sameas_from_array_no_brackets": {
+        "ok": true,
+        "output": "1",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/is_sameas_no_brackets": {
+        "ok": true,
+        "output": "1",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/set_object": {
+        "ok": true,
+        "output": "foo",
+        "deprecations": []
+    },
+    "testSandboxAllowedToString/set_object_assigned": {
+        "ok": true,
+        "output": "1",
+        "deprecations": []
+    },
+    "testSandboxAllowingCallLiteralDoesNotAllowMagicCallMethod": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+        "message": "Calling \"hello\" property on a \"Twig\\Tests\\Extension\\MagicCallObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxAllowsAllowListedTest": {
+        "ok": true,
+        "output": "y",
+        "deprecations": []
+    },
+    "testSandboxAllowsAlwaysAllowedCoreTests/{{ \"\" is empty ? \"y\" }}": {
+        "ok": true,
+        "output": "y",
+        "deprecations": []
+    },
+    "testSandboxAllowsAlwaysAllowedCoreTests/{{ 1 is defined ? \"y\" }}": {
+        "ok": true,
+        "output": "y",
+        "deprecations": []
+    },
+    "testSandboxAllowsAlwaysAllowedCoreTests/{{ 1 is same as(1) ? \"y\" }}": {
+        "ok": true,
+        "output": "y",
+        "deprecations": []
+    },
+    "testSandboxAllowsAlwaysAllowedCoreTests/{{ 2 is even ? \"y\" }}": {
+        "ok": true,
+        "output": "y",
+        "deprecations": []
+    },
+    "testSandboxAllowsAlwaysAllowedCoreTests/{{ 3 is odd ? \"y\" }}": {
+        "ok": true,
+        "output": "y",
+        "deprecations": []
+    },
+    "testSandboxAllowsAlwaysAllowedCoreTests/{{ 4 is divisible by(2) ? \"y\" }}": {
+        "ok": true,
+        "output": "y",
+        "deprecations": []
+    },
+    "testSandboxAllowsAlwaysAllowedCoreTests/{{ [] is iterable ? \"y\" }}": {
+        "ok": true,
+        "output": "y",
+        "deprecations": []
+    },
+    "testSandboxAllowsAlwaysAllowedCoreTests/{{ [] is sequence ? \"y\" }}": {
+        "ok": true,
+        "output": "y",
+        "deprecations": []
+    },
+    "testSandboxAllowsAlwaysAllowedCoreTests/{{ null is none ? \"y\" }}": {
+        "ok": true,
+        "output": "y",
+        "deprecations": []
+    },
+    "testSandboxAllowsAlwaysAllowedCoreTests/{{ null is null ? \"y\" }}": {
+        "ok": true,
+        "output": "y",
+        "deprecations": []
+    },
+    "testSandboxAllowsAlwaysAllowedCoreTests/{{ true is true ? \"y\" }}": {
+        "ok": true,
+        "output": "y",
+        "deprecations": []
+    },
+    "testSandboxAllowsAlwaysAllowedCoreTests/{{ {\"a\": 1} is mapping ? \"y\" }}": {
+        "ok": true,
+        "output": "y",
+        "deprecations": []
+    },
+    "testSandboxAllowsArrayDynamicKeyWhenToStringAllowed": {
+        "ok": true,
+        "output": "foo",
+        "deprecations": []
+    },
+    "testSandboxAllowsCallingMarkupMethods": {
+        "ok": true,
+        "output": "3-UTF-8",
+        "deprecations": []
+    },
+    "testSandboxAllowsColumnFilterOnAllowedProperty": {
+        "ok": true,
+        "output": "bar",
+        "deprecations": []
+    },
+    "testSandboxAllowsNonStringCoercingBuiltInTestInput/iterable": {
+        "ok": true,
+        "output": "no",
+        "deprecations": []
+    },
+    "testSandboxAllowsNonStringCoercingBuiltInTestInput/mapping": {
+        "ok": true,
+        "output": "yes",
+        "deprecations": []
+    },
+    "testSandboxAllowsNonStringCoercingBuiltInTestInput/sequence": {
+        "ok": true,
+        "output": "no",
+        "deprecations": []
+    },
+    "testSandboxAllowsPrintingStringableTraversableWhenToStringAllowed": {
+        "ok": true,
+        "output": "stringable-traversable",
+        "deprecations": []
+    },
+    "testSandboxAllowsToStringOnTestInputWhenMethodIsAllowed": {
+        "ok": true,
+        "output": "yes",
+        "deprecations": []
+    },
+    "testSandboxAllowsTrueTestInBooleanContextWithoutToString": {
+        "ok": true,
+        "output": "yes",
+        "deprecations": []
+    },
+    "testSandboxBlocksColumnFilterOnDisallowedIndex": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+        "message": "Calling \"foo\" property on a \"Twig\\Tests\\Extension\\ColumnObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksColumnFilterOnDisallowedProperty": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+        "message": "Calling \"bar\" property on a \"Twig\\Tests\\Extension\\ColumnObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksColumnFilterOnMagicGetter": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+        "message": "Calling \"anything\" property on a \"Twig\\Tests\\Extension\\MagicObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringInStringableTraversable/join": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringInStringableTraversable/replace": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnBlockFunctionTemplateName": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnDeprecatedMessage": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnDynamicAttributeName": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnDynamicEmbedParent": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnDynamicMacroName": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 3.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnEmbedTemplateName": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnExtendsTemplateName": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnFilterReturn": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnFunctionReturn": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnIncludeTemplateName": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnIsConstantTestArgument": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnTestInput/explicit cast": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnTestInput/string parameter": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnTestReturnUsedAsTestInput": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnTrueTestResult/concatenation": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnTrueTestResult/direct output": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxBlocksToStringOnTrueTestResult/filter input": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxChecksCallablesInDynamicEmbedParent/filter": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+        "message": "Filter \"lower\" is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxChecksCallablesInDynamicEmbedParent/function": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+        "message": "Function \"leak\" is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxChecksCallablesInDynamicEmbedParent/nested function": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+        "message": "Function \"leak\" is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxChecksCallablesInDynamicEmbedParent/test": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTestError",
+        "message": "Test \"leak\" is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxDisabledAfterIncludeFunctionError": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+        "message": "Calling \"foo\" property on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"1_basic1\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+        ]
+    },
+    "testSandboxDoesNotAllowCallingTheMarkupConstructor/captured value": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__construct\" method on a \"Twig\\Markup\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxDoesNotAllowCallingTheMarkupConstructor/context value": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__construct\" method on a \"Twig\\Markup\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxDoesNotAllowCallingTheMarkupConstructor/mixed case": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__construct\" method on a \"Twig\\Markup\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxFallsBackToMagicCallMethodForUnallowedProperty": {
+        "ok": true,
+        "output": "call:secret",
+        "deprecations": []
+    },
+    "testSandboxForConstantTest": {
+        "ok": true,
+        "output": "",
+        "deprecations": [
+            "Since twig/twig 3.28: The \"constant\" test is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+        ]
+    },
+    "testSandboxForCoreTags/apply": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"apply\" is not allowed in \"index (string template 8558b3e72653f1ff5646962e0809feb3)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/autoescape": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"autoescape\" is not allowed in \"index (string template bfdc75141040744118afe41dfe21deff)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/block": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"block\" is not allowed in \"index (string template 15ad174f4fb09092e0338986ea8e5f72)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/deprecated": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"deprecated\" is not allowed in \"index (string template cd613aa3904c2107280400f39cee7f5c)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/do": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"do\" is not allowed in \"index (string template 32f0bd64fd151d6c5568c692b76b1155)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/embed": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"embed\" is not allowed in \"index (string template e8943567f7efdf8b54f56a5d293675a7)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/flush": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"flush\" is not allowed in \"index (string template 201b25d71106d5a38459988d2245bd7c)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/for": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"for\" is not allowed in \"index (string template c45dbd13bd3e3c6c746a9a2ef72c6b29)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/from": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"from\" is not allowed in \"index (string template 0b90d80f75da32cd7d00abb74afa849e)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/guard": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"guard\" is not allowed in \"index (string template d861b62f62be482795d65a33583a4040)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"if\" is not allowed in \"index (string template b55bd90e4b2c366aa4d41ff67aa3a1b4)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/import": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"import\" is not allowed in \"index (string template f7c51e5b458b58b52656cc5f1c98c9b4)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/include": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"include\" is not allowed in \"index (string template 06146e257981807d973db7b8bdd46d8a)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/macro": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"macro\" is not allowed in \"index (string template ca18420e126ad3db4f8fa81ec9a923db)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/set": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"set\" is not allowed in \"index (string template 3025561647805d6965b7e82a4b7869ea)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForCoreTags/with": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"with\" is not allowed in \"index (string template 02cba8742896984205574049d534ff46)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxForExtendsAndUseTags/extends": {
+        "ok": true,
+        "output": "",
+        "deprecations": [
+            "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+        ]
+    },
+    "testSandboxForExtendsAndUseTags/use": {
+        "ok": true,
+        "output": "",
+        "deprecations": [
+            "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+            "Since twig/twig 3.12: The \"use\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+        ]
+    },
+    "testSandboxForParserCallableFunctions/attribute on array": {
+        "ok": true,
+        "output": "LEAK",
+        "deprecations": [
+            "Since twig/twig 3.27: The \"attribute\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+        ]
+    },
+    "testSandboxForParserCallableFunctions/attribute on object method": {
+        "ok": true,
+        "output": "foo",
+        "deprecations": [
+            "Since twig/twig 3.27: The \"attribute\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+        ]
+    },
+    "testSandboxForParserCallableFunctions/attribute on object property": {
+        "ok": true,
+        "output": "bar",
+        "deprecations": [
+            "Since twig/twig 3.27: The \"attribute\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+        ]
+    },
+    "testSandboxForParserCallableFunctions/block from same template": {
+        "ok": true,
+        "output": "BB",
+        "deprecations": [
+            "Since twig/twig 3.27: The \"block\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+            "Since twig/twig 3.27: The \"block\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+            "Since twig/twig 3.27: The \"block\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+        ]
+    },
+    "testSandboxForParserCallableFunctions/parent inside inherited block": {
+        "ok": true,
+        "output": "PARENT CHILD",
+        "deprecations": [
+            "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+            "Since twig/twig 3.27: The \"parent\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+            "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+            "Since twig/twig 3.27: The \"parent\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+        ]
+    },
+    "testSandboxForUserDefinedTest": {
+        "ok": true,
+        "output": "y",
+        "deprecations": [
+            "Since twig/twig 3.28: The \"unsafe\" test is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."
+        ]
+    },
+    "testSandboxGloballyFalseUnallowedFilterWithIncludeTemplateFromStringNotSandboxed": {
+        "ok": true,
+        "output": "FABIEN",
+        "deprecations": []
+    },
+    "testSandboxGloballyFalseUnallowedFilterWithIncludeTemplateFromStringSandboxed": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+        "message": "Filter \"upper\" is not allowed in \"__string_template__6714815eed7c487d35d7f081f3476cfc\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+        ]
+    },
+    "testSandboxGloballySet": {
+        "ok": true,
+        "output": "FOO",
+        "deprecations": []
+    },
+    "testSandboxGloballyTrueUnallowedFilterWithIncludeTemplateFromStringNotSandboxed": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+        "message": "Filter \"upper\" is not allowed in \"__string_template__6714815eed7c487d35d7f081f3476cfc\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxGloballyTrueUnallowedFilterWithIncludeTemplateFromStringSandboxed": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+        "message": "Filter \"upper\" is not allowed in \"__string_template__6714815eed7c487d35d7f081f3476cfc\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+        ]
+    },
+    "testSandboxHandlesCyclicTraversableWithoutStackOverflow/join": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "An exception has been thrown during the rendering of a template (\"Object of class Twig\\Tests\\Extension\\CyclicTraversableObject could not be converted to string\") in \"index\" at line 1.",
+        "previous": "Error",
+        "deprecations": []
+    },
+    "testSandboxHandlesCyclicTraversableWithoutStackOverflow/replace": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "An exception has been thrown during the rendering of a template (\"Object of class Twig\\Tests\\Extension\\CyclicTraversableObject could not be converted to string\") in \"index\" at line 1.",
+        "previous": "Error",
+        "deprecations": []
+    },
+    "testSandboxHandlesCyclicTraversableWithoutStackOverflow/spread": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "An exception has been thrown during the rendering of a template (\"Object of class Twig\\Tests\\Extension\\CyclicTraversableObject could not be converted to string\") in \"index\" at line 1.",
+        "previous": "Error",
+        "deprecations": []
+    },
+    "testSandboxKeepsSelfImportShortcut": {
+        "ok": true,
+        "output": "a",
+        "deprecations": []
+    },
+    "testSandboxLocallySetForAnInclude/1": {
+        "ok": true,
+        "output": "fooFOOfoo",
+        "deprecations": []
+    },
+    "testSandboxLocallySetForAnInclude/2": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"if\" is not allowed in \"3_included\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.29: The \"sandboxed\" argument of the \"include\" function is deprecated, use the \"render_sandboxed\" function to render untrusted templates instead."
+        ]
+    },
+    "testSandboxPreservesTraversableArgumentIdentity": {
+        "ok": true,
+        "output": "stringable-traversable",
+        "deprecations": []
+    },
+    "testSandboxSourcePolicyEnableReturningFalse": {
+        "ok": true,
+        "output": "FOO",
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSandboxSourcePolicyEnableReturningTrue": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"if\" is not allowed in \"1_basic\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSandboxSourcePolicyFalseDoesntOverrideOtherEnables": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"if\" is not allowed in \"1_basic\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSandboxStillBlocksDisallowedToStringInTraversableArgument": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxTagIncludeIgnoreMissingWithPreloadedTemplate": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+        "message": "Filter \"upper\" is not allowed in \"included\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.15: The \"sandbox\" tag is deprecated in \"index\" at line 1."
+        ]
+    },
+    "testSandboxTagIncludeWithPreloadedTemplate": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+        "message": "Filter \"upper\" is not allowed in \"included\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.15: The \"sandbox\" tag is deprecated in \"index\" at line 1."
+        ]
+    },
+    "testSandboxUnallowedArrayIndexAccessor/1": {
+        "ok": true,
+        "output": "bar",
+        "deprecations": []
+    },
+    "testSandboxUnallowedArrayIndexAccessor/2": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+        "message": "Calling \"foo\" property on a \"Twig\\Tests\\Extension\\ArrayLikeObject\" object is not allowed in \"1_array_like\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedDestructuringMethod": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"foo\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedDestructuringProperty": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+        "message": "Calling \"bar\" property on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedFilter": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+        "message": "Filter \"upper\" is not allowed in \"1_basic2\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedFunction": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+        "message": "Function \"cycle\" is not allowed in \"1_basic7\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedMagicCallMethod": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+        "message": "Calling \"hello\" property on a \"Twig\\Tests\\Extension\\MagicCallObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedMagicCallMethodWithMethodSyntax": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"hello\" method on a \"Twig\\Tests\\Extension\\MagicCallObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedProperty": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+        "message": "Calling \"bar\" property on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"1_basic4\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedPropertyAccessor": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+        "message": "Calling \"foo\" property on a \"Twig\\Tests\\Extension\\MagicObject\" object is not allowed in \"1_basic1\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedRangeOperator": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+        "message": "Function \"range\" is not allowed in \"1_range_operator\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedTag": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"if\" is not allowed in \"1_basic3\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/assignment_concat": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/assignment_filter_input": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/assignment_in_array": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/assignment_print": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/concat": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/concat_again": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/concat_left_in_if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/concat_right_in_if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/context": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/do_tag_concat": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/do_tag_filter_input": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/do_tag_function_arg": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/elvis_filter_input": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/equal_in_if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/equal_in_print": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/filter": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/filter_arg_in_if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/filter_arg_with_ternary": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/filter_from_array": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/filter_input_in_for": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/filter_input_in_if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/function": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/function_and_filter": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/function_and_filter_from_array": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/function_arg_in_for": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/function_arg_in_if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/function_arg_with_ternary": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/function_from_array": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/greater_in_if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/greaterequal_in_if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/in_array_left": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/in_array_right": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/in_iterator_right": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/is_empty_in_if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/is_empty_in_print": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/iterator_in_join": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/iterator_in_replace": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/iterator_nested_in_join": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/less_in_if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/lessequal_in_if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/matches_in_print": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/method_argument": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/notequal_in_if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/notin_array_left": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/notin_array_right": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/notin_iterator_right": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/nullcoalesce_filter_input": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/object_chain": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/object_chain_and_filter": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/object_chain_and_function": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/object_destructuring_filter_input": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/object_from_array": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/object_in_arguments": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/object_in_array": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/object_in_array_dynamic_key": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/object_in_array_dynamic_key_nested": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/object_in_array_nested": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/object_in_array_var": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/object_in_array_var_nested": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/range_left": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/range_right": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/sequence_destructuring_filter_input": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/set_capture_print": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/set_tag_array_dynamic_key": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/set_tag_array_dynamic_key_nested": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/set_tag_array_dynamic_key_object_chain": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/set_tag_concat": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/set_tag_filter_input": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/simple": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/spaceship_in_if": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/spread_array_operator": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/spread_array_operator_var": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/spread_iterator_in_function_args": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/ternary_filter_input": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxUnallowedToString/ternary_print": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxWithAllowedParserCallableFunctions/attribute allowed": {
+        "ok": true,
+        "output": "OK",
+        "deprecations": []
+    },
+    "testSandboxWithAllowedParserCallableFunctions/block allowed": {
+        "ok": true,
+        "output": "BB",
+        "deprecations": []
+    },
+    "testSandboxWithAllowedParserCallableFunctions/parent allowed": {
+        "ok": true,
+        "output": "PARENT CHILD",
+        "deprecations": []
+    },
+    "testSandboxWithClosureFilter": {
+        "ok": true,
+        "output": "foo, bar",
+        "deprecations": []
+    },
+    "testSandboxWithInheritance": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+        "message": "Filter \"json_encode\" is not allowed in \"1_child\" at line 3.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSandboxWithNoClosureFilter": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "The callable passed to the \"filter\" filter must be a Closure in sandbox mode in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSelfMacroReferenceWithStringLiteralDoesNotInjectPhp": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "Macro \"foo + 1; trigger_error(\"BAD-MACRO-REF\") //\" is not defined in template \"index\" in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSelfMacroReferenceWithValidIdentifierStillWorks": {
+        "ok": true,
+        "output": "Hi World",
+        "deprecations": []
+    },
+    "testSourcePolicyAllowsClosureInArrow": {
+        "ok": true,
+        "output": "a,b",
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicyBlocksNonClosureCallableInArrow/filter": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "The callable passed to the \"filter\" filter must be a Closure in sandbox mode in \"1_basic\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicyBlocksNonClosureCallableInArrow/find": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "The callable passed to the \"find\" filter must be a Closure in sandbox mode in \"1_basic\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicyBlocksNonClosureCallableInArrow/has every": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "The callable passed to the \"has every\" operator must be a Closure in sandbox mode in \"1_basic\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicyBlocksNonClosureCallableInArrow/has some": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "The callable passed to the \"has some\" operator must be a Closure in sandbox mode in \"1_basic\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicyBlocksNonClosureCallableInArrow/map": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "The callable passed to the \"map\" filter must be a Closure in sandbox mode in \"1_basic\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicyBlocksNonClosureCallableInArrow/reduce": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "The callable passed to the \"reduce\" filter must be a Closure in sandbox mode in \"1_basic\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicyBlocksNonClosureCallableInArrow/sort": {
+        "ok": false,
+        "class": "Twig\\Error\\RuntimeError",
+        "message": "The callable passed to the \"sort\" filter must be a Closure in sandbox mode in \"1_basic\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicySandboxAllowsColumnFilterOnAllowedProperty": {
+        "ok": true,
+        "output": "bar",
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicySandboxBlocksColumnFilterOnDisallowedIndex": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+        "message": "Calling \"foo\" property on a \"Twig\\Tests\\Extension\\ColumnObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicySandboxBlocksColumnFilterOnDisallowedProperty": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+        "message": "Calling \"bar\" property on a \"Twig\\Tests\\Extension\\ColumnObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicySandboxBlocksColumnFilterOnMagicGetter": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
+        "message": "Calling \"anything\" property on a \"Twig\\Tests\\Extension\\MagicObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicySandboxBlocksToStringInStringableTraversable/join": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicySandboxBlocksToStringInStringableTraversable/replace": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicySandboxBlocksToStringInTraversableJoin": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicySandboxBlocksToStringInTraversableReplace": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSourcePolicySandboxBlocksToStringOnTestInput": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": [
+            "Since twig/twig 3.27.0: The \"Twig\\Sandbox\\SourcePolicyInterface\" interface is deprecated with no replacement, do not pass an instance to \"Twig\\Extension\\SandboxExtension\"."
+        ]
+    },
+    "testSpreadIntoUnsafeVariadicStillWraps": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSpreadReachingUnsafeParamStillWraps/after a positional argument": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSpreadReachingUnsafeParamStillWraps/safe first param, optional untyped param": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSpreadReachingUnsafeParamStillWraps/safe first param, string variadic": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSpreadReachingUnsafeParamStillWraps/safe first param, untyped variadic": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSpreadReachingUnsafeParamStillWraps/safe variadic after an unsafe param": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSpreadReachingUnsafeParamStillWraps/spread of a mapping": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testSpreadReachingUnsafeParamStillWraps/spread of a variable": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictModeCanBeEnabledViaSetterAfterConstruction": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"extends\" is not allowed.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictModeRejectsTestsViaSetter": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTestError",
+        "message": "Test \"empty\" is not allowed.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictSandboxRejectedTestCarriesSourceAndLine": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTestError",
+        "message": "Test \"constant\" is not allowed in \"index\" at line 2.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictSandboxRejectsConstantTest": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTestError",
+        "message": "Test \"constant\" is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictSandboxRejectsGrandfatheredFunctions/attribute": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+        "message": "Function \"attribute\" is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictSandboxRejectsGrandfatheredFunctions/block": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+        "message": "Function \"block\" is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictSandboxRejectsGrandfatheredFunctions/parent": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+        "message": "Function \"parent\" is not allowed in \"child\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictSandboxRejectsGrandfatheredTags/extends": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"extends\" is not allowed in \"index (string template af6c9e6c21da1dc6ed9139fc4560b166)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictSandboxRejectsGrandfatheredTags/use": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"use\" is not allowed in \"index (string template 3c433c5c57f02f9b101e451a7eb9605d)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictSandboxRejectsGrandfatheredTags/use of a missing block is rejected before the trait is resolved": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"use\" is not allowed in \"index (string template e450268730e013ffce3e4528a7f68e76)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictSandboxRejectsGrandfatheredTags/use of a missing template is rejected before the loader is reached": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"use\" is not allowed in \"index (string template 2f15efd25ca23bd3151e069ae58ab70c)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictSandboxRejectsGrandfatheredTags/use of a non-traitable template is rejected before the trait is resolved": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+        "message": "Tag \"use\" is not allowed in \"index (string template 3baea00c645dfbee8be643b378f04d18)\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictSandboxRejectsUserDefinedTest": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedTestError",
+        "message": "Test \"unsafe\" is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testStrictSandboxStillAllowsAllowListedTest": {
+        "ok": true,
+        "output": "n",
+        "deprecations": []
+    },
+    "testStrictSandboxStillAllowsExplicitlyAllowedGrandfatheredNames": {
+        "ok": true,
+        "output": "PARENT CHILD - OK",
+        "deprecations": []
+    },
+    "testTestArgumentsMapAfterTheTestedValueParameter": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testUnsafePhpParamTypesStillWrap/Stringable param": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testUnsafePhpParamTypesStillWrap/mixed param": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testUnsafePhpParamTypesStillWrap/object param": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testUnsafePhpParamTypesStillWrap/string param": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    },
+    "testUnsafePhpParamTypesStillWrap/untyped param": {
+        "ok": false,
+        "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+        "message": "Calling \"__tostring\" method on a \"Twig\\Tests\\Extension\\FooObject\" object is not allowed in \"index\" at line 1.",
+        "previous": null,
+        "deprecations": []
+    }
+}

@@ -1,0 +1,71 @@
+[
+    {
+        "id": "documentation_whitespace_control/0",
+        "kind": "twig",
+        "ok": true,
+        "output": "AB",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "documentation_whitespace_control/1",
+        "kind": "twig",
+        "ok": true,
+        "output": "A \nB",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "documentation_whitespace_control/2",
+        "kind": "twig",
+        "ok": true,
+        "output": "AB",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "documentation_whitespace_control/3",
+        "kind": "twig",
+        "ok": true,
+        "output": "A\nB",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "shortcut_assignment_named_docs_remains_valid",
+        "kind": "twig",
+        "ok": true,
+        "output": "The page title",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "documentation_comment_requires_a_line_break",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unexpected token \"end of template\" (\"name\" expected) in \"index\" at line 1 column 46.",
+            "formatted": "Twig\\Error\\SyntaxError: Unexpected token \"end of template\" (\"name\" expected) in \"index\" at line 1 column 46.",
+            "rawMessage": "Unexpected token \"end of template\" (\"name\" expected).",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": 46
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "undefined_handlers",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'parse_error' => NULL,\n  'render' => 'no',\n)",
+        "var_dump": "array(2) {\n  [\"parse_error\"]=>\n  NULL\n  [\"render\"]=>\n  string(2) \"no\"\n}\n",
+        "json": "{\"parse_error\":null,\"render\":\"no\"}",
+        "json_error": null,
+        "diagnostics": []
+    }
+]

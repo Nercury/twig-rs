@@ -1,0 +1,2549 @@
+{
+    "constructs": {
+        "plain": {
+            "index": "\n\n{{ foo.bar }}\n"
+        },
+        "multiline_expression": {
+            "index": "{{\nfoo\n.\nbar\n}}"
+        },
+        "concat_lines": {
+            "index": "{{ 'a'\n~ foo.bar\n~ 'b' }}"
+        },
+        "set": {
+            "index": "a\n{% set x = foo.bar %}\n{{ x }}"
+        },
+        "set_capture": {
+            "index": "{% set x %}\n\n{{ foo.bar }}{% endset %}{{ x }}"
+        },
+        "do": {
+            "index": "\n{% do foo.bar %}"
+        },
+        "if": {
+            "index": "{% if true %}\n{{ foo.bar }}\n{% endif %}"
+        },
+        "if_condition": {
+            "index": "{% if\nfoo.bar %}x{% endif %}"
+        },
+        "for": {
+            "index": "{% for i in [1, 2] %}\n{{ foo.bar }}{% endfor %}"
+        },
+        "for_sequence": {
+            "index": "\n{% for i in foo.bar %}{{ i }}{% endfor %}"
+        },
+        "for_else": {
+            "index": "{% for i in [] %}{% else %}\n\n{{ foo.bar }}{% endfor %}"
+        },
+        "with": {
+            "index": "{% with {a: 1} %}\n{{ foo.bar }}{% endwith %}"
+        },
+        "with_only": {
+            "index": "{% with {foo: foo} only %}\n{{ foo.bar }}{% endwith %}"
+        },
+        "apply": {
+            "index": "{% apply upper %}\n{{ foo.bar }}{% endapply %}"
+        },
+        "filter_arrow": {
+            "index": "{{ [1]\n|map(x =>\nfoo.bar)\n|join }}"
+        },
+        "filter_argument": {
+            "index": "{{ 'x'|replace({\n'x': foo.bar}) }}"
+        },
+        "function_argument": {
+            "index": "{{ max(1,\nfoo.bar) }}"
+        },
+        "ternary": {
+            "index": "{{ true\n? foo.bar\n: 'no' }}"
+        },
+        "include": {
+            "index": "{% include 'p' %}",
+            "p": "\n{{ foo.bar }}"
+        },
+        "include_with": {
+            "index": "x\n{% include 'p' with {a: 1} %}",
+            "p": "{{ a }}\n\n{{ foo.bar }}"
+        },
+        "include_function": {
+            "index": "\n{{ include('p') }}",
+            "p": "\n\n\n{{ foo.bar }}"
+        },
+        "include_in_block": {
+            "index": "{% extends 'base' %}{% block c %}\n{% include 'p' %}{% endblock %}",
+            "base": "{% block c %}{% endblock %}",
+            "p": "\n{{ foo.bar }}"
+        },
+        "extends_block": {
+            "index": "{% extends 'base' %}\n{% block c %}\n\n{{ foo.bar }}{% endblock %}",
+            "base": "{% block c %}{% endblock %}"
+        },
+        "parent_call": {
+            "index": "{% extends 'base' %}{% block c %}\n{{ parent() }}{% endblock %}",
+            "base": "\n{% block c %}{{ foo.bar }}{% endblock %}"
+        },
+        "parent_of_parent": {
+            "index": "{% extends 'middle' %}{% block c %}{{ parent() }}{% endblock %}",
+            "middle": "{% extends 'base' %}{% block c %}\n{{ parent() }}{% endblock %}",
+            "base": "\n\n{% block c %}{{ foo.bar }}{% endblock %}"
+        },
+        "block_function": {
+            "index": "{% block c %}\n{{ foo.bar }}{% endblock %}\n{{ block('c') }}"
+        },
+        "block_of_other_template": {
+            "index": "\n{{ block('c', 'other') }}",
+            "other": "{% block c %}\n\n{{ foo.bar }}{% endblock %}"
+        },
+        "nested_block": {
+            "index": "{% block outer %}\n{% block inner %}\n{{ foo.bar }}{% endblock %}{% endblock %}"
+        },
+        "trait_block": {
+            "index": "{% use 't' %}\n{{ block('c') }}",
+            "t": "{% block c %}\n{{ foo.bar }}{% endblock %}"
+        },
+        "trait_parent": {
+            "index": "{% use 't' %}{% block c %}\n{{ parent() }}{% endblock %}",
+            "t": "{% block c %}\n\n{{ foo.bar }}{% endblock %}"
+        },
+        "embed": {
+            "index": "\n{% embed 'e' %}{% endembed %}",
+            "e": "{% block c %}\n{{ foo.bar }}{% endblock %}"
+        },
+        "embed_override": {
+            "index": "{% embed 'e' %}\n{% block c %}\n{{ foo.bar }}{% endblock %}{% endembed %}",
+            "e": "{% block c %}{% endblock %}"
+        },
+        "macro_self": {
+            "index": "{% macro m(foo) %}\n{{ foo.bar }}{% endmacro %}\n\n{{ _self.m(foo) }}"
+        },
+        "macro_imported": {
+            "index": "{% import 'macros' as h %}\n{{ h.m(foo) }}",
+            "macros": "{% macro m(foo) %}\n\n{{ foo.bar }}{% endmacro %}"
+        },
+        "macro_from": {
+            "index": "{% from 'macros' import m %}\n\n{{ m(foo) }}",
+            "macros": "\n{% macro m(foo) %}{{ foo.bar }}{% endmacro %}"
+        },
+        "macro_in_block": {
+            "index": "{% extends 'base' %}{% import 'macros' as h %}{% block c %}\n{{ h.m(foo) }}{% endblock %}",
+            "base": "{% block c %}{% endblock %}",
+            "macros": "{% macro m(foo) %}\n{{ foo.bar }}{% endmacro %}"
+        },
+        "dynamic_extends": {
+            "index": "\n{% extends foo.bar %}"
+        },
+        "dynamic_include": {
+            "index": "\n\n{% include foo.bar %}"
+        },
+        "deep_include": {
+            "index": "{% include 'a' %}",
+            "a": "\n{% include 'b' %}",
+            "b": "\n\n{% include 'c' %}",
+            "c": "{{ foo.bar }}"
+        },
+        "embed_in_include": {
+            "index": "{% include 'a' %}",
+            "a": "\n{% embed 'e' %}{% block c %}\n{{ foo.bar }}{% endblock %}{% endembed %}",
+            "e": "{% block c %}{% endblock %}"
+        }
+    },
+    "cases": [
+        [
+            "plain",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "plain",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "plain",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "plain",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "plain",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "plain",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "multiline_expression",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "multiline_expression",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "multiline_expression",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "multiline_expression",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "multiline_expression",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "multiline_expression",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "concat_lines",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "concat_lines",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "concat_lines",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "concat_lines",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "concat_lines",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "concat_lines",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "set",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "set",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "set",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "set",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "set",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "set",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "set_capture",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "set_capture",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "set_capture",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "set_capture",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "set_capture",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "set_capture",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "do",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "do",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "do",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "do",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "do",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "do",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "if",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "if",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "if",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "if",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "if",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "if",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "if_condition",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "if_condition",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "if_condition",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "if_condition",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "if_condition",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "if_condition",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "for",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "for",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "for",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "for",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "for",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "for",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "for_sequence",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "for_sequence",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "for_sequence",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "for_sequence",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "for_sequence",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "for_sequence",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "for_else",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "for_else",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "for_else",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "for_else",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "for_else",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "for_else",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "with",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "with",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "with",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "with",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "with",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "with",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "with_only",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 1.",
+            1,
+            "index",
+            null
+        ],
+        [
+            "with_only",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 1.",
+            1,
+            "index",
+            null
+        ],
+        [
+            "with_only",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "with_only",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "with_only",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "with_only",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "apply",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "apply",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "apply",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "apply",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "apply",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "apply",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "filter_arrow",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "filter_arrow",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "filter_arrow",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "filter_arrow",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "filter_arrow",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "filter_arrow",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "filter_argument",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "filter_argument",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "filter_argument",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "filter_argument",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "filter_argument",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "filter_argument",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "function_argument",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "function_argument",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "function_argument",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "function_argument",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "function_argument",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "function_argument",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "ternary",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "ternary",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "ternary",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "ternary",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "ternary",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "ternary",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 1.",
+            1,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"p\" at line 2.",
+            2,
+            "p",
+            null
+        ],
+        [
+            "include",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"p\" at line 2.",
+            2,
+            "p",
+            null
+        ],
+        [
+            "include",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 2.",
+            2,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 2.",
+            2,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 2.",
+            2,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 2.",
+            2,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include_with",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"p\" at line 3.",
+            3,
+            "p",
+            null
+        ],
+        [
+            "include_with",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"p\" at line 3.",
+            3,
+            "p",
+            null
+        ],
+        [
+            "include_with",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 3.",
+            3,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include_with",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 3.",
+            3,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include_with",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 3.",
+            3,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include_with",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 3.",
+            3,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include_function",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"p\" at line 4.",
+            4,
+            "p",
+            null
+        ],
+        [
+            "include_function",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"p\" at line 4.",
+            4,
+            "p",
+            null
+        ],
+        [
+            "include_function",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 4.",
+            4,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include_function",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 4.",
+            4,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include_function",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 4.",
+            4,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include_function",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 4.",
+            4,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include_in_block",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"p\" at line 2.",
+            2,
+            "p",
+            null
+        ],
+        [
+            "include_in_block",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"p\" at line 2.",
+            2,
+            "p",
+            null
+        ],
+        [
+            "include_in_block",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 2.",
+            2,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include_in_block",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 2.",
+            2,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include_in_block",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 2.",
+            2,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "include_in_block",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"p\" at line 2.",
+            2,
+            "p",
+            "Exception: Runtime error..."
+        ],
+        [
+            "extends_block",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 4.",
+            4,
+            "index",
+            null
+        ],
+        [
+            "extends_block",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 4.",
+            4,
+            "index",
+            null
+        ],
+        [
+            "extends_block",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 4.",
+            4,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "extends_block",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 4.",
+            4,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "extends_block",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 4.",
+            4,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "extends_block",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 4.",
+            4,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "parent_call",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"base\" at line 2.",
+            2,
+            "base",
+            null
+        ],
+        [
+            "parent_call",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"base\" at line 2.",
+            2,
+            "base",
+            null
+        ],
+        [
+            "parent_call",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"base\" at line 2.",
+            2,
+            "base",
+            "Exception: Runtime error..."
+        ],
+        [
+            "parent_call",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"base\" at line 2.",
+            2,
+            "base",
+            "Exception: Runtime error..."
+        ],
+        [
+            "parent_call",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"base\" at line 2.",
+            2,
+            "base",
+            "Exception: Runtime error..."
+        ],
+        [
+            "parent_call",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"base\" at line 2.",
+            2,
+            "base",
+            "Exception: Runtime error..."
+        ],
+        [
+            "parent_of_parent",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"base\" at line 3.",
+            3,
+            "base",
+            null
+        ],
+        [
+            "parent_of_parent",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"base\" at line 3.",
+            3,
+            "base",
+            null
+        ],
+        [
+            "parent_of_parent",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"base\" at line 3.",
+            3,
+            "base",
+            "Exception: Runtime error..."
+        ],
+        [
+            "parent_of_parent",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"base\" at line 3.",
+            3,
+            "base",
+            "Exception: Runtime error..."
+        ],
+        [
+            "parent_of_parent",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"base\" at line 3.",
+            3,
+            "base",
+            "Exception: Runtime error..."
+        ],
+        [
+            "parent_of_parent",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"base\" at line 3.",
+            3,
+            "base",
+            "Exception: Runtime error..."
+        ],
+        [
+            "block_function",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "block_function",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "block_function",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "block_function",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "block_function",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "block_function",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "block_of_other_template",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"other\" at line 3.",
+            3,
+            "other",
+            null
+        ],
+        [
+            "block_of_other_template",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"other\" at line 3.",
+            3,
+            "other",
+            null
+        ],
+        [
+            "block_of_other_template",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"other\" at line 3.",
+            3,
+            "other",
+            "Exception: Runtime error..."
+        ],
+        [
+            "block_of_other_template",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"other\" at line 3.",
+            3,
+            "other",
+            "Exception: Runtime error..."
+        ],
+        [
+            "block_of_other_template",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"other\" at line 3.",
+            3,
+            "other",
+            "Exception: Runtime error..."
+        ],
+        [
+            "block_of_other_template",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"other\" at line 3.",
+            3,
+            "other",
+            "Exception: Runtime error..."
+        ],
+        [
+            "nested_block",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "nested_block",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "nested_block",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "nested_block",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "nested_block",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "nested_block",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "trait_block",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"t\" at line 2.",
+            2,
+            "t",
+            null
+        ],
+        [
+            "trait_block",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"t\" at line 2.",
+            2,
+            "t",
+            null
+        ],
+        [
+            "trait_block",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"t\" at line 2.",
+            2,
+            "t",
+            "Exception: Runtime error..."
+        ],
+        [
+            "trait_block",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"t\" at line 2.",
+            2,
+            "t",
+            "Exception: Runtime error..."
+        ],
+        [
+            "trait_block",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"t\" at line 2.",
+            2,
+            "t",
+            "Exception: Runtime error..."
+        ],
+        [
+            "trait_block",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"t\" at line 2.",
+            2,
+            "t",
+            "Exception: Runtime error..."
+        ],
+        [
+            "trait_parent",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"t\" at line 3.",
+            3,
+            "t",
+            null
+        ],
+        [
+            "trait_parent",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"t\" at line 3.",
+            3,
+            "t",
+            null
+        ],
+        [
+            "trait_parent",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"t\" at line 3.",
+            3,
+            "t",
+            "Exception: Runtime error..."
+        ],
+        [
+            "trait_parent",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"t\" at line 3.",
+            3,
+            "t",
+            "Exception: Runtime error..."
+        ],
+        [
+            "trait_parent",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"t\" at line 3.",
+            3,
+            "t",
+            "Exception: Runtime error..."
+        ],
+        [
+            "trait_parent",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"t\" at line 3.",
+            3,
+            "t",
+            "Exception: Runtime error..."
+        ],
+        [
+            "embed",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"e\" at line 2.",
+            2,
+            "e",
+            null
+        ],
+        [
+            "embed",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"e\" at line 2.",
+            2,
+            "e",
+            null
+        ],
+        [
+            "embed",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"e\" at line 2.",
+            2,
+            "e",
+            "Exception: Runtime error..."
+        ],
+        [
+            "embed",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"e\" at line 2.",
+            2,
+            "e",
+            "Exception: Runtime error..."
+        ],
+        [
+            "embed",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"e\" at line 2.",
+            2,
+            "e",
+            "Exception: Runtime error..."
+        ],
+        [
+            "embed",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"e\" at line 2.",
+            2,
+            "e",
+            "Exception: Runtime error..."
+        ],
+        [
+            "embed_override",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "embed_override",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "embed_override",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "embed_override",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "embed_override",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "embed_override",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_self",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 4.",
+            4,
+            "index",
+            null
+        ],
+        [
+            "macro_self",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 4.",
+            4,
+            "index",
+            null
+        ],
+        [
+            "macro_self",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_self",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_self",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_self",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_imported",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "macro_imported",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "macro_imported",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_imported",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_imported",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_imported",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_from",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "macro_from",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "macro_from",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_from",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_from",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_from",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_in_block",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "macro_in_block",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "macro_in_block",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_in_block",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_in_block",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "macro_in_block",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "dynamic_extends",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "dynamic_extends",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 2.",
+            2,
+            "index",
+            null
+        ],
+        [
+            "dynamic_extends",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "dynamic_extends",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "dynamic_extends",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "dynamic_extends",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 2.",
+            2,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "dynamic_include",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "dynamic_include",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index\" at line 3.",
+            3,
+            "index",
+            null
+        ],
+        [
+            "dynamic_include",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "dynamic_include",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "dynamic_include",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "dynamic_include",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"index\" at line 3.",
+            3,
+            "index",
+            "Exception: Runtime error..."
+        ],
+        [
+            "deep_include",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"c\" at line 1.",
+            1,
+            "c",
+            null
+        ],
+        [
+            "deep_include",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"c\" at line 1.",
+            1,
+            "c",
+            null
+        ],
+        [
+            "deep_include",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"c\" at line 1.",
+            1,
+            "c",
+            "Exception: Runtime error..."
+        ],
+        [
+            "deep_include",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"c\" at line 1.",
+            1,
+            "c",
+            "Exception: Runtime error..."
+        ],
+        [
+            "deep_include",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"c\" at line 1.",
+            1,
+            "c",
+            "Exception: Runtime error..."
+        ],
+        [
+            "deep_include",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"c\" at line 1.",
+            1,
+            "c",
+            "Exception: Runtime error..."
+        ],
+        [
+            "embed_in_include",
+            "missing",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"a\" at line 3.",
+            3,
+            "a",
+            null
+        ],
+        [
+            "embed_in_include",
+            "missing",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"a\" at line 3.",
+            3,
+            "a",
+            null
+        ],
+        [
+            "embed_in_include",
+            "exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"a\" at line 3.",
+            3,
+            "a",
+            "Exception: Runtime error..."
+        ],
+        [
+            "embed_in_include",
+            "exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"a\" at line 3.",
+            3,
+            "a",
+            "Exception: Runtime error..."
+        ],
+        [
+            "embed_in_include",
+            "lax_exception",
+            false,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"a\" at line 3.",
+            3,
+            "a",
+            "Exception: Runtime error..."
+        ],
+        [
+            "embed_in_include",
+            "lax_exception",
+            true,
+            "error",
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Runtime error...\") in \"a\" at line 3.",
+            3,
+            "a",
+            "Exception: Runtime error..."
+        ]
+    ]
+}

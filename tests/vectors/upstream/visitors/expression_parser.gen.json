@@ -1,0 +1,2659 @@
+[
+ {
+  "id": "can_only_assign_to_names/0",
+  "templates": {
+   "index": "{% set false = \"foo\" %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "can_only_assign_to_names/1",
+  "templates": {
+   "index": "{% set FALSE = \"foo\" %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "can_only_assign_to_names/2",
+  "templates": {
+   "index": "{% set true = \"foo\" %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "can_only_assign_to_names/3",
+  "templates": {
+   "index": "{% set TRUE = \"foo\" %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "can_only_assign_to_names/4",
+  "templates": {
+   "index": "{% set none = \"foo\" %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "can_only_assign_to_names/5",
+  "templates": {
+   "index": "{% set NONE = \"foo\" %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "can_only_assign_to_names/6",
+  "templates": {
+   "index": "{% set null = \"foo\" %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "can_only_assign_to_names/7",
+  "templates": {
+   "index": "{% set NULL = \"foo\" %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "can_only_assign_to_names/8",
+  "templates": {
+   "index": "{% set 3 = \"foo\" %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "can_only_assign_to_names/9",
+  "templates": {
+   "index": "{% set 1 + 2 = \"foo\" %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "can_only_assign_to_names/10",
+  "templates": {
+   "index": "{% set \"bar\" = \"foo\" %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "can_only_assign_to_names/11",
+  "templates": {
+   "index": "{% set %}{% endset %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/0",
+  "templates": {
+   "index": "{{ ...foo }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/1",
+  "templates": {
+   "index": "{{ (...foo) }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/2",
+  "templates": {
+   "index": "{{ -...foo }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/3",
+  "templates": {
+   "index": "{{ 1 + ...foo }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/4",
+  "templates": {
+   "index": "{% set bar = ...foo %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/5",
+  "templates": {
+   "index": "{% do ...foo %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/6",
+  "templates": {
+   "index": "{% with ...foo %}{% endwith %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/7",
+  "templates": {
+   "index": "{{ (bar => ...foo)(1) }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/8",
+  "templates": {
+   "index": "{{ [(...foo)] }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/9",
+  "templates": {
+   "index": "{{ [1, -...foo] }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/10",
+  "templates": {
+   "index": "{{ {a: ...foo} }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/11",
+  "templates": {
+   "index": "{{ {(...foo): 1} }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/12",
+  "templates": {
+   "index": "{{ bar(-...foo) }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/13",
+  "templates": {
+   "index": "{{ bar(a: ...foo) }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "misplaced_spread_is_a_syntax_error/14",
+  "templates": {
+   "index": "{{ bar(a = ...foo) }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "sequence_compilation_error",
+  "templates": {
+   "index": "{{ [1,,2] }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "empty_destructuring_throws/0",
+  "templates": {
+   "index": "{% do [] = values %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "empty_destructuring_throws/1",
+  "templates": {
+   "index": "{% do {} = values %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "empty_destructuring_throws/2",
+  "templates": {
+   "index": "{% do [,] = values %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "empty_destructuring_throws/3",
+  "templates": {
+   "index": "{% do [,,] = values %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "object_destructuring_evaluates_right_hand_expression_once",
+  "php_code": "\n$calls = 0;\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['template' => '{% do [result_first, result_second] = ({first, second} = next_value()) %}{{ first }} {{ second }} {{ result_first }} {{ result_second }}']));\n$env->addFunction(new \\Twig\\TwigFunction('next_value', static function () use (&$calls): object {\n    ++$calls;\n\n    return (object) ['first' => $calls, 'second' => $calls];\n}));\n$output = $env->render('template');\n\nreturn ['output' => $output, 'calls' => $calls];\n"
+ },
+ {
+  "id": "null_safe_operator/0",
+  "templates": {
+   "template": "{{ foo?.bar }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => (object) ['bar' => 'baz']]"
+ },
+ {
+  "id": "null_safe_operator/1",
+  "templates": {
+   "template": "{{ foo?.bar }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => null]"
+ },
+ {
+  "id": "null_safe_operator/2",
+  "templates": {
+   "template": "{{ foo?.bar?.baz }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => (object) ['bar' => (object) ['baz' => 'qux']]]"
+ },
+ {
+  "id": "null_safe_operator/3",
+  "templates": {
+   "template": "{{ foo?.bar?.baz }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => (object) ['bar' => null]]"
+ },
+ {
+  "id": "null_safe_operator/4",
+  "templates": {
+   "template": "{{ foo?.bar?.baz }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => null]"
+ },
+ {
+  "id": "null_safe_operator/5",
+  "templates": {
+   "template": "{{ foo?.bar?.baz ?? \"qux\" }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => null]"
+ },
+ {
+  "id": "null_safe_operator/6",
+  "templates": {
+   "template": "{{ foo?.bar ?? \"qux\" }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => (object) ['bar' => 0]]"
+ },
+ {
+  "id": "null_safe_operator/7",
+  "templates": {
+   "template": "{{ foo?.bar ?? \"qux\" }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => (object) ['bar' => false]]"
+ },
+ {
+  "id": "null_safe_operator/8",
+  "templates": {
+   "template": "{{ foo?.bar.baz }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => null]"
+ },
+ {
+  "id": "null_safe_operator/9",
+  "templates": {
+   "template": "{{ foo?.bar.baz?.qux.corge }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => null]"
+ },
+ {
+  "id": "null_safe_operator/10",
+  "templates": {
+   "template": "{{ foo?.bar.baz?.qux.corge }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => (object) ['bar' => (object) ['baz' => null]]]"
+ },
+ {
+  "id": "null_safe_operator/11",
+  "templates": {
+   "template": "{{ foo?.bar|default(foo?.baz) }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => null]"
+ },
+ {
+  "id": "null_safe_operator/12",
+  "templates": {
+   "template": "{{ foo?.bar|default(foo?.baz.qux) }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => null]"
+ },
+ {
+  "id": "null_safe_operator/13",
+  "templates": {
+   "template": "{% for foo in foos %}[{{ foo?.bar|default(foo?.baz) }}]{% endfor %}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foos' => [(object) ['bar' => 'corge', 'baz' => 'grault'], (object) ['baz' => 'qux']]]"
+ },
+ {
+  "id": "invalid_null_safe_operator_short_circuiting/0",
+  "templates": {
+   "template": "{{ foo?.bar.baz }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => (object) ['bar' => null]]"
+ },
+ {
+  "id": "invalid_null_safe_operator_short_circuiting/1",
+  "templates": {
+   "template": "{{ foo?.bar.baz?.qux.corge }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['foo' => (object) ['bar' => (object) ['baz' => (object) ['qux' => null]]]]"
+ },
+ {
+  "id": "macro_definition_does_not_support_non_name_variable_name",
+  "templates": {
+   "index": "{% macro foo(\"a\") %}{% endmacro %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_definition_does_not_support_non_constant_default_values/0",
+  "templates": {
+   "index": "{% macro foo(name = \"a #{foo} a\") %}{% endmacro %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_definition_does_not_support_non_constant_default_values/1",
+  "templates": {
+   "index": "{% macro foo(name = [[\"b\", \"a #{foo} a\"]]) %}{% endmacro %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_definition_supports_constant_default_values/0",
+  "templates": {
+   "index": "{% macro foo(name = \"aa\") %}{% endmacro %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_definition_supports_constant_default_values/1",
+  "templates": {
+   "index": "{% macro foo(name = 12) %}{% endmacro %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_definition_supports_constant_default_values/2",
+  "templates": {
+   "index": "{% macro foo(name = true) %}{% endmacro %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_definition_supports_constant_default_values/3",
+  "templates": {
+   "index": "{% macro foo(name = [\"a\"]) %}{% endmacro %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_definition_supports_constant_default_values/4",
+  "templates": {
+   "index": "{% macro foo(name = [[\"a\"]]) %}{% endmacro %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_definition_supports_constant_default_values/5",
+  "templates": {
+   "index": "{% macro foo(name = {a: \"a\"}) %}{% endmacro %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_definition_supports_constant_default_values/6",
+  "templates": {
+   "index": "{% macro foo(name = {a: {b: \"a\"}}) %}{% endmacro %}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "compiled_code_for_dynamic_callables/test",
+  "php_code": "\n$seen = [];\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['index' => '{{ \"a\" is foo_foo_bar_bar }}']), ['cache' => false, 'autoescape' => false]);\n$env->addTest(new \\Twig\\TwigTest('*_foo_*_bar', static function ($foo, $bar, $a) use (&$seen) {\n    $seen[] = \"$foo,$bar,$a\";\n\n    return \"$foo,$bar,$a\";\n}));\n$output = $env->render('index');\n\nreturn ['output' => $output, 'seen' => $seen];\n"
+ },
+ {
+  "id": "compiled_code_for_dynamic_callables/function",
+  "php_code": "\n$seen = [];\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['index' => '{{ foo_foo_bar_bar(\"a\") }}']), ['cache' => false, 'autoescape' => false]);\n$env->addFunction(new \\Twig\\TwigFunction('*_foo_*_bar', static function ($foo, $bar, $a) use (&$seen) {\n    $seen[] = \"$foo,$bar,$a\";\n\n    return \"$foo,$bar,$a\";\n}));\n$output = $env->render('index');\n\nreturn ['output' => $output, 'seen' => $seen];\n"
+ },
+ {
+  "id": "compiled_code_for_dynamic_callables/filter",
+  "php_code": "\n$seen = [];\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['index' => '{{ \"a\"|foo_foo_bar_bar }}']), ['cache' => false, 'autoescape' => false]);\n$env->addFilter(new \\Twig\\TwigFilter('*_foo_*_bar', static function ($foo, $bar, $a) use (&$seen) {\n    $seen[] = \"$foo,$bar,$a\";\n\n    return \"$foo,$bar,$a\";\n}));\n$output = $env->render('index');\n\nreturn ['output' => $output, 'seen' => $seen];\n"
+ },
+ {
+  "id": "binding_power/0/expression",
+  "templates": {
+   "expression": "{{ 12 * 6 + 3 }}",
+   "expected": "{{ (12 * 6) + 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "* vs +"
+ },
+ {
+  "id": "binding_power/0/expected",
+  "templates": {
+   "expression": "{{ 12 * 6 + 3 }}",
+   "expected": "{{ (12 * 6) + 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "* vs +"
+ },
+ {
+  "id": "binding_power/1/expression",
+  "templates": {
+   "expression": "{{ 12 + 6 * 3 }}",
+   "expected": "{{ 12 + (6 * 3) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs *"
+ },
+ {
+  "id": "binding_power/1/expected",
+  "templates": {
+   "expression": "{{ 12 + 6 * 3 }}",
+   "expected": "{{ 12 + (6 * 3) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs *"
+ },
+ {
+  "id": "binding_power/2/expression",
+  "templates": {
+   "expression": "{{ 12 * 6 - 3 }}",
+   "expected": "{{ (12 * 6) - 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "* vs -"
+ },
+ {
+  "id": "binding_power/2/expected",
+  "templates": {
+   "expression": "{{ 12 * 6 - 3 }}",
+   "expected": "{{ (12 * 6) - 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "* vs -"
+ },
+ {
+  "id": "binding_power/3/expression",
+  "templates": {
+   "expression": "{{ 12 - 6 * 3 }}",
+   "expected": "{{ 12 - (6 * 3) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "- vs *"
+ },
+ {
+  "id": "binding_power/3/expected",
+  "templates": {
+   "expression": "{{ 12 - 6 * 3 }}",
+   "expected": "{{ 12 - (6 * 3) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "- vs *"
+ },
+ {
+  "id": "binding_power/4/expression",
+  "templates": {
+   "expression": "{{ 12 / 6 + 3 }}",
+   "expected": "{{ (12 / 6) + 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "/ vs +"
+ },
+ {
+  "id": "binding_power/4/expected",
+  "templates": {
+   "expression": "{{ 12 / 6 + 3 }}",
+   "expected": "{{ (12 / 6) + 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "/ vs +"
+ },
+ {
+  "id": "binding_power/5/expression",
+  "templates": {
+   "expression": "{{ 12 + 6 / 3 }}",
+   "expected": "{{ 12 + (6 / 3) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs /"
+ },
+ {
+  "id": "binding_power/5/expected",
+  "templates": {
+   "expression": "{{ 12 + 6 / 3 }}",
+   "expected": "{{ 12 + (6 / 3) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs /"
+ },
+ {
+  "id": "binding_power/6/expression",
+  "templates": {
+   "expression": "{{ 12 / 6 - 3 }}",
+   "expected": "{{ (12 / 6) - 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "/ vs -"
+ },
+ {
+  "id": "binding_power/6/expected",
+  "templates": {
+   "expression": "{{ 12 / 6 - 3 }}",
+   "expected": "{{ (12 / 6) - 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "/ vs -"
+ },
+ {
+  "id": "binding_power/7/expression",
+  "templates": {
+   "expression": "{{ 12 - 6 / 3 }}",
+   "expected": "{{ 12 - (6 / 3) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "- vs /"
+ },
+ {
+  "id": "binding_power/7/expected",
+  "templates": {
+   "expression": "{{ 12 - 6 / 3 }}",
+   "expected": "{{ 12 - (6 / 3) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "- vs /"
+ },
+ {
+  "id": "binding_power/8/expression",
+  "templates": {
+   "expression": "{{ 12 // 6 + 3 }}",
+   "expected": "{{ (12 // 6) + 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "// vs +"
+ },
+ {
+  "id": "binding_power/8/expected",
+  "templates": {
+   "expression": "{{ 12 // 6 + 3 }}",
+   "expected": "{{ (12 // 6) + 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "// vs +"
+ },
+ {
+  "id": "binding_power/9/expression",
+  "templates": {
+   "expression": "{{ 12 + 6 // 3 }}",
+   "expected": "{{ 12 + (6 // 3) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs //"
+ },
+ {
+  "id": "binding_power/9/expected",
+  "templates": {
+   "expression": "{{ 12 + 6 // 3 }}",
+   "expected": "{{ 12 + (6 // 3) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs //"
+ },
+ {
+  "id": "binding_power/10/expression",
+  "templates": {
+   "expression": "{{ 12 // 6 - 3 }}",
+   "expected": "{{ (12 // 6) - 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "// vs -"
+ },
+ {
+  "id": "binding_power/10/expected",
+  "templates": {
+   "expression": "{{ 12 // 6 - 3 }}",
+   "expected": "{{ (12 // 6) - 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "// vs -"
+ },
+ {
+  "id": "binding_power/11/expression",
+  "templates": {
+   "expression": "{{ 12 - 6 // 3 }}",
+   "expected": "{{ 12 - (6 // 3) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "- vs //"
+ },
+ {
+  "id": "binding_power/11/expected",
+  "templates": {
+   "expression": "{{ 12 - 6 // 3 }}",
+   "expected": "{{ 12 - (6 // 3) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "- vs //"
+ },
+ {
+  "id": "binding_power/12/expression",
+  "templates": {
+   "expression": "{{ 12 % 6 + 3 }}",
+   "expected": "{{ (12 % 6) + 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "% vs +"
+ },
+ {
+  "id": "binding_power/12/expected",
+  "templates": {
+   "expression": "{{ 12 % 6 + 3 }}",
+   "expected": "{{ (12 % 6) + 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "% vs +"
+ },
+ {
+  "id": "binding_power/13/expression",
+  "templates": {
+   "expression": "{{ 12 + 6 % 3 }}",
+   "expected": "{{ 12 + (6 % 3) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs %"
+ },
+ {
+  "id": "binding_power/13/expected",
+  "templates": {
+   "expression": "{{ 12 + 6 % 3 }}",
+   "expected": "{{ 12 + (6 % 3) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs %"
+ },
+ {
+  "id": "binding_power/14/expression",
+  "templates": {
+   "expression": "{{ 12 % 6 - 3 }}",
+   "expected": "{{ (12 % 6) - 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "% vs -"
+ },
+ {
+  "id": "binding_power/14/expected",
+  "templates": {
+   "expression": "{{ 12 % 6 - 3 }}",
+   "expected": "{{ (12 % 6) - 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "% vs -"
+ },
+ {
+  "id": "binding_power/15/expression",
+  "templates": {
+   "expression": "{{ 12 - 6 % 3 }}",
+   "expected": "{{ 12 - (6 % 3) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "- vs %"
+ },
+ {
+  "id": "binding_power/15/expected",
+  "templates": {
+   "expression": "{{ 12 - 6 % 3 }}",
+   "expected": "{{ 12 - (6 % 3) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "- vs %"
+ },
+ {
+  "id": "binding_power/16/expression",
+  "templates": {
+   "expression": "{{ 12 + 6 == 3 }}",
+   "expected": "{{ (12 + 6) == 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs =="
+ },
+ {
+  "id": "binding_power/16/expected",
+  "templates": {
+   "expression": "{{ 12 + 6 == 3 }}",
+   "expected": "{{ (12 + 6) == 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs =="
+ },
+ {
+  "id": "binding_power/17/expression",
+  "templates": {
+   "expression": "{{ 12 + 6 != 3 }}",
+   "expected": "{{ (12 + 6) != 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs !="
+ },
+ {
+  "id": "binding_power/17/expected",
+  "templates": {
+   "expression": "{{ 12 + 6 != 3 }}",
+   "expected": "{{ (12 + 6) != 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs !="
+ },
+ {
+  "id": "binding_power/18/expression",
+  "templates": {
+   "expression": "{{ 12 + 6 <=> 3 }}",
+   "expected": "{{ (12 + 6) <=> 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs <=>"
+ },
+ {
+  "id": "binding_power/18/expected",
+  "templates": {
+   "expression": "{{ 12 + 6 <=> 3 }}",
+   "expected": "{{ (12 + 6) <=> 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs <=>"
+ },
+ {
+  "id": "binding_power/19/expression",
+  "templates": {
+   "expression": "{{ 12 + 6 < 3 }}",
+   "expected": "{{ (12 + 6) < 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs <"
+ },
+ {
+  "id": "binding_power/19/expected",
+  "templates": {
+   "expression": "{{ 12 + 6 < 3 }}",
+   "expected": "{{ (12 + 6) < 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs <"
+ },
+ {
+  "id": "binding_power/20/expression",
+  "templates": {
+   "expression": "{{ 12 + 6 > 3 }}",
+   "expected": "{{ (12 + 6) > 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs >"
+ },
+ {
+  "id": "binding_power/20/expected",
+  "templates": {
+   "expression": "{{ 12 + 6 > 3 }}",
+   "expected": "{{ (12 + 6) > 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs >"
+ },
+ {
+  "id": "binding_power/21/expression",
+  "templates": {
+   "expression": "{{ 12 + 6 >= 3 }}",
+   "expected": "{{ (12 + 6) >= 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs >="
+ },
+ {
+  "id": "binding_power/21/expected",
+  "templates": {
+   "expression": "{{ 12 + 6 >= 3 }}",
+   "expected": "{{ (12 + 6) >= 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs >="
+ },
+ {
+  "id": "binding_power/22/expression",
+  "templates": {
+   "expression": "{{ 12 + 6 <= 3 }}",
+   "expected": "{{ (12 + 6) <= 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs <="
+ },
+ {
+  "id": "binding_power/22/expected",
+  "templates": {
+   "expression": "{{ 12 + 6 <= 3 }}",
+   "expected": "{{ (12 + 6) <= 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs <="
+ },
+ {
+  "id": "binding_power/23/expression",
+  "templates": {
+   "expression": "{{ 12 - 6 == 3 }}",
+   "expected": "{{ (12 - 6) == 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "- vs =="
+ },
+ {
+  "id": "binding_power/23/expected",
+  "templates": {
+   "expression": "{{ 12 - 6 == 3 }}",
+   "expected": "{{ (12 - 6) == 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "- vs =="
+ },
+ {
+  "id": "binding_power/24/expression",
+  "templates": {
+   "expression": "{{ 12 - 6 != 3 }}",
+   "expected": "{{ (12 - 6) != 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "- vs !="
+ },
+ {
+  "id": "binding_power/24/expected",
+  "templates": {
+   "expression": "{{ 12 - 6 != 3 }}",
+   "expected": "{{ (12 - 6) != 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "- vs !="
+ },
+ {
+  "id": "binding_power/25/expression",
+  "templates": {
+   "expression": "{{ 12 - 6 <=> 3 }}",
+   "expected": "{{ (12 - 6) <=> 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "- vs <=>"
+ },
+ {
+  "id": "binding_power/25/expected",
+  "templates": {
+   "expression": "{{ 12 - 6 <=> 3 }}",
+   "expected": "{{ (12 - 6) <=> 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "- vs <=>"
+ },
+ {
+  "id": "binding_power/26/expression",
+  "templates": {
+   "expression": "{{ 12 - 6 < 3 }}",
+   "expected": "{{ (12 - 6) < 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "- vs <"
+ },
+ {
+  "id": "binding_power/26/expected",
+  "templates": {
+   "expression": "{{ 12 - 6 < 3 }}",
+   "expected": "{{ (12 - 6) < 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "- vs <"
+ },
+ {
+  "id": "binding_power/27/expression",
+  "templates": {
+   "expression": "{{ 12 - 6 > 3 }}",
+   "expected": "{{ (12 - 6) > 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "- vs >"
+ },
+ {
+  "id": "binding_power/27/expected",
+  "templates": {
+   "expression": "{{ 12 - 6 > 3 }}",
+   "expected": "{{ (12 - 6) > 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "- vs >"
+ },
+ {
+  "id": "binding_power/28/expression",
+  "templates": {
+   "expression": "{{ 12 - 6 >= 3 }}",
+   "expected": "{{ (12 - 6) >= 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "- vs >="
+ },
+ {
+  "id": "binding_power/28/expected",
+  "templates": {
+   "expression": "{{ 12 - 6 >= 3 }}",
+   "expected": "{{ (12 - 6) >= 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "- vs >="
+ },
+ {
+  "id": "binding_power/29/expression",
+  "templates": {
+   "expression": "{{ 12 - 6 <= 3 }}",
+   "expected": "{{ (12 - 6) <= 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "- vs <="
+ },
+ {
+  "id": "binding_power/29/expected",
+  "templates": {
+   "expression": "{{ 12 - 6 <= 3 }}",
+   "expected": "{{ (12 - 6) <= 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "- vs <="
+ },
+ {
+  "id": "binding_power/30/expression",
+  "templates": {
+   "expression": "{{ 12 * 6 == 3 }}",
+   "expected": "{{ (12 * 6) == 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "* vs =="
+ },
+ {
+  "id": "binding_power/30/expected",
+  "templates": {
+   "expression": "{{ 12 * 6 == 3 }}",
+   "expected": "{{ (12 * 6) == 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "* vs =="
+ },
+ {
+  "id": "binding_power/31/expression",
+  "templates": {
+   "expression": "{{ 12 * 6 != 3 }}",
+   "expected": "{{ (12 * 6) != 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "* vs !="
+ },
+ {
+  "id": "binding_power/31/expected",
+  "templates": {
+   "expression": "{{ 12 * 6 != 3 }}",
+   "expected": "{{ (12 * 6) != 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "* vs !="
+ },
+ {
+  "id": "binding_power/32/expression",
+  "templates": {
+   "expression": "{{ 12 * 6 <=> 3 }}",
+   "expected": "{{ (12 * 6) <=> 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "* vs <=>"
+ },
+ {
+  "id": "binding_power/32/expected",
+  "templates": {
+   "expression": "{{ 12 * 6 <=> 3 }}",
+   "expected": "{{ (12 * 6) <=> 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "* vs <=>"
+ },
+ {
+  "id": "binding_power/33/expression",
+  "templates": {
+   "expression": "{{ 12 * 6 < 3 }}",
+   "expected": "{{ (12 * 6) < 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "* vs <"
+ },
+ {
+  "id": "binding_power/33/expected",
+  "templates": {
+   "expression": "{{ 12 * 6 < 3 }}",
+   "expected": "{{ (12 * 6) < 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "* vs <"
+ },
+ {
+  "id": "binding_power/34/expression",
+  "templates": {
+   "expression": "{{ 12 * 6 > 3 }}",
+   "expected": "{{ (12 * 6) > 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "* vs >"
+ },
+ {
+  "id": "binding_power/34/expected",
+  "templates": {
+   "expression": "{{ 12 * 6 > 3 }}",
+   "expected": "{{ (12 * 6) > 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "* vs >"
+ },
+ {
+  "id": "binding_power/35/expression",
+  "templates": {
+   "expression": "{{ 12 * 6 >= 3 }}",
+   "expected": "{{ (12 * 6) >= 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "* vs >="
+ },
+ {
+  "id": "binding_power/35/expected",
+  "templates": {
+   "expression": "{{ 12 * 6 >= 3 }}",
+   "expected": "{{ (12 * 6) >= 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "* vs >="
+ },
+ {
+  "id": "binding_power/36/expression",
+  "templates": {
+   "expression": "{{ 12 * 6 <= 3 }}",
+   "expected": "{{ (12 * 6) <= 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "* vs <="
+ },
+ {
+  "id": "binding_power/36/expected",
+  "templates": {
+   "expression": "{{ 12 * 6 <= 3 }}",
+   "expected": "{{ (12 * 6) <= 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "* vs <="
+ },
+ {
+  "id": "binding_power/37/expression",
+  "templates": {
+   "expression": "{{ 12 / 6 == 3 }}",
+   "expected": "{{ (12 / 6) == 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "/ vs =="
+ },
+ {
+  "id": "binding_power/37/expected",
+  "templates": {
+   "expression": "{{ 12 / 6 == 3 }}",
+   "expected": "{{ (12 / 6) == 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "/ vs =="
+ },
+ {
+  "id": "binding_power/38/expression",
+  "templates": {
+   "expression": "{{ 12 / 6 != 3 }}",
+   "expected": "{{ (12 / 6) != 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "/ vs !="
+ },
+ {
+  "id": "binding_power/38/expected",
+  "templates": {
+   "expression": "{{ 12 / 6 != 3 }}",
+   "expected": "{{ (12 / 6) != 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "/ vs !="
+ },
+ {
+  "id": "binding_power/39/expression",
+  "templates": {
+   "expression": "{{ 12 / 6 <=> 3 }}",
+   "expected": "{{ (12 / 6) <=> 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "/ vs <=>"
+ },
+ {
+  "id": "binding_power/39/expected",
+  "templates": {
+   "expression": "{{ 12 / 6 <=> 3 }}",
+   "expected": "{{ (12 / 6) <=> 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "/ vs <=>"
+ },
+ {
+  "id": "binding_power/40/expression",
+  "templates": {
+   "expression": "{{ 12 / 6 < 3 }}",
+   "expected": "{{ (12 / 6) < 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "/ vs <"
+ },
+ {
+  "id": "binding_power/40/expected",
+  "templates": {
+   "expression": "{{ 12 / 6 < 3 }}",
+   "expected": "{{ (12 / 6) < 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "/ vs <"
+ },
+ {
+  "id": "binding_power/41/expression",
+  "templates": {
+   "expression": "{{ 12 / 6 > 3 }}",
+   "expected": "{{ (12 / 6) > 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "/ vs >"
+ },
+ {
+  "id": "binding_power/41/expected",
+  "templates": {
+   "expression": "{{ 12 / 6 > 3 }}",
+   "expected": "{{ (12 / 6) > 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "/ vs >"
+ },
+ {
+  "id": "binding_power/42/expression",
+  "templates": {
+   "expression": "{{ 12 / 6 >= 3 }}",
+   "expected": "{{ (12 / 6) >= 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "/ vs >="
+ },
+ {
+  "id": "binding_power/42/expected",
+  "templates": {
+   "expression": "{{ 12 / 6 >= 3 }}",
+   "expected": "{{ (12 / 6) >= 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "/ vs >="
+ },
+ {
+  "id": "binding_power/43/expression",
+  "templates": {
+   "expression": "{{ 12 / 6 <= 3 }}",
+   "expected": "{{ (12 / 6) <= 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "/ vs <="
+ },
+ {
+  "id": "binding_power/43/expected",
+  "templates": {
+   "expression": "{{ 12 / 6 <= 3 }}",
+   "expected": "{{ (12 / 6) <= 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "/ vs <="
+ },
+ {
+  "id": "binding_power/44/expression",
+  "templates": {
+   "expression": "{{ 12 // 6 == 3 }}",
+   "expected": "{{ (12 // 6) == 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "// vs =="
+ },
+ {
+  "id": "binding_power/44/expected",
+  "templates": {
+   "expression": "{{ 12 // 6 == 3 }}",
+   "expected": "{{ (12 // 6) == 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "// vs =="
+ },
+ {
+  "id": "binding_power/45/expression",
+  "templates": {
+   "expression": "{{ 12 // 6 != 3 }}",
+   "expected": "{{ (12 // 6) != 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "// vs !="
+ },
+ {
+  "id": "binding_power/45/expected",
+  "templates": {
+   "expression": "{{ 12 // 6 != 3 }}",
+   "expected": "{{ (12 // 6) != 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "// vs !="
+ },
+ {
+  "id": "binding_power/46/expression",
+  "templates": {
+   "expression": "{{ 12 // 6 <=> 3 }}",
+   "expected": "{{ (12 // 6) <=> 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "// vs <=>"
+ },
+ {
+  "id": "binding_power/46/expected",
+  "templates": {
+   "expression": "{{ 12 // 6 <=> 3 }}",
+   "expected": "{{ (12 // 6) <=> 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "// vs <=>"
+ },
+ {
+  "id": "binding_power/47/expression",
+  "templates": {
+   "expression": "{{ 12 // 6 < 3 }}",
+   "expected": "{{ (12 // 6) < 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "// vs <"
+ },
+ {
+  "id": "binding_power/47/expected",
+  "templates": {
+   "expression": "{{ 12 // 6 < 3 }}",
+   "expected": "{{ (12 // 6) < 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "// vs <"
+ },
+ {
+  "id": "binding_power/48/expression",
+  "templates": {
+   "expression": "{{ 12 // 6 > 3 }}",
+   "expected": "{{ (12 // 6) > 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "// vs >"
+ },
+ {
+  "id": "binding_power/48/expected",
+  "templates": {
+   "expression": "{{ 12 // 6 > 3 }}",
+   "expected": "{{ (12 // 6) > 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "// vs >"
+ },
+ {
+  "id": "binding_power/49/expression",
+  "templates": {
+   "expression": "{{ 12 // 6 >= 3 }}",
+   "expected": "{{ (12 // 6) >= 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "// vs >="
+ },
+ {
+  "id": "binding_power/49/expected",
+  "templates": {
+   "expression": "{{ 12 // 6 >= 3 }}",
+   "expected": "{{ (12 // 6) >= 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "// vs >="
+ },
+ {
+  "id": "binding_power/50/expression",
+  "templates": {
+   "expression": "{{ 12 // 6 <= 3 }}",
+   "expected": "{{ (12 // 6) <= 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "// vs <="
+ },
+ {
+  "id": "binding_power/50/expected",
+  "templates": {
+   "expression": "{{ 12 // 6 <= 3 }}",
+   "expected": "{{ (12 // 6) <= 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "// vs <="
+ },
+ {
+  "id": "binding_power/51/expression",
+  "templates": {
+   "expression": "{{ 12 % 6 == 3 }}",
+   "expected": "{{ (12 % 6) == 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "% vs =="
+ },
+ {
+  "id": "binding_power/51/expected",
+  "templates": {
+   "expression": "{{ 12 % 6 == 3 }}",
+   "expected": "{{ (12 % 6) == 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "% vs =="
+ },
+ {
+  "id": "binding_power/52/expression",
+  "templates": {
+   "expression": "{{ 12 % 6 != 3 }}",
+   "expected": "{{ (12 % 6) != 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "% vs !="
+ },
+ {
+  "id": "binding_power/52/expected",
+  "templates": {
+   "expression": "{{ 12 % 6 != 3 }}",
+   "expected": "{{ (12 % 6) != 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "% vs !="
+ },
+ {
+  "id": "binding_power/53/expression",
+  "templates": {
+   "expression": "{{ 12 % 6 <=> 3 }}",
+   "expected": "{{ (12 % 6) <=> 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "% vs <=>"
+ },
+ {
+  "id": "binding_power/53/expected",
+  "templates": {
+   "expression": "{{ 12 % 6 <=> 3 }}",
+   "expected": "{{ (12 % 6) <=> 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "% vs <=>"
+ },
+ {
+  "id": "binding_power/54/expression",
+  "templates": {
+   "expression": "{{ 12 % 6 < 3 }}",
+   "expected": "{{ (12 % 6) < 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "% vs <"
+ },
+ {
+  "id": "binding_power/54/expected",
+  "templates": {
+   "expression": "{{ 12 % 6 < 3 }}",
+   "expected": "{{ (12 % 6) < 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "% vs <"
+ },
+ {
+  "id": "binding_power/55/expression",
+  "templates": {
+   "expression": "{{ 12 % 6 > 3 }}",
+   "expected": "{{ (12 % 6) > 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "% vs >"
+ },
+ {
+  "id": "binding_power/55/expected",
+  "templates": {
+   "expression": "{{ 12 % 6 > 3 }}",
+   "expected": "{{ (12 % 6) > 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "% vs >"
+ },
+ {
+  "id": "binding_power/56/expression",
+  "templates": {
+   "expression": "{{ 12 % 6 >= 3 }}",
+   "expected": "{{ (12 % 6) >= 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "% vs >="
+ },
+ {
+  "id": "binding_power/56/expected",
+  "templates": {
+   "expression": "{{ 12 % 6 >= 3 }}",
+   "expected": "{{ (12 % 6) >= 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "% vs >="
+ },
+ {
+  "id": "binding_power/57/expression",
+  "templates": {
+   "expression": "{{ 12 % 6 <= 3 }}",
+   "expected": "{{ (12 % 6) <= 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "% vs <="
+ },
+ {
+  "id": "binding_power/57/expected",
+  "templates": {
+   "expression": "{{ 12 % 6 <= 3 }}",
+   "expected": "{{ (12 % 6) <= 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "% vs <="
+ },
+ {
+  "id": "binding_power/58/expression",
+  "templates": {
+   "expression": "{{ 1 + 2 not in [3, 4] }}",
+   "expected": "{{ (1 + 2) not in [3, 4] }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs not in"
+ },
+ {
+  "id": "binding_power/58/expected",
+  "templates": {
+   "expression": "{{ 1 + 2 not in [3, 4] }}",
+   "expected": "{{ (1 + 2) not in [3, 4] }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs not in"
+ },
+ {
+  "id": "binding_power/59/expression",
+  "templates": {
+   "expression": "{{ 1 + 2 in [3, 4] }}",
+   "expected": "{{ (1 + 2) in [3, 4] }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs in"
+ },
+ {
+  "id": "binding_power/59/expected",
+  "templates": {
+   "expression": "{{ 1 + 2 in [3, 4] }}",
+   "expected": "{{ (1 + 2) in [3, 4] }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs in"
+ },
+ {
+  "id": "binding_power/60/expression",
+  "templates": {
+   "expression": "{{ 1 + 2 matches \"/^3$/\" }}",
+   "expected": "{{ (1 + 2) matches \"/^3$/\" }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "+ vs matches"
+ },
+ {
+  "id": "binding_power/60/expected",
+  "templates": {
+   "expression": "{{ 1 + 2 matches \"/^3$/\" }}",
+   "expected": "{{ (1 + 2) matches \"/^3$/\" }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "+ vs matches"
+ },
+ {
+  "id": "binding_power/61/expression",
+  "templates": {
+   "expression": "{{ \"a\" ~ \"b\" starts with \"a\" }}",
+   "expected": "{{ (\"a\" ~ \"b\") starts with \"a\" }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "~ vs starts with"
+ },
+ {
+  "id": "binding_power/61/expected",
+  "templates": {
+   "expression": "{{ \"a\" ~ \"b\" starts with \"a\" }}",
+   "expected": "{{ (\"a\" ~ \"b\") starts with \"a\" }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "~ vs starts with"
+ },
+ {
+  "id": "binding_power/62/expression",
+  "templates": {
+   "expression": "{{ \"a\" ~ \"b\" ends with \"b\" }}",
+   "expected": "{{ (\"a\" ~ \"b\") ends with \"b\" }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "~ vs ends with"
+ },
+ {
+  "id": "binding_power/62/expected",
+  "templates": {
+   "expression": "{{ \"a\" ~ \"b\" ends with \"b\" }}",
+   "expected": "{{ (\"a\" ~ \"b\") ends with \"b\" }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "~ vs ends with"
+ },
+ {
+  "id": "binding_power/63/expression",
+  "templates": {
+   "expression": "{{ -a[\"b\"] + 3 }}",
+   "expected": "{{ -(a[\"b\"]) + 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": "[] vs unary -"
+ },
+ {
+  "id": "binding_power/63/expected",
+  "templates": {
+   "expression": "{{ -a[\"b\"] + 3 }}",
+   "expected": "{{ -(a[\"b\"]) + 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": "[] vs unary -"
+ },
+ {
+  "id": "binding_power/64/expression",
+  "templates": {
+   "expression": "{{ -a[\"c\"][\"d\"] }}",
+   "expected": "{{ -((a[\"c\"])[\"d\"]) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": "[] vs unary - (multiple levels)"
+ },
+ {
+  "id": "binding_power/64/expected",
+  "templates": {
+   "expression": "{{ -a[\"c\"][\"d\"] }}",
+   "expected": "{{ -((a[\"c\"])[\"d\"]) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": "[] vs unary - (multiple levels)"
+ },
+ {
+  "id": "binding_power/65/expression",
+  "templates": {
+   "expression": "{{ -a.b }}",
+   "expected": "{{ -(a.b) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": ". vs unary -"
+ },
+ {
+  "id": "binding_power/65/expected",
+  "templates": {
+   "expression": "{{ -a.b }}",
+   "expected": "{{ -(a.b) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": ". vs unary -"
+ },
+ {
+  "id": "binding_power/66/expression",
+  "templates": {
+   "expression": "{{ -a.c.d }}",
+   "expected": "{{ -((a.c).d) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": ". vs unary - (multiple levels)"
+ },
+ {
+  "id": "binding_power/66/expected",
+  "templates": {
+   "expression": "{{ -a.c.d }}",
+   "expected": "{{ -((a.c).d) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": ". vs unary - (multiple levels)"
+ },
+ {
+  "id": "binding_power/67/expression",
+  "templates": {
+   "expression": "{{ -a.c[\"d\"] }}",
+   "expected": "{{ -((a.c)[\"d\"]) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": ". [] vs unary -"
+ },
+ {
+  "id": "binding_power/67/expected",
+  "templates": {
+   "expression": "{{ -a.c[\"d\"] }}",
+   "expected": "{{ -((a.c)[\"d\"]) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": ". [] vs unary -"
+ },
+ {
+  "id": "binding_power/68/expression",
+  "templates": {
+   "expression": "{{ -a[\"c\"].d }}",
+   "expected": "{{ -((a[\"c\"]).d) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": "[] . vs unary -"
+ },
+ {
+  "id": "binding_power/68/expected",
+  "templates": {
+   "expression": "{{ -a[\"c\"].d }}",
+   "expected": "{{ -((a[\"c\"]).d) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": "[] . vs unary -"
+ },
+ {
+  "id": "binding_power/69/expression",
+  "templates": {
+   "expression": "{{ -random(1, 1) + 3 }}",
+   "expected": "{{ -(random(1, 1)) + 3 }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "() vs unary -"
+ },
+ {
+  "id": "binding_power/69/expected",
+  "templates": {
+   "expression": "{{ -random(1, 1) + 3 }}",
+   "expected": "{{ -(random(1, 1)) + 3 }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "() vs unary -"
+ },
+ {
+  "id": "binding_power/70/expression",
+  "templates": {
+   "expression": "{{ 10 + 2|length }}",
+   "expected": "{{ 10 + (2|length) }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": "+ vs |"
+ },
+ {
+  "id": "binding_power/70/expected",
+  "templates": {
+   "expression": "{{ 10 + 2|length }}",
+   "expected": "{{ 10 + (2|length) }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": "+ vs |"
+ },
+ {
+  "id": "binding_power/71/expression",
+  "templates": {
+   "expression": "{% do c = \"a\" %}{{ c }}",
+   "expected": "{% do c = (\"a\") %}{{ c }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "= same as literal"
+ },
+ {
+  "id": "binding_power/71/expected",
+  "templates": {
+   "expression": "{% do c = \"a\" %}{{ c }}",
+   "expected": "{% do c = (\"a\") %}{{ c }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "= same as literal"
+ },
+ {
+  "id": "binding_power/72/expression",
+  "templates": {
+   "expression": "{% do c = a.b %}{{ c }}",
+   "expected": "{% do c = (a.b) %}{{ c }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": "= stronger than ."
+ },
+ {
+  "id": "binding_power/72/expected",
+  "templates": {
+   "expression": "{% do c = a.b %}{{ c }}",
+   "expected": "{% do c = (a.b) %}{{ c }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "data_json": {
+   "a": {
+    "b": 1,
+    "c": {
+     "d": 2
+    }
+   }
+  },
+  "name": "= stronger than ."
+ },
+ {
+  "id": "binding_power/73/expression",
+  "templates": {
+   "expression": "{% do a = 1 + 3 %}{{ a }}",
+   "expected": "{% do a = (1 + 3) %}{{ a }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "= stronger than math"
+ },
+ {
+  "id": "binding_power/73/expected",
+  "templates": {
+   "expression": "{% do a = 1 + 3 %}{{ a }}",
+   "expected": "{% do a = (1 + 3) %}{{ a }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "= stronger than math"
+ },
+ {
+  "id": "binding_power/74/expression",
+  "templates": {
+   "expression": "{% do a = false or true %}{{ a }}",
+   "expected": "{% do a = (false or true) %}{{ a }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "= stronger than logical"
+ },
+ {
+  "id": "binding_power/74/expected",
+  "templates": {
+   "expression": "{% do a = false or true %}{{ a }}",
+   "expected": "{% do a = (false or true) %}{{ a }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "= stronger than logical"
+ },
+ {
+  "id": "binding_power/75/expression",
+  "templates": {
+   "expression": "{% do c = 4 ? 0 : -1 %}{{ c }}",
+   "expected": "{% do c = (4 ? 0 : -1) %}{{ c }}"
+  },
+  "main": "expression",
+  "env": "plain",
+  "name": "= stronger than ternary"
+ },
+ {
+  "id": "binding_power/75/expected",
+  "templates": {
+   "expression": "{% do c = 4 ? 0 : -1 %}{{ c }}",
+   "expected": "{% do c = (4 ? 0 : -1) %}{{ c }}"
+  },
+  "main": "expected",
+  "env": "plain",
+  "name": "= stronger than ternary"
+ },
+ {
+  "id": "null_safe_short_circuit_strict/0",
+  "templates": {
+   "template": "{{ u?.c.z ?? 'd' }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['n' => null]"
+ },
+ {
+  "id": "null_safe_short_circuit_strict/1",
+  "templates": {
+   "template": "{{ u?.c.z is defined ? 'y' : 'n' }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['n' => null]"
+ },
+ {
+  "id": "null_safe_short_circuit_strict/2",
+  "templates": {
+   "template": "{{ u?.c.z|default('d') }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['n' => null]"
+ },
+ {
+  "id": "null_safe_short_circuit_strict/3",
+  "templates": {
+   "template": "{{ u?.c['z'] ?? 'd' }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['n' => null]"
+ },
+ {
+  "id": "null_safe_short_circuit_strict/4",
+  "templates": {
+   "template": "{{ u?.c.z.w ?? 'd' }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['n' => null]"
+ },
+ {
+  "id": "null_safe_short_circuit_strict/5",
+  "templates": {
+   "template": "{{ u?.c ?? 'd' }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['n' => null]"
+ },
+ {
+  "id": "null_safe_short_circuit_strict/6",
+  "templates": {
+   "template": "{{ u?.c?.z.w ?? 'd' }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['n' => null]"
+ },
+ {
+  "id": "null_safe_short_circuit_strict/7",
+  "templates": {
+   "template": "{{ n?.c.z ?? 'd' }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['n' => null]"
+ },
+ {
+  "id": "null_safe_short_circuit_strict/8",
+  "templates": {
+   "template": "{{ u.b?.c.z ?? 'd' }}"
+  },
+  "main": "template",
+  "env": "plain",
+  "config": {
+   "strict_variables": true
+  },
+  "data_php": "['n' => null]"
+ },
+ {
+  "id": "macro_unary_defaults/0",
+  "templates": {
+   "index": "{% macro m(a = -'a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_unary_defaults/1",
+  "templates": {
+   "index": "{% macro m(a = +'a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_unary_defaults/2",
+  "templates": {
+   "index": "{% macro m(a = -[1]) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_unary_defaults/3",
+  "templates": {
+   "index": "{% macro m(a = [-'a']) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_unary_defaults/4",
+  "templates": {
+   "index": "{% macro m(a = {a: -''}) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_unary_defaults/5",
+  "templates": {
+   "index": "{% macro m(a = - -'a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_unary_defaults/6",
+  "templates": {
+   "index": "{% macro m(a = -'a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m(7) }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_unary_defaults/7",
+  "templates": {
+   "index": "{% macro m(a = -'a') %}\n[{{ a }}]\n{% endmacro %}\nx\n{{ _self.m() }}\ny\n{{ 'z' }}\n"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "macro_unary_defaults/8",
+  "templates": {
+   "index": "{% macro m(a = -'1a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  }
+ },
+ {
+  "id": "operand_order/0",
+  "templates": {
+   "index": "{{ 7 * arr }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_php": "['arr' => [1], 'i' => 7]"
+ },
+ {
+  "id": "operand_order/1",
+  "templates": {
+   "index": "{{ 7 b-and arr }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_php": "['arr' => [1], 'i' => 7]"
+ },
+ {
+  "id": "operand_order/2",
+  "templates": {
+   "index": "{{ 'a' b-or arr }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_php": "['arr' => [1], 'i' => 7]"
+ },
+ {
+  "id": "operand_order/3",
+  "templates": {
+   "index": "{{ null b-xor arr }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_php": "['arr' => [1], 'i' => 7]"
+ },
+ {
+  "id": "operand_order/4",
+  "templates": {
+   "index": "{{ (1 + 2) * arr }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_php": "['arr' => [1], 'i' => 7]"
+ },
+ {
+  "id": "operand_order/5",
+  "templates": {
+   "index": "{{ i * range(1, 2) }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_php": "['arr' => [1], 'i' => 7]"
+ },
+ {
+  "id": "operand_order/6",
+  "templates": {
+   "index": "{{ [1] * i }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_php": "['arr' => [1], 'i' => 7]"
+ },
+ {
+  "id": "operand_order/7",
+  "templates": {
+   "index": "{{ arr * 7 }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_php": "['arr' => [1], 'i' => 7]"
+ },
+ {
+  "id": "operand_order/8",
+  "templates": {
+   "index": "{{ i * arr }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_php": "['arr' => [1], 'i' => 7]"
+ },
+ {
+  "id": "operand_order/9",
+  "templates": {
+   "index": "{{ 7 + arr }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_php": "['arr' => [1], 'i' => 7]"
+ },
+ {
+  "id": "operand_order/10",
+  "templates": {
+   "index": "{{ range(1, 2) * i }}"
+  },
+  "main": "index",
+  "env": "plain",
+  "config": {
+   "autoescape": false
+  },
+  "data_php": "['arr' => [1], 'i' => 7]"
+ }
+]

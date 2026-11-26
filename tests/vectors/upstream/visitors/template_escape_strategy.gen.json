@@ -1,0 +1,38 @@
+[
+ {
+  "id": "compiled_templates_expose_their_strategy/0",
+  "php_code": "\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader([\n    'guessed_html.html.twig' => '{{ value }}',\n]), ['autoescape' => 'name', 'cache' => false]);\n\nreturn $twig->load('guessed_html.html.twig')->getDefaultEscapeStrategy();\n"
+ },
+ {
+  "id": "compiled_templates_expose_their_strategy/1",
+  "php_code": "\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader([\n    'guessed_js.js.twig' => '{{ value }}',\n]), ['autoescape' => 'name', 'cache' => false]);\n\nreturn $twig->load('guessed_js.js.twig')->getDefaultEscapeStrategy();\n"
+ },
+ {
+  "id": "compiled_templates_expose_their_strategy/2",
+  "php_code": "\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader([\n    'guessed_none.txt.twig' => '{{ value }}',\n]), ['autoescape' => 'name', 'cache' => false]);\n\nreturn $twig->load('guessed_none.txt.twig')->getDefaultEscapeStrategy();\n"
+ },
+ {
+  "id": "compiled_templates_expose_their_strategy/3",
+  "php_code": "\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader([\n    'forced_html.js.twig' => '{{ value }}',\n]), ['autoescape' => 'html', 'cache' => false]);\n\nreturn $twig->load('forced_html.js.twig')->getDefaultEscapeStrategy();\n"
+ },
+ {
+  "id": "compiled_templates_expose_their_strategy/4",
+  "php_code": "\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader([\n    'disabled.html.twig' => '{{ value }}',\n]), ['autoescape' => false, 'cache' => false]);\n\nreturn $twig->load('disabled.html.twig')->getDefaultEscapeStrategy();\n"
+ },
+ {
+  "id": "an_autoescape_tag_does_not_change_the_strategy_of_the_template/0",
+  "php_code": "\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader([\n    'another_strategy.html.twig' => '{% autoescape \\'js\\' %}{{ value }}{% endautoescape %}',\n]), ['autoescape' => 'name', 'cache' => false]);\n\nreturn $twig->load('another_strategy.html.twig')->getDefaultEscapeStrategy();\n"
+ },
+ {
+  "id": "an_autoescape_tag_does_not_change_the_strategy_of_the_template/1",
+  "php_code": "\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader([\n    'no_escaping.html.twig' => '{% autoescape false %}{{ value }}{% endautoescape %}',\n]), ['autoescape' => 'name', 'cache' => false]);\n\nreturn $twig->load('no_escaping.html.twig')->getDefaultEscapeStrategy();\n"
+ },
+ {
+  "id": "the_strategy_describes_the_body_and_not_what_the_template_renders",
+  "php_code": "\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader([\n    'inherits.html.twig' => \"{% extends 'inherited.txt.twig' %}\",\n    'inherited.txt.twig' => '{{ value }}',\n]), ['autoescape' => 'name', 'cache' => false]);\n$template = $twig->load('inherits.html.twig');\n\nreturn ['strategy' => $template->getDefaultEscapeStrategy(), 'output' => $template->render(['value' => '<b>'])];\n"
+ },
+ {
+  "id": "embedded_templates_expose_the_strategy_of_their_template",
+  "php_code": "\n$twig = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader([\n    'index.js.twig' => \"{% embed 'layout.html.twig' %}{% block content %}{{ value }}{% endblock %}{% endembed %}\",\n    'layout.html.twig' => '{% block content %}{% endblock %}',\n]), ['autoescape' => 'name', 'cache' => false]);\n$compiled = $twig->compileSource(new \\Twig\\Source($twig->getLoader()->getSourceContext('index.js.twig')->getCode(), 'index.js.twig'));\n\nreturn [\n    'methods' => substr_count($compiled, 'public function getDefaultEscapeStrategy(): string|false'),\n    'js' => substr_count($compiled, 'return \"js\";'),\n    'output' => $twig->render('index.js.twig', ['value' => '<b>\\'']),\n];\n"
+ }
+]

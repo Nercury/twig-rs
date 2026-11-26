@@ -1,0 +1,129 @@
+[
+  {
+    "id": "cycle-empty",
+    "env": "plain",
+    "templates": {
+      "index": "{{ cycle(values, 0) }}"
+    },
+    "main": "index",
+    "config": {
+      "autoescape": false
+    },
+    "data_php": "return ['values' => []];",
+    "errors": "throw"
+  },
+  {
+    "id": "cycle-arrayobject",
+    "env": "plain",
+    "templates": {
+      "index": "{{ cycle(values, 0) }}"
+    },
+    "main": "index",
+    "config": {
+      "autoescape": false
+    },
+    "data_php": "return ['values' => new class extends \\ArrayObject {}];",
+    "errors": "throw"
+  },
+  {
+    "id": "random-empty",
+    "env": "plain",
+    "templates": {
+      "index": "{{ random([]) }}"
+    },
+    "main": "index",
+    "config": {
+      "autoescape": false
+    },
+    "errors": "throw"
+  },
+  {
+    "id": "sandboxed-include",
+    "env": "plain",
+    "templates": {
+      "index": "{{ include(\"included\", sandboxed: true) }}",
+      "included": "{{ \"included\"|e }}"
+    },
+    "main": "index",
+    "load_all": false,
+    "sandbox": {
+      "global": false,
+      "policy": {
+        "functions": [
+          "include"
+        ]
+      }
+    },
+    "errors": "throw"
+  },
+  {
+    "id": "sandboxed-include-preloaded",
+    "env": "plain",
+    "templates": {
+      "included": "{{ \"included\"|e }}",
+      "index": "{{ include(\"included\", sandboxed: true) }}"
+    },
+    "main": "index",
+    "load_all": true,
+    "sandbox": {
+      "global": false,
+      "policy": {
+        "functions": [
+          "include"
+        ]
+      }
+    },
+    "errors": "throw"
+  },
+  {
+    "id": "sandboxed-include-assigned",
+    "env": "plain",
+    "templates": {
+      "index": "{% set body = include('included', sandboxed: true) %}[{{ body }}]",
+      "included": "{{ evil }}"
+    },
+    "main": "index",
+    "load_all": false,
+    "config": {
+      "autoescape": "html"
+    },
+    "sandbox": {
+      "global": false,
+      "policy": {
+        "filters": [
+          "escape"
+        ],
+        "functions": [
+          "include"
+        ]
+      }
+    },
+    "data_php": "return ['evil' => '<script>'];",
+    "errors": "throw"
+  },
+  {
+    "id": "cycle-non-countable",
+    "env": "plain",
+    "templates": {
+      "index": "{{ cycle(seq, 0) }}"
+    },
+    "main": "index",
+    "config": {
+      "autoescape": false
+    },
+    "data_php": "return ['seq' => new class implements \\ArrayAccess, \\IteratorAggregate { public function offsetExists($offset): bool { return true; } public function offsetGet($offset): mixed { return 'val'; } public function offsetSet($offset, $value): void {} public function offsetUnset($offset): void {} public function getIterator(): \\Traversable { yield 'odd'; yield 'even'; } }];",
+    "errors": "throw"
+  },
+  {
+    "id": "unknown-escaper",
+    "php_code": "try { (new \\Twig\\Runtime\\EscaperRuntime())->escape('foo', 'bar'); } catch (\\Throwable $e) { return [get_class($e), $e->getMessage()]; }"
+  },
+  {
+    "id": "unknown-escaper-custom",
+    "php_code": "$r = new \\Twig\\Runtime\\EscaperRuntime(); $r->setEscaper('foo', fn ($s, $c) => $s); try { $r->escape('foo', 'bar'); } catch (\\Throwable $e) { return [get_class($e), $e->getMessage()]; }"
+  },
+  {
+    "php_code": "use Twig\\Node\\EmptyNode; use Twig\\Node\\Expression\\ConstantExpression; use Twig\\Node\\Expression\\FunctionExpression; use Twig\\Node\\Nodes; use Twig\\Source; use Twig\\TwigFunction; use Twig\\Util\\CallableArgumentsExtractor; class CallableTestClassX { public function __invoke($required) {} public static function customStaticFunction($arg1, $arg2 = 'default', $arg3 = []) {} public function customFunctionWithArbitraryArguments() {} public function customFunctionSnakeCamel($someName, $some_city) {} } function custom_call_test_function_x($required) {} $get = function ($name, $callable, $args, $isVariadic = false) { $function = new TwigFunction($name, $callable, ['is_variadic' => $isVariadic]); $node = new FunctionExpression($function, new EmptyNode(), 2); $node->setSourceContext(new Source('', 'test.twig')); foreach ($args as $n => $arg) { $args[$n] = new ConstantExpression($arg, 0); } $deps = []; set_error_handler(function ($t, $m) use (&$deps) { $deps[] = $m; return true; }); try { $r = (new CallableArgumentsExtractor($node, $function))->extractArguments(new Nodes($args)); $out = ['ok' => array_map(fn ($a) => $isVariadic ? (string) $a.' @'.$a->getTemplateLine() : var_export($a->getAttribute('value'), true), $r)]; } catch (\\Throwable $e) { $out = ['error' => get_class($e), 'message' => $e->getMessage()]; } finally { restore_error_handler(); } $out['deprecations'] = $deps; return $out; }; return [ 'date' => $get('date', 'date', ['format' => 'U', 'timestamp' => null]), 'positional_after_named' => $get('date', 'date', ['timestamp' => 123456, 'Y-m-d']), 'defined_twice' => $get('date', 'date', ['Y-m-d', 'format' => 'U']), 'unknown' => $get('date', 'date', ['Y-m-d', 'timestamp' => null, 'unknown' => '']), 'unknowns' => $get('date', 'date', ['Y-m-d', 'timestamp' => null, 'unknown1' => '', 'unknown2' => '']), 'static' => $get('custom_static_function', 'CallableTestClassX::customStaticFunction', ['arg1' => 'arg1']), 'variadic_conv' => $get('custom', eval('return fn (string $someText, int $some_number, ...$args) => \"\";'), ['some_text' => 'a', 'someNumber' => 12, 'some_text_variadic' => 'a', 'someNumberVariadic' => 12], true), 'error' => $get('custom_static_function', [new CallableTestClassX(), 'customFunctionSnakeCamel'], ['someCity' => 'Paris']), 'arbitrary' => $get('foo', [new CallableTestClassX(), 'customFunctionWithArbitraryArguments'], [], true), 'invalid' => $get('foo', '<not-a-callable>', [], true), 'invalid_null' => $get('foo', null, [], true), 'arbitrary_function' => $get('foo', 'custom_call_test_function_x', [], true), 'arbitrary_object' => $get('foo', new CallableTestClassX(), [], true) ];",
+    "id": "callable-arguments-extractor"
+  }
+]

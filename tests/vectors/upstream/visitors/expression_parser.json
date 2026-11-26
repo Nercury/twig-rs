@@ -1,0 +1,2615 @@
+[
+    {
+        "id": "can_only_assign_to_names/0",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "You cannot assign a value to \"false\" in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: You cannot assign a value to \"false\" in \"index\" at line 1.",
+            "rawMessage": "You cannot assign a value to \"false\".",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "can_only_assign_to_names/1",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "You cannot assign a value to \"FALSE\" in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: You cannot assign a value to \"FALSE\" in \"index\" at line 1.",
+            "rawMessage": "You cannot assign a value to \"FALSE\".",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "can_only_assign_to_names/2",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "You cannot assign a value to \"true\" in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: You cannot assign a value to \"true\" in \"index\" at line 1.",
+            "rawMessage": "You cannot assign a value to \"true\".",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "can_only_assign_to_names/3",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "You cannot assign a value to \"TRUE\" in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: You cannot assign a value to \"TRUE\" in \"index\" at line 1.",
+            "rawMessage": "You cannot assign a value to \"TRUE\".",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "can_only_assign_to_names/4",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "You cannot assign a value to \"none\" in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: You cannot assign a value to \"none\" in \"index\" at line 1.",
+            "rawMessage": "You cannot assign a value to \"none\".",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "can_only_assign_to_names/5",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "You cannot assign a value to \"NONE\" in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: You cannot assign a value to \"NONE\" in \"index\" at line 1.",
+            "rawMessage": "You cannot assign a value to \"NONE\".",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "can_only_assign_to_names/6",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "You cannot assign a value to \"null\" in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: You cannot assign a value to \"null\" in \"index\" at line 1.",
+            "rawMessage": "You cannot assign a value to \"null\".",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "can_only_assign_to_names/7",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "You cannot assign a value to \"NULL\" in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: You cannot assign a value to \"NULL\" in \"index\" at line 1.",
+            "rawMessage": "You cannot assign a value to \"NULL\".",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "can_only_assign_to_names/8",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Only variables can be assigned to. Unexpected token \"number\" of value \"3\" (\"name\" expected) in \"index\" at line 1 column 8.",
+            "formatted": "Twig\\Error\\SyntaxError: Only variables can be assigned to. Unexpected token \"number\" of value \"3\" (\"name\" expected) in \"index\" at line 1 column 8.",
+            "rawMessage": "Only variables can be assigned to. Unexpected token \"number\" of value \"3\" (\"name\" expected).",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": 8
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "can_only_assign_to_names/9",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Only variables can be assigned to. Unexpected token \"number\" of value \"1\" (\"name\" expected) in \"index\" at line 1 column 8.",
+            "formatted": "Twig\\Error\\SyntaxError: Only variables can be assigned to. Unexpected token \"number\" of value \"1\" (\"name\" expected) in \"index\" at line 1 column 8.",
+            "rawMessage": "Only variables can be assigned to. Unexpected token \"number\" of value \"1\" (\"name\" expected).",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": 8
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "can_only_assign_to_names/10",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Only variables can be assigned to. Unexpected token \"string\" of value \"bar\" (\"name\" expected) in \"index\" at line 1 column 8.",
+            "formatted": "Twig\\Error\\SyntaxError: Only variables can be assigned to. Unexpected token \"string\" of value \"bar\" (\"name\" expected) in \"index\" at line 1 column 8.",
+            "rawMessage": "Only variables can be assigned to. Unexpected token \"string\" of value \"bar\" (\"name\" expected).",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": 8
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "can_only_assign_to_names/11",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Only variables can be assigned to. Unexpected token \"end of statement block\" (\"name\" expected) in \"index\" at line 1 column 8.",
+            "formatted": "Twig\\Error\\SyntaxError: Only variables can be assigned to. Unexpected token \"end of statement block\" (\"name\" expected) in \"index\" at line 1 column 8.",
+            "rawMessage": "Only variables can be assigned to. Unexpected token \"end of statement block\" (\"name\" expected).",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": 8
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/0",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/1",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/2",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/3",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/4",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/5",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/6",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/7",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/8",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/9",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/10",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/11",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/12",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/13",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "misplaced_spread_is_a_syntax_error/14",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: The spread operator can only be used on sequence elements, mapping elements, and call arguments in \"index\" at line 1.",
+            "rawMessage": "The spread operator can only be used on sequence elements, mapping elements, and call arguments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "sequence_compilation_error",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Empty array elements are only allowed in destructuring assignments in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: Empty array elements are only allowed in destructuring assignments in \"index\" at line 1.",
+            "rawMessage": "Empty array elements are only allowed in destructuring assignments.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "empty_destructuring_throws/0",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Cannot destructure to an empty list of variables in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: Cannot destructure to an empty list of variables in \"index\" at line 1.",
+            "rawMessage": "Cannot destructure to an empty list of variables.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "empty_destructuring_throws/1",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Cannot destructure to an empty list of variables in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: Cannot destructure to an empty list of variables in \"index\" at line 1.",
+            "rawMessage": "Cannot destructure to an empty list of variables.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "empty_destructuring_throws/2",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Cannot destructure to an empty list of variables in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: Cannot destructure to an empty list of variables in \"index\" at line 1.",
+            "rawMessage": "Cannot destructure to an empty list of variables.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "empty_destructuring_throws/3",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Cannot destructure to an empty list of variables in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: Cannot destructure to an empty list of variables in \"index\" at line 1.",
+            "rawMessage": "Cannot destructure to an empty list of variables.",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "object_destructuring_evaluates_right_hand_expression_once",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'output' => '1 1 1 1',\n  'calls' => 1,\n)",
+        "var_dump": "array(2) {\n  [\"output\"]=>\n  string(7) \"1 1 1 1\"\n  [\"calls\"]=>\n  int(1)\n}\n",
+        "json": "{\"output\":\"1 1 1 1\",\"calls\":1}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/0",
+        "kind": "twig",
+        "ok": true,
+        "output": "baz",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/1",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/2",
+        "kind": "twig",
+        "ok": true,
+        "output": "qux",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/3",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/4",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/5",
+        "kind": "twig",
+        "ok": true,
+        "output": "qux",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/6",
+        "kind": "twig",
+        "ok": true,
+        "output": "0",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/7",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/8",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/9",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/10",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/11",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/12",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_operator/13",
+        "kind": "twig",
+        "ok": true,
+        "output": "[corge][qux]",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "invalid_null_safe_operator_short_circuiting/0",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Impossible to access an attribute (\"baz\") on a null variable in \"template\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: Impossible to access an attribute (\"baz\") on a null variable in \"template\" at line 1.",
+            "rawMessage": "Impossible to access an attribute (\"baz\") on a null variable.",
+            "templateName": "template",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "invalid_null_safe_operator_short_circuiting/1",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Impossible to access an attribute (\"corge\") on a null variable in \"template\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: Impossible to access an attribute (\"corge\") on a null variable in \"template\" at line 1.",
+            "rawMessage": "Impossible to access an attribute (\"corge\") on a null variable.",
+            "templateName": "template",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_definition_does_not_support_non_name_variable_name",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "An argument must be a name. Unexpected token \"string\" of value \"a\" (\"name\" expected) in \"index\" at line 1 column 14.",
+            "formatted": "Twig\\Error\\SyntaxError: An argument must be a name. Unexpected token \"string\" of value \"a\" (\"name\" expected) in \"index\" at line 1 column 14.",
+            "rawMessage": "An argument must be a name. Unexpected token \"string\" of value \"a\" (\"name\" expected).",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": 14
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_definition_does_not_support_non_constant_default_values/0",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "A default value for an argument must be a constant (a boolean, a string, a number, a sequence, or a mapping) in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: A default value for an argument must be a constant (a boolean, a string, a number, a sequence, or a mapping) in \"index\" at line 1.",
+            "rawMessage": "A default value for an argument must be a constant (a boolean, a string, a number, a sequence, or a mapping).",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_definition_does_not_support_non_constant_default_values/1",
+        "kind": "twig",
+        "ok": false,
+        "phase": "load",
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "A default value for an argument must be a constant (a boolean, a string, a number, a sequence, or a mapping) in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\SyntaxError: A default value for an argument must be a constant (a boolean, a string, a number, a sequence, or a mapping) in \"index\" at line 1.",
+            "rawMessage": "A default value for an argument must be a constant (a boolean, a string, a number, a sequence, or a mapping).",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_definition_supports_constant_default_values/0",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_definition_supports_constant_default_values/1",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_definition_supports_constant_default_values/2",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_definition_supports_constant_default_values/3",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_definition_supports_constant_default_values/4",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_definition_supports_constant_default_values/5",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_definition_supports_constant_default_values/6",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "compiled_code_for_dynamic_callables/test",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'output' => 'foo,bar,a',\n  'seen' => \n  array (\n    0 => 'foo,bar,a',\n  ),\n)",
+        "var_dump": "array(2) {\n  [\"output\"]=>\n  string(9) \"foo,bar,a\"\n  [\"seen\"]=>\n  array(1) {\n    [0]=>\n    string(9) \"foo,bar,a\"\n  }\n}\n",
+        "json": "{\"output\":\"foo,bar,a\",\"seen\":[\"foo,bar,a\"]}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "compiled_code_for_dynamic_callables/function",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'output' => 'foo,bar,a',\n  'seen' => \n  array (\n    0 => 'foo,bar,a',\n  ),\n)",
+        "var_dump": "array(2) {\n  [\"output\"]=>\n  string(9) \"foo,bar,a\"\n  [\"seen\"]=>\n  array(1) {\n    [0]=>\n    string(9) \"foo,bar,a\"\n  }\n}\n",
+        "json": "{\"output\":\"foo,bar,a\",\"seen\":[\"foo,bar,a\"]}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "compiled_code_for_dynamic_callables/filter",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'output' => 'foo,bar,a',\n  'seen' => \n  array (\n    0 => 'foo,bar,a',\n  ),\n)",
+        "var_dump": "array(2) {\n  [\"output\"]=>\n  string(9) \"foo,bar,a\"\n  [\"seen\"]=>\n  array(1) {\n    [0]=>\n    string(9) \"foo,bar,a\"\n  }\n}\n",
+        "json": "{\"output\":\"foo,bar,a\",\"seen\":[\"foo,bar,a\"]}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/0/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "75",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/0/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "75",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/1/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "30",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/1/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "30",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/2/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "69",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/2/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "69",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/3/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "-6",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/3/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "-6",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/4/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "5",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/4/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "5",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/5/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "14",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/5/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "14",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/6/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "-1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/6/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "-1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/7/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "10",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/7/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "10",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/8/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "5",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/8/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "5",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/9/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "14",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/9/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "14",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/10/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "-1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/10/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "-1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/11/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "10",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/11/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "10",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/12/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "3",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/12/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "3",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/13/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "12",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/13/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "12",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/14/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "-3",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/14/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "-3",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/15/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "12",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/15/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "12",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/16/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/16/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/17/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/17/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/18/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/18/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/19/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/19/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/20/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/20/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/21/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/21/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/22/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/22/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/23/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/23/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/24/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/24/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/25/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/25/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/26/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/26/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/27/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/27/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/28/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/28/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/29/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/29/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/30/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/30/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/31/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/31/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/32/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/32/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/33/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/33/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/34/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/34/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/35/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/35/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/36/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/36/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/37/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/37/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/38/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/38/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/39/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "-1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/39/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "-1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/40/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/40/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/41/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/41/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/42/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/42/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/43/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/43/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/44/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/44/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/45/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/45/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/46/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "-1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/46/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "-1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/47/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/47/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/48/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/48/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/49/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/49/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/50/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/50/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/51/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/51/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/52/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/52/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/53/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "-1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/53/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "-1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/54/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/54/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/55/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/55/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/56/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/56/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/57/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/57/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/58/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/58/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/59/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/59/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/60/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/60/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/61/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/61/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/62/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/62/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/63/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "2",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/63/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "2",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/64/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "-2",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/64/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "-2",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/65/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "-1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/65/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "-1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/66/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "-2",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/66/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "-2",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/67/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "-2",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/67/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "-2",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/68/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "-2",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/68/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "-2",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/69/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "2",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/69/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "2",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/70/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "11",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/70/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "11",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/71/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "a",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/71/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "a",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/72/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/72/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/73/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "4",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/73/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "4",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/74/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/74/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "1",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/75/expression",
+        "kind": "twig",
+        "ok": true,
+        "output": "0",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "binding_power/75/expected",
+        "kind": "twig",
+        "ok": true,
+        "output": "0",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_short_circuit_strict/0",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Variable \"u\" does not exist in \"template\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: Variable \"u\" does not exist in \"template\" at line 1.",
+            "rawMessage": "Variable \"u\" does not exist.",
+            "templateName": "template",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_short_circuit_strict/1",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Variable \"u\" does not exist in \"template\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: Variable \"u\" does not exist in \"template\" at line 1.",
+            "rawMessage": "Variable \"u\" does not exist.",
+            "templateName": "template",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_short_circuit_strict/2",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Variable \"u\" does not exist in \"template\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: Variable \"u\" does not exist in \"template\" at line 1.",
+            "rawMessage": "Variable \"u\" does not exist.",
+            "templateName": "template",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_short_circuit_strict/3",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Variable \"u\" does not exist in \"template\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: Variable \"u\" does not exist in \"template\" at line 1.",
+            "rawMessage": "Variable \"u\" does not exist.",
+            "templateName": "template",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_short_circuit_strict/4",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Variable \"u\" does not exist in \"template\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: Variable \"u\" does not exist in \"template\" at line 1.",
+            "rawMessage": "Variable \"u\" does not exist.",
+            "templateName": "template",
+            "templateLine": 1,
+            "templateColumn": null
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_short_circuit_strict/5",
+        "kind": "twig",
+        "ok": true,
+        "output": "d",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_short_circuit_strict/6",
+        "kind": "twig",
+        "ok": true,
+        "output": "d",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_short_circuit_strict/7",
+        "kind": "twig",
+        "ok": true,
+        "output": "d",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "null_safe_short_circuit_strict/8",
+        "kind": "twig",
+        "ok": true,
+        "output": "d",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_unary_defaults/0",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: int * string",
+                "formatted": "TypeError: Unsupported operand types: int * string",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_unary_defaults/1",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int + string\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int + string\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int + string\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: int + string",
+                "formatted": "TypeError: Unsupported operand types: int + string",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_unary_defaults/2",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * array\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * array\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * array\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: int * array",
+                "formatted": "TypeError: Unsupported operand types: int * array",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_unary_defaults/3",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: int * string",
+                "formatted": "TypeError: Unsupported operand types: int * string",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_unary_defaults/4",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: int * string",
+                "formatted": "TypeError: Unsupported operand types: int * string",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_unary_defaults/5",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: int * string",
+                "formatted": "TypeError: Unsupported operand types: int * string",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_unary_defaults/6",
+        "kind": "twig",
+        "ok": true,
+        "output": "[7]",
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_unary_defaults/7",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index\" at line 7.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index\" at line 7.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").",
+            "templateName": "index",
+            "templateLine": 7,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: int * string",
+                "formatted": "TypeError: Unsupported operand types: int * string",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "macro_unary_defaults/8",
+        "kind": "twig",
+        "ok": true,
+        "output": "[-1][-1]",
+        "deprecations": [],
+        "diagnostics": [
+            {
+                "type": "E_WARNING",
+                "message": "A non-numeric value encountered"
+            }
+        ]
+    },
+    {
+        "id": "operand_order/0",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: array * int",
+                "formatted": "TypeError: Unsupported operand types: array * int",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "operand_order/1",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array & int\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: array & int\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array & int\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: array & int",
+                "formatted": "TypeError: Unsupported operand types: array & int",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "operand_order/2",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array | string\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: array | string\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array | string\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: array | string",
+                "formatted": "TypeError: Unsupported operand types: array | string",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "operand_order/3",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array ^ null\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: array ^ null\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array ^ null\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: array ^ null",
+                "formatted": "TypeError: Unsupported operand types: array ^ null",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "operand_order/4",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: array * int",
+                "formatted": "TypeError: Unsupported operand types: array * int",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "operand_order/5",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: array * int",
+                "formatted": "TypeError: Unsupported operand types: array * int",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "operand_order/6",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * array\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * array\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * array\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: int * array",
+                "formatted": "TypeError: Unsupported operand types: int * array",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "operand_order/7",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: array * int",
+                "formatted": "TypeError: Unsupported operand types: array * int",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "operand_order/8",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * array\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * array\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * array\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: int * array",
+                "formatted": "TypeError: Unsupported operand types: int * array",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "operand_order/9",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int + array\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int + array\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: int + array\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: int + array",
+                "formatted": "TypeError: Unsupported operand types: int + array",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    },
+    {
+        "id": "operand_order/10",
+        "kind": "twig",
+        "ok": false,
+        "phase": "render",
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\") in \"index\" at line 1.",
+            "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\") in \"index\" at line 1.",
+            "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\").",
+            "templateName": "index",
+            "templateLine": 1,
+            "templateColumn": null,
+            "previous": {
+                "class": "TypeError",
+                "message": "Unsupported operand types: array * int",
+                "formatted": "TypeError: Unsupported operand types: array * int",
+                "code": 0
+            }
+        },
+        "deprecations": [],
+        "diagnostics": []
+    }
+]

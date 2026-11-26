@@ -1,0 +1,4990 @@
+[
+    {
+        "index": 0,
+        "class": "array",
+        "item": "'defined'",
+        "type": "array",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 1,
+        "class": "array",
+        "item": "'undefined'",
+        "type": "array",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"undefined\" for sequence/mapping with keys \"defined, zero, null, 1, bar, foo, baz, baf, 09, +4\" does not exist in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"undefined\" for sequence/mapping with keys \"defined, zero, null, 1, bar, foo, baz, baf, 09, +4\" does not exist in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 2,
+        "class": "array",
+        "item": "'protected'",
+        "type": "array",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"protected\" for sequence/mapping with keys \"defined, zero, null, 1, bar, foo, baz, baf, 09, +4\" does not exist in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"protected\" for sequence/mapping with keys \"defined, zero, null, 1, bar, foo, baz, baf, 09, +4\" does not exist in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 3,
+        "class": "array",
+        "item": "'zero'",
+        "type": "array",
+        "defined": true,
+        "value": "0",
+        "lax": {
+            "value": "0"
+        },
+        "strict": {
+            "value": "0"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "0"
+        },
+        "direct_strict": {
+            "value": "0"
+        }
+    },
+    {
+        "index": 4,
+        "class": "array",
+        "item": "1",
+        "type": "array",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 5,
+        "class": "array",
+        "item": "1.0",
+        "type": "array",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 6,
+        "class": "array",
+        "item": "'null'",
+        "type": "array",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 7,
+        "class": "array",
+        "item": "'bar'",
+        "type": "array",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 8,
+        "class": "array",
+        "item": "'foo'",
+        "type": "array",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 9,
+        "class": "array",
+        "item": "'baz'",
+        "type": "array",
+        "defined": true,
+        "value": "'baz'",
+        "lax": {
+            "value": "'baz'"
+        },
+        "strict": {
+            "value": "'baz'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baz'"
+        },
+        "direct_strict": {
+            "value": "'baz'"
+        }
+    },
+    {
+        "index": 10,
+        "class": "array",
+        "item": "'baf'",
+        "type": "array",
+        "defined": true,
+        "value": "'baf'",
+        "lax": {
+            "value": "'baf'"
+        },
+        "strict": {
+            "value": "'baf'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baf'"
+        },
+        "direct_strict": {
+            "value": "'baf'"
+        }
+    },
+    {
+        "index": 11,
+        "class": "array",
+        "item": "'09'",
+        "type": "array",
+        "defined": true,
+        "value": "'09'",
+        "lax": {
+            "value": "'09'"
+        },
+        "strict": {
+            "value": "'09'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'09'"
+        },
+        "direct_strict": {
+            "value": "'09'"
+        }
+    },
+    {
+        "index": 12,
+        "class": "array",
+        "item": "'+4'",
+        "type": "array",
+        "defined": true,
+        "value": "'+4'",
+        "lax": {
+            "value": "'+4'"
+        },
+        "strict": {
+            "value": "'+4'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'+4'"
+        },
+        "direct_strict": {
+            "value": "'+4'"
+        }
+    },
+    {
+        "index": 13,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'defined'",
+        "type": "array",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 14,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'undefined'",
+        "type": "array",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"undefined\" does not exist in ArrayAccess-able object of class \"Twig\\Tests\\TemplateArrayAccessObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"undefined\" does not exist in ArrayAccess-able object of class \"Twig\\Tests\\TemplateArrayAccessObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 15,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'protected'",
+        "type": "array",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"protected\" does not exist in ArrayAccess-able object of class \"Twig\\Tests\\TemplateArrayAccessObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"protected\" does not exist in ArrayAccess-able object of class \"Twig\\Tests\\TemplateArrayAccessObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 16,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'zero'",
+        "type": "array",
+        "defined": true,
+        "value": "0",
+        "lax": {
+            "value": "0"
+        },
+        "strict": {
+            "value": "0"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "0"
+        },
+        "direct_strict": {
+            "value": "0"
+        }
+    },
+    {
+        "index": 17,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "1",
+        "type": "array",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 18,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "1.0",
+        "type": "array",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 19,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'null'",
+        "type": "array",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 20,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'bar'",
+        "type": "array",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 21,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'foo'",
+        "type": "array",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 22,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'baz'",
+        "type": "array",
+        "defined": true,
+        "value": "'baz'",
+        "lax": {
+            "value": "'baz'"
+        },
+        "strict": {
+            "value": "'baz'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baz'"
+        },
+        "direct_strict": {
+            "value": "'baz'"
+        }
+    },
+    {
+        "index": 23,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'baf'",
+        "type": "array",
+        "defined": true,
+        "value": "'baf'",
+        "lax": {
+            "value": "'baf'"
+        },
+        "strict": {
+            "value": "'baf'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baf'"
+        },
+        "direct_strict": {
+            "value": "'baf'"
+        }
+    },
+    {
+        "index": 24,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'09'",
+        "type": "array",
+        "defined": true,
+        "value": "'09'",
+        "lax": {
+            "value": "'09'"
+        },
+        "strict": {
+            "value": "'09'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'09'"
+        },
+        "direct_strict": {
+            "value": "'09'"
+        }
+    },
+    {
+        "index": 25,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'+4'",
+        "type": "array",
+        "defined": true,
+        "value": "'+4'",
+        "lax": {
+            "value": "'+4'"
+        },
+        "strict": {
+            "value": "'+4'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'+4'"
+        },
+        "direct_strict": {
+            "value": "'+4'"
+        }
+    },
+    {
+        "index": 26,
+        "class": "ArrayObject",
+        "item": "'defined'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 27,
+        "class": "ArrayObject",
+        "item": "'undefined'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"ArrayObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"ArrayObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 28,
+        "class": "ArrayObject",
+        "item": "'protected'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"ArrayObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"ArrayObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 29,
+        "class": "ArrayObject",
+        "item": "'zero'",
+        "type": "any",
+        "defined": true,
+        "value": "0",
+        "lax": {
+            "value": "0"
+        },
+        "strict": {
+            "value": "0"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "0"
+        },
+        "direct_strict": {
+            "value": "0"
+        }
+    },
+    {
+        "index": 30,
+        "class": "ArrayObject",
+        "item": "1",
+        "type": "any",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 31,
+        "class": "ArrayObject",
+        "item": "1.0",
+        "type": "any",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 32,
+        "class": "ArrayObject",
+        "item": "'null'",
+        "type": "any",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 33,
+        "class": "ArrayObject",
+        "item": "'bar'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 34,
+        "class": "ArrayObject",
+        "item": "'foo'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 35,
+        "class": "ArrayObject",
+        "item": "'baz'",
+        "type": "any",
+        "defined": true,
+        "value": "'baz'",
+        "lax": {
+            "value": "'baz'"
+        },
+        "strict": {
+            "value": "'baz'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baz'"
+        },
+        "direct_strict": {
+            "value": "'baz'"
+        }
+    },
+    {
+        "index": 36,
+        "class": "ArrayObject",
+        "item": "'baf'",
+        "type": "any",
+        "defined": true,
+        "value": "'baf'",
+        "lax": {
+            "value": "'baf'"
+        },
+        "strict": {
+            "value": "'baf'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baf'"
+        },
+        "direct_strict": {
+            "value": "'baf'"
+        }
+    },
+    {
+        "index": 37,
+        "class": "ArrayObject",
+        "item": "'09'",
+        "type": "any",
+        "defined": true,
+        "value": "'09'",
+        "lax": {
+            "value": "'09'"
+        },
+        "strict": {
+            "value": "'09'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'09'"
+        },
+        "direct_strict": {
+            "value": "'09'"
+        }
+    },
+    {
+        "index": 38,
+        "class": "ArrayObject",
+        "item": "'+4'",
+        "type": "any",
+        "defined": true,
+        "value": "'+4'",
+        "lax": {
+            "value": "'+4'"
+        },
+        "strict": {
+            "value": "'+4'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'+4'"
+        },
+        "direct_strict": {
+            "value": "'+4'"
+        }
+    },
+    {
+        "index": 39,
+        "class": "stdClass",
+        "item": "'defined'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 40,
+        "class": "stdClass",
+        "item": "'undefined'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"stdClass\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"stdClass\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 41,
+        "class": "stdClass",
+        "item": "'protected'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"stdClass\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"stdClass\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 42,
+        "class": "stdClass",
+        "item": "'zero'",
+        "type": "any",
+        "defined": true,
+        "value": "0",
+        "lax": {
+            "value": "0"
+        },
+        "strict": {
+            "value": "0"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "0"
+        },
+        "direct_strict": {
+            "value": "0"
+        }
+    },
+    {
+        "index": 43,
+        "class": "stdClass",
+        "item": "'null'",
+        "type": "any",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 44,
+        "class": "stdClass",
+        "item": "'bar'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 45,
+        "class": "stdClass",
+        "item": "'foo'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 46,
+        "class": "stdClass",
+        "item": "'baz'",
+        "type": "any",
+        "defined": true,
+        "value": "'baz'",
+        "lax": {
+            "value": "'baz'"
+        },
+        "strict": {
+            "value": "'baz'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baz'"
+        },
+        "direct_strict": {
+            "value": "'baz'"
+        }
+    },
+    {
+        "index": 47,
+        "class": "stdClass",
+        "item": "'baf'",
+        "type": "any",
+        "defined": true,
+        "value": "'baf'",
+        "lax": {
+            "value": "'baf'"
+        },
+        "strict": {
+            "value": "'baf'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baf'"
+        },
+        "direct_strict": {
+            "value": "'baf'"
+        }
+    },
+    {
+        "index": 48,
+        "class": "Twig\\Tests\\TemplateMagicPropertyObject",
+        "item": "'defined'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 49,
+        "class": "Twig\\Tests\\TemplateMagicPropertyObject",
+        "item": "'undefined'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMagicPropertyObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMagicPropertyObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 50,
+        "class": "Twig\\Tests\\TemplateMagicPropertyObject",
+        "item": "'protected'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMagicPropertyObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMagicPropertyObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 51,
+        "class": "Twig\\Tests\\TemplateMagicPropertyObject",
+        "item": "'zero'",
+        "type": "any",
+        "defined": true,
+        "value": "0",
+        "lax": {
+            "value": "0"
+        },
+        "strict": {
+            "value": "0"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "0"
+        },
+        "direct_strict": {
+            "value": "0"
+        }
+    },
+    {
+        "index": 52,
+        "class": "Twig\\Tests\\TemplateMagicPropertyObject",
+        "item": "1",
+        "type": "any",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 53,
+        "class": "Twig\\Tests\\TemplateMagicPropertyObject",
+        "item": "1.0",
+        "type": "any",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 54,
+        "class": "Twig\\Tests\\TemplateMagicPropertyObject",
+        "item": "'null'",
+        "type": "any",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 55,
+        "class": "Twig\\Tests\\TemplateMagicPropertyObject",
+        "item": "'bar'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 56,
+        "class": "Twig\\Tests\\TemplateMagicPropertyObject",
+        "item": "'foo'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 57,
+        "class": "Twig\\Tests\\TemplateMagicPropertyObject",
+        "item": "'baz'",
+        "type": "any",
+        "defined": true,
+        "value": "'baz'",
+        "lax": {
+            "value": "'baz'"
+        },
+        "strict": {
+            "value": "'baz'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baz'"
+        },
+        "direct_strict": {
+            "value": "'baz'"
+        }
+    },
+    {
+        "index": 58,
+        "class": "Twig\\Tests\\TemplateMagicPropertyObject",
+        "item": "'baf'",
+        "type": "any",
+        "defined": true,
+        "value": "'baf'",
+        "lax": {
+            "value": "'baf'"
+        },
+        "strict": {
+            "value": "'baf'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baf'"
+        },
+        "direct_strict": {
+            "value": "'baf'"
+        }
+    },
+    {
+        "index": 59,
+        "class": "Twig\\Tests\\TemplateMagicPropertyObject",
+        "item": "'09'",
+        "type": "any",
+        "defined": true,
+        "value": "'09'",
+        "lax": {
+            "value": "'09'"
+        },
+        "strict": {
+            "value": "'09'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'09'"
+        },
+        "direct_strict": {
+            "value": "'09'"
+        }
+    },
+    {
+        "index": 60,
+        "class": "Twig\\Tests\\TemplateMagicPropertyObject",
+        "item": "'+4'",
+        "type": "any",
+        "defined": true,
+        "value": "'+4'",
+        "lax": {
+            "value": "'+4'"
+        },
+        "strict": {
+            "value": "'+4'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'+4'"
+        },
+        "direct_strict": {
+            "value": "'+4'"
+        }
+    },
+    {
+        "index": 61,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'defined'",
+        "type": "method",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 62,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'undefined'",
+        "type": "method",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 63,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'protected'",
+        "type": "method",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 64,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'zero'",
+        "type": "method",
+        "defined": true,
+        "value": "0",
+        "lax": {
+            "value": "0"
+        },
+        "strict": {
+            "value": "0"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "0"
+        },
+        "direct_strict": {
+            "value": "0"
+        }
+    },
+    {
+        "index": 65,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "1",
+        "type": "method",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 66,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "1.0",
+        "type": "method",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 67,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'null'",
+        "type": "method",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 68,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'bar'",
+        "type": "method",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 69,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'foo'",
+        "type": "method",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 70,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'baz'",
+        "type": "method",
+        "defined": true,
+        "value": "'baz'",
+        "lax": {
+            "value": "'baz'"
+        },
+        "strict": {
+            "value": "'baz'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baz'"
+        },
+        "direct_strict": {
+            "value": "'baz'"
+        }
+    },
+    {
+        "index": 71,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'baf'",
+        "type": "method",
+        "defined": true,
+        "value": "'baf'",
+        "lax": {
+            "value": "'baf'"
+        },
+        "strict": {
+            "value": "'baf'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baf'"
+        },
+        "direct_strict": {
+            "value": "'baf'"
+        }
+    },
+    {
+        "index": 72,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'09'",
+        "type": "method",
+        "defined": true,
+        "value": "'09'",
+        "lax": {
+            "value": "'09'"
+        },
+        "strict": {
+            "value": "'09'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'09'"
+        },
+        "direct_strict": {
+            "value": "'09'"
+        }
+    },
+    {
+        "index": 73,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'defined'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 74,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'undefined'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 75,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'protected'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 76,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'zero'",
+        "type": "any",
+        "defined": true,
+        "value": "0",
+        "lax": {
+            "value": "0"
+        },
+        "strict": {
+            "value": "0"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "0"
+        },
+        "direct_strict": {
+            "value": "0"
+        }
+    },
+    {
+        "index": 77,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "1",
+        "type": "any",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 78,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "1.0",
+        "type": "any",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 79,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'null'",
+        "type": "any",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 80,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'bar'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 81,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'foo'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 82,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'baz'",
+        "type": "any",
+        "defined": true,
+        "value": "'baz'",
+        "lax": {
+            "value": "'baz'"
+        },
+        "strict": {
+            "value": "'baz'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baz'"
+        },
+        "direct_strict": {
+            "value": "'baz'"
+        }
+    },
+    {
+        "index": 83,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'baf'",
+        "type": "any",
+        "defined": true,
+        "value": "'baf'",
+        "lax": {
+            "value": "'baf'"
+        },
+        "strict": {
+            "value": "'baf'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baf'"
+        },
+        "direct_strict": {
+            "value": "'baf'"
+        }
+    },
+    {
+        "index": 84,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'09'",
+        "type": "any",
+        "defined": true,
+        "value": "'09'",
+        "lax": {
+            "value": "'09'"
+        },
+        "strict": {
+            "value": "'09'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'09'"
+        },
+        "direct_strict": {
+            "value": "'09'"
+        }
+    },
+    {
+        "index": 85,
+        "class": "Twig\\Tests\\TemplatePropertyObject",
+        "item": "'defined'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 86,
+        "class": "Twig\\Tests\\TemplatePropertyObject",
+        "item": "'undefined'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplatePropertyObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplatePropertyObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 87,
+        "class": "Twig\\Tests\\TemplatePropertyObject",
+        "item": "'protected'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplatePropertyObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplatePropertyObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 88,
+        "class": "Twig\\Tests\\TemplatePropertyObject",
+        "item": "'zero'",
+        "type": "any",
+        "defined": true,
+        "value": "0",
+        "lax": {
+            "value": "0"
+        },
+        "strict": {
+            "value": "0"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "0"
+        },
+        "direct_strict": {
+            "value": "0"
+        }
+    },
+    {
+        "index": 89,
+        "class": "Twig\\Tests\\TemplatePropertyObject",
+        "item": "'null'",
+        "type": "any",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 90,
+        "class": "Twig\\Tests\\TemplatePropertyObject",
+        "item": "'bar'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 91,
+        "class": "Twig\\Tests\\TemplatePropertyObject",
+        "item": "'foo'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 92,
+        "class": "Twig\\Tests\\TemplatePropertyObject",
+        "item": "'baz'",
+        "type": "any",
+        "defined": true,
+        "value": "'baz'",
+        "lax": {
+            "value": "'baz'"
+        },
+        "strict": {
+            "value": "'baz'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baz'"
+        },
+        "direct_strict": {
+            "value": "'baz'"
+        }
+    },
+    {
+        "index": 93,
+        "class": "Twig\\Tests\\TemplatePropertyObject",
+        "item": "'baf'",
+        "type": "any",
+        "defined": true,
+        "value": "'baf'",
+        "lax": {
+            "value": "'baf'"
+        },
+        "strict": {
+            "value": "'baf'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baf'"
+        },
+        "direct_strict": {
+            "value": "'baf'"
+        }
+    },
+    {
+        "index": 94,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndIterator",
+        "item": "'defined'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 95,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndIterator",
+        "item": "'undefined'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplatePropertyObjectAndIterator\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplatePropertyObjectAndIterator\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 96,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndIterator",
+        "item": "'protected'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplatePropertyObjectAndIterator\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplatePropertyObjectAndIterator\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 97,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndIterator",
+        "item": "'zero'",
+        "type": "any",
+        "defined": true,
+        "value": "0",
+        "lax": {
+            "value": "0"
+        },
+        "strict": {
+            "value": "0"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "0"
+        },
+        "direct_strict": {
+            "value": "0"
+        }
+    },
+    {
+        "index": 98,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndIterator",
+        "item": "'null'",
+        "type": "any",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 99,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndIterator",
+        "item": "'bar'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 100,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndIterator",
+        "item": "'foo'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 101,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndIterator",
+        "item": "'baz'",
+        "type": "any",
+        "defined": true,
+        "value": "'baz'",
+        "lax": {
+            "value": "'baz'"
+        },
+        "strict": {
+            "value": "'baz'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baz'"
+        },
+        "direct_strict": {
+            "value": "'baz'"
+        }
+    },
+    {
+        "index": 102,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndIterator",
+        "item": "'baf'",
+        "type": "any",
+        "defined": true,
+        "value": "'baf'",
+        "lax": {
+            "value": "'baf'"
+        },
+        "strict": {
+            "value": "'baf'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baf'"
+        },
+        "direct_strict": {
+            "value": "'baf'"
+        }
+    },
+    {
+        "index": 103,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndArrayAccess",
+        "item": "'defined'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 104,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndArrayAccess",
+        "item": "'undefined'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplatePropertyObjectAndArrayAccess\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplatePropertyObjectAndArrayAccess\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 105,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndArrayAccess",
+        "item": "'protected'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplatePropertyObjectAndArrayAccess\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplatePropertyObjectAndArrayAccess\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 106,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndArrayAccess",
+        "item": "'zero'",
+        "type": "any",
+        "defined": true,
+        "value": "0",
+        "lax": {
+            "value": "0"
+        },
+        "strict": {
+            "value": "0"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "0"
+        },
+        "direct_strict": {
+            "value": "0"
+        }
+    },
+    {
+        "index": 107,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndArrayAccess",
+        "item": "'null'",
+        "type": "any",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 108,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndArrayAccess",
+        "item": "'bar'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 109,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndArrayAccess",
+        "item": "'foo'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 110,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndArrayAccess",
+        "item": "'baz'",
+        "type": "any",
+        "defined": true,
+        "value": "'baz'",
+        "lax": {
+            "value": "'baz'"
+        },
+        "strict": {
+            "value": "'baz'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baz'"
+        },
+        "direct_strict": {
+            "value": "'baz'"
+        }
+    },
+    {
+        "index": 111,
+        "class": "Twig\\Tests\\TemplatePropertyObjectAndArrayAccess",
+        "item": "'baf'",
+        "type": "any",
+        "defined": true,
+        "value": "'baf'",
+        "lax": {
+            "value": "'baf'"
+        },
+        "strict": {
+            "value": "'baf'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baf'"
+        },
+        "direct_strict": {
+            "value": "'baf'"
+        }
+    },
+    {
+        "index": 112,
+        "class": "Twig\\Tests\\TemplatePropertyObjectDefinedWithUndefinedValue",
+        "item": "'foo'",
+        "type": "any",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 113,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'defined'",
+        "type": "method",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 114,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'DEFINED'",
+        "type": "method",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 115,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'getDefined'",
+        "type": "method",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 116,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'GETDEFINED'",
+        "type": "method",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 117,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'static'",
+        "type": "method",
+        "defined": true,
+        "value": "'static'",
+        "lax": {
+            "value": "'static'"
+        },
+        "strict": {
+            "value": "'static'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'static'"
+        },
+        "direct_strict": {
+            "value": "'static'"
+        }
+    },
+    {
+        "index": 118,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'getStatic'",
+        "type": "method",
+        "defined": true,
+        "value": "'static'",
+        "lax": {
+            "value": "'static'"
+        },
+        "strict": {
+            "value": "'static'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'static'"
+        },
+        "direct_strict": {
+            "value": "'static'"
+        }
+    },
+    {
+        "index": 119,
+        "class": "Twig\\Tests\\TemplateMagicMethodObject",
+        "item": "'undefined'",
+        "type": "method",
+        "defined": true,
+        "value": "'__call_undefined'",
+        "lax": {
+            "value": "'__call_undefined'"
+        },
+        "strict": {
+            "value": "'__call_undefined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'__call_undefined'"
+        },
+        "direct_strict": {
+            "value": "'__call_undefined'"
+        }
+    },
+    {
+        "index": 120,
+        "class": "Twig\\Tests\\TemplateMagicMethodObject",
+        "item": "'UNDEFINED'",
+        "type": "method",
+        "defined": true,
+        "value": "'__call_UNDEFINED'",
+        "lax": {
+            "value": "'__call_UNDEFINED'"
+        },
+        "strict": {
+            "value": "'__call_UNDEFINED'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'__call_UNDEFINED'"
+        },
+        "direct_strict": {
+            "value": "'__call_UNDEFINED'"
+        }
+    },
+    {
+        "index": 121,
+        "class": "array",
+        "item": "'defined'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 122,
+        "class": "array",
+        "item": "'undefined'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"undefined\" for sequence/mapping with keys \"defined, zero, null, 1, bar, foo, baz, baf, 09, +4\" does not exist in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"undefined\" for sequence/mapping with keys \"defined, zero, null, 1, bar, foo, baz, baf, 09, +4\" does not exist in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 123,
+        "class": "array",
+        "item": "'protected'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"protected\" for sequence/mapping with keys \"defined, zero, null, 1, bar, foo, baz, baf, 09, +4\" does not exist in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"protected\" for sequence/mapping with keys \"defined, zero, null, 1, bar, foo, baz, baf, 09, +4\" does not exist in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 124,
+        "class": "array",
+        "item": "'zero'",
+        "type": "any",
+        "defined": true,
+        "value": "0",
+        "lax": {
+            "value": "0"
+        },
+        "strict": {
+            "value": "0"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "0"
+        },
+        "direct_strict": {
+            "value": "0"
+        }
+    },
+    {
+        "index": 125,
+        "class": "array",
+        "item": "1",
+        "type": "any",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 126,
+        "class": "array",
+        "item": "1.0",
+        "type": "any",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 127,
+        "class": "array",
+        "item": "'null'",
+        "type": "any",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 128,
+        "class": "array",
+        "item": "'bar'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 129,
+        "class": "array",
+        "item": "'foo'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 130,
+        "class": "array",
+        "item": "'baz'",
+        "type": "any",
+        "defined": true,
+        "value": "'baz'",
+        "lax": {
+            "value": "'baz'"
+        },
+        "strict": {
+            "value": "'baz'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baz'"
+        },
+        "direct_strict": {
+            "value": "'baz'"
+        }
+    },
+    {
+        "index": 131,
+        "class": "array",
+        "item": "'baf'",
+        "type": "any",
+        "defined": true,
+        "value": "'baf'",
+        "lax": {
+            "value": "'baf'"
+        },
+        "strict": {
+            "value": "'baf'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baf'"
+        },
+        "direct_strict": {
+            "value": "'baf'"
+        }
+    },
+    {
+        "index": 132,
+        "class": "array",
+        "item": "'09'",
+        "type": "any",
+        "defined": true,
+        "value": "'09'",
+        "lax": {
+            "value": "'09'"
+        },
+        "strict": {
+            "value": "'09'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'09'"
+        },
+        "direct_strict": {
+            "value": "'09'"
+        }
+    },
+    {
+        "index": 133,
+        "class": "array",
+        "item": "'+4'",
+        "type": "any",
+        "defined": true,
+        "value": "'+4'",
+        "lax": {
+            "value": "'+4'"
+        },
+        "strict": {
+            "value": "'+4'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'+4'"
+        },
+        "direct_strict": {
+            "value": "'+4'"
+        }
+    },
+    {
+        "index": 134,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'defined'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 135,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'undefined'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateArrayAccessObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateArrayAccessObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 136,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'protected'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateArrayAccessObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateArrayAccessObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 137,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'zero'",
+        "type": "any",
+        "defined": true,
+        "value": "0",
+        "lax": {
+            "value": "0"
+        },
+        "strict": {
+            "value": "0"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "0"
+        },
+        "direct_strict": {
+            "value": "0"
+        }
+    },
+    {
+        "index": 138,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "1",
+        "type": "any",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 139,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "1.0",
+        "type": "any",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 140,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'null'",
+        "type": "any",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 141,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'bar'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 142,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'foo'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 143,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'baz'",
+        "type": "any",
+        "defined": true,
+        "value": "'baz'",
+        "lax": {
+            "value": "'baz'"
+        },
+        "strict": {
+            "value": "'baz'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baz'"
+        },
+        "direct_strict": {
+            "value": "'baz'"
+        }
+    },
+    {
+        "index": 144,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'baf'",
+        "type": "any",
+        "defined": true,
+        "value": "'baf'",
+        "lax": {
+            "value": "'baf'"
+        },
+        "strict": {
+            "value": "'baf'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baf'"
+        },
+        "direct_strict": {
+            "value": "'baf'"
+        }
+    },
+    {
+        "index": 145,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'09'",
+        "type": "any",
+        "defined": true,
+        "value": "'09'",
+        "lax": {
+            "value": "'09'"
+        },
+        "strict": {
+            "value": "'09'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'09'"
+        },
+        "direct_strict": {
+            "value": "'09'"
+        }
+    },
+    {
+        "index": 146,
+        "class": "Twig\\Tests\\TemplateArrayAccessObject",
+        "item": "'+4'",
+        "type": "any",
+        "defined": true,
+        "value": "'+4'",
+        "lax": {
+            "value": "'+4'"
+        },
+        "strict": {
+            "value": "'+4'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'+4'"
+        },
+        "direct_strict": {
+            "value": "'+4'"
+        }
+    },
+    {
+        "index": 147,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'defined'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 148,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'undefined'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"undefined\" nor one of the methods \"undefined()\", \"getundefined()\", \"isundefined()\", \"hasundefined()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 149,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'protected'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"protected\" nor one of the methods \"protected()\", \"getprotected()\", \"isprotected()\", \"hasprotected()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 150,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'zero'",
+        "type": "any",
+        "defined": true,
+        "value": "0",
+        "lax": {
+            "value": "0"
+        },
+        "strict": {
+            "value": "0"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "0"
+        },
+        "direct_strict": {
+            "value": "0"
+        }
+    },
+    {
+        "index": 151,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "1",
+        "type": "any",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 152,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "1.0",
+        "type": "any",
+        "defined": true,
+        "value": "1",
+        "lax": {
+            "value": "1"
+        },
+        "strict": {
+            "value": "1"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "1"
+        },
+        "direct_strict": {
+            "value": "1"
+        }
+    },
+    {
+        "index": 153,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'null'",
+        "type": "any",
+        "defined": true,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "value": "NULL"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "value": "NULL"
+        }
+    },
+    {
+        "index": 154,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'bar'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 155,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'foo'",
+        "type": "any",
+        "defined": true,
+        "value": "true",
+        "lax": {
+            "value": "true"
+        },
+        "strict": {
+            "value": "true"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "true"
+        },
+        "direct_strict": {
+            "value": "true"
+        }
+    },
+    {
+        "index": 156,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'baz'",
+        "type": "any",
+        "defined": true,
+        "value": "'baz'",
+        "lax": {
+            "value": "'baz'"
+        },
+        "strict": {
+            "value": "'baz'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baz'"
+        },
+        "direct_strict": {
+            "value": "'baz'"
+        }
+    },
+    {
+        "index": 157,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'baf'",
+        "type": "any",
+        "defined": true,
+        "value": "'baf'",
+        "lax": {
+            "value": "'baf'"
+        },
+        "strict": {
+            "value": "'baf'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'baf'"
+        },
+        "direct_strict": {
+            "value": "'baf'"
+        }
+    },
+    {
+        "index": 158,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'09'",
+        "type": "any",
+        "defined": true,
+        "value": "'09'",
+        "lax": {
+            "value": "'09'"
+        },
+        "strict": {
+            "value": "'09'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'09'"
+        },
+        "direct_strict": {
+            "value": "'09'"
+        }
+    },
+    {
+        "index": 159,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'defined'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 160,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'DEFINED'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 161,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'getDefined'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 162,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'GETDEFINED'",
+        "type": "any",
+        "defined": true,
+        "value": "'defined'",
+        "lax": {
+            "value": "'defined'"
+        },
+        "strict": {
+            "value": "'defined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'defined'"
+        },
+        "direct_strict": {
+            "value": "'defined'"
+        }
+    },
+    {
+        "index": 163,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'static'",
+        "type": "any",
+        "defined": true,
+        "value": "'static'",
+        "lax": {
+            "value": "'static'"
+        },
+        "strict": {
+            "value": "'static'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'static'"
+        },
+        "direct_strict": {
+            "value": "'static'"
+        }
+    },
+    {
+        "index": 164,
+        "class": "Twig\\Tests\\TemplateMethodObject",
+        "item": "'getStatic'",
+        "type": "any",
+        "defined": true,
+        "value": "'static'",
+        "lax": {
+            "value": "'static'"
+        },
+        "strict": {
+            "value": "'static'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'static'"
+        },
+        "direct_strict": {
+            "value": "'static'"
+        }
+    },
+    {
+        "index": 165,
+        "class": "Twig\\Tests\\TemplateMagicMethodObject",
+        "item": "'undefined'",
+        "type": "any",
+        "defined": true,
+        "value": "'__call_undefined'",
+        "lax": {
+            "value": "'__call_undefined'"
+        },
+        "strict": {
+            "value": "'__call_undefined'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'__call_undefined'"
+        },
+        "direct_strict": {
+            "value": "'__call_undefined'"
+        }
+    },
+    {
+        "index": 166,
+        "class": "Twig\\Tests\\TemplateMagicMethodObject",
+        "item": "'UNDEFINED'",
+        "type": "any",
+        "defined": true,
+        "value": "'__call_UNDEFINED'",
+        "lax": {
+            "value": "'__call_UNDEFINED'"
+        },
+        "strict": {
+            "value": "'__call_UNDEFINED'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'__call_UNDEFINED'"
+        },
+        "direct_strict": {
+            "value": "'__call_UNDEFINED'"
+        }
+    },
+    {
+        "index": 167,
+        "class": "Twig\\Tests\\TemplateMethodAndPropObject",
+        "item": "'a'",
+        "type": "any",
+        "defined": true,
+        "value": "'a'",
+        "lax": {
+            "value": "'a'"
+        },
+        "strict": {
+            "value": "'a'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'a'"
+        },
+        "direct_strict": {
+            "value": "'a'"
+        }
+    },
+    {
+        "index": 168,
+        "class": "Twig\\Tests\\TemplateMethodAndPropObject",
+        "item": "'a'",
+        "type": "method",
+        "defined": true,
+        "value": "'a'",
+        "lax": {
+            "value": "'a'"
+        },
+        "strict": {
+            "value": "'a'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'a'"
+        },
+        "direct_strict": {
+            "value": "'a'"
+        }
+    },
+    {
+        "index": 169,
+        "class": "Twig\\Tests\\TemplateMethodAndPropObject",
+        "item": "'a'",
+        "type": "array",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Impossible to access a key \"a\" on an object of class \"Twig\\Tests\\TemplateMethodAndPropObject\" that does not implement ArrayAccess interface in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Impossible to access a key \"a\" on an object of class \"Twig\\Tests\\TemplateMethodAndPropObject\" that does not implement ArrayAccess interface in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 170,
+        "class": "Twig\\Tests\\TemplateMethodAndPropObject",
+        "item": "'b'",
+        "type": "any",
+        "defined": true,
+        "value": "'b_prop'",
+        "lax": {
+            "value": "'b_prop'"
+        },
+        "strict": {
+            "value": "'b_prop'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'b_prop'"
+        },
+        "direct_strict": {
+            "value": "'b_prop'"
+        }
+    },
+    {
+        "index": 171,
+        "class": "Twig\\Tests\\TemplateMethodAndPropObject",
+        "item": "'B'",
+        "type": "any",
+        "defined": true,
+        "value": "'b'",
+        "lax": {
+            "value": "'b'"
+        },
+        "strict": {
+            "value": "'b'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'b'"
+        },
+        "direct_strict": {
+            "value": "'b'"
+        }
+    },
+    {
+        "index": 172,
+        "class": "Twig\\Tests\\TemplateMethodAndPropObject",
+        "item": "'b'",
+        "type": "method",
+        "defined": true,
+        "value": "'b'",
+        "lax": {
+            "value": "'b'"
+        },
+        "strict": {
+            "value": "'b'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'b'"
+        },
+        "direct_strict": {
+            "value": "'b'"
+        }
+    },
+    {
+        "index": 173,
+        "class": "Twig\\Tests\\TemplateMethodAndPropObject",
+        "item": "'B'",
+        "type": "method",
+        "defined": true,
+        "value": "'b'",
+        "lax": {
+            "value": "'b'"
+        },
+        "strict": {
+            "value": "'b'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'b'"
+        },
+        "direct_strict": {
+            "value": "'b'"
+        }
+    },
+    {
+        "index": 174,
+        "class": "Twig\\Tests\\TemplateMethodAndPropObject",
+        "item": "'b'",
+        "type": "array",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Impossible to access a key \"b\" on an object of class \"Twig\\Tests\\TemplateMethodAndPropObject\" that does not implement ArrayAccess interface in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Impossible to access a key \"b\" on an object of class \"Twig\\Tests\\TemplateMethodAndPropObject\" that does not implement ArrayAccess interface in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 175,
+        "class": "Twig\\Tests\\TemplateMethodAndPropObject",
+        "item": "'c'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"c\" nor one of the methods \"c()\", \"getc()\", \"isc()\", \"hasc()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodAndPropObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"c\" nor one of the methods \"c()\", \"getc()\", \"isc()\", \"hasc()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodAndPropObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 176,
+        "class": "Twig\\Tests\\TemplateMethodAndPropObject",
+        "item": "'c'",
+        "type": "method",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"c\" nor one of the methods \"c()\", \"getc()\", \"isc()\", \"hasc()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodAndPropObject\" in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Neither the property \"c\" nor one of the methods \"c()\", \"getc()\", \"isc()\", \"hasc()\" or \"__call()\" exist and have public access in class \"Twig\\Tests\\TemplateMethodAndPropObject\" in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 177,
+        "class": "Twig\\Tests\\TemplateMethodAndPropObject",
+        "item": "'c'",
+        "type": "array",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Impossible to access a key \"c\" on an object of class \"Twig\\Tests\\TemplateMethodAndPropObject\" that does not implement ArrayAccess interface in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Impossible to access a key \"c\" on an object of class \"Twig\\Tests\\TemplateMethodAndPropObject\" that does not implement ArrayAccess interface in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 178,
+        "class": "Twig\\Tests\\TemplateArrayAccess",
+        "item": "'vars'",
+        "type": "any",
+        "defined": true,
+        "value": "array (\n  'foo' => 'bar',\n)",
+        "lax": {
+            "value": "array (\n  'foo' => 'bar',\n)"
+        },
+        "strict": {
+            "value": "array (\n  'foo' => 'bar',\n)"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "array (\n  'foo' => 'bar',\n)"
+        },
+        "direct_strict": {
+            "value": "array (\n  'foo' => 'bar',\n)"
+        }
+    },
+    {
+        "index": 179,
+        "class": "Closure",
+        "item": "'__invoke'",
+        "type": "any",
+        "defined": true,
+        "value": "'closure called'",
+        "lax": {
+            "value": "'closure called'"
+        },
+        "strict": {
+            "value": "'closure called'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'closure called'"
+        },
+        "direct_strict": {
+            "value": "'closure called'"
+        }
+    },
+    {
+        "index": 180,
+        "class": "Closure",
+        "item": "'__invoke'",
+        "type": "method",
+        "defined": true,
+        "value": "'closure called'",
+        "lax": {
+            "value": "'closure called'"
+        },
+        "strict": {
+            "value": "'closure called'"
+        },
+        "defined_lax": {
+            "value": "true"
+        },
+        "defined_strict": {
+            "value": "true"
+        },
+        "direct": {
+            "value": "'closure called'"
+        },
+        "direct_strict": {
+            "value": "'closure called'"
+        }
+    },
+    {
+        "index": 181,
+        "class": "int",
+        "item": "'a'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Impossible to access an attribute (\"a\") on a int variable (\"42\") in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Impossible to access an attribute (\"a\") on a int variable (\"42\") in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 182,
+        "class": "string",
+        "item": "'a'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Impossible to access an attribute (\"a\") on a string variable (\"string\") in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Impossible to access an attribute (\"a\") on a string variable (\"string\") in \"index.twig\"."
+            ]
+        }
+    },
+    {
+        "index": 183,
+        "class": "array",
+        "item": "'a'",
+        "type": "any",
+        "defined": false,
+        "value": "NULL",
+        "lax": {
+            "value": "NULL"
+        },
+        "strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"a\" does not exist as the sequence/mapping is empty in \"index.twig\" at line 1."
+            ]
+        },
+        "defined_lax": {
+            "value": "false"
+        },
+        "defined_strict": {
+            "value": "false"
+        },
+        "direct": {
+            "value": "NULL"
+        },
+        "direct_strict": {
+            "error": [
+                "Twig\\Error\\RuntimeError",
+                "Key \"a\" does not exist as the sequence/mapping is empty in \"index.twig\"."
+            ]
+        }
+    }
+]

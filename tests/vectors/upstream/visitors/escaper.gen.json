@@ -1,0 +1,44 @@
+[
+ {
+  "id": "templates_fetch_the_escaper_only_when_they_escape/0",
+  "php_code": "\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['index' => '{{ foo }}', 'embedded' => '{% block content %}{% endblock %}']), ['autoescape' => 'html']);\n$compiled = $env->compileSource($env->getLoader()->getSourceContext('index'));\n\nreturn [\n    'escaper_classes' => substr_count($compiled, 'private \\Twig\\Runtime\\EscaperRuntime $escaper;'),\n    'output' => $env->render('index', ['foo' => '<br>']),\n];\n",
+  "name": "autoescaped print"
+ },
+ {
+  "id": "templates_fetch_the_escaper_only_when_they_escape/1",
+  "php_code": "\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['index' => '{{ foo|raw }}', 'embedded' => '{% block content %}{% endblock %}']), ['autoescape' => 'html']);\n$compiled = $env->compileSource($env->getLoader()->getSourceContext('index'));\n\nreturn [\n    'escaper_classes' => substr_count($compiled, 'private \\Twig\\Runtime\\EscaperRuntime $escaper;'),\n    'output' => $env->render('index', ['foo' => '<br>']),\n];\n",
+  "name": "print marked as safe"
+ },
+ {
+  "id": "templates_fetch_the_escaper_only_when_they_escape/2",
+  "php_code": "\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['index' => '{{ foo }}{# not autoescaped #}', 'embedded' => '{% block content %}{% endblock %}']), ['autoescape' => false]);\n$compiled = $env->compileSource($env->getLoader()->getSourceContext('index'));\n\nreturn [\n    'escaper_classes' => substr_count($compiled, 'private \\Twig\\Runtime\\EscaperRuntime $escaper;'),\n    'output' => $env->render('index', ['foo' => '<br>']),\n];\n",
+  "name": "autoescaping disabled"
+ },
+ {
+  "id": "templates_fetch_the_escaper_only_when_they_escape/3",
+  "php_code": "\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['index' => '{{ foo|e }}', 'embedded' => '{% block content %}{% endblock %}']), ['autoescape' => false]);\n$compiled = $env->compileSource($env->getLoader()->getSourceContext('index'));\n\nreturn [\n    'escaper_classes' => substr_count($compiled, 'private \\Twig\\Runtime\\EscaperRuntime $escaper;'),\n    'output' => $env->render('index', ['foo' => '<br>']),\n];\n",
+  "name": "explicit escape filter"
+ },
+ {
+  "id": "templates_fetch_the_escaper_only_when_they_escape/4",
+  "php_code": "\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['index' => '{% autoescape \"html\" %}{{ foo }}{% endautoescape %}', 'embedded' => '{% block content %}{% endblock %}']), ['autoescape' => false]);\n$compiled = $env->compileSource($env->getLoader()->getSourceContext('index'));\n\nreturn [\n    'escaper_classes' => substr_count($compiled, 'private \\Twig\\Runtime\\EscaperRuntime $escaper;'),\n    'output' => $env->render('index', ['foo' => '<br>']),\n];\n",
+  "name": "autoescape tag"
+ },
+ {
+  "id": "templates_fetch_the_escaper_only_when_they_escape/5",
+  "php_code": "\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['index' => '{% embed \"embedded\" %}{% block content %}{{ foo|e }}{% endblock %}{% endembed %}', 'embedded' => '{% block content %}{% endblock %}']), ['autoescape' => false]);\n$compiled = $env->compileSource($env->getLoader()->getSourceContext('index'));\n\nreturn [\n    'escaper_classes' => substr_count($compiled, 'private \\Twig\\Runtime\\EscaperRuntime $escaper;'),\n    'output' => $env->render('index', ['foo' => '<br>']),\n];\n",
+  "name": "escaping in an embedded template only"
+ },
+ {
+  "id": "compilation_error_inside_an_autoescape_tag_does_not_affect_the_next_template",
+  "php_code": "\n$describe = static function (\\Throwable $e) use (&$describe): array {\n    $out = ['class' => $e::class, 'message' => $e->getMessage()];\n    if ($e->getPrevious()) {\n        $out['previous'] = $describe($e->getPrevious());\n    }\n    return $out;\n};\n\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader([\n    'broken.html' => '{% autoescape false %}{{ foo|failing|nl2br }}{% endautoescape %}',\n    'index.html' => '{{ foo }}',\n    'index.txt' => '{{ foo }}',\n]), ['autoescape' => 'name']);\n$env->addExtension(new class extends \\Twig\\Extension\\AbstractExtension {\n    public function getFilters(): array\n    {\n        return [new \\Twig\\TwigFilter('failing', static fn ($value) => $value, ['is_safe_callback' => static function (): array {\n            throw new \\LogicException('Unable to compute the safety of the filter.');\n        }])];\n    }\n});\n\ntry {\n    $env->load('broken.html');\n    $error = null;\n} catch (\\Throwable $e) {\n    $error = $describe($e);\n}\n\nreturn [\n    'error' => $error,\n    'index.txt' => $env->render('index.txt', ['foo' => '<br>']),\n    'index.html' => $env->render('index.html', ['foo' => '<br>']),\n];\n"
+ },
+ {
+  "id": "compilation_error_inside_an_autoescape_tag_does_not_affect_the_next_template/null_strategy",
+  "php_code": "\n$describe = static function (\\Throwable $e) use (&$describe): array {\n    $out = ['class' => $e::class, 'message' => $e->getMessage()];\n    if ($e->getPrevious()) {\n        $out['previous'] = $describe($e->getPrevious());\n    }\n    return $out;\n};\n\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader([\n    'broken.html' => '{% autoescape false %}{% autoescape null %}{{ foo|nl2br }}{% endautoescape %}{% endautoescape %}',\n    'index.html' => '{{ foo }}',\n    'index.txt' => '{{ foo }}',\n]), ['autoescape' => 'name']);\n$env->addExtension(new class extends \\Twig\\Extension\\AbstractExtension {\n    public function getFilters(): array\n    {\n        return [new \\Twig\\TwigFilter('failing', static fn ($value) => $value, ['is_safe_callback' => static function (): array {\n            throw new \\LogicException('Unable to compute the safety of the filter.');\n        }])];\n    }\n});\n\ntry {\n    $env->load('broken.html');\n    $error = null;\n} catch (\\Throwable $e) {\n    $error = $describe($e);\n}\n\nreturn [\n    'error' => $error,\n    'index.txt' => $env->render('index.txt', ['foo' => '<br>']),\n    'index.html' => $env->render('index.html', ['foo' => '<br>']),\n];\n"
+ },
+ {
+  "id": "escape_filter_added_by_a_later_visitor_still_escapes",
+  "php_code": "\n$env = new \\Twig\\Environment(new \\Twig\\Loader\\ArrayLoader(['index' => '{{ \"<br>\" }}']), ['autoescape' => false]);\n$env->addExtension(new class extends \\Twig\\Extension\\AbstractExtension {\n    public function getNodeVisitors(): array\n    {\n        return [new class implements \\Twig\\NodeVisitor\\NodeVisitorInterface {\n            public function enterNode(\\Twig\\Node\\Node $node, \\Twig\\Environment $env): \\Twig\\Node\\Node\n            {\n                return $node;\n            }\n\n            public function leaveNode(\\Twig\\Node\\Node $node, \\Twig\\Environment $env): ?\\Twig\\Node\\Node\n            {\n                if (!$node instanceof \\Twig\\Node\\PrintNode) {\n                    return $node;\n                }\n\n                $filter = $env->getFilter('escape');\n                $class = $filter->getNodeClass();\n\n                return new \\Twig\\Node\\PrintNode(new $class($node->getNode('expr'), $filter, new \\Twig\\Node\\Nodes([new \\Twig\\Node\\Expression\\ConstantExpression('html', 1)]), 1), 1);\n            }\n\n            public function getPriority(): int\n            {\n                return 10;\n            }\n        }];\n    }\n});\n\nreturn $env->render('index');\n"
+ }
+]

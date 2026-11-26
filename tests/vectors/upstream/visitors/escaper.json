@@ -1,0 +1,111 @@
+[
+    {
+        "id": "templates_fetch_the_escaper_only_when_they_escape/0",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'escaper_classes' => 1,\n  'output' => '&lt;br&gt;',\n)",
+        "var_dump": "array(2) {\n  [\"escaper_classes\"]=>\n  int(1)\n  [\"output\"]=>\n  string(10) \"&lt;br&gt;\"\n}\n",
+        "json": "{\"escaper_classes\":1,\"output\":\"&lt;br&gt;\"}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "templates_fetch_the_escaper_only_when_they_escape/1",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'escaper_classes' => 0,\n  'output' => '<br>',\n)",
+        "var_dump": "array(2) {\n  [\"escaper_classes\"]=>\n  int(0)\n  [\"output\"]=>\n  string(4) \"<br>\"\n}\n",
+        "json": "{\"escaper_classes\":0,\"output\":\"<br>\"}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "templates_fetch_the_escaper_only_when_they_escape/2",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'escaper_classes' => 0,\n  'output' => '<br>',\n)",
+        "var_dump": "array(2) {\n  [\"escaper_classes\"]=>\n  int(0)\n  [\"output\"]=>\n  string(4) \"<br>\"\n}\n",
+        "json": "{\"escaper_classes\":0,\"output\":\"<br>\"}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "templates_fetch_the_escaper_only_when_they_escape/3",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'escaper_classes' => 1,\n  'output' => '&lt;br&gt;',\n)",
+        "var_dump": "array(2) {\n  [\"escaper_classes\"]=>\n  int(1)\n  [\"output\"]=>\n  string(10) \"&lt;br&gt;\"\n}\n",
+        "json": "{\"escaper_classes\":1,\"output\":\"&lt;br&gt;\"}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "templates_fetch_the_escaper_only_when_they_escape/4",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'escaper_classes' => 1,\n  'output' => '&lt;br&gt;',\n)",
+        "var_dump": "array(2) {\n  [\"escaper_classes\"]=>\n  int(1)\n  [\"output\"]=>\n  string(10) \"&lt;br&gt;\"\n}\n",
+        "json": "{\"escaper_classes\":1,\"output\":\"&lt;br&gt;\"}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "templates_fetch_the_escaper_only_when_they_escape/5",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'escaper_classes' => 1,\n  'output' => '&lt;br&gt;',\n)",
+        "var_dump": "array(2) {\n  [\"escaper_classes\"]=>\n  int(1)\n  [\"output\"]=>\n  string(10) \"&lt;br&gt;\"\n}\n",
+        "json": "{\"escaper_classes\":1,\"output\":\"&lt;br&gt;\"}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "compilation_error_inside_an_autoescape_tag_does_not_affect_the_next_template",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'Twig\\\\Error\\\\SyntaxError',\n    'message' => 'An exception has been thrown during the compilation of a template (\"Unable to compute the safety of the filter.\") in \"broken.html\".',\n    'previous' => \n    array (\n      'class' => 'LogicException',\n      'message' => 'Unable to compute the safety of the filter.',\n    ),\n  ),\n  'index.txt' => '<br>',\n  'index.html' => '&lt;br&gt;',\n)",
+        "var_dump": "array(3) {\n  [\"error\"]=>\n  array(3) {\n    [\"class\"]=>\n    string(22) \"Twig\\Error\\SyntaxError\"\n    [\"message\"]=>\n    string(131) \"An exception has been thrown during the compilation of a template (\"Unable to compute the safety of the filter.\") in \"broken.html\".\"\n    [\"previous\"]=>\n    array(2) {\n      [\"class\"]=>\n      string(14) \"LogicException\"\n      [\"message\"]=>\n      string(43) \"Unable to compute the safety of the filter.\"\n    }\n  }\n  [\"index.txt\"]=>\n  string(4) \"<br>\"\n  [\"index.html\"]=>\n  string(10) \"&lt;br&gt;\"\n}\n",
+        "json": "{\"error\":{\"class\":\"Twig\\\\Error\\\\SyntaxError\",\"message\":\"An exception has been thrown during the compilation of a template (\\\"Unable to compute the safety of the filter.\\\") in \\\"broken.html\\\".\",\"previous\":{\"class\":\"LogicException\",\"message\":\"Unable to compute the safety of the filter.\"}},\"index.txt\":\"<br>\",\"index.html\":\"&lt;br&gt;\"}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "compilation_error_inside_an_autoescape_tag_does_not_affect_the_next_template/null_strategy",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "array",
+        "var_export": "array (\n  'error' => \n  array (\n    'class' => 'TypeError',\n    'message' => 'Twig\\\\NodeVisitor\\\\EscaperNodeVisitor::needEscaping(): Return value must be of type string|bool, null returned',\n  ),\n  'index.txt' => '<br>',\n  'index.html' => '&lt;br&gt;',\n)",
+        "var_dump": "array(3) {\n  [\"error\"]=>\n  array(2) {\n    [\"class\"]=>\n    string(9) \"TypeError\"\n    [\"message\"]=>\n    string(108) \"Twig\\NodeVisitor\\EscaperNodeVisitor::needEscaping(): Return value must be of type string|bool, null returned\"\n  }\n  [\"index.txt\"]=>\n  string(4) \"<br>\"\n  [\"index.html\"]=>\n  string(10) \"&lt;br&gt;\"\n}\n",
+        "json": "{\"error\":{\"class\":\"TypeError\",\"message\":\"Twig\\\\NodeVisitor\\\\EscaperNodeVisitor::needEscaping(): Return value must be of type string|bool, null returned\"},\"index.txt\":\"<br>\",\"index.html\":\"&lt;br&gt;\"}",
+        "json_error": null,
+        "diagnostics": []
+    },
+    {
+        "id": "escape_filter_added_by_a_later_visitor_still_escapes",
+        "kind": "php",
+        "ok": true,
+        "echo": "",
+        "type": "string",
+        "var_export": "'&lt;br&gt;'",
+        "var_dump": "string(10) \"&lt;br&gt;\"\n",
+        "json": "\"&lt;br&gt;\"",
+        "json_error": null,
+        "string": "&lt;br&gt;",
+        "diagnostics": []
+    }
+]
