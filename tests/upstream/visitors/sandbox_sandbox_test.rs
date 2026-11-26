@@ -20,7 +20,7 @@ use twig::runtime::{
 use twig::value::object::{
     CallArgs, ClassBuilder, ClassRef, Object, ObjectRef, PropertyInfo, PropertyStore, Visibility,
 };
-use twig::value::{Array, Diagnostics, PhpResult, PhpString, Value};
+use twig::value::{Array, Diagnostics, PhpError, PhpResult, PhpString, ThrowableClass, Value};
 use twig::{Error, ErrorKind, Source};
 
 use super::support::{Mismatches, Oracle, Outcome, ctx, env as env_with, no_escape, s, tried};
@@ -1005,6 +1005,167 @@ fn the_use_tag_is_checked_before_the_trait_template_is_loaded() {
         Outcome::of(result),
         oracle("use_checked_before_the_trait_is_loaded")
     );
+}
+
+/// The policy of `testAPolicyFailureWhileResolvingTraitsKeepsItsTwigContext()` (`ThrowingOnUseSecurityPolicy`):
+/// `checkSecurity()` throws a `RuntimeException` for the `use` tag; the other variants (host_api.json, `use-*`)
+/// throw a filter violation or a plain `SecurityError` instead.
+struct ThrowingOnUseSecurityPolicy(PolicyFailure);
+
+/// What a [`ThrowingOnUseSecurityPolicy`] throws.
+type PolicyFailure = fn() -> SecurityError;
+
+impl SecurityPolicyInterface for ThrowingOnUseSecurityPolicy {
+    fn check_security(
+        &self,
+        tags: &[&[u8]],
+        _filters: &[&[u8]],
+        _functions: &[&[u8]],
+        _tests: &[&[u8]],
+        _deprecations: &mut dyn DeprecationSink,
+    ) -> Result<(), SecurityError> {
+        if tags.contains(&b"use".as_slice()) {
+            return Err((self.0)());
+        }
+        Ok(())
+    }
+
+    fn check_method_allowed(
+        &self,
+        _object: &ObjectRef,
+        _method: &[u8],
+    ) -> Result<(), SecurityError> {
+        Ok(())
+    }
+
+    fn check_property_allowed(
+        &self,
+        _object: &ObjectRef,
+        _property: &Value,
+    ) -> Result<(), SecurityError> {
+        Ok(())
+    }
+
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
+}
+
+fn unreachable_backend() -> SecurityError {
+    SecurityError::php(PhpError::new(
+        ThrowableClass::RuntimeException,
+        "Policy backend unreachable.",
+    ))
+}
+
+/// `testAPolicyFailureWhileResolvingTraitsKeepsItsTwigContext()`.
+#[test]
+fn a_policy_failure_while_resolving_traits_keeps_its_twig_context() {
+    let sandbox = Sandbox::new(
+        env(&[
+            ("index", "{% use \"empty\" %}\n{{ 'a'|upper }}"),
+            ("empty", ""),
+        ]),
+        Arc::new(ThrowingOnUseSecurityPolicy(unreachable_backend)),
+    )
+    .unwrap();
+    let error = sandbox.render("index", Array::new()).unwrap_err();
+    assert_eq!(error.kind(), ErrorKind::Runtime);
+    assert!(
+        error.to_string().contains("Policy backend unreachable"),
+        "{error}"
+    );
+    assert_eq!(error.source_context().map(Source::name), Some("index"));
+    assert_eq!(error.template_line(), 2);
+    let previous = error
+        .previous()
+        .and_then(|previous| previous.downcast_ref::<PhpError>());
+    assert_eq!(
+        previous.map(|php| php.class().clone()),
+        Some(ThrowableClass::RuntimeException)
+    );
+    // the oracle's message (host_api.json, `policy-use`)
+    assert_eq!(
+        error.to_string(),
+        "An exception has been thrown during the rendering of a template (\"Policy backend unreachable.\") in \"index\" at line 2."
+    );
+}
+
+/// What else a policy can throw while the traits of a template are resolved (oracle: host_api.json, `use-*`): a violation
+/// that is not about a tag, and an exception that is not a Twig error, get the line `Error::guess()` finds, the last
+/// marker of the class; a tag violation gets the line of the `use` tag.
+#[test]
+fn policy_failures_while_resolving_traits_get_the_line_of_the_last_marker() {
+    let templates = [
+        "{% use \"empty\" %}\n{{ 'a'|upper }}",
+        "{{ 'a' }}\n{% use \"empty\" %}\n\n{% block b %}{{ 1 }}\n{% endblock %}",
+        "{% use \"empty\" %}",
+    ];
+    let filter: PolicyFailure = || {
+        SecurityError::new(
+            SecurityErrorKind::Filter("x".to_owned()),
+            "Filter \"x\" is not allowed.",
+        )
+    };
+    let generic: PolicyFailure = || SecurityError::new(SecurityErrorKind::Other, "Nope.");
+    let tag: PolicyFailure = || {
+        SecurityError::new(
+            SecurityErrorKind::Tag("use".to_owned()),
+            "Tag \"use\" is not allowed.",
+        )
+    };
+    let cases: [(PolicyFailure, [&str; 3]); 4] = [
+        (
+            filter,
+            [
+                "Filter \"x\" is not allowed in \"index\" at line 2.",
+                "Filter \"x\" is not allowed in \"index\" at line 4.",
+                "Filter \"x\" is not allowed in \"index\" at line 1.",
+            ],
+        ),
+        (
+            generic,
+            [
+                "Nope in \"index\" at line 2.",
+                "Nope in \"index\" at line 4.",
+                "Nope in \"index\" at line 1.",
+            ],
+        ),
+        (
+            unreachable_backend,
+            [
+                "An exception has been thrown during the rendering of a template (\"Policy backend unreachable.\") in \"index\" at line 2.",
+                "An exception has been thrown during the rendering of a template (\"Policy backend unreachable.\") in \"index\" at line 4.",
+                "An exception has been thrown during the rendering of a template (\"Policy backend unreachable.\") in \"index\" at line 1.",
+            ],
+        ),
+        (
+            tag,
+            [
+                "Tag \"use\" is not allowed in \"index\" at line 1.",
+                "Tag \"use\" is not allowed in \"index\" at line 2.",
+                "Tag \"use\" is not allowed in \"index\" at line 1.",
+            ],
+        ),
+    ];
+    let mut failures = Vec::new();
+    for (policy, expected) in cases {
+        for (template, expected) in templates.iter().zip(expected) {
+            let sandbox = Sandbox::new(
+                env(&[("index", template), ("empty", "")]),
+                Arc::new(ThrowingOnUseSecurityPolicy(policy)),
+            )
+            .unwrap();
+            let actual = match sandbox.render("index", Array::new()) {
+                Ok(output) => format!("output {output:?}"),
+                Err(error) => error.to_string(),
+            };
+            if actual != expected {
+                failures.push(format!("{template:?}: {actual} != {expected}"));
+            }
+        }
+    }
+    assert!(failures.is_empty(), "{failures:#?}");
 }
 
 /// `testARenderOnAnotherEnvironmentDuringASandboxedRenderIsNotSandboxed()`.

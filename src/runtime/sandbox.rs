@@ -1203,8 +1203,11 @@ fn check_security(
 }
 
 /// Twig: `Template::ensureTraitsAllowed()` with the compiled `checkTraitsAllowed()` (when the template uses `use`):
-/// the `use` tag is checked when the template is loaded, as its traits are resolved then; the violation is reported at
-/// the line of the first `use`.
+/// the `use` tag is checked when the template is loaded, as its traits are resolved then; a tag violation is
+/// reported at the line of the first `use`. Anything else the policy throws is handled by the template
+/// (`handleException()`): a Twig error left without a line, and the `RuntimeError` wrapping another exception, get
+/// the line `Error::guess()` finds, the last marker of the class (`checkTraitsAllowed()` is compiled after the other
+/// methods, see [`last_marker`]).
 pub(crate) fn ensure_traits_allowed(env: &Environment, program: &Program) -> Result<()> {
     let Some(lists) = program.security() else {
         return Ok(());
@@ -1229,12 +1232,27 @@ pub(crate) fn ensure_traits_allowed(env: &Environment, program: &Program) -> Res
         Ok(()) => Ok(()),
         Err((violation, mut error)) => {
             if matches!(violation.kind(), SecurityErrorKind::Tag(_)) {
+                // `catch (SecurityNotAllowedTagError $e) { $e->setTemplateLine(<line of the use tag>); throw $e; }`
                 error.set_template_line(use_line);
-            } else if error.template_line() == -1 {
-                // `handleException()` guesses from the constructor, which has no line marker
-                error.set_template_line(0);
+                return Err(error);
             }
-            Err(error)
+            let guessed = last_marker(program).unwrap_or(0);
+            if error.kind().is_twig_error() {
+                if error.template_line() == -1 {
+                    error.set_template_line(guessed);
+                }
+                return Err(error);
+            }
+            let message = error.raw_message().to_owned();
+            let wrapped = Error::runtime(format!(
+                "An exception has been thrown during the rendering of a template (\"{message}\")."
+            ))
+            .with_source(source.clone())
+            .with_line(guessed);
+            Err(match violation.php_error() {
+                Some(php) => wrapped.with_previous(php.clone()),
+                None => wrapped.with_previous(error),
+            })
         }
     }
 }
