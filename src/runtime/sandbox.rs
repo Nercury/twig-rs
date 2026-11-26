@@ -7,7 +7,10 @@
 //! (`checkSecurity()`), and the methods, properties and `__toString()` calls it makes are checked as they happen. The
 //! checks only apply while the template runs sandboxed: always for an extension created with `sandboxed = true`
 //! (what [`Sandbox`] does), otherwise inside `{% sandbox %}`, an `include(..., sandboxed = true)` or after the
-//! deprecated [`SandboxExtension::enable_sandbox`].
+//! deprecated [`SandboxExtension::enable_sandbox`]. As in Twig, the arrays among the values a template converts to
+//! strings (and the operands of spreads) are walked whenever the extension is registered, sandboxed or not: each
+//! element is converted to bool on the way, which shows outside the sandbox only as PHP's warnings, e.g. `unexpected
+//! NAN value was coerced to bool`.
 //!
 //! ```
 //! use std::sync::Arc;
@@ -807,9 +810,11 @@ impl SecurityChecker {
         }
     }
 
-    /// Twig: `SecurityChecker::ensureToStringAllowed()`: when sandboxed, a `Stringable` must be allowed to call
-    /// `__toString()`, and arrays and `Traversable`s are searched for such objects (a single-pass iterator comes back
-    /// as the array it was materialised into).
+    /// Twig: `SecurityChecker::ensureToStringAllowed()`: `doEnsureToStringAllowed()` with an empty `SplObjectStorage`
+    /// (a list of object ids here, which allocates only once a `Traversable` is searched). An array is walked whether
+    /// the template runs sandboxed or not ([`do_ensure`](Self::do_ensure)); when sandboxed, a `Stringable` must also
+    /// be allowed to call `__toString()`, and `Traversable`s are searched like arrays (a single-pass iterator comes
+    /// back as the array it was materialised into).
     pub(crate) fn ensure_to_string_allowed(
         &self,
         state: &mut VmState,
@@ -817,16 +822,25 @@ impl SecurityChecker {
         line: i64,
         source: &Source,
     ) -> std::result::Result<Value, Exception> {
-        if !self.is_sandboxed(Some(source)) {
-            // walking an array element by element does nothing observable outside the sandbox
-            return Ok(value);
+        // do_ensure() at the top, where a value that is not materialised comes back unchanged (and the scalars of
+        // every print pass without building `seen`)
+        match &value {
+            Value::Array(array) => {
+                self.ensure_array(state, array, line, source, &mut Vec::new())?;
+                Ok(value)
+            }
+            _ if !self.is_sandboxed(Some(source)) => Ok(value),
+            Value::Object(object) => {
+                let materialised =
+                    self.ensure_object(state, object, line, source, &mut Vec::new())?;
+                Ok(materialised.map_or(value, Value::Array))
+            }
+            _ => Ok(value),
         }
-        let mut seen = Vec::new();
-        self.do_ensure(state, value, line, source, &mut seen)
     }
 
-    /// Twig: `SecurityChecker::ensureSpreadAllowed(iterable $obj, ...)`: the spread operand is materialised (also
-    /// outside the sandbox) and its elements are checked.
+    /// Twig: `SecurityChecker::ensureSpreadAllowed(iterable $obj, ...)` (TWIG/src/Sandbox/SecurityChecker.php): the
+    /// spread operand is materialised and `ensureToStringAllowedForArray()` walks its elements, sandboxed or not.
     pub(crate) fn ensure_spread_allowed(
         &self,
         state: &mut VmState,
@@ -835,11 +849,11 @@ impl SecurityChecker {
         source: &Source,
     ) -> std::result::Result<Value, Exception> {
         let mut seen = Vec::new();
-        let array = match &value {
-            Value::Array(array) => array.clone(),
+        let array = match value {
+            Value::Array(array) => array,
             Value::Object(object) if object.instance_of("Traversable") => {
                 seen.push(object.id());
-                twig_value::object::iterator_to_array(object, true, state)?
+                twig_value::object::iterator_to_array(&object, true, state)?
             }
             other => {
                 return Err(twig_value::param::UserArg::new(
@@ -847,65 +861,86 @@ impl SecurityChecker {
                     1,
                     "obj",
                 )
-                .type_error(&twig_value::param::DeclaredType::iterable(), other)
+                .type_error(&twig_value::param::DeclaredType::iterable(), &other)
                 .into());
             }
         };
-        if self.is_sandboxed(Some(source)) {
-            self.ensure_array(state, &array, line, source, &mut seen)?;
-        }
+        self.ensure_array(state, &array, line, source, &mut seen)?;
         Ok(Value::Array(array))
     }
 
-    /// Twig: `SecurityChecker::doEnsureToStringAllowed()` (sandboxed).
+    /// Twig: `SecurityChecker::doEnsureToStringAllowed()` (TWIG/src/Sandbox/SecurityChecker.php): an array goes to
+    /// `ensureToStringAllowedForArray()` before the `isSandboxed($source)` check, so outside the sandbox arrays are
+    /// still walked and everything else comes back at once. Returns the array a single-pass iterator that is not
+    /// `Stringable` was materialised into (what PHP returns instead of `$obj`), `None` when `$obj` itself comes back.
+    /// [`ensure_to_string_allowed`](Self::ensure_to_string_allowed) does the same for the value it is given.
     fn do_ensure(
         &self,
         state: &mut VmState,
-        value: Value,
+        value: &Value,
         line: i64,
         source: &Source,
         seen: &mut Vec<u64>,
-    ) -> std::result::Result<Value, Exception> {
-        let object = match &value {
+    ) -> std::result::Result<Option<Array>, Exception> {
+        match value {
             Value::Array(array) => {
                 self.ensure_array(state, array, line, source, seen)?;
-                return Ok(value);
+                Ok(None)
             }
-            Value::Object(object) => object.clone(),
-            _ => return Ok(value),
-        };
+            _ if !self.is_sandboxed(Some(source)) => Ok(None),
+            Value::Object(object) => self.ensure_object(state, object, line, source, seen),
+            _ => Ok(None),
+        }
+    }
+
+    /// The rest of `doEnsureToStringAllowed()` for an object, when sandboxed: a `Stringable` must be allowed to call
+    /// `__toString()`, and a `Traversable` is searched (once: `$seen`) like an array.
+    fn ensure_object(
+        &self,
+        state: &mut VmState,
+        object: &ObjectRef,
+        line: i64,
+        source: &Source,
+        seen: &mut Vec<u64>,
+    ) -> std::result::Result<Option<Array>, Exception> {
         let stringable = object.instance_of("Stringable");
         if stringable {
-            self.method_check(&object, b"__toString", line, source)
+            self.method_check(object, b"__toString", line, source)
                 .map_err(Violation::into_exception)?;
         }
         if object.instance_of("Traversable") {
             if seen.contains(&object.id()) {
-                return Ok(value);
+                return Ok(None);
             }
             seen.push(object.id());
             if object.instance_of("IteratorAggregate") {
-                // `foreach ($obj as $v)`: the values only
+                // `foreach ($obj as $v)`: the values only, each handed to doEnsureToStringAllowed() as it is (no
+                // bool conversion)
                 if let Some(mut iter) = object.get_iterator(state)? {
                     iter.rewind(state)?;
                     while iter.valid(state)? {
                         let element = iter.current(state)?;
-                        self.do_ensure(state, element, line, source, seen)?;
+                        self.do_ensure(state, &element, line, source, seen)?;
                         iter.next(state)?;
                     }
                 }
-                return Ok(value);
+                return Ok(None);
             }
-            let array = twig_value::object::iterator_to_array(&object, true, state)?;
+            let array = twig_value::object::iterator_to_array(object, true, state)?;
             self.ensure_array(state, &array, line, source, seen)?;
             if !stringable {
-                return Ok(Value::Array(array));
+                return Ok(Some(array));
             }
         }
-        Ok(value)
+        Ok(None)
     }
 
-    /// Twig: `SecurityChecker::ensureToStringAllowedForArray()`: falsy elements are skipped, nested arrays searched.
+    /// Twig: `SecurityChecker::ensureToStringAllowedForArray()` (TWIG/src/Sandbox/SecurityChecker.php), sandboxed or
+    /// not: every element is converted to bool (`if (!$v)`, where PHP 8.5 warns `unexpected NAN value was coerced to
+    /// bool` for a NAN), falsy elements are skipped, nested arrays searched and the other elements handed to
+    /// `doEnsureToStringAllowed()`, which checks `isSandboxed()` for each of them ([`do_ensure`](Self::do_ensure) for
+    /// an object; of a scalar, which comes back as it is, only that check is left). twig-rs arrays hold no references,
+    /// so the `ReflectionReference` stack that stops PHP at a recursive array has nothing to track.
     fn ensure_array(
         &self,
         state: &mut VmState,
@@ -920,8 +955,20 @@ impl SecurityChecker {
             }
             match element {
                 Value::Array(nested) => self.ensure_array(state, nested, line, source, seen)?,
-                other => {
-                    self.do_ensure(state, other.clone(), line, source, seen)?;
+                Value::Object(_) => {
+                    self.do_ensure(state, element, line, source, seen)?;
+                }
+                // doEnsureToStringAllowed() returns a scalar whatever isSandboxed() answers, and of that call only
+                // the source policy's enableSandbox() can be seen: the walk runs for every element of every wrapped
+                // array, so the other checks are skipped
+                Value::Null
+                | Value::Bool(_)
+                | Value::Int(_)
+                | Value::Float(_)
+                | Value::String(_) => {
+                    if self.source_policy.is_some() {
+                        self.is_sandboxed(Some(source));
+                    }
                 }
             }
         }

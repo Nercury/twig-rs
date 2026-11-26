@@ -248,6 +248,10 @@ const UNDEFINED: &[&str] = &[
 struct Scope {
     /// Defined variables and their types.
     vars: Vec<(String, Ty, bool)>,
+    /// Variables of `vars` that may be `null` here: the last argument of a macro, which its call
+    /// may leave out (`dmiss`, drawn after the body is written), also in the macros and templates
+    /// the body passes it on to.
+    maybe_null: Vec<String>,
     /// The value variable of the innermost `for` (`loop` is defined too).
     loop_var: Option<String>,
     /// Inside a macro body.
@@ -276,8 +280,33 @@ impl Scope {
     fn with_var(&self, name: &str, ty: Ty) -> Scope {
         let mut scope = self.clone();
         scope.vars.retain(|(n, _, _)| n != name);
+        scope.maybe_null.retain(|n| n != name);
         scope.vars.push((name.to_owned(), ty, true));
         scope
+    }
+
+    /// Whether `name` surely holds its value here (defined, and not a macro argument the call
+    /// may leave out).
+    fn surely(&self, name: &str) -> bool {
+        self.has(name) && !self.maybe_null.iter().any(|n| n == name)
+    }
+
+    /// [`maybe_null`](Self::maybe_null) in the body of a macro that gets `passed` under their own
+    /// names: the last argument, which the call may leave out (`dmiss`), and the arguments
+    /// already in doubt here.
+    fn macro_maybe_null(&self, passed: &[(String, Ty, bool)]) -> Vec<String> {
+        let mut doubts: Vec<String> = self
+            .maybe_null
+            .iter()
+            .filter(|name| passed.iter().any(|(n, _, _)| n == *name))
+            .cloned()
+            .collect();
+        if let Some((last, _, _)) = passed.last()
+            && !doubts.contains(last)
+        {
+            doubts.push(last.clone());
+        }
+        doubts
     }
 }
 
@@ -929,6 +958,7 @@ impl Gen {
         }
         let inner = Scope {
             vars: inner_vars,
+            maybe_null: scope.macro_maybe_null(&passed),
             loop_var: None,
             in_macro: true,
             in_block: false,
@@ -1540,7 +1570,7 @@ impl Gen {
     /// `$M` map, `$B` bool, `$N` null, `$A` any, `$Z` zero, `$U` undefined name, `$O` object,
     /// `$K` missing key, `$Q` missing template, `$T` existing template, `$D` bad date, `$W` bad
     /// timezone, `$R` bad regex, `$P` format string, `$X` loop value, `$V` defined variable,
-    /// `$_` space or line break, `$$` a dollar sign).
+    /// `$e` the data's empty list, `$_` space or line break, `$$` a dollar sign).
     fn fill(&mut self, pattern: &str, scope: &Scope) -> String {
         let mut out = String::with_capacity(pattern.len() + 16);
         let mut chars = pattern.chars().peekable();
@@ -1625,6 +1655,16 @@ impl Gen {
                     Some(var) => var.clone(),
                     None => self.value(scope, Ty::Int),
                 },
+                // `empty` where it surely holds `[]`: a macro body sees only the arguments passed
+                // to it, and `random(null)` would draw an unseeded number (no draw here, so the
+                // other cases of a seed stay as they were)
+                'e' => {
+                    if scope.surely("empty") {
+                        "empty".to_owned()
+                    } else {
+                        "[]".to_owned()
+                    }
+                }
                 'V' => {
                     if scope.vars.is_empty() {
                         "_self".to_owned()
@@ -2302,7 +2342,7 @@ impl Gen {
                 "date('2020-01-01', 5)",
                 "date('2020-01-01', $B)|date('e')",
                 "random([])",
-                "random(empty)",
+                "random($e)",
                 "random(5, 1)",
                 "random([], $I)",
                 "source($Q)",
@@ -3867,5 +3907,51 @@ mod tests {
         assert!(filled.starts_with("$ "), "{filled}");
         assert_eq!(camel("decimal_point"), "decimalPoint");
         assert_eq!(twig_string("a'b\\c"), "'a\\'b\\\\c'");
+    }
+
+    /// T18: `random(null)` draws an unseeded number, so `random($e)` names `empty` only where it
+    /// surely holds the data's `[]`. Round 5's `errors-12002-1715-func.mlib` called `random(empty)`
+    /// in a macro that gets no arguments.
+    #[test]
+    fn random_never_draws_from_an_undefined_list() {
+        let mut g = Gen::new(1, 1);
+        let top = g.top_scope();
+        assert_eq!(g.fill("random($e)", &top), "random(empty)");
+        let mut without = top.clone();
+        without.vars.retain(|(name, _, _)| name != "empty");
+        assert_eq!(g.fill("random($e)", &without), "random([])");
+        let mut doubted = top.clone();
+        doubted.maybe_null.push("empty".to_owned());
+        assert_eq!(g.fill("random($e)", &doubted), "random([])");
+        let case = case(12002, 1715);
+        let macros = case
+            .get("templates")
+            .and_then(|t| t.get("macros2.twig"))
+            .and_then(Json::as_str)
+            .unwrap_or_default();
+        assert!(macros.contains("random([])"), "{macros}");
+    }
+
+    /// The last argument of a macro may be left out by its call (`dmiss`), and an argument in
+    /// doubt stays in doubt when it is passed on.
+    #[test]
+    fn macro_arguments_in_doubt() {
+        let var = |name: &str| (name.to_owned(), Ty::List, true);
+        let top = Gen::new(1, 1).top_scope();
+        assert!(top.surely("empty"));
+        assert!(top.macro_maybe_null(&[]).is_empty());
+        let inner = top.macro_maybe_null(&[var("empty"), var("items")]);
+        assert_eq!(inner, ["items"]);
+        let doubted = Scope {
+            maybe_null: vec!["empty".to_owned(), "map".to_owned()],
+            ..top.clone()
+        };
+        assert!(!doubted.surely("empty"));
+        assert_eq!(
+            doubted.macro_maybe_null(&[var("empty"), var("items")]),
+            ["empty", "items"]
+        );
+        assert_eq!(doubted.macro_maybe_null(&[var("empty")]), ["empty"]);
+        assert!(doubted.with_var("empty", Ty::List).surely("empty"));
     }
 }
