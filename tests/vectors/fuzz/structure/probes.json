@@ -1,0 +1,410 @@
+{
+  "description": "Structure family (crates/twig-fuzz/src/generators/structure.rs): Hand-written probes written next to the generator, recorded with the oracle (all match, so every vector must keep replaying identically; recorded with \"isolation\": \"process\"). guard (two-word tests, missing names, extra `else`/`elseif`, nested guards, what the dropped branch defines: macros, blocks, imports, extends, use), tags at the root of child templates (guard, types, deprecated, do, flush, with, apply around blocks), types syntax errors and accepted forms, deprecated options and message formats, do with assignments and destructuring, flush inside captures, with (`only`, lists, numeric keys, non-mappings), apply chains, documentation comments, macros below the template root.",
+  "vectors": [
+    {
+      "id": "st-probe-0",
+      "case": {"id":"st-probe-0","env":"plain","templates":{"index.twig":"{% guard test defined foo %}Y{% else %}N{% endguard %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-0"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-0","kind":"twig","ok":true,"output":"N","deprecations":[],"diagnostics":[],"clock":[1795674988,465384]}
+    },
+    {
+      "id": "st-probe-1",
+      "case": {"id":"st-probe-1","env":"plain","templates":{"index.twig":"{% guard test same  as %}Y{% else %}N{% endguard %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-1"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-1","kind":"twig","ok":true,"output":"Y","deprecations":[],"diagnostics":[],"clock":[1795674988,466891]}
+    },
+    {
+      "id": "st-probe-2",
+      "case": {"id":"st-probe-2","env":"plain","templates":{"index.twig":"{% guard function %}Y{% endguard %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-2"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-2","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"end of statement block\" (\"name\" expected) in \"index.twig\" at line 1 column 19.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"end of statement block\" (\"name\" expected) in \"index.twig\" at line 1 column 19.","rawMessage":"Unexpected token \"end of statement block\" (\"name\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":19},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-3",
+      "case": {"id":"st-probe-3","env":"plain","templates":{"index.twig":"{% guard filter e.x %}Y{% endguard %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-3"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-3","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"operator\" of value \".\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 18.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"operator\" of value \".\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 18.","rawMessage":"Unexpected token \"operator\" of value \".\" (\"end of statement block\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":18},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-4",
+      "case": {"id":"st-probe-4","env":"plain","templates":{"index.twig":"{% guard function range %}Y{% else %}N{% else %}M{% endguard %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-4"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-4","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected \"else\" tag (expecting closing tag for the \"guard\" tag defined near line 1) in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unexpected \"else\" tag (expecting closing tag for the \"guard\" tag defined near line 1) in \"index.twig\" at line 1.","rawMessage":"Unexpected \"else\" tag (expecting closing tag for the \"guard\" tag defined near line 1).","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-5",
+      "case": {"id":"st-probe-5","env":"plain","templates":{"index.twig":"{% guard function nope %}Y{% else %}N{% else %}M{% endguard %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-5"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-5","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected \"else\" tag (expecting closing tag for the \"guard\" tag defined near line 1) in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unexpected \"else\" tag (expecting closing tag for the \"guard\" tag defined near line 1) in \"index.twig\" at line 1.","rawMessage":"Unexpected \"else\" tag (expecting closing tag for the \"guard\" tag defined near line 1).","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-6",
+      "case": {"id":"st-probe-6","env":"plain","templates":{"index.twig":"{% guard function range %}Y{% endguard foo %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-6"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-6","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"name\" of value \"foo\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 40.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"name\" of value \"foo\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 40.","rawMessage":"Unexpected token \"name\" of value \"foo\" (\"end of statement block\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":40},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-7",
+      "case": {"id":"st-probe-7","env":"plain","templates":{"index.twig":"{% guard function range %}Y{% elseif x %}Z{% endguard %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-7"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-7","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected \"elseif\" tag (expecting closing tag for the \"guard\" tag defined near line 1) in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unexpected \"elseif\" tag (expecting closing tag for the \"guard\" tag defined near line 1) in \"index.twig\" at line 1.","rawMessage":"Unexpected \"elseif\" tag (expecting closing tag for the \"guard\" tag defined near line 1).","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-8",
+      "case": {"id":"st-probe-8","env":"plain","templates":{"index.twig":"{% guard function nope %}{% guard filter nope %}a{% else %}{{ x|nope }}{% endguard %}{% else %}b{% endguard %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-8"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-8","kind":"twig","ok":true,"output":"b","deprecations":[],"diagnostics":[],"clock":[1795674988,496324]}
+    },
+    {
+      "id": "st-probe-9",
+      "case": {"id":"st-probe-9","env":"plain","templates":{"index.twig":"{% guard function nope %}{% macro m() %}M{% endmacro %}{% endguard %}{{ _self.m() }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-9"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-9","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Macro \"m\" is not defined in template \"index.twig\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Macro \"m\" is not defined in template \"index.twig\" in \"index.twig\" at line 1.","rawMessage":"Macro \"m\" is not defined in template \"index.twig\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674988,513731]}
+    },
+    {
+      "id": "st-probe-10",
+      "case": {"id":"st-probe-10","env":"plain","templates":{"index.twig":"{% guard function range %}{% macro m() %}M{% endmacro %}{% endguard %}{{ _self.m() }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-10"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-10","kind":"twig","ok":true,"output":"M","deprecations":["Since twig/twig 3.28: Using the \"macro\" tag outside the root of a template is deprecated in index.twig at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.28: Using the \"macro\" tag outside the root of a template is deprecated in index.twig at line 1."}],"clock":[1795674988,512844]}
+    },
+    {
+      "id": "st-probe-11",
+      "case": {"id":"st-probe-11","env":"plain","templates":{"index.twig":"{% guard function nope %}{% block b %}B{% endblock %}{% endguard %}{{ block('b') ?? 'nb' }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-11"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-11","kind":"twig","ok":true,"output":"nb","deprecations":[],"diagnostics":[],"clock":[1795674988,508168]}
+    },
+    {
+      "id": "st-probe-12",
+      "case": {"id":"st-probe-12","env":"plain","templates":{"index.twig":"{% guard function range %}{% else %}{% block b %}B{% endblock %}{% endguard %}{{ block('b') ?? 'nb' }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-12"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-12","kind":"twig","ok":true,"output":"nb","deprecations":[],"diagnostics":[],"clock":[1795674988,514837]}
+    },
+    {
+      "id": "st-probe-13",
+      "case": {"id":"st-probe-13","env":"plain","templates":{"index.twig":"{% guard function nope %}{% import 'm.twig' as mm %}{% endguard %}{{ mm.x() ?? 'none' }}","m.twig":"{% macro x() %}X{% endmacro %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-13"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-13","kind":"twig","ok":true,"output":"none","deprecations":[],"diagnostics":[],"clock":[1795674988,522238]}
+    },
+    {
+      "id": "st-probe-14",
+      "case": {"id":"st-probe-14","env":"plain","templates":{"index.twig":"{% guard function nope %}{% from 'm.twig' import x %}{% endguard %}{{ x() }}","m.twig":"{% macro x() %}X{% endmacro %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-14"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-14","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unknown \"x\" function. Did you mean \"max\" in \"index.twig\" at line 1?","formatted":"Twig\\Error\\SyntaxError: Unknown \"x\" function. Did you mean \"max\" in \"index.twig\" at line 1?","rawMessage":"Unknown \"x\" function. Did you mean \"max\"?","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-15",
+      "case": {"id":"st-probe-15","env":"plain","templates":{"index.twig":"{% guard function nope %}{% extends 'base.twig' %}{% endguard %}body","base.twig":"BASE"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-15"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-15","kind":"twig","ok":true,"output":"body","deprecations":[],"diagnostics":[],"clock":[1795674988,515518]}
+    },
+    {
+      "id": "st-probe-16",
+      "case": {"id":"st-probe-16","env":"plain","templates":{"index.twig":"{% guard function range %}{% use 't.twig' %}{% endguard %}{{ block('tb') }}","t.twig":"{% block tb %}TB{% endblock %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-16"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-16","kind":"twig","ok":true,"output":"TB","deprecations":["Since twig/twig 3.28: Using the \"use\" tag outside the root of a template is deprecated in index.twig at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.28: Using the \"use\" tag outside the root of a template is deprecated in index.twig at line 1."}],"clock":[1795674988,545349]}
+    },
+    {
+      "id": "st-probe-17",
+      "case": {"id":"st-probe-17","env":"plain","templates":{"child.twig":"{% extends 'base.twig' %}{% guard function range %}{% block content %}C{% endblock %}{% endguard %}","base.twig":"[{% block content %}{% endblock %}]"},"main":"child.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-17"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-17","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"A \"block\" tag cannot be under a \"guard\" tag (line 1) in \"child.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: A \"block\" tag cannot be under a \"guard\" tag (line 1) in \"child.twig\" at line 1.","rawMessage":"A \"block\" tag cannot be under a \"guard\" tag (line 1).","templateName":"child.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-18",
+      "case": {"id":"st-probe-18","env":"plain","templates":{"child.twig":"{% extends 'base.twig' %}{% guard function nope %}{% block content %}C{% endblock %}{% else %}{% block content %}E{% endblock %}{% endguard %}","base.twig":"[{% block content %}{% endblock %}]"},"main":"child.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-18"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-18","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"A \"block\" tag cannot be under a \"guard\" tag (line 1) in \"child.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: A \"block\" tag cannot be under a \"guard\" tag (line 1) in \"child.twig\" at line 1.","rawMessage":"A \"block\" tag cannot be under a \"guard\" tag (line 1).","templateName":"child.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-19",
+      "case": {"id":"st-probe-19","env":"plain","templates":{"child.twig":"{% extends 'base.twig' %}{% types {x: 'int'} %}{% deprecated 'child' %}{% do 1 %}{% flush %}{% block content %}C{% endblock %}","base.twig":"[{% block content %}{% endblock %}]"},"main":"child.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-19"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-19","kind":"twig","ok":true,"output":"[C]","deprecations":["child in \"child.twig\" at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"child in \"child.twig\" at line 1."}],"clock":[1795674988,557079]}
+    },
+    {
+      "id": "st-probe-20",
+      "case": {"id":"st-probe-20","env":"plain","templates":{"child.twig":"{% extends 'base.twig' %}{% with {a: 1} %}{% endwith %}{% block content %}C{% endblock %}","base.twig":"[{% block content %}{% endblock %}]"},"main":"child.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-20"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-20","kind":"twig","ok":true,"output":"[C]","deprecations":[],"diagnostics":[],"clock":[1795674988,566884]}
+    },
+    {
+      "id": "st-probe-21",
+      "case": {"id":"st-probe-21","env":"plain","templates":{"child.twig":"{% extends 'base.twig' %}{% with {a: 1} %}x{% endwith %}{% block content %}C{% endblock %}","base.twig":"[{% block content %}{% endblock %}]"},"main":"child.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-21"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-21","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"A template that extends another one cannot include content outside Twig blocks. Did you forget to put the content inside a {% block %} tag in \"child.twig\" at line 1?","formatted":"Twig\\Error\\SyntaxError: A template that extends another one cannot include content outside Twig blocks. Did you forget to put the content inside a {% block %} tag in \"child.twig\" at line 1?","rawMessage":"A template that extends another one cannot include content outside Twig blocks. Did you forget to put the content inside a {% block %} tag?","templateName":"child.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-22",
+      "case": {"id":"st-probe-22","env":"plain","templates":{"child.twig":"{% extends 'base.twig' %}{% with {a: 1} %}{% block content %}C{{ a }}{% endblock %}{% endwith %}","base.twig":"[{% block content %}{% endblock %}]"},"main":"child.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-22"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-22","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"A \"block\" tag cannot be under a \"with\" tag (line 1) in \"child.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: A \"block\" tag cannot be under a \"with\" tag (line 1) in \"child.twig\" at line 1.","rawMessage":"A \"block\" tag cannot be under a \"with\" tag (line 1).","templateName":"child.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-23",
+      "case": {"id":"st-probe-23","env":"plain","templates":{"child.twig":"{% extends 'base.twig' %}{% apply upper %}{% block content %}c{% endblock %}{% endapply %}","base.twig":"[{% block content %}{% endblock %}]"},"main":"child.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-23"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-23","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"A template that extends another one cannot include content outside Twig blocks. Did you forget to put the content inside a {% block %} tag in \"child.twig\" at line 1?","formatted":"Twig\\Error\\SyntaxError: A template that extends another one cannot include content outside Twig blocks. Did you forget to put the content inside a {% block %} tag in \"child.twig\" at line 1?","rawMessage":"A template that extends another one cannot include content outside Twig blocks. Did you forget to put the content inside a {% block %} tag?","templateName":"child.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-24",
+      "case": {"id":"st-probe-24","env":"plain","templates":{"index.twig":"{% types %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-24"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-24","kind":"twig","ok":true,"output":"ok","deprecations":[],"diagnostics":[],"clock":[1795674988,594822]}
+    },
+    {
+      "id": "st-probe-25",
+      "case": {"id":"st-probe-25","env":"plain","templates":{"index.twig":"{% types , %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-25"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-25","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"punctuation\" of value \",\" (\"name\" expected) in \"index.twig\" at line 1 column 10.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"punctuation\" of value \",\" (\"name\" expected) in \"index.twig\" at line 1 column 10.","rawMessage":"Unexpected token \"punctuation\" of value \",\" (\"name\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":10},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-26",
+      "case": {"id":"st-probe-26","env":"plain","templates":{"index.twig":"{% types {a: 'x'}, %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-26"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-26","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"punctuation\" of value \",\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 18.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"punctuation\" of value \",\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 18.","rawMessage":"Unexpected token \"punctuation\" of value \",\" (\"end of statement block\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":18},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-27",
+      "case": {"id":"st-probe-27","env":"plain","templates":{"index.twig":"{% types {a: \"x #{y}\"} %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-27"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-27","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"A type string must be followed by a comma. Unexpected token \"begin of string interpolation\" (\"punctuation\" expected with value \",\") in \"index.twig\" at line 1 column 17.","formatted":"Twig\\Error\\SyntaxError: A type string must be followed by a comma. Unexpected token \"begin of string interpolation\" (\"punctuation\" expected with value \",\") in \"index.twig\" at line 1 column 17.","rawMessage":"A type string must be followed by a comma. Unexpected token \"begin of string interpolation\" (\"punctuation\" expected with value \",\").","templateName":"index.twig","templateLine":1,"templateColumn":17},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-28",
+      "case": {"id":"st-probe-28","env":"plain","templates":{"index.twig":"{% types {a: 'x' ~ 'y'} %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-28"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-28","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"A type string must be followed by a comma. Unexpected token \"operator\" of value \"~\" (\"punctuation\" expected with value \",\") in \"index.twig\" at line 1 column 18.","formatted":"Twig\\Error\\SyntaxError: A type string must be followed by a comma. Unexpected token \"operator\" of value \"~\" (\"punctuation\" expected with value \",\") in \"index.twig\" at line 1 column 18.","rawMessage":"A type string must be followed by a comma. Unexpected token \"operator\" of value \"~\" (\"punctuation\" expected with value \",\").","templateName":"index.twig","templateLine":1,"templateColumn":18},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-29",
+      "case": {"id":"st-probe-29","env":"plain","templates":{"index.twig":"{% types {a: 'x'}} %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-29"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-29","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected \"}\" in \"index.twig\" at line 1 column 18.","formatted":"Twig\\Error\\SyntaxError: Unexpected \"}\" in \"index.twig\" at line 1 column 18.","rawMessage":"Unexpected \"}\".","templateName":"index.twig","templateLine":1,"templateColumn":18},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-30",
+      "case": {"id":"st-probe-30","env":"plain","templates":{"index.twig":"{% types {a ?: 'x'} %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-30"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-30","kind":"twig","ok":true,"output":"ok","deprecations":[],"diagnostics":[],"clock":[1795674988,607053]}
+    },
+    {
+      "id": "st-probe-31",
+      "case": {"id":"st-probe-31","env":"plain","templates":{"index.twig":"{% types {a\n?\n:\n'x'} %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-31"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-31","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"A type name must be followed by a colon (:). Unexpected token \"operator\" of value \"? :\" (\"punctuation\" expected with value \":\") in \"index.twig\" at line 2 column 1.","formatted":"Twig\\Error\\SyntaxError: A type name must be followed by a colon (:). Unexpected token \"operator\" of value \"? :\" (\"punctuation\" expected with value \":\") in \"index.twig\" at line 2 column 1.","rawMessage":"A type name must be followed by a colon (:). Unexpected token \"operator\" of value \"? :\" (\"punctuation\" expected with value \":\").","templateName":"index.twig","templateLine":2,"templateColumn":1},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-32",
+      "case": {"id":"st-probe-32","env":"plain","templates":{"index.twig":"{% types {a: 'x', a: 'y'} %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-32"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-32","kind":"twig","ok":true,"output":"ok","deprecations":[],"diagnostics":[],"clock":[1795674988,646744]}
+    },
+    {
+      "id": "st-probe-33",
+      "case": {"id":"st-probe-33","env":"plain","templates":{"index.twig":"{% types {## doc\n a: 'x', # c\n b?: 'y',} %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-33"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-33","kind":"twig","ok":true,"output":"ok","deprecations":[],"diagnostics":[],"clock":[1795674988,641493]}
+    },
+    {
+      "id": "st-probe-34",
+      "case": {"id":"st-probe-34","env":"plain","templates":{"index.twig":"{% types {_self: 'x', _context: 'y', loop: 'z'} %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-34"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-34","kind":"twig","ok":true,"output":"ok","deprecations":[],"diagnostics":[],"clock":[1795674988,638449]}
+    },
+    {
+      "id": "st-probe-35",
+      "case": {"id":"st-probe-35","env":"plain","templates":{"index.twig":"{% types {a: 1} %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-35"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-35","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"number\" of value \"1\" (\"string\" expected) in \"index.twig\" at line 1 column 14.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"number\" of value \"1\" (\"string\" expected) in \"index.twig\" at line 1 column 14.","rawMessage":"Unexpected token \"number\" of value \"1\" (\"string\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":14},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-36",
+      "case": {"id":"st-probe-36","env":"plain","templates":{"index.twig":"{% types {a: null} %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-36"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-36","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"name\" of value \"null\" (\"string\" expected) in \"index.twig\" at line 1 column 14.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"name\" of value \"null\" (\"string\" expected) in \"index.twig\" at line 1 column 14.","rawMessage":"Unexpected token \"name\" of value \"null\" (\"string\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":14},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-37",
+      "case": {"id":"st-probe-37","env":"plain","templates":{"index.twig":"{% types {true: 'x', none: 'y'} %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-37"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-37","kind":"twig","ok":true,"output":"ok","deprecations":[],"diagnostics":[],"clock":[1795674988,661676]}
+    },
+    {
+      "id": "st-probe-38",
+      "case": {"id":"st-probe-38","env":"plain","templates":{"index.twig":"{% types {a: 'x'} b: 'y' %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-38"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-38","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"name\" of value \"b\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 19.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"name\" of value \"b\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 19.","rawMessage":"Unexpected token \"name\" of value \"b\" (\"end of statement block\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":19},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-39",
+      "case": {"id":"st-probe-39","env":"plain","templates":{"index.twig":"{% deprecated %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-39"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-39","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"end of statement block\" of value \"\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"end of statement block\" of value \"\" in \"index.twig\" at line 1.","rawMessage":"Unexpected token \"end of statement block\" of value \"\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-40",
+      "case": {"id":"st-probe-40","env":"plain","templates":{"index.twig":"{% deprecated 'a' 'b' %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-40"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-40","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"string\" of value \"b\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 19.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"string\" of value \"b\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 19.","rawMessage":"Unexpected token \"string\" of value \"b\" (\"end of statement block\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":19},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-41",
+      "case": {"id":"st-probe-41","env":"plain","templates":{"index.twig":"{% deprecated 'a' package %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-41"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-41","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"end of statement block\" (\"operator\" expected with value \"=\") in \"index.twig\" at line 1 column 27.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"end of statement block\" (\"operator\" expected with value \"=\") in \"index.twig\" at line 1 column 27.","rawMessage":"Unexpected token \"end of statement block\" (\"operator\" expected with value \"=\").","templateName":"index.twig","templateLine":1,"templateColumn":27},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-42",
+      "case": {"id":"st-probe-42","env":"plain","templates":{"index.twig":"{% deprecated 'a' package='p' package='q' %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-42"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-42","kind":"twig","ok":true,"output":"ok","deprecations":["Since q : a in \"index.twig\" at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since q : a in \"index.twig\" at line 1."}],"clock":[1795674988,689404]}
+    },
+    {
+      "id": "st-probe-43",
+      "case": {"id":"st-probe-43","env":"plain","templates":{"index.twig":"{% deprecated 'a' version='1' %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-43"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-43","kind":"twig","ok":true,"output":"ok","deprecations":["Since  1: a in \"index.twig\" at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since  1: a in \"index.twig\" at line 1."}],"clock":[1795674988,687373]}
+    },
+    {
+      "id": "st-probe-44",
+      "case": {"id":"st-probe-44","env":"plain","templates":{"index.twig":"{% deprecated 'a' package='' version='' %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-44"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-44","kind":"twig","ok":true,"output":"ok","deprecations":["a in \"index.twig\" at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"a in \"index.twig\" at line 1."}],"clock":[1795674988,697114]}
+    },
+    {
+      "id": "st-probe-45",
+      "case": {"id":"st-probe-45","env":"plain","templates":{"index.twig":"{% deprecated 'a' package='0' version='0' %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-45"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-45","kind":"twig","ok":true,"output":"ok","deprecations":["a in \"index.twig\" at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"a in \"index.twig\" at line 1."}],"clock":[1795674988,701388]}
+    },
+    {
+      "id": "st-probe-46",
+      "case": {"id":"st-probe-46","env":"plain","templates":{"index.twig":"{% deprecated 'a %s %d' package='p' version='1' %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-46"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-46","kind":"twig","ok":true,"output":"ok","deprecations":["Since p 1: a %s %d in \"index.twig\" at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since p 1: a %s %d in \"index.twig\" at line 1."}],"clock":[1795674988,705334]}
+    },
+    {
+      "id": "st-probe-47",
+      "case": {"id":"st-probe-47","env":"plain","templates":{"index.twig":"{% deprecated 'a' ~ \"\\n\" ~ 'b' %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-47"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-47","kind":"twig","ok":true,"output":"ok","deprecations":["a\nb in \"index.twig\" at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"a\nb in \"index.twig\" at line 1."}],"clock":[1795674988,707924]}
+    },
+    {
+      "id": "st-probe-48",
+      "case": {"id":"st-probe-48","env":"plain","templates":{"index.twig":"{% for i in 1..3 %}{% deprecated 'loop ' ~ i %}{% endfor %}ok"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-48"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-48","kind":"twig","ok":true,"output":"ok","deprecations":["loop 1 in \"index.twig\" at line 1.","loop 2 in \"index.twig\" at line 1.","loop 3 in \"index.twig\" at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"loop 1 in \"index.twig\" at line 1."},{"type":"E_USER_DEPRECATED","message":"loop 2 in \"index.twig\" at line 1."},{"type":"E_USER_DEPRECATED","message":"loop 3 in \"index.twig\" at line 1."}],"clock":[1795674988,727760]}
+    },
+    {
+      "id": "st-probe-49",
+      "case": {"id":"st-probe-49","env":"plain","templates":{"index.twig":"{% macro m() %}{% deprecated 'in macro' %}M{% endmacro %}{{ _self.m() }}{{ _self.m() }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-49"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-49","kind":"twig","ok":true,"output":"MM","deprecations":["in macro in \"index.twig\" at line 1.","in macro in \"index.twig\" at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"in macro in \"index.twig\" at line 1."},{"type":"E_USER_DEPRECATED","message":"in macro in \"index.twig\" at line 1."}],"clock":[1795674988,723616]}
+    },
+    {
+      "id": "st-probe-50",
+      "case": {"id":"st-probe-50","env":"plain","templates":{"index.twig":"{% do %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-50"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-50","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"end of statement block\" of value \"\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"end of statement block\" of value \"\" in \"index.twig\" at line 1.","rawMessage":"Unexpected token \"end of statement block\" of value \"\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-51",
+      "case": {"id":"st-probe-51","env":"plain","templates":{"index.twig":"{% do 1 2 %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-51"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-51","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"number\" of value \"2\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 9.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"number\" of value \"2\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 9.","rawMessage":"Unexpected token \"number\" of value \"2\" (\"end of statement block\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":9},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-52",
+      "case": {"id":"st-probe-52","env":"plain","templates":{"index.twig":"{% do x = 1 %}{% do x = x + 1 %}{{ x }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-52"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-52","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795674988,744933]}
+    },
+    {
+      "id": "st-probe-53",
+      "case": {"id":"st-probe-53","env":"plain","templates":{"index.twig":"{% do [a, b] = [1] %}{{ a }}|{{ b ?? 'nb' }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-53"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-53","kind":"twig","ok":true,"output":"1|nb","deprecations":[],"diagnostics":[],"clock":[1795674988,756630]}
+    },
+    {
+      "id": "st-probe-54",
+      "case": {"id":"st-probe-54","env":"plain","templates":{"index.twig":"{% do {a, b} = {a: 1} %}{{ a }}|{{ b ?? 'nb' }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-54"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-54","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Key \"b\" for sequence/mapping with keys \"a\" does not exist in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Key \"b\" for sequence/mapping with keys \"a\" does not exist in \"index.twig\" at line 1.","rawMessage":"Key \"b\" for sequence/mapping with keys \"a\" does not exist.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674988,747126]}
+    },
+    {
+      "id": "st-probe-55",
+      "case": {"id":"st-probe-55","env":"plain","templates":{"index.twig":"{% do [a, [b, c]] = [1, [2, 3]] %}{{ a ~ b ~ c }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-55"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-55","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Cannot assign to \"Twig\\Node\\Expression\\ArrayExpression\", only variables can be assigned in sequence destructuring in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Cannot assign to \"Twig\\Node\\Expression\\ArrayExpression\", only variables can be assigned in sequence destructuring in \"index.twig\" at line 1.","rawMessage":"Cannot assign to \"Twig\\Node\\Expression\\ArrayExpression\", only variables can be assigned in sequence destructuring.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-56",
+      "case": {"id":"st-probe-56","env":"plain","templates":{"index.twig":"{% flush x %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-56"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-56","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"name\" of value \"x\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 10.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"name\" of value \"x\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 10.","rawMessage":"Unexpected token \"name\" of value \"x\" (\"end of statement block\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":10},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-57",
+      "case": {"id":"st-probe-57","env":"plain","templates":{"index.twig":"a{% flush %}b{% apply upper %}c{% flush %}d{% endapply %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-57"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-57","kind":"twig","ok":true,"output":"abCD","deprecations":[],"diagnostics":[],"clock":[1795674988,775846]}
+    },
+    {
+      "id": "st-probe-58",
+      "case": {"id":"st-probe-58","env":"plain","templates":{"index.twig":"{% with %}{% set a = 1 %}{% endwith %}{{ a ?? 'none' }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-58"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-58","kind":"twig","ok":true,"output":"none","deprecations":[],"diagnostics":[],"clock":[1795674988,768567]}
+    },
+    {
+      "id": "st-probe-59",
+      "case": {"id":"st-probe-59","env":"plain","templates":{"index.twig":"{% with {a: 1} only %}{{ _context|keys|join(',') }}{% endwith %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-59"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-59","kind":"twig","ok":true,"output":"a","deprecations":[],"diagnostics":[],"clock":[1795674988,781822]}
+    },
+    {
+      "id": "st-probe-60",
+      "case": {"id":"st-probe-60","env":"plain","templates":{"index.twig":"{% with only %}x{% endwith %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-60"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-60","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variable \"only\" does not exist in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Variable \"only\" does not exist in \"index.twig\" at line 1.","rawMessage":"Variable \"only\" does not exist.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674988,782444]}
+    },
+    {
+      "id": "st-probe-61",
+      "case": {"id":"st-probe-61","env":"plain","templates":{"index.twig":"{% with {a: 1} only only %}x{% endwith %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-61"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-61","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"name\" of value \"only\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 21.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"name\" of value \"only\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 21.","rawMessage":"Unexpected token \"name\" of value \"only\" (\"end of statement block\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":21},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-62",
+      "case": {"id":"st-probe-62","env":"plain","templates":{"index.twig":"{% with [1, 2] %}{{ _context|keys|join(',') }}{% endwith %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-62"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-62","kind":"twig","ok":true,"output":"0,1,n","deprecations":[],"diagnostics":[],"clock":[1795674988,798572]}
+    },
+    {
+      "id": "st-probe-63",
+      "case": {"id":"st-probe-63","env":"plain","templates":{"index.twig":"{% with {0: 'zero', 1: 'one'} only %}{{ _context|keys|join(',') }}{% endwith %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-63"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-63","kind":"twig","ok":true,"output":"0,1","deprecations":[],"diagnostics":[],"clock":[1795674988,807862]}
+    },
+    {
+      "id": "st-probe-64",
+      "case": {"id":"st-probe-64","env":"plain","templates":{"index.twig":"{% with 'abc' %}x{% endwith %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-64"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-64","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variables passed to the \"with\" tag must be a mapping in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Variables passed to the \"with\" tag must be a mapping in \"index.twig\" at line 1.","rawMessage":"Variables passed to the \"with\" tag must be a mapping.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674988,806351]}
+    },
+    {
+      "id": "st-probe-65",
+      "case": {"id":"st-probe-65","env":"plain","templates":{"index.twig":"{% with null %}x{% endwith %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-65"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-65","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variables passed to the \"with\" tag must be a mapping in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Variables passed to the \"with\" tag must be a mapping in \"index.twig\" at line 1.","rawMessage":"Variables passed to the \"with\" tag must be a mapping.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674988,816300]}
+    },
+    {
+      "id": "st-probe-66",
+      "case": {"id":"st-probe-66","env":"plain","templates":{"index.twig":"{% apply %}x{% endapply %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-66"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-66","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"end of statement block\" (\"name\" expected) in \"index.twig\" at line 1 column 10.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"end of statement block\" (\"name\" expected) in \"index.twig\" at line 1 column 10.","rawMessage":"Unexpected token \"end of statement block\" (\"name\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":10},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-67",
+      "case": {"id":"st-probe-67","env":"plain","templates":{"index.twig":"{% apply upper| %}x{% endapply %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-67"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-67","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"end of statement block\" (\"name\" expected) in \"index.twig\" at line 1 column 17.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"end of statement block\" (\"name\" expected) in \"index.twig\" at line 1 column 17.","rawMessage":"Unexpected token \"end of statement block\" (\"name\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":17},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-68",
+      "case": {"id":"st-probe-68","env":"plain","templates":{"index.twig":"{% apply upper lower %}x{% endapply %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-68"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-68","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"name\" of value \"lower\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 16.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"name\" of value \"lower\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 16.","rawMessage":"Unexpected token \"name\" of value \"lower\" (\"end of statement block\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":16},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "st-probe-69",
+      "case": {"id":"st-probe-69","env":"plain","templates":{"index.twig":"{% apply e('html')|e('html') %}<b>{% endapply %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-69"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-69","kind":"twig","ok":true,"output":"&amp;lt;b&amp;gt;","deprecations":[],"diagnostics":[],"clock":[1795674988,846703]}
+    },
+    {
+      "id": "st-probe-70",
+      "case": {"id":"st-probe-70","env":"plain","templates":{"index.twig":"{% apply raw|e %}<b>{% endapply %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-70"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-70","kind":"twig","ok":true,"output":"&lt;b&gt;","deprecations":[],"diagnostics":[],"clock":[1795674988,843334]}
+    },
+    {
+      "id": "st-probe-71",
+      "case": {"id":"st-probe-71","env":"plain","templates":{"index.twig":"{% apply format('A', 'B') %}%s-%s{% endapply %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-71"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-71","kind":"twig","ok":true,"output":"A-B","deprecations":[],"diagnostics":[],"clock":[1795674988,852262]}
+    },
+    {
+      "id": "st-probe-72",
+      "case": {"id":"st-probe-72","env":"plain","templates":{"index.twig":"{% apply default('d') %}{% endapply %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-72"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-72","kind":"twig","ok":true,"output":"d","deprecations":[],"diagnostics":[],"clock":[1795674988,858155]}
+    },
+    {
+      "id": "st-probe-73",
+      "case": {"id":"st-probe-73","env":"plain","templates":{"index.twig":"{% apply upper %}{% apply lower %}AbC{% endapply %}x{% endapply %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-73"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-73","kind":"twig","ok":true,"output":"ABCX","deprecations":[],"diagnostics":[],"clock":[1795674988,857388]}
+    },
+    {
+      "id": "st-probe-74",
+      "case": {"id":"st-probe-74","env":"plain","templates":{"index.twig":"{% apply spaceless %} <b> </b> {% endapply %}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-74"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-74","kind":"twig","ok":true,"output":"<b></b>","deprecations":["Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."}],"clock":[1795674988,864521]}
+    },
+    {
+      "id": "st-probe-75",
+      "case": {"id":"st-probe-75","env":"plain","templates":{"index.twig":"{## doc ##}{% block b %}B{% endblock %}{## doc #}{% macro m() %}{% endmacro %}{{ _self.m() }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-75"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-75","kind":"twig","ok":true,"output":"B","deprecations":[],"diagnostics":[],"clock":[1795674988,870074]}
+    },
+    {
+      "id": "st-probe-76",
+      "case": {"id":"st-probe-76","env":"plain","templates":{"index.twig":"{% block b ## doc\n %}B{% endblock %}{% macro m(## doc\n a) %}{{ a }}{% endmacro %}{{ _self.m(1) }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-76"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-76","kind":"twig","ok":true,"output":"B1","deprecations":[],"diagnostics":[],"clock":[1795674988,880936]}
+    },
+    {
+      "id": "st-probe-77",
+      "case": {"id":"st-probe-77","env":"plain","templates":{"index.twig":"{% if true %}{% macro m() %}M{% endmacro %}{% endif %}{{ _self.m() }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-77"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-77","kind":"twig","ok":true,"output":"M","deprecations":["Since twig/twig 3.28: Using the \"macro\" tag outside the root of a template is deprecated in index.twig at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.28: Using the \"macro\" tag outside the root of a template is deprecated in index.twig at line 1."}],"clock":[1795674988,891025]}
+    },
+    {
+      "id": "st-probe-78",
+      "case": {"id":"st-probe-78","env":"plain","templates":{"index.twig":"{% block b %}{% macro m() %}M{% endmacro %}{% endblock %}{{ _self.m() }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-78"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-78","kind":"twig","ok":true,"output":"M","deprecations":["Since twig/twig 3.28: Using the \"macro\" tag outside the root of a template is deprecated in index.twig at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.28: Using the \"macro\" tag outside the root of a template is deprecated in index.twig at line 1."}],"clock":[1795674988,896036]}
+    },
+    {
+      "id": "st-probe-79",
+      "case": {"id":"st-probe-79","env":"plain","templates":{"index.twig":"{% for i in [1] %}{% macro m() %}M{% endmacro %}{% endfor %}{{ _self.m() }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-79"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-79","kind":"twig","ok":true,"output":"M","deprecations":["Since twig/twig 3.28: Using the \"macro\" tag outside the root of a template is deprecated in index.twig at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.28: Using the \"macro\" tag outside the root of a template is deprecated in index.twig at line 1."}],"clock":[1795674988,898627]}
+    },
+    {
+      "id": "st-probe-80",
+      "case": {"id":"st-probe-80","env":"plain","templates":{"index.twig":"{% guard function range %}{% macro m() %}M{% endmacro %}{% endguard %}{{ _self.m() }}"},"main":"index.twig","data_json":{"n":3},"config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/st-probe-80"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"st-probe-80","kind":"twig","ok":true,"output":"M","deprecations":["Since twig/twig 3.28: Using the \"macro\" tag outside the root of a template is deprecated in index.twig at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.28: Using the \"macro\" tag outside the root of a template is deprecated in index.twig at line 1."}],"clock":[1795674988,902670]}
+    }
+  ]
+}

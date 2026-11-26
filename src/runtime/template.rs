@@ -3,7 +3,7 @@
 use std::sync::{Arc, LazyLock, Mutex, MutexGuard};
 
 use twig_value::object::{
-    CallArgs, ClassBuilder, ClassRef, FunctionKind, Object, ObjectRef, Param,
+    CallArgs, ClassBuilder, ClassRef, FunctionKind, MethodParams, Object, ObjectRef, Param,
 };
 use twig_value::param::{DeclaredType, TypeMask, UserArg, verify_user_arg};
 use twig_value::{Array, ArrayKey, Diagnostics, PhpError, PhpResult, PhpString, Value};
@@ -199,7 +199,9 @@ impl Template {
     }
 
     /// The source of the compiled template: its name, its path and, only when it was compiled with `debug` on, its
-    /// code (`''` otherwise). Twig: `getSourceContext()` (`ModuleNode::compileGetSourceContext()`).
+    /// code (`''` otherwise). Without `debug`, the path is resolved when it is first needed, through the loader the
+    /// template was loaded with (`''` when that loader fails then). Twig: `getSourceContext()`
+    /// (`ModuleNode::compileGetSourceContext()`, `Template::getSourcePath()`).
     pub fn source(&self) -> &Source {
         self.program.source()
     }
@@ -628,12 +630,14 @@ static SOURCE_CLASS: LazyLock<ClassRef> = LazyLock::new(|| {
 struct SourceObject {
     code: PhpString,
     name: PhpString,
-    path: PhpString,
+    /// The template's source, for its path: a lazily resolved path is resolved by `getPath()`.
+    source: Source,
 }
 
 impl SourceObject {
     /// The compiled `getSourceContext()` of a template (Twig: `ModuleNode::compileGetSourceContext()`): `new
-    /// Source(<code if the template was compiled with debug on, else ''>, <name>, <path>)`.
+    /// Source(<code if the template was compiled with debug on, else ''>, <name>, <path>)`, or
+    /// `Source::createWithLazyPath('', <name>, ...)` (see [`Template::source`]).
     fn of(template: &Template) -> Value {
         let source = template.source();
         let code = if template.program().is_debug() {
@@ -644,7 +648,7 @@ impl SourceObject {
         Value::Object(ObjectRef::new(SourceObject {
             code,
             name: PhpString::from(source.name()),
-            path: PhpString::from(source.path()),
+            source: source.clone(),
         }))
     }
 }
@@ -652,6 +656,20 @@ impl SourceObject {
 impl Object for SourceObject {
     fn class(&self) -> &ClassRef {
         &SOURCE_CLASS
+    }
+
+    /// TWIG/src/Source.php: `__construct(string $code, string $name, string $path = '')`; the getters take nothing.
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        let params = match method {
+            "__construct" => vec![
+                Param::required("code"),
+                Param::required("name"),
+                Param::optional("path", ""),
+            ],
+            "getcode" | "getname" | "getpath" => Vec::new(),
+            _ => return None,
+        };
+        Some(MethodParams::user(params))
     }
 
     /// Twig: `Source::getCode()`, `getName()`, `getPath()` (extra arguments are ignored, as for any userland method).
@@ -665,7 +683,7 @@ impl Object for SourceObject {
         match method {
             "getcode" => Ok(Value::String(self.code.clone())),
             "getname" => Ok(Value::String(self.name.clone())),
-            "getpath" => Ok(Value::String(self.path.clone())),
+            "getpath" => Ok(Value::String(PhpString::from(self.source.path()))),
             "__construct" => Err(PhpError::new(
                 twig_value::ThrowableClass::LogicException,
                 "Calling Twig\\Source::__construct() from a template is not supported by twig-rs.",
@@ -675,20 +693,30 @@ impl Object for SourceObject {
     }
 }
 
-/// The arguments of a `TemplateWrapper` method bound to its parameters with PHP's rules (named arguments,
-/// defaults), each checked against its declared type in coercive typing mode.
-fn bind_args(
-    method: &str,
-    args: &CallArgs,
-    params: &[(Param, TypeMask)],
-    diag: &mut dyn Diagnostics,
-) -> PhpResult<Vec<Value>> {
+/// The parameters of the methods of `Twig\TemplateWrapper` that take no objects (by lowercase name), with their
+/// declared types (TWIG/src/TemplateWrapper.php).
+fn wrapper_params(method: &str) -> Option<Vec<(Param, TypeMask)>> {
+    // `array $context = []`, `string $name`
+    let context = || (Param::optional("context", Array::new()), TypeMask::ARRAY);
+    let name = || (Param::required("name"), TypeMask::STRING);
+    Some(match method {
+        "render" | "getblocknames" | "display" | "stream" => vec![context()],
+        "renderblock" | "hasblock" | "displayblock" | "streamblock" => vec![name(), context()],
+        "getsourcecontext" | "gettemplatename" | "getdefaultescapestrategy" => Vec::new(),
+        _ => return None,
+    })
+}
+
+/// The arguments of a `TemplateWrapper` method (named as declared) bound to its parameters ([`wrapper_params`])
+/// with PHP's rules (named arguments, defaults), each checked against its declared type in coercive typing mode.
+fn bind_args(method: &str, args: &CallArgs, diag: &mut dyn Diagnostics) -> PhpResult<Vec<Value>> {
     let function = format!("Twig\\TemplateWrapper::{method}");
+    let params = wrapper_params(&method.to_ascii_lowercase()).unwrap_or_default();
     let declared: Vec<Param> = params.iter().map(|(param, _)| param.clone()).collect();
     let values = args.bind(&function, &declared, FunctionKind::User)?;
     values
         .into_iter()
-        .zip(params)
+        .zip(&params)
         .enumerate()
         .map(|(i, (value, (param, mask)))| {
             verify_user_arg(
@@ -741,6 +769,24 @@ impl Object for WrapperObject {
         &WRAPPER_CLASS
     }
 
+    /// The parameters of `TemplateWrapper`'s methods (TWIG/src/TemplateWrapper.php), also of those templates cannot
+    /// call.
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        let params = match method {
+            // isOwnedBy(Environment $env)
+            "isownedby" => vec![Param::required("env")],
+            // unwrap(?Environment $env = null)
+            "unwrap" => vec![Param::optional("env", Value::Null)],
+            // __construct(private Environment $env, private Template $template)
+            "__construct" => vec![Param::required("env"), Param::required("template")],
+            _ => wrapper_params(method)?
+                .into_iter()
+                .map(|(param, _)| param)
+                .collect(),
+        };
+        Some(MethodParams::user(params))
+    }
+
     fn call(
         &self,
         _this: &ObjectRef,
@@ -750,19 +796,19 @@ impl Object for WrapperObject {
     ) -> PhpResult<Value> {
         let wrapper = &self.wrapper;
         match method {
-            "gettemplatename" => Ok(Value::from(wrapper.template_name())),
-            "getdefaultescapestrategy" => Ok(match wrapper.default_escape_strategy() {
-                Some(strategy) => Value::from(strategy),
-                None => Value::Bool(false),
-            }),
+            "gettemplatename" => {
+                bind_args("getTemplateName", &args, diag)?;
+                Ok(Value::from(wrapper.template_name()))
+            }
+            "getdefaultescapestrategy" => {
+                bind_args("getDefaultEscapeStrategy", &args, diag)?;
+                Ok(match wrapper.default_escape_strategy() {
+                    Some(strategy) => Value::from(strategy),
+                    None => Value::Bool(false),
+                })
+            }
             "render" => {
-                let mut values = bind_args(
-                    "render",
-                    &args,
-                    &[(Param::optional("context", Array::new()), TypeMask::ARRAY)],
-                    diag,
-                )?
-                .into_iter();
+                let mut values = bind_args("render", &args, diag)?.into_iter();
                 let context = array_of(values.next());
                 let template = Arc::clone(&wrapper.template);
                 let bytes = self.with_state(diag, |state| {
@@ -776,16 +822,7 @@ impl Object for WrapperObject {
                 Ok(Value::String(PhpString::from(bytes)))
             }
             "renderblock" => {
-                let mut values = bind_args(
-                    "renderBlock",
-                    &args,
-                    &[
-                        (Param::required("name"), TypeMask::STRING),
-                        (Param::optional("context", Array::new()), TypeMask::ARRAY),
-                    ],
-                    diag,
-                )?
-                .into_iter();
+                let mut values = bind_args("renderBlock", &args, diag)?.into_iter();
                 let name = string_of(values.next());
                 let context = array_of(values.next());
                 let context = wrapper.with_globals(context);
@@ -804,16 +841,7 @@ impl Object for WrapperObject {
                 Ok(Value::String(rendered))
             }
             "hasblock" => {
-                let mut values = bind_args(
-                    "hasBlock",
-                    &args,
-                    &[
-                        (Param::required("name"), TypeMask::STRING),
-                        (Param::optional("context", Array::new()), TypeMask::ARRAY),
-                    ],
-                    diag,
-                )?
-                .into_iter();
+                let mut values = bind_args("hasBlock", &args, diag)?.into_iter();
                 let name = string_of(values.next());
                 let context = array_of(values.next());
                 let context = wrapper.with_globals(context);
@@ -830,13 +858,7 @@ impl Object for WrapperObject {
                 Ok(Value::Bool(has))
             }
             "getblocknames" => {
-                let mut values = bind_args(
-                    "getBlockNames",
-                    &args,
-                    &[(Param::optional("context", Array::new()), TypeMask::ARRAY)],
-                    diag,
-                )?
-                .into_iter();
+                let mut values = bind_args("getBlockNames", &args, diag)?.into_iter();
                 let context = array_of(values.next());
                 let context = wrapper.with_globals(context);
                 let template = Arc::clone(&wrapper.template);
@@ -850,7 +872,10 @@ impl Object for WrapperObject {
                 Ok(Value::Array(array))
             }
             // `TemplateWrapper::getSourceContext()`: `$this->template->getSourceContext()`
-            "getsourcecontext" => Ok(SourceObject::of(&wrapper.template)),
+            "getsourcecontext" => {
+                bind_args("getSourceContext", &args, diag)?;
+                Ok(SourceObject::of(&wrapper.template))
+            }
             "isownedby" | "unwrap" | "display" | "displayblock" | "stream" | "streamblock"
             | "__construct" => Err(PhpError::new(
                 twig_value::ThrowableClass::LogicException,

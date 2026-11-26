@@ -54,7 +54,8 @@ USAGE:
       mismatch are marked known_mismatch (with their signature), unsupported ones are left out
   twig-fuzz generate <family> [--seed N] [--count N] [--out <batch.json>]
       writes a random batch of one construct family: expressions, callables, control, composition,
-      escaping, errors, formats, sandbox (default seed 1, count 1000)
+      escaping, errors, formats, sandbox, whitespace, unicode, dynamic, structure (default seed 1,
+      count 1000)
   twig-fuzz selftest-fixtures --out <dir>
       writes the plain-environment equivalents of the fixture corpus (fixtures.json,
       fixtures-isolated.json)
@@ -773,6 +774,10 @@ fn cmd_generate(args: &Args) -> Result<ExitCode, String> {
         "errors" => Json::Array(g::errors::generate(seed, count)),
         "formats" => Json::Array(g::formats::generate(seed, count)),
         "sandbox" => g::sandbox::batch(seed, count),
+        "whitespace" => g::whitespace::batch(seed, count),
+        "unicode" => g::unicode::batch(seed, count),
+        "dynamic" => g::dynamic::batch(seed, count),
+        "structure" => g::structure::batch(seed, count),
         other => return Err(format!("unknown family {other:?} (try `twig-fuzz help`)")),
     };
     write_or_print(args, &batch)?;

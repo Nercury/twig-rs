@@ -8,9 +8,9 @@
 use std::sync::{Arc, LazyLock, Mutex, MutexGuard};
 
 use twig_value::object::{
-    CallArgs, ClassBuilder, ClassRef, Closure, FetchMode, FunctionKind, Object, ObjectIterator,
-    ObjectRef, Param, PropertyEntry, PropertyPurpose, PropertyStore, Visibility, builtin,
-    std_has_dimension, std_read_dimension,
+    CallArgs, ClassBuilder, ClassRef, Closure, FetchMode, FunctionKind, MethodParams, Object,
+    ObjectIterator, ObjectRef, Param, PropertyEntry, PropertyPurpose, PropertyStore, Visibility,
+    builtin, std_has_dimension, std_read_dimension,
 };
 use twig_value::param::Arg;
 use twig_value::{
@@ -34,6 +34,22 @@ fn not_supported(class: &ClassRef, method: &str) -> PhpError {
 fn internal_none(class: &str, method: &str, args: &CallArgs) -> PhpResult<()> {
     args.bind(&format!("{class}::{method}"), &[], FunctionKind::Internal)
         .map(|_| ())
+}
+
+/// Binds the arguments of the method `method` (named as declared) of `class` to the parameters
+/// `params` gives for it (the arginfo of the class's stub).
+fn bind_internal(
+    class: &str,
+    method: &str,
+    params: fn(&str) -> Option<Vec<Param>>,
+    args: &CallArgs,
+) -> PhpResult<Vec<Value>> {
+    let params = params(&method.to_ascii_lowercase()).unwrap_or_default();
+    args.bind(
+        &format!("{class}::{method}"),
+        &params,
+        FunctionKind::Internal,
+    )
 }
 
 /// `Z_PARAM_OBJ`: `%s(): Argument #%d ($%s) must be of type object, %s given`.
@@ -206,6 +222,27 @@ impl SplObjectStorage {
     }
 }
 
+/// The parameters of the implemented methods of `SplObjectStorage` (by lowercase name), from
+/// PHPSRC/ext/spl/spl_observer.stub.php.
+fn spl_object_storage_params(method: &str) -> Option<Vec<Param>> {
+    Some(match method {
+        // attach(object $object, mixed $info = null), offsetSet($object, mixed $info = null)
+        "attach" | "offsetset" => vec![
+            Param::required("object"),
+            Param::optional("info", Value::Null),
+        ],
+        "detach" | "offsetunset" | "contains" | "offsetexists" | "offsetget" => {
+            vec![Param::required("object")]
+        }
+        // count(int $mode = COUNT_NORMAL)
+        "count" => vec![Param::optional("mode", 0)],
+        "setinfo" => vec![Param::required("info")],
+        "seek" => vec![Param::required("offset")],
+        "rewind" | "valid" | "key" | "current" | "getinfo" | "next" | "__debuginfo" => Vec::new(),
+        _ => return None,
+    })
+}
+
 impl Object for SplObjectStorage {
     fn class(&self) -> &ClassRef {
         &self.class
@@ -213,6 +250,10 @@ impl Object for SplObjectStorage {
 
     fn property_store(&self) -> Option<&PropertyStore> {
         Some(&self.props)
+    }
+
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        spl_object_storage_params(method).map(MethodParams::internal)
     }
 
     fn call(
@@ -223,10 +264,10 @@ impl Object for SplObjectStorage {
         diag: &mut dyn Diagnostics,
     ) -> PhpResult<Value> {
         const C: &str = "SplObjectStorage";
+        let bind = |m: &str| bind_internal(C, m, spl_object_storage_params, &args);
         let one_object = |m: &str| -> PhpResult<ObjectRef> {
-            let f = format!("{C}::{m}");
-            let a = args.bind(&f, &[Param::required("object")], FunctionKind::Internal)?;
-            object_param(&a[0], &f, 1, "object")
+            let a = bind(m)?;
+            object_param(&a[0], &format!("{C}::{m}"), 1, "object")
         };
         match method {
             "attach" | "offsetset" => {
@@ -238,16 +279,8 @@ impl Object for SplObjectStorage {
                 if method == "attach" {
                     self.deprecated("attach", "offsetSet", diag)?;
                 }
-                let f = format!("{C}::{m}");
-                let a = args.bind(
-                    &f,
-                    &[
-                        Param::required("object"),
-                        Param::optional("info", Value::Null),
-                    ],
-                    FunctionKind::Internal,
-                )?;
-                let o = object_param(&a[0], &f, 1, "object")?;
+                let a = bind(m)?;
+                let o = object_param(&a[0], &format!("{C}::{m}"), 1, "object")?;
                 self.attach(o, a[1].clone());
                 Ok(Value::Null)
             }
@@ -286,7 +319,7 @@ impl Object for SplObjectStorage {
             }
             "count" => {
                 let f = format!("{C}::count");
-                let a = args.bind(&f, &[Param::optional("mode", 0)], FunctionKind::Internal)?;
+                let a = bind("count")?;
                 let mode = twig_value::param::parse_long(&a[0], &Arg::new(&f, 1, "mode"), diag)?;
                 if mode == 1 {
                     return Err(not_supported(&self.class, "count"));
@@ -330,11 +363,7 @@ impl Object for SplObjectStorage {
                     .unwrap_or(Value::Null))
             }
             "setinfo" => {
-                let a = args.bind(
-                    &format!("{C}::setInfo"),
-                    &[Param::required("info")],
-                    FunctionKind::Internal,
-                )?;
+                let a = bind("setInfo")?;
                 let mut st = self.state();
                 let pos = st.pos;
                 if let Some(e) = st.entries.get_mut(pos) {
@@ -355,7 +384,7 @@ impl Object for SplObjectStorage {
             // iterator stays invalid.
             "seek" => {
                 let f = format!("{C}::seek");
-                let a = args.bind(&f, &[Param::required("offset")], FunctionKind::Internal)?;
+                let a = bind("seek")?;
                 let position =
                     twig_value::param::parse_long(&a[0], &Arg::new(&f, 1, "offset"), diag)?;
                 let mut st = self.state();
@@ -679,6 +708,20 @@ impl SplFileInfo {
     }
 }
 
+/// The parameters of the implemented methods of `SplFileInfo` (by lowercase name), from
+/// PHPSRC/ext/spl/spl_directory.stub.php.
+fn spl_file_info_params(method: &str) -> Option<Vec<Param>> {
+    Some(match method {
+        // __construct(string $filename)
+        "__construct" => vec![Param::required("filename")],
+        // getBasename(string $suffix = "")
+        "getbasename" => vec![Param::optional("suffix", "")],
+        "getpathname" | "__tostring" | "getpath" | "getfilename" | "getextension"
+        | "__debuginfo" => Vec::new(),
+        _ => return None,
+    })
+}
+
 impl Object for SplFileInfo {
     fn class(&self) -> &ClassRef {
         &self.class
@@ -686,6 +729,10 @@ impl Object for SplFileInfo {
 
     fn property_store(&self) -> Option<&PropertyStore> {
         Some(&self.props)
+    }
+
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        spl_file_info_params(method).map(MethodParams::internal)
     }
 
     fn call(
@@ -723,7 +770,7 @@ impl Object for SplFileInfo {
             }
             "getbasename" => {
                 let f = format!("{C}::getBasename");
-                let a = args.bind(&f, &[Param::optional("suffix", "")], FunctionKind::Internal)?;
+                let a = bind_internal(C, "getBasename", spl_file_info_params, &args)?;
                 let suffix = twig_value::param::parse_str(&a[0], &Arg::new(&f, 1, "suffix"), diag)?;
                 let name = self.file_name_part().ok_or_else(not_initialized)?;
                 Ok(Value::String(php_basename(
@@ -742,7 +789,7 @@ impl Object for SplFileInfo {
             }
             "__construct" => {
                 let f = format!("{C}::__construct");
-                let a = args.bind(&f, &[Param::required("filename")], FunctionKind::Internal)?;
+                let a = bind_internal(C, "__construct", spl_file_info_params, &args)?;
                 let path = twig_value::param::parse_str(&a[0], &Arg::new(&f, 1, "filename"), diag)?;
                 if path.contains(&0) {
                     return Err(
@@ -997,6 +1044,19 @@ fn lock<T>(m: &Mutex<T>) -> MutexGuard<'_, T> {
     m.lock().unwrap_or_else(|e| e.into_inner())
 }
 
+/// The parameters of the methods of `CallbackFilterIterator` (by lowercase name), from
+/// PHPSRC/ext/spl/spl_iterators.stub.php (`__construct()` is not supported by the port).
+fn callback_filter_iterator_params(method: &str) -> Option<Vec<Param>> {
+    Some(match method {
+        // __construct(Iterator $iterator, callable $callback)
+        "__construct" => vec![Param::required("iterator"), Param::required("callback")],
+        "rewind" | "next" | "valid" | "key" | "current" | "getinneriterator" | "accept" => {
+            Vec::new()
+        }
+        _ => return None,
+    })
+}
+
 impl Object for CallbackFilterIterator {
     fn class(&self) -> &ClassRef {
         &self.class
@@ -1004,6 +1064,10 @@ impl Object for CallbackFilterIterator {
 
     fn property_store(&self) -> Option<&PropertyStore> {
         Some(&self.props)
+    }
+
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        callback_filter_iterator_params(method).map(MethodParams::internal)
     }
 
     fn call(

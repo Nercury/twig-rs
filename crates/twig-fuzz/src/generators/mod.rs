@@ -10,13 +10,18 @@
 //! runs, so a re-run compiles the templates again.
 
 pub mod callables;
+pub mod casekit;
 pub mod composition;
 pub mod control;
+pub mod dynamic;
 pub mod errors;
 pub mod escaping;
 pub mod expressions;
 pub mod formats;
 pub mod sandbox;
+pub mod structure;
+pub mod unicode;
+pub mod whitespace;
 
 use crate::kit::json::Json;
 

@@ -10,8 +10,8 @@
 use std::sync::{LazyLock, Mutex, MutexGuard};
 
 use twig_value::object::{
-    CallArgs, ClassBuilder, ClassRef, FunctionKind, Object, ObjectIterator, ObjectRef,
-    PropertyEntry, PropertyPurpose, builtin,
+    CallArgs, ClassBuilder, ClassRef, FunctionKind, MethodParams, Object, ObjectIterator,
+    ObjectRef, Param, PropertyEntry, PropertyPurpose, builtin,
 };
 use twig_value::{ArrayKey, Diagnostics, PhpError, PhpResult, PhpString, Value};
 
@@ -190,6 +190,22 @@ impl Generator {
 impl Object for Generator {
     fn class(&self) -> &ClassRef {
         &self.class
+    }
+
+    /// The parameters of `Generator`'s methods (PHPSRC/Zend/zend_generators.stub.php; `send()` and
+    /// `throw()` are not supported by the port).
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        let params = match method {
+            // send(mixed $value)
+            "send" => vec![Param::required("value")],
+            // throw(Throwable $exception)
+            "throw" => vec![Param::required("exception")],
+            "rewind" | "valid" | "current" | "key" | "next" | "getreturn" | "__debuginfo" => {
+                Vec::new()
+            }
+            _ => return None,
+        };
+        Some(MethodParams::internal(params))
     }
 
     fn call(

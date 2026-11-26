@@ -341,6 +341,63 @@ impl CalleeParams<'_> {
     }
 }
 
+/// The parameters of a method as PHP declares them (its arginfo), what
+/// [`Object::method_params`](super::Object::method_params) reports.
+#[derive(Clone, Debug)]
+pub struct MethodParams {
+    /// The parameters in order, a variadic one last.
+    pub params: Vec<Param>,
+    /// Whether the method is internal or userland ([`CallArgs::bind`] takes the same).
+    pub kind: FunctionKind,
+}
+
+impl MethodParams {
+    /// The parameters of a userland method.
+    pub fn user(params: Vec<Param>) -> MethodParams {
+        MethodParams {
+            params,
+            kind: FunctionKind::User,
+        }
+    }
+
+    /// The parameters of an internal method.
+    pub fn internal(params: Vec<Param>) -> MethodParams {
+        MethodParams {
+            params,
+            kind: FunctionKind::Internal,
+        }
+    }
+
+    /// The function a method call runs through `__call()`: the trampoline of
+    /// `zend_get_call_trampoline_func()` (PHPSRC/Zend/zend_object_handlers.c), a variadic userland
+    /// function without declared parameters (`num_args = 0`, `ZEND_ACC_VARIADIC`), so every named
+    /// argument is collected for `__call()`'s array.
+    pub fn call_trampoline() -> MethodParams {
+        MethodParams::user(vec![Param::variadic("arguments")])
+    }
+
+    /// Port of `ZEND_SEND_UNPACK` (PHPSRC/Zend/zend_vm_def.h) for a call of this method whose only
+    /// argument is `...value` (`$object->$method(...$arguments)`): [`CallArgs::unpack`] with these
+    /// parameters, so a named element is checked as it is sent (`Unknown named parameter $x` comes at
+    /// that element, before a positional element after it).
+    pub fn unpack(&self, value: &Value, diag: &mut dyn Diagnostics) -> PhpResult<CallArgs> {
+        let variadic = self.params.last().is_some_and(|p| p.variadic);
+        let declared: Vec<&[u8]> = self.params[..self.params.len() - usize::from(variadic)]
+            .iter()
+            .map(|p| p.name.as_bytes())
+            .collect();
+        let callee = CalleeParams {
+            params: &declared,
+            variadic,
+            leading: 0,
+            kind: self.kind,
+        };
+        let mut args = CallArgs::new();
+        args.unpack(value, Some(&callee), diag)?;
+        Ok(args)
+    }
+}
+
 /// PHP's call frame while the arguments of a call are sent (`ZEND_SEND_*`, between `ZEND_INIT_*`
 /// and `ZEND_DO_*CALL`): the argument slots (`ZEND_CALL_NUM_ARGS()` of them, a slot that a named
 /// argument skipped is `UNDEF`, here `None`) and the `extra_named_params` that a variadic callee
@@ -642,6 +699,58 @@ mod tests {
         assert_eq!(
             err.message(),
             "Cannot use positional argument after named argument during unpacking"
+        );
+    }
+
+    /// `$foo->bar(...$arguments)` of `bar($param1 = null, $param2 = null)` and of the `__call()`
+    /// trampoline, verified with the oracle (tests/vectors/fuzz/callables/round2-method-call-*.json).
+    #[test]
+    fn method_params_check_named_elements_as_they_are_sent() {
+        let bar = MethodParams::user(vec![
+            Param::optional("param1", Value::Null),
+            Param::optional("param2", Value::Null),
+        ]);
+        let mut diag = crate::Ignore;
+        let mut unknown_then_positional = Array::new();
+        unknown_then_positional.insert("zz", 1);
+        let _ = unknown_then_positional.push(2);
+        let spread = Value::Array(unknown_then_positional.clone());
+        assert_eq!(
+            bar.unpack(&spread, &mut diag).unwrap_err().message(),
+            "Unknown named parameter $zz"
+        );
+        assert_eq!(
+            CallArgs::from_spread(&unknown_then_positional)
+                .unwrap_err()
+                .message(),
+            "Cannot use positional argument after named argument during unpacking",
+            "without the parameters, the positional element fails first"
+        );
+        assert_eq!(
+            MethodParams::call_trampoline()
+                .unpack(&spread, &mut diag)
+                .unwrap_err()
+                .message(),
+            "Cannot use positional argument after named argument during unpacking",
+            "the trampoline collects every name"
+        );
+        let mut overwrite = Array::new();
+        let _ = overwrite.push(1);
+        overwrite.insert("param1", 2);
+        let _ = overwrite.push(3);
+        assert_eq!(
+            bar.unpack(&Value::Array(overwrite), &mut diag)
+                .unwrap_err()
+                .message(),
+            "Named parameter $param1 overwrites previous argument"
+        );
+        let mut named = Array::new();
+        named.insert("param2", "b");
+        named.insert("param1", "a");
+        let args = bar.unpack(&Value::Array(named), &mut diag).unwrap();
+        assert_eq!(
+            args.bind("bar", &bar.params, FunctionKind::User).unwrap(),
+            vec![Value::from("a"), Value::from("b")]
         );
     }
 

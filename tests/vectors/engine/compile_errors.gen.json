@@ -1,0 +1,1807 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "{{ attribute(n, ...[]) }}{{ range() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-001"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|default(...[]) }}{{ range() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-002"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [...true] }}{{ range() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-003"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-003"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block b %}B{% endblock %}{{ block(...['b']) }}{{ range() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-004"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ attribute(n, ...[]) }}{{ max(foo: 1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-005"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-005"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ range() }}{{ attribute(n, ...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-006"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-006"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ attribute(n, ...[]) }}{{ 1|nope }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-007"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-007"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ attribute(n, ...[]) }}{% macro m(a, a) %}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-008"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-008"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ attribute(n, ...[]) }}{% macro m() %}{{ range() }}{% endmacro %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-009"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-009"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ false and range() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-010"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-010"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ attribute(n, ...[]) }}{{ x|default(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-011"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-011"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ false and x|default(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-012"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-012"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|default(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-013"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-013"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x.y|default(...['d']) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-014"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-014"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ attribute(n, ...[]) }}{{ [...true] }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-015"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-015"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [...true] }}{{ attribute(n, ...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-016"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-016"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block b %}{{ [...true] }}{% endblock %}{{ attribute(n, ...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-017"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-017"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m() %}{{ [...true] }}{% endmacro %}{% block b %}{{ attribute(n, ...[]) }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-018"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-018"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [attribute(n, ...[]), [...true]]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-019"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-019"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [[...true], attribute(n, ...[])]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-020"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-020"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [[attribute(n, ...[])], [...true]]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-021"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-021"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [...true, attribute(n, ...[])]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-022"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-022"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [n and [...true]]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-023"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-023"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [(n ? [...true] : 1)]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-024"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-024"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [n ~ [...true]]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-025"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-025"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [false and [...true]]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-026"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-026"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [(true ? [...true] : 1)]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-027"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-027"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ {([...true]): 1}|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-028"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-028"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ {(attribute(n, ...[])): [...true]}|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-029"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-029"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ {([...false]): attribute(n, ...[])}|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-030"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-030"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set a, b = 1, [...true] %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-031"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-031"
+  },
+  {
+   "templates": {
+    "index.twig": "{% set a, b = attribute(n, ...[]), [...true] %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-032"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-032"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ attribute(n, ...[...true]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-033"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-033"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block b %}{% endblock %}{{ block(...[[...true]]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-034"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-034"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ a.b(...[...true]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-035"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-035"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ include(...[...true]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-036"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-036"
+  },
+  {
+   "templates": {
+    "index.twig": "{% macro m(a = [1]) %}{% endmacro %}{{ _self.m(...[...true]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-037"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-037"
+  },
+  {
+   "templates": {
+    "index.twig": "{% deprecated [...true] %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-038"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-038"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for x in [...true] %}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-039"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-039"
+  },
+  {
+   "templates": {
+    "index.twig": "{% if [...true] %}{% endif %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-040"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-040"
+  },
+  {
+   "templates": {
+    "index.twig": "{% with {a: [...true]} %}{% endwith %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-041"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-041"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ false and attribute(n, ...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-042"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-042"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ true or attribute(n, ...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-043"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-043"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 'a' or attribute(n, ...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-044"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-044"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ not (false and attribute(n, ...[])) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-045"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-045"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (false and true) and attribute(n, ...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-046"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-046"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ false and [...true] }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-047"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-047"
+  },
+  {
+   "templates": {
+    "index.twig": "{% block b %}{% endblock %}{{ false and block(...['b']) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-048"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-048"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [true ? 1 : attribute(n, ...[])]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-049"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-049"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [(false ? [...true] : 1)]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-050"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-050"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [true or attribute(n, ...[])]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-051"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-051"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [1 ?? attribute(n, ...[])]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-052"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-052"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [1 ?: attribute(n, ...[])]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-053"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-053"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [false and attribute(n, ...[])]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-054"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-054"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [(true ? 1 : max([...true]))]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-055"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-055"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [...(true ? [1] : [...true])]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-056"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-056"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ true ? 1 : attribute(n, ...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-057"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-057"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ (false ? [...true] : 1) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-058"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-058"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1 ?? attribute(n, ...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-059"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-059"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ 1 ?: attribute(n, ...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-060"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-060"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ n ?? attribute(n, ...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-061"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-061"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [n ?? attribute(n, ...[])]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-062"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-062"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [true and attribute(n, ...[])]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-063"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-063"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [(false ? 1 : max([...true]))]|length }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-064"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-064"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ attribute(n, ...[]) is defined ? 1 : 2 }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-065"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-065"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ attribute(n, ...[]) ?? 'd' }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-066"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-066"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ [...true] }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": "html",
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-067"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-067"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ attribute(n, ...[]) }}{{ range() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": -1,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-068"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-068"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends x ?? [...true] %}{% block b %}{{ attribute(n, ...[]) }}{% endblock %}",
+    "a.twig": ""
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-069"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-069"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ attribute(n, ...[]) }}{% embed 'e.twig' %}{% block b %}{{ range() }}{% endblock %}{% endembed %}",
+    "e.twig": "{% block b %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-070"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-070"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ x|default(...[]) }}{% embed 'e.twig' %}{% block b %}{{ range() }}{% endblock %}{% endembed %}",
+    "e.twig": "{% block b %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-071"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-071"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ attribute(n, ...[]) }}{% embed 'e.twig' %}{% block b %}{{ x|default(...[]) }}{% endblock %}{% endembed %}",
+    "e.twig": "{% block b %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-072"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-072"
+  },
+  {
+   "templates": {
+    "index.twig": "{% embed 'e.twig' %}{% block b %}{{ [...true] }}{% endblock %}{% endembed %}{{ attribute(n, ...[]) }}",
+    "e.twig": "{% block b %}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-073"
+   },
+   "errors": "collect",
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-073"
+  },
+  {
+   "templates": {
+    "index.twig": "{% include 'p.twig' %}",
+    "p.twig": "{{ x|default(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-074"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-074"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ include('p.twig') }}",
+    "p.twig": "{{ x|default(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-075"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-075"
+  },
+  {
+   "templates": {
+    "index.twig": "{% extends 'p.twig' %}",
+    "p.twig": "{{ x|default(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-076"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-076"
+  },
+  {
+   "templates": {
+    "index.twig": "{% import 'p.twig' as m %}{{ m.f() }}",
+    "p.twig": "{{ x|default(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-077"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-077"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ source('p.twig') }}",
+    "p.twig": "{{ x|default(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-078"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-078"
+  },
+  {
+   "templates": {
+    "index.twig": "{% embed 'p.twig' %}{% endembed %}",
+    "p.twig": "{{ x|default(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-079"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-079"
+  },
+  {
+   "templates": {
+    "index.twig": "{% include 'p.twig' ignore missing %}",
+    "p.twig": "{{ x|default(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-080"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-080"
+  },
+  {
+   "templates": {
+    "index.twig": "{% use 'p.twig' %}",
+    "p.twig": "{{ x|default(...[]) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-081"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-081"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ block('b', 'p.twig') }}",
+    "p.twig": "{% block b %}{{ x|default(...[]) }}{% endblock %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-082"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-082"
+  },
+  {
+   "templates": {
+    "index.twig": "{% include 'p.twig' %}",
+    "p.twig": "{{ attribute(n, ...[]) }}{{ range() }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-083"
+   },
+   "errors": "collect",
+   "main": "index.twig",
+   "load_all": false,
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-083"
+  },
+  {
+   "templates": {
+    "index.twig": "{{ include(template_from_string('{{ x|default(...[]) }}')) }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false,
+    "cache": "/tmp/twig-rs-cache/compile_errors-084"
+   },
+   "errors": "collect",
+   "extensions": [
+    "string_loader"
+   ],
+   "data_json": {
+    "a": [
+     1
+    ],
+    "z": 0,
+    "n": null
+   },
+   "id": "compile_errors-084"
+  }
+ ],
+ "isolation": "process"
+}

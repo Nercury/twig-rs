@@ -3,8 +3,8 @@
 use std::sync::LazyLock;
 
 use twig_value::object::{
-    CallArgs, ClassBuilder, ClassRef, Object, ObjectRef, PropertyInfo, PropertyStore, Visibility,
-    builtin,
+    CallArgs, ClassBuilder, ClassRef, FunctionKind, MethodParams, Object, ObjectRef, Param,
+    PropertyInfo, PropertyStore, Visibility, builtin,
 };
 use twig_value::param::{DeclaredType, TypeMask, UserArg, verify_user_arg};
 use twig_value::{Array, Diagnostics, PhpError, PhpResult, PhpString, Value, convert};
@@ -164,19 +164,35 @@ impl std::fmt::Debug for Markup {
     }
 }
 
+/// The parameters of `Twig\Markup`'s methods (by lowercase name), TWIG/src/Markup.php.
+fn markup_params(method: &str) -> Option<Vec<Param>> {
+    Some(match method {
+        // __construct($content, $charset, private array $safeStrategies = ['all'])
+        "__construct" => vec![
+            Param::required("content"),
+            Param::required("charset"),
+            Param::optional(
+                "safeStrategies",
+                Value::Array(Array::from_values([Value::from("all")])),
+            ),
+        ],
+        // withContent(string $content)
+        "withcontent" => vec![Param::required("content")],
+        // isSafeFor(string $strategy)
+        "issafefor" => vec![Param::required("strategy")],
+        "__tostring" | "getcharset" | "count" | "jsonserialize" => Vec::new(),
+        _ => return None,
+    })
+}
+
+/// A `string` parameter received in coercive typing mode (`ZEND_RECV`).
 fn string_arg(
     function: &str,
     position: u32,
     name: &str,
-    value: Option<&Value>,
+    value: &Value,
     diag: &mut dyn Diagnostics,
 ) -> PhpResult<PhpString> {
-    let Some(value) = value else {
-        return Err(PhpError::argument_count_error(format!(
-            "Too few arguments to function {function}(), {} passed and exactly {position} expected",
-            position - 1
-        )));
-    };
     match verify_user_arg(
         value.clone(),
         &DeclaredType::builtin(TypeMask::STRING),
@@ -197,30 +213,32 @@ impl Object for Markup {
         Some(&self.properties)
     }
 
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        markup_params(method).map(MethodParams::user)
+    }
+
+    /// The methods of `Twig\Markup`, each called like a userland method: the arguments are bound to the declared
+    /// parameters (`markup_params()`: named arguments, the count), then the typed parameters are received.
     fn call(
         &self,
-        this: &ObjectRef,
+        _this: &ObjectRef,
         method: &str,
         args: CallArgs,
         diag: &mut dyn Diagnostics,
     ) -> PhpResult<Value> {
+        let Some(params) = markup_params(method) else {
+            return Err(twig_value::object::undefined_method(&CLASS, method));
+        };
+        let declared = CLASS.method(method).map_or(method, |m| m.name.as_ref());
+        let function = format!("{MARKUP_CLASS}::{declared}");
+        let bound = args.bind(&function, &params, FunctionKind::User)?;
         match method {
-            "__tostring" | "jsonserialize" => Ok(Value::String(self.content())),
-            "getcharset" => match self.charset() {
-                Some(charset) => Ok(Value::String(charset)),
-                None => Err(PhpError::type_error(
-                    "Twig\\Markup::getCharset(): Return value must be of type string, null returned",
-                )),
-            },
-            "count" => Ok(Value::Int(self.count(diag)?)),
             "issafefor" => {
-                let strategy =
-                    string_arg("Twig\\Markup::isSafeFor", 1, "strategy", args.get(0), diag)?;
+                let strategy = string_arg(&function, 1, "strategy", &bound[0], diag)?;
                 Ok(Value::Bool(self.is_safe_for(&strategy)))
             }
             "withcontent" => {
-                let content =
-                    string_arg("Twig\\Markup::withContent", 1, "content", args.get(0), diag)?;
+                let content = string_arg(&function, 1, "content", &bound[0], diag)?;
                 let copy = Markup {
                     properties: self.properties.clone(),
                 };
@@ -228,41 +246,32 @@ impl Object for Markup {
                 Ok(Value::Object(ObjectRef::new(copy)))
             }
             "__construct" => {
-                let content = match args.get(0) {
-                    Some(content) => convert::to_string(content, diag)?,
-                    None => {
-                        return Err(PhpError::argument_count_error(
-                            "Too few arguments to function Twig\\Markup::__construct(), 0 passed and at least 2 expected",
-                        ));
-                    }
+                // `array $safeStrategies` is received before the body runs
+                let Value::Array(strategies) = &bound[2] else {
+                    return Err(UserArg::new(&function, 3, "safeStrategies")
+                        .type_error(&DeclaredType::builtin(TypeMask::ARRAY), &bound[2]));
                 };
-                let charset = match args.get(1) {
-                    Some(Value::Null) => None,
-                    Some(charset) => Some(convert::to_string(charset, diag)?),
-                    None => {
-                        return Err(PhpError::argument_count_error(
-                            "Too few arguments to function Twig\\Markup::__construct(), 1 passed and at least 2 expected",
-                        ));
-                    }
+                let content = convert::to_string(&bound[0], diag)?;
+                let charset = match &bound[1] {
+                    Value::Null => None,
+                    charset => Some(convert::to_string(charset, diag)?),
                 };
-                let safe = match args.get(2) {
-                    Some(Value::Array(strategies)) => strategies
-                        .values()
-                        .map(|v| convert::to_string(v, diag))
-                        .collect::<PhpResult<Vec<_>>>()?,
-                    Some(other) => {
-                        return Err(
-                            UserArg::new("Twig\\Markup::__construct", 3, "safeStrategies")
-                                .type_error(&DeclaredType::builtin(TypeMask::ARRAY), other),
-                        );
-                    }
-                    None => vec![PhpString::from("all")],
-                };
+                let safe = strategies
+                    .values()
+                    .map(|v| convert::to_string(v, diag))
+                    .collect::<PhpResult<Vec<_>>>()?;
                 self.init(content, charset, safe);
-                let _ = this;
                 Ok(Value::Null)
             }
-            _ => Err(twig_value::object::undefined_method(&CLASS, method)),
+            "getcharset" => match self.charset() {
+                Some(charset) => Ok(Value::String(charset)),
+                None => Err(PhpError::type_error(
+                    "Twig\\Markup::getCharset(): Return value must be of type string, null returned",
+                )),
+            },
+            "count" => Ok(Value::Int(self.count(diag)?)),
+            // `__toString()`, `jsonSerialize()`
+            _ => Ok(Value::String(self.content())),
         }
     }
 

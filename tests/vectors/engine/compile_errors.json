@@ -1,0 +1,996 @@
+[
+ {
+  "id": "compile_errors-001",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"start\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-002",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"start\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-003",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"start\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-004",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"start\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-005",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"value\" is required for function \"max\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"value\" is required for function \"max\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"value\" is required for function \"max\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-006",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"start\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-007",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Unknown \"nope\" filter in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Unknown \"nope\" filter in \"index.twig\" at line 1.",
+   "rawMessage": "Unknown \"nope\" filter.",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-008",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Argument \"a\" is defined twice for macro \"m\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Argument \"a\" is defined twice for macro \"m\" in \"index.twig\" at line 1.",
+   "rawMessage": "Argument \"a\" is defined twice for macro \"m\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-009",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"start\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-010",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"start\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-011",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "ParseError",
+   "message": "syntax error, unexpected token \"...\"",
+   "formatted": "ParseError: syntax error, unexpected token \"...\"",
+   "code": 0
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-012",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "ParseError",
+   "message": "syntax error, unexpected token \"...\"",
+   "formatted": "ParseError: syntax error, unexpected token \"...\"",
+   "code": 0
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-013",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "ParseError",
+   "message": "syntax error, unexpected token \"...\"",
+   "formatted": "ParseError: syntax error, unexpected token \"...\"",
+   "code": 0
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-014",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "ParseError",
+   "message": "syntax error, unexpected token \"...\"",
+   "formatted": "ParseError: syntax error, unexpected token \"...\"",
+   "code": 0
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-015",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Cannot use positional argument after argument unpacking"
+  }
+ },
+ {
+  "id": "compile_errors-016",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-017",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Cannot use positional argument after argument unpacking"
+  }
+ },
+ {
+  "id": "compile_errors-018",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Cannot use positional argument after argument unpacking"
+  }
+ },
+ {
+  "id": "compile_errors-019",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-020",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-021",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-022",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Cannot use positional argument after argument unpacking"
+  }
+ },
+ {
+  "id": "compile_errors-023",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-024",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-025",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-026",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-027",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-028",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-029",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-030",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, false given"
+  }
+ },
+ {
+  "id": "compile_errors-031",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-032",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-033",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-034",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-035",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-036",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-037",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-038",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-039",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-040",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-041",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-042",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-043",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-044",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-045",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-046",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-047",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-048",
+  "kind": "twig",
+  "ok": true,
+  "output": "",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-049",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-050",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-051",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-052",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-053",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-054",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-055",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-056",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-057",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Cannot use positional argument after argument unpacking"
+  }
+ },
+ {
+  "id": "compile_errors-058",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-059",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Cannot use positional argument after argument unpacking"
+  }
+ },
+ {
+  "id": "compile_errors-060",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Cannot use positional argument after argument unpacking"
+  }
+ },
+ {
+  "id": "compile_errors-061",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Cannot use positional argument after argument unpacking"
+  }
+ },
+ {
+  "id": "compile_errors-062",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Cannot use positional argument after argument unpacking"
+  }
+ },
+ {
+  "id": "compile_errors-063",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Cannot use positional argument after argument unpacking"
+  }
+ },
+ {
+  "id": "compile_errors-064",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-065",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Cannot use positional argument after argument unpacking"
+  }
+ },
+ {
+  "id": "compile_errors-066",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Cannot use positional argument after argument unpacking"
+  }
+ },
+ {
+  "id": "compile_errors-067",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-068",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"start\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-069",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Only arrays and Traversables can be unpacked, true given"
+  }
+ },
+ {
+  "id": "compile_errors-070",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"start\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-071",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"start\" is required for function \"range\" in \"index.twig\" at line 1.",
+   "rawMessage": "Value for argument \"start\" is required for function \"range\".",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-072",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "ParseError",
+   "message": "syntax error, unexpected token \"...\"",
+   "formatted": "ParseError: syntax error, unexpected token \"...\"",
+   "code": 0
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-073",
+  "ok": false,
+  "phase": "fatal",
+  "error": {
+   "class": "FatalError",
+   "message": "Cannot use positional argument after argument unpacking"
+  }
+ },
+ {
+  "id": "compile_errors-074",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ParseError",
+    "message": "syntax error, unexpected token \"...\"",
+    "formatted": "ParseError: syntax error, unexpected token \"...\"",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-075",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ParseError",
+    "message": "syntax error, unexpected token \"...\"",
+    "formatted": "ParseError: syntax error, unexpected token \"...\"",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-076",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ParseError",
+    "message": "syntax error, unexpected token \"...\"",
+    "formatted": "ParseError: syntax error, unexpected token \"...\"",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-077",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ParseError",
+    "message": "syntax error, unexpected token \"...\"",
+    "formatted": "ParseError: syntax error, unexpected token \"...\"",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-078",
+  "kind": "twig",
+  "ok": true,
+  "output": "{{ x|default(...[]) }}",
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-079",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ParseError",
+    "message": "syntax error, unexpected token \"...\"",
+    "formatted": "ParseError: syntax error, unexpected token \"...\"",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-080",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ParseError",
+    "message": "syntax error, unexpected token \"...\"",
+    "formatted": "ParseError: syntax error, unexpected token \"...\"",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-081",
+  "kind": "twig",
+  "ok": false,
+  "phase": "load",
+  "error": {
+   "class": "ParseError",
+   "message": "syntax error, unexpected token \"...\"",
+   "formatted": "ParseError: syntax error, unexpected token \"...\"",
+   "code": 0
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-082",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ParseError",
+    "message": "syntax error, unexpected token \"...\"",
+    "formatted": "ParseError: syntax error, unexpected token \"...\"",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-083",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\SyntaxError",
+   "message": "Value for argument \"start\" is required for function \"range\" in \"p.twig\" at line 1.",
+   "formatted": "Twig\\Error\\SyntaxError: Value for argument \"start\" is required for function \"range\" in \"p.twig\" at line 1.",
+   "rawMessage": "Value for argument \"start\" is required for function \"range\".",
+   "templateName": "p.twig",
+   "templateLine": 1,
+   "templateColumn": null
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "compile_errors-084",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"syntax error, unexpected token \"...\"\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ParseError",
+    "message": "syntax error, unexpected token \"...\"",
+    "formatted": "ParseError: syntax error, unexpected token \"...\"",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

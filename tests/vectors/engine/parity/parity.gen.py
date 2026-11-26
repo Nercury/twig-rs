@@ -3,8 +3,8 @@
 the code Twig generates (constant folding and the lines of folded constants in array literals, operand order of
 commutative opcodes, casts of constant arrays in `~`, prefix operators before `**`), the compile-time state of
 null-safe chains, macro defaults evaluated when the macro is called, the lines of a few runtime errors, the `loop`
-bookkeeping writes, named arguments while unpacking, callable values, and spreads in special node classes
-(plans/parity-fixes.md, items P1 to P16).
+bookkeeping writes, named arguments while unpacking, callable values, spreads in special node classes, and the
+operands the folding of array literals makes constant (plans/parity-fixes.md, items P1 to P16 and P31).
 
 Regenerate from the repository root (Git Bash on Windows needs MSYS_NO_PATHCONV=1):
 
@@ -250,8 +250,46 @@ def calls():
     return c
 
 
+def folding():
+    """P31: the operands of `*`, `b-and`, `b-or`, `b-xor` and `~` inside array literals, whose elements
+    zend_try_ct_eval_array() folds with zend_eval_const_expr() before compiling them: a conditional (`? :`, `?:`, `??`)
+    with a constant test is replaced by the branch it chooses, so it is a constant (P2's operand swap, P3's cast of a
+    constant array) or what that branch compiles to; calls, closures and the code outside literals are not folded."""
+    d = {"a": [1], "m": {"k": 1}, "z": 0}
+    objs = "return ['o' => new \\stdClass(), 'nan' => NAN, 'a' => [1]];"
+    c = [case(t, data_json=d, config=OFF) for t in [
+        "{{ [(false ?? '') * a]|length }}", "{{ [(true ? false : 1) * a]|length }}",
+        "{{ [(0 ?: false) * a]|length }}", "{{ [(null ?? false) * a]|length }}",
+        "{{ [(false ?? 0) b-and a]|length }}", "{{ [(true ? 1.5 : 0) b-or a]|length }}",
+        "{{ [(false ?? 0) b-xor a]|length }}", "{{ max([(false ?? '') * a]) }}",
+        "{{ {k: (false ?? '') * a}|length }}", "{{ a.x((false ?? '') * a) }}",
+        "{% macro m(x) %}{% endmacro %}{{ _self.m((false ?? '') * a) }}", "{{ [[(false ?? '') * a]]|length }}",
+        "{{ {((false ?? '') * a): 1}|length }}", "{{ [...[(false ?? '') * a]]|length }}",
+        "{{ [max((false ?? '') * a, 1)]|length }}", "{{ [[a]|map(x => (false ?? '') * x)]|length }}",
+        "{{ [((false ?? '') * 2) * a]|length }}", "{{ [-(true ? false : 1) * a]|length }}",
+        "{{ [((false ?? '')|raw) * a]|length }}", "{{ [((false ?? '')|default(1)) * a]|length }}",
+        "{{ [(true ? _context : 1) * m.k]|length }}", "{{ [(null ?? _context) * m.k]|length }}",
+        "{{ [(0 ?: _context) * m.k]|length }}", "{{ [(_context ?: 1) * m.k]|length }}",
+        "{{ (true ? _context : 1) * m.k }}", "{{ [(true ? m.k : 1) * _context]|length }}",
+        "{{ [(true ? _context : 1) b-or m.k]|length }}", "{% with {k: (false ?? '') * a} %}{% endwith %}",
+        "{% set x = [(false ?? '') * a] %}", "{% set x, y = (false ?? '') * a, 1 %}",
+        "{% for x in [(false ?? '') * a] %}{% endfor %}", "{{ [((false ?? '') * a) is same as(1)]|length }}",
+        "{{ [(1 == 1) and ((false ?? '') * a)]|length }}", "{{ [((false ?? '') * a) ? 1 : 2]|length }}",
+        "{{ [true ? 1 : (false ?? '') * a]|length }}", "{{ [false ? 1 : (false ?? '') * a]|length }}",
+        "{{ [(z is defined ? false : 1) * a]|length }}", "{{ (false ?? '') * a }}", "{{ (true ? false : 1) * a }}",
+    ]]
+    c.append(case({"index.twig": "{% include 't.twig' with {k: (false ?? '') * a} %}", "t.twig": "T"}, data_json=d,
+                  config=OFF))
+    c.append(case("{{ [(false ?? '') * a]|length }}", data_json=d, config=STRICT))
+    c.append(case("{{ dump((false ?? '') * a) }}", data_json=d, config=DEBUG, extensions=["debug"]))
+    for t in ["{{ [o ~ (true ? [] : 1)]|length }}", "{{ [(true ? [] : 1) ~ o]|length }}", "{{ o ~ (true ? [] : 1) }}",
+              "{{ [nan ~ ([1] ?? 2)]|length }}", "{{ [([1] ?? 2) ~ nan]|length }}", "{{ [o ~ (null ?? [])]|length }}"]:
+        c.append(case(t, data_php=objs, config=OFF))
+    return c
+
+
 TOPICS = {"lines": lines, "operands": operands, "null_safe": null_safe, "macro_defaults": macro_defaults,
-          "loops": loops, "calls": calls}
+          "loops": loops, "calls": calls, "folding": folding}
 
 DESCRIPTIONS = {
     "lines": "Lines of runtime errors: constants PHP folds inside array literals take the literal's line (P1), the "
@@ -264,6 +302,8 @@ DESCRIPTIONS = {
     "macro_defaults": "Macro defaults PHP cannot fold, evaluated when the argument is missing (P9).",
     "loops": "The loop bookkeeping writes of ForLoopNode (P13).",
     "calls": "Named arguments while unpacking (P14), callable values (P15), spreads in special node classes (P16).",
+    "folding": "Operands of `*`, `b-and`, `b-or`, `b-xor` and `~` inside array literals, which zend_try_ct_eval_array() "
+               "folds before compiling them: conditionals with a constant test become the branch they choose (P31).",
 }
 
 

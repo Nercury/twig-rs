@@ -227,10 +227,12 @@ impl Error {
         self
     }
 
-    /// Sets the template source (constructor argument `$source`).
+    /// Sets the template source (constructor argument `$source`). A Twig error asks the source for its path now,
+    /// which resolves a lazily resolved path ([`Source::with_lazy_path`]), as `Error::updateRepr()` does.
     #[must_use]
     pub fn with_source(mut self, source: Source) -> Self {
         self.inner.source = Some(source);
+        self.update_repr();
         self
     }
 
@@ -279,9 +281,23 @@ impl Error {
         self.inner.source.as_ref()
     }
 
-    /// Twig: `Error::setSourceContext()`.
+    /// Twig: `Error::setSourceContext()`. A Twig error asks the source for its path now (see
+    /// [`with_source`](Self::with_source)).
     pub fn set_source_context(&mut self, source: Option<Source>) {
         self.inner.source = source;
+        self.update_repr();
+    }
+
+    /// The source part of `Error::updateRepr()` (TWIG/src/Error/Error.php): `if ($this->source &&
+    /// $this->source->getPath())` resolves a lazily resolved path the first time the error gets the source (the
+    /// source keeps the path, so the later calls of `updateRepr()` find it resolved). The message itself is built by
+    /// [`message`](Self::message). Errors that are not Twig errors have no `updateRepr()`.
+    fn update_repr(&self) {
+        if self.inner.kind.is_twig_error()
+            && let Some(source) = &self.inner.source
+        {
+            source.path();
+        }
     }
 
     /// The previous error, if any. Twig: `Exception::getPrevious()`. Also available as
@@ -584,6 +600,35 @@ mod tests {
         assert!(ErrorKind::SecurityNotAllowedFilter.is_security_error());
         assert!(ErrorKind::SecurityNotAllowedFilter.is_twig_error());
         assert!(!ErrorKind::Runtime.is_security_error());
+    }
+
+    #[test]
+    fn twig_errors_resolve_a_lazy_path_when_they_get_the_source() {
+        use std::sync::atomic::{AtomicUsize, Ordering};
+        let calls = Arc::new(AtomicUsize::new(0));
+        let lazy = || {
+            let counter = Arc::clone(&calls);
+            Source::with_lazy_path("", "index", move || {
+                counter.fetch_add(1, Ordering::SeqCst);
+                "/path/to/index".to_owned()
+            })
+        };
+        let _ = Error::php(PhpError::value_error("x")).with_source(lazy());
+        assert_eq!(
+            calls.load(Ordering::SeqCst),
+            0,
+            "not a Twig error: no updateRepr()"
+        );
+        let error = Error::runtime("Boom.").with_source(lazy());
+        assert_eq!(calls.load(Ordering::SeqCst), 1);
+        assert_eq!(
+            error.source_context().map(Source::path),
+            Some("/path/to/index")
+        );
+        assert_eq!(calls.load(Ordering::SeqCst), 1);
+        let mut error = Error::runtime("Boom.");
+        error.set_source_context(Some(lazy()));
+        assert_eq!(calls.load(Ordering::SeqCst), 2);
     }
 
     #[test]

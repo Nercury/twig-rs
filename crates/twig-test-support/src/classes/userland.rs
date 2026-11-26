@@ -10,8 +10,8 @@ use std::collections::HashMap;
 use std::sync::{Arc, LazyLock, Mutex};
 
 use twig_value::object::{
-    ArrayIterator, CallArgs, ClassBuilder, ClassRef, FetchMode, Object, ObjectRef, Param,
-    PropertyInfo, PropertyStore, Visibility, builtin,
+    ArrayIterator, CallArgs, ClassBuilder, ClassRef, FetchMode, MethodParams, Object, ObjectRef,
+    Param, PropertyInfo, PropertyStore, Visibility, builtin,
 };
 use twig_value::param::{DeclaredType, UserArg, verify_user_arg};
 use twig_value::{Array, Diagnostics, PhpError, PhpResult, PhpString, Value, convert, dim, ops};
@@ -419,6 +419,62 @@ impl UserObject {
     fn function(&self, method: &str) -> String {
         format!("{}::{}", self.class.display_name(), method)
     }
+
+    /// Binds the arguments of the method `method` (named as declared) to its parameters
+    /// ([`user_method_params`]); unknown named arguments throw, extra positional ones are ignored.
+    fn bind(&self, method: &str, args: &CallArgs) -> PhpResult<Vec<Value>> {
+        let params =
+            user_method_params(self.kind, &method.to_ascii_lowercase()).unwrap_or_default();
+        bind_user(args, &self.function(method), &params)
+    }
+}
+
+/// The parameters of the ported methods (by lowercase name) as their classes declare them; the
+/// method bodies bind their arguments with them, and the engine sends named arguments with them
+/// ([`Object::method_params`]). `None` for a method the port does not implement.
+fn user_method_params(kind: UserClass, method: &str) -> Option<Vec<Param>> {
+    use UserClass::*;
+    let params = match (kind, method) {
+        // public function bar($param1 = null, $param2 = null)
+        (TwigTestFoo, "bar") => vec![
+            Param::optional("param1", Value::Null),
+            Param::optional("param2", Value::Null),
+        ],
+        // public function strToLower($value)
+        (TwigTestFoo, "strtolower") => vec![Param::required("value")],
+        (
+            TwigTestFoo,
+            "getfoo" | "getempty" | "getnull" | "getself" | "is" | "in" | "not" | "rewind"
+            | "current" | "key" | "next" | "valid",
+        ) => Vec::new(),
+        // public function __call($name, $args): void
+        (MagicCallStub, "__call") => vec![Param::required("name"), Param::required("args")],
+        // public function __construct($string)
+        (ToStringStub, "__construct") => vec![Param::required("string")],
+        // public function __construct($count)
+        (CountableStub, "__construct") => vec![Param::required("count")],
+        // public function __construct(array $data)
+        (IteratorAggregateStub, "__construct") => vec![Param::required("data")],
+        // public function __construct(private string $v) {}
+        (TwigTestStringy, "__construct") => vec![Param::required("v")],
+        // public function __call($method, $arguments)
+        (TestClassForMagicCallAttributes, "__call") => {
+            vec![Param::required("method"), Param::required("arguments")]
+        }
+        (ToStringStub | CountableStub | SimpleIteratorForTesting, "__tostring")
+        | (TwigTestStringy | MyObj | UserForAutoEscapeTest, "__tostring")
+        | (CountableStub | ItemsIteratorCountable, "count")
+        | (IteratorAggregateStub | AnonymousPairTraversable, "getiterator")
+        | (
+            SimpleIteratorForTesting | ItemsIterator | ItemsIteratorCountable,
+            "current" | "next" | "key" | "valid" | "rewind",
+        )
+        | (TwigTestHolder, "__construct" | "getstringable")
+        | (TestClassForMagicCallAttributes, "getbar")
+        | (UserForAutoEscapeTest | AnonymousGetName, "getname") => Vec::new(),
+        _ => return None,
+    };
+    Some(params)
 }
 
 impl Object for UserObject {
@@ -428,6 +484,10 @@ impl Object for UserObject {
 
     fn property_store(&self) -> Option<&PropertyStore> {
         Some(&self.props)
+    }
+
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        user_method_params(self.kind, method).map(MethodParams::user)
     }
 
     fn call(
@@ -481,7 +541,7 @@ fn undefined(o: &UserObject, method: &str) -> PhpError {
 
 /// Binds a method without parameters (unknown named arguments still throw).
 fn no_params(o: &UserObject, name: &str, args: &CallArgs) -> PhpResult<()> {
-    bind_user(args, &o.function(name), &[]).map(|_| ())
+    o.bind(name, args).map(|_| ())
 }
 
 fn concat(a: &Value, b: &Value, diag: &mut dyn Diagnostics) -> PhpResult<Value> {
@@ -499,14 +559,7 @@ fn twig_test_foo(
     match method {
         // return 'bar'.($param1 ? '_'.$param1 : '').($param2 ? '-'.$param2 : '');
         "bar" => {
-            let a = bind_user(
-                args,
-                &o.function("bar"),
-                &[
-                    Param::optional("param1", Value::Null),
-                    Param::optional("param2", Value::Null),
-                ],
-            )?;
+            let a = o.bind("bar", args)?;
             let first = if convert::to_bool(&a[0], diag)? {
                 concat(&Value::from("_"), &a[0], diag)?
             } else {
@@ -529,7 +582,7 @@ fn twig_test_foo(
         "not" => no_params(o, "not", args).map(|_| Value::from("not")),
         // return strtolower($value);
         "strtolower" => {
-            let a = bind_user(args, &o.function("strToLower"), &[Param::required("value")])?;
+            let a = o.bind("strToLower", args)?;
             twig_value::builtins::string::strtolower(&a[0], diag).map(Value::String)
         }
         // $this->position = 0;
@@ -569,11 +622,7 @@ fn magic_call_stub(o: &UserObject, method: &str, args: &CallArgs) -> PhpResult<V
     match method {
         // throw new \Exception('__call shall not be called.');
         "__call" => {
-            bind_user(
-                args,
-                &o.function("__call"),
-                &[Param::required("name"), Param::required("args")],
-            )?;
+            o.bind("__call", args)?;
             Err(PhpError::exception("__call shall not be called."))
         }
         _ => Err(undefined(o, method)),
@@ -590,11 +639,7 @@ fn to_string_stub(
     match method {
         // $this->string = $string;
         "__construct" => {
-            let a = bind_user(
-                args,
-                &o.function("__construct"),
-                &[Param::required("string")],
-            )?;
+            let a = o.bind("__construct", args)?;
             o.set("string", a[0].clone());
             Ok(Value::Null)
         }
@@ -617,11 +662,7 @@ fn countable_stub(
 ) -> PhpResult<Value> {
     match method {
         "__construct" => {
-            let a = bind_user(
-                args,
-                &o.function("__construct"),
-                &[Param::required("count")],
-            )?;
+            let a = o.bind("__construct", args)?;
             o.set("count", a[0].clone());
             Ok(Value::Null)
         }
@@ -653,7 +694,7 @@ fn iterator_aggregate_stub(
         // public function __construct(array $data) { $this->data = $data; }
         "__construct" => {
             let f = o.function("__construct");
-            let a = bind_user(args, &f, &[Param::required("data")])?;
+            let a = o.bind("__construct", args)?;
             let data = verify_user_arg(
                 a[0].clone(),
                 &php::ARRAY,
@@ -745,7 +786,7 @@ fn twig_test_stringy(
         // public function __construct(private string $v) {}
         "__construct" => {
             let f = o.function("__construct");
-            let a = bind_user(args, &f, &[Param::required("v")])?;
+            let a = o.bind("__construct", args)?;
             let v = verify_user_arg(a[0].clone(), &php::STRING, &UserArg::new(&f, 1, "v"), diag)?;
             o.set("v", v);
             Ok(Value::Null)
@@ -799,11 +840,7 @@ fn magic_call_attributes(o: &UserObject, method: &str, args: &CallArgs) -> PhpRe
         "getbar" => no_params(o, "getBar", args).map(|_| Value::from("bar_from_getbar")),
         // if ('foo' === $method) { return 'foo_from_call'; } return false;
         "__call" => {
-            let a = bind_user(
-                args,
-                &o.function("__call"),
-                &[Param::required("method"), Param::required("arguments")],
-            )?;
+            let a = o.bind("__call", args)?;
             Ok(if a[0] == Value::from("foo") {
                 Value::from("foo_from_call")
             } else {
@@ -952,5 +989,73 @@ fn anonymous_pair_traversable(
             Ok(Value::Object(generator.into_ref()))
         }
         _ => Err(undefined(o, method)),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const CLASSES: [UserClass; 15] = [
+        UserClass::TwigTestFoo,
+        UserClass::MagicCallStub,
+        UserClass::ToStringStub,
+        UserClass::CountableStub,
+        UserClass::IteratorAggregateStub,
+        UserClass::SimpleIteratorForTesting,
+        UserClass::TwigTestStringy,
+        UserClass::TwigTestHolder,
+        UserClass::TestClassForMagicCallAttributes,
+        UserClass::MyObj,
+        UserClass::UserForAutoEscapeTest,
+        UserClass::ItemsIterator,
+        UserClass::ItemsIteratorCountable,
+        UserClass::AnonymousGetName,
+        UserClass::AnonymousPairTraversable,
+    ];
+
+    /// Every method a class declares is ported, and binds its arguments to declared parameters.
+    #[test]
+    fn every_declared_method_has_parameters() {
+        for kind in CLASSES {
+            let class = kind.class_entry("class@anonymous\0x.php:1$0");
+            for method in class.methods() {
+                let lc = method.name.to_ascii_lowercase();
+                assert!(
+                    user_method_params(kind, &lc).is_some(),
+                    "{}::{}",
+                    class.name(),
+                    method.name
+                );
+            }
+        }
+    }
+
+    /// `$foo->bar(...$arguments)` sends named elements against `bar($param1 = null, $param2 = null)`.
+    #[test]
+    fn reports_the_parameters_of_its_methods() {
+        let foo = ObjectRef::new(UserObject::new_without_constructor(
+            UserClass::TwigTestFoo,
+            "",
+        ));
+        let params = foo.method_params("BAR").unwrap();
+        assert_eq!(params.kind, twig_value::object::FunctionKind::User);
+        let names: Vec<&str> = params.params.iter().map(|p| p.name).collect();
+        assert_eq!(names, ["param1", "param2"]);
+        let mut spread = Array::new();
+        spread.insert("zz", 1);
+        let _ = spread.push(2);
+        let error = params
+            .unpack(&Value::Array(spread), &mut twig_value::Ignore)
+            .unwrap_err();
+        assert_eq!(error.message(), "Unknown named parameter $zz");
+        let magic = ObjectRef::new(UserObject::new_without_constructor(
+            UserClass::MagicCallStub,
+            "",
+        ));
+        assert!(
+            magic.method_params("anything").unwrap().params[0].variadic,
+            "the __call() trampoline"
+        );
     }
 }

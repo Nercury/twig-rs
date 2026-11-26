@@ -16,6 +16,10 @@
 //!   which decides which operand is converted (and reported) first ([`PhpModel::operand_kind`]).
 //! - **Lines.** The line of an AST node is the line of its first token (`zend_ast_create_*()` take the line of their
 //!   first child), which is where a debug marker of Twig's compiler may sit ([`first_debug_line`]).
+//! - **Errors.** PHP refuses some of the code Twig generates: a `ParseError` for a spread outside an argument list or
+//!   array literal ([`generated_parse_error`]), an `E_COMPILE_ERROR` for positional arguments after a spread or for a
+//!   constant literal that unpacks a constant that is not an array ([`PhpModel::array_eval_fatal`]). It parses the
+//!   whole file first and compiles it in file order, skipping the code constant folding removed.
 //!
 //! The model works on the visited Twig expressions and mirrors the PHP each node class writes (`ArrayExpression`,
 //! `AbstractBinary`, `AbstractUnary`, the test classes, `NameExpression`, ...); it never sees PHP source.
@@ -89,6 +93,32 @@ impl PhpModel {
     /// elements of an enclosing array literal (`zend_try_ct_eval_array()`).
     pub(crate) fn eval_const(&self, expr: &Expr) -> Option<Value> {
         self.fold(expr, Mode::Eval)
+    }
+
+    /// The value of the constant operand (`IS_CONST`) the PHP of `expr` compiles to. `folding`: `expr` is part of
+    /// the elements of an array literal, outside the calls, assignments and closures they contain, so
+    /// `zend_try_ct_eval_array()` ran `zend_eval_const_expr()` over its AST before `zend_compile_expr()` compiles
+    /// it ([`eval_const`](Self::eval_const)); otherwise only `zend_compile_expr()` folds
+    /// ([`compile_const`](Self::compile_const)).
+    pub(crate) fn const_operand(&self, expr: &Expr, folding: bool) -> Option<Value> {
+        self.fold(expr, if folding { Mode::Eval } else { Mode::Compile })
+    }
+
+    /// The branch `zend_eval_const_expr()` replaces the conditional `expr` by (`ZEND_AST_CONDITIONAL` with a test
+    /// that folds, PHPSRC/Zend/zend_compile.c): `ConditionalTernary`, `ElvisBinary` and `NullCoalesceBinary` all
+    /// compile to `((test) ? (left) : (right))`. `None` for anything else, or when the test does not fold.
+    pub(crate) fn chosen_branch<'e>(&self, expr: &'e Expr) -> Option<&'e Expr> {
+        let (test, left, right) = match &expr.kind {
+            ExprKind::ConditionalTernary(ternary) => (&ternary.test, &ternary.left, &ternary.right),
+            ExprKind::Binary(binary)
+                if matches!(binary.op, BinaryOp::Elvis | BinaryOp::NullCoalesce) =>
+            {
+                (binary.test.as_ref()?, &binary.left, &binary.right)
+            }
+            _ => return None,
+        };
+        let test = self.eval_const(test)?;
+        Some(if truthy(&test) { left } else { right })
     }
 
     /// The `E_COMPILE_ERROR` PHP raises while folding the array literal `array` (a constant array literal that
@@ -404,10 +434,17 @@ impl PhpModel {
         Ok(Some(Value::Array(result)))
     }
 
-    /// The kind of operand the PHP of `expr` compiles to (`znode.op_type`).
-    pub(crate) fn operand_kind(&self, expr: &Expr) -> OperandKind {
-        if self.compile_const(expr).is_some() {
+    /// The kind of operand the PHP of `expr` compiles to (`znode.op_type`). `folding`: as for
+    /// [`const_operand`](Self::const_operand). Inside an array literal, `zend_eval_const_expr()` has replaced the
+    /// constant parts of the AST by values and a conditional whose test folds by its chosen branch (`zend_eval_const_expr()`
+    /// on `ZEND_AST_CONDITIONAL`), so the operand is what that branch compiles to; elsewhere `zend_compile_conditional()`
+    /// does not fold, and a conditional is a temporary (`JMPZ` + `QM_ASSIGN`).
+    pub(crate) fn operand_kind(&self, expr: &Expr, folding: bool) -> OperandKind {
+        if self.const_operand(expr, folding).is_some() {
             return OperandKind::Const;
+        }
+        if folding && let Some(chosen) = self.chosen_branch(expr) {
+            return self.operand_kind(chosen, folding);
         }
         match &expr.kind {
             ExprKind::ContextVariable(name) if !name.defined_test => match name.name.as_slice() {
@@ -445,7 +482,7 @@ impl PhpModel {
             | ExprKind::Parent(_)
             | ExprKind::CheckToString(_) => OperandKind::Var,
             ExprKind::Filter(filter) => match filter.kind {
-                FilterKind::Default | FilterKind::Raw => self.operand_kind(&filter.node),
+                FilterKind::Default | FilterKind::Raw => self.operand_kind(&filter.node, folding),
                 _ => OperandKind::Var,
             },
             ExprKind::Function(function) => {
@@ -457,10 +494,141 @@ impl PhpModel {
             }
             ExprKind::Test(test) => match test.kind {
                 TestKind::Test | TestKind::NonStringCoercingInput => OperandKind::Var,
-                TestKind::Defined => self.operand_kind(&test.node),
+                TestKind::Defined => self.operand_kind(&test.node, folding),
                 _ => OperandKind::Tmp,
             },
             _ => OperandKind::Tmp,
+        }
+    }
+
+    /// The first `E_COMPILE_ERROR` PHP raises while `zend_compile_array()` compiles the outermost array literal
+    /// `array` (one that is not part of the folding of an enclosing literal): `zend_try_ct_eval_array()` first runs
+    /// `zend_eval_const_expr()` over every element (the value before the key, PHPSRC/Zend/zend_compile.c), which
+    /// builds every nested literal that folds, and then builds `array` itself when all its elements folded. Building
+    /// a literal that unpacks a constant that is not an array fails the compilation ([`array_fatal`](Self::array_fatal)),
+    /// so the nested literals fail first, in that order, before anything of the elements is compiled.
+    pub(crate) fn array_eval_fatal(&self, array: &ast::ArrayExpr) -> Option<CompileFatal> {
+        let mut is_sequence = true;
+        for (i, (key, value)) in array.elements.iter().enumerate() {
+            let static_key = match &key.kind {
+                ExprKind::LocalVariable(name)
+                | ExprKind::MacroVariable(ast::MacroVariableExpr { name, .. }) => {
+                    Some(match name {
+                        TempName::Int(i) => Some(*i),
+                        _ => None,
+                    })
+                }
+                ExprKind::Constant(constant) => Some(match &constant.value {
+                    ConstantValue::Int(i) => Some(*i),
+                    _ => None,
+                }),
+                _ => None,
+            };
+            if static_key != Some(Some(i as i64)) {
+                is_sequence = false;
+            }
+            if let ExprKind::Unary(unary) = &value.kind
+                && unary.op == UnaryOp::Spread
+            {
+                if let Some(fatal) = self.eval_fatal(&unary.node) {
+                    return Some(fatal);
+                }
+                continue;
+            }
+            if let Some(fatal) = self.eval_fatal(value) {
+                return Some(fatal);
+            }
+            // a dynamic key is written as ` (string) key` (StringCastUnary)
+            if !is_sequence
+                && static_key.is_none()
+                && let Some(fatal) = self.eval_fatal(key)
+            {
+                return Some(fatal);
+            }
+        }
+        self.array_fatal(array)
+    }
+
+    /// [`array_eval_fatal`](Self::array_eval_fatal) of the literal `[v0, v1, ...]` (the values of a `{% set %}`
+    /// with several targets: `[$context["a"], $context["b"]] = [v0, v1];`).
+    pub(crate) fn values_eval_fatal<'e>(
+        &self,
+        values: impl IntoIterator<Item = &'e Expr>,
+    ) -> Option<CompileFatal> {
+        values.into_iter().find_map(|value| self.eval_fatal(value))
+    }
+
+    /// The first `E_COMPILE_ERROR` of `zend_eval_const_expr()` over the PHP of `expr` (see
+    /// [`array_eval_fatal`](Self::array_eval_fatal)): it descends into operators, casts, conditionals and array
+    /// literals, children first, and not into calls, assignments, `isset()`, `instanceof` and closures. Both operands
+    /// of `&&` and `||` are evaluated before the left one decides; a conditional whose test folds is replaced by the
+    /// branch it chooses before the other branch is evaluated.
+    fn eval_fatal(&self, expr: &Expr) -> Option<CompileFatal> {
+        match &expr.kind {
+            ExprKind::Array(array) => {
+                if array.defined_test {
+                    // `true`
+                    return None;
+                }
+                self.array_eval_fatal(array)
+            }
+            ExprKind::ConditionalTernary(ternary) => {
+                self.conditional_eval_fatal(&ternary.test, &ternary.left, &ternary.right)
+            }
+            ExprKind::Binary(binary) => match binary.op {
+                BinaryOp::Elvis | BinaryOp::NullCoalesce => {
+                    let test = binary.test.as_ref()?;
+                    self.conditional_eval_fatal(test, &binary.left, &binary.right)
+                }
+                _ if folds_children(expr) => self
+                    .eval_fatal(&binary.left)
+                    .or_else(|| self.eval_fatal(&binary.right)),
+                _ => None,
+            },
+            ExprKind::Unary(unary) => self.eval_fatal(&unary.node),
+            ExprKind::Filter(filter) => match filter.kind {
+                FilterKind::Default | FilterKind::Raw => self.eval_fatal(&filter.node),
+                _ => None,
+            },
+            ExprKind::Test(test) => {
+                let argument = || {
+                    test.arguments
+                        .as_ref()?
+                        .get(&ast::ArgumentKey::Index(0))
+                        .and_then(|argument| self.eval_fatal(argument))
+                };
+                match test.kind {
+                    // `(null === node)`, `(node % 2 == 0)`, the node in defined-test mode, `(node === constant(...))`
+                    TestKind::Null
+                    | TestKind::Even
+                    | TestKind::Odd
+                    | TestKind::Defined
+                    | TestKind::Constant => self.eval_fatal(&test.node),
+                    // `(node === arguments[0])`, `(0 == node % arguments[0])`
+                    TestKind::SameAs | TestKind::DivisibleBy => {
+                        self.eval_fatal(&test.node).or_else(argument)
+                    }
+                    TestKind::Test | TestKind::NonStringCoercingInput | TestKind::True => None,
+                }
+            }
+            _ => None,
+        }
+    }
+
+    /// `zend_eval_const_expr()` of `((test) ? (left) : (right))`: the test, then the branch it chooses when it folds,
+    /// else both branches.
+    fn conditional_eval_fatal(
+        &self,
+        test: &Expr,
+        left: &Expr,
+        right: &Expr,
+    ) -> Option<CompileFatal> {
+        if let Some(fatal) = self.eval_fatal(test) {
+            return Some(fatal);
+        }
+        match self.eval_const(test) {
+            Some(test) => self.eval_fatal(if truthy(&test) { left } else { right }),
+            None => self.eval_fatal(left).or_else(|| self.eval_fatal(right)),
         }
     }
 }

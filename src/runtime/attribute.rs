@@ -493,8 +493,14 @@ pub(crate) fn get_attribute(
         return Ok(Value::Bool(true));
     }
 
-    // `$object->$method(...$arguments)`
-    let args = CallArgs::from_spread(&arguments)?;
+    // `$object->$method(...$arguments)`: ZEND_INIT_METHOD_CALL finds the function, then ZEND_SEND_UNPACK sends the
+    // elements, a named one checked against the function's parameters as it is sent (zend_handle_named_arg(),
+    // PHPSRC/Zend/zend_execute.c); positional elements alone need no parameters, nor do unknown ones
+    let named = arguments.keys().any(|key| matches!(key, ArrayKey::Str(_)));
+    let args = match named.then(|| object_ref.method_params(&method)).flatten() {
+        Some(params) => params.unpack(&Value::Array(arguments), state)?,
+        None => CallArgs::from_spread(&arguments)?,
+    };
     match object_ref.call_method(&method, args, state) {
         Ok(value) => Ok(value),
         Err(e) => {
@@ -506,7 +512,7 @@ pub(crate) fn get_attribute(
     }
 }
 
-/// The class name of a method map key, for tests.
+/// The method a method map key resolves to, for tests.
 #[cfg(test)]
 fn method_for(object: &ObjectRef, item: &str) -> Option<String> {
     let map = method_map(object);

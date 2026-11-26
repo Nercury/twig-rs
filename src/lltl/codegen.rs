@@ -71,14 +71,21 @@ impl fmt::Debug for CompileOptions {
 /// Compiles a visited `ModuleNode` (and its embedded templates) into a [`Program`].
 ///
 /// Twig: `Compiler::compile($node)` with `ModuleNode::compile()` (TWIG/src/Compiler.php,
-/// TWIG/src/Node/ModuleNode.php).
+/// TWIG/src/Node/ModuleNode.php), then what PHP does when `Environment::loadTemplate()` evaluates the generated
+/// file: Twig compiles the whole file (the template and its embedded templates) before PHP sees any of it, so its own
+/// errors come first; PHP then parses the whole file, so a `ParseError` anywhere in it comes next, and compiles it in
+/// file order, so the first compile-time fatal error comes last.
 ///
 /// # Errors
 ///
-/// The errors Twig raises while compiling: `SyntaxError`s with the template source (argument binding,
-/// `Empty array elements are only allowed in destructuring assignments.`) and `LogicException`-kind errors
-/// (callables that cannot be reflected, malformed trees, node classes defined by extensions). The caller wraps them
-/// like `Environment::compileSource()` does.
+/// - The errors Twig raises while compiling: `SyntaxError`s with the template source (argument binding,
+///   `Empty array elements are only allowed in destructuring assignments.`) and `LogicException`-kind errors
+///   (callables that cannot be reflected, malformed trees, node classes defined by extensions). The caller wraps
+///   them like `Environment::compileSource()` does.
+/// - Then PHP's `ParseError` `syntax error, unexpected token "..."` (see `php::generated_parse_error`).
+/// - Then the first `E_COMPILE_ERROR` of the generated PHP, as a `CompileError` with PHP's message (`Cannot use
+///   positional argument after argument unpacking`, `Only arrays and Traversables can be unpacked, X given`; PHP
+///   stops with an uncatchable fatal error, `reference/deviations.md`).
 pub fn compile(
     module: &Node,
     options: &CompileOptions,
@@ -98,6 +105,8 @@ pub fn compile(
         fold_marker: None,
         own_fold: None,
         in_folded: false,
+        dead: false,
+        php_fatal: None,
         program: None,
         units: Vec::new(),
         twig_vars: 0,
@@ -108,7 +117,18 @@ pub fn compile(
         temporaries: Vec::new(),
         apply_temps: Vec::new(),
     };
-    codegen.module(module)
+    let program = codegen.module(module)?;
+    // PHP parses the whole generated file before compiling any of it
+    if php::generated_parse_error(module) {
+        return Err(Error::php(PhpError::new(
+            ThrowableClass::ParseError,
+            "syntax error, unexpected token \"...\"",
+        )));
+    }
+    if let Some(fatal) = codegen.php_fatal.take() {
+        return Err(compile_fatal(fatal));
+    }
+    Ok(program)
 }
 
 /// The short-circuit state of a null-safe `GetAttrExpression` (its `is_short_circuited` and `var_name` attributes).
@@ -192,6 +212,14 @@ struct Codegen<'d> {
     own_fold: Option<Option<i64>>,
     /// The expression being compiled is part of one PHP folded into a constant.
     in_folded: bool,
+    /// The code being compiled is code PHP's compiler never reaches: the right operand of `&&`/`||` when a constant
+    /// left operand decides (`zend_compile_short_circuiting()`), or the branch `zend_eval_const_expr()` drops from a
+    /// conditional inside an array literal. Twig still compiles it (its errors still come), but PHP raises no
+    /// compile-time error in it.
+    dead: bool,
+    /// The first compile-time fatal error of the generated PHP that PHP's compiler reaches, in PHP's compile order
+    /// (raised by [`compile`] once Twig's compilation finished).
+    php_fatal: Option<php::CompileFatal>,
     program: Option<ProgramBuilder>,
     units: Vec<UnitBuilder>,
     /// Twig's `Compiler::$varNameSalt`: the `N` of the next `$_vN` (`Compiler::getVarName()`), counted per compiled
@@ -271,6 +299,47 @@ impl Codegen<'_> {
         let saved = self.fold_marker.take();
         let result = f(self);
         self.fold_marker = saved;
+        result
+    }
+
+    /// Whether the code being compiled is part of the elements of an array literal that `zend_try_ct_eval_array()`
+    /// folds with `zend_eval_const_expr()` before compiling them (outside the calls, assignments and closures they
+    /// contain): constant operands are then decided in eval mode ([`PhpModel::const_operand`]).
+    fn folding(&self) -> bool {
+        self.fold_marker.is_some()
+    }
+
+    /// Whether PHP's compiler reaches the code being compiled: not when it is [dead](Codegen::dead), nor when it is
+    /// part of an expression `zend_eval_const_expr()` replaced by a constant.
+    fn php_compiles(&self) -> bool {
+        !self.dead && !self.in_folded
+    }
+
+    /// A compile-time fatal error of the generated PHP at this point of PHP's compile order: kept when PHP's
+    /// compiler reaches it and no earlier one was recorded.
+    fn php_fatal(&mut self, fatal: php::CompileFatal) {
+        if self.php_compiles() && self.php_fatal.is_none() {
+            self.php_fatal = Some(fatal);
+        }
+    }
+
+    /// After compiling the argument `argument` of a call whose next argument is positional: when `argument` is a
+    /// spread, `zend_compile_args()` fails there with `Cannot use positional argument after argument unpacking`
+    /// (PHPSRC/Zend/zend_compile.c).
+    fn positional_after(&mut self, argument: &Expr) {
+        if is_spread(argument) {
+            self.php_fatal(php::CompileFatal(
+                "Cannot use positional argument after argument unpacking".to_owned(),
+            ));
+        }
+    }
+
+    /// Compiles `f` as [dead](Codegen::dead) code when `dead`.
+    fn dead_if<T>(&mut self, dead: bool, f: impl FnOnce(&mut Self) -> T) -> T {
+        let saved = self.dead;
+        self.dead |= dead;
+        let result = f(self);
+        self.dead = saved;
         result
     }
 
@@ -424,13 +493,6 @@ impl Codegen<'_> {
                 node.class_name()
             )));
         };
-        // PHP parses the whole generated file before compiling any of it
-        if self.program.is_none() && php::generated_parse_error(node) {
-            return Err(Error::php(PhpError::new(
-                ThrowableClass::ParseError,
-                "syntax error, unexpected token \"...\"",
-            )));
-        }
         let saved = self.program.replace(ProgramBuilder {
             source: module.source.clone(),
             index: module.index,
@@ -1091,6 +1153,14 @@ impl Codegen<'_> {
                     .first()
                     .and_then(|value| value.as_expr())
                     .and_then(php::first_debug_line);
+                // zend_compile_array() of `[v0, v1, ...]`: zend_try_ct_eval_array() folds the values first
+                if self.php_compiles()
+                    && let Some(fatal) = self
+                        .php
+                        .values_eval_fatal(values.iter().filter_map(|value| value.as_expr()))
+                {
+                    self.php_fatal(fatal);
+                }
                 let saved = self.fold_marker.replace(self.marker_after(first));
                 let mut result = Ok(());
                 for value in values {
@@ -1345,15 +1415,13 @@ impl Codegen<'_> {
                 // BlockReferenceExpression::compile(): `[yield from ]<target>->unwrap()->yieldBlock|renderBlock|hasBlock(
                 // <name>, $context[, $blocks])` where the target is `$this` or `$this->load(<template>, line)`; a
                 // spread name or template is followed by positional arguments, which PHP refuses to compile
-                if is_spread(&block.name) || block.template.as_ref().is_some_and(is_spread) {
-                    return Err(positional_after_unpack());
-                }
                 if block.output && !block.defined_test {
                     self.add_debug_info(expr.line);
                 }
                 let mut start = self.marker;
                 if let Some(template) = &block.template {
                     self.expr(template)?;
+                    self.positional_after(template);
                     self.emit_at(
                         Instr::LoadTemplate {
                             line: expr.line,
@@ -1366,6 +1434,7 @@ impl Codegen<'_> {
                     start = self.marker;
                 }
                 self.expr(&block.name)?;
+                self.positional_after(&block.name);
                 if block.template.is_none() {
                     // `, $context, $blocks)`
                     self.leaf();
@@ -1441,7 +1510,7 @@ impl Codegen<'_> {
     /// passes its `$left` to the `NullTest`).
     ///
     /// Inside an array literal, `zend_eval_const_expr()` replaces a conditional whose test folds by the branch the
-    /// test selects, so PHP's line state is the one that branch leaves.
+    /// test selects, so PHP's line state is the one that branch leaves, and PHP never compiles the other branch.
     fn conditional(
         &mut self,
         test: &Expr,
@@ -1449,7 +1518,7 @@ impl Codegen<'_> {
         right: &Expr,
         share: Option<(&Expr, &Expr)>,
     ) -> Result<()> {
-        let choice = if self.fold_marker.is_some() && !self.in_folded {
+        let choice = if self.folding() && !self.in_folded {
             self.php.eval_const(test).map(|t| php::truthy(&t))
         } else {
             None
@@ -1459,11 +1528,11 @@ impl Codegen<'_> {
         }
         self.expr(test)?;
         let otherwise = self.emit(Instr::JumpIfFalse(0));
-        self.expr(left)?;
+        self.dead_if(choice == Some(false), |this| this.expr(left))?;
         let left_marker = self.php_marker;
         let end = self.emit(Instr::Jump(0));
         self.patch_here(otherwise);
-        self.expr(right)?;
+        self.dead_if(choice == Some(true), |this| this.expr(right))?;
         self.patch_here(end);
         if choice == Some(true) {
             self.php_marker = left_marker;
@@ -1530,14 +1599,17 @@ impl Codegen<'_> {
                 .with_source(self.source()));
             }
         }
-        // zend_try_ct_eval_array() fails the compilation of a constant literal unpacking a constant that is not an array
-        if let Some(fatal) = self.php.array_fatal(array) {
-            return Err(compile_fatal(fatal));
-        }
         // zend_compile_array() folds the elements of an outermost literal at the literal's line, the line of its first
         // element's value; nested literals are folded with it
         let outermost = self.fold_marker.is_none();
         if outermost {
+            // zend_try_ct_eval_array() fails the compilation of a constant literal unpacking a constant that is not an
+            // array: the nested literals it builds while folding the elements, then this one
+            if self.php_compiles()
+                && let Some(fatal) = self.php.array_eval_fatal(array)
+            {
+                self.php_fatal(fatal);
+            }
             self.fold_marker = Some(self.marker_after(php::first_debug_line(expr)));
         }
         let result = self.array_elements(array);
@@ -1654,7 +1726,9 @@ impl Codegen<'_> {
             return self.power(binary);
         }
         if let Some(op) = simple(binary.op) {
-            // AbstractBinary::compile(): (left OP right)
+            // AbstractBinary::compile(): (left OP right); inside an array literal the operands are what
+            // zend_eval_const_expr() left of them (see PhpModel::const_operand())
+            let folding = self.folding();
             self.expr(&binary.left)?;
             self.expr(&binary.right)?;
             match op {
@@ -1662,10 +1736,10 @@ impl Codegen<'_> {
                     // zend_compile_binary_op() (PHPSRC/Zend/zend_compile.c, ZEND_CONCAT): a constant operand is
                     // converted while compiling, except a constant array, which gets a `ZEND_CAST` of its own (the
                     // left operand's first), run before the concatenation converts the other operand
-                    if let Some(Value::Array(_)) = self.php.compile_const(&binary.left) {
+                    if let Some(Value::Array(_)) = self.php.const_operand(&binary.left, folding) {
                         self.emit(Instr::StringCastBelow);
                     }
-                    if let Some(Value::Array(_)) = self.php.compile_const(&binary.right) {
+                    if let Some(Value::Array(_)) = self.php.const_operand(&binary.right, folding) {
                         self.emit(Instr::StringCast);
                     }
                     self.emit(Instr::Binary(op));
@@ -1675,8 +1749,8 @@ impl Codegen<'_> {
                     // operands when op1's kind is lower than op2's (IS_CONST < IS_TMP_VAR < IS_VAR < IS_CV), so the
                     // operation converts and reports the right operand first (PHPSRC/Zend/zend_vm_execute.h,
                     // zend_vm_def.h); the operands are still evaluated left to right
-                    let commuted =
-                        self.php.operand_kind(&binary.left) < self.php.operand_kind(&binary.right);
+                    let commuted = self.php.operand_kind(&binary.left, folding)
+                        < self.php.operand_kind(&binary.right, folding);
                     self.emit(if commuted {
                         Instr::CommutedBinary(op)
                     } else {
@@ -1692,7 +1766,8 @@ impl Codegen<'_> {
         match binary.op {
             B::And | B::Or => {
                 // (T(left) && T(right)) / (T(left) || T(right)); zend_compile_short_circuiting() does not compile the
-                // right operand when a constant left operand decides
+                // right operand when a constant left operand decides (inside an array literal such an operation is
+                // folded as a whole)
                 let and = binary.op == B::And;
                 let decided = self
                     .php
@@ -1705,7 +1780,7 @@ impl Codegen<'_> {
                 } else {
                     Instr::JumpIfTrue(0)
                 });
-                self.expr(&binary.right)?;
+                self.dead_if(decided, |this| this.expr(&binary.right))?;
                 self.emit(Instr::ToBool);
                 let end = self.emit(Instr::Jump(0));
                 self.patch_here(short);
@@ -1958,19 +2033,6 @@ impl Codegen<'_> {
 
     /// Twig: `GetAttrExpression::compile()`.
     fn get_attr(&mut self, expr: &Expr, get_attr: &GetAttrExpr) -> Result<()> {
-        // `CoreExtension::getAttribute($this->env, $this->source, node, attribute, arguments, type, ...)`: a spread
-        // child (`attribute(x, ...y)`) is followed by positional arguments, which PHP refuses to compile
-        if [
-            Some(&get_attr.node),
-            Some(&get_attr.attribute),
-            get_attr.arguments.as_ref(),
-        ]
-        .into_iter()
-        .flatten()
-        .any(is_spread)
-        {
-            return Err(positional_after_unpack());
-        }
         // a GetAttrExpression compiled with `ignore_strict_check` sets it on its node object
         let ignore_strict_check = get_attr.ignore_strict_check
             || self.strict_ignored.contains(&self.identity(expr_key(expr)));
@@ -2060,6 +2122,9 @@ impl Codegen<'_> {
             self.mark_short_circuited(ns_expr);
         }
 
+        // `CoreExtension::getAttribute($this->env, $this->source, node, attribute, arguments, type, ...)`: positional
+        // arguments follow a spread child (`attribute(x, ...y)`), which zend_compile_args() refuses when it reaches
+        // the first of them, once the spread's own expression is compiled
         let start = self.marker;
         if get_attr.null_safe {
             // `$_vK`, unassigned when the code that assigns it did not run (a key compiled twice under the
@@ -2072,10 +2137,15 @@ impl Codegen<'_> {
             });
         } else {
             self.expr(&get_attr.node)?;
+            self.positional_after(&get_attr.node);
         }
         self.expr(&get_attr.attribute)?;
+        self.positional_after(&get_attr.attribute);
         match &get_attr.arguments {
-            Some(arguments) => self.expr(arguments)?,
+            Some(arguments) => {
+                self.expr(arguments)?;
+                self.positional_after(arguments);
+            }
             None => self.emit_const(Value::Array(Array::new())),
         }
         self.emit_at(
@@ -2721,13 +2791,6 @@ fn is_spread(expr: &Expr) -> bool {
 /// compilation with a `CompileError` carrying PHP's message.
 fn compile_fatal(fatal: php::CompileFatal) -> Error {
     Error::php(PhpError::new(ThrowableClass::CompileError, fatal.0))
-}
-
-/// `zend_compile_args()`: `Cannot use positional argument after argument unpacking` (PHPSRC/Zend/zend_compile.c).
-fn positional_after_unpack() -> Error {
-    compile_fatal(php::CompileFatal(
-        "Cannot use positional argument after argument unpacking".to_owned(),
-    ))
 }
 
 /// The key of a node for the compile-time state Twig keeps on node objects: the address of the expression. The AST

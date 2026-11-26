@@ -5,7 +5,9 @@ the PHP classes below in `data_php`; tests/engine/objects.rs has their Rust vers
 
 The composition topics (inheritance, traits, embed, include, macros, composition_errors, sandbox) render several
 templates, with template wrappers, globals and sandbox policies (see `case()`); the `api` topic runs PHP scripts of
-API calls (`API_PHP`) whose JSON results tests/engine/api.rs compares call by call.
+API calls (`API_PHP`) whose JSON results tests/engine/api.rs compares call by call. The `compile_errors` topic
+loads templates whose generated PHP fails to compile; PHP's fatal errors (`"phase": "fatal"`) are compared with
+twig-rs's CompileError.
 
 Regenerate from the repository root (Git Bash on Windows needs MSYS_NO_PATHCONV=1):
 
@@ -155,7 +157,8 @@ def case(tpl, data=None, objects=(), strict=False, templates=None, config=None, 
 # Topics whose cases run in a PHP process each: PHP keeps compiled template classes for the whole process, so a later
 # case with the same template and options would reuse the class without compiling it again (and without the
 # compile-time deprecations); twig-rs compiles in every fresh environment.
-PROCESS_ISOLATED = {"inheritance", "traits", "embed", "include", "macros", "composition_errors", "sandbox", "api"}
+PROCESS_ISOLATED = {"inheritance", "traits", "embed", "include", "macros", "composition_errors", "sandbox", "api",
+                    "compile_errors"}
 
 
 # With `cache => false` PHP eval()s every compiled template from the same line of Environment.php, so all templates
@@ -1239,11 +1242,83 @@ def parity():
     return c
 
 
+def compile_errors():
+    """When the generated PHP of a template fails to compile (plans/parity-fixes.md P16, P32): Twig compiles the whole
+    file (the template and its embedded templates) before PHP sees it, so Twig's own errors come first; PHP parses the
+    whole file, so a ParseError anywhere comes next (unwrapped by compileSource()); then PHP compiles it in file order
+    and stops at the first E_COMPILE_ERROR (an uncatchable fatal error, `"phase": "fatal"`, for which twig-rs raises a
+    CompileError with PHP's message, reference/deviations.md). Inside array literals zend_try_ct_eval_array() folds the
+    elements first (building the nested constant literals, which may fail) and drops the branch a constant test does
+    not choose; zend_compile_short_circuiting() does not compile the right operand a constant left operand decides."""
+    d = {"a": [1], "z": 0, "n": None}
+    parse = "{{ x|default(...[]) }}"
+    embed = "{% block b %}{% endblock %}"
+    c = [case(t, d) for t in [
+        # Twig's errors come first, also from an embedded template; then the ParseError, then the first fatal error
+        "{{ attribute(n, ...[]) }}{{ range() }}", "{{ x|default(...[]) }}{{ range() }}",
+        "{{ [...true] }}{{ range() }}", "{% block b %}B{% endblock %}{{ block(...['b']) }}{{ range() }}",
+        "{{ attribute(n, ...[]) }}{{ max(foo: 1) }}", "{{ range() }}{{ attribute(n, ...[]) }}",
+        "{{ attribute(n, ...[]) }}{{ 1|nope }}", "{{ attribute(n, ...[]) }}{% macro m(a, a) %}{% endmacro %}",
+        "{{ attribute(n, ...[]) }}{% macro m() %}{{ range() }}{% endmacro %}", "{{ false and range() }}",
+        "{{ attribute(n, ...[]) }}{{ x|default(...[]) }}", "{{ false and x|default(...[]) }}",
+        "{{ x|default(...[]) }}", "{{ x.y|default(...['d']) }}",
+        "{{ attribute(n, ...[]) }}{{ [...true] }}", "{{ [...true] }}{{ attribute(n, ...[]) }}",
+        "{% block b %}{{ [...true] }}{% endblock %}{{ attribute(n, ...[]) }}",
+        "{% macro m() %}{{ [...true] }}{% endmacro %}{% block b %}{{ attribute(n, ...[]) }}{% endblock %}",
+        # the elements of an array literal are folded before any of them is compiled
+        "{{ [attribute(n, ...[]), [...true]]|length }}", "{{ [[...true], attribute(n, ...[])]|length }}",
+        "{{ [[attribute(n, ...[])], [...true]]|length }}", "{{ [...true, attribute(n, ...[])]|length }}",
+        "{{ [n and [...true]]|length }}", "{{ [(n ? [...true] : 1)]|length }}", "{{ [n ~ [...true]]|length }}",
+        "{{ [false and [...true]]|length }}", "{{ [(true ? [...true] : 1)]|length }}",
+        "{{ {([...true]): 1}|length }}", "{{ {(attribute(n, ...[])): [...true]}|length }}",
+        "{{ {([...false]): attribute(n, ...[])}|length }}", "{% set a, b = 1, [...true] %}",
+        "{% set a, b = attribute(n, ...[]), [...true] %}", "{{ attribute(n, ...[...true]) }}",
+        "{% block b %}{% endblock %}{{ block(...[[...true]]) }}", "{{ a.b(...[...true]) }}",
+        "{{ include(...[...true]) }}", "{% macro m(a = [1]) %}{% endmacro %}{{ _self.m(...[...true]) }}",
+        "{% deprecated [...true] %}", "{% for x in [...true] %}{% endfor %}", "{% if [...true] %}{% endif %}",
+        "{% with {a: [...true]} %}{% endwith %}",
+        # code PHP never compiles: the dropped branch of a folded conditional, the right operand a constant decides
+        "{{ false and attribute(n, ...[]) }}", "{{ true or attribute(n, ...[]) }}", "{{ 'a' or attribute(n, ...[]) }}",
+        "{{ not (false and attribute(n, ...[])) }}", "{{ (false and true) and attribute(n, ...[]) }}",
+        "{{ false and [...true] }}", "{% block b %}{% endblock %}{{ false and block(...['b']) }}",
+        "{{ [true ? 1 : attribute(n, ...[])]|length }}", "{{ [(false ? [...true] : 1)]|length }}",
+        "{{ [true or attribute(n, ...[])]|length }}", "{{ [1 ?? attribute(n, ...[])]|length }}",
+        "{{ [1 ?: attribute(n, ...[])]|length }}", "{{ [false and attribute(n, ...[])]|length }}",
+        "{{ [(true ? 1 : max([...true]))]|length }}", "{{ [...(true ? [1] : [...true])]|length }}",
+        # ... and code it compiles
+        "{{ true ? 1 : attribute(n, ...[]) }}", "{{ (false ? [...true] : 1) }}", "{{ 1 ?? attribute(n, ...[]) }}",
+        "{{ 1 ?: attribute(n, ...[]) }}", "{{ n ?? attribute(n, ...[]) }}", "{{ [n ?? attribute(n, ...[])]|length }}",
+        "{{ [true and attribute(n, ...[])]|length }}", "{{ [(false ? 1 : max([...true]))]|length }}",
+        "{{ attribute(n, ...[]) is defined ? 1 : 2 }}", "{{ attribute(n, ...[]) ?? 'd' }}",
+    ]]
+    c.append(case("{{ [...true] }}", d, config={"autoescape": "html"}))
+    c.append(case("{{ attribute(n, ...[]) }}{{ range() }}", d, config={"optimizations": -1}))
+    c.append(case(None, d, templates={"index.twig": "{% extends x ?? [...true] %}{% block b %}"
+                                                    "{{ attribute(n, ...[]) }}{% endblock %}", "a.twig": ""}))
+    for main in ["{{ attribute(n, ...[]) }}{% embed 'e.twig' %}{% block b %}{{ range() }}{% endblock %}{% endembed %}",
+                 "{{ x|default(...[]) }}{% embed 'e.twig' %}{% block b %}{{ range() }}{% endblock %}{% endembed %}",
+                 "{{ attribute(n, ...[]) }}{% embed 'e.twig' %}{% block b %}{{ x|default(...[]) }}{% endblock %}"
+                 "{% endembed %}",
+                 "{% embed 'e.twig' %}{% block b %}{{ [...true] }}{% endblock %}{% endembed %}{{ attribute(n, ...[]) }}"]:
+        c.append(case(None, d, templates={"index.twig": main, "e.twig": embed}))
+    # the ParseError of another template, loaded while rendering: templates wrap it like any PHP throwable
+    for main in ["{% include 'p.twig' %}", "{{ include('p.twig') }}", "{% extends 'p.twig' %}",
+                 "{% import 'p.twig' as m %}{{ m.f() }}", "{{ source('p.twig') }}", "{% embed 'p.twig' %}{% endembed %}",
+                 "{% include 'p.twig' ignore missing %}", "{% use 'p.twig' %}"]:
+        c.append(multi("index.twig", {"index.twig": main, "p.twig": parse}, d))
+    c.append(multi("index.twig", {"index.twig": "{{ block('b', 'p.twig') }}",
+                                  "p.twig": "{% block b %}" + parse + "{% endblock %}"}, d))
+    c.append(multi("index.twig", {"index.twig": "{% include 'p.twig' %}",
+                                  "p.twig": "{{ attribute(n, ...[]) }}{{ range() }}"}, d))
+    c.append(case("{{ include(template_from_string('{{ x|default(...[]) }}')) }}", d, extensions=["string_loader"]))
+    return c
+
+
 TOPICS = {"output": output, "expressions": expressions, "variables": variables, "statements": statements,
           "errors": errors, "objects": objects, "lines": lines, "diagnostics": diagnostics,
           "optimized": optimized, "escape": escape, "inheritance": inheritance, "traits": traits, "embed": embed,
           "include": include, "macros": macros, "composition_errors": composition_errors, "sandbox": sandbox,
-          "api": api, "parity": parity}
+          "api": api, "parity": parity, "compile_errors": compile_errors}
 
 if __name__ == "__main__":
     args = sys.argv[1:]

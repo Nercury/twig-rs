@@ -21,8 +21,8 @@
 //! - `testTemplateClassFollowsExtensionsAddedAfterItWasComputed`, `testTemplateClassFollowsDebugAndStrictVariablesChanges`,
 //!   `testTemplateClassDependsOnOptimizations`: generated class names (`tests/engine_api.rs` covers recompiling after
 //!   `enableStrictVariables()`).
-//! - `testCompiledTemplatesOnlyAskTheLoaderForTheirPathWhenNeeded`: relies on PHP reusing a declared template class
-//!   across environments of one process.
+//! - From `testCompiledTemplatesOnlyAskTheLoaderForTheirPathWhenNeeded`: PHP reusing a declared template class across
+//!   environments of one process (the port loads in one environment and counts the compiling read).
 //! - `testDebugTemplatesInstantiatedWithoutTheirConstructorKnowTheirPath`,
 //!   `testTemplatesInstantiatedWithoutTheirConstructorDoNotFailOnTheirPath`: PHP reflection.
 //! - `testTheSourceOfACompiledTemplateCanBeSerialized`: PHP `serialize()`.
@@ -790,6 +790,63 @@ fn test_compiled_templates_resolve_their_path_with_the_loader_they_were_loaded_w
     );
 }
 
+/// A loader counting the sources it is asked for (upstream's anonymous class around a `FilesystemLoader`).
+struct CountingLoader {
+    loader: FilesystemLoader,
+    reads: Arc<AtomicUsize>,
+}
+
+impl Loader for CountingLoader {
+    fn get_source_context(&self, name: &str) -> twig::Result<Source> {
+        self.reads.fetch_add(1, Ordering::SeqCst);
+        self.loader.get_source_context(name)
+    }
+
+    fn get_cache_key(&self, name: &str) -> twig::Result<Vec<u8>> {
+        self.loader.get_cache_key(name)
+    }
+
+    fn is_fresh(&self, name: &str, time: i64) -> twig::Result<bool> {
+        self.loader.is_fresh(name, time)
+    }
+
+    fn exists(&self, name: &str) -> bool {
+        self.loader.exists(name)
+    }
+}
+
+#[test]
+fn test_compiled_templates_only_ask_the_loader_for_their_path_when_needed() {
+    // Upstream's second environment reuses the template class PHP declared for the first one, so loading reads
+    // nothing there; twig-rs compiles per environment, and the load is the first read.
+    let dir = TempDir::new("lazy-path");
+    dir.write("lazy_path.twig", "{{ foo }}");
+    let reads = Arc::new(AtomicUsize::new(0));
+    let loader = CountingLoader {
+        loader: FilesystemLoader::new([dir.path("")]).unwrap(),
+        reads: Arc::clone(&reads),
+    };
+    let twig = Environment::with_options(loader, strict(true));
+    let template = twig.load("lazy_path.twig").unwrap();
+    assert_eq!(
+        template
+            .render(ctx(&[("foo", Value::from("bar"))]))
+            .unwrap(),
+        "bar"
+    );
+    assert_eq!(reads.load(Ordering::SeqCst), 1);
+    let path = realpath(&dir.path("lazy_path.twig"));
+    for _ in 0..2 {
+        let error = expect_error(template.render(Array::new()), ErrorKind::Runtime);
+        assert_eq!(
+            error.source_context().map(|s| s.path().to_owned()),
+            Some(path.clone())
+        );
+    }
+    assert_eq!(template.source_context().path(), path);
+    assert_eq!(reads.load(Ordering::SeqCst), 2);
+}
+
 /// A loader that serves `{{ foo }}` with a path until it goes down.
 struct FailingLoader {
     down: std::sync::atomic::AtomicBool,
@@ -824,7 +881,6 @@ impl Loader for FailingLoader {
 }
 
 #[test]
-#[ignore = "twig-rs mismatch: compiled templates keep the loader's path instead of resolving it lazily (\"\" when the loader fails)"]
 fn test_compiled_templates_keep_their_error_when_the_loader_fails_to_resolve_their_path() {
     let loader = Arc::new(FailingLoader {
         down: std::sync::atomic::AtomicBool::new(false),

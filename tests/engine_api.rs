@@ -2,9 +2,9 @@
 //! callables and the limits of the core engine. Expected messages come from Twig 3.31.1 (quoted from its sources and
 //! checked with the oracle where noted).
 
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 
-use twig::ErrorKind;
 use twig::deprecation::Deprecation;
 use twig::escaper::DefaultStrategy;
 use twig::extension::runtime::CallableRuntime;
@@ -13,13 +13,16 @@ use twig::extension::{
     TwigFunction,
 };
 use twig::loader::ArrayLoader;
+use twig::loader::Loader;
 use twig::runtime::{
     DiagnosticsPolicy, Environment, EnvironmentOptions, Markup, Notice, SandboxExtension,
     SecurityError, SecurityErrorKind, SecurityPolicy, SecurityPolicyInterface,
     SourcePolicyInterface, TemplateWrapper,
 };
 use twig::value::{Array, PhpString, Value};
+use twig::value::{PhpError, ThrowableClass};
 use twig::vm::Sink;
+use twig::{ErrorKind, Source};
 
 fn options() -> EnvironmentOptions {
     EnvironmentOptions {
@@ -1466,4 +1469,310 @@ fn runtimes_fall_back_to_registered_extensions() {
         env.runtime("App\\Missing").unwrap_err().to_string(),
         "Unable to load the \"App\\Missing\" runtime."
     );
+}
+
+// ---- lazily resolved source paths (P24) -------------------------------------------------------------------------
+
+/// A loader serving `templates` with the paths `<prefix><name>` and recording the names it is asked for; when it is
+/// down, it throws `RuntimeException('The storage is down.')` for the templates it knows. Clones share the state.
+#[derive(Clone)]
+struct RecordingLoader {
+    templates: Arc<Vec<(&'static str, &'static str)>>,
+    prefix: &'static str,
+    down: Arc<AtomicBool>,
+    reads: Arc<Mutex<Vec<String>>>,
+}
+
+impl RecordingLoader {
+    fn new(templates: &[(&'static str, &'static str)], prefix: &'static str) -> Self {
+        RecordingLoader {
+            templates: Arc::new(templates.to_vec()),
+            prefix,
+            down: Arc::default(),
+            reads: Arc::default(),
+        }
+    }
+
+    fn go_down(&self) {
+        self.down.store(true, Ordering::SeqCst);
+    }
+
+    /// The names asked so far, comma-separated (`implode(',', $loader->reads)`).
+    fn reads(&self) -> String {
+        self.reads.lock().unwrap().join(",")
+    }
+}
+
+impl Loader for RecordingLoader {
+    fn get_source_context(&self, name: &str) -> twig::Result<Source> {
+        self.reads.lock().unwrap().push(name.to_owned());
+        let Some((_, code)) = self.templates.iter().find(|(known, _)| *known == name) else {
+            return Err(twig::Error::loader(format!(
+                "Template \"{name}\" is not defined."
+            )));
+        };
+        if self.down.load(Ordering::SeqCst) {
+            return Err(twig::Error::php(PhpError::new(
+                ThrowableClass::RuntimeException,
+                "The storage is down.",
+            )));
+        }
+        Ok(Source::with_path(
+            *code,
+            name,
+            format!("{}{name}", self.prefix),
+        ))
+    }
+
+    fn get_cache_key(&self, name: &str) -> twig::Result<Vec<u8>> {
+        Ok(name.as_bytes().to_vec())
+    }
+
+    fn is_fresh(&self, _name: &str, _time: i64) -> twig::Result<bool> {
+        Ok(true)
+    }
+
+    fn exists(&self, name: &str) -> bool {
+        self.templates.iter().any(|(known, _)| *known == name)
+    }
+}
+
+fn strict() -> EnvironmentOptions {
+    EnvironmentOptions {
+        strict_variables: true,
+        ..options()
+    }
+}
+
+/// `get_class($e).': '.$e->getMessage()` and `$e->getSourceContext()?->getPath()`.
+fn error_and_path(result: twig::Result<String>) -> (String, String) {
+    let error = result.unwrap_err();
+    let path = error
+        .source_context()
+        .map(|source| source.path().to_owned())
+        .unwrap_or_default();
+    (format!("{}: {error}", error.class_name()), path)
+}
+
+// The scenarios of the next tests ran in the oracle (`php_code` cases, a PHP process each, with a PHP port of
+// `RecordingLoader`); the expectations are its results.
+
+#[test]
+fn errors_resolve_the_lazy_path_of_their_template_when_they_get_its_source() {
+    // the ignored LoaderError of `include ... ignore missing` gets the template's source (`Template::load()`), and its
+    // `updateRepr()` asks the loader for the path while the loader works
+    let loader = RecordingLoader::new(
+        &[(
+            "index.twig",
+            "{% include 'missing.twig' ignore missing %}{{ foo }}",
+        )],
+        "/path/to/",
+    );
+    let twig = Environment::with_options(loader.clone(), strict());
+    let template = twig.load("index.twig").unwrap();
+    assert_eq!(loader.reads(), "index.twig");
+    assert_eq!(
+        template.render(ctx(&[("foo", Value::from("x"))])).unwrap(),
+        "x"
+    );
+    assert_eq!(loader.reads(), "index.twig,missing.twig,index.twig");
+    loader.go_down();
+    assert_eq!(
+        error_and_path(template.render(Array::new())),
+        (
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index.twig\" at line 1."
+                .to_owned(),
+            "/path/to/index.twig".to_owned()
+        )
+    );
+    assert_eq!(
+        loader.reads(),
+        "index.twig,missing.twig,index.twig,missing.twig"
+    );
+}
+
+#[test]
+fn ignored_loader_errors_of_functions_leave_the_lazy_path_alone() {
+    // `include()` and `source()` catch the LoaderError before any template gives it its source
+    let loader = RecordingLoader::new(
+        &[(
+            "index.twig",
+            "{{ include('missing.twig', ignore_missing = true) }}{{ source('missing.twig', ignore_missing = true) }}{{ foo }}",
+        )],
+        "/path/to/",
+    );
+    let twig = Environment::with_options(loader.clone(), strict());
+    let template = twig.load("index.twig").unwrap();
+    assert_eq!(
+        template.render(ctx(&[("foo", Value::from("x"))])).unwrap(),
+        "x"
+    );
+    assert_eq!(loader.reads(), "index.twig,missing.twig,missing.twig");
+    loader.go_down();
+    assert_eq!(
+        error_and_path(template.render(Array::new())),
+        (
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index.twig\" at line 1."
+                .to_owned(),
+            String::new()
+        )
+    );
+    assert_eq!(
+        loader.reads(),
+        "index.twig,missing.twig,missing.twig,missing.twig,missing.twig,index.twig"
+    );
+}
+
+#[test]
+fn embedded_templates_resolve_their_lazy_path_on_their_own() {
+    let loader = RecordingLoader::new(
+        &[
+            (
+                "index.twig",
+                "{{ foo }}{% embed \"layout.twig\" %}{% block content %}{{ bar }}{% endblock %}{% endembed %}",
+            ),
+            ("layout.twig", "{% block content %}{% endblock %}"),
+        ],
+        "/path/to/",
+    );
+    let twig = Environment::with_options(loader.clone(), strict());
+    let template = twig.load("index.twig").unwrap();
+    assert_eq!(
+        error_and_path(template.render(Array::new())),
+        (
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index.twig\" at line 1."
+                .to_owned(),
+            "/path/to/index.twig".to_owned()
+        )
+    );
+    assert_eq!(loader.reads(), "index.twig,index.twig");
+    loader.go_down();
+    // the embedded template wraps the loader's exception with its own source, whose path is not resolved yet
+    assert_eq!(
+        error_and_path(template.render(ctx(&[("foo", Value::Int(1))]))),
+        (
+            "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"The storage is down.\") in \"index.twig\" at line 1.".to_owned(),
+            String::new()
+        )
+    );
+    assert_eq!(
+        loader.reads(),
+        "index.twig,index.twig,layout.twig,index.twig"
+    );
+}
+
+#[test]
+fn templates_resolve_their_lazy_path_with_the_loader_of_their_instantiation() {
+    let templates: &[(&'static str, &'static str)] = &[
+        (
+            "index.twig",
+            "{% embed \"layout.twig\" %}{% block content %}{{ bar }}{% endblock %}{% endembed %}{{ foo }}",
+        ),
+        ("layout.twig", "{% block content %}{% endblock %}"),
+    ];
+    let loader = RecordingLoader::new(templates, "/path/to/");
+    let twig = Environment::with_options(loader.clone(), strict());
+    let template = twig.load("index.twig").unwrap();
+    let other = RecordingLoader::new(templates, "/other/");
+    twig.set_loader(other.clone());
+    // the embedded template is instantiated after `setLoader()`, the main template before
+    assert_eq!(
+        error_and_path(template.render(ctx(&[("foo", Value::Int(1))]))),
+        (
+            "Twig\\Error\\RuntimeError: Variable \"bar\" does not exist in \"index.twig\" at line 1."
+                .to_owned(),
+            "/other/index.twig".to_owned()
+        )
+    );
+    assert_eq!(
+        error_and_path(template.render(ctx(&[("bar", Value::Int(1))]))),
+        (
+            "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index.twig\" at line 1."
+                .to_owned(),
+            "/path/to/index.twig".to_owned()
+        )
+    );
+    assert_eq!(loader.reads(), "index.twig,index.twig");
+    assert_eq!(other.reads(), "layout.twig,index.twig");
+
+    let loader = RecordingLoader::new(templates, "/path/to/");
+    let twig = Environment::with_options(loader.clone(), strict());
+    let template = twig.load("index.twig").unwrap();
+    twig.set_loader(ArrayLoader::new(Vec::<(String, String)>::new()));
+    assert_eq!(
+        error_and_path(template.render(ctx(&[("foo", Value::Int(1))]))),
+        (
+            "Twig\\Error\\LoaderError: Template \"layout.twig\" is not defined in \"index.twig\" at line 1."
+                .to_owned(),
+            String::new()
+        )
+    );
+    assert_eq!(loader.reads(), "index.twig");
+}
+
+#[test]
+fn template_wrappers_in_templates_resolve_the_lazy_path_in_get_path() {
+    for (code, output, path) in [
+        (
+            "{{ t.getSourceContext().getName() }}|{{ foo }}",
+            "index.twig|1",
+            "",
+        ),
+        (
+            "{{ t.getSourceContext().getPath() }}|{{ foo }}",
+            "/path/to/index.twig|1",
+            "/path/to/index.twig",
+        ),
+    ] {
+        let loader = RecordingLoader::new(&[("index.twig", code)], "/path/to/");
+        let twig = Environment::with_options(loader.clone(), strict());
+        let template = twig.load("index.twig").unwrap();
+        let t = template.to_value();
+        assert_eq!(
+            template
+                .render(ctx(&[("t", t.clone()), ("foo", Value::Int(1))]))
+                .unwrap(),
+            output
+        );
+        let reads = if path.is_empty() {
+            "index.twig"
+        } else {
+            "index.twig,index.twig"
+        };
+        assert_eq!(loader.reads(), reads, "{code}");
+        loader.go_down();
+        assert_eq!(
+            error_and_path(template.render(ctx(&[("t", t)]))),
+            (
+                "Twig\\Error\\RuntimeError: Variable \"foo\" does not exist in \"index.twig\" at line 1."
+                    .to_owned(),
+                path.to_owned()
+            ),
+            "{code}"
+        );
+        assert_eq!(loader.reads(), "index.twig,index.twig", "{code}");
+    }
+}
+
+#[test]
+fn debug_templates_keep_the_path_and_the_code_of_their_compilation() {
+    let loader = RecordingLoader::new(&[("index.twig", "{{ foo }}")], "/path/to/");
+    let twig = Environment::with_options(
+        loader.clone(),
+        EnvironmentOptions {
+            debug: true,
+            ..strict()
+        },
+    );
+    let template = twig.load("index.twig").unwrap();
+    loader.go_down();
+    let error = template.render(Array::new()).unwrap_err();
+    assert_eq!(
+        error.to_string(),
+        "Variable \"foo\" does not exist in \"index.twig\" at line 1."
+    );
+    let source = error.source_context().unwrap();
+    assert_eq!(source.path(), "/path/to/index.twig");
+    assert_eq!(source.code(), b"{{ foo }}");
+    assert_eq!(loader.reads(), "index.twig");
 }

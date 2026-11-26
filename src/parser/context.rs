@@ -4,10 +4,12 @@
 use std::sync::OnceLock;
 use std::sync::atomic::{AtomicBool, Ordering};
 
+use twig_value::ThrowableClass;
+
 use super::{DEFAULT_MAX_NESTING_LEVEL, Parser, TokenStream};
 use crate::ast::Node;
 use crate::deprecation::DeprecationSink;
-use crate::error::{Error, Result};
+use crate::error::{Error, ErrorKind, Result};
 use crate::extension::{ExtensionSet, OptimizerExtension};
 use crate::lexer::{Lexer, LexerOptions};
 use crate::source::Source;
@@ -205,12 +207,21 @@ impl ParseContext {
     }
 }
 
-/// The `catch` blocks of `Environment::compileSource()`: a Twig error (syntax, loader, runtime, sandbox) gets the
-/// source of the compiled template (`setSourceContext($source)`); any other error (a PHP `LogicException`, another
-/// throwable) becomes `An exception has been thrown during the compilation of a template ("%s").` without a line, with
-/// the error as its previous error.
+/// The `catch` blocks of `Environment::compileSource()` (TWIG/src/Environment.php): a Twig error (syntax, loader,
+/// runtime, sandbox) gets the source of the compiled template (`catch (Error $e)`: `setSourceContext($source)`); an
+/// `\Exception` (a `LogicException`, an `InvalidArgumentException`, ...) becomes `An exception has been thrown during
+/// the compilation of a template ("%s").` without a line, with the error as its previous error (`catch (\Exception
+/// $e)`). A PHP `\Error` is not caught and comes out unchanged: the `ParseError` and `CompileError` of the generated
+/// PHP, which PHP raises when `Environment::loadTemplate()` evaluates the code `compileSource()` returned.
 pub fn compile_source_error(error: Error, source: &Source) -> Error {
     match error.kind() {
+        ErrorKind::Php
+            if error
+                .php_error()
+                .is_some_and(|php| !php.class().is_a(&ThrowableClass::Exception)) =>
+        {
+            error
+        }
         kind if !kind.is_twig_error() => Error::syntax(format!(
             "An exception has been thrown during the compilation of a template (\"{}\").",
             error.raw_message()

@@ -309,7 +309,13 @@ fn run_case(case: &Json, expected: &Json) -> Option<String> {
         }
         (Err(error), Json::Bool(false)) => {
             let want = expected.field("error");
-            let class = want.field("class").as_str().unwrap_or_default();
+            // PHP stops with an uncatchable fatal error (E_COMPILE_ERROR) where the generated PHP does not compile;
+            // twig-rs raises a `CompileError` with PHP's message instead (reference/deviations.md)
+            let class = if expected.get("phase").and_then(Json::as_str) == Some("fatal") {
+                "CompileError"
+            } else {
+                want.field("class").as_str().unwrap_or_default()
+            };
             let message = without_called_in(&want.field("message").as_lossy_string());
             let got = format!("{}: {}", error_class(error), error);
             let wanted = format!("{class}: {message}");

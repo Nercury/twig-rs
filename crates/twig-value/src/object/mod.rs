@@ -36,7 +36,7 @@ mod iter;
 mod props;
 mod std_class;
 
-pub use args::{CallArgs, CalleeParams, FunctionKind, Param};
+pub use args::{CallArgs, CalleeParams, FunctionKind, MethodParams, Param};
 pub use array_object::{ArrayIterator, ArrayObject};
 pub use class::{
     ClassBuilder, ClassEntry, ClassKind, ClassRef, ConstantInfo, EnumBacking, MethodInfo,
@@ -149,6 +149,22 @@ pub trait Object: Any + Send + Sync {
     ) -> PhpResult<Value> {
         let _ = (this, args, diag);
         Err(undefined_method(self.class(), method))
+    }
+
+    /// The parameters of the method `method` (its **lowercase** name, as [`Object::call`] gets it)
+    /// as the class declares them, so that the engine can send the arguments of a call the way PHP
+    /// does. PHP checks a named argument against the parameters of the called function as it sends
+    /// it (`zend_handle_named_arg()`, PHPSRC/Zend/zend_execute.c): in `$object->method(...$args)`
+    /// an unknown name fails at its element of `$args`, before a positional element after it is
+    /// looked at (`ZEND_SEND_UNPACK`). [`ObjectRef::method_params`] resolves the method of a call.
+    ///
+    /// `None` (the default) means unknown: named arguments are then sent unchecked, and the method's
+    /// own binding ([`CallArgs::bind`]) reports an unknown name, after the elements PHP would not
+    /// have reached. A class whose methods bind their arguments with fixed [`Param`] lists returns
+    /// those lists.
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        let _ = method;
+        None
     }
 
     /// Backing store for declared and dynamic properties used by the standard property handlers.
@@ -471,6 +487,25 @@ impl ObjectRef {
         }
     }
 
+    /// The parameters of the function `$obj->name(...)` calls, found like [`ObjectRef::call_method`]
+    /// finds it (`zend_std_get_method()`): a public method's [`Object::method_params`]; for a
+    /// missing or non-public method of a class with `__call()`, the trampoline
+    /// ([`MethodParams::call_trampoline`]); a `Closure`'s `__invoke` answers for itself. `None` when
+    /// they are unknown, or when the call fails before any argument is sent (no such method).
+    pub fn method_params(&self, name: &str) -> Option<MethodParams> {
+        if name.eq_ignore_ascii_case("__invoke") && self.downcast_ref::<Closure>().is_some() {
+            return self.0.obj.method_params("__invoke");
+        }
+        let class = self.class();
+        match class.method(name) {
+            Some(m) if m.visibility == Visibility::Public => {
+                self.0.obj.method_params(&m.name.to_ascii_lowercase())
+            }
+            _ if class.method("__call").is_some() => Some(MethodParams::call_trampoline()),
+            _ => None,
+        }
+    }
+
     /// Whether the class has a method (case-insensitive, any visibility; `method_exists()`).
     pub fn has_method(&self, name: &str) -> bool {
         self.class().method(name).is_some()
@@ -774,4 +809,65 @@ pub fn property_entries_to_array(entries: Vec<PropertyEntry>) -> Array {
         }
     }
     out
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// A class with `run($x)` (public), `hidden()` (private) and, when `call` is set, `__call()`.
+    struct Probe {
+        class: ClassRef,
+    }
+
+    impl Object for Probe {
+        fn class(&self) -> &ClassRef {
+            &self.class
+        }
+
+        fn method_params(&self, method: &str) -> Option<MethodParams> {
+            match method {
+                "run" => Some(MethodParams::user(vec![Param::required("x")])),
+                "hidden" => Some(MethodParams::user(Vec::new())),
+                _ => None,
+            }
+        }
+    }
+
+    fn probe(call: bool) -> ObjectRef {
+        let mut builder = ClassBuilder::class("Probe").method("run").method_with(
+            "hidden",
+            Visibility::Private,
+            false,
+        );
+        if call {
+            builder = builder.method("__call");
+        }
+        ObjectRef::new(Probe {
+            class: builder.build(),
+        })
+    }
+
+    #[test]
+    fn method_params_follow_the_method_lookup() {
+        let names = |params: Option<MethodParams>| {
+            params.map(|p| p.params.iter().map(|p| p.name).collect::<Vec<_>>())
+        };
+        let plain = probe(false);
+        assert_eq!(names(plain.method_params("RUN")), Some(vec!["x"]));
+        assert_eq!(names(plain.method_params("hidden")), None, "not callable");
+        assert_eq!(names(plain.method_params("missing")), None);
+        let magic = probe(true);
+        assert_eq!(names(magic.method_params("run")), Some(vec!["x"]));
+        assert_eq!(
+            names(magic.method_params("hidden")),
+            Some(vec!["arguments"]),
+            "a private method is called through the __call() trampoline"
+        );
+        let trampoline = magic.method_params("missing").unwrap();
+        assert!(trampoline.params[0].variadic);
+        assert_eq!(trampoline.kind, FunctionKind::User);
+        let closure = Closure::new(|_, _| Ok(Value::Null)).into_ref();
+        assert!(closure.method_params("__invoke").is_none());
+    }
 }

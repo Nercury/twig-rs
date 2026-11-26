@@ -127,6 +127,18 @@ impl Object for EnumCase {
         &self.class
     }
 
+    /// The internal methods every enum gets (`zend_enum_register_funcs()`,
+    /// PHPSRC/Zend/zend_enum.c): `cases()`, and `from(int|string $value)` /
+    /// `tryFrom(int|string $value)` for a backed enum.
+    fn method_params(&self, method: &str) -> Option<super::MethodParams> {
+        let params = match method {
+            "cases" => Vec::new(),
+            "from" | "tryfrom" if self.value.is_some() => vec![Param::required("value")],
+            _ => return None,
+        };
+        Some(super::MethodParams::internal(params))
+    }
+
     fn call(
         &self,
         _this: &ObjectRef,

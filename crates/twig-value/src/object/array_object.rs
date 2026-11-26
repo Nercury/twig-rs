@@ -32,6 +32,74 @@ fn lock(storage: &Storage) -> MutexGuard<'_, Array> {
     storage.lock().unwrap_or_else(|e| e.into_inner())
 }
 
+/// The parameters of the methods both classes declare (by lowercase name), from
+/// PHPSRC/ext/spl/spl_array.stub.php.
+fn common_params(method: &str) -> Option<Vec<Param>> {
+    Some(match method {
+        "offsetexists" | "offsetget" | "offsetunset" => vec![Param::required("key")],
+        "offsetset" => vec![Param::required("key"), Param::required("value")],
+        "append" => vec![Param::required("value")],
+        "setflags" => vec![Param::required("flags")],
+        // asort(int $flags = SORT_REGULAR), ksort(int $flags = SORT_REGULAR)
+        "asort" | "ksort" => vec![Param::optional("flags", 0)],
+        "uasort" | "uksort" => vec![Param::required("callback")],
+        "unserialize" | "__unserialize" => vec![Param::required("data")],
+        "getarraycopy" | "count" | "getflags" | "__debuginfo" | "natsort" | "natcasesort"
+        | "serialize" | "__serialize" => Vec::new(),
+        _ => return None,
+    })
+}
+
+/// The parameters of `ArrayObject`'s methods (by lowercase name).
+fn array_object_params(method: &str) -> Option<Vec<Param>> {
+    common_params(method).or_else(|| {
+        Some(match method {
+            // __construct(array|object $array = [], int $flags = 0,
+            //     string $iteratorClass = ArrayIterator::class)
+            "__construct" => vec![
+                Param::optional("array", Value::Array(Array::new())),
+                Param::optional("flags", 0),
+                Param::optional("iteratorClass", "ArrayIterator"),
+            ],
+            "exchangearray" => vec![Param::required("array")],
+            "setiteratorclass" => vec![Param::required("iteratorClass")],
+            "getiterator" | "getiteratorclass" => Vec::new(),
+            _ => return None,
+        })
+    })
+}
+
+/// The parameters of `ArrayIterator`'s methods (by lowercase name).
+fn array_iterator_params(method: &str) -> Option<Vec<Param>> {
+    common_params(method).or_else(|| {
+        Some(match method {
+            // __construct(array|object $array = [], int $flags = 0)
+            "__construct" => vec![
+                Param::optional("array", Value::Array(Array::new())),
+                Param::optional("flags", 0),
+            ],
+            "seek" => vec![Param::required("offset")],
+            "rewind" | "valid" | "current" | "key" | "next" => Vec::new(),
+            _ => return None,
+        })
+    })
+}
+
+/// Binds the arguments of `class::method` (named as declared) to the parameters `params` gives.
+fn bind_params(
+    class: &str,
+    method: &str,
+    params: fn(&str) -> Option<Vec<Param>>,
+    args: &CallArgs,
+) -> PhpResult<Vec<Value>> {
+    let declared = params(&method.to_ascii_lowercase()).unwrap_or_default();
+    args.bind(
+        &format!("{class}::{method}"),
+        &declared,
+        FunctionKind::Internal,
+    )
+}
+
 /// Port of `get_hash_key()`: `None` is `FAILURE` (array/object offsets). `null` emits the PHP 8.5
 /// deprecation in every context (also `unset`, unlike plain arrays).
 fn hash_key(offset: &Value, diag: &mut dyn Diagnostics) -> PhpResult<Option<ArrayKey>> {
@@ -147,6 +215,9 @@ impl Spl<'_> {
     }
 
     /// Methods shared by both classes; `None` when `method` is not one of them.
+    ///
+    /// The methods of both classes bind their arguments to the parameters of [`common_params`],
+    /// [`array_object_params`] and [`array_iterator_params`].
     fn call_common(
         &self,
         this: &ObjectRef,
@@ -191,49 +262,49 @@ impl Spl<'_> {
     ) -> PhpResult<Value> {
         let class = self.class.name();
         let fname = |m: &str| format!("{class}::{m}");
-        let bind = |m: &str, params: &[Param]| args.bind(&fname(m), params, FunctionKind::Internal);
+        let bind = |m: &str| {
+            let params = common_params(&m.to_ascii_lowercase()).unwrap_or_default();
+            args.bind(&fname(m), &params, FunctionKind::Internal)
+        };
         {
             match method {
                 "offsetexists" => {
-                    let a = bind("offsetExists", &[Param::required("key")])?;
+                    let a = bind("offsetExists")?;
                     Ok(Value::Bool(self.has(&a[0], 2, diag)?))
                 }
                 "offsetget" => {
-                    let a = bind("offsetGet", &[Param::required("key")])?;
+                    let a = bind("offsetGet")?;
                     self.get(&a[0], FetchMode::Read, diag)
                 }
                 "offsetset" => {
-                    let a = bind(
-                        "offsetSet",
-                        &[Param::required("key"), Param::required("value")],
-                    )?;
+                    let a = bind("offsetSet")?;
                     self.set(Some(&a[0]), a[1].clone(), diag)?;
                     Ok(Value::Null)
                 }
                 "offsetunset" => {
-                    let a = bind("offsetUnset", &[Param::required("key")])?;
+                    let a = bind("offsetUnset")?;
                     self.unset(&a[0], diag)?;
                     Ok(Value::Null)
                 }
                 "append" => {
-                    let a = bind("append", &[Param::required("value")])?;
+                    let a = bind("append")?;
                     self.set(None, a[0].clone(), diag)?;
                     Ok(Value::Null)
                 }
                 "getarraycopy" => {
-                    bind("getArrayCopy", &[])?;
+                    bind("getArrayCopy")?;
                     Ok(Value::Array(self.snapshot()))
                 }
                 "count" => {
-                    bind("count", &[])?;
+                    bind("count")?;
                     Ok(Value::Int(self.snapshot().len() as i64))
                 }
                 "getflags" => {
-                    bind("getFlags", &[])?;
+                    bind("getFlags")?;
                     Ok(Value::Int(self.flags() & !INT_MASK))
                 }
                 "setflags" => {
-                    let a = bind("setFlags", &[Param::required("flags")])?;
+                    let a = bind("setFlags")?;
                     let name = fname("setFlags");
                     let flags = param::parse_long(&a[0], &Arg::new(&name, 1, "flags"), diag)?;
                     let old = self.flags();
@@ -242,7 +313,7 @@ impl Spl<'_> {
                     Ok(Value::Null)
                 }
                 "__debuginfo" => {
-                    bind("__debugInfo", &[])?;
+                    bind("__debugInfo")?;
                     let entries = self.debug_entries(this);
                     Ok(Value::Array(super::property_entries_to_array(entries)))
                 }
@@ -400,6 +471,10 @@ impl Object for ArrayObject {
         &self.class
     }
 
+    fn method_params(&self, method: &str) -> Option<super::MethodParams> {
+        array_object_params(method).map(super::MethodParams::internal)
+    }
+
     fn call(
         &self,
         this: &ObjectRef,
@@ -411,20 +486,13 @@ impl Object for ArrayObject {
         if let Some(r) = spl.call_common(this, method, &args, diag) {
             return r;
         }
+        let bind = |m: &str| bind_params("ArrayObject", m, array_object_params, &args);
         match method {
             "__construct" => {
                 if args.is_empty() {
                     return Ok(Value::Null);
                 }
-                let a = args.bind(
-                    "ArrayObject::__construct",
-                    &[
-                        Param::optional("array", Value::Array(Array::new())),
-                        Param::optional("flags", 0),
-                        Param::optional("iteratorClass", "ArrayIterator"),
-                    ],
-                    FunctionKind::Internal,
-                )?;
+                let a = bind("__construct")?;
                 let flags = param::parse_long(
                     &a[1],
                     &Arg::new("ArrayObject::__construct", 2, "flags"),
@@ -446,7 +514,7 @@ impl Object for ArrayObject {
                 Ok(Value::Null)
             }
             "getiterator" => {
-                args.bind("ArrayObject::getIterator", &[], FunctionKind::Internal)?;
+                bind("getIterator")?;
                 Ok(Value::Object(
                     ArrayIterator::sharing(
                         self.storage.clone(),
@@ -456,21 +524,13 @@ impl Object for ArrayObject {
                 ))
             }
             "exchangearray" => {
-                let a = args.bind(
-                    "ArrayObject::exchangeArray",
-                    &[Param::required("array")],
-                    FunctionKind::Internal,
-                )?;
+                let a = bind("exchangeArray")?;
                 let old = spl.snapshot();
                 spl.set_array(&a[0], 0, "ArrayObject::exchangeArray")?;
                 Ok(Value::Array(old))
             }
             "setiteratorclass" => {
-                let a = args.bind(
-                    "ArrayObject::setIteratorClass",
-                    &[Param::required("iteratorClass")],
-                    FunctionKind::Internal,
-                )?;
+                let a = bind("setIteratorClass")?;
                 let name = param::parse_str(
                     &a[0],
                     &Arg::new("ArrayObject::setIteratorClass", 1, "iteratorClass"),
@@ -484,7 +544,7 @@ impl Object for ArrayObject {
                 Ok(Value::Null)
             }
             "getiteratorclass" => {
-                args.bind("ArrayObject::getIteratorClass", &[], FunctionKind::Internal)?;
+                bind("getIteratorClass")?;
                 Ok(Value::from(
                     &*self
                         .iterator_class
@@ -760,6 +820,10 @@ impl Object for ArrayIterator {
         &self.class
     }
 
+    fn method_params(&self, method: &str) -> Option<super::MethodParams> {
+        array_iterator_params(method).map(super::MethodParams::internal)
+    }
+
     fn call(
         &self,
         this: &ObjectRef,
@@ -771,21 +835,13 @@ impl Object for ArrayIterator {
         if let Some(r) = spl.call_common(this, method, &args, diag) {
             return r;
         }
-        let bind0 =
-            |m: &str| args.bind(&format!("ArrayIterator::{m}"), &[], FunctionKind::Internal);
+        let bind = |m: &str| bind_params("ArrayIterator", m, array_iterator_params, &args);
         match method {
             "__construct" => {
                 if args.is_empty() {
                     return Ok(Value::Null);
                 }
-                let a = args.bind(
-                    "ArrayIterator::__construct",
-                    &[
-                        Param::optional("array", Value::Array(Array::new())),
-                        Param::optional("flags", 0),
-                    ],
-                    FunctionKind::Internal,
-                )?;
+                let a = bind("__construct")?;
                 let flags = param::parse_long(
                     &a[1],
                     &Arg::new("ArrayIterator::__construct", 2, "flags"),
@@ -796,33 +852,29 @@ impl Object for ArrayIterator {
                 Ok(Value::Null)
             }
             "rewind" => {
-                bind0("rewind")?;
+                bind("rewind")?;
                 self.rewind();
                 Ok(Value::Null)
             }
             "valid" => {
-                bind0("valid")?;
+                bind("valid")?;
                 Ok(Value::Bool(self.valid()))
             }
             "current" => {
-                bind0("current")?;
+                bind("current")?;
                 Ok(self.current())
             }
             "key" => {
-                bind0("key")?;
+                bind("key")?;
                 Ok(self.key())
             }
             "next" => {
-                bind0("next")?;
+                bind("next")?;
                 self.next();
                 Ok(Value::Null)
             }
             "seek" => {
-                let a = args.bind(
-                    "ArrayIterator::seek",
-                    &[Param::required("offset")],
-                    FunctionKind::Internal,
-                )?;
+                let a = bind("seek")?;
                 let position =
                     param::parse_long(&a[0], &Arg::new("ArrayIterator::seek", 1, "offset"), diag)?;
                 if position >= 0 {

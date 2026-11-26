@@ -1,7 +1,9 @@
 //! The engine against Twig 3.31.1 on PHP 8.5.13: templates rendered by [`twig::runtime::Environment`] with an
 //! `ArrayLoader`, compared with what the oracle rendered (output, error class and message with template name and
 //! line, PHP diagnostics in order): the core VM topics, template composition (inheritance, traits, embed, include,
-//! macros, the errors of composed templates), the sandbox, and the `api` topic (sequences of API calls).
+//! macros, the errors of composed templates), the sandbox, the `api` topic (sequences of API calls), and the
+//! `compile_errors` topic (generated PHP that does not compile: where PHP stops with a fatal error, twig-rs must fail
+//! with a `CompileError` with PHP's message, reference/deviations.md).
 //!
 //! The cases are oracle batches in `tests/vectors/engine/<topic>.gen.json`, written by
 //! `tests/vectors/engine/engine.gen.py`; the results are in `<topic>.json`. Every case runs the plain environment
@@ -122,4 +124,9 @@ fn api() {
 #[test]
 fn parity() {
     engine::run_topic("parity");
+}
+
+#[test]
+fn compile_errors() {
+    engine::run_topic("compile_errors");
 }

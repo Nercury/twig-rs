@@ -19,8 +19,9 @@
 use std::sync::{Arc, LazyLock, Mutex, MutexGuard};
 
 use twig_value::object::{
-    CallArgs, CastTarget, ClassBuilder, ClassRef, FetchMode, FunctionKind, Object, ObjectIterator,
-    ObjectRef, PropertyCheck, PropertyEntry, PropertyPurpose, PropertyStore, builtin,
+    CallArgs, CastTarget, ClassBuilder, ClassRef, FetchMode, FunctionKind, MethodParams, Object,
+    ObjectIterator, ObjectRef, Param, PropertyCheck, PropertyEntry, PropertyPurpose, PropertyStore,
+    builtin,
 };
 use twig_value::{Array, ArrayKey, Diagnostics, PhpError, PhpResult, PhpString, Value, convert};
 
@@ -628,6 +629,18 @@ fn properties_add(rv: &mut Array, name: &str, value: Value) {
     }
 }
 
+/// The parameters of the implemented methods of `SimpleXMLElement` (by lowercase name), from
+/// PHPSRC/ext/simplexml/simplexml.stub.php.
+fn simple_xml_element_params(method: &str) -> Option<Vec<Param>> {
+    Some(match method {
+        // asXML(?string $filename = null), saveXML(?string $filename = null)
+        "asxml" | "savexml" => vec![Param::optional("filename", Value::Null)],
+        "count" | "rewind" | "valid" | "current" | "key" | "next" | "getname" | "__tostring"
+        | "__debuginfo" => Vec::new(),
+        _ => return None,
+    })
+}
+
 impl Object for SimpleXmlElement {
     fn class(&self) -> &ClassRef {
         &self.class
@@ -635,6 +648,10 @@ impl Object for SimpleXmlElement {
 
     fn property_store(&self) -> Option<&PropertyStore> {
         Some(&self.props)
+    }
+
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        simple_xml_element_params(method).map(MethodParams::internal)
     }
 
     fn call(

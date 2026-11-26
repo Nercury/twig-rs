@@ -942,10 +942,6 @@
     },
     "deprecations": [],
     "diagnostics": []
-   },
-   "known_mismatch": {
-    "reason": "`x|default(...expr)` on a variable or attribute: DefaultFilter puts its first argument node, the spread, in the else branch of the defined-test ternary, so the compiled PHP (`... : ...[]`) does not parse and PHP fails at load with ParseError `syntax error, unexpected token \"...\"`; twig-rs evaluates the spread as a value (src/ast/expr.rs, DefaultFilter construction). Reproduce the load-time ParseError or list it in reference/deviations.md.",
-    "signature": "ok:ParseError>ok [load: syntax error, unexpected token \"_\"] | diagnostics:+E_WARNING: Array to string conversion"
    }
   },
   {
@@ -978,10 +974,6 @@
     },
     "deprecations": [],
     "diagnostics": []
-   },
-   "known_mismatch": {
-    "reason": "`x|default(...expr)` on a variable or attribute: DefaultFilter puts its first argument node, the spread, in the else branch of the defined-test ternary, so the compiled PHP (`... : ...[]`) does not parse and PHP fails at load with ParseError `syntax error, unexpected token \"...\"`; twig-rs evaluates the spread as a value (src/ast/expr.rs, DefaultFilter construction). Reproduce the load-time ParseError or list it in reference/deviations.md.",
-    "signature": "ok:ParseError>ok [load: syntax error, unexpected token \"_\"]"
    }
   },
   {

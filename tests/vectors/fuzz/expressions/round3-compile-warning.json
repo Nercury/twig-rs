@@ -1,0 +1,17 @@
+{
+  "description": "Round 3 of the full-parity phase (expressions family, seeds 9001-9010, 20000 cases): a warning PHP raises while compiling the template class, silenced by the filesystem cache's `@include_once` (minimised from x9003-00992-arith, 1 raw case). Accepted deviation \"Warnings of compiled PHP code\" (reference/deviations.md): the marked vector stays marked by design; the control without a cache must stay identical. Recorded with \"isolation\": \"process\".",
+  "vectors": [
+    {
+      "id": "round3-compile-warning-nan-concat",
+      "note": "minimised from x9003-00992-arith (1 raw case)",
+      "case": {"id":"round3-compile-warning-nan-concat","env":"plain","templates":{"index.twig":"{{\"#{(10**(1e5))/('5'*(1e308))}]\"}}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/round3-compile-warning-nan-concat"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"round3-compile-warning-nan-concat","kind":"twig","ok":true,"output":"NAN]","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"unexpected NAN value was coerced to string","silenced":true}],"clock":[1795676680,389747]},
+      "known_mismatch": {"reason":"Accepted deviation (reference/deviations.md, Engine: \"Warnings of compiled PHP code\"): PHP folds `NAN . \"]\"` while compiling the template class (zend_try_ct_eval_binary_op(); zend_binary_op_produces_error() does not count NAN, PHPSRC/Zend/zend_compile.c:9962) and warns then (zend_double_to_str(): `unexpected NAN value was coerced to string`). With a filesystem cache Twig includes the class with `@include_once` (TWIG/src/Cache/FilesystemCache.php:49), which silences the warning: the oracle records it with \"silenced\": true and the diff skips it (T12 of plans/parity-fixes.md would turn this into an accepted deviation). twig-rs raises it when the expression runs. The control without a cache matches: there PHP warns while eval()ing the class.","signature":"diagnostics:+E_WARNING: unexpected NAN value was coerced to string"}
+    },
+    {
+      "id": "round3-compile-warning-nan-concat-ctl-no-cache",
+      "case": {"id":"round3-compile-warning-nan-concat-ctl-no-cache","env":"plain","templates":{"index.twig":"{{\"#{(10**(1e5))/('5'*(1e308))}]\"}}"},"data_json":{},"config":{"cache":false},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"round3-compile-warning-nan-concat-ctl-no-cache","kind":"twig","ok":true,"output":"NAN]","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"unexpected NAN value was coerced to string"}],"clock":[1795676680,389732]}
+    }
+  ]
+}

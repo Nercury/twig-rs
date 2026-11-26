@@ -1,0 +1,400 @@
+{
+  "description": "Whitespace family (crates/twig-fuzz/src/generators/whitespace.rs): Hand-written probes written next to the generator, recorded with the oracle (all match, so every vector must keep replaying identically; recorded with \"isolation\": \"process\"). Lexer edges: nested interpolations, empty prints, tags and comments with trims, unclosed comments, strings, brackets, verbatim blocks and tags at the end of the template, `{% line %}` spellings (leading zeros, newlines, a number past PHP_INT_MAX), number literals (`1_000`, `1.e3`, `0x10`), operators next to delimiters, inline `#` and `##` comments, `\\v`/`\\f`/NUL/NEL/NBSP inside tags, BOMs, raw CR and CRLF line endings.",
+  "vectors": [
+    {
+      "id": "ws-probe-0",
+      "case": {"id":"ws-probe-0","env":"plain","templates":{"index.twig":"{{ \"#{ \"#{ \"#{ n }\" }\" }\" }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-0"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-0","kind":"twig","ok":true,"output":"3","deprecations":[],"diagnostics":[],"clock":[1795674986,927942]}
+    },
+    {
+      "id": "ws-probe-1",
+      "case": {"id":"ws-probe-1","env":"plain","templates":{"index.twig":"a {{- -}} b"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-1"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-1","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"end of print statement\" of value \"\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"end of print statement\" of value \"\" in \"index.twig\" at line 1.","rawMessage":"Unexpected token \"end of print statement\" of value \"\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-2",
+      "case": {"id":"ws-probe-2","env":"plain","templates":{"index.twig":"a {%- -%} b"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-2"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-2","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"A block must start with a tag name in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: A block must start with a tag name in \"index.twig\" at line 1.","rawMessage":"A block must start with a tag name.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-3",
+      "case": {"id":"ws-probe-3","env":"plain","templates":{"index.twig":"a {#- -#} b"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-3"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-3","kind":"twig","ok":true,"output":"ab","deprecations":[],"diagnostics":[],"clock":[1795674986,927192]}
+    },
+    {
+      "id": "ws-probe-4",
+      "case": {"id":"ws-probe-4","env":"plain","templates":{"index.twig":"{{ 1 }}}}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-4"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-4","kind":"twig","ok":true,"output":"1}}","deprecations":[],"diagnostics":[],"clock":[1795674986,927556]}
+    },
+    {
+      "id": "ws-probe-5",
+      "case": {"id":"ws-probe-5","env":"plain","templates":{"index.twig":"{% verbatim %}{% endverbatim %}{% endverbatim %}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-5"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-5","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unknown \"endverbatim\" tag in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unknown \"endverbatim\" tag in \"index.twig\" at line 1.","rawMessage":"Unknown \"endverbatim\" tag.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-6",
+      "case": {"id":"ws-probe-6","env":"plain","templates":{"index.twig":"{% line 1%}{{ x.y }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-6"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-6","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 1.","rawMessage":"Key \"y\" for sequence/mapping with keys \"z\" does not exist.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674986,935135]}
+    },
+    {
+      "id": "ws-probe-7",
+      "case": {"id":"ws-probe-7","env":"plain","templates":{"index.twig":"{%line 3 %}\n{{ x.y }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-7"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-7","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 4.","formatted":"Twig\\Error\\RuntimeError: Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 4.","rawMessage":"Key \"y\" for sequence/mapping with keys \"z\" does not exist.","templateName":"index.twig","templateLine":4,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674986,940649]}
+    },
+    {
+      "id": "ws-probe-8",
+      "case": {"id":"ws-probe-8","env":"plain","templates":{"index.twig":"{% line\n4 %}{{ x.y }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-8"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-8","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 4.","formatted":"Twig\\Error\\RuntimeError: Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 4.","rawMessage":"Key \"y\" for sequence/mapping with keys \"z\" does not exist.","templateName":"index.twig","templateLine":4,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674986,979541]}
+    },
+    {
+      "id": "ws-probe-9",
+      "case": {"id":"ws-probe-9","env":"plain","templates":{"index.twig":"{% line 05 %}{{ x.y }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-9"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-9","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 5.","formatted":"Twig\\Error\\RuntimeError: Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 5.","rawMessage":"Key \"y\" for sequence/mapping with keys \"z\" does not exist.","templateName":"index.twig","templateLine":5,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674986,969891]}
+    },
+    {
+      "id": "ws-probe-10",
+      "case": {"id":"ws-probe-10","env":"plain","templates":{"index.twig":"{% line 99999999999999999999 %}{{ x.y }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-10"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-10","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 9223372036854775807.","formatted":"Twig\\Error\\RuntimeError: Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 9223372036854775807.","rawMessage":"Key \"y\" for sequence/mapping with keys \"z\" does not exist.","templateName":"index.twig","templateLine":9223372036854775807,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674986,973956]}
+    },
+    {
+      "id": "ws-probe-11",
+      "case": {"id":"ws-probe-11","env":"plain","templates":{"index.twig":"{% if true %}a{% endif"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-11"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-11","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"end of template\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 23.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"end of template\" (\"end of statement block\" expected) in \"index.twig\" at line 1 column 23.","rawMessage":"Unexpected token \"end of template\" (\"end of statement block\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":23},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-12",
+      "case": {"id":"ws-probe-12","env":"plain","templates":{"index.twig":"{% if true %}a{% endif "},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-12"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-12","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unclosed \"block\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unclosed \"block\" in \"index.twig\" at line 1.","rawMessage":"Unclosed \"block\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-13",
+      "case": {"id":"ws-probe-13","env":"plain","templates":{"index.twig":"{{ n"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-13"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-13","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"end of template\" (\"end of print statement\" expected) in \"index.twig\" at line 1 column 5.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"end of template\" (\"end of print statement\" expected) in \"index.twig\" at line 1 column 5.","rawMessage":"Unexpected token \"end of template\" (\"end of print statement\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":5},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-14",
+      "case": {"id":"ws-probe-14","env":"plain","templates":{"index.twig":"{{ n "},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-14"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-14","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unclosed \"variable\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unclosed \"variable\" in \"index.twig\" at line 1.","rawMessage":"Unclosed \"variable\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-15",
+      "case": {"id":"ws-probe-15","env":"plain","templates":{"index.twig":"{# never closed"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-15"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-15","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unclosed comment in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unclosed comment in \"index.twig\" at line 1.","rawMessage":"Unclosed comment.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-16",
+      "case": {"id":"ws-probe-16","env":"plain","templates":{"index.twig":"{## never closed"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-16"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-16","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unclosed comment in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unclosed comment in \"index.twig\" at line 1.","rawMessage":"Unclosed comment.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-17",
+      "case": {"id":"ws-probe-17","env":"plain","templates":{"index.twig":"{% verbatim %}never closed"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-17"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-17","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected end of file: Unclosed \"verbatim\" block in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unexpected end of file: Unclosed \"verbatim\" block in \"index.twig\" at line 1.","rawMessage":"Unexpected end of file: Unclosed \"verbatim\" block.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-18",
+      "case": {"id":"ws-probe-18","env":"plain","templates":{"index.twig":"{{ \"abc"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-18"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-18","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unclosed \"\"\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unclosed \"\"\" in \"index.twig\" at line 1.","rawMessage":"Unclosed \"\"\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-19",
+      "case": {"id":"ws-probe-19","env":"plain","templates":{"index.twig":"{{ \"a #{ n "},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-19"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-19","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unclosed \"variable\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unclosed \"variable\" in \"index.twig\" at line 1.","rawMessage":"Unclosed \"variable\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-20",
+      "case": {"id":"ws-probe-20","env":"plain","templates":{"index.twig":"{{ \"a #{ n }"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-20"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-20","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unclosed \"\"\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unclosed \"\"\" in \"index.twig\" at line 1.","rawMessage":"Unclosed \"\"\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-21",
+      "case": {"id":"ws-probe-21","env":"plain","templates":{"index.twig":"{{ 'abc"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-21"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-21","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected character \"'\" in \"index.twig\" at line 1 column 4.","formatted":"Twig\\Error\\SyntaxError: Unexpected character \"'\" in \"index.twig\" at line 1 column 4.","rawMessage":"Unexpected character \"'\".","templateName":"index.twig","templateLine":1,"templateColumn":4},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-22",
+      "case": {"id":"ws-probe-22","env":"plain","templates":{"index.twig":"{{ [1, 2 }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-22"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-22","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unclosed \"[\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unclosed \"[\" in \"index.twig\" at line 1.","rawMessage":"Unclosed \"[\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-23",
+      "case": {"id":"ws-probe-23","env":"plain","templates":{"index.twig":"{{ (1 + 2 }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-23"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-23","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unclosed \"(\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unclosed \"(\" in \"index.twig\" at line 1.","rawMessage":"Unclosed \"(\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-24",
+      "case": {"id":"ws-probe-24","env":"plain","templates":{"index.twig":"{{ {a: 1 }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-24"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-24","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected \"}\" in \"index.twig\" at line 1 column 11.","formatted":"Twig\\Error\\SyntaxError: Unexpected \"}\" in \"index.twig\" at line 1 column 11.","rawMessage":"Unexpected \"}\".","templateName":"index.twig","templateLine":1,"templateColumn":11},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-25",
+      "case": {"id":"ws-probe-25","env":"plain","templates":{"index.twig":"{{ n ) }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-25"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-25","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected \")\" in \"index.twig\" at line 1 column 6.","formatted":"Twig\\Error\\SyntaxError: Unexpected \")\" in \"index.twig\" at line 1 column 6.","rawMessage":"Unexpected \")\".","templateName":"index.twig","templateLine":1,"templateColumn":6},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-26",
+      "case": {"id":"ws-probe-26","env":"plain","templates":{"index.twig":"{{ n ] }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-26"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-26","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected \"]\" in \"index.twig\" at line 1 column 6.","formatted":"Twig\\Error\\SyntaxError: Unexpected \"]\" in \"index.twig\" at line 1 column 6.","rawMessage":"Unexpected \"]\".","templateName":"index.twig","templateLine":1,"templateColumn":6},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-27",
+      "case": {"id":"ws-probe-27","env":"plain","templates":{"index.twig":"{{ n } }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-27"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-27","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected \"}\" in \"index.twig\" at line 1 column 6.","formatted":"Twig\\Error\\SyntaxError: Unexpected \"}\" in \"index.twig\" at line 1 column 6.","rawMessage":"Unexpected \"}\".","templateName":"index.twig","templateLine":1,"templateColumn":6},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-28",
+      "case": {"id":"ws-probe-28","env":"plain","templates":{"index.twig":"{{ \"#{ n )\" }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-28"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-28","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unclosed \"#{\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unclosed \"#{\" in \"index.twig\" at line 1.","rawMessage":"Unclosed \"#{\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-29",
+      "case": {"id":"ws-probe-29","env":"plain","templates":{"index.twig":"{{ \"#{ (n }\" }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-29"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-29","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unclosed \"(\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unclosed \"(\" in \"index.twig\" at line 1.","rawMessage":"Unclosed \"(\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-30",
+      "case": {"id":"ws-probe-30","env":"plain","templates":{"index.twig":"x\r\n{{ \"a\r\nb\" }}\r\n{{ x.y }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-30"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-30","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 4.","formatted":"Twig\\Error\\RuntimeError: Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 4.","rawMessage":"Key \"y\" for sequence/mapping with keys \"z\" does not exist.","templateName":"index.twig","templateLine":4,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674987,48764]}
+    },
+    {
+      "id": "ws-probe-31",
+      "case": {"id":"ws-probe-31","env":"plain","templates":{"index.twig":"x\r{{ \"a\rb\"|json_encode }}\r{{ x.y }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-31"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-31","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 4.","formatted":"Twig\\Error\\RuntimeError: Key \"y\" for sequence/mapping with keys \"z\" does not exist in \"index.twig\" at line 4.","rawMessage":"Key \"y\" for sequence/mapping with keys \"z\" does not exist.","templateName":"index.twig","templateLine":4,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674987,66054]}
+    },
+    {
+      "id": "ws-probe-32",
+      "case": {"id":"ws-probe-32","env":"plain","templates":{"index.twig":"{{ 1_000 }}|{{ 1__0 }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-32"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-32","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"name\" of value \"__0\" (\"end of print statement\" expected) in \"index.twig\" at line 1 column 17.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"name\" of value \"__0\" (\"end of print statement\" expected) in \"index.twig\" at line 1 column 17.","rawMessage":"Unexpected token \"name\" of value \"__0\" (\"end of print statement\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":17},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-33",
+      "case": {"id":"ws-probe-33","env":"plain","templates":{"index.twig":"{{ 1_ }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-33"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-33","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"name\" of value \"_\" (\"end of print statement\" expected) in \"index.twig\" at line 1 column 5.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"name\" of value \"_\" (\"end of print statement\" expected) in \"index.twig\" at line 1 column 5.","rawMessage":"Unexpected token \"name\" of value \"_\" (\"end of print statement\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":5},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-34",
+      "case": {"id":"ws-probe-34","env":"plain","templates":{"index.twig":"{{ 1e3 }}|{{ 1E+3 }}|{{ 1.5e-3 }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-34"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-34","kind":"twig","ok":true,"output":"1000|1000|0.0015","deprecations":[],"diagnostics":[],"clock":[1795674987,82150]}
+    },
+    {
+      "id": "ws-probe-35",
+      "case": {"id":"ws-probe-35","env":"plain","templates":{"index.twig":"{{ 1.e3 }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-35"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-35","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Impossible to access an attribute (\"e3\") on a int variable (\"1\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Impossible to access an attribute (\"e3\") on a int variable (\"1\") in \"index.twig\" at line 1.","rawMessage":"Impossible to access an attribute (\"e3\") on a int variable (\"1\").","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674987,101589]}
+    },
+    {
+      "id": "ws-probe-36",
+      "case": {"id":"ws-probe-36","env":"plain","templates":{"index.twig":"{{ 0x10 }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-36"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-36","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"name\" of value \"x10\" (\"end of print statement\" expected) in \"index.twig\" at line 1 column 5.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"name\" of value \"x10\" (\"end of print statement\" expected) in \"index.twig\" at line 1 column 5.","rawMessage":"Unexpected token \"name\" of value \"x10\" (\"end of print statement\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":5},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-37",
+      "case": {"id":"ws-probe-37","env":"plain","templates":{"index.twig":"{{ 1. }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-37"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-37","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Expected name or number, got value \"\" of type \"end of print statement\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Expected name or number, got value \"\" of type \"end of print statement\" in \"index.twig\" at line 1.","rawMessage":"Expected name or number, got value \"\" of type \"end of print statement\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-38",
+      "case": {"id":"ws-probe-38","env":"plain","templates":{"index.twig":"{{ .5 }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-38"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-38","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"operator\" of value \".\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"operator\" of value \".\" in \"index.twig\" at line 1.","rawMessage":"Unexpected token \"operator\" of value \".\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-39",
+      "case": {"id":"ws-probe-39","env":"plain","templates":{"index.twig":"{{ 1..3|join }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-39"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-39","kind":"twig","ok":true,"output":"Array","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"Array to string conversion"}],"clock":[1795674987,106297]}
+    },
+    {
+      "id": "ws-probe-40",
+      "case": {"id":"ws-probe-40","env":"plain","templates":{"index.twig":"{{ 1 .. 3|join }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-40"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-40","kind":"twig","ok":true,"output":"Array","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"Array to string conversion"}],"clock":[1795674987,124081]}
+    },
+    {
+      "id": "ws-probe-41",
+      "case": {"id":"ws-probe-41","env":"plain","templates":{"index.twig":"{{ n.in }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-41"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-41","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Impossible to access an attribute (\"in\") on a int variable (\"3\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Impossible to access an attribute (\"in\") on a int variable (\"3\") in \"index.twig\" at line 1.","rawMessage":"Impossible to access an attribute (\"in\") on a int variable (\"3\").","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674987,123458]}
+    },
+    {
+      "id": "ws-probe-42",
+      "case": {"id":"ws-probe-42","env":"plain","templates":{"index.twig":"{{ n|default(1) not in [1] }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-42"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-42","kind":"twig","ok":true,"output":"1","deprecations":[],"diagnostics":[],"clock":[1795674987,132414]}
+    },
+    {
+      "id": "ws-probe-43",
+      "case": {"id":"ws-probe-43","env":"plain","templates":{"index.twig":"{{ not(n) }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-43"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-43","kind":"twig","ok":true,"output":"","deprecations":[],"diagnostics":[],"clock":[1795674987,139033]}
+    },
+    {
+      "id": "ws-probe-44",
+      "case": {"id":"ws-probe-44","env":"plain","templates":{"index.twig":"{{ n is not(null) }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-44"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-44","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"operator\" of value \"(\" (\"name\" expected) in \"index.twig\" at line 1 column 12.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"operator\" of value \"(\" (\"name\" expected) in \"index.twig\" at line 1 column 12.","rawMessage":"Unexpected token \"operator\" of value \"(\" (\"name\" expected).","templateName":"index.twig","templateLine":1,"templateColumn":12},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-45",
+      "case": {"id":"ws-probe-45","env":"plain","templates":{"index.twig":"{{ n in(l) }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-45"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-45","kind":"twig","ok":true,"output":"","deprecations":[],"diagnostics":[],"clock":[1795674987,140107]}
+    },
+    {
+      "id": "ws-probe-46",
+      "case": {"id":"ws-probe-46","env":"plain","templates":{"index.twig":"{{ n b-and(1) }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-46"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-46","kind":"twig","ok":true,"output":"1","deprecations":[],"diagnostics":[],"clock":[1795674987,144216]}
+    },
+    {
+      "id": "ws-probe-47",
+      "case": {"id":"ws-probe-47","env":"plain","templates":{"index.twig":"{{ -n|abs }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-47"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-47","kind":"twig","ok":true,"output":"-3","deprecations":["Since twig/twig 3.21: As the \"|\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.21: As the \"|\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."}],"clock":[1795674987,150099]}
+    },
+    {
+      "id": "ws-probe-48",
+      "case": {"id":"ws-probe-48","env":"plain","templates":{"index.twig":"{{ - -n }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-48"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-48","kind":"twig","ok":true,"output":"3","deprecations":[],"diagnostics":[],"clock":[1795674987,170428]}
+    },
+    {
+      "id": "ws-probe-49",
+      "case": {"id":"ws-probe-49","env":"plain","templates":{"index.twig":"{{ n--1 }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-49"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-49","kind":"twig","ok":true,"output":"4","deprecations":[],"diagnostics":[],"clock":[1795674987,168862]}
+    },
+    {
+      "id": "ws-probe-50",
+      "case": {"id":"ws-probe-50","env":"plain","templates":{"index.twig":"{{ n~~\"x\" }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-50"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-50","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"operator\" of value \"~\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"operator\" of value \"~\" in \"index.twig\" at line 1.","rawMessage":"Unexpected token \"operator\" of value \"~\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-51",
+      "case": {"id":"ws-probe-51","env":"plain","templates":{"index.twig":"{{ \"a\" ~~ \"b\" }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-51"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-51","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected token \"operator\" of value \"~\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Unexpected token \"operator\" of value \"~\" in \"index.twig\" at line 1.","rawMessage":"Unexpected token \"operator\" of value \"~\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-52",
+      "case": {"id":"ws-probe-52","env":"plain","templates":{"index.twig":"{{- n -}}{{~ n ~}}{{- n ~}}{{~ n -}}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-52"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-52","kind":"twig","ok":true,"output":"3333","deprecations":[],"diagnostics":[],"clock":[1795674987,188929]}
+    },
+    {
+      "id": "ws-probe-53",
+      "case": {"id":"ws-probe-53","env":"plain","templates":{"index.twig":"  {%~ if true ~%}  x  {%~ endif ~%}  "},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-53"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-53","kind":"twig","ok":true,"output":"x","deprecations":[],"diagnostics":[],"clock":[1795674987,178213]}
+    },
+    {
+      "id": "ws-probe-54",
+      "case": {"id":"ws-probe-54","env":"plain","templates":{"index.twig":"\n{%- if true -%}\n\nx\n\n{%- endif -%}\n"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-54"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-54","kind":"twig","ok":true,"output":"x","deprecations":[],"diagnostics":[],"clock":[1795674987,188332]}
+    },
+    {
+      "id": "ws-probe-55",
+      "case": {"id":"ws-probe-55","env":"plain","templates":{"index.twig":"{# a #}\n{# b -#}\n\n{#- c #}\nd"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-55"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-55","kind":"twig","ok":true,"output":"d","deprecations":[],"diagnostics":[],"clock":[1795674987,187115]}
+    },
+    {
+      "id": "ws-probe-56",
+      "case": {"id":"ws-probe-56","env":"plain","templates":{"index.twig":"{## a ##}\n{## b -##}\n\n{##- c ##}\nd"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-56"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-56","kind":"twig","ok":true,"output":"d","deprecations":[],"diagnostics":[],"clock":[1795674987,207195]}
+    },
+    {
+      "id": "ws-probe-57",
+      "case": {"id":"ws-probe-57","env":"plain","templates":{"index.twig":"{##-}x#}y"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-57"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-57","kind":"twig","ok":true,"output":"y","deprecations":[],"diagnostics":[],"clock":[1795674987,211541]}
+    },
+    {
+      "id": "ws-probe-58",
+      "case": {"id":"ws-probe-58","env":"plain","templates":{"index.twig":"{##}x"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-58"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-58","kind":"twig","ok":true,"output":"x","deprecations":[],"diagnostics":[],"clock":[1795674987,219407]}
+    },
+    {
+      "id": "ws-probe-59",
+      "case": {"id":"ws-probe-59","env":"plain","templates":{"index.twig":"{###}x"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-59"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-59","kind":"twig","ok":true,"output":"x","deprecations":[],"diagnostics":[],"clock":[1795674987,214950]}
+    },
+    {
+      "id": "ws-probe-60",
+      "case": {"id":"ws-probe-60","env":"plain","templates":{"index.twig":"{## #}x"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-60"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-60","kind":"twig","ok":true,"output":"x","deprecations":[],"diagnostics":[],"clock":[1795674987,223334]}
+    },
+    {
+      "id": "ws-probe-61",
+      "case": {"id":"ws-probe-61","env":"plain","templates":{"index.twig":"{##\n#}x"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-61"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-61","kind":"twig","ok":true,"output":"x","deprecations":[],"diagnostics":[],"clock":[1795674987,231637]}
+    },
+    {
+      "id": "ws-probe-62",
+      "case": {"id":"ws-probe-62","env":"plain","templates":{"index.twig":"{{ n # c }}\n}}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-62"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-62","kind":"twig","ok":true,"output":"3","deprecations":[],"diagnostics":[],"clock":[1795674987,226593]}
+    },
+    {
+      "id": "ws-probe-63",
+      "case": {"id":"ws-probe-63","env":"plain","templates":{"index.twig":"{{ n ## d }}\n}}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-63"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-63","kind":"twig","ok":true,"output":"3","deprecations":[],"diagnostics":[],"clock":[1795674987,232939]}
+    },
+    {
+      "id": "ws-probe-64",
+      "case": {"id":"ws-probe-64","env":"plain","templates":{"index.twig":"{% if n # c %}\n %}yes{% endif %}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-64"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-64","kind":"twig","ok":true,"output":"yes","deprecations":[],"diagnostics":[],"clock":[1795674987,256591]}
+    },
+    {
+      "id": "ws-probe-65",
+      "case": {"id":"ws-probe-65","env":"plain","templates":{"index.twig":"{{ \"#{ n # c\n }\" }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-65"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-65","kind":"twig","ok":true,"output":"3","deprecations":[],"diagnostics":[],"clock":[1795674987,255627]}
+    },
+    {
+      "id": "ws-probe-66",
+      "case": {"id":"ws-probe-66","env":"plain","templates":{"index.twig":"{{ n\u000b}}|{{\fn}}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-66"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-66","kind":"twig","ok":true,"output":"3|3","deprecations":[],"diagnostics":[],"clock":[1795674987,254166]}
+    },
+    {
+      "id": "ws-probe-67",
+      "case": {"id":"ws-probe-67","env":"plain","templates":{"index.twig":"{{\u0000n}}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-67"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-67","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected character \"\u0000\" in \"index.twig\" at line 1 column 3.","formatted":"Twig\\Error\\SyntaxError: Unexpected character \"\u0000\" in \"index.twig\" at line 1 column 3.","rawMessage":"Unexpected character \"\u0000\".","templateName":"index.twig","templateLine":1,"templateColumn":3},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "ws-probe-68",
+      "case": {"id":"ws-probe-68","env":"plain","templates":{"index.twig":""},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-68"},"templates_b64":{"index.twig":"e3sgboV9fQ=="},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-68","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variable \"n?\" does not exist in \"index.twig\" at line 1.","message_b64":"VmFyaWFibGUgIm6FIiBkb2VzIG5vdCBleGlzdCBpbiAiaW5kZXgudHdpZyIgYXQgbGluZSAxLg==","formatted":"Twig\\Error\\RuntimeError: Variable \"n?\" does not exist in \"index.twig\" at line 1.","formatted_b64":"VHdpZ1xFcnJvclxSdW50aW1lRXJyb3I6IFZhcmlhYmxlICJuhSIgZG9lcyBub3QgZXhpc3QgaW4gImluZGV4LnR3aWciIGF0IGxpbmUgMS4=","rawMessage":"Variable \"n?\" does not exist.","rawMessage_b64":"VmFyaWFibGUgIm6FIiBkb2VzIG5vdCBleGlzdC4=","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674987,272795]}
+    },
+    {
+      "id": "ws-probe-69",
+      "case": {"id":"ws-probe-69","env":"plain","templates":{"index.twig":"{{  n }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-69"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-69","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variable \" n\" does not exist in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Variable \" n\" does not exist in \"index.twig\" at line 1.","rawMessage":"Variable \" n\" does not exist.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674987,270666]}
+    },
+    {
+      "id": "ws-probe-70",
+      "case": {"id":"ws-probe-70","env":"plain","templates":{"index.twig":"{{  }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-70"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-70","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variable \"\" does not exist in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Variable \"\" does not exist in \"index.twig\" at line 1.","rawMessage":"Variable \"\" does not exist.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795674987,276604]}
+    },
+    {
+      "id": "ws-probe-71",
+      "case": {"id":"ws-probe-71","env":"plain","templates":{"index.twig":"﻿{{ n }}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-71"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-71","kind":"twig","ok":true,"output":"﻿3","deprecations":[],"diagnostics":[],"clock":[1795674987,273132]}
+    },
+    {
+      "id": "ws-probe-72",
+      "case": {"id":"ws-probe-72","env":"plain","templates":{"index.twig":"{% verbatim -%}  a  {%- endverbatim %}\nb"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-72"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-72","kind":"twig","ok":true,"output":"a\nb","deprecations":[],"diagnostics":[],"clock":[1795674987,292768]}
+    },
+    {
+      "id": "ws-probe-73",
+      "case": {"id":"ws-probe-73","env":"plain","templates":{"index.twig":"{% verbatim %}\na\n{% endverbatim %}\nb"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-73"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-73","kind":"twig","ok":true,"output":"\na\n\nb","deprecations":[],"diagnostics":[],"clock":[1795674987,306276]}
+    },
+    {
+      "id": "ws-probe-74",
+      "case": {"id":"ws-probe-74","env":"plain","templates":{"index.twig":"{%verbatim%}a{%endverbatim%}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-74"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-74","kind":"twig","ok":true,"output":"a","deprecations":[],"diagnostics":[],"clock":[1795674987,303685]}
+    },
+    {
+      "id": "ws-probe-75",
+      "case": {"id":"ws-probe-75","env":"plain","templates":{"index.twig":"{%- verbatim%}a{%~endverbatim-%}  b"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-75"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-75","kind":"twig","ok":true,"output":"ab","deprecations":[],"diagnostics":[],"clock":[1795674987,301467]}
+    },
+    {
+      "id": "ws-probe-76",
+      "case": {"id":"ws-probe-76","env":"plain","templates":{"index.twig":"{% verbatim\n%}a{% endverbatim\n%}b"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-76"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-76","kind":"twig","ok":true,"output":"ab","deprecations":[],"diagnostics":[],"clock":[1795674987,314023]}
+    },
+    {
+      "id": "ws-probe-77",
+      "case": {"id":"ws-probe-77","env":"plain","templates":{"index.twig":"{% verbatim %}{%- endverbatim%}"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-77"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-77","kind":"twig","ok":true,"output":"","deprecations":[],"diagnostics":[],"clock":[1795674987,316001]}
+    },
+    {
+      "id": "ws-probe-78",
+      "case": {"id":"ws-probe-78","env":"plain","templates":{"index.twig":"x {%~ verbatim ~%} \t y \t {%~ endverbatim ~%} \t z"},"data_json":{"n":3,"l":[1,2],"x":{"z":1}},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/ws-probe-78"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"ws-probe-78","kind":"twig","ok":true,"output":"xyz","deprecations":[],"diagnostics":[],"clock":[1795674987,309474]}
+    }
+  ]
+}

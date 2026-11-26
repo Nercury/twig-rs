@@ -1,0 +1,875 @@
+{
+ "cases": [
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(false ?? '') * a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-001"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(true ? false : 1) * a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-002"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(0 ?: false) * a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-003"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(null ?? false) * a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-004"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(false ?? 0) b-and a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-005"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(true ? 1.5 : 0) b-or a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-006"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(false ?? 0) b-xor a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-007"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ max([(false ?? '') * a]) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-008"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {k: (false ?? '') * a}|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-009"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a.x((false ?? '') * a) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-010"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(x) %}{% endmacro %}{{ _self.m((false ?? '') * a) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-011"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [[(false ?? '') * a]]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-012"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {((false ?? '') * a): 1}|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-013"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [...[(false ?? '') * a]]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-014"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [max((false ?? '') * a, 1)]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-015"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [[a]|map(x => (false ?? '') * x)]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-016"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [((false ?? '') * 2) * a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-017"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [-(true ? false : 1) * a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-018"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [((false ?? '')|raw) * a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-019"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [((false ?? '')|default(1)) * a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-020"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(true ? _context : 1) * m.k]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-021"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(null ?? _context) * m.k]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-022"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(0 ?: _context) * m.k]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-023"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(_context ?: 1) * m.k]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-024"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (true ? _context : 1) * m.k }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-025"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(true ? m.k : 1) * _context]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-026"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(true ? _context : 1) b-or m.k]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-027"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% with {k: (false ?? '') * a} %}{% endwith %}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-028"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% set x = [(false ?? '') * a] %}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-029"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% set x, y = (false ?? '') * a, 1 %}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-030"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [(false ?? '') * a] %}{% endfor %}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-031"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [((false ?? '') * a) is same as(1)]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-032"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(1 == 1) and ((false ?? '') * a)]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-033"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [((false ?? '') * a) ? 1 : 2]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-034"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [true ? 1 : (false ?? '') * a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-035"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [false ? 1 : (false ?? '') * a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-036"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(z is defined ? false : 1) * a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-037"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (false ?? '') * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-038"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (true ? false : 1) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-039"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% include 't.twig' with {k: (false ?? '') * a} %}",
+    "t.twig": "T"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-040"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(false ?? '') * a]|length }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "folding-041"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump((false ?? '') * a) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "m": {
+     "k": 1
+    },
+    "z": 0
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "folding-042"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [o ~ (true ? [] : 1)]|length }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'nan' => NAN, 'a' => [1]];",
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-043"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(true ? [] : 1) ~ o]|length }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'nan' => NAN, 'a' => [1]];",
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-044"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~ (true ? [] : 1) }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'nan' => NAN, 'a' => [1]];",
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-045"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [nan ~ ([1] ?? 2)]|length }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'nan' => NAN, 'a' => [1]];",
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-046"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [([1] ?? 2) ~ nan]|length }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'nan' => NAN, 'a' => [1]];",
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-047"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [o ~ (null ?? [])]|length }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'nan' => NAN, 'a' => [1]];",
+   "config": {
+    "autoescape": false
+   },
+   "id": "folding-048"
+  }
+ ],
+ "isolation": "process"
+}

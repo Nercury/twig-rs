@@ -1,0 +1,265 @@
+{
+  "description": "Unicode family (crates/twig-fuzz/src/generators/unicode.rs): Hand-written probes written next to the generator, recorded with the oracle (all match, so every vector must keep replaying identically; recorded with \"isolation\": \"process\"). final sigma with combining marks, special casing (ß, ligatures, ŉ, ǰ, digraphs, İ, Kelvin/Ohm/Ångström), astral and recent case pairs (Deseret, Adlam, Garay), Cherokee and Georgian, invalid UTF-8 through case mapping, reverse, split, slice, json_encode flags, convert_encoding (TRANSLIT, IGNORE, UTF-16/32), every escaping strategy, byte-wise trim/replace/format, nl2br line breaks, striptags, url_encode, /u regexes, sorting, the ISO-8859-1, ASCII, 8bit and an unknown charset option, and autoescaped output.",
+  "vectors": [
+    {
+      "id": "uni-probe-0",
+      "case": {"id":"uni-probe-0","env":"plain","templates":{"index.twig":"{{ s|lower }}|{{ s|title }}|{{ s|capitalize }}"},"data_json":{"s":"ΣΑΣ ΑΣ Σ ΑΣ́ ΆΣ"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-0"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-0","kind":"twig","ok":true,"output":"σας ας σ ας́ άς|Σας Ας Σ Ας́ Άς|Σας ας σ ας́ άς","deprecations":[],"diagnostics":[],"clock":[1795674991,684475]}
+    },
+    {
+      "id": "uni-probe-1",
+      "case": {"id":"uni-probe-1","env":"plain","templates":{"index.twig":"{{ s|upper }}|{{ s|title }}"},"data_json":{"s":"σς ς́"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-1"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-1","kind":"twig","ok":true,"output":"ΣΣ Σ́|Σς Σ́","deprecations":[],"diagnostics":[],"clock":[1795674991,681640]}
+    },
+    {
+      "id": "uni-probe-2",
+      "case": {"id":"uni-probe-2","env":"plain","templates":{"index.twig":"{{ s|upper }}|{{ s|title }}|{{ s|capitalize }}|{{ s|lower }}"},"data_json":{"s":"ßa ﬃx ŉ ǰ ǅǆǄ ΐ ﬀ"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-2"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-2","kind":"twig","ok":true,"output":"SSA FFIX ʼN J̌ ǄǄǄ Ϊ́ FF|Ssa Ffix ʼN J̌ ǅǆǆ Ϊ́ Ff|SSa ﬃx ŉ ǰ ǆǆǆ ΐ ﬀ|ßa ﬃx ŉ ǰ ǆǆǆ ΐ ﬀ","deprecations":[],"diagnostics":[],"clock":[1795674991,682400]}
+    },
+    {
+      "id": "uni-probe-3",
+      "case": {"id":"uni-probe-3","env":"plain","templates":{"index.twig":"{{ s|title }}"},"data_json":{"s":"hello wORLD o'neil mary-jane 3rd x_y a.b o’neil oʼneil"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-3"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-3","kind":"twig","ok":true,"output":"Hello World O'neil Mary-Jane 3Rd X_Y A.b O’neil Oʼneil","deprecations":[],"diagnostics":[],"clock":[1795674991,682557]}
+    },
+    {
+      "id": "uni-probe-4",
+      "case": {"id":"uni-probe-4","env":"plain","templates":{"index.twig":"{{ s|capitalize }}|{{ s|length }}|{{ s|first|length }}"},"data_json":{"s":"́abc"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-4"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-4","kind":"twig","ok":true,"output":"́abc|4|1","deprecations":[],"diagnostics":[],"clock":[1795674991,683541]}
+    },
+    {
+      "id": "uni-probe-5",
+      "case": {"id":"uni-probe-5","env":"plain","templates":{"index.twig":"{{ s|lower }}|{{ s|lower|length }}|{{ s|upper }}"},"data_json":{"s":"İİıi"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-5"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-5","kind":"twig","ok":true,"output":"i̇i̇ıi|6|İİII","deprecations":[],"diagnostics":[],"clock":[1795674991,681330]}
+    },
+    {
+      "id": "uni-probe-6",
+      "case": {"id":"uni-probe-6","env":"plain","templates":{"index.twig":"{{ s|lower }}|{{ s|upper }}|{{ s|title }}"},"data_json":{"s":"ẞKΩÅ"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-6"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-6","kind":"twig","ok":true,"output":"ßkωå|ẞKΩÅ|ẞkωå","deprecations":[],"diagnostics":[],"clock":[1795674991,682723]}
+    },
+    {
+      "id": "uni-probe-7",
+      "case": {"id":"uni-probe-7","env":"plain","templates":{"index.twig":"{{ s|upper }}|{{ s|lower }}|{{ s|title }}"},"data_json":{"s":"𐐀𐐨𞤀𞤢𐵐𐵰"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-7"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-7","kind":"twig","ok":true,"output":"𐐀𐐀𞤀𞤀𐵐𐵐|𐐨𐐨𞤢𞤢𐵰𐵰|𐐀𐐨𞤢𞤢𐵰𐵰","deprecations":[],"diagnostics":[],"clock":[1795674991,689313]}
+    },
+    {
+      "id": "uni-probe-8",
+      "case": {"id":"uni-probe-8","env":"plain","templates":{"index.twig":"{{ s|upper }}|{{ s|lower }}|{{ s|title }}"},"data_json":{"s":"ᎠꭰᲐაႠⴀ"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-8"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-8","kind":"twig","ok":true,"output":"ᎠᎠᲐᲐႠႠ|ꭰꭰააⴀⴀ|Ꭰꭰააⴀⴀ","deprecations":[],"diagnostics":[],"clock":[1795674991,723228]}
+    },
+    {
+      "id": "uni-probe-9",
+      "case": {"id":"uni-probe-9","env":"plain","templates":{"index.twig":"{{ s|upper }}|{{ s|lower }}"},"data_php":"return [\"s\" => \"\\x61\\xff\\x62\\xc3\\x28\\xe2\\x82\"];","config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-9"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-9","kind":"twig","ok":true,"output":"A?B?(?|a?b?(?","deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"a?b?(?","v_b64":"Yf9iwyjigg=="}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,721342]}
+    },
+    {
+      "id": "uni-probe-10",
+      "case": {"id":"uni-probe-10","env":"plain","templates":{"index.twig":"{{ s|reverse }}"},"data_json":{"s":"é a😀b🇱🇹"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-10"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-10","kind":"twig","ok":true,"output":"🇹🇱b😀a ́e","deprecations":[],"diagnostics":[],"clock":[1795674991,727650]}
+    },
+    {
+      "id": "uni-probe-11",
+      "case": {"id":"uni-probe-11","env":"plain","templates":{"index.twig":"{{ s|reverse }}"},"data_php":"return [\"s\" => \"\\x61\\xff\\x62\"];","config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-11"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-11","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Unable to split the string passed to \"reverse\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Unable to split the string passed to \"reverse\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.","rawMessage":"Unable to split the string passed to \"reverse\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"a?b","v_b64":"Yf9i"}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,730414]}
+    },
+    {
+      "id": "uni-probe-12",
+      "case": {"id":"uni-probe-12","env":"plain","templates":{"index.twig":"{{ s|split('')|join('|') }}|{{ s|split('', 2)|join('|') }}|{{ s|length }}"},"data_json":{"s":"é😀‍x"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-12"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-12","kind":"twig","ok":true,"output":"e|́|😀|‍|x|é|😀‍|x|5","deprecations":[],"diagnostics":[],"clock":[1795674991,730640]}
+    },
+    {
+      "id": "uni-probe-13",
+      "case": {"id":"uni-probe-13","env":"plain","templates":{"index.twig":"{{ s|split('')|join('|') }}"},"data_php":"return [\"s\" => \"\\x61\\xc3\"];","config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-13"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-13","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Unable to split the string passed to \"split\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Unable to split the string passed to \"split\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.","rawMessage":"Unable to split the string passed to \"split\" into characters: Malformed UTF-8 characters, possibly incorrectly encoded.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"a?","v_b64":"YcM="}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,725056]}
+    },
+    {
+      "id": "uni-probe-14",
+      "case": {"id":"uni-probe-14","env":"plain","templates":{"index.twig":"{{ s|slice(1, -1) }}|{{ s[-2:] }}|{{ s[:2] }}|{{ s|first }}|{{ s|last }}"},"data_json":{"s":"😀é́ab"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-14"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-14","kind":"twig","ok":true,"output":"é́a|ab|😀é|😀|b","deprecations":[],"diagnostics":[],"clock":[1795674991,730247]}
+    },
+    {
+      "id": "uni-probe-15",
+      "case": {"id":"uni-probe-15","env":"plain","templates":{"index.twig":"{{ s|slice(1) }}|{{ s|first }}|{{ s|last }}|{{ s|length }}"},"data_php":"return [\"s\" => \"\\xff\\xfe\\xc3\\xa9\\xed\\xa0\\x80\"];","config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-15"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-15","kind":"twig","ok":true,"output":"?é???|?|?|6","deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"??é???","v_b64":"//7Dqe2ggA=="}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,739937]}
+    },
+    {
+      "id": "uni-probe-16",
+      "case": {"id":"uni-probe-16","env":"plain","templates":{"index.twig":"{{ s|json_encode }}|{{ s|json_encode(256) }}|{{ s|json_encode(2304) }}"},"data_json":{"s":"􏿿\u2028\u2029é/"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-16"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-16","kind":"twig","ok":true,"output":"\"\\udbff\\udfff\\u2028\\u2029\\u00e9\\/\"|\"􏿿\\u2028\\u2029é\\/\"|\"􏿿\u2028\u2029é\\/\"","deprecations":[],"diagnostics":[],"clock":[1795674991,766587]}
+    },
+    {
+      "id": "uni-probe-17",
+      "case": {"id":"uni-probe-17","env":"plain","templates":{"index.twig":"{{ s|json_encode }}|{{ s|json_encode(1048576) }}|{{ s|json_encode(2097152) }}|{{ s|json_encode(512) }}"},"data_php":"return [\"s\" => \"\\x61\\xff\\x62\"];","config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-17"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-17","kind":"twig","ok":true,"output":"|\"ab\"|\"a\\ufffdb\"|null","deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"a?b","v_b64":"Yf9i"}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,769954]}
+    },
+    {
+      "id": "uni-probe-18",
+      "case": {"id":"uni-probe-18","env":"plain","templates":{"index.twig":"{{ s|json_encode(4194304) }}"},"data_php":"return [\"s\" => \"\\x61\\xff\\x62\"];","config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-18"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-18","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Malformed UTF-8 characters, possibly incorrectly encoded\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Malformed UTF-8 characters, possibly incorrectly encoded\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Malformed UTF-8 characters, possibly incorrectly encoded\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"JsonException","message":"Malformed UTF-8 characters, possibly incorrectly encoded","formatted":"JsonException: Malformed UTF-8 characters, possibly incorrectly encoded","code":5}},"deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"a?b","v_b64":"Yf9i"}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,773708]}
+    },
+    {
+      "id": "uni-probe-19",
+      "case": {"id":"uni-probe-19","env":"plain","templates":{"index.twig":"{{ s|convert_encoding('ISO-8859-1', 'UTF-8') }}|{{ s|convert_encoding('ASCII//TRANSLIT', 'UTF-8') }}|{{ s|convert_encoding('ASCII//IGNORE', 'UTF-8') }}"},"data_json":{"s":"€aÄé"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-19"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-19","kind":"twig","ok":true,"output":"|EURaAe|a","deprecations":[],"diagnostics":[{"type":"E_NOTICE","message":"iconv(): Detected an illegal character in input string"}],"clock":[1795674991,767418]}
+    },
+    {
+      "id": "uni-probe-20",
+      "case": {"id":"uni-probe-20","env":"plain","templates":{"index.twig":"{{ s|convert_encoding('UTF-8', 'ISO-8859-1') }}"},"data_php":"return [\"s\" => \"\\xff\\xe9\"];","config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-20"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-20","kind":"twig","ok":true,"output":"ÿé","deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"??","v_b64":"/+k="}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,778162]}
+    },
+    {
+      "id": "uni-probe-21",
+      "case": {"id":"uni-probe-21","env":"plain","templates":{"index.twig":"{{ s|convert_encoding('UTF-16LE', 'UTF-8')|url_encode }}|{{ s|convert_encoding('UTF-32BE', 'UTF-8')|length }}"},"data_json":{"s":"a😀"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-21"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-21","kind":"twig","ok":true,"output":"a%00%3D%D8%00%DE|8","deprecations":[],"diagnostics":[],"clock":[1795674991,777696]}
+    },
+    {
+      "id": "uni-probe-22",
+      "case": {"id":"uni-probe-22","env":"plain","templates":{"index.twig":"{{ s|convert_encoding('UTF-8', 'UTF-16LE') }}"},"data_php":"return [\"s\" => \"\\x61\\x00\\x62\"];","config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-22"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-22","kind":"twig","ok":true,"output":"","deprecations":[],"diagnostics":[{"type":"E_NOTICE","message":"iconv(): Detected an incomplete multibyte character in input string"}],"data":{"t":"array","v":[["s",{"t":"string","v":"a\u0000b"}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,783403]}
+    },
+    {
+      "id": "uni-probe-23",
+      "case": {"id":"uni-probe-23","env":"plain","templates":{"index.twig":"{{ s|e('js') }}|{{ s|e('css') }}|{{ s|e('html_attr') }}|{{ s|e('url') }}"},"data_json":{"s":"😀 é\u2028<\u0000"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-23"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-23","kind":"twig","ok":true,"output":"\\uD83D\\uDE00\\u0020\\u00E9\\u2028\\u003C\\u0000|\\1F600 \\20 \\E9 \\2028 \\3C \\0 |&#x1F600;&#x20;&#x00E9;&#x2028;&lt;&#xFFFD;|%F0%9F%98%80%20%C3%A9%E2%80%A8%3C%00","deprecations":[],"diagnostics":[],"clock":[1795674991,793793]}
+    },
+    {
+      "id": "uni-probe-24",
+      "case": {"id":"uni-probe-24","env":"plain","templates":{"index.twig":"{{ s|e('html') }}|{{ s|e('html', 'ISO-8859-1') }}|{{ s|e('html', 'UTF-16') }}"},"data_php":"return [\"s\" => \"\\x3c\\x61\\xff\\x62\\x3e\"];","config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-24"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-24","kind":"twig","ok":true,"output":"&lt;a�b&gt;|&lt;a?b&gt;|","output_b64":"Jmx0O2Hvv71iJmd0O3wmbHQ7Yf9iJmd0O3w=","deprecations":[],"diagnostics":[{"type":"E_NOTICE","message":"iconv(): Detected an incomplete multibyte character in input string"}],"data":{"t":"array","v":[["s",{"t":"string","v":"<a?b>","v_b64":"PGH/Yj4="}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,822260]}
+    },
+    {
+      "id": "uni-probe-25",
+      "case": {"id":"uni-probe-25","env":"plain","templates":{"index.twig":"{{ s|e('js') }}"},"data_php":"return [\"s\" => \"\\x61\\xff\\x62\"];","config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-25"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-25","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: The string to escape is not a valid UTF-8 string in \"index.twig\" at line 1.","rawMessage":"The string to escape is not a valid UTF-8 string.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"a?b","v_b64":"Yf9i"}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,822368]}
+    },
+    {
+      "id": "uni-probe-26",
+      "case": {"id":"uni-probe-26","env":"plain","templates":{"index.twig":"{{ s|trim('é') }}|{{ s|trim('\\xc3') }}|{{ s|trim('a..z') }}"},"data_json":{"s":"éaéz"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-26"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-26","kind":"twig","ok":true,"output":"aéz|?aéz|éaé","output_b64":"YcOpenypYcOpenzDqWHDqQ==","deprecations":[],"diagnostics":[],"clock":[1795674991,818899]}
+    },
+    {
+      "id": "uni-probe-27",
+      "case": {"id":"uni-probe-27","env":"plain","templates":{"index.twig":"{{ s|trim('z..a') }}"},"data_json":{"s":"abc"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-27"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-27","kind":"twig","ok":true,"output":"bc","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"trim(): Invalid '..'-range, '..'-range needs to be incrementing"}],"clock":[1795674991,829395]}
+    },
+    {
+      "id": "uni-probe-28",
+      "case": {"id":"uni-probe-28","env":"plain","templates":{"index.twig":"{{ s|trim('..a') }}|{{ s|trim('a..') }}|{{ s|trim('a..b..c') }}"},"data_json":{"s":"abc."},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-28"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-28","kind":"twig","ok":true,"output":"bc|bc|","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"trim(): Invalid '..'-range, no character to the left of '..'"},{"type":"E_WARNING","message":"trim(): Invalid '..'-range, no character to the right of '..'"},{"type":"E_WARNING","message":"trim(): Invalid '..'-range"}],"clock":[1795674991,825692]}
+    },
+    {
+      "id": "uni-probe-29",
+      "case": {"id":"uni-probe-29","env":"plain","templates":{"index.twig":"{{ s|replace({'é': 'E', 'é': 'X'}) }}|{{ s|replace({'\\xc3': '?'}) }}"},"data_json":{"s":"ééé"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-29"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-29","kind":"twig","ok":true,"output":"EEX|????é","output_b64":"RUVYfD+pP6llzIE=","deprecations":[],"diagnostics":[],"clock":[1795674991,822869]}
+    },
+    {
+      "id": "uni-probe-30",
+      "case": {"id":"uni-probe-30","env":"plain","templates":{"index.twig":"{{ '[%5s]'|format(s) }}|{{ '[%-5s]'|format(s) }}|{{ '[%.2s]'|format(s) }}|{{ \"[%'é5s]\"|format(s) }}"},"data_json":{"s":"éa"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-30"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-30","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown format specifier \"?\"\") in \"index.twig\" at line 1.","message_b64":"QW4gZXhjZXB0aW9uIGhhcyBiZWVuIHRocm93biBkdXJpbmcgdGhlIHJlbmRlcmluZyBvZiBhIHRlbXBsYXRlICgiVW5rbm93biBmb3JtYXQgc3BlY2lmaWVyICKpIiIpIGluICJpbmRleC50d2lnIiBhdCBsaW5lIDEu","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown format specifier \"?\"\") in \"index.twig\" at line 1.","formatted_b64":"VHdpZ1xFcnJvclxSdW50aW1lRXJyb3I6IEFuIGV4Y2VwdGlvbiBoYXMgYmVlbiB0aHJvd24gZHVyaW5nIHRoZSByZW5kZXJpbmcgb2YgYSB0ZW1wbGF0ZSAoIlVua25vd24gZm9ybWF0IHNwZWNpZmllciAiqSIiKSBpbiAiaW5kZXgudHdpZyIgYXQgbGluZSAxLg==","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown format specifier \"?\"\").","rawMessage_b64":"QW4gZXhjZXB0aW9uIGhhcyBiZWVuIHRocm93biBkdXJpbmcgdGhlIHJlbmRlcmluZyBvZiBhIHRlbXBsYXRlICgiVW5rbm93biBmb3JtYXQgc3BlY2lmaWVyICKpIiIpLg==","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ValueError","message":"Unknown format specifier \"?\"","message_b64":"VW5rbm93biBmb3JtYXQgc3BlY2lmaWVyICKpIg==","formatted":"ValueError: Unknown format specifier \"?\"","formatted_b64":"VmFsdWVFcnJvcjogVW5rbm93biBmb3JtYXQgc3BlY2lmaWVyICKpIg==","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795674991,837718]}
+    },
+    {
+      "id": "uni-probe-31",
+      "case": {"id":"uni-probe-31","env":"plain","templates":{"index.twig":"{{ '%c%c'|format(233, 128512) }}|{{ '%5.1s|'|format(s) }}"},"data_json":{"s":"日本"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-31"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-31","kind":"twig","ok":true,"output":"?\u0000|    ?|","output_b64":"6QB8ICAgIOZ8","deprecations":[],"diagnostics":[],"clock":[1795674991,846800]}
+    },
+    {
+      "id": "uni-probe-32",
+      "case": {"id":"uni-probe-32","env":"plain","templates":{"index.twig":"{{ s|nl2br }}"},"data_json":{"s":"a\r\nb\n\rc\rd\ne"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-32"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-32","kind":"twig","ok":true,"output":"a<br />\r\nb<br />\n\rc<br />\rd<br />\ne","deprecations":[],"diagnostics":[],"clock":[1795674991,871798]}
+    },
+    {
+      "id": "uni-probe-33",
+      "case": {"id":"uni-probe-33","env":"plain","templates":{"index.twig":"{{ s|striptags }}|{{ s|striptags('<b>') }}"},"data_json":{"s":"<é>x</é><b>é</b>< a>a< b>"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-33"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-33","kind":"twig","ok":true,"output":"xé< a>a|x<b>é</b>< a>a","deprecations":[],"diagnostics":[],"clock":[1795674991,864257]}
+    },
+    {
+      "id": "uni-probe-34",
+      "case": {"id":"uni-probe-34","env":"plain","templates":{"index.twig":"{{ s|url_encode }}|{{ {(s): s}|url_encode }}|{{ [s]|url_encode }}"},"data_json":{"s":"é /😀"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-34"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-34","kind":"twig","ok":true,"output":"%C3%A9%20%2F%F0%9F%98%80|%C3%A9%20%2F%F0%9F%98%80=%C3%A9%20%2F%F0%9F%98%80|0=%C3%A9%20%2F%F0%9F%98%80","deprecations":[],"diagnostics":[],"clock":[1795674991,879649]}
+    },
+    {
+      "id": "uni-probe-35",
+      "case": {"id":"uni-probe-35","env":"plain","templates":{"index.twig":"{{ s matches '/^\\\\w+$/u' ? 'y' : 'n' }}|{{ s matches '/^.{3}$/u' ? 'y' : 'n' }}|{{ s matches '/^.{3}$/' ? 'y' : 'n' }}"},"data_json":{"s":"éàü"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-35"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-35","kind":"twig","ok":true,"output":"y|y|n","deprecations":[],"diagnostics":[],"clock":[1795674991,870880]}
+    },
+    {
+      "id": "uni-probe-36",
+      "case": {"id":"uni-probe-36","env":"plain","templates":{"index.twig":"{{ s matches '/./u' ? 'y' : 'n' }}"},"data_php":"return [\"s\" => \"\\xff\"];","config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-36"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-36","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Regexp \"/./u\" passed to \"matches\" failed: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Regexp \"/./u\" passed to \"matches\" failed: Malformed UTF-8 characters, possibly incorrectly encoded in \"index.twig\" at line 1.","rawMessage":"Regexp \"/./u\" passed to \"matches\" failed: Malformed UTF-8 characters, possibly incorrectly encoded.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"?","v_b64":"/w=="}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,881618]}
+    },
+    {
+      "id": "uni-probe-37",
+      "case": {"id":"uni-probe-37","env":"plain","templates":{"index.twig":"{{ [s, 'a', 'Z', 'é', 'e']|sort|join('|') }}|{{ max(s, 'z') }}|{{ s < 'f' ? 'lt' : 'ge' }}"},"data_json":{"s":"É"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-37"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-37","kind":"twig","ok":true,"output":"Z|a|e|É|é|É|ge","deprecations":[],"diagnostics":[],"clock":[1795674991,869916]}
+    },
+    {
+      "id": "uni-probe-38",
+      "case": {"id":"uni-probe-38","env":"plain","templates":{"index.twig":"{{ s|upper }}|{{ s|lower }}|{{ s|length }}|{{ s|slice(1, 2) }}|{{ _charset }}"},"data_php":"return [\"s\" => \"\\xe9\\xc0\\xff\\xb5\"];","config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-38","charset":"ISO-8859-1"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-38","kind":"twig","ok":true,"output":"????|????|4|??|ISO-8859-1","output_b64":"ycA/P3zp4P+1fDR8wP98SVNPLTg4NTktMQ==","deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"????","v_b64":"6cD/tQ=="}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,890917]}
+    },
+    {
+      "id": "uni-probe-39",
+      "case": {"id":"uni-probe-39","env":"plain","templates":{"index.twig":"{{ s|title }}|{{ s|capitalize }}|{{ s|reverse }}"},"data_php":"return [\"s\" => \"\\xe9\\x74\\xe9\\x20\\xdf\\x61\"];","config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-39","charset":"ISO-8859-1"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-39","kind":"twig","ok":true,"output":"?t? Ssa|?t? ?a|a? ?t?","output_b64":"yXTpIFNzYXzJdOkg32F8Yd8g6XTp","deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"?t? ?a","v_b64":"6XTpIN9h"}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,900146]}
+    },
+    {
+      "id": "uni-probe-40",
+      "case": {"id":"uni-probe-40","env":"plain","templates":{"index.twig":"{{ s|e('js') }}|{{ s|e('html') }}|{{ s }}"},"data_php":"return [\"s\" => \"\\xe9\\x3c\"];","config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-40","charset":"ISO-8859-1"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-40","kind":"twig","ok":true,"output":"\\u00E9\\u003C|?&lt;|?&lt;","output_b64":"XHUwMEU5XHUwMDNDfOkmbHQ7fOkmbHQ7","deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"?<","v_b64":"6Tw="}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,918898]}
+    },
+    {
+      "id": "uni-probe-41",
+      "case": {"id":"uni-probe-41","env":"plain","templates":{"index.twig":"{{ s|upper }}|{{ s|length }}|{{ s|split('')|join(',') }}"},"data_json":{"s":"aé"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-41","charset":"ASCII"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-41","kind":"twig","ok":true,"output":"A??|3|a,é","deprecations":[],"diagnostics":[],"clock":[1795674991,911510]}
+    },
+    {
+      "id": "uni-probe-42",
+      "case": {"id":"uni-probe-42","env":"plain","templates":{"index.twig":"{{ s|upper }}"},"data_json":{"s":"aé"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-42","charset":"8bit"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-42","kind":"twig","ok":true,"output":"Aé","deprecations":[],"diagnostics":[],"clock":[1795674991,907485]}
+    },
+    {
+      "id": "uni-probe-43",
+      "case": {"id":"uni-probe-43","env":"plain","templates":{"index.twig":"{{ s|upper }}"},"data_json":{"s":"aé"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-43","charset":"nope"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-43","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ValueError","message":"mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given","formatted":"ValueError: mb_strtoupper(): Argument #2 ($encoding) must be a valid encoding, \"NOPE\" given","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795674991,920213]}
+    },
+    {
+      "id": "uni-probe-44",
+      "case": {"id":"uni-probe-44","env":"plain","templates":{"index.twig":"{{ s }}"},"data_json":{"s":"é<😀"},"config":{"autoescape":"js","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-44"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-44","kind":"twig","ok":true,"output":"\\u00E9\\u003C\\uD83D\\uDE00","deprecations":[],"diagnostics":[],"clock":[1795674991,928924]}
+    },
+    {
+      "id": "uni-probe-45",
+      "case": {"id":"uni-probe-45","env":"plain","templates":{"index.twig":"{{ s }}"},"data_json":{"s":"é<😀"},"config":{"autoescape":"css","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-45"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-45","kind":"twig","ok":true,"output":"\\E9 \\3C \\1F600 ","deprecations":[],"diagnostics":[],"clock":[1795674991,931111]}
+    },
+    {
+      "id": "uni-probe-46",
+      "case": {"id":"uni-probe-46","env":"plain","templates":{"index.twig":"{{ s }}"},"data_json":{"s":"é<😀"},"config":{"autoescape":"html_attr","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-46"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-46","kind":"twig","ok":true,"output":"&#x00E9;&lt;&#x1F600;","deprecations":[],"diagnostics":[],"clock":[1795674991,935512]}
+    },
+    {
+      "id": "uni-probe-47",
+      "case": {"id":"uni-probe-47","env":"plain","templates":{"index.twig":"{{ s }}"},"data_php":"return [\"s\" => \"\\xff\\x3c\"];","config":{"autoescape":"html","strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-47"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-47","kind":"twig","ok":true,"output":"�&lt;","deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"?<","v_b64":"/zw="}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795674991,943378]}
+    },
+    {
+      "id": "uni-probe-48",
+      "case": {"id":"uni-probe-48","env":"plain","templates":{"index.twig":"{{ s|spaceless }}"},"data_json":{"s":"<a> </a> <b>\t</b>"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-48"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-48","kind":"twig","ok":true,"output":"&lt;a&gt; &lt;/a&gt; &lt;b&gt;\t&lt;/b&gt;","deprecations":["Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."}],"clock":[1795674991,955099]}
+    },
+    {
+      "id": "uni-probe-49",
+      "case": {"id":"uni-probe-49","env":"plain","templates":{"index.twig":"{{ \"#{s}|#{s|upper}\" }}"},"data_json":{"s":"ǆ"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-49"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-49","kind":"twig","ok":true,"output":"ǆ|Ǆ","deprecations":[],"diagnostics":[],"clock":[1795674991,949087]}
+    },
+    {
+      "id": "uni-probe-50",
+      "case": {"id":"uni-probe-50","env":"plain","templates":{"index.twig":"{% for c in s|split('') %}<{{ c|upper }}>{% endfor %}"},"data_json":{"s":"ßǆ"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-50"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-50","kind":"twig","ok":true,"output":"<SS><Ǆ>","deprecations":[],"diagnostics":[],"clock":[1795674991,961415]}
+    },
+    {
+      "id": "uni-probe-51",
+      "case": {"id":"uni-probe-51","env":"plain","templates":{"index.twig":"{{ s|split('')|map(c => c|upper)|join }}|{{ s|split('')|filter(c => c|upper != c|lower)|join }}"},"data_json":{"s":"a1é_Σ"},"config":{"autoescape":false,"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/uni-probe-51"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"uni-probe-51","kind":"twig","ok":true,"output":"A1É_Σ|aéΣ","deprecations":[],"diagnostics":[],"clock":[1795674991,961850]}
+    }
+  ]
+}

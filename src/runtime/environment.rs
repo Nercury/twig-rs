@@ -260,19 +260,53 @@ fn encode_autoescape_strategy(strategy: &ConstantValue) -> Vec<u8> {
 }
 
 /// Gives a compiled program (and the programs of its embedded templates) the source a template compiled without
-/// `debug` reports at runtime: `new Source('', $name, $path)` (`ModuleNode::compileGetSourceContext()`,
-/// TWIG/src/Node/ModuleNode.php). Twig resolves the path of such a template lazily, through the loader it was loaded
-/// with, and uses `''` when that loader then fails (`Template::getSourcePath()`); twig-rs keeps the path the loader
-/// gave when the template was compiled.
-fn without_code(program: &mut Arc<Program>) {
+/// `debug` reports at runtime (`ModuleNode::compileGetSourceContext()`, TWIG/src/Node/ModuleNode.php): no code, the
+/// name, and for a template with a path, a path resolved when it is first needed
+/// (`Source::createWithLazyPath('', $name, $this->getSourcePath(...))`, see [`TemplatePath`]), else
+/// `new Source('', $name, '')`. `loader` is the loader the file was compiled with.
+fn without_code(program: &mut Arc<Program>, loader: &Arc<dyn Loader>) {
     let program = Arc::make_mut(program);
-    program.source = Source::with_path(
-        Vec::new(),
-        program.source.name().to_owned(),
-        program.source.path().to_owned(),
-    );
+    let name = program.source.name().to_owned();
+    program.source = if program.source.path().is_empty() {
+        Source::new(Vec::new(), name)
+    } else {
+        let path = TemplatePath {
+            name: name.clone(),
+            compiled_with: Arc::clone(loader),
+            instance: OnceLock::new(),
+        };
+        Source::with_path_resolver(Vec::new(), name, path)
+    };
     for embedded in &mut program.embedded {
-        without_code(embedded);
+        without_code(embedded, loader);
+    }
+}
+
+/// The lazily resolved path of a template compiled without `debug`: `$this->getSourcePath(...)`.
+///
+/// The resolved path is kept per program (by its [`Source`]); Twig keeps it per template instance
+/// (`$this->sourcePath`), and an environment has one instance per program.
+struct TemplatePath {
+    /// `$this->getTemplateName()`.
+    name: String,
+    /// The loader the file was compiled with, asked while no instance of the program exists (a program compiled by
+    /// [`Environment::compile_source`] and never loaded).
+    compiled_with: Arc<dyn Loader>,
+    /// `$this->loader`: the environment's loader when the first instance of the program was created
+    /// (`Template::__construct()`, see [`Environment::construct`]).
+    instance: OnceLock<Arc<dyn Loader>>,
+}
+
+impl crate::source::PathResolver for TemplatePath {
+    /// Port of `Template::getSourcePath()` (TWIG/src/Template.php): the path of the source the template's loader
+    /// gives for the template name, or `''` when the loader throws ("the path is needed when an error is reported: a
+    /// failing loader must not replace that error").
+    fn resolve(&self) -> String {
+        let loader = self.instance.get().unwrap_or(&self.compiled_with);
+        loader
+            .get_source_context(&self.name)
+            .map(|source| source.path().to_owned())
+            .unwrap_or_default()
     }
 }
 
@@ -831,7 +865,7 @@ impl Environment {
         let key = self.class_key(&cache_key, name)?;
         self.load_class(key, name, index, |env| {
             let source = loader.get_source_context(name)?;
-            env.compile_source(&source)
+            env.compile_loaded(&source, &loader)
         })
     }
 
@@ -892,8 +926,10 @@ impl Environment {
     }
 
     /// Twig: the compiled constructor (`ModuleNode::compileConstructor()`): the sandbox checker is fetched
-    /// (`CheckSecurityCallNode`), the escaper runtime created, and the traits resolved (`ensureTraitsAllowed()`, then
-    /// per trait `$this->load()`, `isTraitable()`, `getBlocks()` and the renamed blocks).
+    /// (`CheckSecurityCallNode`), `parent::__construct($env)` takes the environment's loader (the one the lazily
+    /// resolved path of the template asks, see [`TemplatePath`]), the escaper runtime is created, and the traits are
+    /// resolved (`ensureTraitsAllowed()`, then per trait `$this->load()`, `isTraitable()`, `getBlocks()` and the
+    /// renamed blocks).
     fn construct(
         &self,
         program: Arc<Program>,
@@ -907,6 +943,10 @@ impl Environment {
                 set.get_extension("Twig\\Extension\\SandboxExtension")
                     .map(|_| ())
             })?;
+        }
+        // `$this->loader = $env->getLoader();` (the first instance of the program keeps it)
+        if let Some(path) = program.source().path_resolver::<TemplatePath>() {
+            let _ = path.instance.set(self.loader());
         }
         if program.uses_template_escaper() {
             // `$this->escaper = $env->getRuntime(EscaperRuntime::class)`
@@ -1031,16 +1071,26 @@ impl Environment {
     ///
     /// The source of the compiled program ([`Program::source`], what the template reports at runtime: its
     /// `getSourceContext()`, the source of its runtime errors and of the source policy check) is the one
-    /// `ModuleNode::compileGetSourceContext()` (TWIG/src/Node/ModuleNode.php) compiles: the name and the path, and the
-    /// code only when `debug` is on (`''` otherwise). Errors of the compilation itself keep `source` as given.
+    /// `ModuleNode::compileGetSourceContext()` (TWIG/src/Node/ModuleNode.php) compiles. With `debug` it is `source`.
+    /// Without, it has no code (`''`), and its path is resolved when it is first needed, through the loader of the
+    /// template instance, or the environment's loader of this moment while the program has no instance (`''` if the
+    /// loader fails then, see `without_code()`). Errors of the compilation itself keep `source` as given.
     ///
     /// # Errors
     ///
     /// The syntax errors of the template.
     pub fn compile_source(&self, source: &Source) -> Result<Arc<Program>> {
+        self.compile_loaded(source, &self.loader())
+    }
+
+    /// [`compile_source`](Self::compile_source) of a source that `loader` gave: the lazily resolved path of the
+    /// program asks `loader` again.
+    fn compile_loaded(&self, source: &Source, loader: &Arc<dyn Loader>) -> Result<Arc<Program>> {
         let mut program = self.compile_module(source)?;
+        // `compileGetSourceContext()` asks the compiled source for its path (a lazily resolved one is resolved now)
+        source.path();
         if !self.is_debug() {
-            without_code(&mut program);
+            without_code(&mut program, loader);
         }
         Ok(program)
     }
