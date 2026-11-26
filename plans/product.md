@@ -5,19 +5,9 @@ template behaviour.
 
 ## API ergonomics
 
-Each item also updates the guide in the crate documentation (`src/lib.rs`), the examples that use the old form and
+Open: a derive macro for `Object`, once someone needs one (the guide's hand-written `Object` and `ObjectBuilder`
+cover host objects). Changes here also update the guide in the crate documentation (`src/lib.rs`), the examples and
 the README.
-
-- **Contexts from any data**: the render methods (`Environment::{render, render_bytes, display}`,
-  `TemplateWrapper::{render, render_bytes, display, render_block, render_block_bytes, display_block}` and `Sandbox`'s)
-  take `context: impl Into<Array>` instead of `Array`, so that a `BTreeMap`, a `HashMap` or a `[(K, V); N]` is a
-  context without `Array::from`.
-- **Rendering conveniences**: `Environment::render_string(source, context)` (a `template_from_string` equivalent
-  without registering a name), and `display` into any `std::io::Write` (today it takes a `vm::Sink`, so a writer is
-  wrapped in `vm::IoSink`).
-- **Host objects**: documented `Object` implementation guide with a worked example; an `ObjectBuilder` for simple
-  property/method bags. A derive macro is out of scope until someone needs it. (`examples/sandbox.rs` implements
-  `Object` by hand for a class with two methods.)
 
 ## Quality
 

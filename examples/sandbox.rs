@@ -5,12 +5,11 @@
 //! cargo run --example sandbox
 //! ```
 
-use std::sync::{Arc, LazyLock};
+use std::sync::Arc;
 
 use twig::loader::ArrayLoader;
 use twig::runtime::{Sandbox, SecurityError, SecurityErrorKind, SecurityPolicy};
-use twig::value::object::{CallArgs, ClassBuilder, ClassRef, Object, ObjectRef, undefined_method};
-use twig::value::{Diagnostics, PhpResult};
+use twig::value::object::ObjectBuilder;
 use twig::{Environment, Value, context};
 
 /// Templates written by users, e.g. stored in a database.
@@ -24,46 +23,15 @@ const USER_TEMPLATES: [(&str, &str); 4] = [
     ("include.twig", "{% include 'newsletter.twig' %}"),
 ];
 
-/// The class of the host object, as templates and policies see it (`getTitle()` and `getBody()`, so that
-/// `article.title` calls `getTitle()` as in PHP).
-static ARTICLE: LazyLock<ClassRef> = LazyLock::new(|| {
-    ClassBuilder::class("App\\Article")
-        .method("getTitle")
-        .method("getBody")
-        .build()
-});
-
-struct Article {
-    title: String,
-    body: String,
-}
-
-impl Object for Article {
-    fn class(&self) -> &ClassRef {
-        &ARTICLE
-    }
-
-    /// `method` is the lower-cased method name.
-    fn call(
-        &self,
-        _this: &ObjectRef,
-        method: &str,
-        _args: CallArgs,
-        _diag: &mut dyn Diagnostics,
-    ) -> PhpResult<Value> {
-        match method {
-            "gettitle" => Ok(Value::from(self.title.as_str())),
-            "getbody" => Ok(Value::from(self.body.as_str())),
-            _ => Err(undefined_method(self.class(), method)),
-        }
-    }
-}
-
+/// A host object of the class `App\Article`, as templates and policies see it: the methods `getTitle()` and
+/// `getBody()`, so that `article.title` calls `getTitle()` as in PHP.
 fn article(title: &str, body: &str) -> Value {
-    Value::Object(ObjectRef::new(Article {
-        title: title.to_owned(),
-        body: body.to_owned(),
-    }))
+    let (title, body) = (title.to_owned(), body.to_owned());
+    ObjectBuilder::new("App\\Article")
+        .method("getTitle", [], move |_, _, _| Ok(title.clone()))
+        .method("getBody", [], move |_, _, _| Ok(body.clone()))
+        .build()
+        .into()
 }
 
 fn main() -> twig::Result<()> {

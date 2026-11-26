@@ -18,6 +18,8 @@
 //! - [Compatibility](#compatibility): what "exactly like Twig" covers;
 //! - [Quick start](#quick-start): environments, options and rendering;
 //! - [Template data](#template-data): contexts, [`context!`], conversions of Rust data, serde, globals;
+//! - [Exposing Rust types to templates](#exposing-rust-types-to-templates): objects with methods, by
+//!   [implementing `Object`](#implementing-object) or with [`ObjectBuilder`](#objectbuilder);
 //! - [Autoescaping](#autoescaping);
 //! - [Extending Twig](#extending-twig): [filters, functions and tests](#filters-functions-and-tests),
 //!   [extensions](#extensions), [tags](#tags);
@@ -28,7 +30,7 @@
 //! - [How it works](#how-it-works): the pipeline and the modules.
 //!
 //! The `examples/` directory of the repository has complete programs for most sections: `hello`, `filesystem`,
-//! `custom_filter`, `extension`, `sandbox` and `serde_context` (`cargo run --example hello`).
+//! `host_objects`, `custom_filter`, `extension`, `sandbox` and `serde_context` (`cargo run --example hello`).
 //!
 //! # Compatibility
 //!
@@ -94,18 +96,21 @@
 //!
 //! [`render`](Environment::render) returns a `String`. Twig's output is a byte string, though:
 //! [`render_bytes`](Environment::render_bytes) returns the bytes (a template may print bytes that are not UTF-8),
-//! and [`display`](Environment::display) writes them to a [`Sink`](vm::Sink) as they are produced: a `Vec<u8>`, or
-//! any [`std::io::Write`] wrapped in an [`IoSink`](vm::IoSink). [`create_template`](Environment::create_template)
-//! compiles template source that no loader knows (Twig's `createTemplate()`).
+//! and [`display`](Environment::display) writes them to a [`Sink`](vm::Sink) as they are produced: any
+//! [`std::io::Write`] (a `Vec<u8>`, a file, a socket, a locked stdout). [`render_string`](Environment::render_string)
+//! renders template source that no loader knows, and [`create_template`](Environment::create_template) compiles it
+//! into a template to render several times (Twig's `createTemplate()`).
 //!
 //! ```
-//! use twig::{Array, vm::IoSink};
+//! use twig::{Array, context};
 //! # let env = twig::Environment::new(twig::loader::ArrayLoader::new([("index", "")]));
+//!
+//! assert_eq!(env.render_string("Hello {{ name }}!", context! { name => "you" })?, "Hello you!");
 //!
 //! let template = env.create_template(b"{% for i in 1..3 %}{{ i }}{% endfor %}", None)?;
 //! // a file, a socket, a locked stdout, ...
 //! let mut writer = std::io::Cursor::new(Vec::new());
-//! template.display(Array::new(), &mut IoSink(&mut writer))?;
+//! template.display(Array::new(), &mut writer)?;
 //! assert_eq!(writer.into_inner(), b"123");
 //! # Ok::<(), twig::Error>(())
 //! ```
@@ -122,17 +127,21 @@
 //!   becomes the integer key `1`).
 //!
 //! Integers beyond PHP's `int` range become floats, as `json_decode()` makes them; [`value::value`] has the whole
-//! table. The [`context!`] macro builds an `Array` of `key => value` entries, and contexts nest:
+//! table. The [`context!`] macro builds an `Array` of `key => value` entries, and contexts nest. The render methods
+//! take anything that converts into an `Array`, so a map or an array of pairs is a context as it is:
 //!
 //! ```
 //! use std::collections::BTreeMap;
 //! use twig::{Environment, context, loader::ArrayLoader};
 //!
-//! let env = Environment::new(ArrayLoader::new([(
-//!     "index",
-//!     "{{ user.name }} ({{ user.roles|join(', ') }}): \
-//!      {% for key, score in scores %}{{ key }}={{ score }} {% endfor %}{{ next ?? 'none' }}",
-//! )]));
+//! let env = Environment::new(ArrayLoader::new([
+//!     (
+//!         "index",
+//!         "{{ user.name }} ({{ user.roles|join(', ') }}): \
+//!          {% for key, score in scores %}{{ key }}={{ score }} {% endfor %}{{ next ?? 'none' }}",
+//!     ),
+//!     ("pair", "{{ a }} and {{ b }}"),
+//! ]));
 //! let scores = BTreeMap::from([("a", 1.5), ("b", 2.0)]);
 //! let context = context! {
 //!     user => context! { name => "Fabien", roles => ["admin", "dev"] },
@@ -140,6 +149,8 @@
 //!     next => None::<String>,
 //! };
 //! assert_eq!(env.render("index", context)?, "Fabien (admin, dev): a=1.5 b=2 none");
+//! assert_eq!(env.render("pair", BTreeMap::from([("a", 1), ("b", 2)]))?, "1 and 2");
+//! assert_eq!(env.render("pair", [("a", "x"), ("b", "y")])?, "x and y");
 //! # Ok::<(), twig::Error>(())
 //! ```
 //!
@@ -172,9 +183,241 @@
 //!
 //! Globals are variables every template sees: [`Environment::add_global`] adds one (until the first template is
 //! loaded; afterwards only existing globals change), an extension's [`globals`](extension::Extension::globals)
-//! several. HTML that must not be escaped again is passed as [`Markup`] (see [Autoescaping](#autoescaping)). Host
-//! objects implement [`value::object::Object`]: a class with methods and properties as templates see them
-//! (`article.title` calls `getTitle()`, as in PHP); `examples/sandbox.rs` has one.
+//! several. HTML that must not be escaped again is passed as [`Markup`] (see [Autoescaping](#autoescaping)). Objects
+//! with methods are the next section.
+//!
+//! # Exposing Rust types to templates
+//!
+//! Arrays carry plain data. When templates should call methods (`article.excerpt(20)`, `user.isAdmin`), print a value
+//! of a type (`{{ money }}`) or loop over a collection type, give them a PHP object: implement
+//! [`Object`](value::object::Object) for a Rust type, or assemble an object with
+//! [`ObjectBuilder`](value::object::ObjectBuilder). Templates reach objects exactly like Twig reaches PHP objects
+//! (`CoreExtension::getAttribute()`); `article.title` is the first of:
+//!
+//! 1. the offset `title` of an `ArrayAccess` object, when `offsetExists()` says it exists (`article['title']` stops
+//!    here);
+//! 2. the public property `title`, or what `__isset()` and `__get()` answer;
+//! 3. the class constant `title`;
+//! 4. the method `title()`, `getTitle()`, `isTitle()` or `hasTitle()`, in that order and case-insensitively, else
+//!    `__call('title', [])`.
+//!
+//! `article.title()`, with parentheses, looks for a method only. A missing attribute is `null`, or an error with
+//! `strict_variables`. The sandbox's policies name the classes and members of host objects like those of PHP objects.
+//!
+//! ## Implementing `Object`
+//!
+//! [`Object`](value::object::Object) is PHP's object handler table; every handler defaults to PHP's standard
+//! behaviour. A Rust type provides its class (`class()`: the name and the declared properties and methods, built once
+//! with [`ClassBuilder`](value::object::ClassBuilder) and shared by all objects of the class, as comparisons and
+//! Twig's per-class caches expect) and its method bodies (`call()`, by lowercase method name); a
+//! [`PropertyStore`](value::object::PropertyStore) (`property_store()`) holds its public properties, and
+//! `method_params()` declares the parameters of its methods so that named arguments bind as in PHP. This is the Rust
+//! side of a PHP class like
+//!
+//! ```php
+//! namespace App;
+//!
+//! class Article
+//! {
+//!     public $title;
+//!
+//!     public function __construct($title, private $author, private $body, private $published) { $this->title = $title; }
+//!     public function getAuthor() { return $this->author; }
+//!     public function isPublished() { return $this->published; }
+//!     public function excerpt($words = 3) { return implode(' ', array_slice(explode(' ', $this->body), 0, $words)).'...'; }
+//!     public function __toString(): string { return $this->title; }
+//! }
+//! ```
+//!
+//! ```
+//! use std::sync::LazyLock;
+//! use twig::value::object::{
+//!     CallArgs, ClassBuilder, ClassRef, FunctionKind, MethodParams, Object, ObjectRef, Param, PropertyStore,
+//!     undefined_method,
+//! };
+//! use twig::value::{Diagnostics, FetchMode, PhpResult, convert};
+//! use twig::{Environment, Value, context, loader::ArrayLoader};
+//!
+//! /// The class, declared once: its name, its public property and its methods.
+//! static ARTICLE: LazyLock<ClassRef> = LazyLock::new(|| {
+//!     ClassBuilder::class("App\\Article")
+//!         .property("title", Value::Null)
+//!         .method("getAuthor")
+//!         .method("isPublished")
+//!         .method("excerpt")
+//!         .method("__toString")
+//!         .build()
+//! });
+//!
+//! struct Article {
+//!     /// The public properties: `title`.
+//!     properties: PropertyStore,
+//!     author: String,
+//!     body: String,
+//!     published: bool,
+//! }
+//!
+//! fn article(title: &str, author: &str, body: &str, published: bool) -> ObjectRef {
+//!     let properties = PropertyStore::new(&ARTICLE);
+//!     properties.set(b"title", Value::from(title));
+//!     let (author, body) = (author.to_owned(), body.to_owned());
+//!     ObjectRef::new(Article { properties, author, body, published })
+//! }
+//!
+//! /// `excerpt($words = 3)`
+//! fn excerpt_params() -> Vec<Param> {
+//!     vec![Param::optional("words", 3)]
+//! }
+//!
+//! impl Object for Article {
+//!     fn class(&self) -> &ClassRef {
+//!         &ARTICLE
+//!     }
+//!
+//!     fn property_store(&self) -> Option<&PropertyStore> {
+//!         Some(&self.properties)
+//!     }
+//!
+//!     /// The parameters of the methods, by lowercase name.
+//!     fn method_params(&self, method: &str) -> Option<MethodParams> {
+//!         Some(MethodParams::user(match method {
+//!             "excerpt" => excerpt_params(),
+//!             _ => Vec::new(),
+//!         }))
+//!     }
+//!
+//!     /// The method bodies, by lowercase name.
+//!     fn call(&self, this: &ObjectRef, method: &str, args: CallArgs, diag: &mut dyn Diagnostics) -> PhpResult<Value> {
+//!         match method {
+//!             "getauthor" => Ok(Value::from(self.author.as_str())),
+//!             "ispublished" => Ok(Value::from(self.published)),
+//!             "excerpt" => {
+//!                 // positional and named arguments, defaults and PHP's errors
+//!                 let args = args.bind("App\\Article::excerpt", &excerpt_params(), FunctionKind::User)?;
+//!                 let words = usize::try_from(convert::to_long(&args[0], diag)?).unwrap_or(0);
+//!                 let words: Vec<&str> = self.body.split(' ').take(words).collect();
+//!                 Ok(Value::from(words.join(" ") + "..."))
+//!             }
+//!             "__tostring" => this.read_property(b"title", FetchMode::Read, diag),
+//!             _ => Err(undefined_method(self.class(), method)),
+//!         }
+//!     }
+//! }
+//!
+//! let env = Environment::new(ArrayLoader::new([(
+//!     "index",
+//!     "{% for article in articles %}{{ article.title }} by {{ article.author }}\
+//!      {{ article.published ? '' : ' (draft)' }}: {{ article.excerpt }} / {{ article.Excerpt(words: 2) }} / \
+//!      {{ article }}\n{% endfor %}",
+//! )]));
+//! let articles = vec![
+//!     article("Twig in Rust", "Fabien", "Templates render exactly like PHP renders them.", true),
+//!     article("Host objects", "Nerijus", "Objects with methods, no PHP.", false),
+//! ];
+//! assert_eq!(
+//!     env.render("index", context! { articles })?,
+//!     "Twig in Rust by Fabien: Templates render exactly... / Templates render... / Twig in Rust\n\
+//!      Host objects by Nerijus (draft): Objects with methods,... / Objects with... / Host objects\n",
+//! );
+//! # Ok::<(), twig::Error>(())
+//! ```
+//!
+//! `examples/host_objects.rs` has the complete program. Overriding more handlers changes more of the object
+//! protocol (`read_property` for computed properties, `get_iterator`, `count_elements`, `compare`, ...); the module
+//! documentation of [`value::object`] describes the model.
+//!
+//! ## `ObjectBuilder`
+//!
+//! [`ObjectBuilder`](value::object::ObjectBuilder) declares such a class without a Rust type: public properties with
+//! their values, and methods made of closures, which get the object (`$this`), the arguments bound to the declared
+//! parameters and the diagnostics sink. The same article, with the same template and output:
+//!
+//! ```
+//! use twig::value::object::{ObjectBuilder, ObjectRef, Param};
+//! use twig::value::{FetchMode, convert};
+//! use twig::{Environment, context, loader::ArrayLoader};
+//!
+//! fn article(title: &str, author: &str, body: &str, published: bool) -> ObjectRef {
+//!     let (author, body) = (author.to_owned(), body.to_owned());
+//!     ObjectBuilder::new("App\\Article")
+//!         .property("title", title)
+//!         .method("getAuthor", [], move |_, _, _| Ok(author.clone()))
+//!         .method("isPublished", [], move |_, _, _| Ok(published))
+//!         .method("excerpt", [Param::optional("words", 3)], move |_, args, diag| {
+//!             let words = usize::try_from(convert::to_long(&args[0], diag)?).unwrap_or(0);
+//!             let words: Vec<&str> = body.split(' ').take(words).collect();
+//!             Ok(words.join(" ") + "...")
+//!         })
+//!         .stringable(|this, diag| this.read_property(b"title", FetchMode::Read, diag))
+//!         .build()
+//! }
+//!
+//! # let env = Environment::new(ArrayLoader::new([(
+//! #     "index",
+//! #     "{% for article in articles %}{{ article.title }} by {{ article.author }}\
+//! #      {{ article.published ? '' : ' (draft)' }}: {{ article.excerpt }} / {{ article.Excerpt(words: 2) }} / \
+//! #      {{ article }}\n{% endfor %}",
+//! # )]));
+//! let articles = vec![
+//!     article("Twig in Rust", "Fabien", "Templates render exactly like PHP renders them.", true),
+//!     article("Host objects", "Nerijus", "Objects with methods, no PHP.", false),
+//! ];
+//! assert_eq!(
+//!     env.render("index", context! { articles => articles.clone() })?,
+//!     "Twig in Rust by Fabien: Templates render exactly... / Templates render... / Twig in Rust\n\
+//!      Host objects by Nerijus (draft): Objects with methods,... / Objects with... / Host objects\n",
+//! );
+//! // arguments bind like those of a PHP method
+//! let error = env
+//!     .render_string("{{ article.excerpt(count: 2) }}", context! { article => articles[0].clone() })
+//!     .unwrap_err();
+//! assert_eq!(
+//!     error.to_string(),
+//!     "An exception has been thrown during the rendering of a template (\"Unknown named parameter $count\") in \
+//!      \"__string_template__a3df79389955d75e5baf5c5f012b2fa3\" at line 1.",
+//! );
+//! # Ok::<(), twig::Error>(())
+//! ```
+//!
+//! Hooks implement PHP's interfaces: [`stringable`](value::object::ObjectBuilder::stringable) (`__toString()`),
+//! [`countable`](value::object::ObjectBuilder::countable) (`Countable`),
+//! [`array_access`](value::object::ObjectBuilder::array_access) (`ArrayAccess`, read-only) and
+//! [`iterable`](value::object::ObjectBuilder::iterable) (`IteratorAggregate` over an array). A collection type:
+//!
+//! ```
+//! use twig::value::Value;
+//! use twig::value::object::ObjectBuilder;
+//! use twig::{Environment, context, loader::ArrayLoader};
+//!
+//! // class TagList implements \IteratorAggregate, \ArrayAccess, \Countable
+//! let names = ["rust", "php", "twig"];
+//! let tags = ObjectBuilder::new("App\\TagList")
+//!     .countable(move |_, _| Ok(names.len() as i64))
+//!     .iterable(move |_, _| Ok(names))
+//!     // offsetExists($offset): `is_int($offset) && isset($this->tags[$offset])`
+//!     .array_access(move |_, offset, _| {
+//!         Ok(match offset {
+//!             Value::Int(i) => usize::try_from(*i).ok().and_then(|i| names.get(i)).map(|name| Value::from(*name)),
+//!             _ => None,
+//!         })
+//!     })
+//!     .build();
+//!
+//! let env = Environment::new(ArrayLoader::new([(
+//!     "index",
+//!     "{{ tags|length }} tags: {{ tags|join(', ') }}; the first is {{ tags[0] }}, {{ tags[5] ?? 'there is no sixth' }}.",
+//! )]));
+//! assert_eq!(
+//!     env.render("index", context! { tags })?,
+//!     "3 tags: rust, php, twig; the first is rust, there is no sixth.",
+//! );
+//! # Ok::<(), twig::Error>(())
+//! ```
+//!
+//! Magic methods are methods: `__get`, `__isset` and `__call` added with
+//! [`method`](value::object::ObjectBuilder::method) work as in PHP. Objects built with the same class name and the
+//! same members are objects of one class, as in PHP (they compare by their properties); the classes live as long as
+//! the process, so their names and members come from code, while data with arbitrary keys belongs in arrays.
 //!
 //! # Autoescaping
 //!

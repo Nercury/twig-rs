@@ -29,6 +29,31 @@ fn main() -> twig::Result<()> {
 }
 ```
 
+A context is anything that converts into a PHP array (`context!`, a map, an array of pairs), and templates call the
+methods of Rust objects like those of PHP objects:
+
+```rust
+use twig::loader::ArrayLoader;
+use twig::value::object::ObjectBuilder;
+use twig::{Environment, context};
+
+fn main() -> twig::Result<()> {
+    let env = Environment::new(ArrayLoader::new([(
+        "index",
+        "{{ user.name }}{{ user.admin ? ' (admin)' }}: {{ greeting }}",
+    )]));
+    let user = ObjectBuilder::new("App\\User")
+        .property("name", "Fabien")
+        // `user.admin` calls `isAdmin()`, as in Twig
+        .method("isAdmin", [], |_, _, _| Ok(true))
+        .build();
+    let html = env.render("index", context! { user, greeting => "hello" })?;
+    assert_eq!(html, "Fabien (admin): hello");
+    assert_eq!(env.render_string("{{ a }}+{{ b }}", [("a", 1), ("b", 2)])?, "1+2");
+    Ok(())
+}
+```
+
 Errors carry Twig's messages, template names and lines:
 
 ```rust
@@ -51,8 +76,9 @@ fn main() {
 }
 ```
 
-The crate documentation (`cargo doc --open`) is the guide: data and the `context!` macro, serde, autoescaping,
-filters, functions, tests, extensions and tags, loaders, the sandbox, errors and PHP diagnostics, threads.
+The crate documentation (`cargo doc --open`) is the guide: data and the `context!` macro, serde, Rust types as PHP
+objects (`Object`, `ObjectBuilder`), autoescaping, filters, functions, tests, extensions and tags, loaders, the
+sandbox, errors and PHP diagnostics, threads.
 
 ## Status
 
@@ -127,6 +153,7 @@ the oracle image are in [`reference/target.md`](reference/target.md).
 ```bash
 cargo run --example hello                            # ArrayLoader, inheritance, a loop, auto-escaping
 cargo run --example filesystem                       # FilesystemLoader with a namespace (examples/templates/)
+cargo run --example host_objects                     # Rust types as PHP objects: Object by hand, ObjectBuilder
 cargo run --example custom_filter                    # filters made of Rust closures
 cargo run --example extension                        # an Extension with filters, a global and a tag
 cargo run --example sandbox                          # untrusted templates under a strict security policy

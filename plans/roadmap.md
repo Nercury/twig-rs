@@ -114,10 +114,10 @@ all fixed or classified). Remaining:
 
 ### 6. Product
 Plan: [product.md](product.md). Done: re-exports, `From` conversions, `context!`, serde feature, `from_fn` callables,
+render methods taking any context data, `render_string`, writers as sinks, the host-object guide and `ObjectBuilder`,
 crate guide and examples, cargo-deny configuration, `NOTICE`, criterion benchmarks with a PHP comparison. The glibc-derived
-iconv now lives in the opt-in LGPL crate `twig-iconv` behind a clean-room default. Next: rendering
-conveniences, host-object guide, a performance pass (render is 1.7–2.6× slower than PHP Twig, compile 11–13× faster),
-release preparation.
+iconv now lives in the opt-in LGPL crate `twig-iconv` behind a clean-room default. Next: a performance pass (render is
+1.7–2.6× slower than PHP Twig, compile 11–13× faster), release preparation.
 
 ## Open questions
 
