@@ -40,10 +40,13 @@ README's installation section); `cargo package` builds the seven published crate
 limit. Open:
 
 - Publishing needs the owner's go. Before it: check on crates.io that the owner holds the `twig` name (the 2015
-  versions may be there) and that the `twig-*` names are free. Then `cargo publish` in dependency order (twig-unicode,
-  twig-timelib, twig-pcre, twig-value, twig-iconv, twig-date, twig), date the CHANGELOG entry, tag `v0.2.0`, and
-  update the README's status bullet, which still says that nothing is published. Until then the installation section
-  names a version that is not on crates.io.
+  versions may be there) and that the `twig-*` names are free, and bring the revived code to `master`, the
+  repository's default branch, which still has the 2015 code: crates.io resolves the relative links of twig's README
+  against it, and the guide links to `reference/deviations.md` there. Then `cargo publish` in dependency order
+  (twig-unicode, twig-timelib, twig-pcre, twig-value, twig-iconv, twig-date, twig), date the CHANGELOG entry, tag
+  `v0.2.0`, and update the README's status bullet, which still says that nothing is published, and the git dependency
+  lines of the README's installation section and of twig-iconv's crate documentation (the `revive` branch). Until
+  then the installation section names a version that is not on crates.io.
 - twig-iconv's publication (see the licensing section) gates twig's `glibc-iconv` feature: crates.io refuses
   dependencies that are not published, optional ones included, so without twig-iconv the feature and its optional
   dependency have to be removed before twig is published.

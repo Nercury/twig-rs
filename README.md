@@ -202,10 +202,12 @@ behaviour goes like this:
 3. Pin the behaviour with oracle-generated vectors: regression vectors in `tests/vectors/fuzz/` (rules in its
    [README](tests/vectors/fuzz/README.md); `twig-fuzz replay --update` removes the marker of a fixed vector) or
    vector files next to the tests.
-4. `cargo fmt`, `cargo clippy --workspace --all-targets -- -D warnings` and `cargo test --workspace` must pass; the
-   tests need no Docker.
+4. There is no hosted CI: the local check list of [`reference/conventions.md`](reference/conventions.md) must pass
+   (formatting, clippy, the tests with and without `--all-features`, the documentation, the MSRV build and
+   `cargo deny check`). The tests need no Docker.
 
-Open work is listed in [`plans/`](plans/roadmap.md): the roadmap, the known mismatches and the first release.
+Open work is listed in [`plans/`](plans/roadmap.md): the roadmap, the engine's remaining work and the product plan
+with the first release.
 
 ## Licence
 

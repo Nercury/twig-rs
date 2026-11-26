@@ -30,7 +30,7 @@
 //!
 //!   ```toml
 //!   [dependencies]
-//!   twig = { git = "https://github.com/Nercury/twig-rs", features = ["glibc-iconv"] }
+//!   twig = { git = "https://github.com/Nercury/twig-rs", branch = "revive", features = ["glibc-iconv"] }
 //!   ```
 //!
 //! - or an environment gets it explicitly, with the `iconv_backend` option:

@@ -110,18 +110,19 @@ All 500 runnable cases of the 488 upstream fixture files pass, against 488 passi
 more cases are skipped by their `--CONDITION--`, as in PHPUnit, and the ratchet `tests/twig/known-failures.txt` is
 empty). The behaviour-level PHPUnit tests (classes A and B of `reference/twig/test-suite.md` §6) are ported: 429 tests
 in `tests/upstream_*.rs`, 81 in `tests/lexer_test.rs`, `tests/token_stream_test.rs` and `tests/loader_upstream.rs`,
-and the PHPUnit parts of the parser and escaper tests; only D1's two stay ignored. Six rounds of differential fuzzing
+and the PHPUnit parts of the parser and escaper tests; none is ignored. Six rounds of differential fuzzing
 ([fuzzing.md](../research/fuzzing.md)) went from about 1% of the cases mismatching in round 1 to one raw mismatch in
 360,000 generated cases across 12 construct families in round 6 (an accepted deviation the callables generator
 reaches, T19). They produced 43 parity fixes (P1–P43), four rows of `reference/deviations.md` (D1–D4) and 4,795
 oracle-recorded regression vectors (`tests/vectors/fuzz` and twig-fuzz's round-0 file; the 9 still marked are D2's, by
-design). `cargo +stable test --workspace --all-features` runs 1,982 tests and ignores 11: 5 need Docker, 3 an external
-vector file, 2 are D1's and one is a doctest.
+design). `cargo +stable test --workspace --all-features` runs 1,988 tests and ignores 9 besides the two skipped fixture
+cases: 5 need Docker, 3 an external vector file and one is a doctest.
 
 ### 6. Product
 Plan: [product.md](product.md). Remaining:
-- Release: publishing 0.2.0 needs the owner's go (the crate names on crates.io, `cargo publish` in dependency order,
-  the CHANGELOG date, the tag); twig-iconv's publication gates twig's `glibc-iconv` feature.
+- Release: publishing 0.2.0 needs the owner's go (the crate names on crates.io, the revived code on `master`,
+  `cargo publish` in dependency order, the CHANGELOG date, the tag); twig-iconv's publication gates twig's
+  `glibc-iconv` feature.
 - Licensing: a legal review of `twig-iconv` (PHP-3.01 code inside an LGPL crate); the clean-room iconv converter of
   the default build could grow.
 - Performance: after the first profiling pass rendering ranges from 3.1× faster (escaping) to 1.2× slower (dates,
