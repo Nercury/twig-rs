@@ -76,9 +76,10 @@ impl Extension for BlogExtension {
 
 /// `{% unless condition %}...{% else %}...{% endunless %}`: `{% if not (condition) %}` under another name.
 ///
-/// A token parser reads the rest of its tag from the token stream and returns a node. It builds the node from the
-/// core node types (`Node::if_`, `Node::print`, `Node::set`, ...), which every visitor (escaping, sandbox,
-/// optimizer) and the compiler know; twig-rs cannot compile node types of its own yet.
+/// A token parser reads the rest of its tag from the token stream and returns a node. This one builds the node from
+/// the core node types (`Node::if_`, `Node::print`, `Node::set`, ...), which every visitor (escaping, sandbox,
+/// optimizer) and the compiler know; a tag the core nodes cannot express gets a node class of its own
+/// (`examples/custom_node.rs`).
 struct UnlessTokenParser;
 
 impl TokenParser for UnlessTokenParser {

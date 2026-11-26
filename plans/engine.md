@@ -45,6 +45,8 @@ Environment::load(name)
   `default_escape_strategy()`, `security(): Option<SecurityLists {tags, filters, functions, tests}>` (the
   `CheckSecurityNode` of the sandbox visitor, names with first-use lines), `disassemble()`.
 - `Unit {kind, code, lines: LineTable, locals}`; `UnitKind::{Body, Block(name), Macro(name), Parent, Arrow(params)}`.
+- `runtimes()`: the `NodeRuntime` closures the code of node classes of extensions calls (`CallRuntime {runtime,
+  argc}`: `[args...] -> [result]`, attributed to the line where the call starts).
 - `LineTable`: run-length `(ip, line)` entries pushed only where `Compiler::addDebugInfo` writes a marker, in Twig's
   compile order. An instruction is attributed to the marker in effect where its PHP construct is attributed:
   - a function or static call: the line where the call starts (`emit_at(start)`);
@@ -197,15 +199,30 @@ Environment::load(name)
 - The `constant` test uses PHP's `constant()` over the shipped PHP constant table (`misc::constants`).
 - Sandbox coercion: `CallableParameter::string_coercion_safe()` for host callables,
   `CustomExpr`/`CustomNode::string_coerced_child_names()` for node classes of extensions.
+- Node classes of extensions (`ast::CustomNode`, `ast::CustomExpr`, made with `Node::custom`/`Expr::custom`):
+  `compile()` writes the node's code into the unit being compiled through `lltl::Compiler` (Twig's `Compiler`):
+  `add_debug_info`, `subcompile`/`subcompile_expr`, constants, locals (`getVarName()`), `$context` reads and writes,
+  output and captures, PHP operators, forward `Jump`s and backward `Mark`s, `call` (`compileCallable()`, bound at
+  compile time) and `call_runtime` (a `NodeRuntime` closure getting a `NodeCall`: the arguments, `$context`, the
+  output, the environment, `invoke`). The builder verifies the stack discipline as the code is written (values
+  taken only from what the node pushed in its region, statements stack-neutral, expressions one value, jumps landing
+  at the height they left, no jump into or out of a capture or an argument list, handles of one builder only) and
+  reports violations as `LogicException`s of the compilation. Without `compile()`, Twig's `Node::compile()`: statement
+  children in order, the only child of an expression. The codegen buffers its deprecations (reported in order when
+  it ends) so that the builder can borrow it. Classification: `callable()` makes a class a `FilterExpression`,
+  `FunctionExpression` or `TestExpression` subclass for the safe analysis, the escaper's `pre_escape`, the sandbox
+  (collection, `wrapNode()`, `CallableParameters`, the inherited `getStringCoercedChildNames()`) and the optimizer's
+  `include()`; `operand_names_to_escape()` an `OperatorEscapeInterface` (`escapeConditional()`, the intersected
+  safety, the sandbox's operand search). `safe_analysis::check_analysis()` raises the `LogicException`s Twig's
+  analysis traversal throws for such classes (more than two operands, missing children) when the escaper pass has
+  met one. `php::generated_parse_error()` lets the direct children of such classes be spreads (they write no PHP).
 
 ## Remaining work
 
 1. Non-UTF-8 charsets beyond the single-byte ones in the mbstring functions (`upper`, `length`, `slice`, ...: tables
    for multi-byte and table-based encodings). iconv covers every charset only with the `glibc-iconv` feature.
-2. A code generation hook for node and expression classes defined by extensions (today: `The "%s" node class cannot
-   be compiled by twig-rs.`), and their escaping/sandbox classification.
-3. Compiled-template caching across processes (optional, roadmap phase 6).
-4. Public API review, `NOTICE` file and publishing (roadmap phase 6).
+2. Compiled-template caching across processes (optional, roadmap phase 6).
+3. Public API review, `NOTICE` file and publishing (roadmap phase 6).
 
 ## Tests
 
@@ -228,3 +245,6 @@ Environment::load(name)
   callables and the class table (P15, P27). The fuzz regression vectors (`tests/fuzz_regressions.rs`,
   `tests/vectors/fuzz/`) cover the rest, the method parameters of P33 and P34 among them.
 - `tests/fixtures.rs`: Twig's integration fixtures through the `Environment` (ratchet `tests/twig/known-failures.txt`).
+- `tests/custom_nodes.rs`: node classes of extensions (tags compiling themselves, expression classes of callables and
+  operators) against the oracle vectors `tests/vectors/custom_nodes.json`, whose generator
+  `tests/vectors/custom_nodes.gen.php` holds the PHP counterparts of the Rust classes; the builder's checks; runtimes.

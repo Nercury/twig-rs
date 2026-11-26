@@ -136,8 +136,7 @@ Plan: [product.md](product.md). Remaining:
   `RecursiveArrayIterator`, and ArrayObject/ArrayIterator subclasses in twig-value. A derive macro for `Object` once
   someone needs one.
 - Engine gaps ([engine.md](engine.md), "Remaining work"): multi-byte and table-based encodings in the mbstring
-  functions, a code generation hook for node classes of extensions, compiled-template caching across processes
-  (optional).
+  functions, compiled-template caching across processes (optional).
 - Fuzzing: the harness's open gaps are in [fuzzing.md](../research/fuzzing.md).
 
 ## Open questions

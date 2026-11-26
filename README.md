@@ -156,6 +156,7 @@ cargo run --example filesystem                       # FilesystemLoader with a n
 cargo run --example host_objects                     # Rust types as PHP objects: Object by hand, ObjectBuilder
 cargo run --example custom_filter                    # filters made of Rust closures
 cargo run --example extension                        # an Extension with filters, a global and a tag
+cargo run --example custom_node                      # a tag of its own node class, compiled with lltl::Compiler
 cargo run --example sandbox                          # untrusted templates under a strict security policy
 cargo run --example serde_context --features serde   # template data from serde
 cargo run --example lex_tokens                       # the tokens of templates/fos_login.html.twig

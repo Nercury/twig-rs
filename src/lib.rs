@@ -22,7 +22,7 @@
 //!   [implementing `Object`](#implementing-object) or with [`ObjectBuilder`](#objectbuilder);
 //! - [Autoescaping](#autoescaping);
 //! - [Extending Twig](#extending-twig): [filters, functions and tests](#filters-functions-and-tests),
-//!   [extensions](#extensions), [tags](#tags);
+//!   [extensions](#extensions), [tags](#tags), [node classes](#node-classes);
 //! - [Loaders](#loaders);
 //! - [Sandbox](#sandbox);
 //! - [Errors and diagnostics](#errors-and-diagnostics);
@@ -30,7 +30,8 @@
 //! - [How it works](#how-it-works): the pipeline and the modules.
 //!
 //! The `examples/` directory of the repository has complete programs for most sections: `hello`, `filesystem`,
-//! `host_objects`, `custom_filter`, `extension`, `sandbox` and `serde_context` (`cargo run --example hello`).
+//! `host_objects`, `custom_filter`, `extension`, `custom_node`, `sandbox` and `serde_context` (`cargo run --example
+//! hello`).
 //!
 //! # Compatibility
 //!
@@ -59,9 +60,8 @@
 //! into the program. [`EnvironmentOptions::iconv_backend`] chooses a backend for one environment.
 //!
 //! There is no PHP interpreter: data is passed as PHP values made from Rust data, and filters, functions, tests,
-//! extensions, loaders and security policies are Rust code. What needs PHP code is not available: PHP functions
-//! named as callables (`'strtoupper'`), and node classes that compile themselves (a tag builds its node from the
-//! core node types instead, see [Tags](#tags)).
+//! extensions, loaders, security policies and the node classes of tags are Rust code. What needs PHP code is not
+//! available: PHP functions named as callables (`'strtoupper'`).
 //!
 //! # Quick start
 //!
@@ -557,10 +557,10 @@
 //!
 //! A tag is a [`TokenParser`](token_parser::TokenParser). When the parser meets `{% name`, it hands the token
 //! stream, positioned after the name, to the token parser registered for `name`; the token parser consumes the rest
-//! of the tag (and, for a tag with a body, everything up to its end tag) and returns a node. The node is made of the
-//! core node types, built with the constructors of [`ast::Node`] and [`ast::Expr`] (`Node::print`, `Node::if_`,
-//! `Node::set`, `Expr::binary`, `Expr::filter`, ...), so the node visitors (escaping, sandbox, optimizer) and the
-//! compiler handle it like Twig's own tags; twig-rs cannot compile node types defined by extensions yet.
+//! of the tag (and, for a tag with a body, everything up to its end tag) and returns a node. The simplest node is made
+//! of the core node types, built with the constructors of [`ast::Node`] and [`ast::Expr`] (`Node::print`, `Node::if_`,
+//! `Node::set`, `Expr::binary`, `Expr::filter`, ...): the node visitors (escaping, sandbox, optimizer) and the
+//! compiler handle it like Twig's own tags.
 //!
 //! ```
 //! use std::sync::Arc;
@@ -596,7 +596,270 @@
 //! ```
 //!
 //! For a body, [`Parser::subparse`](parser::Parser::subparse) parses up to the end tag; `examples/extension.rs` has
-//! an `{% unless %}...{% else %}...{% endunless %}` tag registered by an extension.
+//! an `{% unless %}...{% else %}...{% endunless %}` tag made of core nodes, registered by an extension.
+//!
+//! ## Node classes
+//!
+//! A tag that the core nodes cannot express gets a node class of its own, as in Twig, where a subclass of `Node`
+//! writes PHP in its `compile()` method. In twig-rs a node class implements [`CustomNode`](ast::CustomNode) (an
+//! expression class [`CustomExpr`](ast::CustomExpr)); a token parser returns such a node with
+//! [`Node::custom`](ast::Node::custom). The class lists its children, through which the node visitors see the
+//! expressions and bodies it holds, and its [`compile`](ast::CustomNode::compile) method writes the node's code with
+//! a [`Compiler`](lltl::Compiler): the code of its children ([`subcompile`](lltl::Compiler::subcompile),
+//! [`subcompile_expr`](lltl::Compiler::subcompile_expr)), output, reads and writes of the context, jumps, calls of
+//! filters, functions and tests and of Rust closures ([`NodeRuntime`](lltl::NodeRuntime)), and line markers
+//! ([`add_debug_info`](lltl::Compiler::add_debug_info), Twig's `addDebugInfo()`, which attributes the errors raised
+//! afterwards to the node's line). The code works on the operand stack of the virtual machine; the compiler checks it
+//! as it is written (values taken only from what the node pushed, jumps that land where the stack has the height it
+//! had, a statement that leaves the stack as it found it), so a node class cannot leave the machine in a state the core
+//! nodes never produce.
+//!
+//! The `{% unless %}` tag as a node class: the counterpart of Twig's
+//!
+//! ```php
+//! public function compile(Compiler $compiler): void
+//! {
+//!     $compiler->addDebugInfo($this)->write('if (!(')->subcompile($this->getNode('condition'))->raw(")) {\n")
+//!         ->indent()->subcompile($this->getNode('body'))->outdent();
+//!     if ($this->hasNode('else')) {
+//!         $compiler->write("} else {\n")->indent()->subcompile($this->getNode('else'))->outdent();
+//!     }
+//!     $compiler->write("}\n");
+//! }
+//! ```
+//!
+//! ```
+//! use std::any::Any;
+//! use std::sync::Arc;
+//! use twig::ast::{ChildKey, CustomNode, Expr, Node, NodeMut, NodeRef};
+//! use twig::extension::TokenParser;
+//! use twig::lexer::{Token, TokenType};
+//! use twig::lltl::Compiler;
+//! use twig::parser::{EndTagTest, Parser};
+//! use twig::{Environment, EnvironmentOptions, context, loader::ArrayLoader};
+//!
+//! /// `{% unless condition %}...{% else %}...{% endunless %}`.
+//! #[derive(Debug, Clone, PartialEq)]
+//! struct UnlessNode {
+//!     condition: Expr,
+//!     body: Node,
+//!     otherwise: Option<Node>,
+//!     line: i64,
+//! }
+//!
+//! impl CustomNode for UnlessNode {
+//!     fn class_name(&self) -> &str {
+//!         "App\\Node\\UnlessNode"
+//!     }
+//!
+//!     /// Twig's `getNodes()`: what the visitors walk (escaping the prints of the body, the sandbox's checks, ...).
+//!     fn children(&self) -> Vec<(ChildKey<'_>, NodeRef<'_>)> {
+//!         let mut children = vec![
+//!             (ChildKey::Name("condition"), NodeRef::Expr(&self.condition)),
+//!             (ChildKey::Name("body"), NodeRef::Node(&self.body)),
+//!         ];
+//!         children.extend(self.otherwise.as_ref().map(|node| (ChildKey::Name("else"), NodeRef::Node(node))));
+//!         children
+//!     }
+//!
+//!     fn children_mut(&mut self) -> Vec<(ChildKey<'_>, NodeMut<'_>)> {
+//!         let mut children = vec![
+//!             (ChildKey::Name("condition"), NodeMut::Expr(&mut self.condition)),
+//!             (ChildKey::Name("body"), NodeMut::Node(&mut self.body)),
+//!         ];
+//!         children.extend(self.otherwise.as_mut().map(|node| (ChildKey::Name("else"), NodeMut::Node(node))));
+//!         children
+//!     }
+//!
+//!     fn compile<'t>(&'t self, compiler: &mut Compiler<'t, '_>) -> twig::Result<()> {
+//!         compiler.add_debug_info(self.line);
+//!         compiler.subcompile_expr(&self.condition)?; // pushes the value of the condition
+//!         let otherwise = compiler.jump_if_true()?; // pops it
+//!         compiler.subcompile(&self.body)?;
+//!         if let Some(else_body) = &self.otherwise {
+//!             let end = compiler.jump();
+//!             compiler.bind(otherwise)?;
+//!             compiler.subcompile(else_body)?;
+//!             compiler.bind(end)
+//!         } else {
+//!             compiler.bind(otherwise)
+//!         }
+//!     }
+//!
+//!     // the plumbing every node class has
+//!     fn clone_box(&self) -> Box<dyn CustomNode> {
+//!         Box::new(self.clone())
+//!     }
+//!
+//!     fn eq_dyn(&self, other: &dyn CustomNode) -> bool {
+//!         other.as_any().downcast_ref::<Self>() == Some(self)
+//!     }
+//!
+//!     fn as_any(&self) -> &dyn Any {
+//!         self
+//!     }
+//!
+//!     fn as_any_mut(&mut self) -> &mut dyn Any {
+//!         self
+//!     }
+//! }
+//!
+//! struct UnlessTokenParser;
+//!
+//! impl TokenParser for UnlessTokenParser {
+//!     fn tag(&self) -> &str {
+//!         "unless"
+//!     }
+//!
+//!     fn parse(&self, parser: &mut Parser<'_>, token: &Token) -> twig::Result<Option<Node>> {
+//!         let line = token.line();
+//!         let condition = parser.parse_expression(0)?;
+//!         parser.stream_mut().expect(TokenType::BlockEnd, None, None)?;
+//!         let fork = |token: &Token| token.test_value(TokenType::Name, &["else", "endunless"]);
+//!         let body = parser.subparse(Some(&EndTagTest { tag: Some("unless"), test: &fork }), false)?;
+//!         let mut otherwise = None;
+//!         if parser.stream_mut().next()?.test_value(TokenType::Name, "else") {
+//!             parser.stream_mut().expect(TokenType::BlockEnd, None, None)?;
+//!             let end = |token: &Token| token.test_value(TokenType::Name, "endunless");
+//!             otherwise = Some(parser.subparse(Some(&EndTagTest { tag: Some("unless"), test: &end }), true)?);
+//!         }
+//!         parser.stream_mut().expect(TokenType::BlockEnd, None, None)?;
+//!         Ok(Some(Node::custom(UnlessNode { condition, body, otherwise, line }, line)))
+//!     }
+//! }
+//!
+//! let options = EnvironmentOptions { strict_variables: true, ..Default::default() };
+//! let env = Environment::with_options(
+//!     ArrayLoader::new([
+//!         ("index", "{% for user in users %}{% unless user.admin %}{{ user.name }}{% else %}*{% endunless %} {% endfor %}"),
+//!         ("broken", "{% unless ready %}\n{{ missing }}\n{% endunless %}"),
+//!     ]),
+//!     options,
+//! );
+//! env.add_token_parser(Arc::new(UnlessTokenParser))?;
+//! let users = vec![context! { name => "<ann>", admin => false }, context! { name => "bob", admin => true }];
+//! // the print of the body is escaped like any other
+//! assert_eq!(env.render("index", context! { users })?, "&lt;ann&gt; * ");
+//! // errors are attributed to template lines as Twig attributes them
+//! let error = env.render("broken", context! { ready => false }).unwrap_err();
+//! assert_eq!(error.to_string(), "Variable \"missing\" does not exist in \"broken\" at line 2.");
+//! # Ok::<(), twig::Error>(())
+//! ```
+//!
+//! An expression class leaves its value on the stack. The node visitors treat it by the PHP class it stands for: a
+//! class extending `FilterExpression`, `FunctionExpression` or `TestExpression` returns its callable from
+//! [`callable`](ast::CustomExpr::callable), so that the escaper knows what it is safe for and the sandbox checks the
+//! callable against the policy and wraps its arguments; one implementing `OperatorEscapeInterface` names its operands
+//! ([`operand_names_to_escape`](ast::CustomExpr::operand_names_to_escape)); anything else is escaped as a whole and
+//! left alone by the sandbox, unless it lists the children it converts to strings
+//! ([`string_coerced_child_names`](ast::CustomExpr::string_coerced_child_names)). The node class of a function, a
+//! filter or a test is its `node_class` option ([`FunctionNodeClass::Custom`](extension::FunctionNodeClass::Custom),
+//! ...). A node class does work at compile time that a callable does on every call; a function whose literal
+//! argument is folded while compiling, called through a [`NodeRuntime`](lltl::NodeRuntime) otherwise:
+//!
+//! ```
+//! use std::any::Any;
+//! use std::sync::{Arc, LazyLock};
+//! use twig::ast::{ArgumentKey, Arguments, ChildKey, ConstantValue, CustomExpr, Expr, NodeMut, NodeRef};
+//! use twig::extension::{FunctionNodeClass, FunctionNodeFactory, FunctionOptions, TwigCallable, TwigFunction};
+//! use twig::lltl::{Compiler, NodeRuntime};
+//! use twig::value::{Value, convert};
+//! use twig::{Environment, Error, context, loader::ArrayLoader};
+//!
+//! fn initials(name: &[u8]) -> Vec<u8> {
+//!     name.split(|&b| b == b' ').filter_map(|word| word.first()).map(u8::to_ascii_uppercase).collect()
+//! }
+//!
+//! /// The runtime of the dynamic calls.
+//! static INITIALS: LazyLock<NodeRuntime> = LazyLock::new(|| {
+//!     NodeRuntime::new(|call| {
+//!         let name = call.arg(0).cloned().unwrap_or_default();
+//!         let name = convert::to_string(&name, call.diagnostics())?;
+//!         Ok(Value::from(initials(name.as_bytes())))
+//!     })
+//! });
+//!
+//! /// `{{ initials(name) }}`: Twig's `class InitialsFunction extends FunctionExpression`.
+//! #[derive(Debug, Clone, PartialEq)]
+//! struct InitialsFunction {
+//!     function: TwigFunction,
+//!     arguments: Arguments,
+//!     line: i64,
+//! }
+//!
+//! impl CustomExpr for InitialsFunction {
+//!     fn class_name(&self) -> &str {
+//!         "App\\Node\\InitialsFunction"
+//!     }
+//!
+//!     fn children(&self) -> Vec<(ChildKey<'_>, NodeRef<'_>)> {
+//!         vec![(ChildKey::Name("arguments"), NodeRef::Arguments(&self.arguments))]
+//!     }
+//!
+//!     fn children_mut(&mut self) -> Vec<(ChildKey<'_>, NodeMut<'_>)> {
+//!         vec![(ChildKey::Name("arguments"), NodeMut::Arguments(&mut self.arguments))]
+//!     }
+//!
+//!     /// A `FunctionExpression`: escaped unless the function is safe, checked by the sandbox like a call.
+//!     fn callable(&self) -> Option<TwigCallable> {
+//!         Some(TwigCallable::Function(self.function.clone()))
+//!     }
+//!
+//!     fn compile<'t>(&'t self, compiler: &mut Compiler<'t, '_>) -> twig::Result<()> {
+//!         let Some(name) = self.arguments.get(&ArgumentKey::Index(0)) else {
+//!             return Err(Error::syntax("The \"initials\" function needs a name.").with_line(self.line));
+//!         };
+//!         match name.as_constant() {
+//!             // a literal: computed once, while compiling
+//!             Some(ConstantValue::String(name)) => compiler.constant(initials(name)),
+//!             _ => compiler.call_runtime(&INITIALS, |compiler| compiler.subcompile_expr(name))?,
+//!         }
+//!         Ok(())
+//!     }
+//!
+//!     // the plumbing every node class has
+//!     fn clone_box(&self) -> Box<dyn CustomExpr> {
+//!         Box::new(self.clone())
+//!     }
+//!
+//!     fn eq_dyn(&self, other: &dyn CustomExpr) -> bool {
+//!         other.as_any().downcast_ref::<Self>() == Some(self)
+//!     }
+//!
+//!     fn as_any(&self) -> &dyn Any {
+//!         self
+//!     }
+//!
+//!     fn as_any_mut(&mut self) -> &mut dyn Any {
+//!         self
+//!     }
+//! }
+//!
+//! /// The `node_class` of the function: `new InitialsFunction($function, $arguments, $lineno)`.
+//! struct InitialsClass;
+//!
+//! impl FunctionNodeFactory for InitialsClass {
+//!     fn class_name(&self) -> &str {
+//!         "App\\Node\\InitialsFunction"
+//!     }
+//!
+//!     fn create(&self, function: TwigFunction, arguments: Arguments, line: i64) -> twig::Result<Expr> {
+//!         Ok(Expr::custom(InitialsFunction { function, arguments, line }, line))
+//!     }
+//! }
+//!
+//! let env = Environment::new(ArrayLoader::new([("index", "{{ initials('fabien potencier') }}, {{ initials(name) }}")]));
+//! let node_class = FunctionNodeClass::Custom(Arc::new(InitialsClass));
+//! env.add_function(TwigFunction::new("initials", None, FunctionOptions { node_class, ..Default::default() }))?;
+//! assert_eq!(env.render("index", context! { name => "<b> <i>" })?, "FP, &lt;&lt;");
+//! # Ok::<(), twig::Error>(())
+//! ```
+//!
+//! As in Twig, the visitors know a node class by what it declares and by its children: what its code prints is not
+//! escaped (an expression to escape is printed through a [`Node::print`](ast::Node::print) child), and the optimizer
+//! keeps the `loop` variable of a loop for a `ContextVariable` child that reads it, not for a
+//! [`load_name`](lltl::Compiler::load_name) of `loop`. `examples/custom_node.rs` has a `{% cache %}` tag whose
+//! runtime keeps rendered fragments between renders.
 //!
 //! # Loaders
 //!
@@ -797,7 +1060,8 @@
 //! The pipeline follows Twig's: the lexer ([`lexer`]) and the parser ([`parser`], [`token_parser`]) build a syntax
 //! tree mirroring Twig's node classes ([`ast`]); node visitors check and transform it ([`visitor`]: correctness
 //! checks, auto-escaping, the optimizer, the sandbox's checks); the code generator lowers it into a program of the
-//! low-level template language ([`lltl`]) in Twig's compile order; the virtual machine ([`vm`]) runs it with PHP's
+//! low-level template language ([`lltl`]) in Twig's compile order (node classes of extensions write their part with
+//! [`lltl::Compiler`]); the virtual machine ([`vm`]) runs it with PHP's
 //! value semantics ([`value`], the `twig-value` crate). The [`runtime`] ties it together: the [`Environment`] owns
 //! the extensions ([`extension`]: the core filters, functions, tests and operators, escaping ([`escaper`]), the
 //! sandbox, debug and string-loader extensions, and the host's), the globals, the loader ([`loader`]) and the loaded
