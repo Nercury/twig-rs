@@ -4,7 +4,9 @@
 //! PHP reflects the callables; here they are described with the parameter lists PHP reflection reports
 //! (`PhpCallable::function("date", ...)`, `PhpCallable::method(...)`, closures). The upstream assertions check that
 //! the messages contain the expected text; the ports compare the whole message, as the oracle printed it (case
-//! `callable-arguments-extractor` of `tests/vectors/upstream/extensions/messages.gen.json`).
+//! `callable-arguments-extractor` of `tests/vectors/upstream/extensions/messages.gen.json`), except the two
+//! unknown-argument tests, which assert twig-rs's documented text (an accepted deviation, see
+//! `test_get_arguments_with_wrong_named_argument_name`).
 //!
 //! Not ported: `testResolveArgumentsWithMissingValueForOptionalArgument` (skipped by Twig on PHP 8).
 //! `testGetArgumentsWithInvalidCallable` passes the string `'<not-a-callable>'`, which twig-rs cannot tell from a PHP
@@ -184,10 +186,12 @@ fn test_get_arguments_when_argument_is_defined_twice() {
 }
 
 /// Twig reports an unknown argument with the line and the source of the argument node; nodes built without a source
-/// (as here) give a message without the template name. twig-rs nodes carry no source: the extractor uses the call's
-/// (` in "test.twig"`). Through templates both agree (every node has the template's source).
+/// (as here) give a message without the template name (upstream and the oracle: `Unknown argument "unknown" for
+/// function "date(format, timestamp)".`). twig-rs nodes carry no source: the extractor uses the call's, so the test
+/// asserts twig-rs's documented text, which ends with ` in "test.twig".` (accepted deviation, reference/deviations.md,
+/// Engine: "Unknown-argument errors of `CallableArgumentsExtractor` for AST nodes built without a source"). Through
+/// templates both agree (every node has the template's source).
 #[test]
-#[ignore = "accepted deviation (reference/deviations.md, Engine: unknown-argument errors of AST nodes built without a source): the error takes the call's source instead of the argument node's"]
 fn test_get_arguments_with_wrong_named_argument_name() {
     assert_eq!(
         get_arguments(
@@ -201,12 +205,15 @@ fn test_get_arguments_with_wrong_named_argument_name() {
             false
         )
         .0,
-        syntax_error("Unknown argument \"unknown\" for function \"date(format, timestamp)\".")
+        syntax_error(
+            "Unknown argument \"unknown\" for function \"date(format, timestamp)\" in \"test.twig\"."
+        )
     );
 }
 
+/// Upstream and the oracle: `Unknown arguments "unknown1", "unknown2" for function "date(format, timestamp)".`; twig-rs
+/// names the call's source, as in `test_get_arguments_with_wrong_named_argument_name`.
 #[test]
-#[ignore = "accepted deviation (reference/deviations.md, Engine: unknown-argument errors of AST nodes built without a source): the error takes the call's source instead of the argument node's"]
 fn test_get_arguments_with_wrong_named_argument_names() {
     assert_eq!(
         get_arguments(
@@ -222,7 +229,7 @@ fn test_get_arguments_with_wrong_named_argument_names() {
         )
         .0,
         syntax_error(
-            "Unknown arguments \"unknown1\", \"unknown2\" for function \"date(format, timestamp)\"."
+            "Unknown arguments \"unknown1\", \"unknown2\" for function \"date(format, timestamp)\" in \"test.twig\"."
         )
     );
 }

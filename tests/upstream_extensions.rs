@@ -16,7 +16,8 @@
 //! data-provider test reports every failing case at once). Expected values are the upstream assertions, which pass on
 //! the oracle (`./oracle.sh suite all`, `research/php-oracle`); where twig-rs differs, the case was checked again
 //! with the oracle and the test is `#[ignore = "twig-rs mismatch: ..."]` (`cargo test --test upstream_extensions --
-//! --ignored` runs them).
+//! --ignored` runs them), or, for an accepted deviation (`reference/deviations.md`), asserts twig-rs's documented
+//! result.
 //!
 //! Beyond the upstream assertions, the results are compared with oracle vectors in `tests/vectors/upstream/extensions/`
 //! (each generator's header says how to regenerate it):
