@@ -42,10 +42,10 @@ ignore = false
 
 [bans]
 multiple-versions = "warn"
-# Path dependencies without a version are wildcards (and block `cargo publish`). The workspace's own path
-# dependencies get versions with the first release; switch this to "deny" then. Unpublished crates and
-# dev-dependencies may keep version-less path dependencies (allow-wildcard-paths).
-wildcards = "warn"
+# Path dependencies without a version are wildcards (and block `cargo publish`): the workspace's path dependencies
+# on published crates carry the release version ([workspace.dependencies]). Unpublished crates and dev-dependencies
+# may keep version-less path dependencies (allow-wildcard-paths).
+wildcards = "deny"
 allow-wildcard-paths = true
 highlight = "all"
 

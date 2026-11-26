@@ -1,6 +1,6 @@
 [package]
 name = "twig-fuzz"
-version = "0.1.0"
+version.workspace = true
 description = "Differential testing of twig-rs against the PHP oracle (Twig 3.31.1 on PHP 8.5.13): runner, diff, minimiser and driver."
 edition.workspace = true
 rust-version.workspace = true

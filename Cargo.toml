@@ -1,10 +1,11 @@
 [package]
 name = "twig"
-version = "0.1.0"
+version.workspace = true
 description = "Twig template engine for Rust, aiming for exact compatibility with Twig for PHP."
-readme = "README.md"
+documentation = "https://docs.rs/twig"
+readme.workspace = true
 keywords = ["twig", "template", "templating", "html"]
-categories = ["template-engine"]
+categories = ["template-engine", "web-programming"]
 edition.workspace = true
 rust-version.workspace = true
 # BSD-3-Clause: twig-rs, the ported Twig 3.31.1 and its vendored fixtures (with the Zend Framework escaper code Twig
@@ -12,6 +13,22 @@ rust-version.workspace = true
 license = "BSD-3-Clause AND PHP-3.01 AND Zend-2.0 AND MIT"
 repository.workspace = true
 authors.workspace = true
+# The published package is the library with its examples and licence files. The fixture suite, the oracle vectors,
+# the benchmarks and the plans/reference/research documents stay in the repository; the tests that read them are
+# left out with them, so they run in the workspace only.
+include = [
+    "/src/**",
+    "/examples/**",
+    "/templates/fos_login.html.twig",
+    "/README.md",
+    "/CHANGELOG.md",
+    "/LICENSE",
+    "/NOTICE",
+]
+
+[package.metadata.docs.rs]
+# `twig::to_context` and `twig::to_value`. Not `glibc-iconv`: the documented API is the default build's.
+features = ["serde"]
 
 [features]
 # `twig::to_value` / `twig::to_context`: template data from anything that implements serde's `Serialize`.
@@ -63,18 +80,24 @@ members = ["crates/*"]
 resolver = "3"
 
 [workspace.package]
+# Every crate has the same version; the path dependencies below name it too.
+version = "0.2.0"
 edition = "2024"
 rust-version = "1.88"
 repository = "https://github.com/Nercury/twig-rs"
 authors = ["Nerijus Arlauskas <nercury@gmail.com>"]
+# The sub-crates inherit it: crates.io shows the README of the repository for every crate.
+readme = "README.md"
 
 [workspace.dependencies]
-twig-value = { path = "crates/twig-value" }
-twig-iconv = { path = "crates/twig-iconv" }
-twig-unicode = { path = "crates/twig-unicode" }
-twig-pcre = { path = "crates/twig-pcre" }
-twig-timelib = { path = "crates/twig-timelib" }
-twig-date = { path = "crates/twig-date" }
+# The published crates: a path for the workspace and a version for crates.io.
+twig-value = { path = "crates/twig-value", version = "0.2.0" }
+twig-iconv = { path = "crates/twig-iconv", version = "0.2.0" }
+twig-unicode = { path = "crates/twig-unicode", version = "0.2.0" }
+twig-pcre = { path = "crates/twig-pcre", version = "0.2.0" }
+twig-timelib = { path = "crates/twig-timelib", version = "0.2.0" }
+twig-date = { path = "crates/twig-date", version = "0.2.0" }
+# Unpublished (dev-dependency only): no version, so `cargo package` drops it from twig's published manifest.
 twig-test-support = { path = "crates/twig-test-support" }
 regex = "1.13"
 indexmap = "2.14"

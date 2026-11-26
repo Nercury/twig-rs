@@ -500,7 +500,7 @@ dependencies = [
 
 [[package]]
 name = "twig"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "criterion",
  "libtest-mimic",
@@ -518,7 +518,7 @@ dependencies = [
 
 [[package]]
 name = "twig-date"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -528,7 +528,7 @@ dependencies = [
 
 [[package]]
 name = "twig-fuzz"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "serde_json",
  "twig",
@@ -539,7 +539,7 @@ dependencies = [
 
 [[package]]
 name = "twig-iconv"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "memchr",
  "serde_json",
@@ -548,7 +548,7 @@ dependencies = [
 
 [[package]]
 name = "twig-pcre"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "cc",
  "serde",
@@ -557,7 +557,7 @@ dependencies = [
 
 [[package]]
 name = "twig-test-support"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -566,7 +566,7 @@ dependencies = [
 
 [[package]]
 name = "twig-timelib"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -574,7 +574,7 @@ dependencies = [
 
 [[package]]
 name = "twig-unicode"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -582,7 +582,7 @@ dependencies = [
 
 [[package]]
 name = "twig-value"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "foldhash",
  "indexmap",

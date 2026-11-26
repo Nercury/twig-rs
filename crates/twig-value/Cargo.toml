@@ -1,7 +1,11 @@
 [package]
 name = "twig-value"
-version = "0.1.0"
+version.workspace = true
 description = "PHP-exact value model and builtin functions used by the twig template engine."
+documentation = "https://docs.rs/twig-value"
+readme.workspace = true
+keywords = ["twig", "template", "value"]
+categories = ["template-engine"]
 edition.workspace = true
 rust-version.workspace = true
 # BSD-3-Clause: twig-rs; PHP's MT19937 (Matsumoto, Nishimura, Wagner). PHP-3.01, Zend-2.0: ported php-src code.
@@ -13,6 +17,12 @@ rust-version.workspace = true
 license = "BSD-3-Clause AND PHP-3.01 AND Zend-2.0 AND MIT AND ISC AND Zlib AND Apache-1.0 AND dtoa AND Unicode-3.0"
 repository.workspace = true
 authors.workspace = true
+# Tests and their oracle vectors stay in the repository.
+include = ["/src/**", "/LICENSE", "/NOTICE"]
+
+[package.metadata.docs.rs]
+# The `serde` module (`to_value`, `to_array`).
+features = ["serde"]
 
 [features]
 # `serde::to_value` / `serde::to_array`: Rust data into PHP values through serde.

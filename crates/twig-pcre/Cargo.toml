@@ -1,16 +1,26 @@
 [package]
 name = "twig-pcre"
-version = "0.1.0"
+version.workspace = true
 description = "PCRE2 10.44 with PHP preg semantics for the twig template engine's matches operator."
+documentation = "https://docs.rs/twig-pcre"
+readme.workspace = true
+keywords = ["twig", "pcre", "pcre2", "regex", "preg"]
+categories = ["text-processing"]
 edition.workspace = true
 rust-version.workspace = true
-# Rust port of PHP's ext/pcre front end: PHP-3.01. Vendored PCRE2 (pcre2/): BSD-3-Clause.
-# Its JIT compiler sljit (pcre2/sljit/): BSD-2-Clause. See pcre2/LICENCE.
+# BSD-3-Clause: twig-rs, the checks of Twig's `matches` operator and the vendored PCRE2 (pcre2/). BSD-2-Clause: its
+# JIT compiler sljit (pcre2/sljit/). PHP-3.01: the port of PHP's ext/pcre front end. See NOTICE and pcre2/LICENCE.
 license = "BSD-3-Clause AND BSD-2-Clause AND PHP-3.01"
 repository.workspace = true
 authors.workspace = true
 links = "twig_pcre2"
-include = ["/build.rs", "/src", "/pcre2", "/tests", "/Cargo.toml"]
+# Tests and their oracle vectors stay in the repository.
+include = ["/build.rs", "/src/**", "/pcre2/**", "/LICENSE", "/NOTICE"]
+
+[package.metadata.docs.rs]
+all-features = true
+# `src/lib.rs` enables `doc_cfg` under `docsrs`.
+rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
 default = ["jit"]

@@ -1,7 +1,11 @@
 [package]
 name = "twig-unicode"
-version = "0.1.0"
+version.workspace = true
 description = "Unicode tables and mbstring-compatible text functions for the twig template engine."
+documentation = "https://docs.rs/twig-unicode"
+readme.workspace = true
+keywords = ["twig", "unicode", "mbstring", "case-mapping", "utf-8"]
+categories = ["text-processing", "internationalization"]
 edition.workspace = true
 rust-version.workspace = true
 # BSD-3-Clause: twig-rs. PHP-3.01: ported mbstring code and table layout. Unicode-3.0: the Unicode Character
@@ -9,6 +13,11 @@ rust-version.workspace = true
 license = "BSD-3-Clause AND PHP-3.01 AND Unicode-3.0 AND MIT"
 repository.workspace = true
 authors.workspace = true
+# Tests and their oracle vectors stay in the repository.
+include = ["/src/**", "/LICENSE", "/NOTICE"]
+
+[package.metadata.docs.rs]
+all-features = true
 
 [dev-dependencies]
 serde.workspace = true
