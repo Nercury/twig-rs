@@ -146,6 +146,12 @@ pub(super) fn new_timezone(
     timezone: &Value,
     diag: &mut dyn Diagnostics,
 ) -> PhpResult<ObjectRef> {
+    // `string $timezone` receives a string without NUL bytes as it is
+    if let Value::String(name) = timezone
+        && !name.contains(&0)
+    {
+        return TimeZoneObject::construct(ctx, name.as_bytes());
+    }
     let object = ObjectRef::new(TimeZoneObject::new_uninitialized(
         ctx,
         classes::datetimezone(),

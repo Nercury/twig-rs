@@ -6,8 +6,10 @@
 //! timezone of the `CoreExtension` ([`CoreSettings::timezone`]), which defaults to it. Methods are called through the
 //! object protocol, so the objects' own argument parsing, messages and immutability rules apply.
 
-use twig_date::{DateContext, DateObject, classes};
-use twig_value::object::{CallArgs, FunctionKind, ObjectRef, Param};
+use std::sync::{Arc, LazyLock};
+
+use twig_date::{DateContext, DateObject, TimeZoneObject, classes};
+use twig_value::object::{CallArgs, ClassRef, FunctionKind, ObjectRef, Param};
 use twig_value::{Diagnostics, Value, convert, ops};
 
 use super::settings::{CoreSettings, core_settings, new_timezone};
@@ -97,7 +99,7 @@ pub(super) fn format_date(
         call_method_on(date, "format", vec![format], diag)?
     } else {
         let date = convert_date(settings, ctx, date, timezone, diag)?;
-        call_method_on(&date, "format", vec![format], diag)?
+        format_value(&date, format, diag)?
     };
     return_string(
         "Twig\\Extension\\CoreExtension::formatDate",
@@ -199,14 +201,51 @@ pub(super) fn convert_date(
     Ok(date)
 }
 
-/// `$date->setTimezone($timezone)`.
+/// The classes of the objects the date filters create: their methods are the ones of `twig-date`, called directly
+/// when the arguments are what the methods' typed parameters receive as they are.
+static DATETIME: LazyLock<ClassRef> = LazyLock::new(classes::datetime);
+static DATETIME_IMMUTABLE: LazyLock<ClassRef> = LazyLock::new(classes::datetime_immutable);
+static DATETIMEZONE: LazyLock<ClassRef> = LazyLock::new(classes::datetimezone);
+
+/// `$date->format($format)`: `DateTimeInterface::format()` of a `DateTime` or `DateTimeImmutable` with a string
+/// format is [`DateObject::format`].
+fn format_value(date: &Value, format: Value, diag: &mut dyn Diagnostics) -> CallResult {
+    if let (Value::Object(object), Value::String(text)) = (date, &format)
+        && (Arc::ptr_eq(object.class(), &DATETIME)
+            || Arc::ptr_eq(object.class(), &DATETIME_IMMUTABLE))
+        && let Some(date_object) = object.downcast_ref::<DateObject>()
+    {
+        return Ok(Value::String(date_object.format(text.as_bytes())?));
+    }
+    call_method_on(date, "format", vec![format], diag)
+}
+
+/// `$date->setTimezone($timezone)`. `DateTime::setTimezone()` with a `DateTimeZone` sets the zone of the object
+/// itself ([`DateObject::set_timezone_value`]) and returns it.
 fn set_timezone(date: &Value, timezone: ObjectRef, diag: &mut dyn Diagnostics) -> CallResult {
+    if let Value::Object(object) = date
+        && Arc::ptr_eq(object.class(), &DATETIME)
+        && Arc::ptr_eq(timezone.class(), &DATETIMEZONE)
+        && let Some(date_object) = object.downcast_ref::<DateObject>()
+        && let Some(zone) = timezone.downcast_ref::<TimeZoneObject>()
+    {
+        date_object.set_timezone_value(zone.value().as_ref())?;
+        return Ok(date.clone());
+    }
     call_method_on(date, "setTimezone", vec![Value::Object(timezone)], diag)
 }
 
 /// `new \DateTime($datetime)`: the constructor parses its `string` parameter (coercion, `TypeError`) in PHP's default
-/// timezone.
+/// timezone; a string is received as it is ([`DateObject::construct`]).
 fn new_datetime(ctx: &DateContext, datetime: Value, diag: &mut dyn Diagnostics) -> CallResult {
+    if let Value::String(text) = &datetime {
+        return Ok(Value::Object(DateObject::construct(
+            ctx,
+            classes::datetime(),
+            text.as_bytes(),
+            None,
+        )?));
+    }
     let object = ObjectRef::new(DateObject::new_uninitialized(ctx, classes::datetime()));
     object.invoke_method("__construct", CallArgs::from(vec![datetime]), diag)?;
     Ok(Value::Object(object))
