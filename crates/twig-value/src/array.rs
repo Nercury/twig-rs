@@ -645,16 +645,34 @@ impl<'a> IntoIterator for &'a Array {
     }
 }
 
-/// Owning iterator over `(key, value)` pairs (clones the elements when the table is shared).
+/// Owning iterator over `(key, value)` pairs (clones each element as it is reached when the table is shared).
 pub struct IntoIter {
-    inner: std::vec::IntoIter<Option<(ArrayKey, Value)>>,
+    inner: IntoIterInner,
+}
+
+enum IntoIterInner {
+    /// The table was not shared: its entries are moved out.
+    Owned(std::vec::IntoIter<Option<(ArrayKey, Value)>>),
+    /// A shared (immutable) table, iterated by position.
+    Shared { data: Arc<ArrayData>, pos: usize },
 }
 
 impl Iterator for IntoIter {
     type Item = (ArrayKey, Value);
 
     fn next(&mut self) -> Option<Self::Item> {
-        self.inner.by_ref().flatten().next()
+        match &mut self.inner {
+            IntoIterInner::Owned(entries) => entries.by_ref().flatten().next(),
+            IntoIterInner::Shared { data, pos } => {
+                while let Some(entry) = data.entries.get(*pos) {
+                    *pos += 1;
+                    if let Some((k, v)) = entry {
+                        return Some((k.clone(), v.clone()));
+                    }
+                }
+                None
+            }
+        }
     }
 }
 
@@ -663,18 +681,14 @@ impl IntoIterator for Array {
     type IntoIter = IntoIter;
 
     fn into_iter(self) -> IntoIter {
-        let entries = match Arc::try_unwrap(self.0) {
-            Ok(data) => data.entries,
-            Err(shared) => shared
-                .entries
-                .iter()
-                .filter(|e| e.is_some())
-                .cloned()
-                .collect(),
+        let inner = match Arc::try_unwrap(self.0) {
+            Ok(data) => IntoIterInner::Owned(data.entries.into_iter()),
+            Err(shared) => IntoIterInner::Shared {
+                data: shared,
+                pos: 0,
+            },
         };
-        IntoIter {
-            inner: entries.into_iter(),
-        }
+        IntoIter { inner }
     }
 }
 
