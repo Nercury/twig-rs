@@ -1,4 +1,10 @@
-//! `ArrayObject` and `ArrayIterator` (PHPSRC/ext/spl/spl_array.c), array-backed.
+//! `ArrayObject`, `ArrayIterator` and `RecursiveArrayIterator` (PHPSRC/ext/spl/spl_array.c),
+//! array-backed.
+//!
+//! The objects can be of a host class extending one of them (`class Foo extends \ArrayObject {}`,
+//! [`ArrayObject::with_class`], [`ArrayIterator::with_class`]): such an object behaves like an
+//! object of the built-in class it extends, as a PHP subclass that overrides none of its methods.
+//! `RecursiveArrayIterator` is an `ArrayIterator` of that class ([`ArrayIterator::recursive`]).
 
 use std::sync::atomic::{AtomicI64, Ordering};
 use std::sync::{Arc, Mutex, MutexGuard};
@@ -23,6 +29,8 @@ use crate::value::Value;
 const STD_PROP_LIST: i64 = 1;
 /// `SPL_ARRAY_ARRAY_AS_PROPS`.
 const ARRAY_AS_PROPS: i64 = 2;
+/// `SPL_ARRAY_CHILD_ARRAYS_ONLY` (`RecursiveArrayIterator::CHILD_ARRAYS_ONLY`).
+const CHILD_ARRAYS_ONLY: i64 = 4;
 /// `SPL_ARRAY_INT_MASK`.
 const INT_MASK: i64 = 0xFFFF_0000;
 
@@ -83,6 +91,14 @@ fn array_iterator_params(method: &str) -> Option<Vec<Param>> {
             _ => return None,
         })
     })
+}
+
+/// The parameters of `RecursiveArrayIterator`'s methods (by lowercase name).
+fn recursive_array_iterator_params(method: &str) -> Option<Vec<Param>> {
+    match method {
+        "haschildren" | "getchildren" => Some(Vec::new()),
+        _ => array_iterator_params(method),
+    }
 }
 
 /// Binds the arguments of `class::method` (named as declared) to the parameters `params` gives.
@@ -417,9 +433,10 @@ impl Spl<'_> {
 /// diagnostics, `count`, `append`, `getArrayCopy`, `exchangeArray`, flags (`STD_PROP_LIST`,
 /// `ARRAY_AS_PROPS`), `getIterator()` (an `ArrayIterator` sharing the storage), `(array)`,
 /// `json_encode`/`var_export` tables, the `var_dump` storage entry, cloning (copies the storage) and
-/// storage comparison. Not supported: object storage (deprecated in PHP 8.5), custom iterator
-/// classes, and the sort/serialize methods (they throw `Error` until the sort and serialize
-/// builtins exist).
+/// storage comparison; `getIterator()` makes an `ArrayIterator`, or a `RecursiveArrayIterator` when
+/// that is the iterator class. Not supported: object storage (deprecated in PHP 8.5), other
+/// iterator classes (an `ArrayIterator` is made instead), and the sort/serialize methods (they
+/// throw `Error` until the sort and serialize builtins exist).
 pub struct ArrayObject {
     class: ClassRef,
     storage: Storage,
@@ -436,7 +453,20 @@ impl ArrayObject {
 
     /// `new ArrayObject($array, $flags)`.
     pub fn with_flags(array: Array, flags: i64) -> ArrayObject {
-        let class = builtin::array_object();
+        ArrayObject::with_class(builtin::array_object(), array, flags)
+    }
+
+    /// `new Foo($array, $flags)` for a host class `Foo` extending `ArrayObject` (built with
+    /// [`ClassBuilder::extends`](super::ClassBuilder::extends) from [`builtin::array_object()`]):
+    /// the object has that class (its name, constants, declared properties and extra methods'
+    /// names) and the behaviour of an `ArrayObject`, like an object of a PHP subclass that
+    /// overrides none of `ArrayObject`'s methods (`spl_array_object_new_ex()` only calls the
+    /// overrides of `offsetGet()`, `offsetSet()`, `offsetExists()`, `offsetUnset()` and
+    /// `count()`). A subclass with methods of its own implements [`Object`] for a type wrapping
+    /// such an object instead.
+    ///
+    /// `class` must be `ArrayObject` or a class extending it.
+    pub fn with_class(class: ClassRef, array: Array, flags: i64) -> ArrayObject {
         let props = PropertyStore::new(&class);
         ArrayObject {
             class,
@@ -515,8 +545,20 @@ impl Object for ArrayObject {
             }
             "getiterator" => {
                 bind("getIterator")?;
+                // `spl_array_object_new_ex(intern->ce_get_iterator, object, 0)`
+                let iterator_class = self
+                    .iterator_class
+                    .lock()
+                    .unwrap_or_else(|e| e.into_inner())
+                    .clone();
+                let class = if iterator_class.eq_ignore_ascii_case("RecursiveArrayIterator") {
+                    builtin::recursive_array_iterator()
+                } else {
+                    builtin::array_iterator()
+                };
                 Ok(Value::Object(
                     ArrayIterator::sharing(
+                        class,
                         self.storage.clone(),
                         self.flags.load(Ordering::Relaxed),
                     )
@@ -709,7 +751,9 @@ struct IterState {
     pos: usize,
 }
 
-/// `ArrayIterator`: an `Iterator` over an array (`SeekableIterator`, `ArrayAccess`, `Countable`).
+/// `ArrayIterator`: an `Iterator` over an array (`SeekableIterator`, `ArrayAccess`, `Countable`),
+/// and `RecursiveArrayIterator` ([`ArrayIterator::recursive`]), which extends it with
+/// `RecursiveIterator`'s `hasChildren()` and `getChildren()`.
 ///
 /// The position is shared by `foreach` and the `current()`/`key()`/`next()`/`valid()`/`rewind()`
 /// methods, like PHP's internal hash position. Iteration walks a snapshot of the storage taken at
@@ -726,11 +770,30 @@ pub struct ArrayIterator {
 impl ArrayIterator {
     /// `new ArrayIterator($array)`.
     pub fn new(array: Array) -> ArrayIterator {
-        ArrayIterator::sharing(Arc::new(Mutex::new(array)), 0)
+        ArrayIterator::with_class(builtin::array_iterator(), array, 0)
     }
 
-    fn sharing(storage: Storage, flags: i64) -> ArrayIterator {
-        let class = builtin::array_iterator();
+    /// `new RecursiveArrayIterator($array)`: an `ArrayIterator` of the class
+    /// `RecursiveArrayIterator`, whose `hasChildren()` and `getChildren()` give iterators of its
+    /// array elements (and of its object elements without the `CHILD_ARRAYS_ONLY` flag). Flags:
+    /// [`with_class`](Self::with_class) with [`builtin::recursive_array_iterator()`].
+    pub fn recursive(array: Array) -> ArrayIterator {
+        ArrayIterator::with_class(builtin::recursive_array_iterator(), array, 0)
+    }
+
+    /// `new Foo($array, $flags)` for `ArrayIterator`, `RecursiveArrayIterator` or a host class
+    /// `Foo` extending one of them (built with [`ClassBuilder::extends`](super::ClassBuilder::extends)):
+    /// the object has that class and the behaviour of the built-in class it extends, like an
+    /// object of a PHP subclass that overrides none of its methods (see
+    /// [`ArrayObject::with_class`]). `RecursiveArrayIterator::getChildren()` makes children of the
+    /// object's own class (`new static(...)`).
+    ///
+    /// `class` must be `ArrayIterator` or a class extending it.
+    pub fn with_class(class: ClassRef, array: Array, flags: i64) -> ArrayIterator {
+        ArrayIterator::sharing(class, Arc::new(Mutex::new(array)), flags)
+    }
+
+    fn sharing(class: ClassRef, storage: Storage, flags: i64) -> ArrayIterator {
         let props = PropertyStore::new(&class);
         ArrayIterator {
             class,
@@ -813,6 +876,73 @@ impl ArrayIterator {
             st.pos += 1;
         }
     }
+
+    /// Whether the object is a `RecursiveArrayIterator` (or of a class extending it).
+    fn is_recursive(&self) -> bool {
+        self.class.is_subclass_of("RecursiveArrayIterator")
+    }
+
+    /// The element at the current position (`zend_hash_get_current_data_ex()`), `None` past the
+    /// end.
+    fn current_entry(&self) -> Option<Value> {
+        self.ensure();
+        let st = self.state();
+        st.entries
+            .as_ref()
+            .and_then(|e| e.get(st.pos))
+            .map(|(_, v)| v.clone())
+    }
+
+    /// Port of `RecursiveArrayIterator::hasChildren()` (PHPSRC/ext/spl/spl_array.c): the current
+    /// element is an array, or an object without the `CHILD_ARRAYS_ONLY` flag.
+    fn has_children(&self) -> bool {
+        match self.current_entry() {
+            Some(Value::Array(_)) => true,
+            Some(Value::Object(_)) => self.flags.load(Ordering::Relaxed) & CHILD_ARRAYS_ONLY == 0,
+            _ => false,
+        }
+    }
+
+    /// Port of `RecursiveArrayIterator::getChildren()` (PHPSRC/ext/spl/spl_array.c): `null` past
+    /// the end; an object element is `null` with the `CHILD_ARRAYS_ONLY` flag and comes back as
+    /// it is when it is an instance of the iterator's class; otherwise `new static($element,
+    /// $flags)`. An object element of another class would become the object storage of the
+    /// child, which twig-value does not support (an `Error`).
+    fn get_children(&self) -> PhpResult<Value> {
+        let flags = self.flags.load(Ordering::Relaxed);
+        match self.current_entry() {
+            None => Ok(Value::Null),
+            Some(Value::Object(object)) => {
+                if flags & CHILD_ARRAYS_ONLY != 0 {
+                    return Ok(Value::Null);
+                }
+                if object.instance_of(self.class.name()) {
+                    return Ok(Value::Object(object));
+                }
+                let declared = self
+                    .class
+                    .method("getchildren")
+                    .map_or_else(|| "getChildren".to_owned(), |m| m.name.to_string());
+                Err(PhpError::error(format!(
+                    "{}::{declared}() is not supported yet for an object element (object storage)",
+                    self.class.name()
+                )))
+            }
+            Some(element) => {
+                // `spl_instantiate_child_arg()`: the constructor of the object's class with the
+                // element and `$this->ar_flags`
+                let child = ArrayIterator::sharing(
+                    self.class.clone(),
+                    Arc::new(Mutex::new(Array::new())),
+                    0,
+                );
+                child
+                    .spl()
+                    .set_array(&element, flags & !INT_MASK, "ArrayIterator::__construct")?;
+                Ok(Value::Object(child.into_ref()))
+            }
+        }
+    }
 }
 
 impl Object for ArrayIterator {
@@ -821,7 +951,12 @@ impl Object for ArrayIterator {
     }
 
     fn method_params(&self, method: &str) -> Option<super::MethodParams> {
-        array_iterator_params(method).map(super::MethodParams::internal)
+        if self.is_recursive() {
+            recursive_array_iterator_params(method)
+        } else {
+            array_iterator_params(method)
+        }
+        .map(super::MethodParams::internal)
     }
 
     fn call(
@@ -834,6 +969,27 @@ impl Object for ArrayIterator {
         let spl = self.spl();
         if let Some(r) = spl.call_common(this, method, &args, diag) {
             return r;
+        }
+        if self.is_recursive() {
+            let bind = |m: &str| {
+                bind_params(
+                    "RecursiveArrayIterator",
+                    m,
+                    recursive_array_iterator_params,
+                    &args,
+                )
+            };
+            match method {
+                "haschildren" => {
+                    bind("hasChildren")?;
+                    return Ok(Value::Bool(self.has_children()));
+                }
+                "getchildren" => {
+                    bind("getChildren")?;
+                    return self.get_children();
+                }
+                _ => {}
+            }
         }
         let bind = |m: &str| bind_params("ArrayIterator", m, array_iterator_params, &args);
         match method {
@@ -1000,9 +1156,14 @@ impl Object for ArrayIterator {
         })))
     }
 
-    /// `spl_array_object_clone()`: a cloned `ArrayIterator` iterates the original's storage.
+    /// `spl_array_object_clone()`: a cloned `ArrayIterator` (of the same class) iterates the
+    /// original's storage.
     fn clone_object(&self, _this: &ObjectRef, _diag: &mut dyn Diagnostics) -> PhpResult<ObjectRef> {
-        let it = ArrayIterator::sharing(self.storage.clone(), self.flags.load(Ordering::Relaxed));
+        let it = ArrayIterator::sharing(
+            self.class.clone(),
+            self.storage.clone(),
+            self.flags.load(Ordering::Relaxed),
+        );
         Ok(ObjectRef::new(ArrayIterator {
             props: self.props.clone(),
             ..it

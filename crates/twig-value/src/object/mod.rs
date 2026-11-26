@@ -1,5 +1,6 @@
 //! PHP objects: the [`Object`] protocol, handles ([`ObjectRef`]), classes ([`ClassEntry`]) and the
-//! built-in classes (`stdClass`, `Closure`, enums, `ArrayObject`, `ArrayIterator`).
+//! built-in classes (`stdClass`, `Closure`, enums, `ArrayObject`, `ArrayIterator`,
+//! `RecursiveArrayIterator`).
 //!
 //! # Model
 //!

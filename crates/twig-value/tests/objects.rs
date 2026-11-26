@@ -23,7 +23,7 @@ use twig_value::object::{
 };
 use twig_value::{
     Array, ArrayKey, Diagnostic, Diagnostics, Level, PhpError, PhpResult, PhpString, Value,
-    convert, types,
+    compare, convert, types,
 };
 
 // ---------------------------------------------------------------------------------------------
@@ -535,6 +535,41 @@ fn copy(o: &ObjectRef, d: &mut dyn Diagnostics) -> PhpResult<Value> {
     o.call_method("getArrayCopy", CallArgs::new(), d)
 }
 
+/// `$o->method()`.
+fn call0(o: &ObjectRef, method: &str, d: &mut dyn Diagnostics) -> PhpResult<Value> {
+    o.call_method(method, CallArgs::new(), d)
+}
+
+/// The object a scenario step returned.
+fn object_of(v: Value) -> ObjectRef {
+    match v {
+        Value::Object(o) => o,
+        other => panic!("expected an object, got {other:?}"),
+    }
+}
+
+/// `final class TwigValueAoSub extends ArrayObject {}` (and the two iterator classes below).
+static AO_SUB: LazyLock<ClassRef> = LazyLock::new(|| {
+    ClassBuilder::class("TwigValueAoSub")
+        .final_class()
+        .extends(&builtin::array_object())
+        .build()
+});
+
+static AI_SUB: LazyLock<ClassRef> = LazyLock::new(|| {
+    ClassBuilder::class("TwigValueAiSub")
+        .final_class()
+        .extends(&builtin::array_iterator())
+        .build()
+});
+
+static RAI_SUB: LazyLock<ClassRef> = LazyLock::new(|| {
+    ClassBuilder::class("TwigValueRaiSub")
+        .final_class()
+        .extends(&builtin::recursive_array_iterator())
+        .build()
+});
+
 // ---------------------------------------------------------------------------------------------
 // Scenarios
 // ---------------------------------------------------------------------------------------------
@@ -1036,6 +1071,221 @@ fn run(name: &str, d: &mut dyn Diagnostics) -> PhpResult<Value> {
             let c = it.clone_object(d)?;
             c.write_dimension(Some(&Value::from("b")), Value::Int(2), d)?;
             copy(&it, d)
+        }
+        "rai children" => {
+            let it = ArrayIterator::recursive(assoc(&[
+                ("a", list(vec![Value::Int(1), Value::Int(2)])),
+                ("b", Value::Int(3)),
+                (
+                    "c",
+                    obj(ArrayObject::new(Array::from_values([Value::Int(5)])).into_ref()),
+                ),
+            ]))
+            .into_ref();
+            // foreach ($it as $k => $v) { $r[] = [$k, $it->hasChildren()]; }
+            let mut r = Vec::new();
+            call0(&it, "rewind", d)?;
+            while convert::to_bool(&call0(&it, "valid", d)?, d)? {
+                r.push(list(vec![
+                    call0(&it, "key", d)?,
+                    call0(&it, "hasChildren", d)?,
+                ]));
+                call0(&it, "next", d)?;
+            }
+            call0(&it, "rewind", d)?;
+            let child = object_of(call0(&it, "getChildren", d)?);
+            r.push(list(vec![
+                Value::from(child.class_name()),
+                copy(&child, d)?,
+                call0(&child, "getFlags", d)?,
+            ]));
+            for _ in 0..3 {
+                call0(&it, "next", d)?;
+            }
+            r.push(list(vec![
+                call0(&it, "valid", d)?,
+                call0(&it, "hasChildren", d)?,
+                call0(&it, "getChildren", d)?,
+            ]));
+            Ok(list(r))
+        }
+        "rai empty" => Ok(list(vec![
+            call0(
+                &ArrayIterator::recursive(Array::new()).into_ref(),
+                "hasChildren",
+                d,
+            )?,
+            call0(
+                &ArrayIterator::recursive(Array::new()).into_ref(),
+                "getChildren",
+                d,
+            )?,
+        ])),
+        "rai child flags" => {
+            let it = ArrayIterator::with_class(
+                builtin::recursive_array_iterator(),
+                assoc(&[("a", list(vec![Value::Int(1)]))]),
+                3,
+            )
+            .into_ref();
+            let child = object_of(call0(&it, "getChildren", d)?);
+            Ok(list(vec![
+                call0(&child, "getFlags", d)?,
+                call0(&it, "getFlags", d)?,
+            ]))
+        }
+        "rai child arrays only" => {
+            let it = ArrayIterator::with_class(
+                builtin::recursive_array_iterator(),
+                assoc(&[
+                    ("a", list(vec![Value::Int(1), Value::Int(2)])),
+                    (
+                        "o",
+                        obj(ArrayObject::new(Array::from_values([Value::Int(5)])).into_ref()),
+                    ),
+                ]),
+                4,
+            )
+            .into_ref();
+            let mut r = vec![call0(&it, "hasChildren", d)?];
+            let child = object_of(call0(&it, "getChildren", d)?);
+            r.push(copy(&child, d)?);
+            r.push(call0(&child, "getFlags", d)?);
+            call0(&it, "next", d)?;
+            r.push(call0(&it, "hasChildren", d)?);
+            r.push(call0(&it, "getChildren", d)?);
+            Ok(list(r))
+        }
+        "rai object child of its class" => {
+            let inner = ArrayIterator::recursive(Array::from_values([Value::Int(1)])).into_ref();
+            let it = ArrayIterator::recursive(assoc(&[("i", obj(inner.clone()))])).into_ref();
+            let child = object_of(call0(&it, "getChildren", d)?);
+            Ok(list(vec![
+                call0(&it, "hasChildren", d)?,
+                Value::Bool(ObjectRef::ptr_eq(&child, &inner)),
+            ]))
+        }
+        "rai scalar child" => call0(
+            &ArrayIterator::recursive(Array::from_values([Value::Int(5)])).into_ref(),
+            "getChildren",
+            d,
+        ),
+        "rai implements sorted" => {
+            let mut names: Vec<String> = ArrayIterator::recursive(Array::new())
+                .into_ref()
+                .class()
+                .interfaces()
+                .iter()
+                .map(|i| i.name().to_owned())
+                .collect();
+            names.sort();
+            Ok(list(names.into_iter().map(Value::from).collect()))
+        }
+        "rai parents" => Ok(class_parents(
+            &ArrayIterator::recursive(Array::new()).into_ref(),
+        )),
+        "rai methods" => Ok(get_class_methods(
+            &ArrayIterator::recursive(Array::new()).into_ref(),
+        )),
+        "rai constant" => Ok(builtin::recursive_array_iterator()
+            .constant("CHILD_ARRAYS_ONLY")
+            .unwrap_or_default()),
+        "rai iterate" => {
+            let it = ArrayIterator::recursive(assoc(&[
+                ("a", list(vec![Value::Int(1)])),
+                ("b", Value::Int(2)),
+            ]))
+            .into_ref();
+            iterator_to_array(&it, true, d).map(Value::Array)
+        }
+        "rai debug" => get_object_vars(
+            &ArrayIterator::recursive(assoc(&[("x", Value::Int(1))])).into_ref(),
+            d,
+        ),
+        "rai clone class" => {
+            let it = ArrayIterator::recursive(Array::from_values([Value::Int(1)])).into_ref();
+            Ok(Value::from(it.clone_object(d)?.class_name()))
+        }
+        "rai haschildren arity" => ArrayIterator::recursive(Array::new())
+            .into_ref()
+            .call_method("hasChildren", CallArgs::new().arg(1), d),
+        "ai haschildren" => call0(
+            &ArrayIterator::new(Array::from_values([list(vec![Value::Int(1)])])).into_ref(),
+            "hasChildren",
+            d,
+        ),
+        "ao rai iterator class" => {
+            let ao = ArrayObject::new(assoc(&[("a", list(vec![Value::Int(1)]))])).into_ref();
+            ao.call_method(
+                "__construct",
+                CallArgs::new()
+                    .arg(Value::Array(assoc(&[("a", list(vec![Value::Int(1)]))])))
+                    .arg(0)
+                    .arg("RecursiveArrayIterator"),
+                d,
+            )?;
+            let it = object_of(call0(&ao, "getIterator", d)?);
+            let child = object_of(call0(&it, "getChildren", d)?);
+            Ok(list(vec![
+                Value::from(it.class_name()),
+                call0(&it, "hasChildren", d)?,
+                Value::from(child.class_name()),
+            ]))
+        }
+        "ao subclass" => {
+            let data = assoc(&[("k", Value::from("v")), ("n", list(vec![Value::Int(1)]))]);
+            let o = ArrayObject::with_class(AO_SUB.clone(), data.clone(), 0).into_ref();
+            let c = o.clone_object(d)?;
+            let iterator = object_of(call0(&o, "getIterator", d)?);
+            Ok(list(vec![
+                Value::from(o.class_name()),
+                Value::Bool(o.instance_of("ArrayObject")),
+                dim(&o, "k", d)?,
+                count(&o, d)?,
+                Value::from(iterator.class_name()),
+                iterator_to_array(&o, true, d).map(Value::Array)?,
+                Value::from(c.class_name()),
+                Value::Bool(compare::equals(&obj(c.clone()), &obj(o.clone()), d)?),
+                Value::Bool(compare::equals(
+                    &obj(o.clone()),
+                    &obj(ArrayObject::new(data).into_ref()),
+                    d,
+                )?),
+                get_object_vars(&o, d)?,
+                class_parents(&o),
+            ]))
+        }
+        "ai subclass" => {
+            let data = assoc(&[("a", Value::Int(1)), ("b", Value::Int(2))]);
+            let it = ArrayIterator::with_class(AI_SUB.clone(), data.clone(), 0).into_ref();
+            call0(&it, "next", d)?;
+            let c = it.clone_object(d)?;
+            Ok(list(vec![
+                Value::from(it.class_name()),
+                call0(&it, "key", d)?,
+                iterator_to_array(&it, true, d).map(Value::Array)?,
+                Value::from(c.class_name()),
+                Value::Bool(compare::equals(
+                    &obj(it.clone()),
+                    &obj(ArrayIterator::new(data).into_ref()),
+                    d,
+                )?),
+                get_object_vars(&it, d)?,
+            ]))
+        }
+        "rai subclass children" => {
+            let it = ArrayIterator::with_class(
+                RAI_SUB.clone(),
+                assoc(&[("a", list(vec![Value::Int(1), list(vec![Value::Int(2)])]))]),
+                0,
+            )
+            .into_ref();
+            let child = object_of(call0(&it, "getChildren", d)?);
+            Ok(list(vec![
+                Value::from(child.class_name()),
+                call0(&child, "hasChildren", d)?,
+                copy(&child, d)?,
+            ]))
         }
         other => panic!("scenario {other:?} is not implemented in tests/objects.rs"),
     }

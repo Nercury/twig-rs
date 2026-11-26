@@ -1,8 +1,9 @@
 <?php
 // Generates objects.json: PHP 8.5.13 behaviour of the object protocol (property access, magic methods,
 // method calls, string conversion, iteration, ArrayAccess, Countable, enums, closures, ArrayObject,
-// ArrayIterator) as seen from outside the classes. tests/vectors.rs re-implements the test classes
-// below as Rust host objects and replays every scenario by name.
+// ArrayIterator, RecursiveArrayIterator and subclasses of them) as seen from outside the classes.
+// tests/vectors.rs re-implements the test classes below as Rust host objects and replays every
+// scenario by name.
 //
 //   cd crates/twig-value/tests/vectors
 //   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
@@ -164,6 +165,20 @@ class C implements Countable, ArrayAccess
         $GLOBALS['log'][] = 'offsetUnset';
         unset($this->data[$o]);
     }
+}
+
+// Subclasses of the SPL array classes that override nothing (ArrayObject::with_class() and
+// ArrayIterator::with_class() in Rust).
+final class TwigValueAoSub extends ArrayObject
+{
+}
+
+final class TwigValueAiSub extends ArrayIterator
+{
+}
+
+final class TwigValueRaiSub extends RecursiveArrayIterator
+{
 }
 
 enum Suit: string
@@ -548,6 +563,79 @@ $scenarios = [
         $c = clone $it;
         $c['b'] = 2;
         return $it->getArrayCopy();
+    },
+    // --- RecursiveArrayIterator
+    'rai children' => function () {
+        $it = new RecursiveArrayIterator(['a' => [1, 2], 'b' => 3, 'c' => new ArrayObject([5])]);
+        $r = [];
+        foreach ($it as $k => $v) {
+            $r[] = [$k, $it->hasChildren()];
+        }
+        $it->rewind();
+        $child = $it->getChildren();
+        $r[] = [get_class($child), $child->getArrayCopy(), $child->getFlags()];
+        $it->next();
+        $it->next();
+        $it->next();
+        $r[] = [$it->valid(), $it->hasChildren(), $it->getChildren()];
+        return $r;
+    },
+    'rai empty' => fn () => [(new RecursiveArrayIterator([]))->hasChildren(), (new RecursiveArrayIterator([]))->getChildren()],
+    'rai child flags' => function () {
+        $it = new RecursiveArrayIterator(['a' => [1]], 3);
+        return [$it->getChildren()->getFlags(), $it->getFlags()];
+    },
+    'rai child arrays only' => function () {
+        $it = new RecursiveArrayIterator(['a' => [1, 2], 'o' => new ArrayObject([5])], RecursiveArrayIterator::CHILD_ARRAYS_ONLY);
+        $r = [$it->hasChildren(), $it->getChildren()->getArrayCopy(), $it->getChildren()->getFlags()];
+        $it->next();
+        $r[] = $it->hasChildren();
+        $r[] = $it->getChildren();
+        return $r;
+    },
+    'rai object child of its class' => function () {
+        $inner = new RecursiveArrayIterator([1]);
+        $it = new RecursiveArrayIterator(['i' => $inner]);
+        return [$it->hasChildren(), $it->getChildren() === $inner];
+    },
+    'rai scalar child' => fn () => (new RecursiveArrayIterator([5]))->getChildren(),
+    // the set of interfaces (PHP orders them per inheritance step, which ClassBuilder does not model)
+    'rai implements sorted' => function () {
+        $names = array_keys(class_implements(new RecursiveArrayIterator([])));
+        sort($names);
+        return $names;
+    },
+    'rai parents' => fn () => class_parents(new RecursiveArrayIterator([])),
+    'rai methods' => fn () => get_class_methods(new RecursiveArrayIterator([])),
+    'rai constant' => fn () => constant('RecursiveArrayIterator::CHILD_ARRAYS_ONLY'),
+    'rai iterate' => fn () => iterator_to_array(new RecursiveArrayIterator(['a' => [1], 'b' => 2])),
+    'rai debug' => fn () => get_mangled_object_vars(new RecursiveArrayIterator(['x' => 1])),
+    'rai clone class' => fn () => get_class(clone new RecursiveArrayIterator([1])),
+    'rai haschildren arity' => fn () => (new RecursiveArrayIterator([]))->hasChildren(1),
+    'ai haschildren' => fn () => (new ArrayIterator([[1]]))->hasChildren(),
+    'ao rai iterator class' => function () {
+        $it = (new ArrayObject(['a' => [1]], 0, 'RecursiveArrayIterator'))->getIterator();
+        return [get_class($it), $it->hasChildren(), get_class($it->getChildren())];
+    },
+    // --- subclasses without overrides
+    'ao subclass' => function () {
+        $o = new TwigValueAoSub(['k' => 'v', 'n' => [1]]);
+        $c = clone $o;
+        return [get_class($o), $o instanceof ArrayObject, $o['k'], count($o), get_class($o->getIterator()),
+            iterator_to_array($o), get_class($c), $c == $o, $o == new ArrayObject(['k' => 'v', 'n' => [1]]),
+            get_mangled_object_vars($o), class_parents($o)];
+    },
+    'ai subclass' => function () {
+        $it = new TwigValueAiSub(['a' => 1, 'b' => 2]);
+        $it->next();
+        $c = clone $it;
+        return [get_class($it), $it->key(), iterator_to_array($it), get_class($c), $it == new ArrayIterator(['a' => 1, 'b' => 2]),
+            get_mangled_object_vars($it)];
+    },
+    'rai subclass children' => function () {
+        $it = new TwigValueRaiSub(['a' => [1, [2]]]);
+        $child = $it->getChildren();
+        return [get_class($child), $child->hasChildren(), $child->getArrayCopy()];
     },
 ];
 

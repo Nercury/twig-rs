@@ -57,7 +57,6 @@ static CLASS_TABLE: LazyLock<ClassTable> = LazyLock::new(|| {
         spl::iterator_iterator_class(),
         spl::filter_iterator_class(),
         spl::callback_filter_iterator_class(),
-        simplexml::recursive_iterator_interface(),
         simplexml::simple_xml_element_class(),
         generator::generator_class(),
     ]);

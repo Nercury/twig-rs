@@ -1,5 +1,5 @@
 //! Built-in class entries (core interfaces, `stdClass`, `Closure`, `ArrayObject`,
-//! `ArrayIterator`) and a case-insensitive class table.
+//! `ArrayIterator`, `RecursiveArrayIterator`) and a case-insensitive class table.
 
 use std::collections::HashMap;
 use std::sync::LazyLock;
@@ -95,6 +95,16 @@ lazy_class!(
     ClassBuilder::interface("SeekableIterator")
         .implements(&iterator())
         .method("seek")
+        .build()
+);
+lazy_class!(
+    /// `interface RecursiveIterator extends Iterator`.
+    recursive_iterator,
+    RECURSIVE_ITERATOR,
+    ClassBuilder::interface("RecursiveIterator")
+        .implements(&iterator())
+        .method("hasChildren")
+        .method("getChildren")
         .build()
 );
 lazy_class!(
@@ -217,6 +227,19 @@ lazy_class!(
         b.build()
     }
 );
+lazy_class!(
+    /// `class RecursiveArrayIterator extends ArrayIterator implements RecursiveIterator`
+    /// (PHPSRC/ext/spl/spl_array.stub.php).
+    recursive_array_iterator,
+    RECURSIVE_ARRAY_ITERATOR,
+    ClassBuilder::class("RecursiveArrayIterator")
+        .extends(&array_iterator())
+        .implements(&recursive_iterator())
+        .constant("CHILD_ARRAYS_ONLY", Value::Int(4))
+        .method("hasChildren")
+        .method("getChildren")
+        .build()
+);
 
 /// A case-insensitive class table (PHP's `EG(class_table)`): looks classes up by name for
 /// `constant('Foo::BAR')`, `enum('Foo')`, `class_exists()` and friends.
@@ -244,12 +267,14 @@ impl ClassTable {
             json_serializable(),
             serializable(),
             seekable_iterator(),
+            recursive_iterator(),
             unit_enum(),
             backed_enum(),
             std_class(),
             closure(),
             array_object(),
             array_iterator(),
+            recursive_array_iterator(),
         ] {
             t.classes.insert(c.lc_name().into(), c);
         }

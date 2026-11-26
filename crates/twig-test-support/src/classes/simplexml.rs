@@ -386,24 +386,11 @@ impl XmlDocument {
     }
 }
 
-static RECURSIVE_ITERATOR: LazyLock<ClassRef> = LazyLock::new(|| {
-    ClassBuilder::interface("RecursiveIterator")
-        .implements(&builtin::iterator())
-        .method("hasChildren")
-        .method("getChildren")
-        .build()
-});
-
-/// `interface RecursiveIterator extends Iterator`.
-pub fn recursive_iterator_interface() -> ClassRef {
-    RECURSIVE_ITERATOR.clone()
-}
-
 static SIMPLE_XML_ELEMENT: LazyLock<ClassRef> = LazyLock::new(|| {
     let mut b = ClassBuilder::class("SimpleXMLElement")
         .implements(&builtin::stringable())
         .implements(&builtin::countable())
-        .implements(&RECURSIVE_ITERATOR);
+        .implements(&builtin::recursive_iterator());
     for m in [
         "xpath",
         "registerXPathNamespace",
