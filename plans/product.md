@@ -24,8 +24,8 @@ the README.
 - Benchmarks (`criterion`, root `benches/`): parsing+compiling, rendering loops/inheritance/macros/escaping, compared
   over time; a one-off comparison against PHP Twig through the oracle for the README.
 - Profiling pass on the VM and `twig-value` hot paths, with the fixture suite and fuzz vectors as the safety net.
-- CI: Linux, Windows and macOS (stable) plus MSRV 1.88 on Linux; `cargo-deny` (licences, advisories); docs build;
-  fuzz regression vectors run as normal tests (they need no Docker).
+- No hosted CI for now (owner's decision): the local check list in `reference/conventions.md` (stable, MSRV 1.88,
+  all features, docs, `cargo deny check`) replaces it.
 
 ## Release
 

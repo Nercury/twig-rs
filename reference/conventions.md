@@ -4,7 +4,19 @@
 
 - Build and test with `cargo +stable …` (the development machine defaults to nightly). Edition 2024,
   `rust-version = 1.88`.
-- `cargo fmt`, `cargo clippy --workspace --all-targets -- -D warnings` and `cargo test --workspace` must pass.
+- There is no hosted CI: every check runs locally, and all of them must pass before a commit is pushed:
+
+  ```bash
+  cargo +stable fmt --check
+  cargo +stable clippy --workspace --all-targets --all-features -- -D warnings
+  cargo +stable test --workspace --all-features
+  RUSTDOCFLAGS=-Dwarnings cargo +stable doc --workspace --no-deps --all-features
+  cargo +1.88 check --workspace --all-targets --all-features   # MSRV
+  cargo deny check                                               # licences, advisories (cargo install cargo-deny)
+  ```
+
+  Without `--all-features` the default build must pass too (`cargo +stable test --workspace`). The test suite never
+  needs Docker; only regenerating oracle vectors and fuzzing do.
 - `unsafe` is forbidden workspace-wide except in `twig-pcre`, which wraps the PCRE2 C library.
 
 ## Crates and dependency direction

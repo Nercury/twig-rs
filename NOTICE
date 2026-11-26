@@ -131,8 +131,8 @@ Part 1: Third-party sources
     Licence S (MIT). Copyright (c) 2010-2016 FriendsOfSymfony.
     - twig (templates/fos_login.html.twig, the sample template of the lex_tokens example).
 
-Dependencies from crates.io are not part of these sources and carry their own licences; CI checks the licences of the
-whole dependency graph against deny.toml. twig-value's hash('xxh128') uses the xxhash-rust crate (BSL-1.0), a Rust
+Dependencies from crates.io are not part of these sources and carry their own licences; `cargo deny check` checks the
+licences of the whole dependency graph against deny.toml. twig-value's hash('xxh128') uses the xxhash-rust crate (BSL-1.0), a Rust
 implementation of xxHash (Yann Collet).
 
 

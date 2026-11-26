@@ -299,8 +299,7 @@ cover template recursion limits.
   is expected (`extend_from_slice()`, a `&[u8]` binding): 1.88 infers `T = [u8]` from it (E0308 ``expected
   `&[[u8]]`, found `&[&[u8]]` ``, E0277 unsized `[u8]`), where newer compilers dereference the `&&[u8]`. Sites:
   `generators/unicode.rs:352`; `generators/whitespace.rs:479`, `:484`, `:498`, `:500`, `:981`, `:987`, `:1021`,
-  `:1215`, `:1217`, `:1227`, `:1229`; `*self.rng.pick(X)` fixes each. CI's MSRV job runs `cargo test --workspace` on
-  1.88, so it fails until then.
+  `:1215`, `:1217`, `:1227`, `:1229`; fixed with a non-generic `Rng::pick_bytes` (the MSRV check passes again).
 
 ## Not parity bugs (recorded for roadmap phase 6)
 

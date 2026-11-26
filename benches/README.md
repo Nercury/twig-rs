@@ -20,7 +20,7 @@
 cargo bench --bench '*'                              # everything
 cargo bench --bench render -- inheritance            # one bench, filtered by name
 cargo bench --bench '*' -- --save-baseline before    # compare over time: ... then --baseline before
-cargo test --bench '*'                               # run each benchmark once as a test (what CI does)
+cargo test --bench '*'                               # run each benchmark once as a test
 ```
 
 `--bench '*'` selects the benchmark targets only: a plain `cargo bench` also runs the library's libtest harness, which
