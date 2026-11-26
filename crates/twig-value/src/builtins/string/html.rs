@@ -463,6 +463,24 @@ fn named_entity_known(name: &[u8], doctype: i32) -> bool {
 pub fn escape_html(s: &[u8], flags: i64, charset: HtmlCharset, double_encode: bool) -> PhpString {
     let flags = flags as i32;
     let doctype = flags & DOC_TYPE_MASK;
+    if charset == HtmlCharset::Utf8
+        && double_encode
+        && flags & SUBSTITUTE_DISALLOWED_CHARS == 0
+        && std::str::from_utf8(s).is_ok()
+    {
+        return escape_html_utf8(s, flags, doctype);
+    }
+    escape_html_chars(s, flags, doctype, charset, double_encode)
+}
+
+/// The character loop of [`escape_html`].
+fn escape_html_chars(
+    s: &[u8],
+    flags: i32,
+    doctype: i32,
+    charset: HtmlCharset,
+    double_encode: bool,
+) -> PhpString {
     let replacement: &[u8] = if charset == HtmlCharset::Utf8 {
         "\u{FFFD}".as_bytes()
     } else {
@@ -561,6 +579,48 @@ pub fn escape_html(s: &[u8], flags: i64, charset: HtmlCharset, double_encode: bo
     PhpString::from(out)
 }
 
+/// [`escape_html`] of well-formed UTF-8 with `double_encode` and without `ENT_DISALLOWED`: every character decodes
+/// (the UTF-8 decoder of `get_next_char()` accepts exactly the well-formed sequences), so only `&`, `<`, `>` and the
+/// quotes `flags` select are replaced and every other byte is copied; the result is built in one allocation.
+fn escape_html_utf8(s: &[u8], flags: i32, doctype: i32) -> PhpString {
+    let apos: &'static [u8] = if doctype == DOC_HTML401 {
+        b"&#039;"
+    } else {
+        b"&apos;"
+    };
+    let entity = |c: u8| -> Option<&'static [u8]> {
+        match c {
+            b'&' => Some(b"&amp;"),
+            b'<' => Some(b"&lt;"),
+            b'>' => Some(b"&gt;"),
+            b'"' if flags & QUOTE_DOUBLE != 0 => Some(b"&quot;"),
+            b'\'' if flags & QUOTE_SINGLE != 0 => Some(apos),
+            _ => None,
+        }
+    };
+    let len = s
+        .iter()
+        .map(|&c| entity(c).map_or(1, <[u8]>::len))
+        .sum::<usize>();
+    if len == s.len() {
+        return PhpString::from_bytes(s);
+    }
+    PhpString::build(len, |buf| {
+        let mut at = 0;
+        let mut run = 0;
+        for (i, &c) in s.iter().enumerate() {
+            if let Some(entity) = entity(c) {
+                buf[at..at + (i - run)].copy_from_slice(&s[run..i]);
+                at += i - run;
+                buf[at..at + entity.len()].copy_from_slice(entity);
+                at += entity.len();
+                run = i + 1;
+            }
+        }
+        buf[at..].copy_from_slice(&s[run..]);
+    })
+}
+
 /// Port of `PHP_FUNCTION(htmlspecialchars)` / `php_html_entities(all = 0)`
 /// (`htmlspecialchars(string $string, int $flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401,
 /// ?string $encoding = null, bool $double_encode = true): string`).
@@ -603,6 +663,42 @@ mod tests {
 
     fn esc(s: &[u8]) -> Vec<u8> {
         escape_html(s, ENT_QUOTES | ENT_SUBSTITUTE, HtmlCharset::Utf8, true).to_vec()
+    }
+
+    /// The UTF-8 shortcut gives what the character loop gives, for every quote, error and doctype flag.
+    #[test]
+    fn utf8_shortcut_matches_the_character_loop() {
+        let strings: [&[u8]; 9] = [
+            b"",
+            b"plain text",
+            b"<a href=\"x\">it's & more</a>",
+            "é ü 漢字 \u{10348} <>&\"'".as_bytes(),
+            b"&amp; &#039; &lt",
+            b"'''\"\"\"&&&<<<>>>",
+            b"\x00\x01\x7f control",
+            "\u{FFFD}\u{FEFF}\u{80}\u{9F}".as_bytes(),
+            b"x",
+        ];
+        for quotes in [ENT_NOQUOTES, ENT_COMPAT, ENT_QUOTES, 1] {
+            for errors in [0, ENT_IGNORE, ENT_SUBSTITUTE] {
+                for doctype in [ENT_HTML401, ENT_XML1, ENT_XHTML, ENT_HTML5] {
+                    let flags = (quotes | errors | doctype) as i32;
+                    for s in strings {
+                        assert_eq!(
+                            escape_html_utf8(s, flags, flags & DOC_TYPE_MASK),
+                            escape_html_chars(
+                                s,
+                                flags,
+                                flags & DOC_TYPE_MASK,
+                                HtmlCharset::Utf8,
+                                true
+                            ),
+                            "{s:?} with flags {flags}"
+                        );
+                    }
+                }
+            }
+        }
     }
 
     #[test]
