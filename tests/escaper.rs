@@ -2,6 +2,8 @@
 //! tables of `TWIG/tests/Runtime/EscaperRuntimeTest.php` and of `TWIG/tests/FileExtensionEscapingStrategyTest.php`,
 //! and oracle vectors (`tests/vectors/escaper/strategies.json`: `EscaperRuntime::escape()` for single bytes,
 //! characters, invalid UTF-8 and random strings with every strategy and many charsets; `guess()` for template names).
+//! The charset conversions go through the build's default iconv backend (`twig::runtime::default_iconv_backend()`:
+//! glibc's with the `glibc-iconv` feature, the clean-room one otherwise).
 //!
 //! The `Markup`, safe-class and custom-escaper cases of `EscaperRuntimeTest.php` belong to the `escape` filter's
 //! runtime, which is built on these functions.
@@ -17,14 +19,21 @@ use twig::escaper::{
     self, EscapeError, Strategy, escape, escape_css, escape_html, escape_html_attr, escape_js,
     escape_url, guess, implied_strategies, invalid_strategy_message,
 };
+use twig::runtime::{BasicIconv, default_iconv_backend};
 use twig_value::{Diagnostic, Ignore};
 
 /// `(new EscaperRuntime())->escape($string, $strategy)` for a string, with the default `UTF-8` charset.
 fn esc(string: &str, strategy: &str) -> String {
     let strategy = Strategy::from_name(strategy.as_bytes()).expect("a built-in strategy");
-    let escaped = escape(string.as_bytes(), strategy, b"UTF-8", &mut Ignore)
-        .expect("no error")
-        .expect("not false");
+    let escaped = escape(
+        string.as_bytes(),
+        strategy,
+        b"UTF-8",
+        &BasicIconv,
+        &mut Ignore,
+    )
+    .expect("no error")
+    .expect("not false");
     String::from_utf8(escaped.as_bytes().to_vec()).expect("UTF-8 output")
 }
 
@@ -305,7 +314,7 @@ fn implied_strategies_match_escaper_runtime() {
 #[test]
 fn invalid_utf8_is_a_runtime_error() {
     for escape_fn in [escape_js, escape_css] {
-        let error = escape_fn(b"a\xFF", b"UTF-8", &mut Ignore).unwrap_err();
+        let error = escape_fn(b"a\xFF", b"UTF-8", &BasicIconv, &mut Ignore).unwrap_err();
         assert!(matches!(error, EscapeError::InvalidUtf8));
         assert_eq!(
             error.to_string(),
@@ -313,12 +322,12 @@ fn invalid_utf8_is_a_runtime_error() {
         );
     }
     assert!(matches!(
-        escape_html_attr(b"\xC3", b"UTF-8", true, &mut Ignore),
+        escape_html_attr(b"\xC3", b"UTF-8", true, &BasicIconv, &mut Ignore),
         Err(EscapeError::InvalidUtf8)
     ));
     // `html` substitutes invalid sequences, `url` encodes bytes
     assert_eq!(
-        escape_html(b"a\xFF", b"UTF-8", &mut Ignore)
+        escape_html(b"a\xFF", b"UTF-8", &BasicIconv, &mut Ignore)
             .unwrap()
             .unwrap()
             .as_bytes(),
@@ -361,12 +370,40 @@ fn guesses_strategies_from_file_names() {
 
 // ---- oracle vectors -------------------------------------------------------------------------------------------------
 
-/// Charsets that need an `iconv()` conversion twig-value has no tables for (a documented deviation of `iconv`).
-const UNSUPPORTED_ICONV_CHARSETS: &[&str] = &["BIG5", "SJIS", "EUC-JP", "GB2312", "koi8-ru"];
+/// Charsets of the vectors whose `iconv()` conversions the build's default backend does not convert (it throws
+/// `iconv(): conversion of charset "X" is not supported by twig-rs`, reference/deviations.md): none with the
+/// `glibc-iconv` feature; without it, every charset but the Unicode ones, ASCII and ISO-8859-1.
+#[cfg(feature = "glibc-iconv")]
+const UNSUPPORTED_ICONV_CHARSETS: &[&str] = &[];
+#[cfg(not(feature = "glibc-iconv"))]
+const UNSUPPORTED_ICONV_CHARSETS: &[&str] = &[
+    "CP1252",
+    "windows-1252",
+    "ISO-8859-15",
+    "WINDOWS-1251",
+    "KOI8-R",
+    "koi8-ru",
+    "MACROMAN",
+    "CP866",
+    "ISO-8859-5",
+    "ISO-8859-2",
+    "BIG5",
+    "SJIS",
+    "EUC-JP",
+    "GB2312",
+];
+
+/// How many cases of the vectors the build's default backend cannot convert (see
+/// [`UNSUPPORTED_ICONV_CHARSETS`]).
+#[cfg(feature = "glibc-iconv")]
+const UNSUPPORTED_CASES: usize = 0;
+#[cfg(not(feature = "glibc-iconv"))]
+const UNSUPPORTED_CASES: usize = 8603;
 
 #[test]
 fn strategy_vectors() {
     let vectors = Json::load_vectors("escaper/strategies.json");
+    let iconv = default_iconv_backend();
     let mut failures = Vec::new();
     let mut checked = 0;
     let mut unsupported = 0;
@@ -376,7 +413,13 @@ fn strategy_vectors() {
         let charset = case.field("charset").as_str().unwrap();
         let strategy = Strategy::from_name(strategy_name.as_bytes()).unwrap();
         let mut diagnostics: Vec<Diagnostic> = Vec::new();
-        let result = escape(&string, strategy, charset.as_bytes(), &mut diagnostics);
+        let result = escape(
+            &string,
+            strategy,
+            charset.as_bytes(),
+            &*iconv,
+            &mut diagnostics,
+        );
         if let Err(EscapeError::Php(error)) = &result
             && UNSUPPORTED_ICONV_CHARSETS.contains(&charset)
             && error.to_string().contains("is not supported by twig-rs")
@@ -420,11 +463,11 @@ fn strategy_vectors() {
             ));
         }
     }
-    assert!(checked > 25000, "only {checked} cases");
-    assert!(
-        unsupported < 3200,
-        "{unsupported} cases need unsupported iconv charsets"
+    assert_eq!(
+        unsupported, UNSUPPORTED_CASES,
+        "cases that need iconv charsets the build does not convert"
     );
+    assert_eq!(checked + unsupported, 31008, "the vectors have 31008 cases");
     // the first failures of each charset and strategy
     let mut shown: Vec<String> = Vec::new();
     let mut per_kind: std::collections::HashMap<String, usize> = std::collections::HashMap::new();

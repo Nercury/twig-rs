@@ -13,7 +13,8 @@
 //! | [`url`] | `rawurlencode`, `urlencode`, `http_build_query` | `ext/standard/url.c`, `ext/standard/http.c` |
 //! | [`mod@levenshtein`] | `levenshtein` | `ext/standard/levenshtein.c` |
 //! | [`ctype`] | the eleven `ctype_*` functions (C.UTF-8 `LC_CTYPE`) | `ext/ctype/ctype.c` |
-//! | [`mod@iconv`] | `iconv` with glibc 2.41 behaviour for the supported charsets | `ext/iconv/iconv.c` |
+//! | [`mod@iconv`] | `iconv` through an [`IconvBackend`]; the default, [`BasicIconv`], is [`charset_basic`] | `ext/iconv/iconv.c` |
+//! | [`charset_basic`] | the clean-room `iconv()`: UTF-8, UTF-16, UTF-32, UCS-2, UCS-4, ASCII, ISO-8859-1 | `ext/iconv/iconv.c` (black-box glibc behaviour) |
 //!
 //! # Two levels per builtin
 //!
@@ -43,13 +44,12 @@
 #![warn(missing_docs)]
 
 pub mod basic;
+pub mod charset_basic;
 pub mod ctype;
 pub mod html;
 #[rustfmt::skip]
 mod html_entities;
 pub mod iconv;
-#[rustfmt::skip]
-mod iconv_tables;
 pub mod levenshtein;
 pub mod markup;
 pub mod replace;
@@ -67,7 +67,7 @@ pub use ctype::{
     ctype_punct, ctype_space, ctype_upper, ctype_xdigit,
 };
 pub use html::htmlspecialchars;
-pub use iconv::iconv;
+pub use iconv::{BasicIconv, IconvBackend, iconv};
 pub use levenshtein::levenshtein;
 pub use markup::{nl2br, strip_tags};
 pub use replace::{str_replace, str_replace_count, strtr};

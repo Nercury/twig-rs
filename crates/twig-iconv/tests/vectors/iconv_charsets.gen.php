@@ -6,12 +6,15 @@
 // sequences, flushing, combining sequences, random strings, and long inputs around glibc's conversion rounds and
 // PHP's output-buffer growth (section "long", outputs as length and FNV-1a 64 hash).
 //
-//   cd crates/twig-value/tests/vectors
-//   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
-//       php /t/string/iconv_charsets.gen.php > string/iconv_charsets.json
+// The cases go through twig-value's call table (crates/twig-value/tests/vectors/string/calls.inc.php and the files
+// it includes), so the container sees the whole crates/ directory:
+//
+//   cd crates
+//   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/c" twig-oracle:3.31.1 \
+//       php /c/twig-iconv/tests/vectors/iconv_charsets.gen.php > twig-iconv/tests/vectors/iconv_charsets.json
 
 declare(strict_types=0);
-require __DIR__.'/calls.inc.php';
+require __DIR__.'/../../../twig-value/tests/vectors/string/calls.inc.php';
 
 mt_srand(2262);
 $cases = [];
@@ -36,7 +39,7 @@ foreach (['SHIFT_JIS', 'shift-jis', 'MS_KANJI', 'CSSHIFTJIS', 'WINDOWS-31J', 'MS
     'MAC-CYRILLIC', 'MACCYRILLIC', 'CP1125', 'ARMSCII-8', 'GEORGIAN-PS', 'TIS-620', 'VISCII', 'ISO646-DE', 'DIN_66003',
     'CP737', 'CP775', 'IBM1140', 'EUC-TW', 'UTF-7', 'JOHAB', 'BIG5-HKSCS//IGNORE', 'GBK//TRANSLIT'] as $n) {
     if (in_array($n, ['EUC-TW', 'UTF-7', 'JOHAB'], true)) {
-        continue; // not converted by twig-value; the name parsing of these is covered by iconv.json
+        continue; // not converted by twig-iconv; the name parsing of these is covered by iconv.json
     }
     $add('UTF-8', $n, "a\u{E9}\u{20AC}\u{611B}");
     $add($n, 'UTF-8', 'abc');

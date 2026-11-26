@@ -472,7 +472,8 @@ fn find(call: &mut Call<'_>) -> CallResult {
 ///
 /// A `Traversable` (through `iterator_to_array()`, keys preserved first) or an array goes through
 /// `array_reverse($item, $preserveKeys)`; anything else is cast to a string and reversed per code point
-/// (`splitIntoCharacters()`), converted from and back to the charset with iconv when it is not UTF-8.
+/// (`splitIntoCharacters()`), converted from and back to the charset with iconv (the environment's backend) when it
+/// is not UTF-8.
 fn reverse(call: &mut Call<'_>) -> CallResult {
     let [item, preserve_keys] = take(bind_method(
         call,
@@ -484,6 +485,7 @@ fn reverse(call: &mut Call<'_>) -> CallResult {
         ],
     )?);
     let charset = call.charset();
+    let iconv = call.env().iconv_backend();
     let diag = call.diagnostics();
     let array = match item {
         Value::Object(object) if object.instance_of("Traversable") => {
@@ -494,7 +496,7 @@ fn reverse(call: &mut Call<'_>) -> CallResult {
             let mut string = convert::to_string(&item, diag)?;
             let utf8 = charset.as_bytes() == b"UTF-8";
             if !utf8 {
-                string = convert_encoding(&string, b"UTF-8", &charset, diag)?;
+                string = convert_encoding(&string, b"UTF-8", &charset, &*iconv, diag)?;
             }
             let mut characters = split_into_characters(&string, "reverse")?;
             characters.reverse();
@@ -505,7 +507,7 @@ fn reverse(call: &mut Call<'_>) -> CallResult {
                     .collect::<Vec<u8>>(),
             );
             if !utf8 {
-                string = convert_encoding(&string, &charset, b"UTF-8", diag)?;
+                string = convert_encoding(&string, &charset, b"UTF-8", &*iconv, diag)?;
             }
             return Ok(Value::String(string));
         }
@@ -519,7 +521,8 @@ fn reverse(call: &mut Call<'_>) -> CallResult {
 
 /// Twig: `CoreExtension::shuffle(string $charset, $item)`: a string is shuffled per code point, an iterable is
 /// listed (`toArray($item, false)`) and shuffled, anything else is returned unchanged. `shuffle()` draws from the
-/// thread's Mersenne Twister ([`with_mt_rand`]).
+/// thread's Mersenne Twister ([`with_mt_rand`]). A string in a charset other than UTF-8 is converted with the
+/// environment's iconv backend.
 fn shuffle(call: &mut Call<'_>) -> CallResult {
     let [item] = take(bind_method(
         call,
@@ -528,13 +531,14 @@ fn shuffle(call: &mut Call<'_>) -> CallResult {
         &[Param::required("item")],
     )?);
     let charset = call.charset();
+    let iconv = call.env().iconv_backend();
     let diag = call.diagnostics();
     if let Value::String(string) = &item {
         let utf8 = charset.as_bytes() == b"UTF-8";
         let string = if utf8 {
             string.clone()
         } else {
-            convert_encoding(string, b"UTF-8", &charset, diag)?
+            convert_encoding(string, b"UTF-8", &charset, &*iconv, diag)?
         };
         let characters = split_into_characters(&string, "shuffle")?;
         let mut characters = Array::from_values(characters.into_iter().map(Value::String));
@@ -543,7 +547,7 @@ fn shuffle(call: &mut Call<'_>) -> CallResult {
         return Ok(Value::String(if utf8 {
             joined
         } else {
-            convert_encoding(&joined, &charset, b"UTF-8", diag)?
+            convert_encoding(&joined, &charset, b"UTF-8", &*iconv, diag)?
         }));
     }
     if item.is_iterable() {
@@ -837,7 +841,8 @@ fn cycle(call: &mut Call<'_>) -> CallResult {
 /// `null` gives `mt_rand()` (or `mt_rand(0, (int) $max)`); an int or float a random integer between it and `0` (or
 /// `$max`); a string a random character (split per code point, through UTF-8 when the charset is not); an iterable
 /// a random element (`array_rand($values, 1)` of `toArray($values)`); anything else is returned as it is. All draws
-/// come from the thread's Mersenne Twister ([`with_mt_rand`]).
+/// come from the thread's Mersenne Twister ([`with_mt_rand`]). A string in a charset other than UTF-8 is converted with
+/// the environment's iconv backend.
 fn random_function(call: &mut Call<'_>) -> CallResult {
     let [values, max] = take(bind_method(
         call,
@@ -849,6 +854,7 @@ fn random_function(call: &mut Call<'_>) -> CallResult {
         ],
     )?);
     let charset = call.charset();
+    let iconv = call.env().iconv_backend();
     let diag = call.diagnostics();
     if values.is_null() {
         if max.is_null() {
@@ -884,12 +890,12 @@ fn random_function(call: &mut Call<'_>) -> CallResult {
         let string = if utf8 {
             string.clone()
         } else {
-            convert_encoding(string, b"UTF-8", &charset, diag)?
+            convert_encoding(string, b"UTF-8", &charset, &*iconv, diag)?
         };
         let mut characters = split_into_characters(&string, "random")?;
         if !utf8 {
             for character in &mut characters {
-                *character = convert_encoding(character, &charset, b"UTF-8", diag)?;
+                *character = convert_encoding(character, &charset, b"UTF-8", &*iconv, diag)?;
             }
         }
         values = Value::Array(Array::from_values(

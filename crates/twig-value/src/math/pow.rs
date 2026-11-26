@@ -1,16 +1,17 @@
 //! Double-precision `pow(x, y)`, bit-identical to the oracle's C library.
 //!
-//! Algorithm: ARM optimized-routines `pow` (Copyright (c) 2018, Arm Limited, SPDX-License-Identifier:
-//! MIT), the code in musl's `src/math/pow.c` and glibc's `sysdeps/ieee754/dbl-64/e_pow.c`. Worst-case
-//! error 0.54 ULP, so it is not correctly rounded and the exact evaluation matters.
+//! Algorithm and code: ARM optimized-routines `pow` (Copyright (c) 2018, Arm Limited,
+//! SPDX-License-Identifier: MIT) as musl ships it in `src/math/pow.c` (MIT), which this port follows
+//! statement for statement. glibc's `sysdeps/ieee754/dbl-64/e_pow.c` is the same routine; the oracle runs
+//! it. Worst-case error 0.54 ULP, so it is not correctly rounded and the exact evaluation matters.
 //!
-//! PHP calls the C library `pow()`. On x86-64 CPUs with FMA and AVX2 (every machine the oracle and CI
-//! run on) glibc 2.41 selects `__ieee754_pow_fma`: `e_pow.c` compiled with `-mfma -mavx2` and GCC's
+//! PHP calls the C library `pow()`. On x86-64 CPUs with FMA and AVX2 (every machine the oracle runs on)
+//! glibc 2.41 selects `__ieee754_pow_fma`, its build of the routine with `-mfma -mavx2` and GCC's
 //! default `-ffp-contract=fast`. That build uses the `__FP_FAST_FMA` branches of the source *and*
-//! contracts further `a * b + c` expressions into fused multiply-adds. This port reproduces exactly
-//! the fused operations of that binary (read from the disassembly of `libm.so.6` in
-//! `twig-oracle:3.31.1`); each contracted expression is marked "contracted" below. Validated against
-//! PHP `**` by `tests/vectors/pow.json`.
+//! contracts further `a * b + c` expressions into fused multiply-adds. Which operations are fused was
+//! read from the machine code of `libm.so.6` in `twig-oracle:3.31.1` (the compiled binary, not glibc's
+//! sources), and this port fuses exactly those; each contracted expression is marked "contracted"
+//! below. Validated against PHP `**` by `tests/vectors/pow.json`.
 
 use super::fma;
 use super::pow_data::{
@@ -276,8 +277,7 @@ pub fn pow(x: f64, y: f64) -> f64 {
             if ix >> 63 != 0 && checkint(iy) == 1 {
                 x2 = -x2;
             }
-            // glibc returns __math_divzero(sign) = (sign ? -1.0 : 1.0) / 0.0 for x == 0 and
-            // y < 0; that equals 1 / x2.
+            // x == 0 and y < 0: 1 / x2, an infinity with the sign of x2 (division by zero).
             return if iy >> 63 != 0 { 1.0 / x2 } else { x2 };
         }
         // Here x and y are non-zero finite.

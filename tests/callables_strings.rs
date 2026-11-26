@@ -9,7 +9,8 @@
 //! PHP diagnostics in order. A case with a `twig_rs` field documents a deliberate deviation
 //! (`reference/deviations.md`) and expects that result; PHP source locations in the oracle's messages (`called in
 //! <file> on line <n>`), which twig-rs cannot reproduce, are removed before comparing. The `runtime` topic (custom escapers and safe classes) runs
-//! in the unit tests of `src/extension/runtime/strings/escaper/tests.rs`.
+//! in the unit tests of `src/extension/runtime/strings/escaper/tests.rs`. Without the `glibc-iconv` feature, the cases
+//! of `ICONV_UNSUPPORTED_IN_THIS_BUILD` expect the error for a charset the default iconv backend does not convert.
 //!
 //! Twig's `EscaperExtension` registers the `EscaperNodeVisitor`, which also escapes the input of the `pre_escape`
 //! filters (`nl2br`, `spaceless`) when auto-escaping is off.
@@ -437,6 +438,29 @@ fn run_case(case: &Json, expected: &Json) -> Option<String> {
     (!problems.is_empty()).then(|| problems.join("; "))
 }
 
+/// The cases that convert through a charset beyond the default build's iconv backend: without the `glibc-iconv`
+/// feature they must fail with twig-rs's `iconv(): conversion of charset "X" is not supported by twig-rs`
+/// (reference/deviations.md) instead of giving PHP's result; with the feature they must match the oracle.
+#[cfg(not(feature = "glibc-iconv"))]
+const ICONV_UNSUPPORTED_IN_THIS_BUILD: &[&str] = &["escape-058"];
+/// The cases that convert through a charset beyond this build's iconv backend: none with `glibc-iconv`.
+#[cfg(feature = "glibc-iconv")]
+const ICONV_UNSUPPORTED_IN_THIS_BUILD: &[&str] = &[];
+
+/// For a case of [`ICONV_UNSUPPORTED_IN_THIS_BUILD`]: why its outcome is wrong, `None` when it failed with the
+/// unsupported-charset error.
+fn iconv_unsupported_problem(id: &str, problem: Option<String>) -> Option<String> {
+    match problem {
+        Some(problem) if problem.contains("is not supported by twig-rs") => None,
+        Some(problem) => Some(format!(
+            "{problem} (expected the error for a charset this build does not convert)"
+        )),
+        None => Some(format!(
+            "{id} matches the oracle now: remove it from ICONV_UNSUPPORTED_IN_THIS_BUILD"
+        )),
+    }
+}
+
 /// Runs every case of a topic and fails with the list of mismatches.
 fn run_topic(topic: &str) {
     let cases = Json::load_vectors(&format!("callables/strings/{topic}.gen.json"));
@@ -452,7 +476,11 @@ fn run_topic(topic: &str) {
     for (case, expected) in cases.iter().zip(results) {
         let id = case.field("id").as_str().unwrap_or_default();
         assert_eq!(expected.field("id").as_str(), Some(id), "result order");
-        if let Some(problem) = run_case(case, expected) {
+        let mut problem = run_case(case, expected);
+        if ICONV_UNSUPPORTED_IN_THIS_BUILD.contains(&id) {
+            problem = iconv_unsupported_problem(id, problem);
+        }
+        if let Some(problem) = problem {
             let templates: Vec<String> = case
                 .field("templates")
                 .as_object()

@@ -82,6 +82,26 @@ twig = { git = "https://github.com/Nercury/twig-rs" }
 
 Building needs Rust 1.88 or newer and a C compiler (PCRE2 is compiled from the sources PHP bundles).
 
+### Charsets other than Unicode, ASCII and ISO-8859-1: the `glibc-iconv` feature
+
+Templates convert charsets with PHP's `iconv()`: the `convert_encoding` filter, escaping with a `charset` option other
+than UTF-8, and `reverse`, `shuffle` and `random` under such a charset. By default twig-rs converts UTF-8, UTF-16,
+UTF-32, UCS-2, UCS-4 (with their byte-order variants), ASCII and ISO-8859-1 exactly like PHP on glibc, and any other
+charset glibc knows fails with `iconv(): conversion of charset "X" is not supported by twig-rs`.
+
+The `glibc-iconv` feature adds the other charsets (the ISO-8859 family, Windows and DOS codepages, KOI8, EUC-JP,
+Shift_JIS, ISO-2022-JP, GB2312, GBK, GB18030, BIG5, EUC-KR, ...) through the `twig-iconv` crate:
+
+```toml
+twig = { git = "https://github.com/Nercury/twig-rs", features = ["glibc-iconv"] }
+```
+
+`twig-iconv` reproduces glibc's iconv by following glibc's sources, so it is licensed under the **GNU LGPL 2.1 or
+later**, unlike the rest of twig-rs: a program built with the feature contains LGPL code and must meet the LGPL's
+conditions when it is distributed. Without the feature nothing LGPL-licensed is compiled in. An environment can also
+be given a converter explicitly (`EnvironmentOptions::iconv_backend`), for example `twig_iconv::GlibcIconv` or one of
+the program's own.
+
 ## Compatibility
 
 | Component | Version |
@@ -91,6 +111,7 @@ Building needs Rust 1.88 or newer and a C compiler (PCRE2 is compiled from the s
 | PCRE2 (`matches`) | 10.44, as bundled with PHP |
 | timelib, timezonedb (dates) | 2022.17, 2026.6 |
 | Unicode (mbstring case mapping) | 17.0 |
+| iconv (`convert_encoding`, escaping charsets) | glibc 2.41: the Unicode charsets, ASCII and ISO-8859-1 by default; with the `glibc-iconv` feature nearly every charset glibc converts |
 
 "The same" covers output bytes, error classes and messages with template names and lines, PHP warnings and
 deprecations. What cannot or deliberately does not match (PHP-internal file names in messages, object handle numbers,
@@ -124,6 +145,7 @@ times slower with warm caches (on par for the escaping-heavy scenario). Profilin
 |---|---|
 | `src/` (crate `twig`) | lexer, parser, node visitors, code generator, VM, runtime, extensions, loaders |
 | `crates/twig-value` | PHP 8.5 value model, operators, comparison, conversions and the PHP builtins Twig calls |
+| `crates/twig-iconv` | (optional, LGPL-2.1-or-later) glibc's `iconv()` for every charset, behind the `glibc-iconv` feature |
 | `crates/twig-unicode` | Unicode 17.0 tables and mbstring-compatible case mapping |
 | `crates/twig-pcre` | PCRE2 10.44 with PHP's `preg_match()` semantics |
 | `crates/twig-timelib`, `crates/twig-date` | timelib port with timezonedb 2026.6, PHP's `DateTime` family |
@@ -158,4 +180,6 @@ Open work is listed in [`plans/`](plans/roadmap.md): the roadmap, the known mism
 twig-rs is distributed under the BSD 3-Clause licence ([`LICENSE`](LICENSE)). It contains code ported from Twig
 (BSD-3-Clause), PHP (PHP License 3.01), the Zend Engine (Zend Engine License 2.00) and other third-party sources and
 data, listed in [`NOTICE`](NOTICE); the `license` field of each crate combines the licences of what that crate
-contains.
+contains. The exception is the optional `twig-iconv` crate (the `glibc-iconv` feature), which follows the GNU C
+Library's iconv sources and is distributed under the GNU Lesser General Public License 2.1 or later
+([`crates/twig-iconv/LICENSE`](crates/twig-iconv/LICENSE)).

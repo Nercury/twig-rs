@@ -2,7 +2,7 @@
 //! string group's mbstring encodings, [`crate::extension::runtime::strings::mb`]), Twig's
 //! `CoreExtension::convertEncoding()` and `CoreExtension::splitIntoCharacters()`.
 
-use twig_value::builtins::string::iconv::iconv_bytes;
+use twig_value::builtins::string::IconvBackend;
 use twig_value::param::{self, Arg};
 use twig_value::{Diagnostics, PhpResult, PhpString, Value};
 
@@ -52,15 +52,18 @@ pub(super) fn mb_substr(
 }
 
 /// Twig: `CoreExtension::convertEncoding($string, $to, $from): string` (TWIG/src/Extension/CoreExtension.php) on a
-/// string: `iconv($from, $to, $string)`, whose `false` (after iconv's warning or notice) the `string` return type
-/// turns into `''`.
+/// string: `iconv($from, $to, $string)` (with the environment's backend, `iconv`), whose `false` (after iconv's
+/// warning or notice) the `string` return type turns into `''`.
 pub(super) fn convert_encoding(
     string: &[u8],
     to: &[u8],
     from: &[u8],
+    iconv: &dyn IconvBackend,
     diag: &mut dyn Diagnostics,
 ) -> PhpResult<PhpString> {
-    Ok(iconv_bytes(from, to, string, diag)?.unwrap_or_default())
+    Ok(iconv
+        .iconv_bytes(from, to, string, diag)?
+        .unwrap_or_default())
 }
 
 /// Twig: `CoreExtension::splitIntoCharacters(string $string, string $name): array` — `preg_match_all('/./us',

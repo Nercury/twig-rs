@@ -509,6 +509,7 @@ dependencies = [
  "serde",
  "serde_json",
  "twig-date",
+ "twig-iconv",
  "twig-pcre",
  "twig-test-support",
  "twig-unicode",
@@ -533,6 +534,15 @@ dependencies = [
  "twig",
  "twig-date",
  "twig-test-support",
+ "twig-value",
+]
+
+[[package]]
+name = "twig-iconv"
+version = "0.1.0"
+dependencies = [
+ "memchr",
+ "serde_json",
  "twig-value",
 ]
 

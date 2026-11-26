@@ -9,14 +9,16 @@
 //!   `EscaperRuntime` (TWIG/src/Runtime/EscaperRuntime.php).
 //! - [`escape`] and the per-strategy functions ([`escape_html`], [`escape_js`], [`escape_css`],
 //!   [`escape_html_attr`], [`escape_url`]): the string part of `EscaperRuntime::escape()` once the value is a string
-//!   and the charset is known, with PHP's `htmlspecialchars()` and `iconv()` from `twig-value`. The `escape` filter's
-//!   runtime (the `Markup` and safe-class shortcuts, non-string values, custom escapers) is built on top of them:
+//!   and the charset is known, with PHP's `htmlspecialchars()` from `twig-value` and `iconv()` from the
+//!   [`IconvBackend`](crate::runtime::IconvBackend) the caller passes (the escaper runtime's, which is the
+//!   environment's [`iconv_backend`](crate::runtime::Environment::iconv_backend)). The `escape` filter's runtime (the
+//!   `Markup` and safe-class shortcuts, non-string values, custom escapers) is built on top of them:
 //!
 //! ```text
 //! escape($value, $strategy, $charset, $autoescape):
 //!     Markup / Stringable / non-string handling          (the filter's runtime)
 //!     match Strategy::from_name($strategy):
-//!         Some(strategy) => escape($string, strategy, $charset ?: env charset, diagnostics)
+//!         Some(strategy) => escape($string, strategy, $charset ?: env charset, iconv backend, diagnostics)
 //!         None => custom escaper, else RuntimeError(invalid_strategy_message($strategy, custom names))
 //! ```
 

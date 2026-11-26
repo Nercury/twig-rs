@@ -1,16 +1,19 @@
 <?php
-// Generates iconv.json: iconv() on glibc 2.41 for the charsets twig-value supports (see the iconv module docs):
+// Generates iconv.json: iconv() on glibc 2.41 for the charsets twig-iconv supports (see the iconv module docs):
 // charset-name parsing (suffixes, case, separators, aliases, length limit, unknown names), every charset in both
 // directions on fixed and random input, invalid and incomplete input, unmappable characters, Unicode tag
 // characters, byte order marks, //IGNORE (with PHP's ICONV_BROKEN_IGNORE handling across glibc's 8160-character
 // rounds and output-buffer growth) and //TRANSLIT (the C.UTF-8 locale table, alone and with //IGNORE).
 //
-//   cd crates/twig-value/tests/vectors
-//   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
-//       php /t/string/iconv.gen.php > string/iconv.json
+// The cases go through twig-value's call table (crates/twig-value/tests/vectors/string/calls.inc.php and the files
+// it includes), so the container sees the whole crates/ directory:
+//
+//   cd crates
+//   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/c" twig-oracle:3.31.1 \
+//       php /c/twig-iconv/tests/vectors/iconv.gen.php > twig-iconv/tests/vectors/iconv.json
 
 declare(strict_types=0);
-require __DIR__.'/calls.inc.php';
+require __DIR__.'/../../../twig-value/tests/vectors/string/calls.inc.php';
 
 mt_srand(2260);
 $cases = [];

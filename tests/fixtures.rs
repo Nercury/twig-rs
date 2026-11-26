@@ -55,6 +55,11 @@
 //! (entries of trials that did not run, because of a filter, are kept). After the trials a summary prints how many
 //! cases passed, how many are known failures (by the step that failed) and how many were skipped by their condition.
 //!
+//! Trials that fail only in some builds are listed in `BUILD_KNOWN_FAILURES` (`tests/fixtures/ratchet.rs`) instead:
+//! without the `glibc-iconv` feature, `filters/convert_encoding.test#0`, whose ISO-2022-JP round trip needs glibc's
+//! iconv (reference/deviations.md). Run the suite with and without the feature (`--features glibc-iconv`, or
+//! `--all-features`).
+//!
 //! # Regenerating the inputs
 //!
 //! - `tests/twig/oracle-corpus.json`: `research/php-oracle/tools/export-corpus.php` (see `tests/twig/README.md`);

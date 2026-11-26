@@ -284,8 +284,9 @@ pub(super) fn json_encode(call: &mut Call<'_>) -> CallResult {
     )?)
 }
 
-/// Twig: `CoreExtension::convertEncoding($string, $to, $from): string` — `iconv($from, $to, $string ?? '')`; a
-/// failed conversion returns `false` (after `iconv()`'s warning or notice), which the return type turns into `''`.
+/// Twig: `CoreExtension::convertEncoding($string, $to, $from): string` — `iconv($from, $to, $string ?? '')` with the
+/// environment's [`iconv_backend`](crate::runtime::Environment::iconv_backend); a failed conversion returns `false`
+/// (after `iconv()`'s warning or notice), which the return type turns into `''`.
 pub(super) fn convert_encoding(call: &mut Call<'_>) -> CallResult {
     let function = format!("{CORE}::convertEncoding");
     let mut args = bind_user(
@@ -302,8 +303,9 @@ pub(super) fn convert_encoding(call: &mut Call<'_>) -> CallResult {
     let input = or_empty(args.next().unwrap_or_default());
     let to = args.next().unwrap_or_default();
     let from = args.next().unwrap_or_default();
+    let iconv = call.env().iconv_backend();
     let diag = call.diagnostics();
-    let converted = match string::iconv(&from, &to, &input, diag)? {
+    let converted = match iconv.iconv(&from, &to, &input, diag)? {
         Some(converted) => Value::String(converted),
         None => Value::Bool(false),
     };

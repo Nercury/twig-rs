@@ -24,9 +24,7 @@ does instead, and why. Anything not listed here is expected to match exactly; a 
 | json_encode property snapshot | Declared properties read lazily | Property table read when the object is reached | Differs only if `jsonSerialize()` mutates a later property of the same parent |
 | Throwing host cast handler in sprintf | PHP continues formatting | Error returned immediately | Built-in objects never throw there |
 | Exceptions mid-loop (strtr, implode, strip_tags, str_replace) | Without an error handler PHP may continue | First exception returned at once | Equals PHP with a user error handler installed, which every diagnostics policy models |
-| iconv charsets | glibc converts UTF-7, EUC-TW, ISO-2022-CN(-EXT), JOHAB, IBM932/943, the stateful EBCDIC double-byte codepages, TSCII and the ISO 6937 family | `Error: iconv(): conversion of charset "X" is not supported by twig-rs`; unknown names behave like PHP | Not ported; every other glibc module (single-byte, CJK, ISO-2022-JP/-JP-2/-JP-3/-KR, GB18030, BIG5-HKSCS, …) is converted with tables measured from the oracle's glibc |
-| iconv UHC `A2 E8` under `//IGNORE` at the end of input | glibc reads past the input buffer (undefined behaviour) | The "incomplete multibyte character" notice the oracle shows | No UB |
-| iconv GB2312→BIG5 at `F7 FF` | glibc reads one entry past its table | The value measured on the oracle | No out-of-bounds read |
+| iconv charsets of the default build (`BasicIconv`, the default iconv backend without twig's `glibc-iconv` feature) | glibc converts every charset it knows (1,180 names in the oracle) | UTF-8, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32BE, UTF-32LE, UCS-2, UCS-2BE, UCS-2LE, UCS-4, UCS-4BE, UCS-4LE, ASCII and ISO-8859-1 are converted byte for byte like glibc, under each of glibc's names for them (74, among them `UTF8`, `UNICODELITTLE`, `LATIN1`, `US-ASCII`). Any other name glibc knows (also `UNICODE`, `WCHAR_T`) throws `Error: iconv(): conversion of charset "X" is not supported by twig-rs` (`X` as given; the source charset is checked first); names glibc does not know behave like PHP. Templates that convert through such a charset differ, e.g. upstream's `filters/convert_encoding.test` (ISO-2022-JP), listed for the default build in `tests/fixtures/ratchet.rs` | glibc's other charsets would need code that follows glibc's LGPL sources: the `glibc-iconv` feature (crate `twig-iconv`, LGPL-2.1-or-later, see below) converts them |
 | `str_repeat` huge results | Memory fatal error | `Error` with a twig-rs text | Twig does not call it at runtime |
 | `array_rand` with holes | Depends on packed/hash layout and `nNumUsed` | Layout not exposed | Templates cannot create holes |
 | Enum ordering in `SORT_REGULAR` | Distinct cases ordered by heap address | Descending object id (matches observed `Suit::cases()` order) | Heap addresses are not reproducible |
@@ -34,6 +32,14 @@ does instead, and why. Anything not listed here is expected to match exactly; a 
 | Throwing comparator | PHP finishes the sort with the fallback order | Array left unchanged | Partial sort state is engine specific |
 | Unseeded randomness | CSPRNG / per-process state | std keyed hasher for `mt_srand(null)`; `random_int` draws come from the caller | Seeded MT19937 matches PHP exactly |
 | `pow` / `**` | glibc 2.41 FMA+AVX2 variant on the oracle machine | Port of that variant | Regenerating vectors on a CPU without FMA/AVX2 would make PHP itself differ in the last bit |
+
+## iconv with the `glibc-iconv` feature (`twig-iconv`)
+
+| Area | PHP | twig-rs | Why |
+|---|---|---|---|
+| iconv charsets | glibc converts UTF-7, EUC-TW, ISO-2022-CN(-EXT), JOHAB, IBM932/943, the stateful EBCDIC double-byte codepages, TSCII and the ISO 6937 family | `Error: iconv(): conversion of charset "X" is not supported by twig-rs`; unknown names behave like PHP | Not ported; every other glibc module (single-byte, CJK, ISO-2022-JP/-JP-2/-JP-3/-KR, GB18030, BIG5-HKSCS, …) is converted with tables measured from the oracle's glibc |
+| iconv UHC `A2 E8` under `//IGNORE` at the end of input | glibc reads past the input buffer (undefined behaviour) | The "incomplete multibyte character" notice the oracle shows | No UB |
+| iconv GB2312→BIG5 at `F7 FF` | glibc reads one entry past its table | The value measured on the oracle | No out-of-bounds read |
 
 ## Regex (`twig-pcre`)
 
@@ -123,6 +129,7 @@ them are ported in Rust.
 | Custom node classes in compiled code | Compiled by their `compile()` method | `The "%s" node class cannot be compiled by twig-rs.` | No code generation hook for extensions yet |
 | Literal `enum()`/`enum_cases()` names that equal an alias of compiled templates (`Markup`, `Source`, `Template`, `Environment`, ...) | The inlined `Name::CASE` resolves to the `use`d Twig class | The enum checked at compile time | The compiled PHP class header is not modelled |
 | Deprecated escaper API | `EscaperExtension::setEscaper()`, `getEscapers()`, `setSafeClasses()`, `addSafeClass()` (deprecated since 3.10); escapers are PHP callables | Not provided: `Environment::escaper_runtime()` with Rust closures | Deprecated; no PHP callables |
+| Charset conversion (`convert_encoding`, escaping under a charset other than UTF-8, `reverse`, `shuffle`, `random`) | PHP's `iconv()`, i.e. the process's C library (glibc in the oracle) | The environment's iconv backend (`EnvironmentOptions::iconv_backend`, fixed for the environment's life): twig-value's clean-room `BasicIconv` by default, twig-iconv's `GlibcIconv` with the `glibc-iconv` feature, or a host's own; an `EscaperRuntime` registered with `add_runtime()` converts with the backend it was created with | Licensing (see the iconv rows of `twig-value` and `twig-iconv` above); no process-wide state |
 
 ## Callables (`twig::extension::runtime`)
 

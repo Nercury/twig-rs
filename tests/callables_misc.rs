@@ -12,7 +12,8 @@
 //! `CoreExtension`) runs in the unit tests of `src/extension/runtime/misc`.
 //!
 //! A case marked `pending` depends on work outside the misc callables (named in the marker); it may fail, and is
-//! listed on stderr when it passes.
+//! listed on stderr when it passes. Without the `glibc-iconv` feature, the cases of `ICONV_UNSUPPORTED_IN_THIS_BUILD`
+//! expect the error for a charset the default iconv backend does not convert.
 //!
 //! Comparison rules for what twig-rs cannot reproduce (reference/deviations.md): object handles (`#N` in dumps) are
 //! not compared, and PHP's `, called in <file> on line N` suffix of userland `TypeError`s and the ` in <file> on line
@@ -474,6 +475,29 @@ fn run_case(case: &Json, expected: &Json) -> Option<String> {
     }
 }
 
+/// The cases that convert through a charset beyond the default build's iconv backend: without the `glibc-iconv`
+/// feature they must fail with twig-rs's `iconv(): conversion of charset "X" is not supported by twig-rs`
+/// (reference/deviations.md) instead of giving PHP's result; with the feature they must match the oracle.
+#[cfg(not(feature = "glibc-iconv"))]
+const ICONV_UNSUPPORTED_IN_THIS_BUILD: &[&str] = &["random-049"];
+/// The cases that convert through a charset beyond this build's iconv backend: none with `glibc-iconv`.
+#[cfg(feature = "glibc-iconv")]
+const ICONV_UNSUPPORTED_IN_THIS_BUILD: &[&str] = &[];
+
+/// For a case of [`ICONV_UNSUPPORTED_IN_THIS_BUILD`]: why its outcome is wrong, `None` when it failed with the
+/// unsupported-charset error.
+fn iconv_unsupported_problem(id: &str, problem: Option<String>) -> Option<String> {
+    match problem {
+        Some(problem) if problem.contains("is not supported by twig-rs") => None,
+        Some(problem) => Some(format!(
+            "{problem} (expected the error for a charset this build does not convert)"
+        )),
+        None => Some(format!(
+            "{id} matches the oracle now: remove it from ICONV_UNSUPPORTED_IN_THIS_BUILD"
+        )),
+    }
+}
+
 /// Runs every case of a topic and fails with the list of mismatches (pending cases may fail).
 fn run_topic(topic: &str) {
     let cases = Json::load_vectors(&format!("callables/misc/{topic}.gen.json"));
@@ -490,7 +514,10 @@ fn run_topic(topic: &str) {
     for (case, expected) in cases.iter().zip(results) {
         let id = case.field("id").as_str().unwrap_or_default();
         assert_eq!(expected.field("id").as_str(), Some(id), "result order");
-        let problem = run_case(case, expected);
+        let mut problem = run_case(case, expected);
+        if ICONV_UNSUPPORTED_IN_THIS_BUILD.contains(&id) {
+            problem = iconv_unsupported_problem(id, problem);
+        }
         match (problem, case.get("pending")) {
             (Some(problem), None) => {
                 let templates: Vec<String> = case

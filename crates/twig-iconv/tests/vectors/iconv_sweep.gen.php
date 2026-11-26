@@ -7,12 +7,15 @@
 // for every cp in [c0, c1] to "to". The hash covers, per conversion, the result ("S" and hex, or "F") followed by
 // "|" plus level and hex message per diagnostic, conversions separated by "\n".
 //
-//   cd crates/twig-value/tests/vectors
-//   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
-//       php /t/string/iconv_sweep.gen.php > string/iconv_sweep.json
+// The generator includes twig-value's common.inc.php (crates/twig-value/tests/vectors), so the container sees the
+// whole crates/ directory:
+//
+//   cd crates
+//   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/c" twig-oracle:3.31.1 \
+//       php /c/twig-iconv/tests/vectors/iconv_sweep.gen.php > twig-iconv/tests/vectors/iconv_sweep.json
 
 declare(strict_types=0);
-require __DIR__.'/../common.inc.php';
+require __DIR__.'/../../../twig-value/tests/vectors/common.inc.php';
 
 function token($r, array $d): string
 {

@@ -2,7 +2,7 @@
 // Generates cjk_tables.rs and data/*.bin: the multi-byte mapping tables of glibc 2.41 (as used by PHP 8.5.13's
 // iconv() in the oracle image), measured exhaustively through iconv() itself.
 //
-//   cd crates/twig-value/src/builtins/string/iconv
+//   cd crates/twig-iconv/src/iconv
 //   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
 //       php /t/cjk_tables.gen.php > cjk_tables.rs
 //

@@ -46,6 +46,16 @@
 //! randomness, recursion limits, the charsets twig-rs does not convert yet, and host APIs that have no PHP
 //! equivalent. Any other difference is a bug.
 //!
+//! Charset conversions (the `convert_encoding` filter, escaping under a `charset` other than UTF-8, and `reverse`,
+//! `shuffle` and `random` under such a charset) are PHP's `iconv()`, which an environment's
+//! [`iconv_backend`](Environment::iconv_backend) implements. The default backend converts UTF-8, UTF-16, UTF-32,
+//! UCS-2, UCS-4 (with their byte-order variants), ASCII and ISO-8859-1 exactly like PHP on glibc 2.41, and fails with
+//! `iconv(): conversion of charset "X" is not supported by twig-rs` for the other charsets glibc knows. The
+//! **`glibc-iconv`** cargo feature makes the backend of the `twig-iconv` crate the default instead: it converts nearly
+//! every charset glibc does (single-byte codepages, the CJK charsets, the ISO-2022 family). That crate follows glibc's
+//! sources and is licensed under the GNU LGPL 2.1 or later, unlike the rest of twig-rs, so the feature puts LGPL code
+//! into the program. [`EnvironmentOptions::iconv_backend`] chooses a backend for one environment.
+//!
 //! There is no PHP interpreter: data is passed as PHP values made from Rust data, and filters, functions, tests,
 //! extensions, loaders and security policies are Rust code. What needs PHP code is not available: PHP functions
 //! named as callables (`'strtoupper'`), and node classes that compile themselves (a tag builds its node from the

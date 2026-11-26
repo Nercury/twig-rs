@@ -1,12 +1,13 @@
 //! The built-in escaping strategies on strings: the `switch` of `EscaperRuntime::escape()`
-//! (TWIG/src/Runtime/EscaperRuntime.php) with the charset conversions through `iconv()`.
+//! (TWIG/src/Runtime/EscaperRuntime.php) with the charset conversions through `iconv()`, which an [`IconvBackend`]
+//! implements (an environment's is [`Environment::iconv_backend`](crate::runtime::Environment::iconv_backend)).
 
 use std::fmt;
 
+use twig_value::builtins::string::IconvBackend;
 use twig_value::builtins::string::html::{
     self as php_html, ENT_QUOTES, ENT_SUBSTITUTE, HtmlCharset,
 };
-use twig_value::builtins::string::iconv::iconv_bytes;
 use twig_value::builtins::string::url::url_encode_bytes;
 use twig_value::{Diagnostics, PhpError, PhpString};
 
@@ -89,7 +90,8 @@ const HTMLSPECIALCHARS_CHARSETS: [&[u8]; 32] = [
 
 /// Escapes a string with a built-in strategy: the part of `EscaperRuntime::escape()` that follows the type checks,
 /// from `if ('' === $string) return '';` on. `charset` is the charset already resolved by the caller
-/// (`$charset ?: $this->charset`); diagnostics of `iconv()` and `htmlspecialchars()` go to `diag`.
+/// (`$charset ?: $this->charset`); a charset other than UTF-8 is converted with `iconv` (PHP's `iconv()`);
+/// diagnostics of `iconv()` and `htmlspecialchars()` go to `diag`.
 ///
 /// # Errors
 ///
@@ -98,29 +100,35 @@ pub fn escape(
     string: &[u8],
     strategy: Strategy,
     charset: &[u8],
+    iconv: &dyn IconvBackend,
     diag: &mut dyn Diagnostics,
 ) -> EscapeResult {
     if string.is_empty() {
         return Ok(Some(PhpString::empty()));
     }
     match strategy {
-        Strategy::Html => escape_html(string, charset, diag),
-        Strategy::Js => escape_js(string, charset, diag),
-        Strategy::Css => escape_css(string, charset, diag),
-        Strategy::HtmlAttr => escape_html_attr(string, charset, false, diag),
-        Strategy::HtmlAttrRelaxed => escape_html_attr(string, charset, true, diag),
+        Strategy::Html => escape_html(string, charset, iconv, diag),
+        Strategy::Js => escape_js(string, charset, iconv, diag),
+        Strategy::Css => escape_css(string, charset, iconv, diag),
+        Strategy::HtmlAttr => escape_html_attr(string, charset, false, iconv, diag),
+        Strategy::HtmlAttrRelaxed => escape_html_attr(string, charset, true, iconv, diag),
         Strategy::Url => Ok(Some(escape_url(string))),
     }
 }
 
 /// The `html` strategy: `htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, $charset)` for `UTF-8` and the
 /// charsets of Twig's list (matched as given, then upper-cased; `htmlspecialchars()` warns about the ones it does
-/// not know, such as `1251`, and assumes UTF-8), else a round trip through UTF-8 with `iconv()`.
+/// not know, such as `1251`, and assumes UTF-8), else a round trip through UTF-8 with `iconv()` (`iconv`).
 ///
 /// # Errors
 ///
 /// A diagnostic turned into an exception, an unsupported `iconv()` charset.
-pub fn escape_html(string: &[u8], charset: &[u8], diag: &mut dyn Diagnostics) -> EscapeResult {
+pub fn escape_html(
+    string: &[u8],
+    charset: &[u8],
+    iconv: &dyn IconvBackend,
+    diag: &mut dyn Diagnostics,
+) -> EscapeResult {
     if charset == b"UTF-8" {
         return Ok(Some(php_html::escape_html(
             string,
@@ -141,26 +149,31 @@ pub fn escape_html(string: &[u8], charset: &[u8], diag: &mut dyn Diagnostics) ->
         )));
     }
     // `htmlspecialchars(false)` (a failed conversion) escapes `""`
-    let converted = convert_encoding(string, b"UTF-8", charset, diag)?;
+    let converted = convert_encoding(string, b"UTF-8", charset, iconv, diag)?;
     let escaped = php_html::escape_html(
         converted.as_ref().map_or(&[][..], PhpString::as_bytes),
         HTML_FLAGS,
         HtmlCharset::Utf8,
         true,
     );
-    Ok(iconv_bytes(b"UTF-8", charset, escaped.as_bytes(), diag)?)
+    Ok(iconv.iconv_bytes(b"UTF-8", charset, escaped.as_bytes(), diag)?)
 }
 
 /// The `js` strategy: every character but `a-zA-Z0-9,._` becomes a short escape (`\\`, `\/`, `\b`, `\f`, `\n`,
 /// `\r`, `\t`) or `\uHHHH` (a UTF-16 surrogate pair outside the BMP); non-UTF-8 charsets are converted to UTF-8 and
-/// back with `iconv()`.
+/// back with `iconv()` (`iconv`).
 ///
 /// # Errors
 ///
 /// [`EscapeError::InvalidUtf8`] when the (converted) string is not valid UTF-8; a diagnostic turned into an
 /// exception, an unsupported `iconv()` charset.
-pub fn escape_js(string: &[u8], charset: &[u8], diag: &mut dyn Diagnostics) -> EscapeResult {
-    escape_utf8(string, charset, diag, |out, ch| {
+pub fn escape_js(
+    string: &[u8],
+    charset: &[u8],
+    iconv: &dyn IconvBackend,
+    diag: &mut dyn Diagnostics,
+) -> EscapeResult {
+    escape_utf8(string, charset, iconv, diag, |out, ch| {
         if ch.is_ascii_alphanumeric() || matches!(ch, ',' | '.' | '_') {
             out.push(ch as u8);
             return;
@@ -199,8 +212,13 @@ pub fn escape_js(string: &[u8], charset: &[u8], diag: &mut dyn Diagnostics) -> E
 /// # Errors
 ///
 /// As [`escape_js`].
-pub fn escape_css(string: &[u8], charset: &[u8], diag: &mut dyn Diagnostics) -> EscapeResult {
-    escape_utf8(string, charset, diag, |out, ch| {
+pub fn escape_css(
+    string: &[u8],
+    charset: &[u8],
+    iconv: &dyn IconvBackend,
+    diag: &mut dyn Diagnostics,
+) -> EscapeResult {
+    escape_utf8(string, charset, iconv, diag, |out, ch| {
         if ch.is_ascii_alphanumeric() {
             out.push(ch as u8);
             return;
@@ -222,9 +240,10 @@ pub fn escape_html_attr(
     string: &[u8],
     charset: &[u8],
     relaxed: bool,
+    iconv: &dyn IconvBackend,
     diag: &mut dyn Diagnostics,
 ) -> EscapeResult {
-    escape_utf8(string, charset, diag, |out, ch| {
+    escape_utf8(string, charset, iconv, diag, |out, ch| {
         let kept = ch.is_ascii_alphanumeric()
             || matches!(ch, ',' | '.' | '-' | '_')
             || (relaxed && matches!(ch, ':' | '@' | '[' | ']'));
@@ -270,6 +289,7 @@ pub fn escape_url(string: &[u8]) -> PhpString {
 fn escape_utf8(
     string: &[u8],
     charset: &[u8],
+    iconv: &dyn IconvBackend,
     diag: &mut dyn Diagnostics,
     mut replace: impl FnMut(&mut Vec<u8>, char),
 ) -> EscapeResult {
@@ -278,7 +298,7 @@ fn escape_utf8(
         None
     } else {
         // a failed conversion (`false`) continues as `""`
-        Some(convert_encoding(string, b"UTF-8", charset, diag)?.unwrap_or_default())
+        Some(convert_encoding(string, b"UTF-8", charset, iconv, diag)?.unwrap_or_default())
     };
     let input = converted.as_ref().map_or(string, PhpString::as_bytes);
     let Ok(text) = std::str::from_utf8(input) else {
@@ -291,7 +311,7 @@ fn escape_utf8(
     if is_utf8 {
         return Ok(Some(PhpString::from(out)));
     }
-    Ok(iconv_bytes(b"UTF-8", charset, &out, diag)?)
+    Ok(iconv.iconv_bytes(b"UTF-8", charset, &out, diag)?)
 }
 
 /// `iconv($from, $to, $string)`. Twig: `EscaperRuntime::convertEncoding()` (`iconv()` always exists here).
@@ -299,7 +319,8 @@ fn convert_encoding(
     string: &[u8],
     to: &[u8],
     from: &[u8],
+    iconv: &dyn IconvBackend,
     diag: &mut dyn Diagnostics,
 ) -> Result<Option<PhpString>, PhpError> {
-    iconv_bytes(from, to, string, diag)
+    iconv.iconv_bytes(from, to, string, diag)
 }

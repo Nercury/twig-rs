@@ -16,6 +16,9 @@ authors.workspace = true
 [features]
 # `twig::to_value` / `twig::to_context`: template data from anything that implements serde's `Serialize`.
 serde = ["twig-value/serde"]
+# glibc's exact iconv() for every charset (crate twig-iconv, LGPL-2.1-or-later) as the default charset converter of
+# environments, instead of twig-value's clean-room converter for the Unicode charsets, ASCII and ISO-8859-1.
+glibc-iconv = ["dep:twig-iconv"]
 
 [dependencies]
 regex.workspace = true
@@ -24,6 +27,8 @@ twig-value.workspace = true
 twig-pcre.workspace = true
 twig-unicode.workspace = true
 twig-date.workspace = true
+# Optional (feature `glibc-iconv`); LGPL-2.1-or-later, see crates/twig-iconv.
+twig-iconv = { workspace = true, optional = true }
 
 [dev-dependencies]
 libtest-mimic.workspace = true
@@ -65,6 +70,7 @@ authors = ["Nerijus Arlauskas <nercury@gmail.com>"]
 
 [workspace.dependencies]
 twig-value = { path = "crates/twig-value" }
+twig-iconv = { path = "crates/twig-iconv" }
 twig-unicode = { path = "crates/twig-unicode" }
 twig-pcre = { path = "crates/twig-pcre" }
 twig-timelib = { path = "crates/twig-timelib" }

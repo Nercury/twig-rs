@@ -3,7 +3,7 @@
 // PHP 8.5.13's iconv() in the oracle image), measured through iconv() itself, the charset names glibc's gconv
 // cache knows, and the transliteration table of the C.UTF-8 locale.
 //
-//   cd crates/twig-value/src/builtins/string
+//   cd crates/twig-iconv/src
 //   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
 //       php /t/iconv_tables.gen.php > iconv_tables.rs
 //

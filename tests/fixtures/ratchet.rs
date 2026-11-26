@@ -2,6 +2,9 @@
 //! line, sorted. A listed trial that fails passes (it is counted as a known failure); a listed trial that passes
 //! fails the run until it is removed from the list; an unlisted trial that fails fails the run. With
 //! `TWIG_FIXTURES_UPDATE=1` every fixture trial passes and the list is rewritten from the trials that ran.
+//!
+//! [`BUILD_KNOWN_FAILURES`] adds the trials that fail only in some builds (the default build's iconv charsets): they
+//! are listed for those builds in the same way, and never written to the file, which stays the same for every build.
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
@@ -11,6 +14,22 @@ use super::runner::Outcome;
 
 /// The environment variable that switches the run to update mode.
 pub const UPDATE_VARIABLE: &str = "TWIG_FIXTURES_UPDATE";
+
+/// The fixture trials that fail in this build only, by build: without the `glibc-iconv` feature, the conversions
+/// through charsets beyond the default iconv backend (reference/deviations.md: the default build converts the Unicode
+/// charsets, ASCII and ISO-8859-1). They count as known failures of this build, and the ratchet applies: once one
+/// passes, the run fails until it is removed here.
+#[cfg(not(feature = "glibc-iconv"))]
+pub const BUILD_KNOWN_FAILURES: &[&str] = &[
+    // "愛していますか？"|convert_encoding('ISO-2022-JP', 'UTF-8')|convert_encoding('UTF-8', 'ISO-2022-JP')
+    "filters/convert_encoding.test#0",
+];
+/// The fixture trials that fail in this build only (none with the `glibc-iconv` feature).
+#[cfg(feature = "glibc-iconv")]
+pub const BUILD_KNOWN_FAILURES: &[&str] = &[];
+
+/// Where [`BUILD_KNOWN_FAILURES`] is, for messages.
+const BUILD_LIST: &str = "BUILD_KNOWN_FAILURES (tests/fixtures/ratchet.rs)";
 
 /// Whether this run rewrites the list: `TWIG_FIXTURES_UPDATE=1`.
 pub fn update_mode() -> bool {
@@ -28,6 +47,8 @@ pub struct KnownFailures {
     /// The names in file order (`str::lines()`, so a checkout with CRLF line ends reads the same).
     lines: Vec<String>,
     names: BTreeSet<String>,
+    /// [`BUILD_KNOWN_FAILURES`].
+    build: BTreeSet<String>,
 }
 
 impl KnownFailures {
@@ -46,12 +67,16 @@ impl KnownFailures {
             text,
             lines,
             names,
+            build: BUILD_KNOWN_FAILURES
+                .iter()
+                .map(|name| (*name).to_owned())
+                .collect(),
         })
     }
 
-    /// Whether `name` is listed.
+    /// Whether `name` is listed, in the file or in [`BUILD_KNOWN_FAILURES`].
     pub fn contains(&self, name: &str) -> bool {
-        self.names.contains(name)
+        self.names.contains(name) || self.build.contains(name)
     }
 
     /// Checks the file: one name per line (no blank lines, no surrounding whitespace), sorted, unique, and every
@@ -74,6 +99,18 @@ impl KnownFailures {
                     "line {number}: {line:?} is not sorted after {previous:?} (or is a duplicate)"
                 ));
             }
+            if self.build.contains(line) {
+                problems.push(format!(
+                    "line {number}: {line:?} is in {BUILD_LIST} already"
+                ));
+            }
+        }
+        for name in &self.build {
+            if !runnable.contains(name) {
+                problems.push(format!(
+                    "{name:?} of {BUILD_LIST} is not a fixture trial that runs"
+                ));
+            }
         }
         if problems.is_empty() {
             Ok(())
@@ -90,14 +127,18 @@ impl KnownFailures {
     pub fn judge(&self, name: &str, outcome: &Outcome, update: bool) -> Result<(), String> {
         let listed = self.contains(name);
         let shown = &self.shown;
+        // update mode rewrites the file, never the build list
+        let remove = if self.build.contains(name) {
+            format!("remove it from {BUILD_LIST}")
+        } else {
+            format!("remove it from {shown} (or run with {UPDATE_VARIABLE}=1)")
+        };
         match outcome {
             _ if update => Ok(()),
-            Outcome::Pass if listed => Err(format!(
-                "{name} passes now: remove it from {shown} (or run with {UPDATE_VARIABLE}=1)"
-            )),
-            Outcome::Skipped(_) if listed => Err(format!(
-                "{name} is skipped by its --CONDITION--: remove it from {shown} (or run with {UPDATE_VARIABLE}=1)"
-            )),
+            Outcome::Pass if listed => Err(format!("{name} passes now: {remove}")),
+            Outcome::Skipped(_) if listed => {
+                Err(format!("{name} is skipped by its --CONDITION--: {remove}"))
+            }
             Outcome::Pass | Outcome::Skipped(_) => Ok(()),
             _ if listed => Ok(()),
             Outcome::Fail(failure) => Err(format!(
@@ -107,8 +148,8 @@ impl KnownFailures {
     }
 
     /// Rewrites the list from a run: entries of trials that ran are replaced by their outcome, entries that are not
-    /// runnable fixture trials are dropped, the others are kept (they were filtered out). Returns the number of
-    /// names added and removed.
+    /// runnable fixture trials are dropped, the others are kept (they were filtered out). The trials of
+    /// [`BUILD_KNOWN_FAILURES`] are never written. Returns the number of names added and removed.
     pub fn rewrite(
         &self,
         recorded: &BTreeMap<String, Outcome>,
@@ -118,12 +159,13 @@ impl KnownFailures {
             .names
             .iter()
             .filter(|name| runnable.contains(*name) && !recorded.contains_key(*name))
+            .filter(|name| !self.build.contains(*name))
             .cloned()
             .collect();
         names.extend(
             recorded
                 .iter()
-                .filter(|(_, outcome)| outcome.is_failure())
+                .filter(|(name, outcome)| outcome.is_failure() && !self.build.contains(*name))
                 .map(|(name, _)| name.clone()),
         );
         let added = names.difference(&self.names).count();

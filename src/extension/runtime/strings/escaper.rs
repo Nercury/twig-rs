@@ -5,6 +5,7 @@ use std::collections::{HashMap, HashSet};
 use std::fmt;
 use std::sync::{Arc, PoisonError, RwLock};
 
+use twig_value::builtins::string::IconvBackend;
 use twig_value::object::{CallArgs, FunctionKind, ObjectRef, Param};
 use twig_value::param::{DeclaredType, TypeMask, UserArg, verify_user_arg};
 use twig_value::{Diagnostics, PhpString, Value, convert};
@@ -12,7 +13,7 @@ use twig_value::{Diagnostics, PhpString, Value, convert};
 use super::{Call, CallResult};
 use crate::error::Error;
 use crate::escaper::{self, BUILTIN_STRATEGIES, EscapeError, Strategy, implied_strategies};
-use crate::runtime::Markup;
+use crate::runtime::{Markup, default_iconv_backend};
 
 /// A custom escaper registered with [`EscaperRuntime::set_escaper`]: called with the value to escape and the
 /// charset (the `$charset` argument of the filter, or the runtime's charset), it returns the escaped value.
@@ -26,7 +27,8 @@ pub type EscaperCallback =
 /// The escaper runtime of an environment: Twig's `EscaperRuntime`, created with the charset of the environment,
 /// holding the custom escapers (`setEscaper()`) and the safe classes (`addSafeClass()`), and running the `escape`
 /// and `e` filters ([`escape`](Self::escape)). An environment's runtime is
-/// [`Environment::escaper_runtime`](crate::runtime::Environment::escaper_runtime).
+/// [`Environment::escaper_runtime`](crate::runtime::Environment::escaper_runtime). The built-in strategies convert a
+/// charset other than UTF-8 with the runtime's [`IconvBackend`] (an environment's runtime has the environment's).
 ///
 /// It can be shared between threads; the escapers and safe classes can change at any time.
 ///
@@ -48,6 +50,8 @@ pub type EscaperCallback =
 pub struct EscaperRuntime {
     /// Twig's `$charset` (`new EscaperRuntime($charset)`).
     charset: PhpString,
+    /// The charset converter of the built-in strategies (PHP's `iconv()`).
+    iconv: Arc<dyn IconvBackend>,
     state: RwLock<State>,
 }
 
@@ -96,6 +100,7 @@ impl fmt::Debug for EscaperRuntime {
         let state = self.state.read().unwrap_or_else(PoisonError::into_inner);
         f.debug_struct("EscaperRuntime")
             .field("charset", &self.charset)
+            .field("iconv_backend", &self.iconv)
             .field(
                 "escapers",
                 &state
@@ -124,10 +129,23 @@ fn is_builtin(strategy: &[u8]) -> bool {
 }
 
 impl EscaperRuntime {
-    /// A runtime escaping with `charset` by default. Twig: `new EscaperRuntime($charset)`.
+    /// A runtime escaping with `charset` by default and converting charsets with
+    /// [`default_iconv_backend()`]. Twig: `new EscaperRuntime($charset)`.
+    ///
+    /// A runtime keeps its backend wherever it is registered: for an environment with another
+    /// [`iconv_backend`](crate::runtime::EnvironmentOptions::iconv_backend), register
+    /// [`with_iconv_backend`](Self::with_iconv_backend)`(charset, env.iconv_backend())` instead.
     pub fn new(charset: impl Into<PhpString>) -> Self {
+        Self::with_iconv_backend(charset, default_iconv_backend())
+    }
+
+    /// A runtime escaping with `charset` by default and converting charsets with `iconv` (an environment creates its
+    /// runtime with its [`iconv_backend`](crate::runtime::Environment::iconv_backend); a runtime registered with
+    /// [`add_runtime`](crate::runtime::Environment::add_runtime) keeps the backend it was created with).
+    pub fn with_iconv_backend(charset: impl Into<PhpString>, iconv: Arc<dyn IconvBackend>) -> Self {
         EscaperRuntime {
             charset: charset.into(),
+            iconv,
             state: RwLock::new(State::default()),
         }
     }
@@ -137,6 +155,11 @@ impl EscaperRuntime {
     /// The default charset.
     pub fn charset(&self) -> PhpString {
         self.charset.clone()
+    }
+
+    /// The charset converter of the built-in strategies.
+    pub fn iconv_backend(&self) -> Arc<dyn IconvBackend> {
+        Arc::clone(&self.iconv)
     }
 
     fn read(&self) -> std::sync::RwLockReadGuard<'_, State> {
@@ -328,7 +351,7 @@ impl EscaperRuntime {
                 // non-strings returned above
                 return Ok(value);
             };
-            return match escaper::escape(string, builtin, charset, diag) {
+            return match escaper::escape(string, builtin, charset, &*self.iconv, diag) {
                 Ok(Some(escaped)) => Ok(Value::String(escaped)),
                 // a failed `iconv()` returned `false` (after its warning or notice)
                 Ok(None) => Ok(Value::Bool(false)),

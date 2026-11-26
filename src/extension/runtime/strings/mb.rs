@@ -5,9 +5,14 @@
 //! needed: `mb_strlen()` and `mb_substr()` count bytes for all of them, and the case conversions work for the encodings
 //! whose bytes are their code points (ISO-8859-1, 8bit, and ASCII and 7bit below 0x80). Other encodings fail with a
 //! twig-rs `Error` (reference/deviations.md). An encoding name is
-//! resolved like PHP's `php_mb_get_encoding()` (PHPSRC/ext/mbstring/mbstring.c) and `mbfl_name2encoding()`
-//! (PHPSRC/ext/mbstring/libmbfl/mbfl/mbfl_encoding.c), so that a name mbstring does not know fails with PHP's
-//! `ValueError` and a name it knows but twig-rs cannot handle fails with a twig-rs `Error`.
+//! resolved like PHP's `php_mb_get_encoding()` (PHPSRC/ext/mbstring/mbstring.c) resolves it, so that a name mbstring
+//! does not know fails with PHP's `ValueError` and a name it knows but twig-rs cannot handle fails with a twig-rs
+//! `Error`.
+//!
+//! The encoding table and the name lookup come from the oracle, black-box (`mb_list_encodings()`,
+//! `mb_preferred_mime_name()`, `mb_encoding_aliases()`, and how `mb_internal_encoding()`, `mb_strlen()` and
+//! `mb_substr()` treat names and bytes: `tests/vectors/callables/strings/mb_encodings.gen.php`); no code or data of
+//! libmbfl, mbstring's LGPL conversion library, is used.
 
 use twig_value::{Diagnostics, PhpError, PhpResult, PhpString};
 
@@ -15,14 +20,14 @@ use crate::extension::runtime::CallResult;
 
 /// An mbstring encoding.
 struct Encoding {
-    /// The canonical name (`mbfl_encoding::name`).
+    /// The canonical name (as `mb_list_encodings()` lists it).
     name: &'static str,
-    /// The MIME name (`mbfl_encoding::mime_name`).
+    /// The MIME name (`mb_preferred_mime_name()`; `None` where PHP has none and warns).
     mime: Option<&'static str>,
-    /// The aliases (`mbfl_encoding::aliases`).
+    /// The aliases (`mb_encoding_aliases()`).
     aliases: &'static [&'static str],
-    /// `MBFL_ENCTYPE_SBCS`: one byte per character (PHPSRC/ext/mbstring/libmbfl/filters/mbfilter_singlebyte.c,
-    /// `mbfilter_7bit.c`, `mbfilter_uuencode.c`, PHPSRC/ext/mbstring/libmbfl/mbfl/mbfilter_8bit.c).
+    /// One byte per character: `mb_strlen()` and `mb_substr()` count and cut bytes, whatever the bytes are (observed
+    /// on every byte, every pair of bytes and random strings).
     single_byte: bool,
 }
 
@@ -40,9 +45,10 @@ pub(crate) enum Charset {
     },
 }
 
-/// The encodings of mbstring (`mb_list_encodings()` on PHP 8.5.13, in `mbfl_encoding_ptr_list` order): name, MIME
-/// name (`mb_preferred_mime_name()`) and aliases (`mb_encoding_aliases()`), as the oracle lists them, and the
-/// `MBFL_ENCTYPE_SBCS` flag from the libmbfl sources:
+/// The encodings of mbstring (`mb_list_encodings()` on PHP 8.5.13, in its order): name, MIME name
+/// (`mb_preferred_mime_name()`) and aliases (`mb_encoding_aliases()`), as the oracle lists them, and whether
+/// `mb_strlen()` and `mb_substr()` count bytes for the encoding (`tests/vectors/callables/strings/mb_encodings.json`,
+/// checked by the tests below):
 ///
 /// ```php
 /// foreach (mb_list_encodings() as $e) { $o[] = [$e, @mb_preferred_mime_name($e), mb_encoding_aliases($e)]; }
@@ -540,11 +546,14 @@ const ENCODINGS: &[Encoding] = &[
     },
 ];
 
-/// The encoding an mbstring encoding name designates, `None` for a name mbstring does not know: the name, then the
-/// MIME names, then the aliases, compared case-insensitively (ASCII), with the name cut at its first NUL byte
-/// (`mbfl_name2encoding(ZSTR_VAL(name))` takes a C string).
+/// The encoding an mbstring encoding name designates, `None` for a name mbstring does not know: compared
+/// case-insensitively (ASCII), a canonical name wins, then a MIME name, then an alias, each in table order (a name
+/// that is the MIME name of several encodings, such as `BIG5`, designates the first). The name is read up to its
+/// first NUL byte: `php_mb_get_encoding()` (PHPSRC/ext/mbstring/mbstring.c) looks up `ZSTR_VAL(name)`, a C string.
 ///
-/// Port of `mbfl_name2encoding_ex()` (PHPSRC/ext/mbstring/libmbfl/mbfl/mbfl_encoding.c).
+/// The rule is the oracle's (`mb_internal_encoding()` reads back the encoding of every canonical name, MIME name and
+/// alias in three spellings: `tests/vectors/callables/strings/mb_encodings.json`); no string is both the MIME name of
+/// one encoding and an alias of another, so the order of those two does not show.
 fn name_to_encoding(name: &[u8]) -> Option<&'static Encoding> {
     let name = c_string(name);
     let matches = |candidate: &str| candidate.as_bytes().eq_ignore_ascii_case(name);
@@ -793,6 +802,62 @@ mod tests {
 
     fn canonical(name: &[u8]) -> Option<&'static str> {
         name_to_encoding(name).map(|encoding| encoding.name)
+    }
+
+    /// Bytes from hex.
+    fn unhex(hex: &str) -> Vec<u8> {
+        (0..hex.len())
+            .step_by(2)
+            .map(|i| u8::from_str_radix(&hex[i..i + 2], 16).expect("hex byte"))
+            .collect()
+    }
+
+    /// The table and the lookup against the oracle (`mb_encodings.json`, written by `mb_encodings.gen.php` next to
+    /// it): `mb_list_encodings()` with the MIME names, aliases and byte counting of each encoding, the encoding each
+    /// listed name, MIME name and alias designates in three spellings, and which names `mb_strlen()` accepts.
+    #[test]
+    fn table_and_lookup_match_the_oracle() {
+        let text = include_str!("../../../../tests/vectors/callables/strings/mb_encodings.json");
+        let vectors: serde_json::Value = serde_json::from_str(text).expect("JSON");
+        let rows = vectors["encodings"].as_array().expect("encodings");
+        assert_eq!(rows.len(), ENCODINGS.len(), "the number of encodings");
+        for (row, encoding) in rows.iter().zip(ENCODINGS) {
+            let name = encoding.name;
+            assert_eq!(row["name"].as_str(), Some(name));
+            assert_eq!(row["mime"].as_str(), encoding.mime, "MIME name of {name}");
+            let aliases: Vec<&str> = row["aliases"]
+                .as_array()
+                .expect("aliases")
+                .iter()
+                .map(|alias| alias.as_str().expect("alias"))
+                .collect();
+            assert_eq!(aliases, encoding.aliases, "aliases of {name}");
+            assert_eq!(
+                row["single_byte"].as_bool(),
+                Some(encoding.single_byte),
+                "byte counting of {name}"
+            );
+        }
+        let names = vectors["names"].as_array().expect("names");
+        assert!(names.len() > 400);
+        for probe in names {
+            let name = unhex(probe[0].as_str().expect("hex"));
+            assert_eq!(
+                canonical(&name),
+                probe[1].as_str(),
+                "{:?}",
+                String::from_utf8_lossy(&name)
+            );
+        }
+        for probe in vectors["arguments"].as_array().expect("arguments") {
+            let name = unhex(probe[0].as_str().expect("hex"));
+            assert_eq!(
+                name_to_encoding(&name).is_some(),
+                probe[1].as_bool().expect("bool"),
+                "{:?}",
+                String::from_utf8_lossy(&name)
+            );
+        }
     }
 
     #[test]

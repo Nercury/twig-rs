@@ -8,6 +8,7 @@ use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, MutexGuard, OnceLock, RwLock, RwLockReadGuard, RwLockWriteGuard};
 
 use twig_date::DateContext;
+use twig_value::builtins::string::IconvBackend;
 use twig_value::object::ClassRef;
 use twig_value::{Array, Diagnostic, Level, PhpError, PhpResult, PhpString, ThrowableClass, Value};
 
@@ -110,10 +111,28 @@ pub struct EnvironmentOptions {
     pub max_depth: usize,
     /// The diagnostics policy.
     pub diagnostics: DiagnosticsPolicy,
+    /// The charset converter, PHP's `iconv()`: what the `convert_encoding` filter, the escaping strategies under a
+    /// charset other than UTF-8 and the other callables that convert from and to `charset` (`reverse`, `shuffle`,
+    /// `random`) call (twig-rs; default [`default_iconv_backend()`]). It stays the environment's for its whole life.
+    pub iconv_backend: Arc<dyn IconvBackend>,
 }
 
 /// The default of [`EnvironmentOptions::max_depth`].
 pub const DEFAULT_MAX_DEPTH: usize = 200;
+
+/// The default of [`EnvironmentOptions::iconv_backend`] (and of [`EscaperRuntime::new`]): with the `glibc-iconv`
+/// feature, `twig_iconv::GlibcIconv`, glibc 2.41's behaviour for every charset it converts (the twig-iconv crate,
+/// LGPL-2.1-or-later); otherwise twig-value's clean-room
+/// [`BasicIconv`](twig_value::builtins::string::BasicIconv), which converts UTF-8, UTF-16, UTF-32, UCS-2, UCS-4,
+/// ASCII and ISO-8859-1 and throws `Error: iconv(): conversion of charset "X" is not supported by twig-rs` for the
+/// other charsets glibc knows (reference/deviations.md).
+pub fn default_iconv_backend() -> Arc<dyn IconvBackend> {
+    #[cfg(feature = "glibc-iconv")]
+    let backend = Arc::new(twig_iconv::GlibcIconv);
+    #[cfg(not(feature = "glibc-iconv"))]
+    let backend = Arc::new(twig_value::builtins::string::BasicIconv);
+    backend
+}
 
 impl Default for EnvironmentOptions {
     fn default() -> Self {
@@ -128,6 +147,7 @@ impl Default for EnvironmentOptions {
             lexer: LexerOptions::default(),
             max_depth: DEFAULT_MAX_DEPTH,
             diagnostics: DiagnosticsPolicy::Ignore,
+            iconv_backend: default_iconv_backend(),
         }
     }
 }
@@ -181,6 +201,8 @@ struct Inner {
     /// The escaper runtime (`getRuntime(EscaperRuntime::class)`), created on first use with the charset of that
     /// moment.
     escaper: OnceLock<Arc<EscaperRuntime>>,
+    /// The charset converter ([`EnvironmentOptions::iconv_backend`]).
+    iconv: Arc<dyn IconvBackend>,
 }
 
 fn read<T>(lock: &RwLock<T>) -> RwLockReadGuard<'_, T> {
@@ -440,6 +462,7 @@ impl Environment {
                 date: DateContext::new(),
                 constants: RwLock::new(Constants::new()),
                 escaper: OnceLock::new(),
+                iconv: options.iconv_backend,
             }),
         }
     }
@@ -469,6 +492,33 @@ impl Environment {
         read(&self.inner.options).charset.clone()
     }
 
+    /// The charset converter ([`EnvironmentOptions::iconv_backend`]): PHP's `iconv()` for the `convert_encoding`
+    /// filter, the escaper (the default [`escaper_runtime`](Self::escaper_runtime) is created with it) and the other
+    /// callables that convert from and to the charset.
+    ///
+    /// ```
+    /// use std::sync::Arc;
+    /// use twig::loader::ArrayLoader;
+    /// use twig::runtime::{BasicIconv, Environment, EnvironmentOptions};
+    /// use twig::value::Array;
+    ///
+    /// // the clean-room converter, whatever the build's default is
+    /// let env = Environment::with_options(
+    ///     ArrayLoader::new([
+    ///         ("utf16", "{{ 'é'|convert_encoding('UTF-16BE', 'UTF-8')|url_encode }}"),
+    ///         ("koi8", "{{ 'é'|convert_encoding('KOI8-R', 'UTF-8') }}"),
+    ///     ]),
+    ///     EnvironmentOptions { iconv_backend: Arc::new(BasicIconv), ..Default::default() },
+    /// );
+    /// assert_eq!(env.render("utf16", Array::new())?, "%00%E9");
+    /// let error = env.render("koi8", Array::new()).unwrap_err().to_string();
+    /// assert!(error.contains(r#"iconv(): conversion of charset "KOI8-R" is not supported by twig-rs"#));
+    /// # Ok::<(), twig::Error>(())
+    /// ```
+    pub fn iconv_backend(&self) -> Arc<dyn IconvBackend> {
+        Arc::clone(&self.inner.iconv)
+    }
+
     /// The escaper runtime of the environment: the custom escapers ([`EscaperRuntime::set_escaper`]) and safe classes
     /// ([`EscaperRuntime::add_safe_class`]) of the `escape` filter and of auto-escaping.
     ///
@@ -477,7 +527,9 @@ impl Environment {
     /// EscaperRuntime($this->charset)`; the first answer is kept. The default runtime takes the charset of the
     /// moment it is created (the first call, or the first template that escapes), so a later
     /// [`set_charset`](Self::set_charset) changes `_charset` and the `needs_charset` callables but not escaping
-    /// (VERIFIED with the oracle).
+    /// (VERIFIED with the oracle). It converts charsets with the environment's
+    /// [`iconv_backend`](Self::iconv_backend); a registered runtime with the backend it was created with
+    /// ([`EscaperRuntime::with_iconv_backend`]).
     ///
     /// ```
     /// use std::sync::Arc;
@@ -507,7 +559,12 @@ impl Environment {
                 .get(ESCAPER_RUNTIME)
                 .cloned()
                 .and_then(|runtime| runtime.downcast::<EscaperRuntime>().ok());
-            registered.unwrap_or_else(|| Arc::new(EscaperRuntime::new(self.charset_value())))
+            registered.unwrap_or_else(|| {
+                Arc::new(EscaperRuntime::with_iconv_backend(
+                    self.charset_value(),
+                    self.iconv_backend(),
+                ))
+            })
         }))
     }
 

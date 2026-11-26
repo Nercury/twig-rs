@@ -4,7 +4,8 @@
 // Every entry of calls() is a closure that calls the builtin directly with a fixed number of arguments, so PHP
 // compiles it the way a direct call in Twig's code is compiled (frameless variants where they exist); the
 // "_dyn" entries call through call_user_func() to get the regular PHP_FUNCTION. tests/string_*.rs maps the
-// same names to the Rust functions.
+// same names to the Rust functions; the 'iconv' entry is used by the vector generators of the twig-iconv crate
+// (crates/twig-iconv/tests/vectors).
 //
 // A case is [name, [args...]]; its row is {"f": name, "a": [enc(arg)...], "r": result, "d": diagnostics} with
 // result {"ok": enc(value)} or {"err": [class, hex message]} and diagnostics [[level, hex message]...].

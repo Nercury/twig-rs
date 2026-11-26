@@ -1,6 +1,6 @@
 //! Tables of the double-precision `pow()` (ARM optimized-routines, as shipped in musl's
-//! `src/math/pow_data.c` and `src/math/exp_data.c` and in glibc's `e_pow_log_data.c` and
-//! `e_exp_data.c`).
+//! `src/math/pow_data.c` and `src/math/exp_data.c`; glibc's `e_pow_log_data.c` and `e_exp_data.c`
+//! hold the same tables).
 //!
 //! Copyright (c) 2018, Arm Limited. SPDX-License-Identifier: MIT.
 //!

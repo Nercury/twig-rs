@@ -24,6 +24,7 @@ pub use constants::Constants;
 pub use core::{compare_values, ensure_traversable, in_filter, test_empty, to_array};
 pub use environment::{
     DEFAULT_MAX_DEPTH, DiagnosticsPolicy, Environment, EnvironmentOptions, Notice,
+    default_iconv_backend,
 };
 pub use markup::{MARKUP_CLASS, Markup};
 pub use regex::PcreRegexValidator;
@@ -33,3 +34,8 @@ pub use sandbox::{
 };
 pub(crate) use template::{Blocks, TemplateObject};
 pub use template::{Template, TemplateWrapper};
+// The charset converters of `EnvironmentOptions::iconv_backend`: the trait, twig-value's clean-room converter and,
+// with the `glibc-iconv` feature, twig-iconv's glibc one.
+#[cfg(feature = "glibc-iconv")]
+pub use twig_iconv::GlibcIconv;
+pub use twig_value::builtins::string::{BasicIconv, IconvBackend};

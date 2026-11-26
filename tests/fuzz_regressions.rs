@@ -13,6 +13,15 @@
 //! `twig-fuzz replay --update <files or dirs>` removes the markers of the vectors that match now and
 //! nothing else.
 //!
+//! Charset conversions go through the build's default iconv backend. Without twig's `glibc-iconv`
+//! feature, a vector that converts through a charset the clean-room converter does not handle
+//! (anything but the Unicode charsets, ASCII and ISO-8859-1: CP1252, Shift_JIS, GB2312, ...) ends
+//! in `iconv(): conversion of charset "X" is not supported by twig-rs`, which twig-fuzz's diff
+//! accepts as the `unsupported-by-twig-rs` deviation (reference/deviations.md: the iconv charsets of
+//! the default build). With the feature (`--features glibc-iconv`, or `--all-features` as in the
+//! local check list) those vectors are compared exactly. To replay them with the CLI, build it with
+//! the feature: `cargo run -p twig-fuzz --features twig/glibc-iconv -- replay ...`.
+//!
 //! The runner, the diff and the vector format are twig-fuzz's `kit` modules, compiled into this test
 //! with `#[path]` so that the `twig` package needs no dependency on `twig-fuzz` (which depends on
 //! `twig`). Vectors are written by `twig-fuzz drive` (`<out>/vectors.json`); replay them on their own

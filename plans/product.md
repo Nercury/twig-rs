@@ -27,12 +27,28 @@ the README.
 - No hosted CI for now (owner's decision): the local check list in `reference/conventions.md` (stable, MSRV 1.88,
   all features, docs, `cargo deny check`) replaces it.
 
+## Licensing of the default build
+
+The default build is permissively licensed. glibc's exact `iconv()` (code that follows glibc's LGPL sources) is the
+opt-in crate `twig-iconv` (LGPL-2.1-or-later), which twig's `glibc-iconv` feature makes the default iconv backend of
+environments (`EnvironmentOptions::iconv_backend` sets one explicitly). Without it, environments use twig-value's
+clean-room converter (`charset_basic`: the Unicode charsets, ASCII and ISO-8859-1; other charsets throw twig-rs's
+"not supported" error, a deviation of the default build). Done; open:
+
+- a legal review of the combination inside `twig-iconv`: its port of PHP's ext/iconv layer is PHP-3.01 code in an
+  LGPL crate, and the FSF regards the PHP License as incompatible with the GPL family;
+- whether `twig-iconv` is published: its vector tests compile twig-value's test support with `#[path]`, so they only
+  run in the workspace;
+- the clean-room converter could grow (the ISO-8859 family and the Windows codepages are the likely next charsets),
+  shrinking the default build's deviation.
+
 ## Release
 
 - `NOTICE` listing every third-party source and licence: Twig (BSD-3-Clause; ported logic and vendored fixtures), PHP
   (PHP License 3.01) and the Zend Engine (Zend Engine License 2.00) for ported php-src logic, timelib (MIT), PCRE2
   (BSD-3-Clause) and sljit (BSD-2-Clause), Unicode data (Unicode License v3), the IANA time zone database (public
-  domain), musl/ARM optimized-routines (MIT), glibc-measured iconv tables (data), xxHash via `xxhash-rust`.
+  domain), musl/ARM optimized-routines (MIT), glibc's iconv (LGPL-2.1-or-later, only the optional `twig-iconv`) and
+  its measured tables, xxHash via `xxhash-rust`.
 - Per-crate licence expressions reviewed against what each crate contains.
 - CHANGELOG, versions (0.2.0 for every crate), crates.io metadata, docs.rs settings (with the `serde` feature, so
   that `to_context` and `to_value` are documented). The README's installation section then names the crates.io

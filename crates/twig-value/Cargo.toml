@@ -7,9 +7,10 @@ rust-version.workspace = true
 # BSD-3-Clause: twig-rs; PHP's MT19937 (Matsumoto, Nishimura, Wagner). PHP-3.01, Zend-2.0: ported php-src code.
 # MIT: musl and Arm optimized-routines math, libc++'s std::sort (zend_sort). ISC: snprintf's __cvt (Todd C. Miller).
 # Zlib: strnatcmp (Martin Pool). Apache-1.0: snprintf's php_conv_fp (Apache Group). dtoa: zend_strtod (David M.
-# Gay). LGPL-2.1-or-later: the iconv modules follow glibc's iconv and iconvdata sources. Unicode-3.0: iconv's
-# transliteration table (glibc derives it from the Unicode Character Database). See NOTICE.
-license = "BSD-3-Clause AND PHP-3.01 AND Zend-2.0 AND MIT AND ISC AND Zlib AND Apache-1.0 AND dtoa AND LGPL-2.1-or-later AND Unicode-3.0"
+# Gay). Unicode-3.0: the transliteration replacements of the clean-room iconv (charset_basic), measured black-box,
+# largely Unicode Character Database decompositions. No glibc code: glibc's exact iconv is the twig-iconv crate
+# (LGPL). See NOTICE.
+license = "BSD-3-Clause AND PHP-3.01 AND Zend-2.0 AND MIT AND ISC AND Zlib AND Apache-1.0 AND dtoa AND Unicode-3.0"
 repository.workspace = true
 authors.workspace = true
 

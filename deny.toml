@@ -1,6 +1,6 @@
-# cargo-deny configuration (https://embarkstudios.github.io/cargo-deny/). CI runs it with
-# EmbarkStudios/cargo-deny-action (cargo-deny 0.22.1): `cargo deny --all-features check <checks>`.
-# Locally: `cargo install cargo-deny --locked`, then `cargo deny --all-features check`.
+# cargo-deny configuration (https://embarkstudios.github.io/cargo-deny/). Part of the local check list
+# (reference/conventions.md): `cargo install cargo-deny --locked`, then `cargo deny check` (the graph below includes
+# every feature, so the optional twig-iconv crate behind twig's `glibc-iconv` feature is checked too).
 
 [graph]
 all-features = true
@@ -30,9 +30,10 @@ allow = [
     "Zlib",
     "dtoa",
 ]
-# glibc-derived code (twig-value's iconv modules, see NOTICE) is accepted there and nowhere else.
+# glibc-derived code (the optional twig-iconv crate, see NOTICE entry 18) is accepted there and nowhere else: the
+# default build of twig and twig-value stays permissively licensed.
 exceptions = [
-    { crate = "twig-value", allow = ["LGPL-2.1-or-later"] },
+    { crate = "twig-iconv", allow = ["LGPL-2.1-or-later"] },
 ]
 
 [licenses.private]

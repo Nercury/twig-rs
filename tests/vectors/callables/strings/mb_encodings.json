@@ -1,0 +1,2577 @@
+{
+    "generator": "mb_encodings.gen.php",
+    "php": "8.5.13",
+    "encodings": [
+        {
+            "name": "BASE64",
+            "mime": "BASE64",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "UUENCODE",
+            "mime": "x-uuencode",
+            "aliases": [],
+            "single_byte": true
+        },
+        {
+            "name": "HTML-ENTITIES",
+            "mime": "HTML-ENTITIES",
+            "aliases": [
+                "HTML",
+                "html"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "Quoted-Printable",
+            "mime": "Quoted-Printable",
+            "aliases": [
+                "qprint"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "7bit",
+            "mime": "7bit",
+            "aliases": [],
+            "single_byte": true
+        },
+        {
+            "name": "8bit",
+            "mime": "8bit",
+            "aliases": [
+                "binary"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "UCS-4",
+            "mime": "UCS-4",
+            "aliases": [
+                "ISO-10646-UCS-4",
+                "UCS4"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UCS-4BE",
+            "mime": "UCS-4BE",
+            "aliases": [
+                "byte4be"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UCS-4LE",
+            "mime": "UCS-4LE",
+            "aliases": [
+                "byte4le"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UCS-2",
+            "mime": "UCS-2",
+            "aliases": [
+                "ISO-10646-UCS-2",
+                "UCS2",
+                "UNICODE"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UCS-2BE",
+            "mime": "UCS-2BE",
+            "aliases": [
+                "byte2be"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UCS-2LE",
+            "mime": "UCS-2LE",
+            "aliases": [
+                "byte2le"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UTF-32",
+            "mime": "UTF-32",
+            "aliases": [
+                "utf32"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UTF-32BE",
+            "mime": "UTF-32BE",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "UTF-32LE",
+            "mime": "UTF-32LE",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "UTF-16",
+            "mime": "UTF-16",
+            "aliases": [
+                "utf16"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UTF-16BE",
+            "mime": "UTF-16BE",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "UTF-16LE",
+            "mime": "UTF-16LE",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "UTF-8",
+            "mime": "UTF-8",
+            "aliases": [
+                "utf8"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UTF-7",
+            "mime": "UTF-7",
+            "aliases": [
+                "utf7"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UTF7-IMAP",
+            "mime": null,
+            "aliases": [
+                "mUTF-7"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "ASCII",
+            "mime": "US-ASCII",
+            "aliases": [
+                "ANSI_X3.4-1968",
+                "iso-ir-6",
+                "ANSI_X3.4-1986",
+                "ISO_646.irv:1991",
+                "US-ASCII",
+                "ISO646-US",
+                "us",
+                "IBM367",
+                "IBM-367",
+                "cp367",
+                "csASCII"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "EUC-JP",
+            "mime": "EUC-JP",
+            "aliases": [
+                "EUC",
+                "EUC_JP",
+                "eucJP",
+                "x-euc-jp"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "SJIS",
+            "mime": "Shift_JIS",
+            "aliases": [
+                "x-sjis",
+                "SHIFT-JIS"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "eucJP-win",
+            "mime": "EUC-JP",
+            "aliases": [
+                "eucJP-open",
+                "eucJP-ms"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "EUC-JP-2004",
+            "mime": "EUC-JP",
+            "aliases": [
+                "EUC_JP-2004"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "SJIS-Mobile#DOCOMO",
+            "mime": "Shift_JIS",
+            "aliases": [
+                "SJIS-DOCOMO",
+                "shift_jis-imode",
+                "x-sjis-emoji-docomo"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "SJIS-Mobile#KDDI",
+            "mime": "Shift_JIS",
+            "aliases": [
+                "SJIS-KDDI",
+                "shift_jis-kddi",
+                "x-sjis-emoji-kddi"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "SJIS-Mobile#SOFTBANK",
+            "mime": "Shift_JIS",
+            "aliases": [
+                "SJIS-SOFTBANK",
+                "shift_jis-softbank",
+                "x-sjis-emoji-softbank"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "SJIS-mac",
+            "mime": "Shift_JIS",
+            "aliases": [
+                "MacJapanese",
+                "x-Mac-Japanese"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "SJIS-2004",
+            "mime": "Shift_JIS",
+            "aliases": [
+                "SJIS2004",
+                "Shift_JIS-2004"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UTF-8-Mobile#DOCOMO",
+            "mime": "UTF-8",
+            "aliases": [
+                "UTF-8-DOCOMO",
+                "UTF8-DOCOMO"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UTF-8-Mobile#KDDI-A",
+            "mime": "UTF-8",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "UTF-8-Mobile#KDDI-B",
+            "mime": "UTF-8",
+            "aliases": [
+                "UTF-8-Mobile#KDDI",
+                "UTF-8-KDDI",
+                "UTF8-KDDI"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UTF-8-Mobile#SOFTBANK",
+            "mime": "UTF-8",
+            "aliases": [
+                "UTF-8-SOFTBANK",
+                "UTF8-SOFTBANK"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "CP932",
+            "mime": "Shift_JIS",
+            "aliases": [
+                "MS932",
+                "Windows-31J",
+                "MS_Kanji"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "SJIS-win",
+            "mime": "Shift_JIS",
+            "aliases": [
+                "SJIS-ms",
+                "SJIS-open"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "CP51932",
+            "mime": "CP51932",
+            "aliases": [
+                "cp51932"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "JIS",
+            "mime": "ISO-2022-JP",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "ISO-2022-JP",
+            "mime": "ISO-2022-JP",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "ISO-2022-JP-MS",
+            "mime": "ISO-2022-JP",
+            "aliases": [
+                "ISO2022JPMS"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "GB18030",
+            "mime": "GB18030",
+            "aliases": [
+                "gb-18030",
+                "gb-18030-2000"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "GB18030-2022",
+            "mime": "GB18030-2022",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "Windows-1252",
+            "mime": "Windows-1252",
+            "aliases": [
+                "cp1252"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "Windows-1254",
+            "mime": "Windows-1254",
+            "aliases": [
+                "CP1254",
+                "CP-1254",
+                "WINDOWS-1254"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-1",
+            "mime": "ISO-8859-1",
+            "aliases": [
+                "ISO8859-1",
+                "latin1"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-2",
+            "mime": "ISO-8859-2",
+            "aliases": [
+                "ISO8859-2",
+                "latin2"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-3",
+            "mime": "ISO-8859-3",
+            "aliases": [
+                "ISO8859-3",
+                "latin3"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-4",
+            "mime": "ISO-8859-4",
+            "aliases": [
+                "ISO8859-4",
+                "latin4"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-5",
+            "mime": "ISO-8859-5",
+            "aliases": [
+                "ISO8859-5",
+                "cyrillic"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-6",
+            "mime": "ISO-8859-6",
+            "aliases": [
+                "ISO8859-6",
+                "arabic"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-7",
+            "mime": "ISO-8859-7",
+            "aliases": [
+                "ISO8859-7",
+                "greek"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-8",
+            "mime": "ISO-8859-8",
+            "aliases": [
+                "ISO8859-8",
+                "hebrew"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-9",
+            "mime": "ISO-8859-9",
+            "aliases": [
+                "ISO8859-9",
+                "latin5"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-10",
+            "mime": "ISO-8859-10",
+            "aliases": [
+                "ISO8859-10",
+                "latin6"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-13",
+            "mime": "ISO-8859-13",
+            "aliases": [
+                "ISO8859-13"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-14",
+            "mime": "ISO-8859-14",
+            "aliases": [
+                "ISO8859-14",
+                "latin8"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-15",
+            "mime": "ISO-8859-15",
+            "aliases": [
+                "ISO8859-15"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-8859-16",
+            "mime": "ISO-8859-16",
+            "aliases": [
+                "ISO8859-16"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "EUC-CN",
+            "mime": "CN-GB",
+            "aliases": [
+                "CN-GB",
+                "EUC_CN",
+                "eucCN",
+                "x-euc-cn",
+                "gb2312"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "CP936",
+            "mime": "CP936",
+            "aliases": [
+                "CP-936",
+                "GBK"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "HZ",
+            "mime": "HZ-GB-2312",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "EUC-TW",
+            "mime": "EUC-TW",
+            "aliases": [
+                "EUC_TW",
+                "eucTW",
+                "x-euc-tw"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "BIG-5",
+            "mime": "BIG5",
+            "aliases": [
+                "CN-BIG5",
+                "BIG-FIVE",
+                "BIGFIVE"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "CP950",
+            "mime": "BIG5",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "EUC-KR",
+            "mime": "EUC-KR",
+            "aliases": [
+                "EUC_KR",
+                "eucKR",
+                "x-euc-kr"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "UHC",
+            "mime": "UHC",
+            "aliases": [
+                "CP949"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "ISO-2022-KR",
+            "mime": "ISO-2022-KR",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "Windows-1251",
+            "mime": "Windows-1251",
+            "aliases": [
+                "CP1251",
+                "CP-1251",
+                "WINDOWS-1251"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "CP866",
+            "mime": "CP866",
+            "aliases": [
+                "CP-866",
+                "IBM866",
+                "IBM-866"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "KOI8-R",
+            "mime": "KOI8-R",
+            "aliases": [
+                "KOI8R"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "KOI8-U",
+            "mime": "KOI8-U",
+            "aliases": [
+                "KOI8U"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ArmSCII-8",
+            "mime": "ArmSCII-8",
+            "aliases": [
+                "ArmSCII8",
+                "ARMSCII-8",
+                "ARMSCII8"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "CP850",
+            "mime": "CP850",
+            "aliases": [
+                "CP-850",
+                "IBM850",
+                "IBM-850"
+            ],
+            "single_byte": true
+        },
+        {
+            "name": "ISO-2022-JP-2004",
+            "mime": "ISO-2022-JP-2004",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "ISO-2022-JP-MOBILE#KDDI",
+            "mime": "ISO-2022-JP",
+            "aliases": [
+                "ISO-2022-JP-KDDI"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "CP50220",
+            "mime": "ISO-2022-JP",
+            "aliases": [
+                "cp50220raw",
+                "cp50220-raw",
+                "JIS-ms"
+            ],
+            "single_byte": false
+        },
+        {
+            "name": "CP50221",
+            "mime": "ISO-2022-JP",
+            "aliases": [],
+            "single_byte": false
+        },
+        {
+            "name": "CP50222",
+            "mime": "ISO-2022-JP",
+            "aliases": [],
+            "single_byte": false
+        }
+    ],
+    "names": [
+        [
+            "424153453634",
+            "BASE64"
+        ],
+        [
+            "626173653634",
+            "BASE64"
+        ],
+        [
+            "5555454e434f4445",
+            "UUENCODE"
+        ],
+        [
+            "7575656e636f6465",
+            "UUENCODE"
+        ],
+        [
+            "782d7575656e636f6465",
+            "UUENCODE"
+        ],
+        [
+            "582d5555454e434f4445",
+            "UUENCODE"
+        ],
+        [
+            "48544d4c2d454e544954494553",
+            "HTML-ENTITIES"
+        ],
+        [
+            "68746d6c2d656e746974696573",
+            "HTML-ENTITIES"
+        ],
+        [
+            "48544d4c",
+            "HTML-ENTITIES"
+        ],
+        [
+            "68746d6c",
+            "HTML-ENTITIES"
+        ],
+        [
+            "51756f7465642d5072696e7461626c65",
+            "Quoted-Printable"
+        ],
+        [
+            "71756f7465642d7072696e7461626c65",
+            "Quoted-Printable"
+        ],
+        [
+            "51554f5445442d5052494e5441424c45",
+            "Quoted-Printable"
+        ],
+        [
+            "717072696e74",
+            "Quoted-Printable"
+        ],
+        [
+            "515052494e54",
+            "Quoted-Printable"
+        ],
+        [
+            "37626974",
+            "7bit"
+        ],
+        [
+            "37424954",
+            "7bit"
+        ],
+        [
+            "38626974",
+            "8bit"
+        ],
+        [
+            "38424954",
+            "8bit"
+        ],
+        [
+            "62696e617279",
+            "8bit"
+        ],
+        [
+            "42494e415259",
+            "8bit"
+        ],
+        [
+            "5543532d34",
+            "UCS-4"
+        ],
+        [
+            "7563732d34",
+            "UCS-4"
+        ],
+        [
+            "49534f2d31303634362d5543532d34",
+            "UCS-4"
+        ],
+        [
+            "69736f2d31303634362d7563732d34",
+            "UCS-4"
+        ],
+        [
+            "55435334",
+            "UCS-4"
+        ],
+        [
+            "75637334",
+            "UCS-4"
+        ],
+        [
+            "5543532d344245",
+            "UCS-4BE"
+        ],
+        [
+            "7563732d346265",
+            "UCS-4BE"
+        ],
+        [
+            "62797465346265",
+            "UCS-4BE"
+        ],
+        [
+            "42595445344245",
+            "UCS-4BE"
+        ],
+        [
+            "5543532d344c45",
+            "UCS-4LE"
+        ],
+        [
+            "7563732d346c65",
+            "UCS-4LE"
+        ],
+        [
+            "62797465346c65",
+            "UCS-4LE"
+        ],
+        [
+            "42595445344c45",
+            "UCS-4LE"
+        ],
+        [
+            "5543532d32",
+            "UCS-2"
+        ],
+        [
+            "7563732d32",
+            "UCS-2"
+        ],
+        [
+            "49534f2d31303634362d5543532d32",
+            "UCS-2"
+        ],
+        [
+            "69736f2d31303634362d7563732d32",
+            "UCS-2"
+        ],
+        [
+            "55435332",
+            "UCS-2"
+        ],
+        [
+            "75637332",
+            "UCS-2"
+        ],
+        [
+            "554e49434f4445",
+            "UCS-2"
+        ],
+        [
+            "756e69636f6465",
+            "UCS-2"
+        ],
+        [
+            "5543532d324245",
+            "UCS-2BE"
+        ],
+        [
+            "7563732d326265",
+            "UCS-2BE"
+        ],
+        [
+            "62797465326265",
+            "UCS-2BE"
+        ],
+        [
+            "42595445324245",
+            "UCS-2BE"
+        ],
+        [
+            "5543532d324c45",
+            "UCS-2LE"
+        ],
+        [
+            "7563732d326c65",
+            "UCS-2LE"
+        ],
+        [
+            "62797465326c65",
+            "UCS-2LE"
+        ],
+        [
+            "42595445324c45",
+            "UCS-2LE"
+        ],
+        [
+            "5554462d3332",
+            "UTF-32"
+        ],
+        [
+            "7574662d3332",
+            "UTF-32"
+        ],
+        [
+            "7574663332",
+            "UTF-32"
+        ],
+        [
+            "5554463332",
+            "UTF-32"
+        ],
+        [
+            "5554462d33324245",
+            "UTF-32BE"
+        ],
+        [
+            "7574662d33326265",
+            "UTF-32BE"
+        ],
+        [
+            "5554462d33324c45",
+            "UTF-32LE"
+        ],
+        [
+            "7574662d33326c65",
+            "UTF-32LE"
+        ],
+        [
+            "5554462d3136",
+            "UTF-16"
+        ],
+        [
+            "7574662d3136",
+            "UTF-16"
+        ],
+        [
+            "7574663136",
+            "UTF-16"
+        ],
+        [
+            "5554463136",
+            "UTF-16"
+        ],
+        [
+            "5554462d31364245",
+            "UTF-16BE"
+        ],
+        [
+            "7574662d31366265",
+            "UTF-16BE"
+        ],
+        [
+            "5554462d31364c45",
+            "UTF-16LE"
+        ],
+        [
+            "7574662d31366c65",
+            "UTF-16LE"
+        ],
+        [
+            "5554462d38",
+            "UTF-8"
+        ],
+        [
+            "7574662d38",
+            "UTF-8"
+        ],
+        [
+            "75746638",
+            "UTF-8"
+        ],
+        [
+            "55544638",
+            "UTF-8"
+        ],
+        [
+            "5554462d37",
+            "UTF-7"
+        ],
+        [
+            "7574662d37",
+            "UTF-7"
+        ],
+        [
+            "75746637",
+            "UTF-7"
+        ],
+        [
+            "55544637",
+            "UTF-7"
+        ],
+        [
+            "555446372d494d4150",
+            "UTF7-IMAP"
+        ],
+        [
+            "757466372d696d6170",
+            "UTF7-IMAP"
+        ],
+        [
+            "6d5554462d37",
+            "UTF7-IMAP"
+        ],
+        [
+            "6d7574662d37",
+            "UTF7-IMAP"
+        ],
+        [
+            "4d5554462d37",
+            "UTF7-IMAP"
+        ],
+        [
+            "4153434949",
+            "ASCII"
+        ],
+        [
+            "6173636969",
+            "ASCII"
+        ],
+        [
+            "55532d4153434949",
+            "ASCII"
+        ],
+        [
+            "75732d6173636969",
+            "ASCII"
+        ],
+        [
+            "414e53495f58332e342d31393638",
+            "ASCII"
+        ],
+        [
+            "616e73695f78332e342d31393638",
+            "ASCII"
+        ],
+        [
+            "69736f2d69722d36",
+            "ASCII"
+        ],
+        [
+            "49534f2d49522d36",
+            "ASCII"
+        ],
+        [
+            "414e53495f58332e342d31393836",
+            "ASCII"
+        ],
+        [
+            "616e73695f78332e342d31393836",
+            "ASCII"
+        ],
+        [
+            "49534f5f3634362e6972763a31393931",
+            "ASCII"
+        ],
+        [
+            "69736f5f3634362e6972763a31393931",
+            "ASCII"
+        ],
+        [
+            "49534f5f3634362e4952563a31393931",
+            "ASCII"
+        ],
+        [
+            "49534f3634362d5553",
+            "ASCII"
+        ],
+        [
+            "69736f3634362d7573",
+            "ASCII"
+        ],
+        [
+            "7573",
+            "ASCII"
+        ],
+        [
+            "5553",
+            "ASCII"
+        ],
+        [
+            "49424d333637",
+            "ASCII"
+        ],
+        [
+            "69626d333637",
+            "ASCII"
+        ],
+        [
+            "49424d2d333637",
+            "ASCII"
+        ],
+        [
+            "69626d2d333637",
+            "ASCII"
+        ],
+        [
+            "6370333637",
+            "ASCII"
+        ],
+        [
+            "4350333637",
+            "ASCII"
+        ],
+        [
+            "63734153434949",
+            "ASCII"
+        ],
+        [
+            "63736173636969",
+            "ASCII"
+        ],
+        [
+            "43534153434949",
+            "ASCII"
+        ],
+        [
+            "4555432d4a50",
+            "EUC-JP"
+        ],
+        [
+            "6575632d6a70",
+            "EUC-JP"
+        ],
+        [
+            "455543",
+            "EUC-JP"
+        ],
+        [
+            "657563",
+            "EUC-JP"
+        ],
+        [
+            "4555435f4a50",
+            "EUC-JP"
+        ],
+        [
+            "6575635f6a70",
+            "EUC-JP"
+        ],
+        [
+            "6575634a50",
+            "EUC-JP"
+        ],
+        [
+            "6575636a70",
+            "EUC-JP"
+        ],
+        [
+            "4555434a50",
+            "EUC-JP"
+        ],
+        [
+            "782d6575632d6a70",
+            "EUC-JP"
+        ],
+        [
+            "582d4555432d4a50",
+            "EUC-JP"
+        ],
+        [
+            "534a4953",
+            "SJIS"
+        ],
+        [
+            "736a6973",
+            "SJIS"
+        ],
+        [
+            "53686966745f4a4953",
+            "SJIS"
+        ],
+        [
+            "73686966745f6a6973",
+            "SJIS"
+        ],
+        [
+            "53484946545f4a4953",
+            "SJIS"
+        ],
+        [
+            "782d736a6973",
+            "SJIS"
+        ],
+        [
+            "582d534a4953",
+            "SJIS"
+        ],
+        [
+            "53484946542d4a4953",
+            "SJIS"
+        ],
+        [
+            "73686966742d6a6973",
+            "SJIS"
+        ],
+        [
+            "6575634a502d77696e",
+            "eucJP-win"
+        ],
+        [
+            "6575636a702d77696e",
+            "eucJP-win"
+        ],
+        [
+            "4555434a502d57494e",
+            "eucJP-win"
+        ],
+        [
+            "6575634a502d6f70656e",
+            "eucJP-win"
+        ],
+        [
+            "6575636a702d6f70656e",
+            "eucJP-win"
+        ],
+        [
+            "4555434a502d4f50454e",
+            "eucJP-win"
+        ],
+        [
+            "6575634a502d6d73",
+            "eucJP-win"
+        ],
+        [
+            "6575636a702d6d73",
+            "eucJP-win"
+        ],
+        [
+            "4555434a502d4d53",
+            "eucJP-win"
+        ],
+        [
+            "4555432d4a502d32303034",
+            "EUC-JP-2004"
+        ],
+        [
+            "6575632d6a702d32303034",
+            "EUC-JP-2004"
+        ],
+        [
+            "4555435f4a502d32303034",
+            "EUC-JP-2004"
+        ],
+        [
+            "6575635f6a702d32303034",
+            "EUC-JP-2004"
+        ],
+        [
+            "534a49532d4d6f62696c6523444f434f4d4f",
+            "SJIS-Mobile#DOCOMO"
+        ],
+        [
+            "736a69732d6d6f62696c6523646f636f6d6f",
+            "SJIS-Mobile#DOCOMO"
+        ],
+        [
+            "534a49532d4d4f42494c4523444f434f4d4f",
+            "SJIS-Mobile#DOCOMO"
+        ],
+        [
+            "534a49532d444f434f4d4f",
+            "SJIS-Mobile#DOCOMO"
+        ],
+        [
+            "736a69732d646f636f6d6f",
+            "SJIS-Mobile#DOCOMO"
+        ],
+        [
+            "73686966745f6a69732d696d6f6465",
+            "SJIS-Mobile#DOCOMO"
+        ],
+        [
+            "53484946545f4a49532d494d4f4445",
+            "SJIS-Mobile#DOCOMO"
+        ],
+        [
+            "782d736a69732d656d6f6a692d646f636f6d6f",
+            "SJIS-Mobile#DOCOMO"
+        ],
+        [
+            "582d534a49532d454d4f4a492d444f434f4d4f",
+            "SJIS-Mobile#DOCOMO"
+        ],
+        [
+            "534a49532d4d6f62696c65234b444449",
+            "SJIS-Mobile#KDDI"
+        ],
+        [
+            "736a69732d6d6f62696c65236b646469",
+            "SJIS-Mobile#KDDI"
+        ],
+        [
+            "534a49532d4d4f42494c45234b444449",
+            "SJIS-Mobile#KDDI"
+        ],
+        [
+            "534a49532d4b444449",
+            "SJIS-Mobile#KDDI"
+        ],
+        [
+            "736a69732d6b646469",
+            "SJIS-Mobile#KDDI"
+        ],
+        [
+            "73686966745f6a69732d6b646469",
+            "SJIS-Mobile#KDDI"
+        ],
+        [
+            "53484946545f4a49532d4b444449",
+            "SJIS-Mobile#KDDI"
+        ],
+        [
+            "782d736a69732d656d6f6a692d6b646469",
+            "SJIS-Mobile#KDDI"
+        ],
+        [
+            "582d534a49532d454d4f4a492d4b444449",
+            "SJIS-Mobile#KDDI"
+        ],
+        [
+            "534a49532d4d6f62696c6523534f465442414e4b",
+            "SJIS-Mobile#SOFTBANK"
+        ],
+        [
+            "736a69732d6d6f62696c6523736f667462616e6b",
+            "SJIS-Mobile#SOFTBANK"
+        ],
+        [
+            "534a49532d4d4f42494c4523534f465442414e4b",
+            "SJIS-Mobile#SOFTBANK"
+        ],
+        [
+            "534a49532d534f465442414e4b",
+            "SJIS-Mobile#SOFTBANK"
+        ],
+        [
+            "736a69732d736f667462616e6b",
+            "SJIS-Mobile#SOFTBANK"
+        ],
+        [
+            "73686966745f6a69732d736f667462616e6b",
+            "SJIS-Mobile#SOFTBANK"
+        ],
+        [
+            "53484946545f4a49532d534f465442414e4b",
+            "SJIS-Mobile#SOFTBANK"
+        ],
+        [
+            "782d736a69732d656d6f6a692d736f667462616e6b",
+            "SJIS-Mobile#SOFTBANK"
+        ],
+        [
+            "582d534a49532d454d4f4a492d534f465442414e4b",
+            "SJIS-Mobile#SOFTBANK"
+        ],
+        [
+            "534a49532d6d6163",
+            "SJIS-mac"
+        ],
+        [
+            "736a69732d6d6163",
+            "SJIS-mac"
+        ],
+        [
+            "534a49532d4d4143",
+            "SJIS-mac"
+        ],
+        [
+            "4d61634a6170616e657365",
+            "SJIS-mac"
+        ],
+        [
+            "6d61636a6170616e657365",
+            "SJIS-mac"
+        ],
+        [
+            "4d41434a4150414e455345",
+            "SJIS-mac"
+        ],
+        [
+            "782d4d61632d4a6170616e657365",
+            "SJIS-mac"
+        ],
+        [
+            "782d6d61632d6a6170616e657365",
+            "SJIS-mac"
+        ],
+        [
+            "582d4d41432d4a4150414e455345",
+            "SJIS-mac"
+        ],
+        [
+            "534a49532d32303034",
+            "SJIS-2004"
+        ],
+        [
+            "736a69732d32303034",
+            "SJIS-2004"
+        ],
+        [
+            "534a495332303034",
+            "SJIS-2004"
+        ],
+        [
+            "736a697332303034",
+            "SJIS-2004"
+        ],
+        [
+            "53686966745f4a49532d32303034",
+            "SJIS-2004"
+        ],
+        [
+            "73686966745f6a69732d32303034",
+            "SJIS-2004"
+        ],
+        [
+            "53484946545f4a49532d32303034",
+            "SJIS-2004"
+        ],
+        [
+            "5554462d382d4d6f62696c6523444f434f4d4f",
+            "UTF-8-Mobile#DOCOMO"
+        ],
+        [
+            "7574662d382d6d6f62696c6523646f636f6d6f",
+            "UTF-8-Mobile#DOCOMO"
+        ],
+        [
+            "5554462d382d4d4f42494c4523444f434f4d4f",
+            "UTF-8-Mobile#DOCOMO"
+        ],
+        [
+            "5554462d382d444f434f4d4f",
+            "UTF-8-Mobile#DOCOMO"
+        ],
+        [
+            "7574662d382d646f636f6d6f",
+            "UTF-8-Mobile#DOCOMO"
+        ],
+        [
+            "555446382d444f434f4d4f",
+            "UTF-8-Mobile#DOCOMO"
+        ],
+        [
+            "757466382d646f636f6d6f",
+            "UTF-8-Mobile#DOCOMO"
+        ],
+        [
+            "5554462d382d4d6f62696c65234b4444492d41",
+            "UTF-8-Mobile#KDDI-A"
+        ],
+        [
+            "7574662d382d6d6f62696c65236b6464692d61",
+            "UTF-8-Mobile#KDDI-A"
+        ],
+        [
+            "5554462d382d4d4f42494c45234b4444492d41",
+            "UTF-8-Mobile#KDDI-A"
+        ],
+        [
+            "5554462d382d4d6f62696c65234b4444492d42",
+            "UTF-8-Mobile#KDDI-B"
+        ],
+        [
+            "7574662d382d6d6f62696c65236b6464692d62",
+            "UTF-8-Mobile#KDDI-B"
+        ],
+        [
+            "5554462d382d4d4f42494c45234b4444492d42",
+            "UTF-8-Mobile#KDDI-B"
+        ],
+        [
+            "5554462d382d4d6f62696c65234b444449",
+            "UTF-8-Mobile#KDDI-B"
+        ],
+        [
+            "7574662d382d6d6f62696c65236b646469",
+            "UTF-8-Mobile#KDDI-B"
+        ],
+        [
+            "5554462d382d4d4f42494c45234b444449",
+            "UTF-8-Mobile#KDDI-B"
+        ],
+        [
+            "5554462d382d4b444449",
+            "UTF-8-Mobile#KDDI-B"
+        ],
+        [
+            "7574662d382d6b646469",
+            "UTF-8-Mobile#KDDI-B"
+        ],
+        [
+            "555446382d4b444449",
+            "UTF-8-Mobile#KDDI-B"
+        ],
+        [
+            "757466382d6b646469",
+            "UTF-8-Mobile#KDDI-B"
+        ],
+        [
+            "5554462d382d4d6f62696c6523534f465442414e4b",
+            "UTF-8-Mobile#SOFTBANK"
+        ],
+        [
+            "7574662d382d6d6f62696c6523736f667462616e6b",
+            "UTF-8-Mobile#SOFTBANK"
+        ],
+        [
+            "5554462d382d4d4f42494c4523534f465442414e4b",
+            "UTF-8-Mobile#SOFTBANK"
+        ],
+        [
+            "5554462d382d534f465442414e4b",
+            "UTF-8-Mobile#SOFTBANK"
+        ],
+        [
+            "7574662d382d736f667462616e6b",
+            "UTF-8-Mobile#SOFTBANK"
+        ],
+        [
+            "555446382d534f465442414e4b",
+            "UTF-8-Mobile#SOFTBANK"
+        ],
+        [
+            "757466382d736f667462616e6b",
+            "UTF-8-Mobile#SOFTBANK"
+        ],
+        [
+            "4350393332",
+            "CP932"
+        ],
+        [
+            "6370393332",
+            "CP932"
+        ],
+        [
+            "4d53393332",
+            "CP932"
+        ],
+        [
+            "6d73393332",
+            "CP932"
+        ],
+        [
+            "57696e646f77732d33314a",
+            "CP932"
+        ],
+        [
+            "77696e646f77732d33316a",
+            "CP932"
+        ],
+        [
+            "57494e444f57532d33314a",
+            "CP932"
+        ],
+        [
+            "4d535f4b616e6a69",
+            "CP932"
+        ],
+        [
+            "6d735f6b616e6a69",
+            "CP932"
+        ],
+        [
+            "4d535f4b414e4a49",
+            "CP932"
+        ],
+        [
+            "534a49532d77696e",
+            "SJIS-win"
+        ],
+        [
+            "736a69732d77696e",
+            "SJIS-win"
+        ],
+        [
+            "534a49532d57494e",
+            "SJIS-win"
+        ],
+        [
+            "534a49532d6d73",
+            "SJIS-win"
+        ],
+        [
+            "736a69732d6d73",
+            "SJIS-win"
+        ],
+        [
+            "534a49532d4d53",
+            "SJIS-win"
+        ],
+        [
+            "534a49532d6f70656e",
+            "SJIS-win"
+        ],
+        [
+            "736a69732d6f70656e",
+            "SJIS-win"
+        ],
+        [
+            "534a49532d4f50454e",
+            "SJIS-win"
+        ],
+        [
+            "43503531393332",
+            "CP51932"
+        ],
+        [
+            "63703531393332",
+            "CP51932"
+        ],
+        [
+            "4a4953",
+            "JIS"
+        ],
+        [
+            "6a6973",
+            "JIS"
+        ],
+        [
+            "49534f2d323032322d4a50",
+            "ISO-2022-JP"
+        ],
+        [
+            "69736f2d323032322d6a70",
+            "ISO-2022-JP"
+        ],
+        [
+            "49534f2d323032322d4a502d4d53",
+            "ISO-2022-JP-MS"
+        ],
+        [
+            "69736f2d323032322d6a702d6d73",
+            "ISO-2022-JP-MS"
+        ],
+        [
+            "49534f323032324a504d53",
+            "ISO-2022-JP-MS"
+        ],
+        [
+            "69736f323032326a706d73",
+            "ISO-2022-JP-MS"
+        ],
+        [
+            "47423138303330",
+            "GB18030"
+        ],
+        [
+            "67623138303330",
+            "GB18030"
+        ],
+        [
+            "67622d3138303330",
+            "GB18030"
+        ],
+        [
+            "47422d3138303330",
+            "GB18030"
+        ],
+        [
+            "67622d31383033302d32303030",
+            "GB18030"
+        ],
+        [
+            "47422d31383033302d32303030",
+            "GB18030"
+        ],
+        [
+            "474231383033302d32303232",
+            "GB18030-2022"
+        ],
+        [
+            "676231383033302d32303232",
+            "GB18030-2022"
+        ],
+        [
+            "57696e646f77732d31323532",
+            "Windows-1252"
+        ],
+        [
+            "77696e646f77732d31323532",
+            "Windows-1252"
+        ],
+        [
+            "57494e444f57532d31323532",
+            "Windows-1252"
+        ],
+        [
+            "637031323532",
+            "Windows-1252"
+        ],
+        [
+            "435031323532",
+            "Windows-1252"
+        ],
+        [
+            "57696e646f77732d31323534",
+            "Windows-1254"
+        ],
+        [
+            "77696e646f77732d31323534",
+            "Windows-1254"
+        ],
+        [
+            "57494e444f57532d31323534",
+            "Windows-1254"
+        ],
+        [
+            "435031323534",
+            "Windows-1254"
+        ],
+        [
+            "637031323534",
+            "Windows-1254"
+        ],
+        [
+            "43502d31323534",
+            "Windows-1254"
+        ],
+        [
+            "63702d31323534",
+            "Windows-1254"
+        ],
+        [
+            "49534f2d383835392d31",
+            "ISO-8859-1"
+        ],
+        [
+            "69736f2d383835392d31",
+            "ISO-8859-1"
+        ],
+        [
+            "49534f383835392d31",
+            "ISO-8859-1"
+        ],
+        [
+            "69736f383835392d31",
+            "ISO-8859-1"
+        ],
+        [
+            "6c6174696e31",
+            "ISO-8859-1"
+        ],
+        [
+            "4c4154494e31",
+            "ISO-8859-1"
+        ],
+        [
+            "49534f2d383835392d32",
+            "ISO-8859-2"
+        ],
+        [
+            "69736f2d383835392d32",
+            "ISO-8859-2"
+        ],
+        [
+            "49534f383835392d32",
+            "ISO-8859-2"
+        ],
+        [
+            "69736f383835392d32",
+            "ISO-8859-2"
+        ],
+        [
+            "6c6174696e32",
+            "ISO-8859-2"
+        ],
+        [
+            "4c4154494e32",
+            "ISO-8859-2"
+        ],
+        [
+            "49534f2d383835392d33",
+            "ISO-8859-3"
+        ],
+        [
+            "69736f2d383835392d33",
+            "ISO-8859-3"
+        ],
+        [
+            "49534f383835392d33",
+            "ISO-8859-3"
+        ],
+        [
+            "69736f383835392d33",
+            "ISO-8859-3"
+        ],
+        [
+            "6c6174696e33",
+            "ISO-8859-3"
+        ],
+        [
+            "4c4154494e33",
+            "ISO-8859-3"
+        ],
+        [
+            "49534f2d383835392d34",
+            "ISO-8859-4"
+        ],
+        [
+            "69736f2d383835392d34",
+            "ISO-8859-4"
+        ],
+        [
+            "49534f383835392d34",
+            "ISO-8859-4"
+        ],
+        [
+            "69736f383835392d34",
+            "ISO-8859-4"
+        ],
+        [
+            "6c6174696e34",
+            "ISO-8859-4"
+        ],
+        [
+            "4c4154494e34",
+            "ISO-8859-4"
+        ],
+        [
+            "49534f2d383835392d35",
+            "ISO-8859-5"
+        ],
+        [
+            "69736f2d383835392d35",
+            "ISO-8859-5"
+        ],
+        [
+            "49534f383835392d35",
+            "ISO-8859-5"
+        ],
+        [
+            "69736f383835392d35",
+            "ISO-8859-5"
+        ],
+        [
+            "637972696c6c6963",
+            "ISO-8859-5"
+        ],
+        [
+            "435952494c4c4943",
+            "ISO-8859-5"
+        ],
+        [
+            "49534f2d383835392d36",
+            "ISO-8859-6"
+        ],
+        [
+            "69736f2d383835392d36",
+            "ISO-8859-6"
+        ],
+        [
+            "49534f383835392d36",
+            "ISO-8859-6"
+        ],
+        [
+            "69736f383835392d36",
+            "ISO-8859-6"
+        ],
+        [
+            "617261626963",
+            "ISO-8859-6"
+        ],
+        [
+            "415241424943",
+            "ISO-8859-6"
+        ],
+        [
+            "49534f2d383835392d37",
+            "ISO-8859-7"
+        ],
+        [
+            "69736f2d383835392d37",
+            "ISO-8859-7"
+        ],
+        [
+            "49534f383835392d37",
+            "ISO-8859-7"
+        ],
+        [
+            "69736f383835392d37",
+            "ISO-8859-7"
+        ],
+        [
+            "677265656b",
+            "ISO-8859-7"
+        ],
+        [
+            "475245454b",
+            "ISO-8859-7"
+        ],
+        [
+            "49534f2d383835392d38",
+            "ISO-8859-8"
+        ],
+        [
+            "69736f2d383835392d38",
+            "ISO-8859-8"
+        ],
+        [
+            "49534f383835392d38",
+            "ISO-8859-8"
+        ],
+        [
+            "69736f383835392d38",
+            "ISO-8859-8"
+        ],
+        [
+            "686562726577",
+            "ISO-8859-8"
+        ],
+        [
+            "484542524557",
+            "ISO-8859-8"
+        ],
+        [
+            "49534f2d383835392d39",
+            "ISO-8859-9"
+        ],
+        [
+            "69736f2d383835392d39",
+            "ISO-8859-9"
+        ],
+        [
+            "49534f383835392d39",
+            "ISO-8859-9"
+        ],
+        [
+            "69736f383835392d39",
+            "ISO-8859-9"
+        ],
+        [
+            "6c6174696e35",
+            "ISO-8859-9"
+        ],
+        [
+            "4c4154494e35",
+            "ISO-8859-9"
+        ],
+        [
+            "49534f2d383835392d3130",
+            "ISO-8859-10"
+        ],
+        [
+            "69736f2d383835392d3130",
+            "ISO-8859-10"
+        ],
+        [
+            "49534f383835392d3130",
+            "ISO-8859-10"
+        ],
+        [
+            "69736f383835392d3130",
+            "ISO-8859-10"
+        ],
+        [
+            "6c6174696e36",
+            "ISO-8859-10"
+        ],
+        [
+            "4c4154494e36",
+            "ISO-8859-10"
+        ],
+        [
+            "49534f2d383835392d3133",
+            "ISO-8859-13"
+        ],
+        [
+            "69736f2d383835392d3133",
+            "ISO-8859-13"
+        ],
+        [
+            "49534f383835392d3133",
+            "ISO-8859-13"
+        ],
+        [
+            "69736f383835392d3133",
+            "ISO-8859-13"
+        ],
+        [
+            "49534f2d383835392d3134",
+            "ISO-8859-14"
+        ],
+        [
+            "69736f2d383835392d3134",
+            "ISO-8859-14"
+        ],
+        [
+            "49534f383835392d3134",
+            "ISO-8859-14"
+        ],
+        [
+            "69736f383835392d3134",
+            "ISO-8859-14"
+        ],
+        [
+            "6c6174696e38",
+            "ISO-8859-14"
+        ],
+        [
+            "4c4154494e38",
+            "ISO-8859-14"
+        ],
+        [
+            "49534f2d383835392d3135",
+            "ISO-8859-15"
+        ],
+        [
+            "69736f2d383835392d3135",
+            "ISO-8859-15"
+        ],
+        [
+            "49534f383835392d3135",
+            "ISO-8859-15"
+        ],
+        [
+            "69736f383835392d3135",
+            "ISO-8859-15"
+        ],
+        [
+            "49534f2d383835392d3136",
+            "ISO-8859-16"
+        ],
+        [
+            "69736f2d383835392d3136",
+            "ISO-8859-16"
+        ],
+        [
+            "49534f383835392d3136",
+            "ISO-8859-16"
+        ],
+        [
+            "69736f383835392d3136",
+            "ISO-8859-16"
+        ],
+        [
+            "4555432d434e",
+            "EUC-CN"
+        ],
+        [
+            "6575632d636e",
+            "EUC-CN"
+        ],
+        [
+            "434e2d4742",
+            "EUC-CN"
+        ],
+        [
+            "636e2d6762",
+            "EUC-CN"
+        ],
+        [
+            "4555435f434e",
+            "EUC-CN"
+        ],
+        [
+            "6575635f636e",
+            "EUC-CN"
+        ],
+        [
+            "657563434e",
+            "EUC-CN"
+        ],
+        [
+            "657563636e",
+            "EUC-CN"
+        ],
+        [
+            "455543434e",
+            "EUC-CN"
+        ],
+        [
+            "782d6575632d636e",
+            "EUC-CN"
+        ],
+        [
+            "582d4555432d434e",
+            "EUC-CN"
+        ],
+        [
+            "676232333132",
+            "EUC-CN"
+        ],
+        [
+            "474232333132",
+            "EUC-CN"
+        ],
+        [
+            "4350393336",
+            "CP936"
+        ],
+        [
+            "6370393336",
+            "CP936"
+        ],
+        [
+            "43502d393336",
+            "CP936"
+        ],
+        [
+            "63702d393336",
+            "CP936"
+        ],
+        [
+            "47424b",
+            "CP936"
+        ],
+        [
+            "67626b",
+            "CP936"
+        ],
+        [
+            "485a",
+            "HZ"
+        ],
+        [
+            "687a",
+            "HZ"
+        ],
+        [
+            "485a2d47422d32333132",
+            "HZ"
+        ],
+        [
+            "687a2d67622d32333132",
+            "HZ"
+        ],
+        [
+            "4555432d5457",
+            "EUC-TW"
+        ],
+        [
+            "6575632d7477",
+            "EUC-TW"
+        ],
+        [
+            "4555435f5457",
+            "EUC-TW"
+        ],
+        [
+            "6575635f7477",
+            "EUC-TW"
+        ],
+        [
+            "6575635457",
+            "EUC-TW"
+        ],
+        [
+            "6575637477",
+            "EUC-TW"
+        ],
+        [
+            "4555435457",
+            "EUC-TW"
+        ],
+        [
+            "782d6575632d7477",
+            "EUC-TW"
+        ],
+        [
+            "582d4555432d5457",
+            "EUC-TW"
+        ],
+        [
+            "4249472d35",
+            "BIG-5"
+        ],
+        [
+            "6269672d35",
+            "BIG-5"
+        ],
+        [
+            "42494735",
+            "BIG-5"
+        ],
+        [
+            "62696735",
+            "BIG-5"
+        ],
+        [
+            "434e2d42494735",
+            "BIG-5"
+        ],
+        [
+            "636e2d62696735",
+            "BIG-5"
+        ],
+        [
+            "4249472d46495645",
+            "BIG-5"
+        ],
+        [
+            "6269672d66697665",
+            "BIG-5"
+        ],
+        [
+            "42494746495645",
+            "BIG-5"
+        ],
+        [
+            "62696766697665",
+            "BIG-5"
+        ],
+        [
+            "4350393530",
+            "CP950"
+        ],
+        [
+            "6370393530",
+            "CP950"
+        ],
+        [
+            "4555432d4b52",
+            "EUC-KR"
+        ],
+        [
+            "6575632d6b72",
+            "EUC-KR"
+        ],
+        [
+            "4555435f4b52",
+            "EUC-KR"
+        ],
+        [
+            "6575635f6b72",
+            "EUC-KR"
+        ],
+        [
+            "6575634b52",
+            "EUC-KR"
+        ],
+        [
+            "6575636b72",
+            "EUC-KR"
+        ],
+        [
+            "4555434b52",
+            "EUC-KR"
+        ],
+        [
+            "782d6575632d6b72",
+            "EUC-KR"
+        ],
+        [
+            "582d4555432d4b52",
+            "EUC-KR"
+        ],
+        [
+            "554843",
+            "UHC"
+        ],
+        [
+            "756863",
+            "UHC"
+        ],
+        [
+            "4350393439",
+            "UHC"
+        ],
+        [
+            "6370393439",
+            "UHC"
+        ],
+        [
+            "49534f2d323032322d4b52",
+            "ISO-2022-KR"
+        ],
+        [
+            "69736f2d323032322d6b72",
+            "ISO-2022-KR"
+        ],
+        [
+            "57696e646f77732d31323531",
+            "Windows-1251"
+        ],
+        [
+            "77696e646f77732d31323531",
+            "Windows-1251"
+        ],
+        [
+            "57494e444f57532d31323531",
+            "Windows-1251"
+        ],
+        [
+            "435031323531",
+            "Windows-1251"
+        ],
+        [
+            "637031323531",
+            "Windows-1251"
+        ],
+        [
+            "43502d31323531",
+            "Windows-1251"
+        ],
+        [
+            "63702d31323531",
+            "Windows-1251"
+        ],
+        [
+            "4350383636",
+            "CP866"
+        ],
+        [
+            "6370383636",
+            "CP866"
+        ],
+        [
+            "43502d383636",
+            "CP866"
+        ],
+        [
+            "63702d383636",
+            "CP866"
+        ],
+        [
+            "49424d383636",
+            "CP866"
+        ],
+        [
+            "69626d383636",
+            "CP866"
+        ],
+        [
+            "49424d2d383636",
+            "CP866"
+        ],
+        [
+            "69626d2d383636",
+            "CP866"
+        ],
+        [
+            "4b4f49382d52",
+            "KOI8-R"
+        ],
+        [
+            "6b6f69382d72",
+            "KOI8-R"
+        ],
+        [
+            "4b4f493852",
+            "KOI8-R"
+        ],
+        [
+            "6b6f693872",
+            "KOI8-R"
+        ],
+        [
+            "4b4f49382d55",
+            "KOI8-U"
+        ],
+        [
+            "6b6f69382d75",
+            "KOI8-U"
+        ],
+        [
+            "4b4f493855",
+            "KOI8-U"
+        ],
+        [
+            "6b6f693875",
+            "KOI8-U"
+        ],
+        [
+            "41726d534349492d38",
+            "ArmSCII-8"
+        ],
+        [
+            "61726d736369692d38",
+            "ArmSCII-8"
+        ],
+        [
+            "41524d534349492d38",
+            "ArmSCII-8"
+        ],
+        [
+            "41726d5343494938",
+            "ArmSCII-8"
+        ],
+        [
+            "61726d7363696938",
+            "ArmSCII-8"
+        ],
+        [
+            "41524d5343494938",
+            "ArmSCII-8"
+        ],
+        [
+            "4350383530",
+            "CP850"
+        ],
+        [
+            "6370383530",
+            "CP850"
+        ],
+        [
+            "43502d383530",
+            "CP850"
+        ],
+        [
+            "63702d383530",
+            "CP850"
+        ],
+        [
+            "49424d383530",
+            "CP850"
+        ],
+        [
+            "69626d383530",
+            "CP850"
+        ],
+        [
+            "49424d2d383530",
+            "CP850"
+        ],
+        [
+            "69626d2d383530",
+            "CP850"
+        ],
+        [
+            "49534f2d323032322d4a502d32303034",
+            "ISO-2022-JP-2004"
+        ],
+        [
+            "69736f2d323032322d6a702d32303034",
+            "ISO-2022-JP-2004"
+        ],
+        [
+            "49534f2d323032322d4a502d4d4f42494c45234b444449",
+            "ISO-2022-JP-MOBILE#KDDI"
+        ],
+        [
+            "69736f2d323032322d6a702d6d6f62696c65236b646469",
+            "ISO-2022-JP-MOBILE#KDDI"
+        ],
+        [
+            "49534f2d323032322d4a502d4b444449",
+            "ISO-2022-JP-MOBILE#KDDI"
+        ],
+        [
+            "69736f2d323032322d6a702d6b646469",
+            "ISO-2022-JP-MOBILE#KDDI"
+        ],
+        [
+            "43503530323230",
+            "CP50220"
+        ],
+        [
+            "63703530323230",
+            "CP50220"
+        ],
+        [
+            "63703530323230726177",
+            "CP50220"
+        ],
+        [
+            "43503530323230524157",
+            "CP50220"
+        ],
+        [
+            "637035303232302d726177",
+            "CP50220"
+        ],
+        [
+            "435035303232302d524157",
+            "CP50220"
+        ],
+        [
+            "4a49532d6d73",
+            "CP50220"
+        ],
+        [
+            "6a69732d6d73",
+            "CP50220"
+        ],
+        [
+            "4a49532d4d53",
+            "CP50220"
+        ],
+        [
+            "43503530323231",
+            "CP50221"
+        ],
+        [
+            "63703530323231",
+            "CP50221"
+        ],
+        [
+            "43503530323232",
+            "CP50222"
+        ],
+        [
+            "63703530323232",
+            "CP50222"
+        ],
+        [
+            "",
+            null
+        ],
+        [
+            "20",
+            null
+        ],
+        [
+            "5554465f38",
+            null
+        ],
+        [
+            "5554462038",
+            null
+        ],
+        [
+            "757466386d6234",
+            null
+        ],
+        [
+            "5554462d3820",
+            null
+        ],
+        [
+            "205554462d38",
+            null
+        ],
+        [
+            "6175746f",
+            null
+        ],
+        [
+            "70617373",
+            null
+        ],
+        [
+            "6e6f6e65",
+            null
+        ],
+        [
+            "78",
+            null
+        ],
+        [
+            "4c6174696e2d31",
+            null
+        ],
+        [
+            "626967352d686b736373",
+            null
+        ]
+    ],
+    "arguments": [
+        [
+            "5554462d38006a756e6b",
+            true
+        ],
+        [
+            "7574663800",
+            true
+        ],
+        [
+            "005554462d38",
+            false
+        ],
+        [
+            "6c6174696e31005554462d38",
+            true
+        ],
+        [
+            "4241534536340078",
+            true
+        ],
+        [
+            "78005554462d38",
+            false
+        ],
+        [
+            "70617373",
+            false
+        ],
+        [
+            "6175746f",
+            false
+        ],
+        [
+            "",
+            false
+        ],
+        [
+            "5554462d38",
+            true
+        ],
+        [
+            "7574665f38",
+            false
+        ]
+    ]
+}
