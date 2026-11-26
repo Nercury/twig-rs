@@ -32,10 +32,11 @@ pub(crate) mod settings;
 mod string_loader;
 #[cfg(test)]
 mod tests;
+mod twig_classes;
 
 use twig_value::object::{CallArgs, FunctionKind, Param};
 use twig_value::types::zend_zval_value_name;
-use twig_value::{Diagnostics, PhpError, Value, convert};
+use twig_value::{Diagnostics, PhpError, Value};
 
 use super::{Call, CallResult, RuntimeTable};
 use crate::error::Error;
@@ -120,24 +121,9 @@ fn twig_error(error: PhpError) -> Exception {
     error.into()
 }
 
-/// The `string` return type of a userland method in coercive mode: scalars become strings, a `Stringable` object its
-/// string, anything else is `Return value must be of type string, %s returned`.
-fn return_string(function: &str, value: Value, diag: &mut dyn Diagnostics) -> CallResult {
-    match &value {
-        Value::String(_) => Ok(value),
-        Value::Int(_) | Value::Float(_) | Value::Bool(_) => {
-            Ok(Value::String(convert::to_string(&value, diag)?))
-        }
-        Value::Object(object) if object.instance_of("Stringable") => {
-            Ok(Value::String(object.to_php_string(diag)?))
-        }
-        other => Err(PhpError::type_error(format!(
-            "{function}(): Return value must be of type string, {} returned",
-            zend_zval_value_name(other)
-        ))
-        .into()),
-    }
-}
+/// The `string` return type of a userland method in coercive mode
+/// ([`verify_return_string`](super::verify_return_string)).
+use super::verify_return_string as return_string;
 
 /// `$value->method(...$args)` on a value that should be an object: `Call to a member function %s() on %s` otherwise.
 fn call_method_on(

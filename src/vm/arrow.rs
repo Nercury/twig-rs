@@ -99,11 +99,19 @@ fn call_arrow(state: &mut VmState, data: &ArrowData, args: CallArgs) -> Result<V
     if passed < params.len() {
         // PHP names the closure after the compiled template class and adds the calling file and line, which have no
         // equivalent here (reference/deviations.md).
-        return Err(PhpError::argument_count_error(format!(
+        let mut exception: Exception = PhpError::argument_count_error(format!(
             "Too few arguments to function {{closure}}(), {passed} passed and exactly {} expected",
             params.len()
         ))
-        .into());
+        .into();
+        // `zend_missing_arg_error()` is raised by the RECV opcodes of the closure, on the line of `function (` (the
+        // unit's first instruction, `Instr::Recv`), which Error::guess() maps to the arrow's marker
+        if state.enter(&data.program, data.unit).is_ok() {
+            state.set_ip(0);
+            exception.set_trace(state.trace());
+            state.leave();
+        }
+        return Err(exception);
     }
     let mut context = data.context.clone();
     for (param, value) in params.iter().zip(values) {
@@ -117,43 +125,18 @@ fn call_arrow(state: &mut VmState, data: &ArrowData, args: CallArgs) -> Result<V
     run_unit(state, &mut out, &mut frame, &data.program, data.unit)
 }
 
-/// Calls a callable value from a filter or operator runtime (`$arrow($v, $k)`): closures and invokable objects.
+/// Calls a callable value from an operator runtime (`$arrow($v, $k)` in `CoreExtension::arraySome()`), as the code
+/// of a Twig method does: `ZEND_INIT_DYNAMIC_CALL` then the call, with the callables runtime's port of both
+/// ([`crate::extension::runtime::callables::invoke`], also behind the filters' `Call::invoke()`).
 ///
 /// # Errors
 ///
-/// The exception the callable throws; `Error: Object of type X is not callable` for other objects, `Error: Value
-/// not callable` for other values.
+/// PHP's errors for values that are not callable (`Value of type bool is not callable`, `Class "X" not found`,
+/// `Array callback must have exactly two elements`, ...) and what the callable throws.
 pub(crate) fn invoke_value(
     state: &mut VmState,
     callable: &Value,
     args: Vec<Value>,
 ) -> Result<Value, Exception> {
-    match callable {
-        Value::Object(object) => Ok(object.invoke(CallArgs::from(args), state)?),
-        // ZEND_INIT_DYNAMIC_CALL; twig-rs has no table of PHP functions
-        Value::String(name) => Err(PhpError::error(PhpString::concat(&[
-            b"Call to undefined function ",
-            name.as_bytes(),
-            b"()",
-        ]))
-        .into()),
-        Value::Array(array) => {
-            if array.len() != 2 {
-                return Err(
-                    PhpError::error("Array callback must have exactly two elements").into(),
-                );
-            }
-            match (array.get_int(0), array.get_int(1)) {
-                (Some(Value::Object(object)), Some(Value::String(method))) => Ok(
-                    object.call_method(&method.to_string_lossy(), CallArgs::from(args), state)?
-                ),
-                _ => Err(PhpError::error("Array callback has to contain indices 0 and 1").into()),
-            }
-        }
-        other => Err(PhpError::error(format!(
-            "Value of type {} is not callable",
-            twig_value::types::zend_zval_value_name(other)
-        ))
-        .into()),
-    }
+    crate::extension::runtime::callables::invoke(state, callable, args)
 }

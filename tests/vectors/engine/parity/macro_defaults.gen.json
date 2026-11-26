@@ -1,0 +1,277 @@
+{
+ "cases": [
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -'a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-001"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = +'a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-002"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -[1]) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-003"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = [-'a']) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-004"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = - -'a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-005"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -'1a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-006"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = +'1a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-007"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = [1, -'1a']) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-008"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = {a: -'1a', b: 2}) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-009"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -'1') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-010"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -null) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-011"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -true) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-012"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = [-1, +2]) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-013"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -1.5) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-014"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = {(1): -'1a'}) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-015"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = {1.5: 2}) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-016"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -'1e2') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-017"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -'a') %}\n[{{ a }}]\n{% endmacro %}\nx\n{{ _self.m() }}\ny\n{{ 'z' }}\n"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-018"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% block b %}\nB\n{% endblock %}\n{% macro m(a = -'a') %}\n[{{ a }}]\n{% endmacro %}\n{{ _self.m() }}\n"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-019"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% import 'm.twig' as m %}\n{{ m.m() }}\n",
+    "m.twig": "{% macro m(a = -'a') %}{{ a }}{% endmacro %}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-020"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -'1a') %}{{ a }}{% endmacro %}{{ _self.m() }}{{ _self.m() }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "errors": "throw",
+   "id": "macro_defaults-021"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -'1a', b = 2, c = +'2b') %}{{ a }}{{ b }}{{ c }}{% endmacro %}{{ _self.m(b: 5) }}|{{ _self.m(1) }}|{{ _self.m(c: 3) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-022"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -'a', b = -'b') %}{{ a }}{% endmacro %}{{ _self.m(1) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-023"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = [-'1a']) %}{{ a|json_encode }}{% endmacro %}{{ _self.m() }}{{ _self.m() }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-024"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -'1a') %}{{ a }}{% endmacro %}{% macro n(a = -'1a') %}{{ a }}{% endmacro %}{{ _self.m() }}{{ _self.n() }}{{ _self.m() }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-025"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a = -'a') %}{{ a }}{% endmacro %}{{ _self.m(...[]) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-026"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a, b = -'a') %}{{ a }}{% endmacro %}{{ _self.m() }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "macro_defaults-027"
+  }
+ ],
+ "isolation": "process"
+}

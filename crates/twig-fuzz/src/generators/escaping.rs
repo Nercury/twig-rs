@@ -34,10 +34,10 @@
 //! What cannot match by design, or what the twig-rs runner cannot rebuild: `{% autoescape null %}`
 //! around a print (a listed deviation), callable `autoescape` options, Markup objects with a `null`
 //! charset (twig-test-support cannot rebuild them), `dump()` of objects (handles), dates and
-//! randomness. Known noise: an error raised inside a macro imported from another template gets the
-//! line Twig guesses with `cache => false` (reference/deviations.md, "Line guessing with
-//! `cache => false`"); the diff has no rule for that deviation, so such cases show up as
-//! `error.templateLine` mismatches (they agree once the oracle uses a filesystem cache).
+//! randomness. Every case has a filesystem cache of its own ([`super::with_case_cache`]): with
+//! `cache => false` an error raised inside a macro imported from another template would get the
+//! line Twig guesses from the frames of the wrong template (reference/deviations.md, "Line guessing
+//! with `cache => false`").
 
 use std::fmt::Write as _;
 
@@ -57,7 +57,7 @@ pub fn case(seed: u64, index: u64) -> Json {
         ^ index.wrapping_mul(0xD1B5_4A32_D192_ED03)
         ^ 0x00E5_CA9E);
     rng.next();
-    Gen::new(rng, format!("esc-{seed}-{index}")).build()
+    super::with_case_cache(Gen::new(rng, format!("esc-{seed}-{index}")).build())
 }
 
 /// `count` cases of a charset sweep: every case prints three strings of random bytes (biased towards
@@ -66,7 +66,7 @@ pub fn case(seed: u64, index: u64) -> Json {
 /// `ENT_SUBSTITUTE`, invalid UTF-8).
 pub fn charset_sweep(seed: u64, count: usize) -> Vec<Json> {
     (0..count as u64)
-        .map(|index| sweep_case(seed, index))
+        .map(|index| super::with_case_cache(sweep_case(seed, index)))
         .collect()
 }
 
@@ -1943,9 +1943,8 @@ impl Gen {
                 if self.rng.chance(60) {
                     self.debug = true;
                 }
-                // strings and scalars only (an `include ... with` may still pass an object):
-                // var_dump() object handles differ by design, and the deviation rule cannot see
-                // them once a filter like `upper` changed the text, so only html-safe filters here
+                // strings and scalars only (an `include ... with` may still pass an object), and
+                // only html-safe filters here
                 let vars: Vec<String> = self
                     .scope
                     .iter()

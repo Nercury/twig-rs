@@ -14,7 +14,16 @@
 //! 3. `data_json` is reduced by ddmin over the entries of each array/object level, deepest last;
 //!    `data_php` loses top-level keys (the code is wrapped and `unset()`s them; the keys come from
 //!    the oracle's typed tree of the data);
-//! 4. the `config`, `globals`, `extensions` and `sandbox` entries are dropped one at a time.
+//! 4. the `config`, `globals`, `extensions` and `sandbox` entries are dropped one at a time (and
+//!    `test_classes`, when [`Options::drop_test_classes`] says candidates run in fresh processes).
+//!
+//! Candidates must not see each other: PHP compiles a template class once per process (with `cache
+//! => false` a later candidate with the same source and options reuses it, without its
+//! compile-time deprecations), classes declared by one candidate's `data_php` or `test_classes`
+//! stay declared for the next, and a filesystem cache directory holds the classes an earlier
+//! candidate compiled. [`SameSignature`] therefore runs every candidate in a PHP process of its own
+//! (`"isolation": "process"`, see [`ISOLATION`]) and gives each one a cache directory of its own
+//! when the case has a filesystem cache.
 
 use std::collections::HashMap;
 use std::time::Duration;
@@ -42,6 +51,10 @@ pub struct Options {
     pub max_tests: usize,
     /// Print each batch of candidates to stderr.
     pub verbose: bool,
+    /// Try dropping `test_classes`. Only sound when every candidate runs in a fresh PHP process:
+    /// in a shared one the classes an earlier candidate declared stay declared, so PHP would not
+    /// notice that a candidate needs them while twig-rs would.
+    pub drop_test_classes: bool,
 }
 
 impl Default for Options {
@@ -50,6 +63,7 @@ impl Default for Options {
             byte_limit: 400,
             max_tests: 5_000,
             verbose: false,
+            drop_test_classes: false,
         }
     }
 }
@@ -578,7 +592,9 @@ fn drop_settings(session: &mut Session<'_>, mut current: Json) -> Json {
         "timezone",
         "test_classes",
     ] {
-        if current.get(field).is_none() {
+        if current.get(field).is_none()
+            || (field == "test_classes" && !session.options.drop_test_classes)
+        {
             continue;
         }
         let mut candidate = current.clone();
@@ -609,20 +625,32 @@ fn drop_settings(session: &mut Session<'_>, mut current: Json) -> Json {
     current
 }
 
+/// How candidates run in the oracle unless told otherwise: every one in a PHP process of its own
+/// (see the module documentation).
+pub const ISOLATION: &str = "process";
+
+/// Where candidates with a filesystem cache get their own directories (in the oracle's container).
+pub const CANDIDATE_CACHE_DIR: &str = "/tmp/twig-fuzz-candidates";
+
 /// The predicate "the oracle and twig-rs still disagree with this signature", through a served
-/// oracle. Candidates that need the oracle's typed data get `typed_data`.
+/// oracle. Candidates that need the oracle's typed data get `typed_data`; candidates of a case with a
+/// filesystem cache (`config.cache`) each get a directory of their own under
+/// [`CANDIDATE_CACHE_DIR`] (the runner empties a directory before a case uses it, but candidates that
+/// share one could not run in parallel).
 pub struct SameSignature<'o> {
     oracle: &'o mut Oracle,
     executor: &'o mut Executor,
     signature: String,
     timeout: Duration,
     isolation: Option<String>,
+    candidates: usize,
     /// Oracle failures seen (a broken oracle answers "no" to everything).
     pub oracle_errors: Vec<String>,
 }
 
 impl<'o> SameSignature<'o> {
-    /// The predicate for `signature`.
+    /// The predicate for `signature`; `isolation` is the oracle batch's isolation mode (normally
+    /// `Some(`[`ISOLATION`]`)`).
     pub fn new(
         oracle: &'o mut Oracle,
         executor: &'o mut Executor,
@@ -636,9 +664,28 @@ impl<'o> SameSignature<'o> {
             signature,
             timeout,
             isolation,
+            candidates: 0,
             oracle_errors: Vec::new(),
         }
     }
+}
+
+/// The filesystem cache directory of a case (`config.cache` when it is a string).
+pub fn cache_dir(case: &Json) -> Option<&str> {
+    case.get("config")?.get("cache")?.as_str()
+}
+
+/// `case` with the filesystem cache directory `dir` instead of its own (cases without one are left
+/// alone).
+pub fn with_cache_dir(case: &Json, dir: &str) -> Json {
+    let mut case = case.clone();
+    if cache_dir(&case).is_some()
+        && let Some(mut config) = case.get("config").cloned()
+    {
+        config.set("cache", Json::str(dir));
+        case.set("config", config);
+    }
+    case
 }
 
 /// The PHP memory limit of fuzz cases that set none (the image's default is unlimited; a runaway
@@ -672,7 +719,18 @@ pub fn oracle_request(case: &Json) -> Json {
 
 impl Predicate for SameSignature<'_> {
     fn test(&mut self, candidates: &[Json]) -> Vec<bool> {
-        let requests: Vec<Json> = candidates.iter().map(oracle_request).collect();
+        let requests: Vec<Json> = candidates
+            .iter()
+            .map(|candidate| {
+                self.candidates += 1;
+                let dir = format!(
+                    "{CANDIDATE_CACHE_DIR}/{}-{}",
+                    std::process::id(),
+                    self.candidates
+                );
+                oracle_request(&with_cache_dir(candidate, &dir))
+            })
+            .collect();
         let results = match self.oracle.run_served(&requests, self.isolation.as_deref()) {
             Ok(results) => results,
             Err(error) => {
@@ -680,11 +738,11 @@ impl Predicate for SameSignature<'_> {
                 return vec![false; candidates.len()];
             }
         };
-        candidates
+        requests
             .iter()
             .zip(results)
-            .map(|(candidate, result)| {
-                let Ok(case) = Case::from_json(&oracle_request(candidate)) else {
+            .map(|(request, result)| {
+                let Ok(case) = Case::from_json(request) else {
                     return false;
                 };
                 let expected = CaseResult::from_json(&result);

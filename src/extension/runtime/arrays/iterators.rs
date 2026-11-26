@@ -16,7 +16,8 @@ use twig_value::{
     Array, ArrayKey, Diagnostics, KeyContext, PhpError, PhpResult, ThrowableClass, Value, convert,
 };
 
-use super::callables::{call_value, check_callable};
+use crate::extension::runtime::callables::{Callee, call_callee, check_callable};
+use crate::runtime::Environment;
 use crate::vm::Exception;
 
 static OUTER_ITERATOR: LazyLock<ClassRef> = LazyLock::new(|| {
@@ -62,8 +63,8 @@ static CALLBACK_FILTER_ITERATOR: LazyLock<ClassRef> = LazyLock::new(|| {
 enum DualKind {
     /// `IteratorIterator`.
     IteratorIterator,
-    /// `CallbackFilterIterator` with its callback.
-    CallbackFilter(Value),
+    /// `CallbackFilterIterator` with its (checked) callback.
+    CallbackFilter(Callee),
 }
 
 /// The mutable part of `spl_dual_it_object`.
@@ -266,7 +267,7 @@ impl Object for DualIterator {
                         (state.data.clone(), state.key.clone())
                     };
                     match (data, key) {
-                        (Some(data), Some(key)) => call_value(
+                        (Some(data), Some(key)) => call_callee(
                             callback,
                             vec![data, key, Value::Object(self.inner_object.clone())],
                             diag,
@@ -304,6 +305,7 @@ fn iterator_of(
 /// iterator of the result; the `CallbackFilterIterator` constructor checks the callback (`Z_PARAM_FUNC`) and takes
 /// the iterator of the `IteratorIterator`. Nothing is iterated until the result is.
 pub(super) fn callback_filter_iterator(
+    env: &Environment,
     traversable: &ObjectRef,
     callback: &Value,
     diag: &mut dyn Diagnostics,
@@ -329,16 +331,19 @@ pub(super) fn callback_filter_iterator(
         inner,
         iterator,
     ));
-    check_callable(
+    let callee = check_callable(
+        env,
         callback,
         "CallbackFilterIterator::__construct",
         2,
         "callback",
         false,
-    )?;
+        diag,
+    )?
+    .expect("a non-null callable");
     let iterator = iterator_of(&inner_iterator, diag)?;
     Ok(Value::Object(ObjectRef::new(DualIterator::new(
-        DualKind::CallbackFilter(callback.clone()),
+        DualKind::CallbackFilter(callee),
         inner_iterator,
         iterator,
     ))))

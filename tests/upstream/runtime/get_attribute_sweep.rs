@@ -376,7 +376,6 @@ fn get_attribute_sweep_matches_the_oracle() {
 }
 
 #[test]
-#[ignore = "twig-rs mismatch: a null key on a sandboxed ArrayAccess object is a property violation instead of PHP's TypeError"]
 fn get_attribute_sweep_null_keys_of_sandboxed_array_access_objects() {
     // e.g. {{ o[i] }} with o = TemplateArrayAccessObject, i = null, sandboxed: PHP renders `An exception has been
     // thrown during the rendering of a template ("Twig\Sandbox\SecurityNotAllowedPropertyError::__construct():

@@ -76,8 +76,10 @@
 //! * Arguments: describe each parameter with [`param::Arg`] (function, position, name, arginfo
 //!   type) and parse with [`param::parse_long`], [`param::parse_str`], [`param::parse_number`], …;
 //!   use [`param::Arg::type_error`] / [`param::Arg::value_error`] for the remaining messages and
-//!   [`object::CallArgs::bind`] for arity/named-argument errors. Twig's own typed PHP methods
-//!   (userland functions): [`param::verify_user_arg`] with a [`param::DeclaredType`].
+//!   [`object::CallArgs::bind`] for arity/named-argument errors ([`object::CallArgs::unpack`] with
+//!   an [`object::CalleeParams`] when `...` is unpacked into a known callee). Twig's own typed PHP
+//!   methods (userland functions): [`param::verify_user_arg`] / [`param::verify_user_return`] with a
+//!   [`param::DeclaredType`].
 //! * Strings are [`PhpString`] bytes; string conversion of arguments is [`convert::to_string`]
 //!   (floats at precision 14, `Array to string conversion`, `__toString()`).
 //! * Arrays: build results with [`Array::new`] (`array_init`), [`Array::with_capacity`]

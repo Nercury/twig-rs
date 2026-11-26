@@ -5,8 +5,9 @@ use std::collections::HashMap;
 use std::sync::{Arc, LazyLock, Mutex};
 
 use twig_value::object::{CallArgs, ClassRef, FetchMode, ObjectRef, PropertyCheck, Visibility};
+use twig_value::param::{DeclaredType, TypeMask, UserArg};
 use twig_value::types::get_debug_type;
-use twig_value::{Array, ArrayKey, Diagnostics, ThrowableClass, Value, convert};
+use twig_value::{ArrayKey, Diagnostics, ThrowableClass, Value, convert};
 
 use super::sandbox::Violation;
 use crate::ast::CallType;
@@ -156,10 +157,15 @@ fn display(value: &Value, diag: &mut dyn Diagnostics) -> Result<String, Exceptio
 /// property must be allowed by the policy (else the lookup goes on with the methods, and the property violation is
 /// what fails when no method matches), and so must the method.
 ///
+/// `arguments` is what the compiled call passes as `array $arguments` (`[]` without an arguments node): the `RECV` of
+/// that typed parameter rejects anything but an array before the lookup starts (`attribute(x, 'a', null)`).
+///
 /// # Errors
 ///
-/// The `RuntimeError`s of strict mode (with the access line and the template source) and whatever a called method
-/// or property handler throws.
+/// The `TypeError` of `$arguments` (`Twig\Extension\CoreExtension::getAttribute(): Argument #5 ($arguments) must be
+/// of type array, null given`; PHP's `, called in <file> on line N` suffix is left out, reference/deviations.md), the
+/// `RuntimeError`s of strict mode (with the access line and the template source) and whatever a called method or
+/// property handler throws.
 pub(crate) fn get_attribute(
     state: &mut VmState,
     program: &Program,
@@ -168,6 +174,20 @@ pub(crate) fn get_attribute(
     arguments: Value,
     op: &GetAttrOp,
 ) -> Result<Value, Exception> {
+    // `array $arguments = []` (TWIG/src/Extension/CoreExtension.php): no weak coercion reaches an array, so
+    // zend_verify_arg_error() names the value (`zend_zval_value_name()`: `true`/`false` for booleans)
+    let arguments = match arguments {
+        Value::Array(arguments) => arguments,
+        other => {
+            return Err(UserArg::new(
+                "Twig\\Extension\\CoreExtension::getAttribute",
+                5,
+                "arguments",
+            )
+            .type_error(&DeclaredType::builtin(TypeMask::ARRAY), &other)
+            .into());
+        }
+    };
     let strict = state.env.is_strict_variables();
     let lenient = op.ignore_strict_check || !strict;
     let source = program.source();
@@ -211,7 +231,7 @@ pub(crate) fn get_attribute(
             && container.instance_of("ArrayAccess")
             && !is_array_like_class(container)
         {
-            match checker.check_property_allowed(container, &array_item, op.line, source) {
+            match checker.check_property_allowed(container, &array_item, op.line, source, state) {
                 Ok(()) => {}
                 Err(Violation::NotAllowed(violation)) => {
                     property_not_allowed = Some(violation);
@@ -373,6 +393,7 @@ pub(crate) fn get_attribute(
             &Value::String(item.clone()),
             op.line,
             source,
+            state,
         ) {
             Ok(()) => {}
             Err(Violation::NotAllowed(violation)) => {
@@ -472,11 +493,8 @@ pub(crate) fn get_attribute(
         return Ok(Value::Bool(true));
     }
 
-    let args = match &arguments {
-        Value::Array(array) => CallArgs::from_spread(array)?,
-        Value::Null => CallArgs::new(),
-        other => CallArgs::from_spread(&Array::from_values([other.clone()]))?,
-    };
+    // `$object->$method(...$arguments)`
+    let args = CallArgs::from_spread(&arguments)?;
     match object_ref.call_method(&method, args, state) {
         Ok(value) => Ok(value),
         Err(e) => {

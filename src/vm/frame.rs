@@ -3,7 +3,7 @@
 use std::sync::Arc;
 
 use twig_value::object::{CallArgs, ObjectIterator};
-use twig_value::{Array, ArrayKey, Diagnostics, PhpError, PhpString, ThrowableClass, Value};
+use twig_value::{Array, ArrayKey, Diagnostics, PhpError, ThrowableClass, Value};
 
 use super::exception::Exception;
 use crate::lltl::Label;
@@ -20,7 +20,8 @@ pub(crate) struct Frame {
     pub(crate) blocks: Option<Blocks>,
     pub(crate) template: Arc<Template>,
     pub(crate) stack: Vec<Value>,
-    pub(crate) locals: Vec<Value>,
+    /// The compiler variables (`$_vN`); `None` until assigned (an undefined PHP variable).
+    pub(crate) locals: Vec<Option<Value>>,
     pub(crate) iterators: Vec<LoopIter>,
     pub(crate) args: Vec<ArgList>,
     pub(crate) saved_macros: Vec<Array>,
@@ -72,6 +73,23 @@ impl Frame {
         frame
     }
 
+    /// The value of a local (`null` when unassigned).
+    pub(crate) fn local(&self, slot: crate::lltl::LocalId) -> Value {
+        self.locals
+            .get(slot as usize)
+            .and_then(Option::clone)
+            .unwrap_or_default()
+    }
+
+    /// Assigns a local.
+    pub(crate) fn set_local(&mut self, slot: crate::lltl::LocalId, value: Value) {
+        let slot = slot as usize;
+        if self.locals.len() <= slot {
+            self.locals.resize(slot + 1, None);
+        }
+        self.locals[slot] = Some(value);
+    }
+
     #[inline]
     pub(crate) fn push(&mut self, value: Value) {
         self.stack.push(value);
@@ -118,72 +136,18 @@ impl ArgList {
         self.args.positional.push(value);
     }
 
-    fn push_named(&mut self, name: PhpString, value: Value) {
-        self.args.named.push((name, value));
-    }
-
-    /// `...value` in a call: `ZEND_SEND_UNPACK` (PHPSRC/Zend/zend_vm_def.h): array elements with int keys are
-    /// positional, string keys named; Traversables are iterated (canonical numeric string keys are positional).
+    /// `...value` in a call: `ZEND_SEND_UNPACK` (PHPSRC/Zend/zend_vm_def.h), with `twig-value`'s port
+    /// ([`CallArgs::unpack`]): array elements with int keys are positional, string keys named; Traversables are
+    /// iterated (canonical numeric string keys are positional). Knowing the `callee`, each named element is sent
+    /// as PHP sends it (`zend_handle_named_arg()`: `Unknown named parameter $x`, `Named parameter $x overwrites
+    /// previous argument` at that element).
     pub(crate) fn unpack(
         &mut self,
         value: &Value,
+        callee: Option<&twig_value::object::CalleeParams<'_>>,
         diag: &mut dyn Diagnostics,
     ) -> Result<(), Exception> {
-        let positional_after_named = || -> Exception {
-            PhpError::error("Cannot use positional argument after named argument during unpacking")
-                .into()
-        };
-        match value {
-            Value::Array(array) => {
-                for (key, element) in array {
-                    match key {
-                        ArrayKey::Str(name) => self.push_named(name.clone(), element.clone()),
-                        ArrayKey::Int(_) => {
-                            if !self.args.named.is_empty() {
-                                return Err(positional_after_named());
-                            }
-                            self.push(element.clone());
-                        }
-                    }
-                }
-                Ok(())
-            }
-            Value::Object(object) => {
-                let Some(mut iter) = object.get_iterator(diag)? else {
-                    return Err(unpack_type_error(value, true));
-                };
-                iter.rewind(diag)?;
-                while iter.valid(diag)? {
-                    let element = iter.current(diag)?;
-                    let key = iter.key(diag)?;
-                    let name = match key {
-                        Value::Int(_) => None,
-                        Value::String(name) => match ArrayKey::from_string(name.clone()) {
-                            ArrayKey::Int(_) => None,
-                            ArrayKey::Str(name) => Some(name),
-                        },
-                        _ => {
-                            return Err(PhpError::error(
-                                "Keys must be of type int|string during argument unpacking",
-                            )
-                            .into());
-                        }
-                    };
-                    match name {
-                        Some(name) => self.push_named(name, element),
-                        None => {
-                            if !self.args.named.is_empty() {
-                                return Err(positional_after_named());
-                            }
-                            self.push(element);
-                        }
-                    }
-                    iter.next(diag)?;
-                }
-                Ok(())
-            }
-            _ => Err(unpack_type_error(value, true)),
-        }
+        Ok(self.args.unpack(value, callee, diag)?)
     }
 }
 

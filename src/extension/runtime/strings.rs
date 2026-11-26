@@ -29,8 +29,7 @@ mod text;
 pub use escaper::{EscaperCallback, EscaperRuntime};
 
 use twig_value::object::{FunctionKind, Param};
-use twig_value::types::zend_zval_value_name;
-use twig_value::{Diagnostics, PhpError, PhpString, Value, convert};
+use twig_value::{PhpString, Value};
 
 use super::{Call, CallResult, RuntimeTable};
 
@@ -99,22 +98,6 @@ fn or_empty(value: Value) -> Value {
     }
 }
 
-/// The declared return type `string` of a userland method in coercive mode (`zend_verify_return_type()`,
-/// PHPSRC/Zend/zend_execute.c): strings pass, ints, floats and bools are converted, `Stringable` objects are cast;
-/// anything else throws `TypeError: X(): Return value must be of type string, Y returned`.
-fn return_string(function: &str, value: Value, diag: &mut dyn Diagnostics) -> CallResult {
-    match value {
-        Value::String(_) => Ok(value),
-        Value::Int(_) | Value::Float(_) | Value::Bool(_) => {
-            Ok(Value::String(convert::to_string(&value, diag)?))
-        }
-        Value::Object(object) if object.instance_of("Stringable") => {
-            Ok(Value::String(object.to_php_string(diag)?))
-        }
-        other => Err(PhpError::type_error(format!(
-            "{function}(): Return value must be of type string, {} returned",
-            zend_zval_value_name(&other)
-        ))
-        .into()),
-    }
-}
+/// The declared return type `string` of a userland method in coercive mode
+/// ([`verify_return_string`](super::verify_return_string)).
+use super::verify_return_string as return_string;

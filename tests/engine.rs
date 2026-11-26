@@ -118,3 +118,8 @@ fn sandbox() {
 fn api() {
     engine::api::run_api_topic("api");
 }
+
+#[test]
+fn parity() {
+    engine::run_topic("parity");
+}

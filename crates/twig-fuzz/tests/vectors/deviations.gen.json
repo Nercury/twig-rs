@@ -1,0 +1,196 @@
+[
+ {
+  "id": "closure-display",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% do [1, 2]|map((a, b, c) => a)|join %}"
+  }
+ },
+ {
+  "id": "closure-nested",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [[1, 2]]|map(x => x|map((a, b, c) => a)|join)|join }}"
+  }
+ },
+ {
+  "id": "closure-macro",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% macro m() %}{{ [[1, 2]]|map(x => x|map((a, b, c) => a)|join)|join }}{% endmacro %}{{ _self.m() }}"
+  }
+ },
+ {
+  "id": "closure-block",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% block b %}{{ [1]|map((a, b, c) => a)|join }}{% endblock %}"
+  }
+ },
+ {
+  "id": "closure-embed",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% embed 'e.twig' %}{% block b %}{{ [1]|map((a,b,c)=>a)|join }}{% endblock %}{% endembed %}",
+   "e.twig": "{% block b %}{% endblock %}"
+  }
+ },
+ {
+  "id": "closure-internal-caller",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1,2]|sort((a, b, c) => 0)|join }}"
+  }
+ },
+ {
+  "id": "closure-cache",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1,2]|reduce((a, b, c, d) => a) }}"
+  },
+  "config": {
+   "cache": "/tmp/twig-fuzz-cache/closure-cache"
+  }
+ },
+ {
+  "id": "handle-html",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ dump(o)|e('html') }}"
+  },
+  "config": {
+   "debug": true
+  },
+  "extensions": [
+   "debug"
+  ],
+  "data_php": "return ['o' => new \\stdClass(), 'a' => new \\ArrayObject([1]), 'bad' => \"\\xff\"]"
+ },
+ {
+  "id": "handle-html_attr",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ dump(o)|e('html_attr') }}"
+  },
+  "config": {
+   "debug": true
+  },
+  "extensions": [
+   "debug"
+  ],
+  "data_php": "return ['o' => new \\stdClass(), 'a' => new \\ArrayObject([1]), 'bad' => \"\\xff\"]"
+ },
+ {
+  "id": "handle-js",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ dump(o)|e('js') }}"
+  },
+  "config": {
+   "debug": true
+  },
+  "extensions": [
+   "debug"
+  ],
+  "data_php": "return ['o' => new \\stdClass(), 'a' => new \\ArrayObject([1]), 'bad' => \"\\xff\"]"
+ },
+ {
+  "id": "handle-css",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ dump(o)|e('css') }}"
+  },
+  "config": {
+   "debug": true
+  },
+  "extensions": [
+   "debug"
+  ],
+  "data_php": "return ['o' => new \\stdClass(), 'a' => new \\ArrayObject([1]), 'bad' => \"\\xff\"]"
+ },
+ {
+  "id": "handle-url",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ dump(o)|e('url') }}"
+  },
+  "config": {
+   "debug": true
+  },
+  "extensions": [
+   "debug"
+  ],
+  "data_php": "return ['o' => new \\stdClass(), 'a' => new \\ArrayObject([1]), 'bad' => \"\\xff\"]"
+ },
+ {
+  "id": "handle-title",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ dump(o)|title }}"
+  },
+  "config": {
+   "debug": true
+  },
+  "extensions": [
+   "debug"
+  ],
+  "data_php": "return ['o' => new \\stdClass(), 'a' => new \\ArrayObject([1]), 'bad' => \"\\xff\"]"
+ },
+ {
+  "id": "handle-upper",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ dump(o)|upper }}"
+  },
+  "config": {
+   "debug": true
+  },
+  "extensions": [
+   "debug"
+  ],
+  "data_php": "return ['o' => new \\stdClass(), 'a' => new \\ArrayObject([1]), 'bad' => \"\\xff\"]"
+ },
+ {
+  "id": "handle-capitalize",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ dump(a)|capitalize }}"
+  },
+  "config": {
+   "debug": true
+  },
+  "extensions": [
+   "debug"
+  ],
+  "data_php": "return ['o' => new \\stdClass(), 'a' => new \\ArrayObject([1]), 'bad' => \"\\xff\"]"
+ },
+ {
+  "id": "handle-not-utf8",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ dump(o) }}{{ bad }}"
+  },
+  "config": {
+   "debug": true,
+   "autoescape": false
+  },
+  "extensions": [
+   "debug"
+  ],
+  "data_php": "return ['o' => new \\stdClass(), 'a' => new \\ArrayObject([1]), 'bad' => \"\\xff\"]"
+ },
+ {
+  "id": "handle-nested-js",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ dump([o, a])|e('js') }}"
+  },
+  "config": {
+   "debug": true
+  },
+  "extensions": [
+   "debug"
+  ],
+  "data_php": "return ['o' => new \\stdClass(), 'a' => new \\ArrayObject([1]), 'bad' => \"\\xff\"]"
+ }
+]

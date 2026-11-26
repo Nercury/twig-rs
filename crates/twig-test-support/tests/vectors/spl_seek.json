@@ -1,0 +1,943 @@
+[
+    {
+        "name": "seek0",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "seek",
+                    0
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 0,
+                    "current": 0,
+                    "info": "i0"
+                }
+            }
+        ]
+    },
+    {
+        "name": "seek2",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "seek",
+                    2
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 2,
+                    "current": 2,
+                    "info": "i2"
+                }
+            }
+        ]
+    },
+    {
+        "name": "seek2_1",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "seek",
+                    2
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 2,
+                    "current": 2,
+                    "info": "i2"
+                }
+            },
+            {
+                "op": [
+                    "seek",
+                    1
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 1,
+                    "current": 1,
+                    "info": "i1"
+                }
+            }
+        ]
+    },
+    {
+        "name": "seek3",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "seek",
+                    3
+                ],
+                "result": {
+                    "err": [
+                        "OutOfBoundsException",
+                        "Seek position 3 is out of range"
+                    ]
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 0,
+                    "current": 0,
+                    "info": "i0"
+                }
+            }
+        ]
+    },
+    {
+        "name": "seekm1",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "seek",
+                    -1
+                ],
+                "result": {
+                    "err": [
+                        "OutOfBoundsException",
+                        "Seek position -1 is out of range"
+                    ]
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 0,
+                    "current": 0,
+                    "info": "i0"
+                }
+            }
+        ]
+    },
+    {
+        "name": "end_seek2",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "rewind"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 0,
+                    "current": 0,
+                    "info": "i0"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 1,
+                    "current": 1,
+                    "info": "i1"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 2,
+                    "current": 2,
+                    "info": "i2"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": false,
+                    "key": 3,
+                    "current": "RuntimeException: Called current() on invalid iterator",
+                    "info": null
+                }
+            },
+            {
+                "op": [
+                    "seek",
+                    2
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": false,
+                    "key": 2,
+                    "current": "RuntimeException: Called current() on invalid iterator",
+                    "info": null
+                }
+            }
+        ]
+    },
+    {
+        "name": "end_seek0",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "rewind"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 0,
+                    "current": 0,
+                    "info": "i0"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 1,
+                    "current": 1,
+                    "info": "i1"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 2,
+                    "current": 2,
+                    "info": "i2"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": false,
+                    "key": 3,
+                    "current": "RuntimeException: Called current() on invalid iterator",
+                    "info": null
+                }
+            },
+            {
+                "op": [
+                    "seek",
+                    0
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 0,
+                    "current": 0,
+                    "info": "i0"
+                }
+            }
+        ]
+    },
+    {
+        "name": "end_seek1",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "rewind"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 0,
+                    "current": 0,
+                    "info": "i0"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 1,
+                    "current": 1,
+                    "info": "i1"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 2,
+                    "current": 2,
+                    "info": "i2"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": false,
+                    "key": 3,
+                    "current": "RuntimeException: Called current() on invalid iterator",
+                    "info": null
+                }
+            },
+            {
+                "op": [
+                    "seek",
+                    1
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 1,
+                    "current": 1,
+                    "info": "i1"
+                }
+            }
+        ]
+    },
+    {
+        "name": "far_seek2",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 1,
+                    "current": 1,
+                    "info": "i1"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 2,
+                    "current": 2,
+                    "info": "i2"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": false,
+                    "key": 3,
+                    "current": "RuntimeException: Called current() on invalid iterator",
+                    "info": null
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": false,
+                    "key": 4,
+                    "current": "RuntimeException: Called current() on invalid iterator",
+                    "info": null
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": false,
+                    "key": 5,
+                    "current": "RuntimeException: Called current() on invalid iterator",
+                    "info": null
+                }
+            },
+            {
+                "op": [
+                    "seek",
+                    2
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 2,
+                    "current": 2,
+                    "info": "i2"
+                }
+            }
+        ]
+    },
+    {
+        "name": "far_seek1_of4",
+        "n": 4,
+        "steps": [
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 1,
+                    "current": 1,
+                    "info": "i1"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 2,
+                    "current": 2,
+                    "info": "i2"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 3,
+                    "current": 3,
+                    "info": "i3"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": false,
+                    "key": 4,
+                    "current": "RuntimeException: Called current() on invalid iterator",
+                    "info": null
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": false,
+                    "key": 5,
+                    "current": "RuntimeException: Called current() on invalid iterator",
+                    "info": null
+                }
+            },
+            {
+                "op": [
+                    "seek",
+                    3
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": false,
+                    "key": 3,
+                    "current": "RuntimeException: Called current() on invalid iterator",
+                    "info": null
+                }
+            }
+        ]
+    },
+    {
+        "name": "seek_str",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "seek",
+                    "1"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 1,
+                    "current": 1,
+                    "info": "i1"
+                }
+            }
+        ]
+    },
+    {
+        "name": "seek_bad",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "seek",
+                    "x"
+                ],
+                "result": {
+                    "err": [
+                        "TypeError",
+                        "SplObjectStorage::seek(): Argument #1 ($offset) must be of type int, string given"
+                    ]
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 0,
+                    "current": 0,
+                    "info": "i0"
+                }
+            }
+        ]
+    },
+    {
+        "name": "seek_float",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "seek",
+                    1.5
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [
+                    "Implicit conversion from float 1.5 to int loses precision"
+                ],
+                "state": {
+                    "valid": true,
+                    "key": 1,
+                    "current": 1,
+                    "info": "i1"
+                }
+            }
+        ]
+    },
+    {
+        "name": "seek_null",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "seek",
+                    null
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [
+                    "SplObjectStorage::seek(): Passing null to parameter #1 ($offset) of type int is deprecated"
+                ],
+                "state": {
+                    "valid": true,
+                    "key": 0,
+                    "current": 0,
+                    "info": "i0"
+                }
+            }
+        ]
+    },
+    {
+        "name": "seek_none",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "seek"
+                ],
+                "result": {
+                    "err": [
+                        "ArgumentCountError",
+                        "SplObjectStorage::seek() expects exactly 1 argument, 0 given"
+                    ]
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 0,
+                    "current": 0,
+                    "info": "i0"
+                }
+            }
+        ]
+    },
+    {
+        "name": "seek_two",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "seek",
+                    1,
+                    2
+                ],
+                "result": {
+                    "err": [
+                        "ArgumentCountError",
+                        "SplObjectStorage::seek() expects exactly 1 argument, 2 given"
+                    ]
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 0,
+                    "current": 0,
+                    "info": "i0"
+                }
+            }
+        ]
+    },
+    {
+        "name": "empty_seek0",
+        "n": 0,
+        "steps": [
+            {
+                "op": [
+                    "seek",
+                    0
+                ],
+                "result": {
+                    "err": [
+                        "OutOfBoundsException",
+                        "Seek position 0 is out of range"
+                    ]
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": false,
+                    "key": 0,
+                    "current": "RuntimeException: Called current() on invalid iterator",
+                    "info": null
+                }
+            }
+        ]
+    },
+    {
+        "name": "detach_seek1",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "detach",
+                    1
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 0,
+                    "current": 0,
+                    "info": "i0"
+                }
+            },
+            {
+                "op": [
+                    "seek",
+                    1
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 1,
+                    "current": 2,
+                    "info": "i2"
+                }
+            }
+        ]
+    },
+    {
+        "name": "seek1_back0",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "seek",
+                    2
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 2,
+                    "current": 2,
+                    "info": "i2"
+                }
+            },
+            {
+                "op": [
+                    "seek",
+                    1
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 1,
+                    "current": 1,
+                    "info": "i1"
+                }
+            },
+            {
+                "op": [
+                    "seek",
+                    1
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 1,
+                    "current": 1,
+                    "info": "i1"
+                }
+            },
+            {
+                "op": [
+                    "seek",
+                    0
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 0,
+                    "current": 0,
+                    "info": "i0"
+                }
+            }
+        ]
+    },
+    {
+        "name": "seek_after_next",
+        "n": 4,
+        "steps": [
+            {
+                "op": [
+                    "seek",
+                    1
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 1,
+                    "current": 1,
+                    "info": "i1"
+                }
+            },
+            {
+                "op": [
+                    "next"
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 2,
+                    "current": 2,
+                    "info": "i2"
+                }
+            },
+            {
+                "op": [
+                    "seek",
+                    3
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 3,
+                    "current": 3,
+                    "info": "i3"
+                }
+            },
+            {
+                "op": [
+                    "seek",
+                    2
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 2,
+                    "current": 2,
+                    "info": "i2"
+                }
+            }
+        ]
+    },
+    {
+        "name": "seek_named",
+        "n": 3,
+        "steps": [
+            {
+                "op": [
+                    "seek_named",
+                    2
+                ],
+                "result": {
+                    "ok": null
+                },
+                "diagnostics": [],
+                "state": {
+                    "valid": true,
+                    "key": 2,
+                    "current": 2,
+                    "info": "i2"
+                }
+            }
+        ]
+    }
+]

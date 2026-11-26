@@ -1224,11 +1224,26 @@ def api():
     ]))
     return c
 
+def parity():
+    """Object cases of plans/parity-fixes.md (the other cases are in tests/vectors/engine/parity/): the `loop`
+    bookkeeping writes of ForLoopNode into a userland ArrayAccess object (`offsetGet()` returns a copy, so `++` warns
+    `Indirect modification of overloaded element of %s has no effect`; `offsetSet()` gets `first`) and into an object
+    without ArrayAccess."""
+    c = []
+    for errors in ("collect", "throw"):
+        c.append(case("{% for x in [1, 2] %}{% set loop = access %}{% endfor %}{{ access.a }}", objects=["access"],
+                      errors=errors))
+    c.append(case("{% for x in [1, 2] %}{% set loop = access %}{{ loop.a }}{% endfor %}", objects=["access"]))
+    c.append(case("{% for x in [1, 2] %}{% set loop = magic %}{% endfor %}", objects=["magic"]))
+    c.append(case("{% for x in [1, 2] %}{% set loop = bag %}{% endfor %}", objects=["bag"]))
+    return c
+
+
 TOPICS = {"output": output, "expressions": expressions, "variables": variables, "statements": statements,
           "errors": errors, "objects": objects, "lines": lines, "diagnostics": diagnostics,
           "optimized": optimized, "escape": escape, "inheritance": inheritance, "traits": traits, "embed": embed,
           "include": include, "macros": macros, "composition_errors": composition_errors, "sandbox": sandbox,
-          "api": api}
+          "api": api, "parity": parity}
 
 if __name__ == "__main__":
     args = sys.argv[1:]

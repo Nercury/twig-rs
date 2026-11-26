@@ -44,6 +44,10 @@ pub struct DriveOptions {
     pub description: String,
     /// Mark written vectors `known_mismatch`.
     pub mark_known: bool,
+    /// Minimise with the batch's own isolation mode instead of a PHP process per candidate
+    /// (faster, but candidates then share compiled templates and declared classes: see
+    /// [`minimize`]).
+    pub shared_minimize: bool,
     /// Print progress to stderr.
     pub verbose: bool,
 }
@@ -59,6 +63,7 @@ impl Default for DriveOptions {
             oracle_results: None,
             description: String::new(),
             mark_known: true,
+            shared_minimize: false,
             verbose: true,
         }
     }
@@ -314,6 +319,11 @@ fn minimize_case(
     options: &DriveOptions,
     isolation: Option<String>,
 ) -> Option<Reproduction> {
+    let isolation = if options.shared_minimize {
+        isolation
+    } else {
+        Some(minimize::ISOLATION.to_owned())
+    };
     let mut start = compared.case.clone();
     if let (Some(expected), Ok(case)) = (&compared.oracle, Case::from_json(&start))
         && matches!(case.data, CaseData::Php(_))
@@ -338,6 +348,7 @@ fn minimize_case(
         );
         let settings = minimize::Options {
             verbose: options.verbose,
+            drop_test_classes: isolation.as_deref() == Some(minimize::ISOLATION),
             ..minimize::Options::default()
         };
         let result = minimize::minimize(&start, &mut predicate, settings);
@@ -351,6 +362,11 @@ fn minimize_case(
             );
         }
         (result.case, result.tests)
+    };
+    // the minimised case keeps the original's cache directory (candidates had their own)
+    let minimized = match minimize::cache_dir(&compared.case) {
+        Some(dir) => minimize::with_cache_dir(&minimized, dir),
+        None => minimized,
     };
     let request = oracle_request(&minimized);
     let expected = match oracle.run_served(std::slice::from_ref(&request), isolation.as_deref()) {

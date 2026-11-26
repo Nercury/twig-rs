@@ -52,6 +52,9 @@ pub enum BinaryOp {
     Div,
     /// `(int) floor(a / b)` (FloorDivBinary).
     FloorDiv,
+    /// `floor(a / b)`: FloorDivBinary as the left operand of `**`, where PHP applies the `(int)` cast to the power
+    /// (`(int) floor(a / b) ** c` is `(int) (floor(a / b) ** c)`).
+    FloorOfDiv,
     /// `%` (ModBinary).
     Mod,
     /// `**` (PowerBinary).
@@ -95,6 +98,7 @@ impl BinaryOp {
             BinaryOp::Mul => "*",
             BinaryOp::Div => "/",
             BinaryOp::FloorDiv => "//",
+            BinaryOp::FloorOfDiv => "floor(/)",
             BinaryOp::Mod => "%",
             BinaryOp::Pow => "**",
             BinaryOp::Concat => ".",
@@ -168,6 +172,14 @@ pub enum Instr {
     Dup,
     /// `[] -> [local]`.
     LoadLocal(LocalId),
+    /// `$_vN` read as a variable: `[] -> [local]`, where a local nothing assigned yet raises PHP's warning
+    /// `Undefined variable $_vN` and reads as `null`.
+    LoadVar {
+        /// The local.
+        local: LocalId,
+        /// The `N` of `$_vN` (`Compiler::getVarName()`).
+        name: u32,
+    },
     /// `[v] -> []`, stores into the local.
     StoreLocal(LocalId),
 
@@ -228,12 +240,20 @@ pub enum Instr {
     IsNull,
     /// `[a b] -> [a op b]`.
     Binary(BinaryOp),
+    /// `[a b] -> [a op b]` with PHP's operands swapped: a commutative opcode (`*`, `&`, `|`, `^`) whose op1 kind is
+    /// lower than op2's runs as `b op a` (`zend_vm_set_opcode_handler_ex()`), which converts and reports `b` first.
+    CommutedBinary(BinaryOp),
     /// ` -v` (NegUnary; PHP compiles it to `v * -1`).
     Neg,
     /// ` +v` (PosUnary; PHP compiles it to `v * 1`).
     Pos,
-    /// ` (string)v` (StringCastUnary).
+    /// ` (string)v` (StringCastUnary), or the `ZEND_CAST` PHP gives a constant array operand of `.`.
     StringCast,
+    /// `[a b] -> [(string) a, b]`: the `ZEND_CAST` PHP gives a constant array left operand of `.`, run after the
+    /// right operand is evaluated (`zend_compile_binary_op()`).
+    StringCastBelow,
+    /// `(int) v` (the cast of FloorDivBinary applied after `**`): `[v] -> [int]`.
+    IntCast,
     /// `CoreExtension::inFilter(a, b)`, negated for `not in`: `[a b] -> [bool]`.
     In {
         /// `not in`.
@@ -259,6 +279,9 @@ pub enum Instr {
     PhpConstant {
         /// The class of an object argument prefixes the name.
         with_object: bool,
+        /// The name is a spread argument, `constant(...value)`: the value is unpacked into `constant()`'s
+        /// arguments.
+        spread: bool,
     },
 
     // ---- arrays -------------------------------------------------------------------------------------------------
@@ -299,8 +322,12 @@ pub enum Instr {
     },
     /// `[v] -> []`: appends a positional argument to the current list.
     Arg,
-    /// `[v] -> []`: unpacks `...v` into the current list (`ZEND_SEND_UNPACK`).
-    ArgSpread,
+    /// `[v] -> []`: unpacks `...v` into the current list (`ZEND_SEND_UNPACK`), checking each named element against
+    /// the parameters of the callable it is sent to (`zend_handle_named_arg()`).
+    ArgSpread {
+        /// The callable called (an index into the program's callables).
+        callable: u32,
+    },
     /// Calls the filter, function or test `callables[i]` with the current argument list (the injected arguments
     /// are added by the runtime): `[] -> [result]`.
     Call(u32),
@@ -369,6 +396,10 @@ pub enum Instr {
     /// `function ($__a__, ...) use ($context, $macros) { ... }`: `[] -> [closure]`, snapshotting the context and the
     /// macros of the frame.
     MakeArrow(UnitId),
+    /// The `RECV` opcodes that start the closure of an arrow function, on the line of `function (`: nothing to do
+    /// (the arguments are bound when the closure is called), but the line of the `ArgumentCountError` PHP raises
+    /// there for missing arguments.
+    Recv,
 
     // ---- deprecations -------------------------------------------------------------------------------------------
     /// `trigger_deprecation(package, version, sprintf('%s in "<name>" at line N.', message))` (DeprecatedNode):
@@ -490,4 +521,35 @@ pub enum Instr {
     },
     /// Closes the region of the innermost [`Instr::TryLoader`].
     EndTry,
+
+    // ---- variables ----------------------------------------------------------------------------------------------
+    /// The read of `$blocks` passed to a block method of `$this`, after the block name: in an arrow function, whose
+    /// closure does not capture `$blocks`, PHP's warning `Undefined variable $blocks` (the method then rejects the
+    /// `null`).
+    CheckBlocks,
+
+    // ---- macro parameters ---------------------------------------------------------------------------------------
+    /// `ZEND_RECV_INIT` of a parameter whose default PHP could not fold (an `IS_CONSTANT_AST` default): when the
+    /// argument was not passed (the context holds the value `constant_ast` stands for), the value cached by an
+    /// earlier call is stored, or execution goes on with the evaluation of the default and [`Instr::RecvStore`];
+    /// otherwise jumps to `skip`.
+    RecvInit {
+        /// The constant holding the parameter name.
+        name: ConstId,
+        /// The constant holding the value standing for the unevaluated default.
+        constant_ast: ConstId,
+        /// The runtime cache slot.
+        cache: u32,
+        /// Where to go when nothing is left to evaluate.
+        skip: Label,
+    },
+    /// Stores the default evaluated after [`Instr::RecvInit`] in the context: `[v] -> []`. A value that is not
+    /// refcounted (`null`, a bool, an int, a float) is cached for later calls (`ZEND_RECV_INIT` keeps such values in
+    /// the runtime cache of the compiled closure).
+    RecvStore {
+        /// The constant holding the parameter name.
+        name: ConstId,
+        /// The runtime cache slot.
+        cache: u32,
+    },
 }

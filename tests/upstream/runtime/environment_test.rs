@@ -574,7 +574,6 @@ fn test_add_runtime_loader() {
 }
 
 #[test]
-#[ignore = "twig-rs mismatch: Environment::runtime() does not fall back to a registered extension of the class"]
 fn test_get_runtime_falls_back_to_the_registered_extension() {
     // `$twig->addExtension($extension = new EnvironmentTest_ExtensionWithAttributes('bar'))` then
     // `getRuntime(EnvironmentTest_ExtensionWithAttributes::class)` is that extension (Environment::getRuntime(): "if

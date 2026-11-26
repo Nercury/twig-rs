@@ -260,7 +260,6 @@ fn stringable_keys_match_the_oracle() {
 }
 
 #[test]
-#[ignore = "twig-rs mismatch: SecurityNotAllowedPropertyError's string $propertyName coercion of the raw ArrayAccess key"]
 fn stringable_keys_sandboxed_property_errors_of_array_access_objects() {
     let (count, failures) = run_sweep(|known| known == Some("property_error"));
     assert_eq!(count, 46);

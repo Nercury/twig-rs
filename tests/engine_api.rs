@@ -715,6 +715,74 @@ fn custom_security_policies() {
 }
 
 #[test]
+fn security_policies_throw_what_php_throws() {
+    use twig::value::object::StdClass;
+    use twig::value::{Diagnostic, Level, ThrowableClass};
+    // TWIG/src/Sandbox/SecurityPolicy.php, VERIFIED with the oracle (tests/runtime_parity.rs p21-*, the P23 sweeps of
+    // tests/upstream/runtime): an integer class key throws when the loop reaches it, and an `ArrayAccess` key that is
+    // not a string fails `SecurityNotAllowedPropertyError::__construct()` after `sprintf()` warned
+    let object = StdClass::new().into_ref();
+    let policy = SecurityPolicy::new();
+    policy.set_allowed_methods([("stdClass", vec!["foo"]), ("7", vec!["bar"])]);
+    assert_eq!(policy.check_method_allowed(&object, b"FOO"), Ok(()));
+    let error = policy.check_method_allowed(&object, b"bar").unwrap_err();
+    assert_eq!(error.kind(), &SecurityErrorKind::Php);
+    assert_eq!(error.class_name(), "Error");
+    assert_eq!(
+        error.message(),
+        "Class name must be a valid object or a string"
+    );
+    assert_eq!(error.error_kind(), ErrorKind::Php);
+    let converted = error.into_error();
+    assert_eq!(converted.class_name(), "Error");
+    assert!(SecurityError::of(&converted).is_none());
+    // "07" and "-0" are no integer keys: unknown classes
+    policy.set_allowed_methods([("07", vec!["bar"]), ("-0", vec!["bar"])]);
+    assert!(matches!(
+        policy
+            .check_method_allowed(&object, b"bar")
+            .unwrap_err()
+            .kind(),
+        SecurityErrorKind::Method { .. }
+    ));
+
+    let mut diagnostics: Vec<Diagnostic> = Vec::new();
+    let key = Value::Array(Array::from_values([Value::from("x")]));
+    let error = policy
+        .check_property_allowed_with_diagnostics(&object, &key, &mut diagnostics)
+        .unwrap_err();
+    assert_eq!(
+        diagnostics,
+        [Diagnostic::new(
+            Level::Warning,
+            "Array to string conversion"
+        )]
+    );
+    assert_eq!(
+        error.php_error().map(|e| e.class().clone()),
+        Some(ThrowableClass::TypeError)
+    );
+    assert_eq!(
+        error.message(),
+        "Twig\\Sandbox\\SecurityNotAllowedPropertyError::__construct(): Argument #3 ($propertyName) must be of type string, array given"
+    );
+    let error = policy
+        .check_property_allowed(&object, &Value::Int(1))
+        .unwrap_err();
+    assert_eq!(
+        error.kind(),
+        &SecurityErrorKind::Property {
+            class: "stdClass".to_owned(),
+            property: "1".to_owned()
+        }
+    );
+    assert_eq!(
+        error.message(),
+        "Calling \"1\" property on a \"stdClass\" object is not allowed."
+    );
+}
+
+#[test]
 fn depth_is_bounded() {
     let env = env(&[(
         "index",
@@ -1149,5 +1217,253 @@ fn literal_enum_names_are_checked_when_compiling() {
     assert_eq!(
         env.render("rounding", Array::new()).unwrap(),
         "HalfAwayFromZero|8"
+    );
+}
+
+// ---- compiled sources, class keys, runtimes (plans/parity-fixes.md P24, P25, P26) ------------------------------
+
+/// The source a failed render reports: kind, template name, code and line.
+fn failure(env: &Environment, name: &str) -> (ErrorKind, String, String, i64) {
+    let error = env.render(name, Array::new()).unwrap_err();
+    let source = error.source_context().expect("a source");
+    (
+        error.kind(),
+        source.name().to_owned(),
+        String::from_utf8_lossy(source.code()).into_owned(),
+        error.template_line(),
+    )
+}
+
+#[test]
+fn runtime_errors_carry_the_compiled_source() {
+    // VERIFIED with the oracle (`$e->getSourceContext()->getCode()` after `$twig->render()`, and
+    // `$twig->load($name)->getSourceContext()->getCode()`): a runtime error gets the source of the compiled template
+    // (`ModuleNode::compileGetSourceContext()`), whose code is '' unless the template was compiled with debug on;
+    // syntax errors keep the loader's source
+    let templates = [
+        ("index", "a\n{{ foo.bar }}"),
+        ("include", "x{% include 'b' %}"),
+        ("b", "b\n{{ foo.bar }}"),
+        ("missing", "x\n{% include 'nope' %}"),
+        ("wrapped", "x\n{{ 1 // 0 }}"),
+        ("syntax", "x\n{{ foo( }}"),
+        ("block", "{{ block('nope') }}"),
+        ("sandboxed", "x\n{{ 'a'|upper }}"),
+    ];
+    let make = |debug: bool| {
+        Environment::with_options(
+            ArrayLoader::new(templates),
+            EnvironmentOptions {
+                debug,
+                strict_variables: true,
+                ..Default::default()
+            },
+        )
+    };
+    let env = make(false);
+    let expected = [
+        ("index", (ErrorKind::Runtime, "index", "", 2)),
+        ("include", (ErrorKind::Runtime, "b", "", 2)),
+        ("missing", (ErrorKind::Loader, "missing", "", 2)),
+        ("wrapped", (ErrorKind::Runtime, "wrapped", "", 2)),
+        ("syntax", (ErrorKind::Syntax, "syntax", "x\n{{ foo( }}", 2)),
+        ("block", (ErrorKind::Runtime, "block", "", 1)),
+    ];
+    for (name, (kind, source, code, line)) in expected {
+        assert_eq!(
+            failure(&env, name),
+            (kind, source.to_owned(), code.to_owned(), line),
+            "{name}"
+        );
+    }
+    assert_eq!(env.load("index").unwrap().source_context().code(), b"");
+    let template = env.create_template(b"{{ foo }}", None).unwrap();
+    let error = template.render(Array::new()).unwrap_err();
+    assert_eq!(
+        error.source_context().map(|s| s.code().to_vec()),
+        Some(Vec::new())
+    );
+    assert_eq!(template.source_context().code(), b"");
+
+    let debug = make(true);
+    assert_eq!(
+        failure(&debug, "index"),
+        (
+            ErrorKind::Runtime,
+            "index".to_owned(),
+            "a\n{{ foo.bar }}".to_owned(),
+            2
+        )
+    );
+    assert_eq!(
+        debug.load("index").unwrap().source_context().code(),
+        b"a\n{{ foo.bar }}"
+    );
+
+    // a violation of a template sandboxed by the extension: '' without debug, the code with it
+    for (debug, code) in [(false, ""), (true, "x\n{{ 'a'|upper }}")] {
+        let env = Environment::with_options(
+            ArrayLoader::new(templates),
+            EnvironmentOptions {
+                debug,
+                ..Default::default()
+            },
+        );
+        let policy = SecurityPolicy::new();
+        policy.set_strict(true);
+        env.add_extension(Arc::new(SandboxExtension::new(Arc::new(policy), true)))
+            .unwrap();
+        assert_eq!(
+            failure(&env, "sandboxed"),
+            (
+                ErrorKind::SecurityNotAllowedFilter,
+                "sandboxed".to_owned(),
+                code.to_owned(),
+                2
+            ),
+            "debug={debug}"
+        );
+    }
+}
+
+#[test]
+fn a_changed_default_strategy_compiles_templates_again() {
+    // VERIFIED with the oracle: `{{ v }}|{% include "b" %}` renders `&lt;|&lt;`, then `<|<` after
+    // `$twig->getExtension(EscaperExtension::class)->setDefaultStrategy(false)` (Environment::getTemplateClass() adds
+    // the strategy resolved for the name to the class key)
+    let env = Environment::new(ArrayLoader::new([
+        ("index", "{{ v }}|{% include \"b\" %}"),
+        ("b", "{{ v }}"),
+    ]));
+    let context = ctx(&[("v", Value::from("<"))]);
+    assert_eq!(env.render("index", context.clone()).unwrap(), "&lt;|&lt;");
+    env.with_extensions(|set| {
+        set.extension::<twig::extension::EscaperExtension>()
+            .unwrap()
+            .set_default_strategy(DefaultStrategy::Disabled)
+    });
+    assert_eq!(env.render("index", context.clone()).unwrap(), "<|<");
+    env.with_extensions(|set| {
+        set.extension::<twig::extension::EscaperExtension>()
+            .unwrap()
+            .set_default_strategy(DefaultStrategy::html())
+    });
+    assert_eq!(env.render("index", context).unwrap(), "&lt;|&lt;");
+}
+
+#[test]
+fn default_strategy_callbacks_run_when_a_template_class_is_resolved() {
+    use twig::ast::ConstantValue;
+    // VERIFIED with the oracle: the callback runs once per template name, in load order (`index,b`), and its
+    // exception comes out of `load()` unwrapped (`RuntimeException: cb index`, no previous exception; a Twig
+    // `RuntimeError` keeps line -1 and no source)
+    let names = Arc::new(Mutex::new(Vec::new()));
+    let seen = Arc::clone(&names);
+    let env = Environment::with_options(
+        ArrayLoader::new([("index", "{% include \"b\" %}{{ v }}"), ("b", "{{ v }}")]),
+        EnvironmentOptions {
+            autoescape: DefaultStrategy::Callback(Arc::new(move |name: &str| {
+                seen.lock().unwrap().push(name.to_owned());
+                Ok(ConstantValue::String(b"html".to_vec()))
+            })),
+            ..Default::default()
+        },
+    );
+    let context = ctx(&[("v", Value::from("<"))]);
+    let mut output = env.render("index", context.clone()).unwrap();
+    output.push_str(&env.render("index", context).unwrap());
+    assert_eq!(output, "&lt;&lt;&lt;&lt;");
+    assert_eq!(*names.lock().unwrap(), ["index", "b"]);
+
+    let throwing = Environment::with_options(
+        ArrayLoader::new([("index", "{{ 1 }}")]),
+        EnvironmentOptions {
+            autoescape: DefaultStrategy::Callback(Arc::new(|name: &str| {
+                Err(twig::Error::php(twig::value::PhpError::new(
+                    twig::value::ThrowableClass::RuntimeException,
+                    format!("cb {name}"),
+                )))
+            })),
+            ..Default::default()
+        },
+    );
+    let error = throwing.render("index", Array::new()).unwrap_err();
+    assert_eq!(
+        format!("{}: {error}", error.class_name()),
+        "RuntimeException: cb index"
+    );
+    assert!(error.previous().is_none());
+
+    let twig_error = Environment::with_options(
+        ArrayLoader::new([("index", "{{ 1 }}")]),
+        EnvironmentOptions {
+            autoescape: DefaultStrategy::Callback(Arc::new(|name: &str| {
+                Err(twig::Error::runtime(format!("cb {name}")))
+            })),
+            ..Default::default()
+        },
+    );
+    let error = twig_error.render("index", Array::new()).unwrap_err();
+    assert_eq!(error.kind(), ErrorKind::Runtime);
+    assert_eq!(error.to_string(), "cb index");
+    assert_eq!(error.template_line(), -1);
+    assert!(error.source_context().is_none());
+}
+
+#[test]
+fn the_sandbox_signature_initializes_the_extensions_when_loading() {
+    // VERIFIED with the oracle (tests/vectors/visitors/optimizer_mode_env.json, opt-env-m16-sbx-*): with the
+    // SandboxExtension, getTemplateClass()'s getSandboxSignature() initializes the extensions, so `load()` throws the
+    // OptimizerNodeVisitor's InvalidArgumentException unwrapped (even before a syntax error); without it,
+    // compileSource() wraps it
+    for (template, sandbox) in [("{{ 1 }}", true), ("{{ 1 + }}", true), ("{{ 1 }}", false)] {
+        let env = Environment::with_options(
+            ArrayLoader::new([("index", template)]),
+            EnvironmentOptions {
+                optimizations: 16,
+                ..Default::default()
+            },
+        );
+        if sandbox {
+            env.add_extension(Arc::new(SandboxExtension::default()))
+                .unwrap();
+        }
+        let error = env.load("index").unwrap_err();
+        let shown = format!("{}: {error}", error.class_name());
+        if sandbox {
+            assert_eq!(
+                shown, "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+                "{template}"
+            );
+        } else {
+            assert_eq!(
+                shown,
+                "Twig\\Error\\SyntaxError: An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index\".",
+                "{template}"
+            );
+        }
+    }
+}
+
+#[test]
+fn runtimes_fall_back_to_registered_extensions() {
+    // VERIFIED with the oracle: `$twig->getRuntime(StringLoaderExtension::class) === $extension` once the extension is
+    // registered, and every call returns the same object
+    let env = env(&[]);
+    let extension: Arc<dyn Extension> = Arc::new(Late);
+    env.add_extension(Arc::clone(&extension)).unwrap();
+    let runtime = env.runtime("App\\LateExtension").unwrap();
+    let held = runtime
+        .downcast_ref::<Arc<dyn Extension>>()
+        .expect("the extension");
+    assert!(Arc::ptr_eq(held, &extension));
+    assert!(held.as_any().downcast_ref::<Late>().is_some());
+    assert!(Arc::ptr_eq(
+        &runtime,
+        &env.runtime("\\App\\LateExtension").unwrap()
+    ));
+    assert_eq!(
+        env.runtime("App\\Missing").unwrap_err().to_string(),
+        "Unable to load the \"App\\Missing\" runtime."
     );
 }

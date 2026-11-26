@@ -42,7 +42,7 @@ pub(crate) fn run_unit(
     let depth = out.capture_depth();
     let locals = program.unit(unit).locals() as usize;
     if frame.locals.len() < locals {
-        frame.locals.resize(locals, Value::Null);
+        frame.locals.resize(locals, None);
     }
     let result = execute(state, out, frame, program, unit);
     if result.is_err() {
@@ -134,16 +134,30 @@ fn handle_template(handle: &Value, method: &str) -> Result<Arc<Template>, Except
     })
 }
 
-/// `$blocks` of the running method; in an arrow function, PHP warns about the undefined variable and the template
-/// method rejects the `null` it gets.
-fn frame_blocks(state: &mut VmState, frame: &Frame, method: &str) -> Result<Blocks, Exception> {
+/// PHP's warning for the read of `$blocks` in an arrow function, whose closure does not capture it.
+fn undefined_blocks(state: &mut VmState) -> Result<(), Exception> {
+    state.report(Diagnostic::new(
+        Level::Warning,
+        "Undefined variable $blocks",
+    ))?;
+    Ok(())
+}
+
+/// `$blocks` of the running method; in an arrow function the template method rejects the `null` it gets. With
+/// `read`, `$blocks` is read here, so PHP warns about the undefined variable first (block methods of `$this` read it
+/// in an [`Instr::CheckBlocks`] of their own).
+fn frame_blocks(
+    state: &mut VmState,
+    frame: &Frame,
+    method: &str,
+    read: bool,
+) -> Result<Blocks, Exception> {
     match &frame.blocks {
         Some(blocks) => Ok(blocks.clone()),
         None => {
-            state.report(Diagnostic::new(
-                Level::Warning,
-                "Undefined variable $blocks",
-            ))?;
+            if read {
+                undefined_blocks(state)?;
+            }
             Err(PhpError::type_error(format!(
                 "Twig\\Template::{method}(): Argument #3 ($blocks) must be of type array, null given"
             ))
@@ -179,6 +193,7 @@ fn step(
         | Instr::Pop
         | Instr::Dup
         | Instr::LoadLocal(..)
+        | Instr::LoadVar { .. }
         | Instr::StoreLocal(..) => step_stack(state, out, frame, program, instr),
         Instr::Text(..)
         | Instr::Print
@@ -199,9 +214,12 @@ fn step(
         | Instr::Not
         | Instr::IsNull
         | Instr::Binary(..)
+        | Instr::CommutedBinary(..)
         | Instr::Neg
         | Instr::Pos
         | Instr::StringCast
+        | Instr::StringCastBelow
+        | Instr::IntCast
         | Instr::In { .. }
         | Instr::Matches
         | Instr::IsString
@@ -219,7 +237,7 @@ fn step(
         | Instr::ArrayLike { .. }
         | Instr::StringableKey { .. }
         | Instr::DimIsset => step_attributes(state, out, frame, program, instr),
-        Instr::ArgsStart { .. } | Instr::Arg | Instr::ArgSpread | Instr::Call(..) => {
+        Instr::ArgsStart { .. } | Instr::Arg | Instr::ArgSpread { .. } | Instr::Call(..) => {
             step_calls(state, out, frame, program, instr)
         }
         Instr::SeqDestructure(..) | Instr::ListAssign(..) => {
@@ -236,7 +254,7 @@ fn step(
         Instr::MakeMarkup | Instr::MarkupUnlessEmpty => {
             step_markup(state, out, frame, program, instr)
         }
-        Instr::MakeArrow(..) => step_arrows(state, out, frame, program, instr),
+        Instr::MakeArrow(..) | Instr::Recv => step_arrows(state, out, frame, program, instr),
         Instr::Deprecated { .. } => step_deprecations(state, out, frame, program, instr),
         Instr::CheckToString { .. } | Instr::SandboxStart { .. } | Instr::SandboxEnd { .. } => {
             step_sandbox(state, out, frame, program, instr)
@@ -254,8 +272,12 @@ fn step(
         | Instr::TemplateMacroNamespace
         | Instr::SetMacroNamespace { .. }
         | Instr::MacroCall { .. }
-        | Instr::MacroDefined => step_macros(state, out, frame, program, instr),
-        Instr::TryLoader { .. } | Instr::EndTry => step_regions(state, out, frame, program, instr),
+        | Instr::MacroDefined
+        | Instr::RecvInit { .. }
+        | Instr::RecvStore { .. } => step_macros(state, out, frame, program, instr),
+        Instr::TryLoader { .. } | Instr::EndTry | Instr::CheckBlocks => {
+            step_regions(state, out, frame, program, instr)
+        }
     }
 }
 
@@ -278,20 +300,26 @@ fn step_stack(
             frame.push(value);
         }
         Instr::LoadLocal(slot) => {
-            let value = frame
-                .locals
-                .get(*slot as usize)
-                .cloned()
-                .unwrap_or_default();
+            let value = frame.local(*slot);
+            frame.push(value);
+        }
+        Instr::LoadVar { local, name } => {
+            let value = match frame.locals.get(*local as usize) {
+                Some(Some(value)) => value.clone(),
+                // ZEND_FETCH_* of an undefined CV: `zend_undefined_cv()` (PHPSRC/Zend/zend_execute.c)
+                _ => {
+                    state.report(Diagnostic::new(
+                        Level::Warning,
+                        format!("Undefined variable $_v{name}"),
+                    ))?;
+                    Value::Null
+                }
+            };
             frame.push(value);
         }
         Instr::StoreLocal(slot) => {
             let value = frame.pop();
-            let slot = *slot as usize;
-            if frame.locals.len() <= slot {
-                frame.locals.resize(slot + 1, Value::Null);
-            }
-            frame.locals[slot] = value;
+            frame.set_local(*slot, value);
         }
 
         _ => unreachable!("step() dispatches by instruction group"),
@@ -486,6 +514,12 @@ fn step_operators(
             let result = binary(*op, &left, &right, state)?;
             frame.push(result);
         }
+        Instr::CommutedBinary(op) => {
+            let right = frame.pop();
+            let left = frame.pop();
+            let result = binary(*op, &right, &left, state)?;
+            frame.push(result);
+        }
         Instr::Neg => {
             let value = frame.pop();
             let result = ops::negate(&value, state)?;
@@ -500,6 +534,19 @@ fn step_operators(
             let value = frame.pop();
             let string = convert::to_string(&value, state)?;
             frame.push(Value::String(string));
+        }
+        Instr::StringCastBelow => {
+            let top = frame.pop();
+            let value = frame.pop();
+            let string = convert::to_string(&value, state)?;
+            frame.push(Value::String(string));
+            frame.push(top);
+        }
+        Instr::IntCast => {
+            // ZEND_CAST (IS_LONG): zval_get_long()
+            let value = frame.pop();
+            let int = convert::to_long(&value, state)?;
+            frame.push(Value::Int(int));
         }
         Instr::In { negate } => {
             let compare = frame.pop();
@@ -554,8 +601,29 @@ fn step_operators(
             let value = frame.pop();
             frame.push(core::ensure_traversable(value));
         }
-        Instr::PhpConstant { with_object } => {
-            let name = frame.pop();
+        Instr::PhpConstant {
+            with_object,
+            spread,
+        } => {
+            let mut name = frame.pop();
+            if *spread {
+                // `constant(...value)`: ZEND_SEND_UNPACK, then the parameters of `constant(string $name)`
+                use twig_value::object::{CallArgs, CalleeParams, FunctionKind, Param};
+                let mut args = CallArgs::new();
+                let callee = CalleeParams {
+                    params: &[b"name"],
+                    variadic: false,
+                    leading: 0,
+                    kind: FunctionKind::Internal,
+                };
+                args.unpack(&name, Some(&callee), state)?;
+                let mut bound = args.bind(
+                    "constant",
+                    &[Param::required("name")],
+                    FunctionKind::Internal,
+                )?;
+                name = bound.pop().unwrap_or_default();
+            }
             let object = if *with_object {
                 Some(frame.pop())
             } else {
@@ -644,8 +712,8 @@ fn step_attributes(
             let cast = match &key {
                 Value::Object(object) if object.instance_of("Stringable") => {
                     match frame.locals.get(*container as usize) {
-                        Some(Value::Array(_)) => true,
-                        Some(Value::Object(c)) => {
+                        Some(Some(Value::Array(_))) => true,
+                        Some(Some(Value::Object(c))) => {
                             c.instance_of("ArrayObject") || c.instance_of("ArrayIterator")
                         }
                         _ => false,
@@ -692,11 +760,29 @@ fn step_calls(
                 list.push(value);
             }
         }
-        Instr::ArgSpread => {
+        Instr::ArgSpread { callable } => {
             let value = frame.pop();
             if let Some(mut list) = frame.args.pop() {
                 list.unpacked = true;
-                let result = list.unpack(&value, state);
+                let callable = &program.callables()[*callable as usize];
+                // a callable declaring no parameter may be a trampoline (`__call`), which accepts any name: its
+                // runtime checks the names when it binds the arguments
+                let result = match callable
+                    .callable()
+                    .filter(|php| !php.parameters().is_empty())
+                {
+                    Some(php) => {
+                        let names: Vec<&[u8]> = php
+                            .parameters()
+                            .iter()
+                            .filter(|param| !param.variadic)
+                            .map(|param| param.name.as_bytes())
+                            .collect();
+                        let callee = callee_params(callable, php, &names);
+                        list.unpack(&value, Some(&callee), state)
+                    }
+                    None => list.unpack(&value, None, state),
+                };
                 frame.args.push(list);
                 result?;
             }
@@ -810,11 +896,7 @@ fn step_with(
 ) -> Result<Flow, Exception> {
     match instr {
         Instr::WithVars { local, only, line } => {
-            let variables = frame
-                .locals
-                .get(*local as usize)
-                .cloned()
-                .unwrap_or_default();
+            let variables = frame.local(*local);
             if !variables.is_iterable() {
                 return Err(Error::runtime(
                     "Variables passed to the \"with\" tag must be a mapping.",
@@ -891,6 +973,7 @@ fn step_arrows(
             );
             frame.push(closure);
         }
+        Instr::Recv => {}
 
         _ => unreachable!("step() dispatches by instruction group"),
     }
@@ -958,18 +1041,17 @@ fn step_sandbox(
         }
         Instr::SandboxStart { local } => {
             let already = sandbox_start(&state.env);
-            let slot = *local as usize;
-            if frame.locals.len() <= slot {
-                frame.locals.resize(slot + 1, Value::Null);
-            }
-            frame.locals[slot] = Value::Bool(already);
+            frame.set_local(*local, Value::Bool(already));
             frame.handlers.push(Handler::Sandbox { already });
         }
         Instr::SandboxEnd { local } => {
             if let Some(Handler::Sandbox { .. }) = frame.handlers.last() {
                 frame.handlers.pop();
             }
-            let already = matches!(frame.locals.get(*local as usize), Some(Value::Bool(true)));
+            let already = matches!(
+                frame.locals.get(*local as usize),
+                Some(Some(Value::Bool(true)))
+            );
             sandbox_end(&state.env, already);
         }
 
@@ -1061,7 +1143,7 @@ fn step_templates(
                 let handle = frame.pop();
                 (handle_template(&handle, "unwrap")?, Blocks::default())
             } else {
-                let blocks = frame_blocks(state, frame, method)?;
+                let blocks = frame_blocks(state, frame, method, false)?;
                 (Arc::clone(&frame.template), blocks)
             };
             let context = frame.context.clone();
@@ -1089,7 +1171,7 @@ fn step_templates(
             } else {
                 "yieldParentBlock"
             };
-            let blocks = frame_blocks(state, frame, method)?;
+            let blocks = frame_blocks(state, frame, method, true)?;
             let name = constant_bytes(program, *name);
             let context = frame.context.clone();
             let this = Arc::clone(&frame.template);
@@ -1166,6 +1248,42 @@ fn step_macros(
             let defined = macros::has(state, &namespace, &name, &context)?;
             frame.push(Value::Bool(defined));
         }
+        Instr::RecvInit {
+            name,
+            constant_ast,
+            cache,
+            skip,
+        } => {
+            // ZEND_RECV_INIT (PHPSRC/Zend/zend_vm_def.h): an argument that was passed is kept
+            let name = constant_bytes(program, *name);
+            let missing = match frame.context.get_sym(name) {
+                Some(value) => compare::identical(value, program.constant(*constant_ast)),
+                None => false,
+            };
+            if !missing {
+                return Ok(Flow::Jump(*skip));
+            }
+            if let Some(cached) = program.recv_cache[*cache as usize].get() {
+                frame
+                    .context
+                    .insert(ArrayKey::from_string(PhpString::from(name)), cached.clone());
+                return Ok(Flow::Jump(*skip));
+            }
+        }
+        Instr::RecvStore { name, cache } => {
+            let value = frame.pop();
+            // `if (!Z_REFCOUNTED_P(param) && !ctx.had_side_effects) ZVAL_COPY_VALUE(cache_val, param);`
+            if matches!(
+                value,
+                Value::Null | Value::Bool(_) | Value::Int(_) | Value::Float(_)
+            ) {
+                let _ = program.recv_cache[*cache as usize].set(value.clone());
+            }
+            let name = constant_bytes(program, *name);
+            frame
+                .context
+                .insert(ArrayKey::from_string(PhpString::from(name)), value);
+        }
 
         _ => unreachable!("step() dispatches by instruction group"),
     }
@@ -1195,9 +1313,40 @@ fn step_regions(
         Instr::EndTry => {
             frame.handlers.pop();
         }
+        Instr::CheckBlocks => {
+            if frame.blocks.is_none() {
+                undefined_blocks(state)?;
+            }
+        }
         _ => unreachable!("step() dispatches by instruction group"),
     }
     Ok(Flow::Next)
+}
+
+/// What `zend_handle_named_arg()` needs to know about the PHP callable of `callable` while arguments are unpacked
+/// into it: its parameters (`names`, those before a trailing variadic one), whether a variadic parameter collects
+/// unknown names, the arguments Twig passes before the template's (`CallExpression::compileArguments()`: the
+/// charset, the environment, the context, the sandbox flag and the dynamic-name parts, which come before the input
+/// of a filter or test), and whether it is an internal function (a string callable) or userland code.
+fn callee_params<'a>(
+    callable: &crate::extension::TwigCallable,
+    php: &crate::extension::PhpCallable,
+    names: &'a [&'a [u8]],
+) -> twig_value::object::CalleeParams<'a> {
+    use crate::extension::{CallableKind, TwigCallable};
+    use twig_value::object::FunctionKind;
+    let input = usize::from(!matches!(callable, TwigCallable::Function(_)));
+    twig_value::object::CalleeParams {
+        params: names,
+        variadic: php.parameters().last().is_some_and(|param| param.variadic),
+        leading: callable
+            .minimal_number_of_required_arguments()
+            .saturating_sub(input),
+        kind: match php.kind() {
+            CallableKind::Function(_) => FunctionKind::Internal,
+            _ => FunctionKind::User,
+        },
+    }
 }
 
 /// Evaluates a PHP binary operator.
@@ -1214,6 +1363,12 @@ pub(crate) fn binary(
         BinaryOp::Mul => ops::binary_op(V::Mul, left, right, diag)?,
         BinaryOp::Div => ops::binary_op(V::Div, left, right, diag)?,
         BinaryOp::FloorDiv => ops::floor_div(left, right, diag)?,
+        // floor(a / b): ints become floats, floats are rounded down (PHPSRC/ext/standard/math.c, PHP_FUNCTION(floor))
+        BinaryOp::FloorOfDiv => match ops::div(left, right, diag)? {
+            Value::Int(i) => Value::Float(i as f64),
+            Value::Float(d) => Value::Float(twig_value::math::floor(d)),
+            other => other,
+        },
         BinaryOp::Mod => ops::binary_op(V::Mod, left, right, diag)?,
         BinaryOp::Pow => ops::binary_op(V::Pow, left, right, diag)?,
         BinaryOp::Concat => ops::binary_op(V::Concat, left, right, diag)?,
@@ -1270,56 +1425,96 @@ fn loop_init(state: &mut VmState, frame: &mut Frame) -> Result<(), Exception> {
     Ok(())
 }
 
-/// `$context['loop'][$field] = $value` (`ZEND_ASSIGN_DIM` on the nested array): `loop` is auto-vivified from
-/// `null`, a scalar raises `Cannot use a scalar value as an array`, a string `Cannot access offset of type string on
-/// string`.
-fn assign_loop_field(
+/// `$context['loop']` fetched to write into it (`ZEND_FETCH_DIM_W`, or `ZEND_FETCH_DIM_RW` for `++`/`--`, of
+/// `$context`): a missing key is added as `null`, after PHP's warning `Undefined array key "loop"` when the fetch also
+/// reads (`zend_undefined_index_write()`).
+fn loop_slot<'a>(
     state: &mut VmState,
-    frame: &mut Frame,
-    field: &'static [u8],
-    value: Value,
-) -> Result<(), Exception> {
-    let slot = frame.context.get_or_insert_null("loop");
-    loop_container(slot, state)?.insert(ArrayKey::from_string(PhpString::from(field)), value);
-    Ok(())
+    frame: &'a mut Frame,
+    read: bool,
+) -> Result<&'a mut Value, Exception> {
+    let key = ArrayKey::from_string(PhpString::from("loop"));
+    if !frame.context.contains_key(&key) {
+        if read {
+            dim::undefined_key(&key, state)?;
+        }
+        frame.context.insert(key.clone(), Value::Null);
+    }
+    Ok(frame.context.get_mut(&key).expect("the key was just added"))
 }
 
-/// The array of a `$context['loop'][...]` write fetch (`zend_fetch_dimension_address_W`).
+/// The container `$context['loop'][...]` writes into: `zend_fetch_dimension_address()` with `BP_VAR_W`/`BP_VAR_RW`
+/// (PHPSRC/Zend/zend_execute.c) turns `null` into an array, `false` too (with PHP 8.1's deprecation, from
+/// `zend_false_to_array_deprecated()`); objects handle the dimension themselves; a string raises `Cannot access
+/// offset of type string on string`, another scalar `Cannot use a scalar value as an array`.
 fn loop_container<'a>(
     slot: &'a mut Value,
-    _diag: &mut dyn Diagnostics,
-) -> Result<&'a mut Array, Exception> {
+    diag: &mut dyn Diagnostics,
+) -> Result<LoopContainer<'a>, Exception> {
     match slot {
         Value::Array(_) => {}
         Value::Null => *slot = Value::Array(Array::new()),
         Value::Bool(false) => {
-            // PHP 8.1+: "Automatic conversion of false to array is deprecated"
+            diag.report(Diagnostic::new(
+                Level::Deprecated,
+                "Automatic conversion of false to array is deprecated",
+            ))?;
             *slot = Value::Array(Array::new());
         }
+        Value::Object(object) => return Ok(LoopContainer::Object(object.clone())),
         Value::String(_) => {
             return Err(
                 PhpError::type_error("Cannot access offset of type string on string").into(),
             );
-        }
-        Value::Object(object) => {
-            return Err(PhpError::error(format!(
-                "Cannot use object of type {} as array",
-                object.class().display_name()
-            ))
-            .into());
         }
         _ => {
             return Err(PhpError::error("Cannot use a scalar value as an array").into());
         }
     }
     match slot {
-        Value::Array(array) => Ok(array),
+        Value::Array(array) => Ok(LoopContainer::Array(array)),
         _ => unreachable!("the slot was made an array"),
     }
 }
 
-/// `++$context['loop'][$field]` / `--...` (`ZEND_PRE_INC`/`ZEND_PRE_DEC` on a `FETCH_DIM_RW` result): a missing field
-/// warns `Undefined array key` and counts from `null`.
+/// What a `$context['loop'][...]` write fetch found.
+enum LoopContainer<'a> {
+    Array(&'a mut Array),
+    Object(twig_value::ObjectRef),
+}
+
+/// Whether an object's dimensions are the elements of its storage (`ArrayObject`, `ArrayIterator`: their
+/// `read_dimension` handler returns the element itself for writing, `spl_array_get_dimension_ptr()`), rather than a
+/// copy (`offsetGet()` of a userland `ArrayAccess`).
+fn writes_through(object: &twig_value::ObjectRef) -> bool {
+    object.instance_of("ArrayObject") || object.instance_of("ArrayIterator")
+}
+
+/// `$context['loop'][$field] = $value` (`ZEND_ASSIGN_DIM` on the `FETCH_DIM_W` of `$context['loop']`): the container
+/// of [`loop_container()`]; an object gets `write_dimension()` (`offsetSet()`).
+fn assign_loop_field(
+    state: &mut VmState,
+    frame: &mut Frame,
+    field: &'static [u8],
+    value: Value,
+) -> Result<(), Exception> {
+    let slot = loop_slot(state, frame, false)?;
+    match loop_container(slot, state)? {
+        LoopContainer::Array(array) => {
+            array.insert(ArrayKey::from_string(PhpString::from(field)), value);
+        }
+        LoopContainer::Object(object) => {
+            let offset = Value::String(PhpString::from(field));
+            object.write_dimension(Some(&offset), value, state)?;
+        }
+    }
+    Ok(())
+}
+
+/// `++$context['loop'][$field]` / `--...` (`ZEND_PRE_INC`/`ZEND_PRE_DEC` on the `FETCH_DIM_RW` of the field): in an
+/// array, a missing field warns `Undefined array key` and counts from `null`; an `ArrayObject`/`ArrayIterator`
+/// updates its storage the same way; any other object returns a copy from `offsetGet()`, which PHP increments in vain
+/// after the notice `Indirect modification of overloaded element of %s has no effect` (unless it is an object).
 fn incdec_loop_field(
     state: &mut VmState,
     frame: &mut Frame,
@@ -1327,25 +1522,44 @@ fn incdec_loop_field(
     increment: bool,
 ) -> Result<(), Exception> {
     let key = ArrayKey::from_string(PhpString::from(field));
-    let current = {
-        let slot = frame.context.get_or_insert_null("loop");
-        let array = loop_container(slot, state)?;
-        array.get(&key).cloned()
-    };
-    let current = match current {
-        Some(value) => value,
-        None => {
-            dim::undefined_key(&key, state)?;
-            Value::Null
+    let slot = loop_slot(state, frame, true)?;
+    match loop_container(slot, state)? {
+        LoopContainer::Array(array) => {
+            let current = match array.get(&key) {
+                Some(value) => value.clone(),
+                None => {
+                    dim::undefined_key(&key, state)?;
+                    array.insert(key.clone(), Value::Null);
+                    Value::Null
+                }
+            };
+            let updated = core::increment(&current, increment, state)?;
+            array.insert(key, updated);
         }
-    };
-    let updated = core::increment(&current, increment, state)?;
-    let slot = frame.context.get_or_insert_null("loop");
-    loop_container(slot, state)?.insert(key, updated);
+        LoopContainer::Object(object) => {
+            let offset = Value::String(PhpString::from(field));
+            let current = object.read_dimension(&offset, FetchMode::Read, state)?;
+            if writes_through(&object) {
+                let updated = core::increment(&current, increment, state)?;
+                object.write_dimension(Some(&offset), updated, state)?;
+            } else {
+                if !matches!(current, Value::Object(_)) {
+                    state.report(Diagnostic::new(
+                        Level::Notice,
+                        format!(
+                            "Indirect modification of overloaded element of {} has no effect",
+                            object.class().display_name()
+                        ),
+                    ))?;
+                }
+                core::increment(&current, increment, state)?;
+            }
+        }
+    }
     Ok(())
 }
 
-/// `ForLoopNode::compile()` with `with_loop`.
+/// `ForLoopNode::compile()` with `with_loop`, statement by statement.
 fn loop_update(state: &mut VmState, frame: &mut Frame) -> Result<(), Exception> {
     incdec_loop_field(state, frame, b"index0", true)?;
     incdec_loop_field(state, frame, b"index", true)?;
@@ -1362,15 +1576,19 @@ fn loop_update(state: &mut VmState, frame: &mut Frame) -> Result<(), Exception> 
     if both_set {
         incdec_loop_field(state, frame, b"revindex0", false)?;
         incdec_loop_field(state, frame, b"revindex", false)?;
-        let revindex0 = match frame.context.get_sym(b"loop") {
-            Some(Value::Array(array)) => array.get_sym(b"revindex0").cloned().unwrap_or_default(),
-            _ => Value::Null,
-        };
+        // `$context['loop']['last'] = 0 === $context['loop']['revindex0'];`: the right side is read first
+        let loop_value = read_context(state, frame, b"loop")?;
+        let revindex0 = dim::read(
+            &loop_value,
+            &Value::from("revindex0"),
+            FetchMode::Read,
+            state,
+        )?;
         assign_loop_field(
             state,
             frame,
             b"last",
-            Value::Bool(revindex0 == Value::Int(0)),
+            Value::Bool(compare::identical(&Value::Int(0), &revindex0)),
         )?;
     }
     Ok(())

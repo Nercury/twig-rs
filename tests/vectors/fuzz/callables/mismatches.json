@@ -51,10 +51,6 @@
      1795659155,
      421963
     ]
-   },
-   "known_mismatch": {
-    "reason": "attribute() with a non-array third argument: CoreExtension::getAttribute() declares `array $arguments`, so PHP throws TypeError `Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, <type> given` (plus the accepted `, called in` suffix) before any lookup or sandbox check; twig-rs never checks the type and performs the lookup (src/runtime/attribute.rs get_attribute(), the arguments come from src/lltl/codegen.rs get_attr()).",
-    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.]"
    }
   },
   {
@@ -107,10 +103,6 @@
      1795659155,
      444788
     ]
-   },
-   "known_mismatch": {
-    "reason": "attribute() with a non-array third argument: CoreExtension::getAttribute() declares `array $arguments`, so PHP throws TypeError `Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, <type> given` (plus the accepted `, called in` suffix) before any lookup or sandbox check; twig-rs never checks the type and performs the lookup (src/runtime/attribute.rs get_attribute(), the arguments come from src/lltl/codegen.rs get_attr()).",
-    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.]"
    }
   },
   {
@@ -157,10 +149,6 @@
      1795659155,
      467769
     ]
-   },
-   "known_mismatch": {
-    "reason": "attribute() with a non-array third argument: CoreExtension::getAttribute() declares `array $arguments`, so PHP throws TypeError `Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, <type> given` (plus the accepted `, called in` suffix) before any lookup or sandbox check; twig-rs never checks the type and performs the lookup (src/runtime/attribute.rs get_attribute(), the arguments come from src/lltl/codegen.rs get_attr()).",
-    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.]"
    }
   },
   {
@@ -209,10 +197,6 @@
      1795659155,
      490275
     ]
-   },
-   "known_mismatch": {
-    "reason": "Wording of the non-callable error: ZEND_INIT_DYNAMIC_CALL uses zend_zval_type_name() (`Value of type bool is not callable`), twig-rs uses zend_zval_value_name() (`true`) in src/vm/arrow.rs invoke_value() (same root cause as round0 cluster 3, `has every`).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Value of type bool is not callable > Value of type true is not callable]"
    }
   },
   {
@@ -261,10 +245,6 @@
      1795659155,
      513057
     ]
-   },
-   "known_mismatch": {
-    "reason": "Array callables called as `$arrow(...)` by map/reduce/find/has some (zend_init_dynamic_call_array(), PHPSRC/Zend/zend_execute.c): PHP reports `Class \"a\" not found`, `First array member is not a valid class name or object`, `Second array member is not a valid method` or `Call to undefined method stdClass::x()`; twig-rs reports `Array callback has to contain indices 0 and 1` for every two-element array that is not [object, string] (src/vm/arrow.rs invoke_value()).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\"a\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Class \"_\" not found > Array callback has to contain indices N and N]"
    }
   },
   {
@@ -313,10 +293,6 @@
      1795659155,
      537195
     ]
-   },
-   "known_mismatch": {
-    "reason": "Array callables called as `$arrow(...)` by map/reduce/find/has some (zend_init_dynamic_call_array(), PHPSRC/Zend/zend_execute.c): PHP reports `Class \"a\" not found`, `First array member is not a valid class name or object`, `Second array member is not a valid method` or `Call to undefined method stdClass::x()`; twig-rs reports `Array callback has to contain indices 0 and 1` for every two-element array that is not [object, string] (src/vm/arrow.rs invoke_value()).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [First array member is not a valid class name or object > Array callback has to contain indices N and N]"
    }
   },
   {
@@ -366,10 +342,6 @@
      1795659155,
      561284
     ]
-   },
-   "known_mismatch": {
-    "reason": "Array callables called as `$arrow(...)` by map/reduce/find/has some (zend_init_dynamic_call_array(), PHPSRC/Zend/zend_execute.c): PHP reports `Class \"a\" not found`, `First array member is not a valid class name or object`, `Second array member is not a valid method` or `Call to undefined method stdClass::x()`; twig-rs reports `Array callback has to contain indices 0 and 1` for every two-element array that is not [object, string] (src/vm/arrow.rs invoke_value()).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Second array member is not a valid method > Array callback has to contain indices N and N]"
    }
   },
   {
@@ -418,10 +390,6 @@
      1795659155,
      583883
     ]
-   },
-   "known_mismatch": {
-    "reason": "Array callables called as `$arrow(...)` by map/reduce/find/has some (zend_init_dynamic_call_array(), PHPSRC/Zend/zend_execute.c): PHP reports `Class \"a\" not found`, `First array member is not a valid class name or object`, `Second array member is not a valid method` or `Call to undefined method stdClass::x()`; twig-rs reports `Array callback has to contain indices 0 and 1` for every two-element array that is not [object, string] (src/vm/arrow.rs invoke_value()).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Call to undefined method stdClass::x() > Array callback has to contain indices N and N]"
    }
   },
   {
@@ -470,10 +438,6 @@
      1795659155,
      607235
     ]
-   },
-   "known_mismatch": {
-    "reason": "Array callables called as `$arrow(...)` by map/reduce/find/has some (zend_init_dynamic_call_array(), PHPSRC/Zend/zend_execute.c): PHP reports `Class \"a\" not found`, `First array member is not a valid class name or object`, `Second array member is not a valid method` or `Call to undefined method stdClass::x()`; twig-rs reports `Array callback has to contain indices 0 and 1` for every two-element array that is not [object, string] (src/vm/arrow.rs invoke_value()).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\"a\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Class \"_\" not found > Array callback has to contain indices N and N]"
    }
   },
   {
@@ -515,10 +479,6 @@
      1795659155,
      630763
     ]
-   },
-   "known_mismatch": {
-    "reason": "Argument unpacking checks names as it goes: ZEND_SEND_UNPACK calls zend_handle_named_arg() for each string key, so `Unknown named parameter $k` comes before a later int key (`Cannot use positional argument after named argument during unpacking`) and before an internal function's argument count check (`abs() expects exactly 1 argument, 2 given`); twig-rs checks names only when it binds (src/vm/frame.rs ArgList::unpack(), crates/twig-value/src/object/args.rs).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Unknown named parameter $k > Cannot use positional argument after named argument during unpacking]"
    }
   },
   {
@@ -560,10 +520,6 @@
      1795659155,
      653966
     ]
-   },
-   "known_mismatch": {
-    "reason": "Argument unpacking checks names as it goes: ZEND_SEND_UNPACK calls zend_handle_named_arg() for each string key, so `Unknown named parameter $k` comes before a later int key (`Cannot use positional argument after named argument during unpacking`) and before an internal function's argument count check (`abs() expects exactly 1 argument, 2 given`); twig-rs checks names only when it binds (src/vm/frame.rs ArgList::unpack(), crates/twig-value/src/object/args.rs).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.class:Error>ArgumentCountError [Unknown named parameter $a > abs() expects exactly N argument, N given]"
    }
   },
   {
@@ -591,10 +547,6 @@
      1795659155,
      678248
     ]
-   },
-   "known_mismatch": {
-    "reason": "include/include_only/source ignore unpacked named arguments: src/runtime/functions.rs include(), include_only() and source() read call.args() only, so `...{'template': 'b.twig'}` passes no template (TypeError for null) where PHP binds by name, PHP's parameter names (`$template`, `$withContext`, `$ignoreMissing`, `$name`) are not enforced (`Unknown named parameter $ignore_missing`), and a missing template is not PHP's ArgumentCountError (`Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), 1 passed and at least 2 expected`). They need Call::bind() with the PHP signatures.",
-    "signature": "ok:ok>Twig\\Error\\RuntimeError [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.]"
    }
   },
   {
@@ -622,10 +574,6 @@
      1795659155,
      702111
     ]
-   },
-   "known_mismatch": {
-    "reason": "include/include_only/source ignore unpacked named arguments: src/runtime/functions.rs include(), include_only() and source() read call.args() only, so `...{'template': 'b.twig'}` passes no template (TypeError for null) where PHP binds by name, PHP's parameter names (`$template`, `$withContext`, `$ignoreMissing`, `$name`) are not enforced (`Unknown named parameter $ignore_missing`), and a missing template is not PHP's ArgumentCountError (`Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), 1 passed and at least 2 expected`). They need Call::bind() with the PHP signatures.",
-    "signature": "ok:ok>Twig\\Error\\RuntimeError [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.]"
    }
   },
   {
@@ -668,10 +616,6 @@
      1795659155,
      725994
     ]
-   },
-   "known_mismatch": {
-    "reason": "include/include_only/source ignore unpacked named arguments: src/runtime/functions.rs include(), include_only() and source() read call.args() only, so `...{'template': 'b.twig'}` passes no template (TypeError for null) where PHP binds by name, PHP's parameter names (`$template`, `$withContext`, `$ignoreMissing`, `$name`) are not enforced (`Unknown named parameter $ignore_missing`), and a missing template is not PHP's ArgumentCountError (`Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), 1 passed and at least 2 expected`). They need Call::bind() with the PHP signatures.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.class:ArgumentCountError>TypeError [Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), N passed and at least N expected > Twig\\Environment::getTemplateClass(): Argument #N ($name) must be of type string, null given]"
    }
   },
   {
@@ -714,10 +658,6 @@
      1795659155,
      750611
     ]
-   },
-   "known_mismatch": {
-    "reason": "include/include_only/source ignore unpacked named arguments: src/runtime/functions.rs include(), include_only() and source() read call.args() only, so `...{'template': 'b.twig'}` passes no template (TypeError for null) where PHP binds by name, PHP's parameter names (`$template`, `$withContext`, `$ignoreMissing`, `$name`) are not enforced (`Unknown named parameter $ignore_missing`), and a missing template is not PHP's ArgumentCountError (`Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), 1 passed and at least 2 expected`). They need Call::bind() with the PHP signatures.",
-    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.]"
    }
   },
   {
@@ -846,10 +786,6 @@
      1795659155,
      775683
     ]
-   },
-   "known_mismatch": {
-    "reason": "Duplicate string keys from a Traversable spread into a userland variadic (CoreExtension::sprintf(...$values), CoreExtension::merge(...$arrays)): PHP throws `Named parameter $a overwrites previous argument` at the second key (zend_handle_named_arg()); twig-rs keeps both and fails later (`sprintf() does not accept unknown named parameters`, merge's `$argNumber + 1`) (src/vm/frame.rs ArgList::unpack()).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.class:Error>ArgumentCountError [Named parameter $a overwrites previous argument > sprintf() does not accept unknown named parameters]"
    }
   },
   {
@@ -978,10 +914,6 @@
      1795659155,
      800474
     ]
-   },
-   "known_mismatch": {
-    "reason": "Duplicate string keys from a Traversable spread into a userland variadic (CoreExtension::sprintf(...$values), CoreExtension::merge(...$arrays)): PHP throws `Named parameter $a overwrites previous argument` at the second key (zend_handle_named_arg()); twig-rs keeps both and fails later (`sprintf() does not accept unknown named parameters`, merge's `$argNumber + 1`) (src/vm/frame.rs ArgList::unpack()).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.class:Error>TypeError [Named parameter $a overwrites previous argument > Unsupported operand types: string + int]"
    }
   },
   {
@@ -1092,10 +1024,6 @@
      1795659155,
      869060
     ]
-   },
-   "known_mismatch": {
-    "reason": "The constant test compiles to PHP's constant(), which needs the class: Twig\\Markup and Twig\\TemplateWrapper exist in PHP (`Undefined constant Twig\\Markup::FOO`), but twig-rs's class table lacks them (src/extension/runtime/misc/constants.rs builtin_classes()) and reports `Class \"Twig\\Markup\" not found`. The constant() function (defined()) is unaffected; the twig-fuzz runner registers the classes of data objects, so the bug hides when the data holds a Markup.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\"Twig\\Markup\"_\") in \"_\" at line N.] | error.previous.message:Error [Undefined constant Twig\\Markup::FOO > Class \"_\" not found]"
    }
   },
   {
@@ -1137,10 +1065,6 @@
      1795659155,
      892867
     ]
-   },
-   "known_mismatch": {
-    "reason": "The constant test compiles to PHP's constant(), which needs the class: Twig\\Markup and Twig\\TemplateWrapper exist in PHP (`Undefined constant Twig\\Markup::FOO`), but twig-rs's class table lacks them (src/extension/runtime/misc/constants.rs builtin_classes()) and reports `Class \"Twig\\Markup\" not found`. The constant() function (defined()) is unaffected; the twig-fuzz runner registers the classes of data objects, so the bug hides when the data holds a Markup.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\"Twig\\Markup\"_\") in \"_\" at line N.] | error.previous.message:Error [Undefined constant Twig\\Markup::FOO > Class \"_\" not found]"
    }
   },
   {
@@ -1185,10 +1109,6 @@
      1795659155,
      914972
     ]
-   },
-   "known_mismatch": {
-    "reason": "The constant test compiles to PHP's constant(), which needs the class: Twig\\Markup and Twig\\TemplateWrapper exist in PHP (`Undefined constant Twig\\Markup::FOO`), but twig-rs's class table lacks them (src/extension/runtime/misc/constants.rs builtin_classes()) and reports `Class \"Twig\\Markup\" not found`. The constant() function (defined()) is unaffected; the twig-fuzz runner registers the classes of data objects, so the bug hides when the data holds a Markup.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\"Twig\\TemplateWrapper\"_\") in \"_\" at line N.] | error.previous.message:Error [Undefined constant Twig\\TemplateWrapper::FOO > Class \"_\" not found]"
    }
   },
   {
@@ -1296,10 +1216,6 @@
      1795659155,
      940752
     ]
-   },
-   "known_mismatch": {
-    "reason": "CoreExtension::join() returns its only element through the declared `string` return type; when that element's __toString() throws, PHP raises TypeError `Twig\\Extension\\CoreExtension::join(): Return value must be of type string, Twig\\Tests\\CountableStub returned` with the exception as previous; twig-rs propagates the exception alone (src/extension/runtime/strings.rs return_string(); the twin in misc.rs behaves the same).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.class:TypeError>Exception [Twig\\Extension\\CoreExtension::join(): Return value must be of type string, Twig\\Tests\\CountableStub returned > __toString shall not be called on \\Countables.] | error.previous.previous:Exception>none"
    }
   }
  ]

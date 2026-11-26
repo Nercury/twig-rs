@@ -23,10 +23,7 @@
 //!
 //! What cannot match by design is avoided: microseconds of "now" (`u`/`v` date formats and
 //! `%f`/`%F` interval formats are left out when the date depends on the current time, and
-//! comparisons and `diff()` never take two now-dependent dates), unseeded randomness, `dump()` of
-//! objects under escaping strategies that hide the object handles from twig-fuzz's deviation
-//! rule, data values twig-fuzz cannot rebuild exactly from the oracle's typed data (fractional
-//! seconds of data `DateInterval`s other than multiples of 1/64 s, the dynamic `days` property),
+//! comparisons and `diff()` never take two now-dependent dates), unseeded randomness,
 //! data code that throws (invalid zones and modifiers), and sizes that kill the oracle at its hard
 //! memory limit (huge `number_format` decimals, `*` widths up to `INT_MAX`). The known
 //! operand-order mismatch of commutative PHP opcodes (`+`, `*`, `b-or`, ...) is not provoked:
@@ -207,14 +204,14 @@ pub fn grid() -> Vec<Json> {
     let mut cases = Vec::new();
     let mut push = |template: String| {
         let id = format!("{FAMILY}-grid-{}", cases.len());
-        cases.push(Json::Object(vec![
+        cases.push(super::with_case_cache(Json::Object(vec![
             ("id".to_owned(), Json::str(id)),
             ("env".to_owned(), Json::str("plain")),
             (
                 "templates".to_owned(),
                 Json::Object(vec![("index.twig".to_owned(), Json::str(template))]),
             ),
-        ]));
+        ])));
     };
     let instants = grid_instants();
     for &ts in &instants {
@@ -280,7 +277,7 @@ pub fn case(seed: u64, n: u64, kinds: &[Kind]) -> Json {
         let statement = g.statement(kind);
         body.push_str(&statement);
     }
-    g.finish(&format!("{FAMILY}-{seed}-{n}"), body)
+    super::with_case_cache(g.finish(&format!("{FAMILY}-{seed}-{n}"), body))
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1513,13 +1510,8 @@ impl Gen {
         if self.debug {
             config.push(("debug".to_owned(), Json::Bool(true)));
         }
-        // `dump()` output escaped by another strategy hides the `#N` object handles from
-        // twig-fuzz's object-handle deviation rule, so dumps keep the html strategy
-        let autoescape = self
-            .autoescape
-            .as_ref()
-            .filter(|a| !self.debug || matches!(a, Json::Bool(false)));
-        if let Some(autoescape) = autoescape {
+        // the comparison ignores object handles also in escaped `dump()` output
+        if let Some(autoescape) = &self.autoescape {
             config.push(("autoescape".to_owned(), autoescape.clone()));
         }
         if !config.is_empty() {
@@ -2931,13 +2923,14 @@ impl Gen {
             }
             2 => {
                 let spec = self.interval_spec();
-                // not `days`: writing it adds a dynamic property (a deprecation) that the typed
-                // data cannot carry over
-                let field = *self.rng.pick(&["invert", "f", "d", "y", "h", "s"]);
-                // fractions that survive `f * 1000000` exactly (the typed data records `f`, and
-                // `__set_state()` truncates `f * 1000000` when twig-rs rebuilds the interval)
+                // `days` adds a dynamic property (a deprecation) first in the property table, which
+                // the typed data's `props` carry over
+                let field = *self.rng.pick(&["invert", "f", "d", "y", "h", "s", "days"]);
                 let value = match field {
-                    "f" => (*self.rng.pick(&["0.5", "0.015625", "1.5", "-0.25"])).to_owned(),
+                    "f" => (*self.rng.pick(&[
+                        "0.5", "0.015625", "1.5", "-0.25", "0.255505", "0.000007", "0.1",
+                    ]))
+                    .to_owned(),
                     "invert" => self.rng.range(0, 1).to_string(),
                     _ => self.rng.range(-5, 400).to_string(),
                 };
@@ -2954,9 +2947,7 @@ impl Gen {
         V::php(code)
     }
 
-    /// A PHP string literal of a fixed date (with a zone sometimes) for intervals of the data:
-    /// microseconds are multiples of 1/64 s, so that the `f` of a difference survives the typed
-    /// data (see [`Gen::interval_object`]).
+    /// A PHP string literal of a fixed date (with a zone sometimes) for intervals of the data.
     fn fixed_php_date(&mut self) -> String {
         let y = self.rng.range(1960, 2060);
         let m = self.rng.range(1, 12);
@@ -2965,7 +2956,7 @@ impl Gen {
         let i = self.rng.range(0, 59);
         let s = self.rng.range(0, 59);
         let micro = if self.rng.chance(30) {
-            format!(".{:06}", self.rng.range(0, 63) * 15_625)
+            format!(".{:06}", self.rng.range(0, 999_999))
         } else {
             String::new()
         };

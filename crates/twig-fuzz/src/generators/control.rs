@@ -61,7 +61,7 @@ pub fn case(seed: u64, index: usize) -> Json {
         .wrapping_mul(0x9E37_79B9_7F4A_7C15)
         .wrapping_add((index as u64).wrapping_mul(0xD1B5_4A32_D192_ED03)));
     rng.next_u64();
-    Gen::new(rng).build(format!("ctl-{seed}-{index}"))
+    super::with_case_cache(Gen::new(rng).build(format!("ctl-{seed}-{index}")))
 }
 
 /// SplitMix64: small and seedable.

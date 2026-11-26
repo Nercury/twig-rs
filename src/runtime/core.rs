@@ -606,11 +606,22 @@ fn increment_string(s: &PhpString) -> PhpString {
     PhpString::from(bytes)
 }
 
-/// `DeprecatedNode`'s `trigger_deprecation($package, $version, sprintf('%s in "%s" at line %d.', $message, $name))`.
+/// `DeprecatedNode`'s `trigger_deprecation($package, $version, sprintf('%s in "%s" at line %d.', $message, $name))`
+/// (TWIG/src/Node/DeprecatedNode.php).
+///
+/// The arguments are evaluated before (by the caller), then the `sprintf()` converts the message (PHP compiles it to
+/// a rope, `zend_compile_func_sprintf()` in PHPSRC/Zend/zend_compile.c), then symfony/deprecation-contracts'
+/// userland `trigger_deprecation(string $package, string $version, string $message, mixed ...$args)` receives the
+/// arguments: the compiled template has no `strict_types`, so its `RECV` opcodes coerce `$package` (`#1`) and
+/// `$version` (`#2`) in coercive mode (`zend_verify_scalar_type_hint()`, PHPSRC/Zend/zend_execute.c), rejecting
+/// `null`, arrays and objects without `__toString()` with a `TypeError`. The notice is `($package || $version ? "Since
+/// $package $version: " : '').$message` on the coerced strings ([`Deprecation`]'s `Display`).
 ///
 /// # Errors
 ///
-/// The exceptions of converting the values to strings.
+/// The exceptions of converting the message, the `TypeError`s of `trigger_deprecation()`'s `string` parameters
+/// (`trigger_deprecation(): Argument #1 ($package) must be of type string, array given`; PHP's `, called in <file> on
+/// line N` suffix is left out, reference/deviations.md) and the exceptions of a `__toString()` it calls.
 pub fn trigger_template_deprecation(
     state: &mut VmState,
     program: &Program,
@@ -625,20 +636,24 @@ pub fn trigger_template_deprecation(
         message.to_string_lossy(),
         program.name()
     );
-    // symfony/deprecation-contracts: ($package || $version ? "Since $package $version: " : '').$message
-    let shown = convert::to_bool(package, state)? || convert::to_bool(version, state)?;
-    let deprecation = if shown {
-        let package = convert::to_string(package, state)?;
-        let version = convert::to_string(version, state)?;
-        Deprecation::new(
-            package.to_string_lossy().into_owned(),
-            version.to_string_lossy().into_owned(),
-            text,
-        )
-    } else {
-        Deprecation::new("", "", text)
+    let mut parameter = |value: &Value, position: u32, name: &str| -> Result<String, Exception> {
+        let coerced = verify_user_arg(
+            value.clone(),
+            &DeclaredType::builtin(TypeMask::STRING),
+            &UserArg::new("trigger_deprecation", position, name),
+            state,
+        )?;
+        let string = match coerced {
+            Value::String(string) => string,
+            other => convert::to_string(&other, state)?,
+        };
+        Ok(string.to_string_lossy().into_owned())
     };
-    state.env.report_deprecation(deprecation);
+    let package = parameter(package, 1, "package")?;
+    let version = parameter(version, 2, "version")?;
+    state
+        .env
+        .report_deprecation(Deprecation::new(package, version, text));
     Ok(())
 }
 

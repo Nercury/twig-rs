@@ -15,6 +15,7 @@ use super::constants::Constants;
 use super::regex::PcreRegexValidator;
 use super::sandbox::{SandboxExtension, SecurityChecker, ensure_traits_allowed};
 use super::template::{BlockRef, Template, TemplateWrapper, Traits};
+use crate::ast::ConstantValue;
 use crate::deprecation::{Deprecation, DeprecationSink};
 use crate::error::{Error, Result};
 use crate::escaper::DefaultStrategy;
@@ -233,6 +234,45 @@ impl ConstructionGuard {
 impl Drop for ConstructionGuard {
     fn drop(&mut self) {
         CONSTRUCTING.with(|depth| depth.set(depth.get().saturating_sub(1)));
+    }
+}
+
+/// Port of `Environment::encodeAutoescapeStrategy()` (TWIG/src/Environment.php): `false`, `string:<length>:<name>`,
+/// or `invalid:<get_debug_type()>:<(int) (bool) value>` for whatever else a strategy callback returned.
+fn encode_autoescape_strategy(strategy: &ConstantValue) -> Vec<u8> {
+    let invalid = |type_name: &str, truthy: bool| {
+        format!("invalid:{type_name}:{}", u8::from(truthy)).into_bytes()
+    };
+    match strategy {
+        ConstantValue::Bool(false) => b"false".to_vec(),
+        ConstantValue::String(name) => {
+            let mut encoded = format!("string:{}:", name.len()).into_bytes();
+            encoded.extend_from_slice(name);
+            encoded
+        }
+        ConstantValue::Null => invalid("null", false),
+        ConstantValue::Bool(true) => invalid("bool", true),
+        ConstantValue::Int(i) => invalid("int", *i != 0),
+        // `(bool) NAN` is true
+        ConstantValue::Float(f) => invalid("float", *f != 0.0),
+        ConstantValue::Array(elements) => invalid("array", !elements.is_empty()),
+    }
+}
+
+/// Gives a compiled program (and the programs of its embedded templates) the source a template compiled without
+/// `debug` reports at runtime: `new Source('', $name, $path)` (`ModuleNode::compileGetSourceContext()`,
+/// TWIG/src/Node/ModuleNode.php). Twig resolves the path of such a template lazily, through the loader it was loaded
+/// with, and uses `''` when that loader then fails (`Template::getSourcePath()`); twig-rs keeps the path the loader
+/// gave when the template was compiled.
+fn without_code(program: &mut Arc<Program>) {
+    let program = Arc::make_mut(program);
+    program.source = Source::with_path(
+        Vec::new(),
+        program.source.name().to_owned(),
+        program.source.path().to_owned(),
+    );
+    for embedded in &mut program.embedded {
+        without_code(embedded);
     }
 }
 
@@ -692,22 +732,53 @@ impl Environment {
 
     // ---- templates -----------------------------------------------------------------------------------------------
 
-    /// The options that change compiled code, appended to the loader's cache key (Twig's `optionsHash` in
-    /// `getTemplateClass()`).
-    fn class_key(&self, cache_key: &[u8]) -> Vec<u8> {
-        let options = read(&self.inner.options);
+    /// The key of the compiled class of the template `name`. Twig: `getTemplateClass()` (TWIG/src/Environment.php):
+    /// the loader's cache key, the options that change compiled code (`getOptionsHash()`: `debug`,
+    /// `strict_variables`, `use_yield`, `optimizations`; the extension signature and the PHP and Twig versions cannot
+    /// change within an environment), then `:autoescape:` and the default escaping strategy resolved for that name
+    /// (`EscaperExtension::getDefaultStrategy($name)`, asked on every call, so a strategy changed after compiling
+    /// compiles the template again). When the `SandboxExtension` is registered, Twig then appends
+    /// `ExtensionSet::getSandboxSignature()`, which cannot change within an environment either, but computing it
+    /// initializes the extensions (`getTokenParsers()`, TWIG/src/ExtensionSet.php): an invalid optimizer mode fails
+    /// there, so `load()` throws it unwrapped ([`ParseContext::initialize_extensions`]).
+    ///
+    /// # Errors
+    ///
+    /// The error of a default strategy callback, then (with the `SandboxExtension`) the `InvalidArgumentException`
+    /// of an invalid optimizer mode.
+    fn class_key(&self, cache_key: &[u8], name: &str) -> Result<Vec<u8>> {
         let mut key = cache_key.to_vec();
-        key.extend_from_slice(
-            format!(
-                "\0{}:{}:{}:{}",
-                u8::from(options.debug),
-                u8::from(options.strict_variables),
-                u8::from(options.use_yield),
-                options.optimizations
-            )
-            .as_bytes(),
-        );
-        key
+        {
+            let options = read(&self.inner.options);
+            key.extend_from_slice(
+                format!(
+                    "\0{}:{}:{}:{}",
+                    u8::from(options.debug),
+                    u8::from(options.strict_variables),
+                    u8::from(options.use_yield),
+                    options.optimizations
+                )
+                .as_bytes(),
+            );
+        }
+        let strategy = self.with_extensions(|set| {
+            set.extension::<EscaperExtension>()
+                .map(|escaper| escaper.default_strategy(name))
+                .transpose()
+        })?;
+        if let Some(strategy) = strategy {
+            key.extend_from_slice(b":autoescape:");
+            key.extend_from_slice(&encode_autoescape_strategy(&strategy));
+        }
+        let parse = read(&self.inner.parse);
+        if parse
+            .extensions()
+            .has_extension("Twig\\Extension\\SandboxExtension")
+        {
+            // `':sandbox:'.$this->extensionSet->getSandboxSignature()`
+            parse.initialize_extensions(&mut EnvDeprecations(self))?;
+        }
+        Ok(key)
     }
 
     /// Loads a template. Twig: `Environment::load()`.
@@ -757,7 +828,7 @@ impl Environment {
     ) -> Result<Arc<Template>> {
         let loader = self.loader();
         let cache_key = loader.get_cache_key(name)?;
-        let key = self.class_key(&cache_key);
+        let key = self.class_key(&cache_key, name)?;
         self.load_class(key, name, index, |env| {
             let source = loader.get_source_context(name)?;
             env.compile_source(&source)
@@ -958,10 +1029,24 @@ impl Environment {
     /// Lexes, parses and compiles a template. Twig: `compileSource()`: Twig errors get the source; other errors
     /// become `An exception has been thrown during the compilation of a template ("%s").`
     ///
+    /// The source of the compiled program ([`Program::source`], what the template reports at runtime: its
+    /// `getSourceContext()`, the source of its runtime errors and of the source policy check) is the one
+    /// `ModuleNode::compileGetSourceContext()` (TWIG/src/Node/ModuleNode.php) compiles: the name and the path, and the
+    /// code only when `debug` is on (`''` otherwise). Errors of the compilation itself keep `source` as given.
+    ///
     /// # Errors
     ///
     /// The syntax errors of the template.
     pub fn compile_source(&self, source: &Source) -> Result<Arc<Program>> {
+        let mut program = self.compile_module(source)?;
+        if !self.is_debug() {
+            without_code(&mut program);
+        }
+        Ok(program)
+    }
+
+    /// The lexing, parsing and code generation of [`compile_source`](Self::compile_source).
+    fn compile_module(&self, source: &Source) -> Result<Arc<Program>> {
         let mut deprecations = EnvDeprecations(self);
         let parse = read(&self.inner.parse);
         let module = parse.parse_template(source, &mut deprecations)?;
@@ -1026,7 +1111,7 @@ impl Environment {
         let mut cache_key = name.as_bytes().to_vec();
         cache_key.push(b':');
         cache_key.extend_from_slice(template);
-        let key = self.class_key(&cache_key);
+        let key = self.class_key(&cache_key, &name)?;
         let source = Source::new(template.to_vec(), name.clone());
         let template = self.load_class(key, &name, None, |env| env.compile_source(&source))?;
         Ok(TemplateWrapper::new(self.clone(), template))
@@ -1141,8 +1226,12 @@ impl Environment {
         write(&self.inner.runtimes).insert(class.trim_start_matches('\\').to_owned(), runtime);
     }
 
-    /// The runtime object of a runtime class (for `Twig\Runtime\EscaperRuntime`, the
-    /// [`escaper_runtime`](Self::escaper_runtime)). Twig: `getRuntime()`.
+    /// The runtime object of a runtime class. Twig: `getRuntime()` (TWIG/src/Environment.php): a runtime registered
+    /// with [`add_runtime`](Self::add_runtime) (Twig's runtime loaders), else for `Twig\Runtime\EscaperRuntime` the
+    /// [`escaper_runtime`](Self::escaper_runtime) (the default runtime loader), else the registered extension of that
+    /// class (`hasExtension($class) && $extension instanceof $class`), which is kept as the runtime of the class from
+    /// then on. For an extension, the returned value holds the `Arc<dyn Extension>`: downcast it to that type, then
+    /// use [`Extension::as_any`] to reach the concrete extension.
     ///
     /// # Errors
     ///
@@ -1152,10 +1241,24 @@ impl Environment {
         if name == ESCAPER_RUNTIME {
             return Ok(self.escaper_runtime());
         }
-        read(&self.inner.runtimes)
-            .get(name)
-            .cloned()
-            .ok_or_else(|| Error::runtime(format!("Unable to load the \"{class}\" runtime.")))
+        if let Some(runtime) = read(&self.inner.runtimes).get(name).cloned() {
+            return Ok(runtime);
+        }
+        let extension = self.with_extensions(|set| set.get_extension(name).ok().cloned());
+        match extension {
+            Some(extension) => {
+                // `return $this->runtimes[$class] = $extension;`
+                let runtime: Arc<dyn Any + Send + Sync> = Arc::new(extension);
+                Ok(Arc::clone(
+                    write(&self.inner.runtimes)
+                        .entry(name.to_owned())
+                        .or_insert(runtime),
+                ))
+            }
+            None => Err(Error::runtime(format!(
+                "Unable to load the \"{class}\" runtime."
+            ))),
+        }
     }
 
     /// The settings of the environment's [`CoreExtension`]: the date and number defaults of the `date`,

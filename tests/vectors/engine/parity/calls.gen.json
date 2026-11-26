@@ -1,0 +1,252 @@
+{
+ "cases": [
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'x'|first(...{'k': 1, 0: 2}) }}"
+   },
+   "id": "calls-001"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1|abs(...{0: 1, 'a': 2}) }}"
+   },
+   "id": "calls-002"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ '%s'|format(...{a: 1, b: 2}) }}"
+   },
+   "id": "calls-003"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'abc'|slice(...{length: 1, start: 1}) }}"
+   },
+   "id": "calls-004"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'abc'|slice(...{start: 1, start2: 1}) }}"
+   },
+   "id": "calls-005"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'abc'|slice(1, ...{start: 2}) }}"
+   },
+   "id": "calls-006"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ range(...{low: 1, high: 3})|join }}"
+   },
+   "id": "calls-007"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1] has some no }}"
+   },
+   "id": "calls-008"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{[2]has every b}}"
+   },
+   "id": "calls-009"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1] has some ['a', 'b'] }}"
+   },
+   "id": "calls-010"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1] has some [1, 2] }}"
+   },
+   "id": "calls-011"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1] has some ['stdClass', 'x'] }}"
+   },
+   "id": "calls-012"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1] has every 5 }}"
+   },
+   "id": "calls-013"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1]|map(true) }}"
+   },
+   "id": "calls-014"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1]|map(['a', 'b']) }}"
+   },
+   "id": "calls-015"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1]|map([1, 2]) }}"
+   },
+   "id": "calls-016"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1]|find(['stdClass', 'x']) }}"
+   },
+   "id": "calls-017"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ x is constant(...['PHP_EOL']) ? 'y' : 'n' }}"
+   },
+   "data_json": {
+    "x": {
+     "a": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "calls-018"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ \"\\n\" is constant(...['PHP_EOL']) ? 'y' : 'n' }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "calls-019"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ x is constant(...{name: 'PHP_EOL'}) ? 'y' : 'n' }}"
+   },
+   "data_json": {
+    "x": {
+     "a": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "calls-020"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ x is constant(...[]) ? 'y' : 'n' }}"
+   },
+   "data_json": {
+    "x": {
+     "a": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "calls-021"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ x is constant(...{k: 1}) ? 'y' : 'n' }}"
+   },
+   "data_json": {
+    "x": {
+     "a": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "calls-022"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'a'|default(...[]) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "calls-023"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [n, ...null] }}"
+   },
+   "data_json": {
+    "n": 1
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "calls-024"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ max(1, ...null) }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "calls-025"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ x is null(...[]) ? 'y' : 'n' }}"
+   },
+   "data_json": {
+    "x": {
+     "a": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "calls-026"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [...[1, 2], 3]|join }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "calls-027"
+  }
+ ],
+ "isolation": "process"
+}

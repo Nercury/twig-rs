@@ -15,6 +15,7 @@
 
 mod codegen;
 mod instr;
+mod php;
 mod program;
 
 pub use codegen::{CompileOptions, EnumResolver, compile};

@@ -1,0 +1,1209 @@
+{
+ "description": "Invalid and deprecated optimizer modes through an Environment (P29): Twig builds the OptimizerNodeVisitor when the extensions are initialized (ExtensionSet::initExtensions()), which the lexer does before it lexes the first template, so compileSource() wraps the InvalidArgumentException of an invalid mode even for a template with a syntax error, and the mode deprecations come first, once per environment. With the SandboxExtension, getTemplateClass() initializes the extensions first (getSandboxSignature()), so load() throws the raw InvalidArgumentException. The oracle ran every case in its own PHP process (batch optimizer_mode_env.gen.json, \"isolation\": \"process\"): in one process a class compiled by an earlier case is not compiled again, which hides the deprecations. Record again with: twig-fuzz record tests/vectors/visitors/optimizer_mode_env.gen.json --out <file> --description <text>, then restore the notes and the known_mismatch reasons.",
+ "vectors": [
+  {
+   "id": "opt-env-m16-ok",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m16-ok",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 }}"
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m16-ok",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "formatted": "Twig\\Error\\SyntaxError: An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "rawMessage": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\").",
+     "templateName": "index.twig",
+     "templateLine": -1,
+     "templateColumn": null,
+     "previous": {
+      "class": "InvalidArgumentException",
+      "message": "Optimizer mode \"16\" is not valid.",
+      "formatted": "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m16-syntax",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m16-syntax",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 + }}"
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m16-syntax",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "formatted": "Twig\\Error\\SyntaxError: An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "rawMessage": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\").",
+     "templateName": "index.twig",
+     "templateLine": -1,
+     "templateColumn": null,
+     "previous": {
+      "class": "InvalidArgumentException",
+      "message": "Optimizer mode \"16\" is not valid.",
+      "formatted": "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m16-lexer",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m16-lexer",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 'a }}"
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m16-lexer",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "formatted": "Twig\\Error\\SyntaxError: An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "rawMessage": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\").",
+     "templateName": "index.twig",
+     "templateLine": -1,
+     "templateColumn": null,
+     "previous": {
+      "class": "InvalidArgumentException",
+      "message": "Optimizer mode \"16\" is not valid.",
+      "formatted": "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m16-unknown-tag",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m16-unknown-tag",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{% foo %}"
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m16-unknown-tag",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "formatted": "Twig\\Error\\SyntaxError: An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "rawMessage": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\").",
+     "templateName": "index.twig",
+     "templateLine": -1,
+     "templateColumn": null,
+     "previous": {
+      "class": "InvalidArgumentException",
+      "message": "Optimizer mode \"16\" is not valid.",
+      "formatted": "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m15-depf",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m15-depf",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 'a  b'|spaceless }}"
+    },
+    "config": {
+     "optimizations": 15
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m15-depf",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"15\" is not valid.\") in \"index.twig\".",
+     "formatted": "Twig\\Error\\SyntaxError: An exception has been thrown during the compilation of a template (\"Optimizer mode \"15\" is not valid.\") in \"index.twig\".",
+     "rawMessage": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"15\" is not valid.\").",
+     "templateName": "index.twig",
+     "templateLine": -1,
+     "templateColumn": null,
+     "previous": {
+      "class": "InvalidArgumentException",
+      "message": "Optimizer mode \"15\" is not valid.",
+      "formatted": "InvalidArgumentException: Optimizer mode \"15\" is not valid.",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m16-sbx-ok",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m16-sbx-ok",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 }}"
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "extensions": [
+     "sandbox"
+    ],
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m16-sbx-ok",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "InvalidArgumentException",
+     "message": "Optimizer mode \"16\" is not valid.",
+     "formatted": "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+     "code": 0
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m16-sbx-syntax",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m16-sbx-syntax",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 + }}"
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "extensions": [
+     "sandbox"
+    ],
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m16-sbx-syntax",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "InvalidArgumentException",
+     "message": "Optimizer mode \"16\" is not valid.",
+     "formatted": "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+     "code": 0
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m16-sbx-global",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m16-sbx-global",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 }}"
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "sandbox": {
+     "global": true,
+     "policy": {}
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m16-sbx-global",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "InvalidArgumentException",
+     "message": "Optimizer mode \"16\" is not valid.",
+     "formatted": "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+     "code": 0
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m16-debug",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m16-debug",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 }}"
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "extensions": [
+     "debug"
+    ],
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m16-debug",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "formatted": "Twig\\Error\\SyntaxError: An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "rawMessage": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\").",
+     "templateName": "index.twig",
+     "templateLine": -1,
+     "templateColumn": null,
+     "previous": {
+      "class": "InvalidArgumentException",
+      "message": "Optimizer mode \"16\" is not valid.",
+      "formatted": "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m16-string-loader",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m16-string-loader",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 }}"
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "extensions": [
+     "string_loader"
+    ],
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m16-string-loader",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "formatted": "Twig\\Error\\SyntaxError: An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "rawMessage": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\").",
+     "templateName": "index.twig",
+     "templateLine": -1,
+     "templateColumn": null,
+     "previous": {
+      "class": "InvalidArgumentException",
+      "message": "Optimizer mode \"16\" is not valid.",
+      "formatted": "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m16-throw",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m16-throw",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 }}"
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "errors": "throw",
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m16-throw",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "formatted": "Twig\\Error\\SyntaxError: An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "rawMessage": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\").",
+     "templateName": "index.twig",
+     "templateLine": -1,
+     "templateColumn": null,
+     "previous": {
+      "class": "InvalidArgumentException",
+      "message": "Optimizer mode \"16\" is not valid.",
+      "formatted": "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m16-two",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m16-two",
+    "env": "plain",
+    "templates": {
+     "a.twig": "{{ 1 +}}",
+     "index.twig": "x"
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m16-two",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"a.twig\".",
+     "formatted": "Twig\\Error\\SyntaxError: An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"a.twig\".",
+     "rawMessage": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\").",
+     "templateName": "a.twig",
+     "templateLine": -1,
+     "templateColumn": null,
+     "previous": {
+      "class": "InvalidArgumentException",
+      "message": "Optimizer mode \"16\" is not valid.",
+      "formatted": "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m16-missing-main",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m16-missing-main",
+    "env": "plain",
+    "templates": {
+     "a.twig": "x"
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "main": "nope.twig",
+    "load_all": false,
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m16-missing-main",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\LoaderError",
+     "message": "Template \"nope.twig\" is not defined.",
+     "formatted": "Twig\\Error\\LoaderError: Template \"nope.twig\" is not defined.",
+     "rawMessage": "Template \"nope.twig\" is not defined.",
+     "templateName": null,
+     "templateLine": -1,
+     "templateColumn": null
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m4-syntax",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m4-syntax",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 + }}"
+    },
+    "config": {
+     "optimizations": 4
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m4-syntax",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "Unexpected token \"end of print statement\" of value \"\" in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\SyntaxError: Unexpected token \"end of print statement\" of value \"\" in \"index.twig\" at line 1.",
+     "rawMessage": "Unexpected token \"end of print statement\" of value \"\".",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null
+    },
+    "deprecations": [
+     "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+     }
+    ]
+   }
+  },
+  {
+   "id": "opt-env-m8-lexer",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m8-lexer",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 'a }}"
+    },
+    "config": {
+     "optimizations": 8
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m8-lexer",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "Unexpected character \"'\" in \"index.twig\" at line 1 column 4.",
+     "formatted": "Twig\\Error\\SyntaxError: Unexpected character \"'\" in \"index.twig\" at line 1 column 4.",
+     "rawMessage": "Unexpected character \"'\".",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": 4
+    },
+    "deprecations": [
+     "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing."
+     }
+    ]
+   }
+  },
+  {
+   "id": "opt-env-m12-syntax",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m12-syntax",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 + }}"
+    },
+    "config": {
+     "optimizations": 12
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m12-syntax",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "Unexpected token \"end of print statement\" of value \"\" in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\SyntaxError: Unexpected token \"end of print statement\" of value \"\" in \"index.twig\" at line 1.",
+     "rawMessage": "Unexpected token \"end of print statement\" of value \"\".",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null
+    },
+    "deprecations": [
+     "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+     "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing."
+     }
+    ]
+   }
+  },
+  {
+   "id": "opt-env-m4-depf",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m4-depf",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 'a  b'|spaceless }}"
+    },
+    "config": {
+     "optimizations": 4
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m4-depf",
+    "kind": "twig",
+    "ok": true,
+    "output": "a  b",
+    "deprecations": [
+     "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+     "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+     }
+    ],
+    "clock": [
+     1795665447,
+     874961
+    ]
+   }
+  },
+  {
+   "id": "opt-env-m12-depf",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m12-depf",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 'a  b'|spaceless }}"
+    },
+    "config": {
+     "optimizations": 12
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m12-depf",
+    "kind": "twig",
+    "ok": true,
+    "output": "a  b",
+    "deprecations": [
+     "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+     "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing.",
+     "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+     }
+    ],
+    "clock": [
+     1795665447,
+     897323
+    ]
+   }
+  },
+  {
+   "id": "opt-env-m-2-depf",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m-2-depf",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 'a  b'|spaceless }}"
+    },
+    "config": {
+     "optimizations": -2
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m-2-depf",
+    "kind": "twig",
+    "ok": true,
+    "output": "a  b",
+    "deprecations": [
+     "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+     "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing.",
+     "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+     }
+    ],
+    "clock": [
+     1795665447,
+     917668
+    ]
+   }
+  },
+  {
+   "id": "opt-env-m4-two",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m4-two",
+    "env": "plain",
+    "templates": {
+     "a.twig": "{{ 'a  b'|spaceless }}",
+     "index.twig": "{{ 'a  b'|spaceless }}"
+    },
+    "config": {
+     "optimizations": 4
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m4-two",
+    "kind": "twig",
+    "ok": true,
+    "output": "a  b",
+    "deprecations": [
+     "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+     "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in a.twig at line 1.",
+     "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in a.twig at line 1."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+     }
+    ],
+    "clock": [
+     1795665447,
+     938120
+    ]
+   }
+  },
+  {
+   "id": "opt-env-m4-two-syntax-first",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m4-two-syntax-first",
+    "env": "plain",
+    "templates": {
+     "a.twig": "{{ 1 + }}",
+     "index.twig": "{{ 'a  b'|spaceless }}"
+    },
+    "config": {
+     "optimizations": 4
+    },
+    "load_all": false,
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m4-two-syntax-first",
+    "kind": "twig",
+    "ok": true,
+    "output": "a  b",
+    "deprecations": [
+     "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+     "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+     }
+    ],
+    "clock": [
+     1795665447,
+     958322
+    ]
+   }
+  },
+  {
+   "id": "opt-env-m4-sbx-depf",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m4-sbx-depf",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 'a  b'|spaceless }}"
+    },
+    "config": {
+     "optimizations": 4
+    },
+    "extensions": [
+     "sandbox"
+    ],
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m4-sbx-depf",
+    "kind": "twig",
+    "ok": true,
+    "output": "a  b",
+    "deprecations": [
+     "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+     "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+     }
+    ],
+    "clock": [
+     1795665447,
+     979483
+    ]
+   }
+  },
+  {
+   "id": "opt-env-m4-sbx-syntax",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m4-sbx-syntax",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 + }}"
+    },
+    "config": {
+     "optimizations": 4
+    },
+    "extensions": [
+     "sandbox"
+    ],
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m4-sbx-syntax",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "Unexpected token \"end of print statement\" of value \"\" in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\SyntaxError: Unexpected token \"end of print statement\" of value \"\" in \"index.twig\" at line 1.",
+     "rawMessage": "Unexpected token \"end of print statement\" of value \"\".",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null
+    },
+    "deprecations": [
+     "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+     }
+    ]
+   }
+  },
+  {
+   "id": "opt-env-m12-sbx-two",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m12-sbx-two",
+    "env": "plain",
+    "templates": {
+     "a.twig": "{{ 'a  b'|spaceless }}",
+     "index.twig": "{{ 'a  b'|spaceless }}"
+    },
+    "config": {
+     "optimizations": 12
+    },
+    "extensions": [
+     "sandbox"
+    ],
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m12-sbx-two",
+    "kind": "twig",
+    "ok": true,
+    "output": "a  b",
+    "deprecations": [
+     "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+     "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing.",
+     "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in a.twig at line 1.",
+     "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in a.twig at line 1."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index.twig at line 1."
+     }
+    ],
+    "clock": [
+     1795665448,
+     19151
+    ]
+   }
+  },
+  {
+   "id": "opt-env-m4-missing-main",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m4-missing-main",
+    "env": "plain",
+    "templates": {
+     "a.twig": "x"
+    },
+    "config": {
+     "optimizations": 4
+    },
+    "main": "nope.twig",
+    "load_all": false,
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m4-missing-main",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\LoaderError",
+     "message": "Template \"nope.twig\" is not defined.",
+     "formatted": "Twig\\Error\\LoaderError: Template \"nope.twig\" is not defined.",
+     "rawMessage": "Template \"nope.twig\" is not defined.",
+     "templateName": null,
+     "templateLine": -1,
+     "templateColumn": null
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m4-missing-main-sbx",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m4-missing-main-sbx",
+    "env": "plain",
+    "templates": {
+     "a.twig": "x"
+    },
+    "config": {
+     "optimizations": 4
+    },
+    "extensions": [
+     "sandbox"
+    ],
+    "main": "nope.twig",
+    "load_all": false,
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m4-missing-main-sbx",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\LoaderError",
+     "message": "Template \"nope.twig\" is not defined.",
+     "formatted": "Twig\\Error\\LoaderError: Template \"nope.twig\" is not defined.",
+     "rawMessage": "Template \"nope.twig\" is not defined.",
+     "templateName": null,
+     "templateLine": -1,
+     "templateColumn": null
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m16-missing-main-sbx",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m16-missing-main-sbx",
+    "env": "plain",
+    "templates": {
+     "a.twig": "x"
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "extensions": [
+     "sandbox"
+    ],
+    "main": "nope.twig",
+    "load_all": false,
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m16-missing-main-sbx",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\LoaderError",
+     "message": "Template \"nope.twig\" is not defined.",
+     "formatted": "Twig\\Error\\LoaderError: Template \"nope.twig\" is not defined.",
+     "rawMessage": "Template \"nope.twig\" is not defined.",
+     "templateName": null,
+     "templateLine": -1,
+     "templateColumn": null
+    },
+    "deprecations": [],
+    "diagnostics": []
+   }
+  },
+  {
+   "id": "opt-env-m4-include",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m4-include",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ include('b.twig') }}",
+     "b.twig": "{{ 'a  b'|spaceless }}"
+    },
+    "config": {
+     "optimizations": 4
+    },
+    "load_all": false,
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m4-include",
+    "kind": "twig",
+    "ok": true,
+    "output": "a  b",
+    "deprecations": [
+     "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+     "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in b.twig at line 1."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in b.twig at line 1."
+     }
+    ],
+    "clock": [
+     1795665448,
+     86202
+    ]
+   }
+  },
+  {
+   "id": "opt-env-m4-include-sbx",
+   "note": "probe of P29; oracle run in its own PHP process",
+   "case": {
+    "id": "opt-env-m4-include-sbx",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ include('b.twig') }}",
+     "b.twig": "{{ 'a  b'|spaceless }}"
+    },
+    "config": {
+     "optimizations": 4
+    },
+    "extensions": [
+     "sandbox"
+    ],
+    "load_all": false,
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "opt-env-m4-include-sbx",
+    "kind": "twig",
+    "ok": true,
+    "output": "a  b",
+    "deprecations": [
+     "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+     "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in b.twig at line 1."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+     },
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in b.twig at line 1."
+     }
+    ],
+    "clock": [
+     1795665448,
+     111757
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,347 @@
+{
+ "cases": [
+  {
+   "id": "opt-env-m16-ok",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 }}"
+   },
+   "config": {
+    "optimizations": 16
+   }
+  },
+  {
+   "id": "opt-env-m16-syntax",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 + }}"
+   },
+   "config": {
+    "optimizations": 16
+   }
+  },
+  {
+   "id": "opt-env-m16-lexer",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'a }}"
+   },
+   "config": {
+    "optimizations": 16
+   }
+  },
+  {
+   "id": "opt-env-m16-unknown-tag",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% foo %}"
+   },
+   "config": {
+    "optimizations": 16
+   }
+  },
+  {
+   "id": "opt-env-m15-depf",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'a  b'|spaceless }}"
+   },
+   "config": {
+    "optimizations": 15
+   }
+  },
+  {
+   "id": "opt-env-m16-sbx-ok",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 }}"
+   },
+   "config": {
+    "optimizations": 16
+   },
+   "extensions": [
+    "sandbox"
+   ]
+  },
+  {
+   "id": "opt-env-m16-sbx-syntax",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 + }}"
+   },
+   "config": {
+    "optimizations": 16
+   },
+   "extensions": [
+    "sandbox"
+   ]
+  },
+  {
+   "id": "opt-env-m16-sbx-global",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 }}"
+   },
+   "config": {
+    "optimizations": 16
+   },
+   "sandbox": {
+    "global": true,
+    "policy": {}
+   }
+  },
+  {
+   "id": "opt-env-m16-debug",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 }}"
+   },
+   "config": {
+    "optimizations": 16
+   },
+   "extensions": [
+    "debug"
+   ]
+  },
+  {
+   "id": "opt-env-m16-string-loader",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 }}"
+   },
+   "config": {
+    "optimizations": 16
+   },
+   "extensions": [
+    "string_loader"
+   ]
+  },
+  {
+   "id": "opt-env-m16-throw",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 }}"
+   },
+   "config": {
+    "optimizations": 16
+   },
+   "errors": "throw"
+  },
+  {
+   "id": "opt-env-m16-two",
+   "env": "plain",
+   "templates": {
+    "a.twig": "{{ 1 +}}",
+    "index.twig": "x"
+   },
+   "config": {
+    "optimizations": 16
+   }
+  },
+  {
+   "id": "opt-env-m16-missing-main",
+   "env": "plain",
+   "templates": {
+    "a.twig": "x"
+   },
+   "config": {
+    "optimizations": 16
+   },
+   "main": "nope.twig",
+   "load_all": false
+  },
+  {
+   "id": "opt-env-m4-syntax",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 + }}"
+   },
+   "config": {
+    "optimizations": 4
+   }
+  },
+  {
+   "id": "opt-env-m8-lexer",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'a }}"
+   },
+   "config": {
+    "optimizations": 8
+   }
+  },
+  {
+   "id": "opt-env-m12-syntax",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 + }}"
+   },
+   "config": {
+    "optimizations": 12
+   }
+  },
+  {
+   "id": "opt-env-m4-depf",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'a  b'|spaceless }}"
+   },
+   "config": {
+    "optimizations": 4
+   }
+  },
+  {
+   "id": "opt-env-m12-depf",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'a  b'|spaceless }}"
+   },
+   "config": {
+    "optimizations": 12
+   }
+  },
+  {
+   "id": "opt-env-m-2-depf",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'a  b'|spaceless }}"
+   },
+   "config": {
+    "optimizations": -2
+   }
+  },
+  {
+   "id": "opt-env-m4-two",
+   "env": "plain",
+   "templates": {
+    "a.twig": "{{ 'a  b'|spaceless }}",
+    "index.twig": "{{ 'a  b'|spaceless }}"
+   },
+   "config": {
+    "optimizations": 4
+   }
+  },
+  {
+   "id": "opt-env-m4-two-syntax-first",
+   "env": "plain",
+   "templates": {
+    "a.twig": "{{ 1 + }}",
+    "index.twig": "{{ 'a  b'|spaceless }}"
+   },
+   "config": {
+    "optimizations": 4
+   },
+   "load_all": false
+  },
+  {
+   "id": "opt-env-m4-sbx-depf",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'a  b'|spaceless }}"
+   },
+   "config": {
+    "optimizations": 4
+   },
+   "extensions": [
+    "sandbox"
+   ]
+  },
+  {
+   "id": "opt-env-m4-sbx-syntax",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 + }}"
+   },
+   "config": {
+    "optimizations": 4
+   },
+   "extensions": [
+    "sandbox"
+   ]
+  },
+  {
+   "id": "opt-env-m12-sbx-two",
+   "env": "plain",
+   "templates": {
+    "a.twig": "{{ 'a  b'|spaceless }}",
+    "index.twig": "{{ 'a  b'|spaceless }}"
+   },
+   "config": {
+    "optimizations": 12
+   },
+   "extensions": [
+    "sandbox"
+   ]
+  },
+  {
+   "id": "opt-env-m4-missing-main",
+   "env": "plain",
+   "templates": {
+    "a.twig": "x"
+   },
+   "config": {
+    "optimizations": 4
+   },
+   "main": "nope.twig",
+   "load_all": false
+  },
+  {
+   "id": "opt-env-m4-missing-main-sbx",
+   "env": "plain",
+   "templates": {
+    "a.twig": "x"
+   },
+   "config": {
+    "optimizations": 4
+   },
+   "extensions": [
+    "sandbox"
+   ],
+   "main": "nope.twig",
+   "load_all": false
+  },
+  {
+   "id": "opt-env-m16-missing-main-sbx",
+   "env": "plain",
+   "templates": {
+    "a.twig": "x"
+   },
+   "config": {
+    "optimizations": 16
+   },
+   "extensions": [
+    "sandbox"
+   ],
+   "main": "nope.twig",
+   "load_all": false
+  },
+  {
+   "id": "opt-env-m4-include",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ include('b.twig') }}",
+    "b.twig": "{{ 'a  b'|spaceless }}"
+   },
+   "config": {
+    "optimizations": 4
+   },
+   "load_all": false
+  },
+  {
+   "id": "opt-env-m4-include-sbx",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ include('b.twig') }}",
+    "b.twig": "{{ 'a  b'|spaceless }}"
+   },
+   "config": {
+    "optimizations": 4
+   },
+   "extensions": [
+    "sandbox"
+   ],
+   "load_all": false
+  }
+ ],
+ "isolation": "process"
+}

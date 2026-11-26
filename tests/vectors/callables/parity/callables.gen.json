@@ -1,0 +1,794 @@
+[
+ {
+  "id": "cc-std-x",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['stdClass', 'x'])|join }}"
+  }
+ },
+ {
+  "id": "cc-std-x-str",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort('stdClass::x')|join }}"
+  }
+ },
+ {
+  "id": "cc-ao-count",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['ArrayObject', 'count'])|join }}"
+  }
+ },
+ {
+  "id": "cc-ao-count-lc",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['arrayobject', 'COUNT'])|join }}"
+  }
+ },
+ {
+  "id": "cc-countable",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['Countable', 'count'])|join }}"
+  }
+ },
+ {
+  "id": "cc-markup-count",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['Twig\\\\Markup', 'count'])|join }}"
+  }
+ },
+ {
+  "id": "cc-markup-x",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|filter(['twig\\\\markup', 'x'])|join }}"
+  }
+ },
+ {
+  "id": "cc-env-static",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|filter(['Twig\\\\Environment', 'nope'])|join }}"
+  }
+ },
+ {
+  "id": "cc-core-cycle",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort('Twig\\\\Extension\\\\CoreExtension::cycle')|join }}"
+  }
+ },
+ {
+  "id": "cc-self",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['self', 'x'])|join }}"
+  }
+ },
+ {
+  "id": "cc-parent",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['parent', 'x'])|join }}"
+  }
+ },
+ {
+  "id": "cc-static",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['static', 'x'])|join }}"
+  }
+ },
+ {
+  "id": "cc-self-str",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort('self::x')|join }}"
+  }
+ },
+ {
+  "id": "cc-core-private",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['Twig\\\\Extension\\\\CoreExtension', 'toArray'])|join }}"
+  }
+ },
+ {
+  "id": "cc-abstract",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['Twig\\\\Extension\\\\AbstractExtension', 'getTokenParsers'])|join }}"
+  }
+ },
+ {
+  "id": "cc-construct",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['ArrayObject', '__construct'])|join }}"
+  }
+ },
+ {
+  "id": "cc-closure-fromcallable",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['Closure', 'fromCallable'])|join }}"
+  }
+ },
+ {
+  "id": "cc-datetime-create",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['DateTime', 'createFromFormat'])|join }}"
+  }
+ },
+ {
+  "id": "cc-enum-cases",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['Twig\\\\ExpressionParser\\\\InfixAssociativity', 'cases'])|join }}"
+  }
+ },
+ {
+  "id": "cc-trait",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['Twig\\\\Node\\\\Expression\\\\SupportDefinedTestTrait', 'enableDefinedTest'])|join }}"
+  }
+ },
+ {
+  "id": "cc-trait-x",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort(['Twig\\\\Node\\\\Expression\\\\SupportDefinedTestTrait', 'x'])|join }}"
+  }
+ },
+ {
+  "id": "dc-true",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map(true)|join }}"
+  }
+ },
+ {
+  "id": "dc-ab",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map(['a', 'b'])|join }}"
+  }
+ },
+ {
+  "id": "dc-12",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map([1, 2])|join }}"
+  }
+ },
+ {
+  "id": "dc-a1",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map(['a', 1])|join }}"
+  }
+ },
+ {
+  "id": "dc-std-x",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map(['stdClass', 'x'])|join }}"
+  }
+ },
+ {
+  "id": "dc-markup-count",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map(['Twig\\\\Markup', 'count'])|join }}"
+  }
+ },
+ {
+  "id": "dc-str-cls",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map('stdClass::x')|join }}"
+  }
+ },
+ {
+  "id": "dc-self",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map(['self', 'x'])|join }}"
+  }
+ },
+ {
+  "id": "dc-3",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map([1, 2, 3])|join }}"
+  }
+ },
+ {
+  "id": "dc-keys",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map({1: 'a', 2: 'b'})|join }}"
+  }
+ },
+ {
+  "id": "obj-magic-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort([ms, 'anything'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-magic-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map([ms, 'foo'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-count-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort([cs, 'count'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-count-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map([cs, 'count'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-nope-filter",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|filter([cs, 'nope'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-nope-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map([cs, 'nope'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-compound-same",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort([cs, 'Twig\\\\Tests\\\\CountableStub::count'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-compound-other",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort([cs, 'stdClass::count'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-compound-self",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort([cs, 'self::count'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-compound-parent",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort([cs, 'parent::count'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-std-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map([std, 'x'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-std-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort([std, 'x'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-not-callable-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map(cs)|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-not-callable-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(cs)|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "obj-not-callable-filter",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|filter(cs)|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-markup-parent",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['Twig\\\\Markup', 'parent::count'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-runtime-parent",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['Twig\\\\Error\\\\RuntimeError', 'parent::getMessage'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-error-getmessage-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort('Twig\\\\Error\\\\Error::getMessage')|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-error-getmessage-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map('Twig\\\\Error\\\\Error::getMessage')|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-error-clone-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['Twig\\\\Error\\\\Error', '__clone'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-error-clone-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map(['Twig\\\\Error\\\\Error', '__clone'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-iface-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['Twig\\\\Loader\\\\LoaderInterface', 'getSourceContext'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-iface-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map(['Twig\\\\Loader\\\\LoaderInterface', 'getSourceContext'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-abstract-prot-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['Twig\\\\NodeVisitor\\\\AbstractNodeVisitor', 'doEnterNode'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-abstract-prot-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map(['Twig\\\\NodeVisitor\\\\AbstractNodeVisitor', 'doEnterNode'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-trait-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map(['Twig\\\\Node\\\\Expression\\\\SupportDefinedTestTrait', 'enableDefinedTest'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-trait-x-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map('Twig\\\\Node\\\\Expression\\\\SupportDefinedTestTrait::x')|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-empty-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map('::x')|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-parent-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map(['parent', 'x'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-static-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map(['static', 'x'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-construct-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['Twig\\\\Markup', '__construct'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-construct-uc-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['Twig\\\\Token', '__CONSTRUCT'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-construct-none-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['Twig\\\\Extension\\\\AbstractExtension', '__construct'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-construct-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map(['Twig\\\\Markup', '__construct'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-lead-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['\\\\Twig\\\\Markup', 'x'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-lead-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map(['\\\\Twig\\\\Markup', 'x'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "cls-lead-str-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map('\\\\Twig\\\\Markup::x')|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "arr-3-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['Twig\\\\Markup', 'count', 'x'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "arr-keys-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort({1: 'a', 2: 'b'})|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "arr-keys-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map({1: 'a', 2: 'b'})|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "arr-int-method-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['Twig\\\\Markup', 1])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "arr-int-method-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map(['Twig\\\\Markup', 1])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "find-std",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|find(['stdClass', 'x']) }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "reduce-std",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|reduce(['stdClass', 'x']) }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "closure-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort((a, b) => a <=> b)|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "enum-from-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['Twig\\\\ExpressionParser\\\\InfixAssociativity', 'from'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "enum-cases-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map('Twig\\\\ExpressionParser\\\\InfixAssociativity::cases')|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "core-private-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map(['Twig\\\\Extension\\\\CoreExtension', 'splitIntoCharacters'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "esc-private-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['Twig\\\\Extension\\\\EscaperExtension', 'escapeFilterIsSafe'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "self-cycle-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(['self', 'cycle'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "self-nope-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map('self::nope')|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "float-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map(1.5)|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "null-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map(null)|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "arr-map",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1]|map([])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "int-sort",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|sort(1)|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "str-int-filter",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [3, 1, 2]|filter('1')|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "callable-filter-traversable",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ cs|filter(['stdClass', 'x'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(3), 'ms' => new \\Twig\\Tests\\MagicCallStub(), 'std' => new \\stdClass()];",
+  "test_classes": true
+ },
+ {
+  "id": "filter-traversable-callable",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ foo|filter(['stdClass', 'x'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "filter-traversable-static",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ foo|filter('Twig\\\\Extension\\\\CoreExtension::cycle')|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "filter-traversable-self",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ foo|filter(['self', 'nope'])|join(',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "nul-callable-class",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort([\"No\\0pe\", \"x\"])|join }}"
+  }
+ },
+ {
+  "id": "nul-callable-method",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [2, 1]|sort([\"stdClass\", \"x\\0y\"])|join }}"
+  }
+ },
+ {
+  "id": "nul-dynamic-class",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map([\"No\\0pe\", \"x\"])|join }}"
+  }
+ },
+ {
+  "id": "nul-dynamic-method",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map([\"stdClass\", \"x\\0y\"])|join }}"
+  }
+ },
+ {
+  "id": "nul-dynamic-function",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map(\"no\\0pe\")|join }}"
+  }
+ }
+]

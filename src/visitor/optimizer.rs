@@ -3,7 +3,8 @@
 
 use std::any::Any;
 use std::sync::Arc;
-use std::sync::atomic::{AtomicBool, Ordering};
+
+use twig_value::{PhpError, ThrowableClass};
 
 use super::{NodeVisitor, Visit, VisitContext, VisitResult, priority};
 use crate::ast::{ArgumentKey, ConstantValue, Expr, ExprKind, Node, NodeKind, NodeMut};
@@ -25,17 +26,11 @@ use crate::extension::{Extension, ExtensionSet};
 #[derive(Debug)]
 pub struct OptimizerNodeVisitor {
     optimizers: i64,
-    /// For a visitor built by [`OptimizerExtension`]: what Twig's constructor raises, reported when the visitor
-    /// first runs.
-    deferred: Option<Deferred>,
-}
-
-/// The construction problems of a visitor built by an extension.
-#[derive(Debug)]
-struct Deferred {
-    error: Option<Error>,
-    deprecations: Vec<Deprecation>,
-    reported: AtomicBool,
+    /// For a visitor built by [`OptimizerExtension`] with an invalid mode: the exception of Twig's constructor.
+    /// A [`ParseContext`](crate::parser::ParseContext) raises it before it lexes or parses anything (see
+    /// [`ParseContext::initialize_extensions`](crate::parser::ParseContext::initialize_extensions)); a traversal
+    /// started without one raises it when it enters the root node.
+    invalid: Option<Error>,
 }
 
 impl OptimizerNodeVisitor {
@@ -57,8 +52,8 @@ impl OptimizerNodeVisitor {
     ///
     /// # Errors
     ///
-    /// `Optimizer mode "%s" is not valid.` (an `InvalidArgumentException`, here a `LogicException`-kind error) for a
-    /// mode above 14. The deprecated [`OPTIMIZE_RAW_FILTER`](Self::OPTIMIZE_RAW_FILTER) and
+    /// `Optimizer mode "%s" is not valid.`, an `InvalidArgumentException` ([`ErrorKind::Php`](crate::ErrorKind::Php)),
+    /// for a mode above 14. The deprecated [`OPTIMIZE_RAW_FILTER`](Self::OPTIMIZE_RAW_FILTER) and
     /// [`OPTIMIZE_TEXT_NODES`](Self::OPTIMIZE_TEXT_NODES) bits of a mode other than `-1` are reported to
     /// `deprecations`.
     pub fn new(optimizers: i64, deprecations: &mut dyn DeprecationSink) -> Result<Self> {
@@ -68,21 +63,18 @@ impl OptimizerNodeVisitor {
         }
         Ok(OptimizerNodeVisitor {
             optimizers,
-            deferred: None,
+            invalid: None,
         })
     }
 
-    /// A visitor whose construction problems surface when it runs: Twig builds the visitor when the extensions are
-    /// initialized, before the first template is parsed; here the deprecations are reported by the first traversal
-    /// and an invalid mode fails every traversal.
-    fn deferred(optimizers: i64) -> Self {
+    /// The visitor of an [`OptimizerExtension`]. Twig builds it in `OptimizerExtension::getNodeVisitors()` when the
+    /// environment initializes its extensions; here the registry is built without errors, and what the constructor
+    /// raises is raised by `OptimizerExtension::initialize()` when a parse context initializes the extensions. The
+    /// visitor keeps the exception of an invalid mode, so a traversal started without a parse context fails too.
+    fn of_extension(optimizers: i64) -> Self {
         OptimizerNodeVisitor {
             optimizers,
-            deferred: Some(Deferred {
-                error: check_mode(optimizers).err(),
-                deprecations: mode_deprecations(optimizers),
-                reported: AtomicBool::new(false),
-            }),
+            invalid: check_mode(optimizers).err(),
         }
     }
 
@@ -97,11 +89,14 @@ const OPTIMIZE_FOR: i64 = OptimizerNodeVisitor::OPTIMIZE_FOR;
 const OPTIMIZE_RAW_FILTER: i64 = OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER;
 const OPTIMIZE_TEXT_NODES: i64 = OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES;
 
-/// The check of Twig's constructor: `$optimizers > (OPTIMIZE_FOR | OPTIMIZE_RAW_FILTER | OPTIMIZE_TEXT_NODES)`.
+/// The check of Twig's constructor (TWIG/src/NodeVisitor/OptimizerNodeVisitor.php): `if ($optimizers >
+/// (self::OPTIMIZE_FOR | self::OPTIMIZE_RAW_FILTER | self::OPTIMIZE_TEXT_NODES)) throw new
+/// \InvalidArgumentException(...)`. The exception is not a Twig error, so `Environment::compileSource()` wraps it.
 fn check_mode(optimizers: i64) -> Result<()> {
     if optimizers > (OPTIMIZE_FOR | OPTIMIZE_RAW_FILTER | OPTIMIZE_TEXT_NODES) {
-        return Err(Error::logic(format!(
-            "Optimizer mode \"{optimizers}\" is not valid."
+        return Err(Error::php(PhpError::new(
+            ThrowableClass::InvalidArgumentException,
+            format!("Optimizer mode \"{optimizers}\" is not valid."),
         )));
     }
     Ok(())
@@ -167,16 +162,9 @@ struct OptimizerPass<'a> {
 
 impl Visit for OptimizerPass<'_> {
     /// Twig: `OptimizerNodeVisitor::enterNode()`.
-    fn enter(&mut self, node: NodeMut<'_>, cx: &mut VisitContext<'_>) -> Result<()> {
-        if let Some(deferred) = &self.visitor.deferred {
-            if let Some(error) = &deferred.error {
-                return Err(error.clone());
-            }
-            if !deferred.reported.swap(true, Ordering::AcqRel) {
-                for deprecation in &deferred.deprecations {
-                    cx.report_deprecation(deprecation.clone());
-                }
-            }
+    fn enter(&mut self, node: NodeMut<'_>, _cx: &mut VisitContext<'_>) -> Result<()> {
+        if let Some(error) = &self.visitor.invalid {
+            return Err(error.clone());
         }
         if self.optimize_for {
             self.enter_optimize_for(node)?;
@@ -397,9 +385,10 @@ pub struct OptimizerExtension {
 }
 
 impl OptimizerExtension {
-    /// The extension for the optimizer mode `optimizers` (the `optimizations` option, `-1` by default). An invalid
-    /// mode is reported when templates are parsed, as Twig reports it when the extensions are initialized.
-    /// Twig: `new OptimizerExtension($optimizers)`.
+    /// The extension for the optimizer mode `optimizers` (the `optimizations` option, `-1` by default). The mode is
+    /// checked when the extensions are initialized (see
+    /// [`ParseContext::initialize_extensions`](crate::parser::ParseContext::initialize_extensions)), as in Twig, whose
+    /// constructor only stores it. Twig: `new OptimizerExtension($optimizers)`.
     pub fn new(optimizers: i64) -> Self {
         OptimizerExtension { optimizers }
     }
@@ -407,6 +396,20 @@ impl OptimizerExtension {
     /// The optimizer mode.
     pub fn optimizers(&self) -> i64 {
         self.optimizers
+    }
+
+    /// What building the extension's visitor raises when the environment initializes its extensions:
+    /// `OptimizerExtension::getNodeVisitors()` returns `[new OptimizerNodeVisitor($this->optimizers)]`, whose
+    /// constructor rejects an invalid mode and returns the deprecations of the deprecated ones. Called by
+    /// [`ParseContext::initialize_extensions`](crate::parser::ParseContext::initialize_extensions), which reports
+    /// the deprecations once.
+    ///
+    /// # Errors
+    ///
+    /// `Optimizer mode "%s" is not valid.` (an `InvalidArgumentException`) for a mode above 14.
+    pub(crate) fn initialize(&self) -> Result<Vec<Deprecation>> {
+        check_mode(self.optimizers)?;
+        Ok(mode_deprecations(self.optimizers))
     }
 }
 
@@ -423,7 +426,9 @@ impl Extension for OptimizerExtension {
 
     /// Twig: `OptimizerExtension::getNodeVisitors()`.
     fn node_visitors(&self) -> Vec<Arc<dyn NodeVisitor>> {
-        vec![Arc::new(OptimizerNodeVisitor::deferred(self.optimizers))]
+        vec![Arc::new(OptimizerNodeVisitor::of_extension(
+            self.optimizers,
+        ))]
     }
 
     fn as_any(&self) -> &dyn Any {

@@ -358,7 +358,6 @@ fn test_error_from_array_loader() {
 /// errors keep the loader's source. VERIFIED with the oracle (`$e->getSourceContext()->getCode()`,
 /// `$twig->load('index')->getSourceContext()->getCode()`).
 #[test]
-#[ignore = "twig-rs mismatch: runtime errors and wrappers outside debug mode carry the template code ('' in PHP)"]
 fn runtime_errors_carry_the_template_code_only_in_debug_mode() {
     for debug in [false, true] {
         let options = EnvironmentOptions {

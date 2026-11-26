@@ -9,7 +9,7 @@
 //! (PHPSRC/ext/mbstring/libmbfl/mbfl/mbfl_encoding.c), so that a name mbstring does not know fails with PHP's
 //! `ValueError` and a name it knows but twig-rs cannot handle fails with a twig-rs `Error`.
 
-use twig_value::{Diagnostics, PhpError, PhpString};
+use twig_value::{Diagnostics, PhpError, PhpResult, PhpString};
 
 use crate::extension::runtime::CallResult;
 
@@ -596,15 +596,14 @@ pub(crate) fn get_encoding(
     position: u32,
     encoding: &[u8],
     diag: &mut dyn Diagnostics,
-) -> CallResult<Charset> {
+) -> PhpResult<Charset> {
     let Some(found) = name_to_encoding(encoding) else {
         return Err(PhpError::value_error(PhpString::concat(&[
             format!("{function}(): Argument #{position} ($encoding) must be a valid encoding, \"")
                 .as_bytes(),
             c_string(encoding),
             b"\" given",
-        ]))
-        .into());
+        ])));
     };
     let deprecated = match found.name {
         "BASE64" => Some(
@@ -635,8 +634,29 @@ pub(crate) fn get_encoding(
         };
         Ok(Charset::SingleByte { identity })
     } else {
-        Err(unsupported(function, encoding).into())
+        Err(unsupported(function, encoding))
     }
+}
+
+/// `mb_strlen($string, $encoding)` on a string: `$encoding` resolved by [`get_encoding`] (argument #2; `null` is the
+/// internal encoding, UTF-8 for Twig's default `default_charset`), then [`strlen`]. What `Markup::count()` calls
+/// (`mb_strlen($this->content, $this->charset)`, TWIG/src/Markup.php).
+///
+/// Port of `PHP_FUNCTION(mb_strlen)` (PHPSRC/ext/mbstring/mbstring.c) once its string parameter is parsed.
+///
+/// # Errors
+///
+/// The errors of [`get_encoding`].
+pub(crate) fn mb_strlen(
+    string: &[u8],
+    encoding: Option<&[u8]>,
+    diag: &mut dyn Diagnostics,
+) -> PhpResult<i64> {
+    let charset = match encoding {
+        Some(encoding) => get_encoding("mb_strlen", 2, encoding, diag)?,
+        None => Charset::Utf8,
+    };
+    Ok(strlen(string, charset))
 }
 
 /// Converts the case of `string` in `charset`: `mb_strtoupper()`, `mb_strtolower()` and `mb_convert_case()` once
@@ -801,12 +821,12 @@ mod tests {
         );
         let unknown = get_encoding("mb_strlen", 2, b"NOPE-1", &mut diag).unwrap_err();
         assert_eq!(
-            unknown.message(),
+            unknown.message_lossy(),
             "mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"NOPE-1\" given"
         );
         let unsupported = get_encoding("mb_substr", 4, b"SJIS", &mut diag).unwrap_err();
         assert_eq!(
-            unsupported.message(),
+            unsupported.message_lossy(),
             "mb_substr(): encoding \"SJIS\" is not supported by twig-rs"
         );
         let koi8 = get_encoding("mb_strtoupper", 2, b"KOI8-R", &mut diag).unwrap();

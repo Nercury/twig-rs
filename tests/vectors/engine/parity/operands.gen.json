@@ -1,0 +1,2865 @@
+{
+ "cases": [
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-001"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or 1 }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-002"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and 1 }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-003"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (1 + 2) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-004"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (1 + 2) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-005"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (1 + 2) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-006"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ -1 * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-007"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or -1 }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-008"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and -1 }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-009"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (not 0) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-010"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (not 0) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-011"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (not 0) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-012"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1] * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-013"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or [1] }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-014"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and [1] }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-015"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (1 / 0) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-016"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (1 / 0) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-017"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (1 / 0) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-018"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ n * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-019"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or n }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-020"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and n }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-021"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (n + 1) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-022"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (n + 1) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-023"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (n + 1) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-024"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ -n * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-025"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or -n }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-026"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and -n }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-027"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (not n) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-028"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (not n) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-029"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (not n) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-030"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (n ?? 1) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-031"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (n ?? 1) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-032"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (n ?? 1) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-033"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (n ?: 1) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-034"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (n ?: 1) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-035"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (n ?: 1) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-036"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (true ? n : 1) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-037"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (true ? n : 1) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-038"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (true ? n : 1) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-039"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (n // 2) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-040"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (n // 2) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-041"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (n // 2) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-042"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (n not in [1]) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-043"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (n not in [1]) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-044"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (n not in [1]) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-045"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (n is null) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-046"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (n is null) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-047"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (n is null) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-048"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (n is even) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-049"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (n is even) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-050"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (n is even) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-051"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [n] * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-052"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or [n] }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-053"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and [n] }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-054"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ \"#{n}\" * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-055"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or \"#{n}\" }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-056"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and \"#{n}\" }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-057"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (x => x) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-058"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (x => x) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-059"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (x => x) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-060"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ max(1, 2) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-061"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or max(1, 2) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-062"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and max(1, 2) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-063"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ max(1, 2, 3) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-064"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or max(1, 2, 3) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-065"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and max(1, 2, 3) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-066"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-067"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or m.k }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-068"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and m.k }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-069"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (n|abs) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-070"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (n|abs) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-071"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (n|abs) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-072"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (n in [1]) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-073"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (n in [1]) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-074"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (n in [1]) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-075"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (1..1) * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-076"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or (1..1) }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-077"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and (1..1) }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-078"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ _self * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-079"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or _self }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-080"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and _self }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-081"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ _charset * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-082"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or _charset }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-083"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and _charset }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-084"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ _context * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-085"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or _context }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-086"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and _context }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-087"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m['k'] * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-088"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a b-or m['k'] }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-089"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m.k b-and m['k'] }}"
+   },
+   "data_json": {
+    "m": {
+     "k": [
+      1
+     ]
+    },
+    "n": 5,
+    "a": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-090"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ m['k'] * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "operands-091"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 2 * 3 * a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-092"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a * 2 * 3 }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-093"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 0.5 b-and s }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-094"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ s b-and 0.5 }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-095"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'x' b-or 1.5 }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-096"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1.5 b-or 'x' }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-097"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 + a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-098"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 - a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-099"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 % a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-100"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 ** a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-101"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 / a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-102"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ -a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-103"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ +a }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-104"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'abc' * 1 }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-105"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 * 'abc' }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-106"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a * 'abc' }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-107"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{''*b}}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-108"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{0*a/(9)}}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-109"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{0.4b-or('')|date('c')}}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-110"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{1E25b-or range(5,4)}}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "s": "abc",
+    "f": 2.5,
+    "n": 5,
+    "m": {
+     "k": 1
+    },
+    "b": true
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-111"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump((7 // 2) ** -1) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-112"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump((x // 2) ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-113"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump(-(x // 2) ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-114"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump((-(x // 2)) ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-115"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump(not x ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-116"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump((not x) ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-117"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump(not -x ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-118"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump((x not in items) ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-119"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump(x is not null ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-120"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump(y is not null ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-121"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump((x // z) ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-122"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump((10 // 5) ** 2000) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-123"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump((x // 2) ** 0.5) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-124"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump(-x ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-125"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump((x in items) ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-126"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump(2 ** (x // 2) ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-127"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump((1 not in [1]) ** 2) }}"
+   },
+   "data_json": {
+    "x": 7,
+    "y": null,
+    "z": 0,
+    "items": [
+     1
+    ]
+   },
+   "config": {
+    "autoescape": false,
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "operands-128"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{%if f is not iterable**-1%}{%endif%}"
+   },
+   "data_json": {},
+   "id": "operands-129"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~ [] }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "operands-130"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [] ~ o }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "operands-131"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [] ~ [] }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "operands-132"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ nan ~ [1] }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-133"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1] ~ nan }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-134"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~ ([1] + [2]) }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "operands-135"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~ [s] }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "operands-136"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~ {(1 + 1): 1} }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "operands-137"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~ {1.5: 1} }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "operands-138"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~ [true ? 1 : 2] }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "operands-139"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ \"#{o}#{[1]}\" }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-140"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ \"#{[1]}#{o}\" }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "config": {
+    "autoescape": false
+   },
+   "id": "operands-141"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% set s = ao ~ [1] %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "operands-142"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~ [null] }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "operands-143"
+  }
+ ],
+ "isolation": "process"
+}

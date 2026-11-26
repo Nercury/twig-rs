@@ -15,7 +15,9 @@
 //!
 //! A vector without `known_mismatch` must replay identically (deviation rules allowed); a vector
 //! with it must still mismatch, so that a fix fails the replay until the marker is removed (a
-//! ratchet, like `tests/twig/known-failures.txt`).
+//! ratchet, like `tests/twig/known-failures.txt`). [`update_file`] (`twig-fuzz replay --update`)
+//! removes the markers of fixed vectors and [`refresh_file`] (`twig-fuzz refresh`) records oracle
+//! results again; both edit the file's text in place and change nothing else.
 
 use std::path::{Path, PathBuf};
 use std::time::Duration;
@@ -191,20 +193,27 @@ pub struct Replayed {
     pub status: ReplayStatus,
 }
 
+/// Runs one vector's case through twig-rs and compares the result with the recorded one; `Err` when
+/// the case is invalid or the runner cannot run it.
+pub fn replay_verdict(vector: &Vector, timeout: Duration) -> Result<Verdict, String> {
+    let case = Case::from_json(&vector.case).map_err(|error| format!("invalid case: {error}"))?;
+    let oracle = CaseResult::from_json(&vector.oracle);
+    match run_guarded(&case, Some(&oracle), timeout) {
+        Outcome::Ran(actual) => Ok(compare(&oracle, &actual)),
+        Outcome::Unsupported(reason) => Err(format!("the twig-rs runner cannot run it: {reason}")),
+    }
+}
+
 /// Replays one vector.
 pub fn replay(vector: &Vector, timeout: Duration) -> ReplayStatus {
-    let case = match Case::from_json(&vector.case) {
-        Ok(case) => case,
-        Err(error) => return ReplayStatus::Fail(format!("invalid case: {error}")),
-    };
-    let oracle = CaseResult::from_json(&vector.oracle);
-    let actual = match run_guarded(&case, Some(&oracle), timeout) {
-        Outcome::Ran(result) => *result,
-        Outcome::Unsupported(reason) => {
-            return ReplayStatus::Fail(format!("the twig-rs runner cannot run it: {reason}"));
-        }
-    };
-    let verdict = compare(&oracle, &actual);
+    match replay_verdict(vector, timeout) {
+        Ok(verdict) => status(vector, verdict),
+        Err(error) => ReplayStatus::Fail(error),
+    }
+}
+
+/// How a verdict counts for a vector (marked or not).
+fn status(vector: &Vector, verdict: Verdict) -> ReplayStatus {
     match (&vector.known_mismatch, verdict) {
         (_, Verdict::Skip(reason)) => ReplayStatus::Fail(format!("not comparable: {reason}")),
         (None, Verdict::Same) => ReplayStatus::Pass,
@@ -274,4 +283,396 @@ pub fn replay_files(files: &[PathBuf], timeout: Duration) -> Vec<Replayed> {
         }
     }
     out
+}
+
+/// What [`update_file`] did with one vector.
+#[derive(Clone, Debug)]
+pub struct Updated {
+    /// The vector id.
+    pub id: String,
+    /// How the vector replayed before the update.
+    pub status: ReplayStatus,
+    /// Whether its `known_mismatch` marker was removed (it replays as [`ReplayStatus::Pass`] or
+    /// [`ReplayStatus::PassWithDeviation`] now).
+    pub dropped: bool,
+}
+
+/// `twig-fuzz replay --update`: replays every vector of the file at `path` and removes the
+/// `known_mismatch` marker of each marked vector that now matches the oracle (identical, or
+/// identical up to the deviation rules), so that a fixed vector flips into a plain regression test
+/// mechanically. Nothing else changes: a marked vector that still mismatches keeps its marker, also
+/// when the mismatch has another signature than recorded (it is reported as
+/// [`ReplayStatus::PassSignatureChanged`] and left for a person to look at), and so does a vector
+/// that cannot be compared. `only` limits the update to these vector ids.
+///
+/// The file is edited in place as text: only the removed `"known_mismatch": {...}` members (with
+/// their separating comma) disappear, so its layout stays as it was. The edited text is parsed again
+/// and must equal the old file without those markers, or nothing is written.
+///
+/// # Errors
+///
+/// The file cannot be read, parsed or written.
+pub fn update_file(
+    path: &Path,
+    timeout: Duration,
+    only: Option<&[String]>,
+) -> Result<Vec<Updated>, String> {
+    let text = std::fs::read_to_string(path)
+        .map_err(|e| format!("cannot read {}: {e}", path.display()))?;
+    let file = VectorFile::from_json(
+        &Json::parse(text.trim_start_matches('\u{feff}'))
+            .map_err(|e| format!("cannot parse {}: {e}", path.display()))?,
+    )
+    .map_err(|e| format!("{}: {e}", path.display()))?;
+    let mut updated = Vec::with_capacity(file.vectors.len());
+    for vector in &file.vectors {
+        let verdict = replay_verdict(vector, timeout);
+        let wanted = only.is_none_or(|ids| ids.contains(&vector.id));
+        let dropped = wanted
+            && vector.known_mismatch.is_some()
+            && matches!(verdict, Ok(Verdict::Same | Verdict::Deviation(_)));
+        updated.push(Updated {
+            id: vector.id.clone(),
+            status: match verdict {
+                Ok(verdict) => status(vector, verdict),
+                Err(error) => ReplayStatus::Fail(error),
+            },
+            dropped,
+        });
+    }
+    let drop: Vec<usize> = (0..updated.len()).filter(|&i| updated[i].dropped).collect();
+    if drop.is_empty() {
+        return Ok(updated);
+    }
+    let edited = without_markers(&text, &drop)
+        .map_err(|e| format!("cannot edit {}: {e}", path.display()))?;
+    let mut expected = file.clone();
+    for &i in &drop {
+        expected.vectors[i].known_mismatch = None;
+    }
+    let reparsed = Json::parse(edited.trim_start_matches('\u{feff}'))
+        .map_err(|e| e.to_string())
+        .and_then(|json| VectorFile::from_json(&json));
+    if reparsed.as_ref() != Ok(&expected) {
+        return Err(format!(
+            "editing {} would change more than the markers; nothing written",
+            path.display()
+        ));
+    }
+    std::fs::write(path, edited).map_err(|e| format!("cannot write {}: {e}", path.display()))?;
+    Ok(updated)
+}
+
+/// Runs case objects through the oracle and returns its result objects, in order.
+pub type OracleFn<'a> = dyn FnMut(&[Json]) -> Result<Vec<Json>, String> + 'a;
+
+/// `twig-fuzz refresh`: records again the oracle results of the vectors of the file at `path` whose
+/// ids are in `only` (all vectors when `only` is `None`), with `oracle` (a function from case
+/// objects to result objects, normally the Docker oracle), and writes them in place of the old
+/// ones. Only the `oracle` values change, edited as text like [`update_file`] does; the markers stay
+/// (replay, then `replay --update`). This is how a vector gets what the oracle records today, for
+/// example the `props` of date objects in the typed data trees. Returns the ids refreshed.
+///
+/// # Errors
+///
+/// The file cannot be read, parsed or written, or the oracle failed.
+pub fn refresh_file(
+    path: &Path,
+    only: Option<&[String]>,
+    oracle: &mut OracleFn<'_>,
+) -> Result<Vec<String>, String> {
+    let text = std::fs::read_to_string(path)
+        .map_err(|e| format!("cannot read {}: {e}", path.display()))?;
+    let file = VectorFile::from_json(
+        &Json::parse(text.trim_start_matches('\u{feff}'))
+            .map_err(|e| format!("cannot parse {}: {e}", path.display()))?,
+    )
+    .map_err(|e| format!("{}: {e}", path.display()))?;
+    let chosen: Vec<usize> = (0..file.vectors.len())
+        .filter(|&i| only.is_none_or(|ids| ids.contains(&file.vectors[i].id)))
+        .collect();
+    if chosen.is_empty() {
+        return Ok(Vec::new());
+    }
+    let cases: Vec<Json> = chosen
+        .iter()
+        .map(|&i| file.vectors[i].case.clone())
+        .collect();
+    let results = oracle(&cases)?;
+    if results.len() != cases.len() {
+        return Err(format!(
+            "{} oracle results for {} cases",
+            results.len(),
+            cases.len()
+        ));
+    }
+    let mut expected = file.clone();
+    let mut replacements: Vec<(usize, String)> = Vec::new();
+    for (&i, result) in chosen.iter().zip(&results) {
+        if CaseResult::from_json(result).is_oracle_failure() {
+            return Err(format!(
+                "the oracle failed on {}: {}",
+                file.vectors[i].id,
+                result.to_compact()
+            ));
+        }
+        expected.vectors[i].oracle = result.clone();
+        replacements.push((i, result.to_compact()));
+    }
+    let edited = with_members_replaced(&text, "oracle", &replacements)
+        .map_err(|e| format!("cannot edit {}: {e}", path.display()))?;
+    let reparsed = Json::parse(edited.trim_start_matches('\u{feff}'))
+        .map_err(|e| e.to_string())
+        .and_then(|json| VectorFile::from_json(&json));
+    if reparsed.as_ref() != Ok(&expected) {
+        return Err(format!(
+            "editing {} would change more than the oracle results; nothing written",
+            path.display()
+        ));
+    }
+    std::fs::write(path, edited).map_err(|e| format!("cannot write {}: {e}", path.display()))?;
+    Ok(chosen.iter().map(|&i| file.vectors[i].id.clone()).collect())
+}
+
+/// The members of the vector objects of a vector file's text, per vector (in order).
+fn vector_members(text: &str) -> Result<Vec<Vec<Member>>, String> {
+    let bytes = text.as_bytes();
+    let start = if text.starts_with('\u{feff}') { 3 } else { 0 };
+    let mut scan = Scan {
+        bytes,
+        position: start,
+    };
+    let mut out = Vec::new();
+    for top in scan.members()? {
+        if top.key != "vectors" {
+            continue;
+        }
+        let mut inner = Scan {
+            bytes,
+            position: top.value_start,
+        };
+        out.clear();
+        for element in inner.elements()? {
+            let mut object = Scan {
+                bytes,
+                position: element,
+            };
+            out.push(object.members()?);
+        }
+    }
+    Ok(out)
+}
+
+/// `text` (a vector file) with the value of member `key` of the vectors at the given indexes
+/// replaced by the given JSON texts.
+fn with_members_replaced(
+    text: &str,
+    key: &str,
+    replacements: &[(usize, String)],
+) -> Result<String, String> {
+    let vectors = vector_members(text)?;
+    let mut cuts: Vec<(usize, usize, &str)> = Vec::new();
+    for (index, value) in replacements {
+        let member = vectors
+            .get(*index)
+            .and_then(|members| members.iter().find(|m| m.key == key))
+            .ok_or_else(|| format!("vector {index} has no {key:?}"))?;
+        cuts.push((member.value_start, member.end, value));
+    }
+    cuts.sort_unstable_by_key(|c| c.0);
+    let mut out = String::with_capacity(text.len());
+    let mut last = 0;
+    for (from, to, value) in cuts {
+        out.push_str(&text[last..from]);
+        out.push_str(value);
+        last = to;
+    }
+    out.push_str(&text[last..]);
+    Ok(out)
+}
+
+/// `text` (a vector file) without the `known_mismatch` members of the vectors at the indexes
+/// `drop`, each removed with the comma that separates it from its neighbour.
+fn without_markers(text: &str, drop: &[usize]) -> Result<String, String> {
+    let vectors = vector_members(text)?;
+    let mut cuts: Vec<(usize, usize)> = Vec::new();
+    for &index in drop {
+        let members = vectors
+            .get(index)
+            .ok_or_else(|| format!("no vector {index}"))?;
+        for (k, member) in members.iter().enumerate() {
+            if member.key != "known_mismatch" {
+                continue;
+            }
+            cuts.push(if k > 0 {
+                (members[k - 1].end, member.end)
+            } else if let Some(next) = members.get(1) {
+                (member.start, next.start)
+            } else {
+                return Err(format!("vector {index} has nothing but its marker"));
+            });
+        }
+    }
+    cuts.sort_unstable();
+    let mut out = String::with_capacity(text.len());
+    let mut last = 0;
+    for (from, to) in cuts {
+        if from < last {
+            return Err("overlapping members".to_owned());
+        }
+        out.push_str(&text[last..from]);
+        last = to;
+    }
+    out.push_str(&text[last..]);
+    Ok(out)
+}
+
+/// A member of a JSON object in a text: its key and byte offsets.
+struct Member {
+    key: String,
+    /// Where the key's opening quote is.
+    start: usize,
+    /// Where the value starts.
+    value_start: usize,
+    /// Just after the value.
+    end: usize,
+}
+
+/// A scanner over JSON text that records where members and elements are (the text is valid JSON:
+/// it was parsed before).
+struct Scan<'a> {
+    bytes: &'a [u8],
+    position: usize,
+}
+
+impl Scan<'_> {
+    fn whitespace(&mut self) {
+        while let Some(b' ' | b'\t' | b'\n' | b'\r') = self.bytes.get(self.position) {
+            self.position += 1;
+        }
+    }
+
+    fn eat(&mut self, byte: u8) -> Result<(), String> {
+        self.whitespace();
+        if self.bytes.get(self.position) == Some(&byte) {
+            self.position += 1;
+            Ok(())
+        } else {
+            Err(format!(
+                "expected {:?} at byte {}",
+                char::from(byte),
+                self.position
+            ))
+        }
+    }
+
+    /// Skips a string literal and returns its value.
+    fn string(&mut self) -> Result<String, String> {
+        self.whitespace();
+        let start = self.position;
+        self.skip_string()?;
+        let raw =
+            std::str::from_utf8(&self.bytes[start..self.position]).map_err(|e| e.to_string())?;
+        match Json::parse(raw)? {
+            Json::String(s) => Ok(s),
+            _ => Err(format!("expected a string at byte {start}")),
+        }
+    }
+
+    fn skip_string(&mut self) -> Result<(), String> {
+        if self.bytes.get(self.position) != Some(&b'"') {
+            return Err(format!("expected a string at byte {}", self.position));
+        }
+        self.position += 1;
+        loop {
+            match self.bytes.get(self.position) {
+                Some(b'"') => {
+                    self.position += 1;
+                    return Ok(());
+                }
+                Some(b'\\') => self.position += 2,
+                Some(_) => self.position += 1,
+                None => return Err("unterminated string".to_owned()),
+            }
+        }
+    }
+
+    fn skip_value(&mut self) -> Result<(), String> {
+        self.whitespace();
+        match self.bytes.get(self.position) {
+            Some(b'{') => self.members().map(|_| ()),
+            Some(b'[') => self.elements().map(|_| ()),
+            Some(b'"') => self.skip_string(),
+            Some(_) => {
+                while let Some(&b) = self.bytes.get(self.position) {
+                    if matches!(b, b',' | b']' | b'}' | b' ' | b'\t' | b'\n' | b'\r') {
+                        break;
+                    }
+                    self.position += 1;
+                }
+                Ok(())
+            }
+            None => Err("unexpected end".to_owned()),
+        }
+    }
+
+    /// The members of the object at the position (which is left after it).
+    fn members(&mut self) -> Result<Vec<Member>, String> {
+        self.eat(b'{')?;
+        let mut out = Vec::new();
+        self.whitespace();
+        if self.bytes.get(self.position) == Some(&b'}') {
+            self.position += 1;
+            return Ok(out);
+        }
+        loop {
+            self.whitespace();
+            let start = self.position;
+            let key = self.string()?;
+            self.eat(b':')?;
+            self.whitespace();
+            let value_start = self.position;
+            self.skip_value()?;
+            out.push(Member {
+                key,
+                start,
+                value_start,
+                end: self.position,
+            });
+            self.whitespace();
+            match self.bytes.get(self.position) {
+                Some(b',') => self.position += 1,
+                Some(b'}') => {
+                    self.position += 1;
+                    return Ok(out);
+                }
+                _ => return Err(format!("expected ',' or '}}' at byte {}", self.position)),
+            }
+        }
+    }
+
+    /// Where the elements of the array at the position start (the position is left after it).
+    fn elements(&mut self) -> Result<Vec<usize>, String> {
+        self.eat(b'[')?;
+        let mut out = Vec::new();
+        self.whitespace();
+        if self.bytes.get(self.position) == Some(&b']') {
+            self.position += 1;
+            return Ok(out);
+        }
+        loop {
+            self.whitespace();
+            out.push(self.position);
+            self.skip_value()?;
+            self.whitespace();
+            match self.bytes.get(self.position) {
+                Some(b',') => self.position += 1,
+                Some(b']') => {
+                    self.position += 1;
+                    return Ok(out);
+                }
+                _ => return Err(format!("expected ',' or ']' at byte {}", self.position)),
+            }
+        }
+    }
 }

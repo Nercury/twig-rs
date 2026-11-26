@@ -36,7 +36,7 @@
 //! microsecond formats of the current time, string callables that name PHP functions, sizes that
 //! reach a memory limit (`number_format()` with a huge `decimals` allocates past PHP's hard memory
 //! limit and kills the oracle process with its whole batch), `dump()` of `TemplateWrapper`s and
-//! closures, and `dump()` under strategies that escape its object handles. Each main template ends
+//! closures. Each main template ends
 //! with a comment naming its case: PHP compiles an identical source only once per process, and a
 //! second copy would not raise the compile-time deprecations again.
 //!
@@ -57,7 +57,7 @@ pub fn generate(seed: u64, count: usize) -> Vec<Json> {
 /// Case `index` of `seed`.
 pub fn generate_case(seed: u64, index: usize) -> Json {
     let mut rng = Rng::new(seed.wrapping_mul(0x9E37_79B9_7F4A_7C15) ^ (index as u64));
-    Generator::new(&mut rng).case(&format!("c{seed}-{index:05}"))
+    super::with_case_cache(Generator::new(&mut rng).case(&format!("c{seed}-{index:05}")))
 }
 
 // ---- random numbers ----------------------------------------------------------------------------
@@ -2348,9 +2348,8 @@ impl<'r> Generator<'r> {
             (3, "name"),
             (4, "html"),
         ]);
-        // `dump()` output is escaped by these strategies, and escaped object handles are not
-        // recognised as the known deviation
-        self.dump_allowed = matches!(autoescape, "" | "false" | "name" | "html");
+        // the comparison ignores object handles also in escaped `dump()` output
+        self.dump_allowed = true;
         self.profile = self.rng.weighted(&[
             (45, Profile::Mixed),
             (40, Profile::Valid),

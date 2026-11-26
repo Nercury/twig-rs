@@ -23,9 +23,13 @@ as before): `templates_b64` (base64 template sources that are not valid UTF-8), 
 classes of Twig's `tests/IntegrationTest.php` first), `typed_data` (return the rich typed tree of the evaluated data
 as `data`, the PHP/`CoreExtension` state after the data phase as `state`, and what the data code raised as
 `data_diagnostics`/`data_deprecations`), `clock` (return `gettimeofday()` taken right before rendering, so that
-twig-rs can render with the same "now"), `time_limit`, `memory_limit`, and `tests`/`strict` in the sandbox `policy`.
-`php runner.php --serve` reads one batch per line and answers with one line per batch (twig-fuzz's minimiser keeps
-one such container running).
+twig-rs can render with the same "now"), `time_limit`, `memory_limit`, `wall_limit` (wall-clock seconds after which an
+isolated child is killed), and `tests`/`strict` in the sandbox `policy`. Batch option `"jobs": N` runs up to N
+isolated cases at a time. Isolated children get their case's own text from the batch (so `1e400` stays `INF`), and a
+case whose `config.cache` is a directory under `/tmp/` gets it emptied before it runs. `php runner.php --serve` reads
+one batch per line and answers with one line per batch (twig-fuzz's minimiser keeps one such container running);
+`--heartbeat` reports each finished case on stderr. The typed data trees also carry `props` (`get_object_vars()`) for
+date objects. The protocol is at the top of `runner.php`.
 
 | File | Role |
 |---|---|

@@ -1,0 +1,95 @@
+{
+ "cases": [
+  {
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = access %}{% endfor %}{{ access.a }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsBag', false)) {\n    class TwigRsBag {\n        public $pub = 'pub';\n        public $nul = null;\n        public ?int $typed;\n        private $priv = 'priv';\n        protected $prot = 'prot';\n        const KONST = 'konst';\n        public function getPriv() { return 'getPriv()'; }\n        public function getFoo() { return 'getFoo()'; }\n        public function isBar() { return 'isBar()'; }\n        public function hasBaz() { return 'hasBaz()'; }\n        public function isBaz() { return 'isBaz()'; }\n        public function hasQux() { return 'hasQux()'; }\n        public function get() { return 'get()'; }\n        public function pub() { return 'pub()'; }\n        public function args(...$a) { return json_encode($a); }\n        public function named($first, $second = 'S') { return $first . '-' . $second; }\n        public function getSelf() { return $this; }\n        public function getNull() { return null; }\n        public function __toString(): string { return 'bag'; }\n    }\n    class TwigRsMagic {\n        public function __isset($n) { return $n === 'magic'; }\n        public function __get($n) { return 'got ' . $n; }\n        public function __call($n, $a) {\n            if ($n === 'bad') { throw new \\BadMethodCallException('bad call'); }\n            return 'called ' . $n . '(' . count($a) . ')';\n        }\n    }\n    class TwigRsAccess implements \\ArrayAccess, \\Countable, \\IteratorAggregate {\n        private $data;\n        public function __construct($data) { $this->data = $data; }\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o] ?? null; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function count(): int { return count($this->data); }\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsIter implements \\Iterator {\n        private $i = 0;\n        public $log = [];\n        public function __construct(private array $items) {}\n        public function current(): mixed { $this->log[] = 'current'; return $this->items[$this->i]; }\n        public function key(): mixed { $this->log[] = 'key'; return 'k' . $this->i; }\n        public function next(): void { $this->log[] = 'next'; $this->i++; }\n        public function rewind(): void { $this->log[] = 'rewind'; $this->i = 0; }\n        public function valid(): bool { $this->log[] = 'valid'; return $this->i < count($this->items); }\n    }\n    class TwigRsThrower {\n        public function boom() { throw new \\RuntimeException('boom!'); }\n        public function getValue() { return 42; }\n    }\n}\nreturn array_merge(json_decode(\"{}\", true), ['access' => new TwigRsAccess(['a' => 1, 'b' => null, 'c' => [1, 2]])]);",
+   "objects": [
+    "access"
+   ],
+   "data_json_rust": {},
+   "id": "parity-001"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = access %}{% endfor %}{{ access.a }}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "throw",
+   "data_php": "\nif (!class_exists('TwigRsBag', false)) {\n    class TwigRsBag {\n        public $pub = 'pub';\n        public $nul = null;\n        public ?int $typed;\n        private $priv = 'priv';\n        protected $prot = 'prot';\n        const KONST = 'konst';\n        public function getPriv() { return 'getPriv()'; }\n        public function getFoo() { return 'getFoo()'; }\n        public function isBar() { return 'isBar()'; }\n        public function hasBaz() { return 'hasBaz()'; }\n        public function isBaz() { return 'isBaz()'; }\n        public function hasQux() { return 'hasQux()'; }\n        public function get() { return 'get()'; }\n        public function pub() { return 'pub()'; }\n        public function args(...$a) { return json_encode($a); }\n        public function named($first, $second = 'S') { return $first . '-' . $second; }\n        public function getSelf() { return $this; }\n        public function getNull() { return null; }\n        public function __toString(): string { return 'bag'; }\n    }\n    class TwigRsMagic {\n        public function __isset($n) { return $n === 'magic'; }\n        public function __get($n) { return 'got ' . $n; }\n        public function __call($n, $a) {\n            if ($n === 'bad') { throw new \\BadMethodCallException('bad call'); }\n            return 'called ' . $n . '(' . count($a) . ')';\n        }\n    }\n    class TwigRsAccess implements \\ArrayAccess, \\Countable, \\IteratorAggregate {\n        private $data;\n        public function __construct($data) { $this->data = $data; }\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o] ?? null; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function count(): int { return count($this->data); }\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsIter implements \\Iterator {\n        private $i = 0;\n        public $log = [];\n        public function __construct(private array $items) {}\n        public function current(): mixed { $this->log[] = 'current'; return $this->items[$this->i]; }\n        public function key(): mixed { $this->log[] = 'key'; return 'k' . $this->i; }\n        public function next(): void { $this->log[] = 'next'; $this->i++; }\n        public function rewind(): void { $this->log[] = 'rewind'; $this->i = 0; }\n        public function valid(): bool { $this->log[] = 'valid'; return $this->i < count($this->items); }\n    }\n    class TwigRsThrower {\n        public function boom() { throw new \\RuntimeException('boom!'); }\n        public function getValue() { return 42; }\n    }\n}\nreturn array_merge(json_decode(\"{}\", true), ['access' => new TwigRsAccess(['a' => 1, 'b' => null, 'c' => [1, 2]])]);",
+   "objects": [
+    "access"
+   ],
+   "data_json_rust": {},
+   "id": "parity-002"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = access %}{{ loop.a }}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsBag', false)) {\n    class TwigRsBag {\n        public $pub = 'pub';\n        public $nul = null;\n        public ?int $typed;\n        private $priv = 'priv';\n        protected $prot = 'prot';\n        const KONST = 'konst';\n        public function getPriv() { return 'getPriv()'; }\n        public function getFoo() { return 'getFoo()'; }\n        public function isBar() { return 'isBar()'; }\n        public function hasBaz() { return 'hasBaz()'; }\n        public function isBaz() { return 'isBaz()'; }\n        public function hasQux() { return 'hasQux()'; }\n        public function get() { return 'get()'; }\n        public function pub() { return 'pub()'; }\n        public function args(...$a) { return json_encode($a); }\n        public function named($first, $second = 'S') { return $first . '-' . $second; }\n        public function getSelf() { return $this; }\n        public function getNull() { return null; }\n        public function __toString(): string { return 'bag'; }\n    }\n    class TwigRsMagic {\n        public function __isset($n) { return $n === 'magic'; }\n        public function __get($n) { return 'got ' . $n; }\n        public function __call($n, $a) {\n            if ($n === 'bad') { throw new \\BadMethodCallException('bad call'); }\n            return 'called ' . $n . '(' . count($a) . ')';\n        }\n    }\n    class TwigRsAccess implements \\ArrayAccess, \\Countable, \\IteratorAggregate {\n        private $data;\n        public function __construct($data) { $this->data = $data; }\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o] ?? null; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function count(): int { return count($this->data); }\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsIter implements \\Iterator {\n        private $i = 0;\n        public $log = [];\n        public function __construct(private array $items) {}\n        public function current(): mixed { $this->log[] = 'current'; return $this->items[$this->i]; }\n        public function key(): mixed { $this->log[] = 'key'; return 'k' . $this->i; }\n        public function next(): void { $this->log[] = 'next'; $this->i++; }\n        public function rewind(): void { $this->log[] = 'rewind'; $this->i = 0; }\n        public function valid(): bool { $this->log[] = 'valid'; return $this->i < count($this->items); }\n    }\n    class TwigRsThrower {\n        public function boom() { throw new \\RuntimeException('boom!'); }\n        public function getValue() { return 42; }\n    }\n}\nreturn array_merge(json_decode(\"{}\", true), ['access' => new TwigRsAccess(['a' => 1, 'b' => null, 'c' => [1, 2]])]);",
+   "objects": [
+    "access"
+   ],
+   "data_json_rust": {},
+   "id": "parity-003"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = magic %}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsBag', false)) {\n    class TwigRsBag {\n        public $pub = 'pub';\n        public $nul = null;\n        public ?int $typed;\n        private $priv = 'priv';\n        protected $prot = 'prot';\n        const KONST = 'konst';\n        public function getPriv() { return 'getPriv()'; }\n        public function getFoo() { return 'getFoo()'; }\n        public function isBar() { return 'isBar()'; }\n        public function hasBaz() { return 'hasBaz()'; }\n        public function isBaz() { return 'isBaz()'; }\n        public function hasQux() { return 'hasQux()'; }\n        public function get() { return 'get()'; }\n        public function pub() { return 'pub()'; }\n        public function args(...$a) { return json_encode($a); }\n        public function named($first, $second = 'S') { return $first . '-' . $second; }\n        public function getSelf() { return $this; }\n        public function getNull() { return null; }\n        public function __toString(): string { return 'bag'; }\n    }\n    class TwigRsMagic {\n        public function __isset($n) { return $n === 'magic'; }\n        public function __get($n) { return 'got ' . $n; }\n        public function __call($n, $a) {\n            if ($n === 'bad') { throw new \\BadMethodCallException('bad call'); }\n            return 'called ' . $n . '(' . count($a) . ')';\n        }\n    }\n    class TwigRsAccess implements \\ArrayAccess, \\Countable, \\IteratorAggregate {\n        private $data;\n        public function __construct($data) { $this->data = $data; }\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o] ?? null; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function count(): int { return count($this->data); }\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsIter implements \\Iterator {\n        private $i = 0;\n        public $log = [];\n        public function __construct(private array $items) {}\n        public function current(): mixed { $this->log[] = 'current'; return $this->items[$this->i]; }\n        public function key(): mixed { $this->log[] = 'key'; return 'k' . $this->i; }\n        public function next(): void { $this->log[] = 'next'; $this->i++; }\n        public function rewind(): void { $this->log[] = 'rewind'; $this->i = 0; }\n        public function valid(): bool { $this->log[] = 'valid'; return $this->i < count($this->items); }\n    }\n    class TwigRsThrower {\n        public function boom() { throw new \\RuntimeException('boom!'); }\n        public function getValue() { return 42; }\n    }\n}\nreturn array_merge(json_decode(\"{}\", true), ['magic' => new TwigRsMagic()]);",
+   "objects": [
+    "magic"
+   ],
+   "data_json_rust": {},
+   "id": "parity-004"
+  },
+  {
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = bag %}{% endfor %}"
+   },
+   "env": "plain",
+   "config": {
+    "autoescape": false,
+    "optimizations": 0,
+    "strict_variables": false
+   },
+   "errors": "collect",
+   "data_php": "\nif (!class_exists('TwigRsBag', false)) {\n    class TwigRsBag {\n        public $pub = 'pub';\n        public $nul = null;\n        public ?int $typed;\n        private $priv = 'priv';\n        protected $prot = 'prot';\n        const KONST = 'konst';\n        public function getPriv() { return 'getPriv()'; }\n        public function getFoo() { return 'getFoo()'; }\n        public function isBar() { return 'isBar()'; }\n        public function hasBaz() { return 'hasBaz()'; }\n        public function isBaz() { return 'isBaz()'; }\n        public function hasQux() { return 'hasQux()'; }\n        public function get() { return 'get()'; }\n        public function pub() { return 'pub()'; }\n        public function args(...$a) { return json_encode($a); }\n        public function named($first, $second = 'S') { return $first . '-' . $second; }\n        public function getSelf() { return $this; }\n        public function getNull() { return null; }\n        public function __toString(): string { return 'bag'; }\n    }\n    class TwigRsMagic {\n        public function __isset($n) { return $n === 'magic'; }\n        public function __get($n) { return 'got ' . $n; }\n        public function __call($n, $a) {\n            if ($n === 'bad') { throw new \\BadMethodCallException('bad call'); }\n            return 'called ' . $n . '(' . count($a) . ')';\n        }\n    }\n    class TwigRsAccess implements \\ArrayAccess, \\Countable, \\IteratorAggregate {\n        private $data;\n        public function __construct($data) { $this->data = $data; }\n        public function offsetExists($o): bool { return isset($this->data[$o]); }\n        public function offsetGet($o): mixed { return $this->data[$o] ?? null; }\n        public function offsetSet($o, $v): void {}\n        public function offsetUnset($o): void {}\n        public function count(): int { return count($this->data); }\n        public function getIterator(): \\Iterator { return new \\ArrayIterator($this->data); }\n    }\n    class TwigRsIter implements \\Iterator {\n        private $i = 0;\n        public $log = [];\n        public function __construct(private array $items) {}\n        public function current(): mixed { $this->log[] = 'current'; return $this->items[$this->i]; }\n        public function key(): mixed { $this->log[] = 'key'; return 'k' . $this->i; }\n        public function next(): void { $this->log[] = 'next'; $this->i++; }\n        public function rewind(): void { $this->log[] = 'rewind'; $this->i = 0; }\n        public function valid(): bool { $this->log[] = 'valid'; return $this->i < count($this->items); }\n    }\n    class TwigRsThrower {\n        public function boom() { throw new \\RuntimeException('boom!'); }\n        public function getValue() { return 42; }\n    }\n}\nreturn array_merge(json_decode(\"{}\", true), ['bag' => new TwigRsBag()]);",
+   "objects": [
+    "bag"
+   ],
+   "data_json_rust": {},
+   "id": "parity-005"
+  }
+ ],
+ "isolation": "none"
+}

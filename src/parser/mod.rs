@@ -140,17 +140,22 @@ pub struct Parser<'a> {
 pub const DEFAULT_MAX_NESTING_LEVEL: usize = 128;
 
 /// Lexes and parses a template: `$env->parse($env->tokenize($source))` with the lexer built from the registry's
-/// operators.
+/// operators. Unlike a [`ParseContext`], it keeps no state between calls, so it does not report the deprecations of
+/// the extensions' initialization (deprecated optimizer modes, precedences outside 0..512).
 ///
 /// # Errors
 ///
-/// The lexer and parser errors.
+/// The `InvalidArgumentException` of an invalid optimizer mode, before anything is lexed (see
+/// [`ParseContext::initialize_extensions`]), then the lexer and parser errors.
 pub fn parse_source(
     env: &ExtensionSet,
     source: &Source,
     options: LexerOptions,
     deprecations: &mut dyn DeprecationSink,
 ) -> Result<Node> {
+    if let Some(optimizer) = env.extension::<crate::extension::OptimizerExtension>() {
+        optimizer.initialize()?;
+    }
     let stream = env.lexer(options).tokenize(source, deprecations)?;
     Parser::new(env, stream, deprecations).parse(None, false)
 }

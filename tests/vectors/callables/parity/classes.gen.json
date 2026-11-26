@@ -1,0 +1,3748 @@
+[
+ {
+  "id": "p27-token",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::NAME_TYPE') }}"
+  }
+ },
+ {
+  "id": "p27-markup",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Markup::FOO') }}"
+  }
+ },
+ {
+  "id": "p27-lower",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('twig\\\\token::NAME_TYPE') }}"
+  }
+ },
+ {
+  "id": "p27-lower-undef",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('twig\\\\markup::FOO') }}"
+  }
+ },
+ {
+  "id": "p27-defined",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::NAME_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "p27-lead",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('\\\\Twig\\\\Token::NAME_TYPE') }}"
+  }
+ },
+ {
+  "id": "p27-lead-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('\\\\twig\\\\Markup::FOO') }}"
+  }
+ },
+ {
+  "id": "fn-self-alc",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('self::ARRAY_LIKE_CLASSES')|join(',') }}"
+  }
+ },
+ {
+  "id": "fn-SELF-alc",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('SELF::ARRAY_LIKE_CLASSES')|join(',') }}"
+  }
+ },
+ {
+  "id": "fn-static-alc",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('static::ARRAY_LIKE_CLASSES')|join(',') }}"
+  }
+ },
+ {
+  "id": "fn-self-trim",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('self::DEFAULT_TRIM_CHARS')|json_encode }}"
+  }
+ },
+ {
+  "id": "fn-core-trim",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Extension\\\\CoreExtension::DEFAULT_TRIM_CHARS')|json_encode }}"
+  }
+ },
+ {
+  "id": "fn-esc-max",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Extension\\\\EscaperExtension::MAX_RESOLVED_DEFAULT_STRATEGIES') }}"
+  }
+ },
+ {
+  "id": "fn-lexer-special",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::SPECIAL_CHARS')|json_encode }}"
+  }
+ },
+ {
+  "id": "fn-self-x",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('self::X') }}"
+  }
+ },
+ {
+  "id": "fn-parent-x",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('parent::X') }}"
+  }
+ },
+ {
+  "id": "fn-parent-x-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('parent::X') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "fn-self-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('self::ARRAY_LIKE_CLASSES') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "fn-trim-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Extension\\\\CoreExtension::DEFAULT_TRIM_CHARS') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "fn-esc-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Extension\\\\EscaperExtension::MAX_RESOLVED_DEFAULT_STRATEGIES') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "fn-template-any",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Template::ANY_CALL') }}"
+  }
+ },
+ {
+  "id": "fn-enum-case",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\ExpressionParser\\\\ExpressionParserType::Prefix').value }}"
+  }
+ },
+ {
+  "id": "fn-enum",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ enum('Twig\\\\ExpressionParser\\\\ExpressionParserType').value }}"
+  }
+ },
+ {
+  "id": "fn-enum-cases",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ enum_cases('Twig\\\\ExpressionParser\\\\InfixAssociativity')|map(c => c.name)|join(',') }}"
+  }
+ },
+ {
+  "id": "fn-enum-print",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ enum('Twig\\\\ExpressionParser\\\\InfixAssociativity') }}"
+  }
+ },
+ {
+  "id": "fn-enum-dyn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% set n = 'Twig\\\\ExpressionParser\\\\InfixAssociativity' %}{{ enum(n).name }}"
+  }
+ },
+ {
+  "id": "fn-not-enum",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ enum('Twig\\\\Markup') }}"
+  }
+ },
+ {
+  "id": "fn-trait-x",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Node\\\\Expression\\\\SupportDefinedTestTrait::X') }}"
+  }
+ },
+ {
+  "id": "fn-iface-x",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Loader\\\\LoaderInterface::X') }}"
+  }
+ },
+ {
+  "id": "fn-exception-x",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Exception::X') }}"
+  }
+ },
+ {
+  "id": "fn-class-x",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Markup::class') }}"
+  }
+ },
+ {
+  "id": "fn-obj-x",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('X', m) }}{% set m %}a{% endset %}"
+  }
+ },
+ {
+  "id": "test-self-any",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 'any' is constant('self::ANY_CALL') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "test-static-any",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 'any' is constant('static::ANY_CALL') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "test-parent-any",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 'any' is constant('parent::ANY_CALL') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "test-self-alc",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('self::ARRAY_LIKE_CLASSES') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "test-core-trim",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\CoreExtension::DEFAULT_TRIM_CHARS') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "test-token",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 5 is constant('Twig\\\\Token::NAME_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "test-trait-x",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\SupportDefinedTestTrait::X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "test-self-x",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('self::X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "test-macro-ns",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% import _self as m %}{{ 1 is constant('X', m) ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "test-in-block",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% block b %}{{ 'any' is constant('static::ANY_CALL') ? 'y' : 'n' }}{% endblock %}"
+  }
+ },
+ {
+  "id": "test-in-macro",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% macro mm() %}{{ 'any' is constant('self::ANY_CALL') ? 'y' : 'n' }}{% endmacro %}{{ _self.mm() }}"
+  }
+ },
+ {
+  "id": "test-in-arrow",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1]|map(x => 'any' is constant('self::ANY_CALL') ? 'y' : 'n')|join }}"
+  }
+ },
+ {
+  "id": "cls-1-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Throwable::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-2-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Exception::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-3-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('OuterIterator::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-4-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('IteratorIterator::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-5-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TwigCallableInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-6-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\AbstractTwigCallable::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-7-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Attribute\\\\AsTwigFilter::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-8-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Attribute\\\\AsTwigFunction::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-9-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Attribute\\\\AsTwigTest::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-10-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Attribute\\\\FirstClassTwigCallableReady::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-11-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Attribute\\\\YieldReady::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-12-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\BlockChain::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-13-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Cache\\\\CacheInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-14-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Cache\\\\RemovableCacheInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-15-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Cache\\\\ChainCache::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-16-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Cache\\\\FilesystemCache::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-16-FORCE_BYTECODE_INVALIDATION-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Cache\\\\FilesystemCache::FORCE_BYTECODE_INVALIDATION')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-16-FORCE_BYTECODE_INVALIDATION-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Cache\\\\FilesystemCache::FORCE_BYTECODE_INVALIDATION') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-16-FORCE_BYTECODE_INVALIDATION-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Cache\\\\FilesystemCache::FORCE_BYTECODE_INVALIDATION') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-17-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Cache\\\\NullCache::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-18-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Cache\\\\ReadOnlyFilesystemCache::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-19-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Compiler::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-20-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\DeprecatedCallableInfo::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-21-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Environment::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-21-VERSION-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Environment::VERSION')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-21-VERSION-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Environment::VERSION') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-21-VERSION-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Environment::VERSION') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-21-VERSION_ID-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Environment::VERSION_ID')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-21-VERSION_ID-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Environment::VERSION_ID') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-21-VERSION_ID-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Environment::VERSION_ID') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-21-MAJOR_VERSION-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Environment::MAJOR_VERSION')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-21-MAJOR_VERSION-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Environment::MAJOR_VERSION') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-21-MAJOR_VERSION-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Environment::MAJOR_VERSION') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-21-MINOR_VERSION-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Environment::MINOR_VERSION')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-21-MINOR_VERSION-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Environment::MINOR_VERSION') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-21-MINOR_VERSION-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Environment::MINOR_VERSION') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-21-RELEASE_VERSION-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Environment::RELEASE_VERSION')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-21-RELEASE_VERSION-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Environment::RELEASE_VERSION') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-21-RELEASE_VERSION-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Environment::RELEASE_VERSION') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-21-EXTRA_VERSION-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Environment::EXTRA_VERSION')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-21-EXTRA_VERSION-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Environment::EXTRA_VERSION') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-21-EXTRA_VERSION-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Environment::EXTRA_VERSION') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-22-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Error\\\\Error::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-23-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Error\\\\LoaderError::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-24-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Error\\\\RuntimeError::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-25-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Error\\\\SyntaxError::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-26-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-26-OPERATOR_LEFT-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\ExpressionParser::OPERATOR_LEFT')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-26-OPERATOR_LEFT-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\ExpressionParser::OPERATOR_LEFT') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-26-OPERATOR_LEFT-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser::OPERATOR_LEFT') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-26-OPERATOR_RIGHT-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\ExpressionParser::OPERATOR_RIGHT')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-26-OPERATOR_RIGHT-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\ExpressionParser::OPERATOR_RIGHT') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-26-OPERATOR_RIGHT-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser::OPERATOR_RIGHT') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-27-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\ExpressionParserInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-28-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\AbstractExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-29-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\ExpressionParserDescriptionInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-30-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\ExpressionParserType::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-31-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\ExpressionParsers::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-32-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\InfixAssociativity::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-33-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\InfixExpressionParserInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-34-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Infix\\\\ArgumentsTrait::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-35-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Infix\\\\ArrowExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-36-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Infix\\\\BinaryOperatorExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-37-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Infix\\\\AssignmentExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-38-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Infix\\\\ConditionalTernaryExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-39-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Infix\\\\DotExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-40-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Infix\\\\FilterExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-41-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Infix\\\\FunctionExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-42-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Infix\\\\IsExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-43-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Infix\\\\IsNotExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-44-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Infix\\\\SquareBracketExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-45-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\PrecedenceChange::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-46-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\PrefixExpressionParserInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-47-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Prefix\\\\GroupingExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-48-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Prefix\\\\LiteralExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-49-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Prefix\\\\SpreadExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-50-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExpressionParser\\\\Prefix\\\\UnaryOperatorExpressionParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-51-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\ExtensionSet::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-52-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\ExtensionInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-53-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\LastModifiedExtensionInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-54-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\AbstractExtension::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-55-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\AttributeExtension::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-56-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\CoreExtension::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-56-ARRAY_LIKE_CLASSES-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Extension\\\\CoreExtension::ARRAY_LIKE_CLASSES')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-56-ARRAY_LIKE_CLASSES-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Extension\\\\CoreExtension::ARRAY_LIKE_CLASSES') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-56-ARRAY_LIKE_CLASSES-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\CoreExtension::ARRAY_LIKE_CLASSES') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-56-DEFAULT_TRIM_CHARS-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Extension\\\\CoreExtension::DEFAULT_TRIM_CHARS')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-56-DEFAULT_TRIM_CHARS-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Extension\\\\CoreExtension::DEFAULT_TRIM_CHARS') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-56-DEFAULT_TRIM_CHARS-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\CoreExtension::DEFAULT_TRIM_CHARS') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-57-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\DebugExtension::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-58-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\EscaperExtension::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-58-MAX_RESOLVED_DEFAULT_STRATEGIES-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Extension\\\\EscaperExtension::MAX_RESOLVED_DEFAULT_STRATEGIES')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-58-MAX_RESOLVED_DEFAULT_STRATEGIES-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Extension\\\\EscaperExtension::MAX_RESOLVED_DEFAULT_STRATEGIES') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-58-MAX_RESOLVED_DEFAULT_STRATEGIES-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\EscaperExtension::MAX_RESOLVED_DEFAULT_STRATEGIES') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-59-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\GlobalsInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-60-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\OptimizerExtension::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-61-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\ProfilerExtension::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-62-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\RuntimeExtensionInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-63-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\SandboxBridgeExtension::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-64-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\SandboxExtension::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-65-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\StagingExtension::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-66-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\StringLoaderExtension::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-67-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Extension\\\\YieldNotReadyExtension::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-68-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\FileExtensionEscapingStrategy::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_DATA-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::STATE_DATA')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_DATA-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::STATE_DATA') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_DATA-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::STATE_DATA') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_BLOCK-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::STATE_BLOCK')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_BLOCK-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::STATE_BLOCK') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_BLOCK-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::STATE_BLOCK') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_VAR-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::STATE_VAR')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_VAR-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::STATE_VAR') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_VAR-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::STATE_VAR') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_STRING-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::STATE_STRING')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_STRING-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::STATE_STRING') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_STRING-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::STATE_STRING') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_INTERPOLATION-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::STATE_INTERPOLATION')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_INTERPOLATION-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::STATE_INTERPOLATION') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-STATE_INTERPOLATION-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::STATE_INTERPOLATION') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_NAME-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_NAME')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_NAME-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_NAME') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_NAME-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::REGEX_NAME') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_STRING-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_STRING')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_STRING-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_STRING') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_STRING-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::REGEX_STRING') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_NUMBER-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_NUMBER')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_NUMBER-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_NUMBER') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_NUMBER-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::REGEX_NUMBER') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_DQ_STRING_DELIM-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_DQ_STRING_DELIM')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_DQ_STRING_DELIM-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_DQ_STRING_DELIM') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_DQ_STRING_DELIM-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::REGEX_DQ_STRING_DELIM') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_DQ_STRING_PART-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_DQ_STRING_PART')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_DQ_STRING_PART-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_DQ_STRING_PART') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_DQ_STRING_PART-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::REGEX_DQ_STRING_PART') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_INLINE_COMMENT-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_INLINE_COMMENT')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_INLINE_COMMENT-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_INLINE_COMMENT') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_INLINE_COMMENT-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::REGEX_INLINE_COMMENT') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-PUNCTUATION-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::PUNCTUATION')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-PUNCTUATION-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::PUNCTUATION') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-PUNCTUATION-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::PUNCTUATION') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_RAW_INLINE_COMMENT-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_RAW_INLINE_COMMENT')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_RAW_INLINE_COMMENT-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::REGEX_RAW_INLINE_COMMENT') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-REGEX_RAW_INLINE_COMMENT-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::REGEX_RAW_INLINE_COMMENT') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-SPECIAL_CHARS-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::SPECIAL_CHARS')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-69-SPECIAL_CHARS-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Lexer::SPECIAL_CHARS') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-69-SPECIAL_CHARS-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Lexer::SPECIAL_CHARS') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-70-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Loader\\\\LoaderInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-71-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Loader\\\\ArrayLoader::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-72-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Loader\\\\ChainLoader::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-73-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Loader\\\\FilesystemLoader::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-73-MAIN_NAMESPACE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Loader\\\\FilesystemLoader::MAIN_NAMESPACE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-73-MAIN_NAMESPACE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Loader\\\\FilesystemLoader::MAIN_NAMESPACE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-73-MAIN_NAMESPACE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Loader\\\\FilesystemLoader::MAIN_NAMESPACE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-74-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\MacroNamespace::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-75-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Markup::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-76-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeTraverser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-77-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeVisitor\\\\NodeVisitorInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-78-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeVisitor\\\\AbstractNodeVisitor::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-79-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeVisitor\\\\CorrectnessNodeVisitor::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-80-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeVisitor\\\\EscaperNodeVisitor::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-81-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_ALL-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_ALL')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_ALL-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_ALL') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_ALL-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_ALL') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_NONE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_NONE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_NONE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_NONE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_NONE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_NONE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_FOR-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_FOR')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_FOR-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_FOR') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_FOR-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_FOR') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_RAW_FILTER-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_RAW_FILTER-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_RAW_FILTER-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_TEXT_NODES-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_TEXT_NODES-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-81-OPTIMIZE_TEXT_NODES-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeVisitor\\\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-82-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeVisitor\\\\SafeAnalysisNodeVisitor::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-83-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeVisitor\\\\SandboxNodeVisitor::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-84-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\NodeVisitor\\\\YieldNotReadyNodeVisitor::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-85-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Node::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-86-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\AutoEscapeNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-87-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\BlockNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-88-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\NodeOutputInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-89-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\BlockReferenceNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-90-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\BodyNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-91-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\CaptureNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-92-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\CheckSecurityCallNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-93-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\CheckSecurityNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-94-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\AbstractExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-95-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\CheckToStringNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-96-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\CoercesChildrenToStringInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-97-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\ConfigNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-98-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\DeprecatedNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-99-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\DoNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-100-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\IncludeNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-101-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\EmbedNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-102-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\EmptyNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-103-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\SupportDefinedTestInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-104-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\ReturnPrimitiveTypeInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-105-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\ReturnArrayInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-106-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\ArrayExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-107-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\ArrowFunctionExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-108-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\NameExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-109-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Variable\\\\ContextVariable::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-110-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\AssignNameExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-111-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\BinaryInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-112-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\AbstractBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-113-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\ReturnNumberInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-114-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\AddBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-115-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\ReturnBoolInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-116-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\AndBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-117-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\BitwiseAndBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-118-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\BitwiseOrBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-119-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\BitwiseXorBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-120-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\ReturnStringInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-121-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\ConcatBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-122-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\DivBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-123-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\OperatorEscapeInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-124-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\ElvisBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-125-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\EndsWithBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-126-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\EqualBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-127-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\FloorDivBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-128-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\GreaterBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-129-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\GreaterEqualBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-130-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\HasEveryBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-131-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\HasSomeBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-132-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\InBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-133-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\LessBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-134-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\LessEqualBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-135-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\MatchesBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-136-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\ModBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-137-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\MulBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-138-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\NotEqualBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-139-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\NotInBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-140-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\NotSameAsBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-141-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\NullCoalesceBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-142-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\ObjectDestructuringSetBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-143-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\OrBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-144-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\PowerBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-145-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\RangeBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-146-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\SameAsBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-147-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\SequenceDestructuringSetBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-148-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\SetBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-149-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\SpaceshipBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-150-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\StartsWithBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-151-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\SubBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-152-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Binary\\\\XorBinary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-153-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\BlockReferenceExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-154-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\CallExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-155-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\ConditionalExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-156-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\ConstantExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-157-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\EmptyExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-158-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\FilterExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-159-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Filter\\\\DefaultFilter::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-160-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Filter\\\\EscapeFilter::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-161-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Filter\\\\RawFilter::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-162-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\FunctionExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-163-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\FunctionNode\\\\EnumCasesFunction::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-164-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\FunctionNode\\\\EnumFunction::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-165-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\FunctionNode\\\\RenderSandboxedFunction::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-166-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\GetAttrExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-167-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\InlinePrint::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-168-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\ListExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-169-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\MacroReferenceExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-170-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\MethodCallExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-171-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\NullCoalesceExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-172-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\ParentExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-173-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\SupportDefinedTestDeprecationTrait::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-174-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\SupportDefinedTestTrait::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-175-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\TempNameExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-175-RESERVED_NAMES-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Node\\\\Expression\\\\TempNameExpression::RESERVED_NAMES')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-175-RESERVED_NAMES-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Node\\\\Expression\\\\TempNameExpression::RESERVED_NAMES') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-175-RESERVED_NAMES-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\TempNameExpression::RESERVED_NAMES') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-175-RESERVED_NAME_PREFIX-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Node\\\\Expression\\\\TempNameExpression::RESERVED_NAME_PREFIX')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-175-RESERVED_NAME_PREFIX-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Node\\\\Expression\\\\TempNameExpression::RESERVED_NAME_PREFIX') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-175-RESERVED_NAME_PREFIX-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\TempNameExpression::RESERVED_NAME_PREFIX') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-176-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Ternary\\\\ConditionalTernary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-177-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\TestExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-178-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Test\\\\ConstantTest::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-179-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Test\\\\DefinedTest::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-180-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Test\\\\DivisiblebyTest::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-181-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Test\\\\EvenTest::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-182-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Test\\\\NonStringCoercingInputTest::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-183-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Test\\\\NullTest::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-184-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Test\\\\OddTest::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-185-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Test\\\\SameasTest::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-186-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Test\\\\TrueTest::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-187-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Unary\\\\UnaryInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-188-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Unary\\\\AbstractUnary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-189-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Unary\\\\NegUnary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-190-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Unary\\\\NotUnary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-191-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Unary\\\\PosUnary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-192-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Unary\\\\SpreadUnary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-193-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Unary\\\\StringCastUnary::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-194-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Variable\\\\AssignContextVariable::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-195-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Variable\\\\AssignMacroVariable::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-196-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Variable\\\\AssignTemplateVariable::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-197-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Variable\\\\LocalVariable::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-198-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Variable\\\\MacroVariable::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-199-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\Variable\\\\TemplateVariable::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-200-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Expression\\\\VariadicExpression::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-201-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\FlushNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-202-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\ForElseNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-203-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\ForLoopNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-204-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\ForNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-205-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\IfNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-206-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\ImportNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-207-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\MacroDeclarationNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-208-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\MacroNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-208-VARARGS_NAME-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Node\\\\MacroNode::VARARGS_NAME')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-208-VARARGS_NAME-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Node\\\\MacroNode::VARARGS_NAME') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-208-VARARGS_NAME-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\MacroNode::VARARGS_NAME') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-209-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\MacrosNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-210-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\ModuleNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-211-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\NameDeprecation::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-212-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\NodeCaptureInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-213-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\NodeDocumentation::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-214-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\Nodes::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-215-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\PrintNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-216-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\SandboxNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-217-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\SetNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-218-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\TextNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-219-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\TypeNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-220-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\TypesNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-221-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Node\\\\WithNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-222-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\OperatorPrecedenceChange::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-223-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Parser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-224-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Profiler\\\\Dumper\\\\BaseDumper::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-225-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Profiler\\\\Dumper\\\\BlackfireDumper::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-226-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Profiler\\\\Dumper\\\\HtmlDumper::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-227-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Profiler\\\\Dumper\\\\TextDumper::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-228-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Profiler\\\\NodeVisitor\\\\ProfilerNodeVisitor::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-229-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Profiler\\\\Node\\\\EnterProfileNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-230-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Profiler\\\\Node\\\\LeaveProfileNode::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-231-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Profiler\\\\Profile::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-231-ROOT-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Profiler\\\\Profile::ROOT')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-231-ROOT-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Profiler\\\\Profile::ROOT') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-231-ROOT-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Profiler\\\\Profile::ROOT') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-231-BLOCK-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Profiler\\\\Profile::BLOCK')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-231-BLOCK-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Profiler\\\\Profile::BLOCK') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-231-BLOCK-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Profiler\\\\Profile::BLOCK') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-231-TEMPLATE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Profiler\\\\Profile::TEMPLATE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-231-TEMPLATE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Profiler\\\\Profile::TEMPLATE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-231-TEMPLATE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Profiler\\\\Profile::TEMPLATE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-231-MACRO-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Profiler\\\\Profile::MACRO')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-231-MACRO-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Profiler\\\\Profile::MACRO') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-231-MACRO-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Profiler\\\\Profile::MACRO') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-232-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\RuntimeLoader\\\\RuntimeLoaderInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-233-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\RuntimeLoader\\\\ContainerRuntimeLoader::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-234-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\RuntimeLoader\\\\FactoryRuntimeLoader::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-235-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Runtime\\\\EscaperRuntime::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-235-IMPLIED_STRATEGIES-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Runtime\\\\EscaperRuntime::IMPLIED_STRATEGIES')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-235-IMPLIED_STRATEGIES-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Runtime\\\\EscaperRuntime::IMPLIED_STRATEGIES') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-235-IMPLIED_STRATEGIES-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Runtime\\\\EscaperRuntime::IMPLIED_STRATEGIES') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-236-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Runtime\\\\SandboxBridgeRuntime::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-237-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Sandbox\\\\SandboxInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-238-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Sandbox\\\\Sandbox::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-239-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Sandbox\\\\SecurityChecker::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-240-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Sandbox\\\\SecurityError::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-241-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Sandbox\\\\SecurityNotAllowedFilterError::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-242-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Sandbox\\\\SecurityNotAllowedFunctionError::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-243-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Sandbox\\\\SecurityNotAllowedMethodError::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-244-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Sandbox\\\\SecurityNotAllowedPropertyError::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-245-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Sandbox\\\\SecurityNotAllowedTagError::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-246-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Sandbox\\\\SecurityNotAllowedTestError::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-247-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Sandbox\\\\SecurityPolicyInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-248-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Sandbox\\\\SecurityPolicy::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-249-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Sandbox\\\\SourcePolicyInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-250-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Source::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-251-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Template::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-251-ANY_CALL-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Template::ANY_CALL')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-251-ANY_CALL-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Template::ANY_CALL') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-251-ANY_CALL-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Template::ANY_CALL') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-251-ARRAY_CALL-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Template::ARRAY_CALL')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-251-ARRAY_CALL-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Template::ARRAY_CALL') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-251-ARRAY_CALL-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Template::ARRAY_CALL') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-251-METHOD_CALL-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Template::METHOD_CALL')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-251-METHOD_CALL-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Template::METHOD_CALL') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-251-METHOD_CALL-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Template::METHOD_CALL') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-252-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TemplateWrapper::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-253-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Test\\\\IntegrationTestCase::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-254-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Test\\\\NodeTestCase::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-EOF_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::EOF_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-EOF_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::EOF_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-EOF_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::EOF_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-TEXT_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::TEXT_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-TEXT_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::TEXT_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-TEXT_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::TEXT_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-BLOCK_START_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::BLOCK_START_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-BLOCK_START_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::BLOCK_START_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-BLOCK_START_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::BLOCK_START_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-VAR_START_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::VAR_START_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-VAR_START_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::VAR_START_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-VAR_START_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::VAR_START_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-BLOCK_END_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::BLOCK_END_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-BLOCK_END_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::BLOCK_END_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-BLOCK_END_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::BLOCK_END_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-VAR_END_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::VAR_END_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-VAR_END_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::VAR_END_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-VAR_END_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::VAR_END_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-NAME_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::NAME_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-NAME_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::NAME_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-NAME_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::NAME_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-NUMBER_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::NUMBER_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-NUMBER_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::NUMBER_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-NUMBER_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::NUMBER_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-STRING_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::STRING_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-STRING_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::STRING_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-STRING_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::STRING_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-OPERATOR_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::OPERATOR_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-OPERATOR_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::OPERATOR_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-OPERATOR_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::OPERATOR_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-PUNCTUATION_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::PUNCTUATION_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-PUNCTUATION_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::PUNCTUATION_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-PUNCTUATION_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::PUNCTUATION_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-INTERPOLATION_START_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::INTERPOLATION_START_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-INTERPOLATION_START_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::INTERPOLATION_START_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-INTERPOLATION_START_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::INTERPOLATION_START_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-INTERPOLATION_END_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::INTERPOLATION_END_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-INTERPOLATION_END_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::INTERPOLATION_END_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-INTERPOLATION_END_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::INTERPOLATION_END_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-ARROW_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::ARROW_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-ARROW_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::ARROW_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-ARROW_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::ARROW_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-SPREAD_TYPE-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::SPREAD_TYPE')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "cls-255-SPREAD_TYPE-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::SPREAD_TYPE') is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-255-SPREAD_TYPE-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::SPREAD_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-256-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\TokenParserInterface::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-257-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\AbstractTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-258-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\ApplyTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-259-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\AutoEscapeTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-260-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\BlockTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-261-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\DeprecatedTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-262-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\DoTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-263-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\IncludeTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-264-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\EmbedTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-265-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\ExtendsTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-266-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\FlushTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-267-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\ForTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-268-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\FromTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-269-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\GuardTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-270-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\IfTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-271-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\ImportTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-272-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\MacroTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-273-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\SandboxTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-274-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\SetTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-275-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\TypesTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-276-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\UseTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-277-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenParser\\\\WithTokenParser::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-278-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TokenStream::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-279-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TwigFilter::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-280-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TwigFunction::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-281-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TwigMacro::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-282-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\TwigTest::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-283-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Util\\\\CallableArgumentsExtractor::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-284-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Util\\\\CallableParameters::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-285-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Util\\\\DeprecationCollector::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-286-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Util\\\\ReflectionCallable::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "cls-287-undef-test",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Util\\\\TemplateDirIterator::NOPE_X') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "ci-1",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('TWIG\\\\TOKEN::NAME_TYPE') }}"
+  }
+ },
+ {
+  "id": "ci-2",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 5 is constant('\\\\twig\\\\token::NAME_TYPE') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "ci-3",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\Token::name_type') }}"
+  }
+ },
+ {
+  "id": "ci-4",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Twig\\\\Token::name_type') ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "enum-same",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Twig\\\\ExpressionParser\\\\ExpressionParserType::Prefix') is same as(enum('Twig\\\\ExpressionParser\\\\ExpressionParserType')) ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "enum-cases-len",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ enum_cases('Twig\\\\ExpressionParser\\\\ExpressionParserType')|length }}"
+  }
+ },
+ {
+  "id": "enum-cases-values",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ enum_cases('Twig\\\\ExpressionParser\\\\ExpressionParserType')|map(c => c.value)|join(',') }}"
+  }
+ },
+ {
+  "id": "enum-dump",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ dump(enum('Twig\\\\ExpressionParser\\\\InfixAssociativity')) }}"
+  },
+  "debug": true
+ },
+ {
+  "id": "enum-dump-cases",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ dump(enum_cases('Twig\\\\ExpressionParser\\\\ExpressionParserType')) }}"
+  },
+  "debug": true
+ },
+ {
+  "id": "enum-json",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ enum('Twig\\\\ExpressionParser\\\\ExpressionParserType')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "enum-json-pure",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ enum('Twig\\\\ExpressionParser\\\\InfixAssociativity')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "enum-test-obj",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('Left', enum('Twig\\\\ExpressionParser\\\\InfixAssociativity')) ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "enum-fn-obj",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('Right', enum('Twig\\\\ExpressionParser\\\\InfixAssociativity')).name }}"
+  }
+ },
+ {
+  "id": "enum-fn-class",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('class', enum('Twig\\\\ExpressionParser\\\\InfixAssociativity')) }}"
+  }
+ },
+ {
+  "id": "enum-method",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ enum('Twig\\\\ExpressionParser\\\\ExpressionParserType').getType(1) }}"
+  }
+ },
+ {
+  "id": "enum-cases-method",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ enum('Twig\\\\ExpressionParser\\\\InfixAssociativity').cases()|length }}"
+  }
+ },
+ {
+  "id": "enum-from",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ enum('Twig\\\\ExpressionParser\\\\ExpressionParserType').from('infix').name }}"
+  }
+ },
+ {
+  "id": "enum-iface",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ enum('Twig\\\\ExpressionParser\\\\ExpressionParserType') is iterable ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "enum-not-enum-dyn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% set n = 'Twig\\\\Markup' %}{{ enum(n) }}"
+  }
+ },
+ {
+  "id": "enum-cases-not-enum-dyn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% set n = 'Twig\\\\Token' %}{{ enum_cases(n)|length }}"
+  }
+ },
+ {
+  "id": "enum-cases-iface",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ enum_cases('UnitEnum')|length }}"
+  }
+ },
+ {
+  "id": "obj-wrapper",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('ANY_CALL', template_from_string('x')) ? 'y' : 'n' }}"
+  },
+  "extensions": [
+   "string_loader"
+  ]
+ },
+ {
+  "id": "obj-source",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant('X', template_from_string('x').sourceContext) ? 'y' : 'n' }}"
+  },
+  "extensions": [
+   "string_loader"
+  ]
+ },
+ {
+  "id": "obj-markup-fn",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% set m %}a{% endset %}{{ constant('X', m) }}"
+  }
+ },
+ {
+  "id": "obj-markup-def",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% set m %}a{% endset %}{{ constant('X', m) is defined ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "obj-markup-class",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% set m %}a{% endset %}{{ constant('class', m) }}"
+  }
+ },
+ {
+  "id": "nul-constant",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant(\"Twig\\\\Token::X\\0Y\") ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "nul-class",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant(\"No\\0pe::Y\") ? 'y' : 'n' }}"
+  }
+ },
+ {
+  "id": "nul-private",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ 1 is constant(\"Twig\\\\Extension\\\\CoreExtension::DEFAULT_TRIM_CHARS\") ? 'y' : 'n' }}"
+  }
+ }
+]

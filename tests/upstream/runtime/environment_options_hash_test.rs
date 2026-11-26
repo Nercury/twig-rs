@@ -265,7 +265,6 @@ fn test_resolved_autoescape_strategies_are_bounded() {
 }
 
 #[test]
-#[ignore = "twig-rs mismatch: a default strategy changed after compiling does not recompile the template"]
 fn test_changing_default_autoescape_strategy_invalidates_resolved_strategies() {
     let data: [(&str, DefaultStrategy, DefaultStrategy, &str, &str); 2] = [
         (

@@ -187,7 +187,7 @@ fn test_get_arguments_when_argument_is_defined_twice() {
 /// (as here) give a message without the template name. twig-rs nodes carry no source: the extractor uses the call's
 /// (` in "test.twig"`). Through templates both agree (every node has the template's source).
 #[test]
-#[ignore = "twig-rs mismatch: unknown-argument error takes the call's source instead of the argument node's"]
+#[ignore = "accepted deviation (reference/deviations.md, Engine: unknown-argument errors of AST nodes built without a source): the error takes the call's source instead of the argument node's"]
 fn test_get_arguments_with_wrong_named_argument_name() {
     assert_eq!(
         get_arguments(
@@ -206,7 +206,7 @@ fn test_get_arguments_with_wrong_named_argument_name() {
 }
 
 #[test]
-#[ignore = "twig-rs mismatch: unknown-argument error takes the call's source instead of the argument node's"]
+#[ignore = "accepted deviation (reference/deviations.md, Engine: unknown-argument errors of AST nodes built without a source): the error takes the call's source instead of the argument node's"]
 fn test_get_arguments_with_wrong_named_argument_names() {
     assert_eq!(
         get_arguments(

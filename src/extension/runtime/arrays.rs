@@ -12,10 +12,11 @@
 //! the userland method (or internal function), the PHP functions the method calls are the `twig-value` builtins
 //! with their argument coercion and verbatim messages, and `Traversable` values are consumed through the object
 //! protocol with PHP's call order (`IteratorAggregate::getIterator()` method calls, `foreach`, `iterator_to_array()`,
-//! the SPL iterators of [`iterators`]). `join` and `split` belong to the string group; character counting and cutting
-//! (`length`, `slice`, `first`, `last`) resolve the charset with the string group's mbstring encodings.
+//! the SPL iterators of [`iterators`]). The arrows of `filter` and `sort` are checked like a `callable` parameter,
+//! those of `map`, `reduce` and `find` called like `$arrow(...)` ([`super::callables`]). `join` and `split` belong to
+//! the string group; character counting and cutting (`length`, `slice`, `first`, `last`) resolve the charset with the
+//! string group's mbstring encodings.
 
-mod callables;
 mod iterators;
 mod random;
 mod text;
@@ -37,9 +38,9 @@ use super::{Call, CallResult, RuntimeTable};
 use crate::deprecation::Deprecation;
 use crate::error::Error;
 use crate::runtime::core::{check_arrow, for_each, test_empty, to_array};
-use crate::vm::{Exception, invoke_value};
+use crate::vm::Exception;
 
-use callables::{call_value, check_callable};
+use super::callables::{call_callee, check_callable, invoke as call_dynamic};
 use text::{convert_encoding, mb_strlen, mb_substr, split_into_characters};
 
 /// The class of the core extension, the prefix of the reflection names of its callables.
@@ -180,11 +181,21 @@ fn sort(call: &mut Call<'_>) -> CallResult {
         php_array::asort(&mut array, SORT_REGULAR, call.diagnostics())?;
     } else {
         check_arrow(call.state(), sandboxed, &arrow, "sort", "filter")?;
-        check_callable(&arrow, "uasort", 2, "callback", false)?;
+        let env = call.env().clone();
+        let callee = check_callable(
+            &env,
+            &arrow,
+            "uasort",
+            2,
+            "callback",
+            false,
+            call.diagnostics(),
+        )?
+        .expect("a non-null callable");
         php_array::uasort(
             &mut array,
             &mut |args: &[Value], diag: &mut dyn Diagnostics| {
-                call_value(&arrow, args.to_vec(), diag)
+                call_callee(&callee, args.to_vec(), diag)
             },
             call.diagnostics(),
         )?;
@@ -348,27 +359,29 @@ fn filter(call: &mut Call<'_>) -> CallResult {
     }
     let sandboxed = call.is_sandboxed();
     check_arrow(call.state(), sandboxed, &arrow, "filter", "filter")?;
+    let env = call.env().clone();
     let diag = call.diagnostics();
     match &array {
-        Value::Object(object) => Ok(iterators::callback_filter_iterator(object, &arrow, diag)?),
+        Value::Object(object) => Ok(iterators::callback_filter_iterator(
+            &env, object, &arrow, diag,
+        )?),
         _ => {
-            check_callable(&arrow, "array_filter", 2, "callback", true)?;
-            let filtered = if arrow.is_null() {
-                php_array::array_filter(
+            let callee = check_callable(&env, &arrow, "array_filter", 2, "callback", true, diag)?;
+            let filtered = match callee {
+                None => php_array::array_filter(
                     &array,
                     None,
                     Some(&Value::Int(php_array::ARRAY_FILTER_USE_BOTH)),
                     diag,
-                )?
-            } else {
-                php_array::array_filter(
+                )?,
+                Some(callee) => php_array::array_filter(
                     &array,
                     Some(&mut |args: &[Value], diag: &mut dyn Diagnostics| {
-                        call_value(&arrow, args.to_vec(), diag)
+                        call_callee(&callee, args.to_vec(), diag)
                     }),
                     Some(&Value::Int(php_array::ARRAY_FILTER_USE_BOTH)),
                     diag,
-                )?
+                )?,
             };
             Ok(Value::Array(filtered))
         }
@@ -392,7 +405,7 @@ fn map(call: &mut Call<'_>) -> CallResult {
     check_arrow(state, sandboxed, &arrow, "map", "filter")?;
     let mut result = Array::new();
     for_each(state, &array, |state, key, value| {
-        let mapped = invoke_value(state, &arrow, vec![value, key.clone()])?;
+        let mapped = call_dynamic(state, &arrow, vec![value, key.clone()])?;
         let key = ArrayKey::from_value(&key, KeyContext::Write, state)?;
         result.insert(key, mapped);
         Ok(true)
@@ -422,7 +435,7 @@ fn reduce(call: &mut Call<'_>) -> CallResult {
     let mut accumulator = initial;
     for_each(state, &array, |state, key, value| {
         let carry = std::mem::take(&mut accumulator);
-        accumulator = invoke_value(state, &arrow, vec![carry, value, key])?;
+        accumulator = call_dynamic(state, &arrow, vec![carry, value, key])?;
         Ok(true)
     })?;
     Ok(accumulator)
@@ -445,7 +458,7 @@ fn find(call: &mut Call<'_>) -> CallResult {
     check_arrow(state, sandboxed, &arrow, "find", "filter")?;
     let mut found = Value::Null;
     for_each(state, &array, |state, key, value| {
-        let returned = invoke_value(state, &arrow, vec![value.clone(), key])?;
+        let returned = call_dynamic(state, &arrow, vec![value.clone(), key])?;
         if convert::to_bool(&returned, state)? {
             found = value;
             return Ok(false);

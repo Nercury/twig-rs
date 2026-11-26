@@ -1,0 +1,126 @@
+[
+ {
+  "id": "parity-001",
+  "kind": "twig",
+  "ok": true,
+  "output": "1",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_NOTICE",
+    "message": "Indirect modification of overloaded element of TwigRsAccess has no effect"
+   },
+   {
+    "type": "E_NOTICE",
+    "message": "Indirect modification of overloaded element of TwigRsAccess has no effect"
+   },
+   {
+    "type": "E_NOTICE",
+    "message": "Indirect modification of overloaded element of TwigRsAccess has no effect"
+   },
+   {
+    "type": "E_NOTICE",
+    "message": "Indirect modification of overloaded element of TwigRsAccess has no effect"
+   }
+  ]
+ },
+ {
+  "id": "parity-002",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Indirect modification of overloaded element of TwigRsAccess has no effect\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Indirect modification of overloaded element of TwigRsAccess has no effect\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Indirect modification of overloaded element of TwigRsAccess has no effect\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "ErrorException",
+    "message": "Indirect modification of overloaded element of TwigRsAccess has no effect",
+    "formatted": "ErrorException: Indirect modification of overloaded element of TwigRsAccess has no effect",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_NOTICE",
+    "message": "Indirect modification of overloaded element of TwigRsAccess has no effect"
+   }
+  ]
+ },
+ {
+  "id": "parity-003",
+  "kind": "twig",
+  "ok": true,
+  "output": "11",
+  "deprecations": [],
+  "diagnostics": [
+   {
+    "type": "E_NOTICE",
+    "message": "Indirect modification of overloaded element of TwigRsAccess has no effect"
+   },
+   {
+    "type": "E_NOTICE",
+    "message": "Indirect modification of overloaded element of TwigRsAccess has no effect"
+   },
+   {
+    "type": "E_NOTICE",
+    "message": "Indirect modification of overloaded element of TwigRsAccess has no effect"
+   },
+   {
+    "type": "E_NOTICE",
+    "message": "Indirect modification of overloaded element of TwigRsAccess has no effect"
+   }
+  ]
+ },
+ {
+  "id": "parity-004",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot use object of type TwigRsMagic as array\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot use object of type TwigRsMagic as array\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot use object of type TwigRsMagic as array\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Cannot use object of type TwigRsMagic as array",
+    "formatted": "Error: Cannot use object of type TwigRsMagic as array",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ },
+ {
+  "id": "parity-005",
+  "kind": "twig",
+  "ok": false,
+  "phase": "render",
+  "error": {
+   "class": "Twig\\Error\\RuntimeError",
+   "message": "An exception has been thrown during the rendering of a template (\"Cannot use object of type TwigRsBag as array\") in \"index.twig\" at line 1.",
+   "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot use object of type TwigRsBag as array\") in \"index.twig\" at line 1.",
+   "rawMessage": "An exception has been thrown during the rendering of a template (\"Cannot use object of type TwigRsBag as array\").",
+   "templateName": "index.twig",
+   "templateLine": 1,
+   "templateColumn": null,
+   "previous": {
+    "class": "Error",
+    "message": "Cannot use object of type TwigRsBag as array",
+    "formatted": "Error: Cannot use object of type TwigRsBag as array",
+    "code": 0
+   }
+  },
+  "deprecations": [],
+  "diagnostics": []
+ }
+]

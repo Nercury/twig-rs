@@ -1,0 +1,137 @@
+{
+ "cases": [
+  {
+   "id": "interval-diff-microseconds",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ v0.f }}|{{ v0|date('%F') }}"
+   },
+   "data_php": "return ['v0' => (new \\DateTime('2023-04-31 16:58:05'))->diff(new \\DateTime('2024-01-15 08:28:25.255505'))]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "interval-diff-inverted",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ v0.f }}|{{ v0|date('%F %R') }}"
+   },
+   "data_php": "return ['v0' => (new \\DateTime('2024-01-15 08:28:25.000007'))->diff(new \\DateTime('2023-04-31 16:58:05.9'))]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "interval-set-state-truncates",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ v0.f }}|{{ v0|date('%F') }}"
+   },
+   "data_php": "return ['v0' => \\DateInterval::__set_state(['y' => 0, 'm' => 0, 'd' => 0, 'h' => 0, 'i' => 0, 's' => 1, 'f' => 0.255505, 'invert' => 0, 'days' => false])]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "interval-dynamic-days-first",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ v0|json_encode|raw }}"
+   },
+   "data_php": "return ['v0' => (function () { $i = new \\DateInterval('PT1S'); $i->days = 5; return $i; })()]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "interval-from-date-string",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ v0|json_encode|raw }}|{{ v0.d }}|{{ v0|date('%d %h') }}"
+   },
+   "data_php": "return ['v0' => \\DateInterval::createFromDateString('3 days 4 hours')]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "interval-dynamic-last",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ v0|json_encode|raw }}"
+   },
+   "data_php": "return ['v0' => (function () { $i = new \\DateInterval('P1D'); get_object_vars($i); $i->extra = 'x'; return $i; })()]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "date-dynamic-property",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ d|json_encode|raw }}"
+   },
+   "data_php": "return ['d' => (function () { $d = new \\DateTime('2020-01-01 10:00', new \\DateTimeZone('Europe/Paris')); $d->foo = 'x'; return $d; })()]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "date-second-of-two-equal-local-times",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ d|date('c U') }}|{{ d.format('c u') }}"
+   },
+   "data_php": "return ['d' => (new \\DateTime('@1636266600'))->setTimezone(new \\DateTimeZone('America/New_York'))]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "date-five-digit-year",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s T') }}"
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('@253402300800')]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "date-negative-timestamp-microseconds",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ d|date('Y-m-d H:i:s.u U') }}"
+   },
+   "data_php": "return ['d' => new \\DateTime('1969-12-31 23:59:59.5 UTC')]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "timezone-dynamic-property",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ z|json_encode|raw }}"
+   },
+   "data_php": "return ['z' => (function () { $z = new \\DateTimeZone('Asia/Tokyo'); $z->note = 'n'; return $z; })()]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "isolated-inf-data",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ x }}|{{ y }}"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "data_json": {"x": 1e400, "y": -1e400}
+  }
+ ],
+ "isolation": "process"
+}

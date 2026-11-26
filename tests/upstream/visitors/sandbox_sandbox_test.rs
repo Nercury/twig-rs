@@ -420,7 +420,8 @@ fn funky() -> TwigTest {
 }
 
 /// `testSecurityCheckerAddsTheSourceToPolicyErrors()`, on the error of a render: the violation carries the source of
-/// the template.
+/// the template. Upstream passes its own `Source` to `checkSecurity()`; through a render the source is the compiled
+/// template's `getSourceContext()`, whose code is `''` unless `debug` is on (checked with the oracle).
 #[test]
 fn security_checker_adds_the_source_to_policy_errors() {
     let error = sandbox(&[("index", "{% if 1 %}x{% endif %}")], strict())
@@ -429,7 +430,7 @@ fn security_checker_adds_the_source_to_policy_errors() {
     assert_eq!(error.kind(), ErrorKind::SecurityNotAllowedTag);
     let source = error.source_context().expect("a source");
     assert_eq!(source.name(), "index");
-    assert_eq!(source.code(), b"{% if 1 %}x{% endif %}");
+    assert_eq!(source.code(), b"");
 }
 
 /// `testAllowedTestIsAccepted()`.

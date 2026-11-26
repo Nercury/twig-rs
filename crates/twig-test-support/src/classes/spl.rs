@@ -101,6 +101,26 @@ struct StorageState {
     index: i64,
 }
 
+impl StorageState {
+    /// `zend_hash_move_forward_ex()`: to the next entry, or past the end; past the end stays.
+    fn move_forward(&mut self) {
+        if self.pos < self.entries.len() {
+            self.pos += 1;
+        }
+    }
+
+    /// `zend_hash_move_backwards_ex()`: to the previous entry, or past the end from the first one;
+    /// past the end stays (the function fails).
+    fn move_backwards(&mut self) {
+        if self.pos < self.entries.len() {
+            self.pos = match self.pos {
+                0 => self.entries.len(),
+                pos => pos - 1,
+            };
+        }
+    }
+}
+
 /// `SplObjectStorage`: objects mapped to data, iterated in insertion order.
 pub struct SplObjectStorage {
     class: ClassRef,
@@ -325,10 +345,49 @@ impl Object for SplObjectStorage {
             "next" => {
                 internal_none(C, "next", &args)?;
                 let mut st = self.state();
-                if st.pos < st.entries.len() {
-                    st.pos += 1;
-                }
+                st.move_forward();
                 st.index += 1;
+                Ok(Value::Null)
+            }
+            // PHP_METHOD(SplObjectStorage, seek) (PHPSRC/ext/spl/spl_observer.c): the position moves
+            // forwards, or backwards when that is shorter than restarting. Moving backwards from past
+            // the end fails (zend_hash_move_backwards_ex()) while `index` still counts down, so the
+            // iterator stays invalid.
+            "seek" => {
+                let f = format!("{C}::seek");
+                let a = args.bind(&f, &[Param::required("offset")], FunctionKind::Internal)?;
+                let position =
+                    twig_value::param::parse_long(&a[0], &Arg::new(&f, 1, "offset"), diag)?;
+                let mut st = self.state();
+                if position < 0 || position >= st.entries.len() as i64 {
+                    return Err(PhpError::new(
+                        ThrowableClass::OutOfBoundsException,
+                        format!("Seek position {position} is out of range"),
+                    ));
+                }
+                if position == 0 {
+                    st.pos = 0;
+                    st.index = 0;
+                } else if position > st.index {
+                    while position > st.index {
+                        st.move_forward();
+                        st.index += 1;
+                    }
+                } else if position < st.index {
+                    if st.index - position > position {
+                        st.pos = 0;
+                        st.index = 0;
+                        while position > st.index {
+                            st.move_forward();
+                            st.index += 1;
+                        }
+                    } else {
+                        while position < st.index {
+                            st.move_backwards();
+                            st.index -= 1;
+                        }
+                    }
+                }
                 Ok(Value::Null)
             }
             "__debuginfo" => {

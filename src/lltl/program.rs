@@ -1,7 +1,7 @@
 //! Compiled templates: programs, units and line tables.
 
 use std::fmt::{self, Write as _};
-use std::sync::Arc;
+use std::sync::{Arc, OnceLock};
 
 use twig_value::{PhpString, Value};
 
@@ -129,6 +129,12 @@ pub struct BlockDef {
 
 /// A parameter of a macro: the Twig name, the default value and whether the default was written explicitly
 /// (`$signature` of `TwigMacro`).
+///
+/// A default PHP folds while compiling (`zend_const_expr_to_zval()`) is its value. One it cannot fold without an
+/// error stays a constant expression (`IS_CONSTANT_AST`), evaluated by `ZEND_RECV_INIT` when the argument is
+/// missing: `default` is then a value standing for it, which the macro's code replaces (see [`Instr::RecvInit`]).
+///
+/// [`Instr::RecvInit`]: super::Instr::RecvInit
 #[derive(Debug, Clone, PartialEq)]
 pub struct MacroParam {
     /// The argument name (without the reserved-name prefix).
@@ -223,6 +229,9 @@ pub struct Program {
     pub(crate) escaper: bool,
     pub(crate) security: Option<SecurityLists>,
     pub(crate) debug: bool,
+    /// The runtime cache of `ZEND_RECV_INIT`: the macro defaults evaluated at runtime that are kept for later
+    /// calls (PHP keeps them per compiled closure; twig-rs per compiled program).
+    pub(crate) recv_cache: Vec<OnceLock<Value>>,
 }
 
 impl Program {
@@ -418,6 +427,16 @@ impl Program {
                 write!(out, "SetMacroNamespace {} global={global}", constant(*name))
             }
             Instr::ListAssign(i) => write!(out, "ListAssign {}", constant(*i)),
+            Instr::RecvInit {
+                name, cache, skip, ..
+            } => write!(
+                out,
+                "RecvInit {} cache={cache} skip={skip}",
+                constant(*name)
+            ),
+            Instr::RecvStore { name, cache } => {
+                write!(out, "RecvStore {} cache={cache}", constant(*name))
+            }
             other => write!(out, "{other:?}"),
         }
     }

@@ -1,0 +1,108 @@
+{
+ "cases": [
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1] %}{{ loop.index }}{% for t in [1] %}{% set _parent = [] %}{% endfor %}{% endfor %}"
+   },
+   "id": "loops-001"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1] %}{{ loop.index }}{% for t in [1] %}{% set _parent = [] %}{% endfor %}{% endfor %}"
+   },
+   "errors": "throw",
+   "id": "loops-002"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = false %}{% endfor %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "loops-003"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = null %}{% endfor %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "loops-004"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = [] %}{% endfor %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "loops-005"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = 'str' %}{% endfor %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "loops-006"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = 5 %}{% endfor %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "loops-007"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = true %}{% endfor %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "loops-008"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = o %}{% endfor %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "loops-009"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = ao %}{{ ao|json_encode }}{% endfor %}{{ ao.index0 }}"
+   },
+   "data_php": "return ['ao' => new \\ArrayObject(['index0' => 5])];",
+   "id": "loops-010"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = ai %}{% endfor %}{{ ai|json_encode }}"
+   },
+   "data_php": "return ['ai' => new \\ArrayIterator([1])];",
+   "id": "loops-011"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = ao %}{% endfor %}{{ ao|json_encode }}"
+   },
+   "data_php": "return ['ao' => new \\ArrayObject(['revindex0' => 3, 'revindex' => 4])];",
+   "id": "loops-012"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for loop in users %}{{ loop.name }}{% endfor %}"
+   },
+   "data_php": "return ['users' => [new \\ArrayObject(['name' => 'Bob']), new \\ArrayObject(['name' => 'Cy'])]];",
+   "id": "loops-013"
+  }
+ ],
+ "isolation": "process"
+}

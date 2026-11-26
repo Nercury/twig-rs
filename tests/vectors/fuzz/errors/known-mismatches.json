@@ -61,10 +61,6 @@
      1795659165,
      397351
     ]
-   },
-   "known_mismatch": {
-    "reason": "{% deprecated %}: `package` and `version` go to PHP's `trigger_deprecation(string $package, string $version, ...)`, so an array or null raises a TypeError (wrapped in a RuntimeError at the tag's line); twig-rs converts them to strings (\"Array\" with an \"Array to string conversion\" warning, \"\" for null) and emits the deprecation. Suspected: the DeprecatedNode codegen/runtime (src/lltl codegen of `deprecated`, the trigger_deprecation port).",
-    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | deprecations:+msg in \"_\" at line N. | diagnostics:+E_USER_DEPRECATED: msg in \"_\" at line N."
    }
   },
   {
@@ -127,10 +123,6 @@
      1795659165,
      398488
     ]
-   },
-   "known_mismatch": {
-    "reason": "{% deprecated %}: `package` and `version` go to PHP's `trigger_deprecation(string $package, string $version, ...)`, so an array or null raises a TypeError (wrapped in a RuntimeError at the tag's line); twig-rs converts them to strings (\"Array\" with an \"Array to string conversion\" warning, \"\" for null) and emits the deprecation. Suspected: the DeprecatedNode codegen/runtime (src/lltl codegen of `deprecated`, the trigger_deprecation port).",
-    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | deprecations:+msg in \"_\" at line N. | diagnostics:+E_USER_DEPRECATED: msg in \"_\" at line N."
    }
   },
   {
@@ -194,10 +186,6 @@
      1795659165,
      399216
     ]
-   },
-   "known_mismatch": {
-    "reason": "{% deprecated %}: `package` and `version` go to PHP's `trigger_deprecation(string $package, string $version, ...)`, so an array or null raises a TypeError (wrapped in a RuntimeError at the tag's line); twig-rs converts them to strings (\"Array\" with an \"Array to string conversion\" warning, \"\" for null) and emits the deprecation. Suspected: the DeprecatedNode codegen/runtime (src/lltl codegen of `deprecated`, the trigger_deprecation port).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.class:TypeError>ErrorException [trigger_deprecation(): Argument #N ($package) must be of type string, array given > Array to string conversion] | diagnostics:+E_WARNING: Array to string conversion"
    }
   },
   {
@@ -267,10 +255,6 @@
      1795659165,
      401195
     ]
-   },
-   "known_mismatch": {
-    "reason": "Calling a two-element array as a callable (ZEND_INIT_DYNAMIC_CALL, zend_init_dynamic_call_array()): twig-rs reports `Array callback has to contain indices 0 and 1` for every list that is not [object, method]; PHP checks the members in order: non-string non-object first member -> `First array member is not a valid class name or object`, non-string second member -> `Second array member is not a valid method`, unknown class -> `Class \"a\" not found`, missing static method -> `Call to undefined method stdClass::nope()`. Only direct invocation (map, reduce, find, has some/every, invoke) is affected; filter/sort use PHP's callable check and match. Suspected: src/vm/arrow.rs invoke_value().",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [First array member is not a valid class name or object > Array callback has to contain indices N and N]"
    }
   },
   {
@@ -340,10 +324,6 @@
      1795659165,
      402876
     ]
-   },
-   "known_mismatch": {
-    "reason": "Calling a two-element array as a callable (ZEND_INIT_DYNAMIC_CALL, zend_init_dynamic_call_array()): twig-rs reports `Array callback has to contain indices 0 and 1` for every list that is not [object, method]; PHP checks the members in order: non-string non-object first member -> `First array member is not a valid class name or object`, non-string second member -> `Second array member is not a valid method`, unknown class -> `Class \"a\" not found`, missing static method -> `Call to undefined method stdClass::nope()`. Only direct invocation (map, reduce, find, has some/every, invoke) is affected; filter/sort use PHP's callable check and match. Suspected: src/vm/arrow.rs invoke_value().",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\"a\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Class \"_\" not found > Array callback has to contain indices N and N]"
    }
   },
   {
@@ -413,10 +393,6 @@
      1795659165,
      403677
     ]
-   },
-   "known_mismatch": {
-    "reason": "Calling a two-element array as a callable (ZEND_INIT_DYNAMIC_CALL, zend_init_dynamic_call_array()): twig-rs reports `Array callback has to contain indices 0 and 1` for every list that is not [object, method]; PHP checks the members in order: non-string non-object first member -> `First array member is not a valid class name or object`, non-string second member -> `Second array member is not a valid method`, unknown class -> `Class \"a\" not found`, missing static method -> `Call to undefined method stdClass::nope()`. Only direct invocation (map, reduce, find, has some/every, invoke) is affected; filter/sort use PHP's callable check and match. Suspected: src/vm/arrow.rs invoke_value().",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Call to undefined method stdClass::nope() > Array callback has to contain indices N and N]"
    }
   },
   {
@@ -486,10 +462,6 @@
      1795659165,
      404407
     ]
-   },
-   "known_mismatch": {
-    "reason": "Calling a two-element array as a callable (ZEND_INIT_DYNAMIC_CALL, zend_init_dynamic_call_array()): twig-rs reports `Array callback has to contain indices 0 and 1` for every list that is not [object, method]; PHP checks the members in order: non-string non-object first member -> `First array member is not a valid class name or object`, non-string second member -> `Second array member is not a valid method`, unknown class -> `Class \"a\" not found`, missing static method -> `Call to undefined method stdClass::nope()`. Only direct invocation (map, reduce, find, has some/every, invoke) is affected; filter/sort use PHP's callable check and match. Suspected: src/vm/arrow.rs invoke_value().",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Second array member is not a valid method > Array callback has to contain indices N and N]"
    }
   },
   {
@@ -552,10 +524,6 @@
      1795659165,
      405595
     ]
-   },
-   "known_mismatch": {
-    "reason": "An arrow function called with too few arguments: PHP raises the ArgumentCountError on entry of the closure, so Error::guess() takes the arrow's own debug marker (ArrowFunctionExpression::compile emits one) and reports the arrow's line; twig-rs reports the line of the statement that called it. The message part of the diff is the listed closure-name deviation (twig-fuzz's closure-name rule does not normalise PHP's class-scoped names `__TwigTemplate_<hash>::{closure:__TwigTemplate_<hash>::doDisplay():N}`); the line is the bug. Suspected: line attribution of arrow invocations (src/vm/arrow.rs, line table of Arrow units).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs | error.previous.message:ArgumentCountError [Too few arguments to function __TwigTemplate_cfNcNaNeNfNfbNaNeNdbN::{closure}(), N passed and exactly N expected > Too few arguments to function {closure}(), N passed and exactly N expected]"
    }
   },
   {
@@ -619,10 +587,6 @@
      1795659165,
      406411
     ]
-   },
-   "known_mismatch": {
-    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -686,10 +650,6 @@
      1795659165,
      407077
     ]
-   },
-   "known_mismatch": {
-    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -753,10 +713,6 @@
      1795659165,
      407848
     ]
-   },
-   "known_mismatch": {
-    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -820,10 +776,6 @@
      1795659165,
      408573
     ]
-   },
-   "known_mismatch": {
-    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -887,10 +839,6 @@
      1795659165,
      409253
     ]
-   },
-   "known_mismatch": {
-    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -955,10 +903,6 @@
      1795659165,
      410505
     ]
-   },
-   "known_mismatch": {
-    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -1022,10 +966,6 @@
      1795659165,
      411307
     ]
-   },
-   "known_mismatch": {
-    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -1089,10 +1029,6 @@
      1795659165,
      412296
     ]
-   },
-   "known_mismatch": {
-    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -1156,10 +1092,6 @@
      1795659165,
      412985
     ]
-   },
-   "known_mismatch": {
-    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -1228,10 +1160,6 @@
      1795659165,
      413515
     ]
-   },
-   "known_mismatch": {
-    "reason": "PHP >= 8.4 compiles the `sprintf('%s in \"%s\" at line N.', <message>, <name>)` that DeprecatedNode generates into a rope (zend_compile_func_sprintf), so the string conversion of a non-string message (Array to string conversion, thrown with errors=throw; an object without __toString) happens at the line of the last debug marker emitted inside the message expression; twig-rs attributes it to the tag's line. Suspected: the DeprecatedNode codegen (line of the message's string conversion).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs"
    }
   },
   {
@@ -1301,10 +1229,6 @@
      1795659165,
      414165
     ]
-   },
-   "known_mismatch": {
-    "reason": "PHP >= 8.4 compiles the `sprintf('%s in \"%s\" at line N.', <message>, <name>)` that DeprecatedNode generates into a rope (zend_compile_func_sprintf), so the string conversion of a non-string message (Array to string conversion, thrown with errors=throw; an object without __toString) happens at the line of the last debug marker emitted inside the message expression; twig-rs attributes it to the tag's line. Suspected: the DeprecatedNode codegen (line of the message's string conversion).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs"
    }
   },
   {
@@ -1399,10 +1323,6 @@
      1795659165,
      414824
     ]
-   },
-   "known_mismatch": {
-    "reason": "PHP >= 8.4 compiles the `sprintf('%s in \"%s\" at line N.', <message>, <name>)` that DeprecatedNode generates into a rope (zend_compile_func_sprintf), so the string conversion of a non-string message (Array to string conversion, thrown with errors=throw; an object without __toString) happens at the line of the last debug marker emitted inside the message expression; twig-rs attributes it to the tag's line. Suspected: the DeprecatedNode codegen (line of the message's string conversion).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs"
    }
   },
   {
@@ -1471,10 +1391,6 @@
      1795659165,
      415648
     ]
-   },
-   "known_mismatch": {
-    "reason": "block() with a variable name inside an arrow function: the closure has no $blocks, so PHP warns `Undefined variable $blocks` when renderBlock()'s third argument is read, after the name expression whose variable emitted a debug marker for its own (later) line; twig-rs attributes the warning to the arrow's line. Suspected: line of the $blocks read of BlockReferenceExpression in Arrow units (src/lltl codegen, src/vm).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs"
    }
   },
   {
@@ -1535,7 +1451,7 @@
     ]
    },
    "known_mismatch": {
-    "reason": "With debug=true the compiled main class embeds the original source in getSourceContext(); lone CR bytes are not escaped by Compiler::string() and PHP counts them as line breaks, while Compiler::addDebugInfo() counts only LF. Embedded templates (the ___N classes) are compiled after the main class in the same file, so Error::guess() maps their PHP lines to later markers; twig-rs reports the actual line. Depends on the layout of the generated PHP (like the listed `cache => false` deviation): either list it in reference/deviations.md or emulate it (shift embedded templates by the number of lone CRs in the debug source).",
+    "reason": "Accepted deviation (reference/deviations.md, Engine: \"Lone CR bytes in the generated PHP\"; D2 of plans/parity-fixes.md): with debug=true the compiled main class embeds the original source in getSourceContext(); Compiler::string() does not escape its lone CR bytes and PHP counts them as line breaks, while the Compiler counts only LF for getDebugInfo(). Embedded templates (the ___N classes) are compiled after the main class in the same file, so Error::guess() maps their PHP lines to later markers; twig-rs attributes lines by markers and has no PHP line counts.",
     "signature": "error.message:Twig\\Error\\RuntimeError [The \"_\" filter expects a sequence or a mapping, got \"_\" in \"_\" at line N. > The \"_\" filter expects a sequence or a mapping, got \"_\" in \"_\" at line N.] | error.templateLine:php>rs"
    }
   },
@@ -1596,10 +1512,6 @@
     },
     "deprecations": [],
     "diagnostics": []
-   },
-   "known_mismatch": {
-    "reason": "Invalid optimizer mode: OptimizerNodeVisitor throws \\InvalidArgumentException('Optimizer mode \"16\" is not valid.'); twig-rs's error has the class LogicException (when it is reported -- at the first parse instead of extension initialisation -- is the listed deviation, the class is not). Suspected: the optimizer mode check (src/visitors, error kind).",
-    "signature": "error.previous.class:InvalidArgumentException>LogicException [Optimizer mode \"_\" is not valid. > Optimizer mode \"_\" is not valid.]"
    }
   },
   {
@@ -1642,10 +1554,6 @@
     },
     "deprecations": [],
     "diagnostics": []
-   },
-   "known_mismatch": {
-    "reason": "Invalid optimizer mode: OptimizerNodeVisitor throws \\InvalidArgumentException('Optimizer mode \"16\" is not valid.'); twig-rs's error has the class LogicException (when it is reported -- at the first parse instead of extension initialisation -- is the listed deviation, the class is not). Suspected: the optimizer mode check (src/visitors, error kind).",
-    "signature": "error.previous.class:InvalidArgumentException>LogicException [Optimizer mode \"_\" is not valid. > Optimizer mode \"_\" is not valid.]"
    }
   },
   {
@@ -1692,10 +1600,6 @@
      1795659223,
      528373
     ]
-   },
-   "known_mismatch": {
-    "reason": "{% deprecated %}: `package` and `version` go to PHP's `trigger_deprecation(string $package, string $version, ...)`, so an array or null raises a TypeError (wrapped in a RuntimeError at the tag's line); twig-rs converts them to strings (\"Array\" with an \"Array to string conversion\" warning, \"\" for null) and emits the deprecation. Suspected: the DeprecatedNode codegen/runtime (src/lltl codegen of `deprecated`, the trigger_deprecation port).",
-    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | deprecations:+Since Array : msg in \"_\" at line N. | diagnostics:+E_USER_DEPRECATED: Since Array : msg in \"_\" at line N. +E_WARNING: Array to string conversion"
    }
   },
   {
@@ -1738,10 +1642,6 @@
      1795659223,
      529289
     ]
-   },
-   "known_mismatch": {
-    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -1795,10 +1695,6 @@
      1795659223,
      531143
     ]
-   },
-   "known_mismatch": {
-    "reason": "Calling a two-element array as a callable (ZEND_INIT_DYNAMIC_CALL, zend_init_dynamic_call_array()): twig-rs reports `Array callback has to contain indices 0 and 1` for every list that is not [object, method]; PHP checks the members in order: non-string non-object first member -> `First array member is not a valid class name or object`, non-string second member -> `Second array member is not a valid method`, unknown class -> `Class \"a\" not found`, missing static method -> `Call to undefined method stdClass::nope()`. Only direct invocation (map, reduce, find, has some/every, invoke) is affected; filter/sort use PHP's callable check and match. Suspected: src/vm/arrow.rs invoke_value().",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [First array member is not a valid class name or object > Array callback has to contain indices N and N]"
    }
   },
   {
@@ -1846,10 +1742,6 @@
      1795659223,
      531906
     ]
-   },
-   "known_mismatch": {
-    "reason": "An arrow function called with too few arguments: PHP raises the ArgumentCountError on entry of the closure, so Error::guess() takes the arrow's own debug marker (ArrowFunctionExpression::compile emits one) and reports the arrow's line; twig-rs reports the line of the statement that called it. The message part of the diff is the listed closure-name deviation (twig-fuzz's closure-name rule does not normalise PHP's class-scoped names `__TwigTemplate_<hash>::{closure:__TwigTemplate_<hash>::doDisplay():N}`); the line is the bug. Suspected: line attribution of arrow invocations (src/vm/arrow.rs, line table of Arrow units).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs | error.previous.message:ArgumentCountError [Too few arguments to function __TwigTemplate_cNaNbNcfdNcNaNaaNdaNbNf::{closure}(), N passed and exactly N expected > Too few arguments to function {closure}(), N passed and exactly N expected]"
    }
   },
   {
@@ -1964,10 +1856,6 @@
      1795659223,
      535263
     ]
-   },
-   "known_mismatch": {
-    "reason": "With debug=true the compiled main class embeds the original source in getSourceContext(); lone CR bytes are not escaped by Compiler::string() and PHP counts them as line breaks, while Compiler::addDebugInfo() counts only LF. Embedded templates (the ___N classes) are compiled after the main class in the same file, so Error::guess() maps their PHP lines to later markers; twig-rs reports the actual line. Depends on the layout of the generated PHP (like the listed `cache => false` deviation): either list it in reference/deviations.md or emulate it (shift embedded templates by the number of lone CRs in the debug source).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -2020,10 +1908,6 @@
      1795659223,
      535953
     ]
-   },
-   "known_mismatch": {
-    "reason": "block() with a variable name inside an arrow function: the closure has no $blocks, so PHP warns `Undefined variable $blocks` when renderBlock()'s third argument is read, after the name expression whose variable emitted a debug marker for its own (later) line; twig-rs attributes the warning to the arrow's line. Suspected: line of the $blocks read of BlockReferenceExpression in Arrow units (src/lltl codegen, src/vm).",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs"
    }
   }
  ]

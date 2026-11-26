@@ -731,7 +731,6 @@ fn check_group(group: &str, templates: &[&str], render: impl Fn(&str) -> Outcome
 /// an undefined `u` fails in strict mode even under `??`, `default` or `is defined`. twig-rs passes the null-safe
 /// node's `ignore_strict_check` down at once and renders the fallback.
 #[test]
-#[ignore = "twig-rs mismatch: null-safe short circuit drops the strict check of the base (u?.c.z ?? 'd')"]
 fn null_safe_short_circuit_keeps_the_strict_check_of_its_object() {
     check_group(
         "null_safe_short_circuit_strict",
@@ -762,7 +761,6 @@ fn null_safe_short_circuit_keeps_the_strict_check_of_its_object() {
 /// encountered` (once: PHP caches the evaluated default). twig-rs evaluates defaults at compile time
 /// (`const_eval()` in src/lltl/codegen.rs), drops the error (the value becomes `null`) and the warning.
 #[test]
-#[ignore = "twig-rs mismatch: macro defaults like -'a' become null instead of a TypeError at call time"]
 fn macro_definition_unary_default_values_are_evaluated_when_called() {
     use twig::runtime::{DiagnosticsPolicy, EnvironmentOptions, Notice};
     let templates = [
@@ -810,7 +808,6 @@ fn macro_definition_unary_default_values_are_evaluated_when_called() {
 /// in the swapped order: `7 * arr` fails with `Unsupported operand types: array * int` (a literal, or a constant PHP
 /// folds, against a variable; a variable against a function call). twig-rs keeps the template order.
 #[test]
-#[ignore = "twig-rs mismatch: TypeError of 7 * arr names the types in template order, PHP swaps them"]
 fn binding_power_type_errors_follow_php_operand_order() {
     check_group(
         "operand_order",

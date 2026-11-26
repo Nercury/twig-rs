@@ -1,0 +1,155 @@
+{
+  "description": "Compile-time state of null-safe chains: strictness of the hoisted object (P5), node identity (P6, P7), the variable a key compiled twice reads (P8).",
+  "vectors": [
+    {
+      "id": "null_safe-001",
+      "case": {"env":"plain","templates":{"index.twig":"{{ undef?.x.y ?? 'd' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-001","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-001","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variable \"undef\" does not exist in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.","rawMessage":"Variable \"undef\" does not exist.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795668905,578839]}
+    },
+    {
+      "id": "null_safe-002",
+      "case": {"env":"plain","templates":{"index.twig":"{{ undef?.x.y is defined ? 'y' : 'n' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-002","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-002","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variable \"undef\" does not exist in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.","rawMessage":"Variable \"undef\" does not exist.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795668905,577207]}
+    },
+    {
+      "id": "null_safe-003",
+      "case": {"env":"plain","templates":{"index.twig":"{{ undef?.x.y|default('d') }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-003","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-003","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variable \"undef\" does not exist in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.","rawMessage":"Variable \"undef\" does not exist.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795668905,574778]}
+    },
+    {
+      "id": "null_safe-004",
+      "case": {"env":"plain","templates":{"index.twig":"{{ undef?.x().y ?? 'd' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-004","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-004","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variable \"undef\" does not exist in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.","rawMessage":"Variable \"undef\" does not exist.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795668905,572856]}
+    },
+    {
+      "id": "null_safe-005",
+      "case": {"env":"plain","templates":{"index.twig":"{{ undef?.x[0] ?? 'd' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-005","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-005","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variable \"undef\" does not exist in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.","rawMessage":"Variable \"undef\" does not exist.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795668905,583502]}
+    },
+    {
+      "id": "null_safe-006",
+      "case": {"env":"plain","templates":{"index.twig":"{{ u?.c ?? 'd' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-006","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-006","kind":"twig","ok":true,"output":"d","deprecations":[],"diagnostics":[],"clock":[1795668905,580463]}
+    },
+    {
+      "id": "null_safe-007",
+      "case": {"env":"plain","templates":{"index.twig":"{{ u?.c?.z.w ?? 'd' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-007","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-007","kind":"twig","ok":true,"output":"d","deprecations":[],"diagnostics":[],"clock":[1795668905,575895]}
+    },
+    {
+      "id": "null_safe-008",
+      "case": {"env":"plain","templates":{"index.twig":"{{ u.b?.c.z ?? 'd' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-008","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-008","kind":"twig","ok":true,"output":"d","deprecations":[],"diagnostics":[],"clock":[1795668905,572293]}
+    },
+    {
+      "id": "null_safe-009",
+      "case": {"env":"plain","templates":{"index.twig":"{{ undef?.x ?? 'd' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-009","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-009","kind":"twig","ok":true,"output":"d","deprecations":[],"diagnostics":[],"clock":[1795668905,598250]}
+    },
+    {
+      "id": "null_safe-010",
+      "case": {"env":"plain","templates":{"index.twig":"{{ undef?.x is defined ? 'y' : 'n' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-010","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-010","kind":"twig","ok":true,"output":"n","deprecations":[],"diagnostics":[],"clock":[1795668905,598424]}
+    },
+    {
+      "id": "null_safe-011",
+      "case": {"env":"plain","templates":{"index.twig":"{{ u?.c.z is defined ? 'y' : 'n' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-011","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-011","kind":"twig","ok":true,"output":"n","deprecations":[],"diagnostics":[],"clock":[1795668905,605348]}
+    },
+    {
+      "id": "null_safe-012",
+      "case": {"env":"plain","templates":{"index.twig":"{{ undef?.x.y }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-012","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-012","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variable \"undef\" does not exist in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: Variable \"undef\" does not exist in \"index.twig\" at line 1.","rawMessage":"Variable \"undef\" does not exist.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795668905,598203]}
+    },
+    {
+      "id": "null_safe-013",
+      "case": {"env":"plain","templates":{"index.twig":"{{ n?.x.y ?? 'd' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-013","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-013","kind":"twig","ok":true,"output":"d","deprecations":[],"diagnostics":[],"clock":[1795668905,611369]}
+    },
+    {
+      "id": "null_safe-014",
+      "case": {"env":"plain","templates":{"index.twig":"{{ [1,2]|join(a?.b) }}|{{ [1,2]|join(c?.d?.e) }}|{{ [1,2]|join(a?.b) }}|{{ [1,2]|join(c?.d?.e) }}|{{ [1,2]|join(a?.b) }}|{{ [1,2]|join(c?.d?.e) }}|{{ [1,2]|join(a?.b) }}|{{ [1,2]|join(c?.d?.e) }}|{{ [1,2]|join(a?.b) }}|{{ [1,2]|join(c?.d?.e) }}|"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false},"id":"null_safe-014","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-014","kind":"twig","ok":true,"output":"1B2|1E2|1B2|1E2|1B2|1E2|1B2|1E2|1B2|1E2|","deprecations":[],"diagnostics":[],"clock":[1795668905,610874]}
+    },
+    {
+      "id": "null_safe-015",
+      "case": {"env":"plain","templates":{"index.twig":"{{ [1,2]|join(a?.b ~ c?.d?.e) }}{{ max(a?.b, c?.d?.e) }}{{ [1,2]|join(c?.d?.e) }}{{ [1,2]|join(a?.b ~ c?.d?.e) }}{{ max(a?.b, c?.d?.e) }}{{ [1,2]|join(c?.d?.e) }}{{ [1,2]|join(a?.b ~ c?.d?.e) }}{{ max(a?.b, c?.d?.e) }}{{ [1,2]|join(c?.d?.e) }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false},"id":"null_safe-015","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-015","kind":"twig","ok":true,"output":"1BE2E1E21BE2E1E21BE2E1E2","deprecations":[],"diagnostics":[],"clock":[1795668905,607768]}
+    },
+    {
+      "id": "null_safe-016",
+      "case": {"env":"plain","templates":{"index.twig":"{{ arr?.p?.q ?? 'd' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"extensions":["sandbox"],"config":{"autoescape":false},"id":"null_safe-016","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-016","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795668905,617179]}
+    },
+    {
+      "id": "null_safe-017",
+      "case": {"env":"plain","templates":{"index.twig":"{{ arr?.p?.q ?? 'd' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"extensions":["sandbox"],"config":{"autoescape":false,"strict_variables":true},"id":"null_safe-017","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-017","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795668905,624014]}
+    },
+    {
+      "id": "null_safe-018",
+      "case": {"env":"plain","templates":{"index.twig":"{{ arr?.p?.q ?? 'd' }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":"html"},"id":"null_safe-018","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-018","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795668905,627471]}
+    },
+    {
+      "id": "null_safe-019",
+      "case": {"env":"plain","templates":{"index.twig":"{{ nested[0.5]?.1 ?? 7 }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":"html"},"id":"null_safe-019","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-019","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[{"type":"E_DEPRECATED","message":"Implicit conversion from float 0.5 to int loses precision"}],"clock":[1795668905,635430]}
+    },
+    {
+      "id": "null_safe-020",
+      "case": {"env":"plain","templates":{"index.twig":"{{ arr?.p?.q ?? arr?.p?.q }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":"html"},"id":"null_safe-020","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-020","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795668905,641866]}
+    },
+    {
+      "id": "null_safe-021",
+      "case": {"env":"plain","templates":{"index.twig":"{{ n[l?.a.b] }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"extensions":["sandbox"],"config":{"autoescape":false},"id":"null_safe-021","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-021","kind":"twig","ok":true,"output":"","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"Undefined variable $_v2"}],"clock":[1795668905,644574]}
+    },
+    {
+      "id": "null_safe-022",
+      "case": {"env":"plain","templates":{"index.twig":"{% set z = 1 %}{{ n[l?.a.b] }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"extensions":["sandbox"],"config":{"autoescape":false},"id":"null_safe-022","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-022","kind":"twig","ok":true,"output":"","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"Undefined variable $_v2"}],"clock":[1795668905,637380]}
+    },
+    {
+      "id": "null_safe-023",
+      "case": {"env":"plain","templates":{"index.twig":"{{ 'x' starts with 'x' }}{{ n[l?.a.b] }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"extensions":["sandbox"],"config":{"autoescape":false},"id":"null_safe-023","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-023","kind":"twig","ok":true,"output":"1","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"Undefined variable $_v4"}],"clock":[1795668905,638098]}
+    },
+    {
+      "id": "null_safe-024",
+      "case": {"env":"plain","templates":{"index.twig":"{% with {} %}{{ n[l?.a.b] }}{% endwith %}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"extensions":["sandbox"],"config":{"autoescape":false},"id":"null_safe-024","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-024","kind":"twig","ok":true,"output":"","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"Undefined variable $_v4"}],"clock":[1795668905,647079]}
+    },
+    {
+      "id": "null_safe-025",
+      "case": {"env":"plain","templates":{"index.twig":"{% for i in [1, 2] %}{{ n[l?.a.b] }}{% endfor %}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"extensions":["sandbox"],"config":{"autoescape":false},"id":"null_safe-025","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-025","kind":"twig","ok":true,"output":"","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"Undefined variable $_v2"},{"type":"E_WARNING","message":"Undefined variable $_v2"}],"clock":[1795668905,650970]}
+    },
+    {
+      "id": "null_safe-026",
+      "case": {"env":"plain","templates":{"index.twig":"{{ arr[l?.a.b] }}|{{ n[l?.a.b] }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"extensions":["sandbox"],"config":{"autoescape":false},"id":"null_safe-026","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-026","kind":"twig","ok":true,"output":"|","deprecations":[],"diagnostics":[{"type":"E_DEPRECATED","message":"Using null as an array offset is deprecated, use an empty string instead"},{"type":"E_WARNING","message":"Undefined variable $_v5"}],"clock":[1795668905,657176]}
+    },
+    {
+      "id": "null_safe-027",
+      "case": {"env":"plain","templates":{"index.twig":"{{ n[l?.a.b] }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"extensions":["sandbox"],"config":{"autoescape":false},"errors":"throw","id":"null_safe-027","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-027","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Undefined variable $_v2\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Undefined variable $_v2\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Undefined variable $_v2\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ErrorException","message":"Undefined variable $_v2","formatted":"ErrorException: Undefined variable $_v2","code":0}},"deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"Undefined variable $_v2"}],"clock":[1795668905,662161]}
+    },
+    {
+      "id": "null_safe-028",
+      "case": {"env":"plain","templates":{"index.twig":"{{ x|default(a?.b) }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false},"id":"null_safe-028","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-028","kind":"twig","ok":true,"output":"B","deprecations":[],"diagnostics":[],"clock":[1795668905,662220]}
+    },
+    {
+      "id": "null_safe-029",
+      "case": {"env":"plain","templates":{"index.twig":"{{ a.zz|default(a?.b) }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false},"id":"null_safe-029","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-029","kind":"twig","ok":true,"output":"B","deprecations":[],"diagnostics":[],"clock":[1795668905,662129]}
+    },
+    {
+      "id": "null_safe-030",
+      "case": {"env":"plain","templates":{"index.twig":"{{ a|default(a?.b)|json_encode }}"},"data_json":{"a":{"b":"B"},"c":{"d":{"e":"E"}},"arr":{"a":1,"p":{"q":2}},"nested":[[1,2],[3]],"n":null,"l":null,"u":{"c":null}},"config":{"autoescape":false},"id":"null_safe-030","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"null_safe-030","kind":"twig","ok":true,"output":"{\"b\":\"B\"}","deprecations":[],"diagnostics":[],"clock":[1795668905,671465]}
+    }
+  ]
+}

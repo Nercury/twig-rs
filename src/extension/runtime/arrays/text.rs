@@ -23,8 +23,7 @@ pub(super) fn mb_strlen(
     diag: &mut dyn Diagnostics,
 ) -> Result<i64, Exception> {
     let string = param::parse_str(value, &Arg::new("mb_strlen", 1, "string"), diag)?;
-    let charset = mb::get_encoding("mb_strlen", 2, charset, diag)?;
-    Ok(mb::strlen(&string, charset))
+    Ok(mb::mb_strlen(&string, Some(charset), diag)?)
 }
 
 /// Port of `mb_substr($string, $start, $length, $charset)` (`PHP_FUNCTION(mb_substr)`): `int $start`, `?int

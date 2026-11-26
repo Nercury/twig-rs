@@ -1,0 +1,591 @@
+{
+    "generator": "returns.gen.php",
+    "php": "8.5.13",
+    "cases": [
+        {
+            "mode": "collect",
+            "op": "string",
+            "value": "null",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\ToStringStub::__toString(): Return value must be of type string, null returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "string",
+            "value": "true",
+            "result": {
+                "ok": {
+                    "string": "1"
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "string",
+            "value": "int",
+            "result": {
+                "ok": {
+                    "string": "7"
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "string",
+            "value": "float",
+            "result": {
+                "ok": {
+                    "string": "1.5"
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "string",
+            "value": "nan",
+            "result": {
+                "ok": {
+                    "string": "NAN"
+                }
+            },
+            "diagnostics": [
+                "unexpected NAN value was coerced to string"
+            ]
+        },
+        {
+            "mode": "collect",
+            "op": "string",
+            "value": "string",
+            "result": {
+                "ok": {
+                    "string": "s"
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "string",
+            "value": "numeric",
+            "result": {
+                "ok": {
+                    "string": "1.5"
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "string",
+            "value": "array",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\ToStringStub::__toString(): Return value must be of type string, array returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "string",
+            "value": "countable",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\ToStringStub::__toString(): Return value must be of type string, Twig\\Tests\\CountableStub returned"
+                    ],
+                    [
+                        "Exception",
+                        "__toString shall not be called on \\Countables."
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "string",
+            "value": "tostring",
+            "result": {
+                "ok": {
+                    "string": "inner"
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "string",
+            "value": "foo",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\ToStringStub::__toString(): Return value must be of type string, Twig\\Tests\\TwigTestFoo returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "count",
+            "value": "null",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, null returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "count",
+            "value": "true",
+            "result": {
+                "ok": {
+                    "int": 1
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "count",
+            "value": "int",
+            "result": {
+                "ok": {
+                    "int": 7
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "count",
+            "value": "float",
+            "result": {
+                "ok": {
+                    "int": 1
+                }
+            },
+            "diagnostics": [
+                "Implicit conversion from float 1.5 to int loses precision"
+            ]
+        },
+        {
+            "mode": "collect",
+            "op": "count",
+            "value": "nan",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, float returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "count",
+            "value": "string",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, string returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "count",
+            "value": "numeric",
+            "result": {
+                "ok": {
+                    "int": 1
+                }
+            },
+            "diagnostics": [
+                "Implicit conversion from float-string \"1.5\" to int loses precision"
+            ]
+        },
+        {
+            "mode": "collect",
+            "op": "count",
+            "value": "array",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, array returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "count",
+            "value": "countable",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, Twig\\Tests\\CountableStub returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "count",
+            "value": "tostring",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, Twig\\Tests\\ToStringStub returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "collect",
+            "op": "count",
+            "value": "foo",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, Twig\\Tests\\TwigTestFoo returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "string",
+            "value": "null",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\ToStringStub::__toString(): Return value must be of type string, null returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "string",
+            "value": "true",
+            "result": {
+                "ok": {
+                    "string": "1"
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "string",
+            "value": "int",
+            "result": {
+                "ok": {
+                    "string": "7"
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "string",
+            "value": "float",
+            "result": {
+                "ok": {
+                    "string": "1.5"
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "string",
+            "value": "nan",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\ToStringStub::__toString(): Return value must be of type string, string returned"
+                    ],
+                    [
+                        "ErrorException",
+                        "unexpected NAN value was coerced to string"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "string",
+            "value": "string",
+            "result": {
+                "ok": {
+                    "string": "s"
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "string",
+            "value": "numeric",
+            "result": {
+                "ok": {
+                    "string": "1.5"
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "string",
+            "value": "array",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\ToStringStub::__toString(): Return value must be of type string, array returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "string",
+            "value": "countable",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\ToStringStub::__toString(): Return value must be of type string, Twig\\Tests\\CountableStub returned"
+                    ],
+                    [
+                        "Exception",
+                        "__toString shall not be called on \\Countables."
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "string",
+            "value": "tostring",
+            "result": {
+                "ok": {
+                    "string": "inner"
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "string",
+            "value": "foo",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\ToStringStub::__toString(): Return value must be of type string, Twig\\Tests\\TwigTestFoo returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "count",
+            "value": "null",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, null returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "count",
+            "value": "true",
+            "result": {
+                "ok": {
+                    "int": 1
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "count",
+            "value": "int",
+            "result": {
+                "ok": {
+                    "int": 7
+                }
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "count",
+            "value": "float",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, float returned"
+                    ],
+                    [
+                        "ErrorException",
+                        "Implicit conversion from float 1.5 to int loses precision"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "count",
+            "value": "nan",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, float returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "count",
+            "value": "string",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, string returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "count",
+            "value": "numeric",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, string returned"
+                    ],
+                    [
+                        "ErrorException",
+                        "Implicit conversion from float-string \"1.5\" to int loses precision"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "count",
+            "value": "array",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, array returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "count",
+            "value": "countable",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, Twig\\Tests\\CountableStub returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "count",
+            "value": "tostring",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, Twig\\Tests\\ToStringStub returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        },
+        {
+            "mode": "throw",
+            "op": "count",
+            "value": "foo",
+            "result": {
+                "err": [
+                    [
+                        "TypeError",
+                        "Twig\\Tests\\CountableStub::count(): Return value must be of type int, Twig\\Tests\\TwigTestFoo returned"
+                    ]
+                ]
+            },
+            "diagnostics": []
+        }
+    ]
+}

@@ -1,0 +1,255 @@
+[
+    {
+        "id": "opt-init-16-empty",
+        "source": "",
+        "config": {
+            "optimizations": 16
+        },
+        "error": {
+            "class": "InvalidArgumentException",
+            "message": "Optimizer mode \"16\" is not valid."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "opt-init-16-syntax",
+        "source": "{{ 1 + }}",
+        "config": {
+            "optimizations": 16
+        },
+        "error": {
+            "class": "InvalidArgumentException",
+            "message": "Optimizer mode \"16\" is not valid."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "opt-init-16-lexer",
+        "source": "{{ 'a }}",
+        "config": {
+            "optimizations": 16
+        },
+        "error": {
+            "class": "InvalidArgumentException",
+            "message": "Optimizer mode \"16\" is not valid."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "opt-init-16-unknown-tag",
+        "source": "{% foo %}",
+        "config": {
+            "optimizations": 16
+        },
+        "error": {
+            "class": "InvalidArgumentException",
+            "message": "Optimizer mode \"16\" is not valid."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "opt-init-16-sandbox",
+        "source": "{{ 1 }}",
+        "config": {
+            "optimizations": 16
+        },
+        "extensions": [
+            "sandbox"
+        ],
+        "error": {
+            "class": "InvalidArgumentException",
+            "message": "Optimizer mode \"16\" is not valid."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "opt-init-15-deprecated-filter",
+        "source": "{{ 'a  b'|spaceless }}",
+        "config": {
+            "optimizations": 15
+        },
+        "error": {
+            "class": "InvalidArgumentException",
+            "message": "Optimizer mode \"15\" is not valid."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "opt-init-max-int",
+        "source": "{{ 1 }}",
+        "config": {
+            "optimizations": 9223372036854775807
+        },
+        "error": {
+            "class": "InvalidArgumentException",
+            "message": "Optimizer mode \"9223372036854775807\" is not valid."
+        },
+        "deprecations": []
+    },
+    {
+        "id": "opt-init-4-syntax",
+        "source": "{{ 1 + }}",
+        "config": {
+            "optimizations": 4
+        },
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unexpected token \"end of print statement\" of value \"\" in \"index\" at line 1."
+        },
+        "deprecations": [
+            "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing."
+        ]
+    },
+    {
+        "id": "opt-init-8-lexer",
+        "source": "{{ 'a }}",
+        "config": {
+            "optimizations": 8
+        },
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unexpected character \"'\" in \"index\" at line 1 column 4."
+        },
+        "deprecations": [
+            "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing."
+        ]
+    },
+    {
+        "id": "opt-init-12-unknown-tag",
+        "source": "{% foo %}",
+        "config": {
+            "optimizations": 12
+        },
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unknown \"foo\" tag. Did you mean \"for\" in \"index\" at line 1?"
+        },
+        "deprecations": [
+            "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+            "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing."
+        ]
+    },
+    {
+        "id": "opt-init-4-deprecated-filter",
+        "source": "{{ 'a  b'|spaceless }}",
+        "config": {
+            "optimizations": 4
+        },
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = \"html\"\n  .escaper = false\n  [body] BodyNode @0\n    [0] PrintNode @1\n      [expr] Expression\\FilterExpression @1\n        .name = \"spaceless\"\n        .type = \"filter\"\n        .twig_callable = Twig\\TwigFilter(spaceless)\n        [node] Expression\\ConstantExpression @1\n          .value = \"a  b\"\n        [filter] Expression\\ConstantExpression @1\n          .value = \"spaceless\"\n        [arguments] EmptyNode @0\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": [
+            "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+            "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index at line 1."
+        ]
+    },
+    {
+        "id": "opt-init-12-deprecated-filter",
+        "source": "{{ 'a  b'|spaceless }}",
+        "config": {
+            "optimizations": 12
+        },
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = \"html\"\n  .escaper = false\n  [body] BodyNode @0\n    [0] PrintNode @1\n      [expr] Expression\\FilterExpression @1\n        .name = \"spaceless\"\n        .type = \"filter\"\n        .twig_callable = Twig\\TwigFilter(spaceless)\n        [node] Expression\\ConstantExpression @1\n          .value = \"a  b\"\n        [filter] Expression\\ConstantExpression @1\n          .value = \"spaceless\"\n        [arguments] EmptyNode @0\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": [
+            "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+            "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing.",
+            "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index at line 1."
+        ]
+    },
+    {
+        "id": "opt-init--2-deprecated-filter",
+        "source": "{{ 'a  b'|spaceless }}",
+        "config": {
+            "optimizations": -2
+        },
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = \"html\"\n  .escaper = false\n  [body] BodyNode @0\n    [0] PrintNode @1\n      [expr] Expression\\FilterExpression @1\n        .name = \"spaceless\"\n        .type = \"filter\"\n        .twig_callable = Twig\\TwigFilter(spaceless)\n        [node] Expression\\ConstantExpression @1\n          .value = \"a  b\"\n        [filter] Expression\\ConstantExpression @1\n          .value = \"spaceless\"\n        [arguments] EmptyNode @0\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": [
+            "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+            "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing.",
+            "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index at line 1."
+        ]
+    },
+    {
+        "id": "opt-init--5-deprecated-filter",
+        "source": "{{ 'a  b'|spaceless }}",
+        "config": {
+            "optimizations": -5
+        },
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = \"html\"\n  .escaper = false\n  [body] BodyNode @0\n    [0] PrintNode @1\n      [expr] Expression\\FilterExpression @1\n        .name = \"spaceless\"\n        .type = \"filter\"\n        .twig_callable = Twig\\TwigFilter(spaceless)\n        [node] Expression\\ConstantExpression @1\n          .value = \"a  b\"\n        [filter] Expression\\ConstantExpression @1\n          .value = \"spaceless\"\n        [arguments] EmptyNode @0\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": [
+            "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing.",
+            "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index at line 1."
+        ]
+    },
+    {
+        "id": "opt-init-4-deprecated-filter-then-syntax",
+        "source": "{{ 'a  b'|spaceless }}{{ 1 + }}",
+        "config": {
+            "optimizations": 4
+        },
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unexpected token \"end of print statement\" of value \"\" in \"index\" at line 1."
+        },
+        "deprecations": [
+            "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+            "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index at line 1."
+        ]
+    },
+    {
+        "id": "opt-init-14-sandbox-deprecated-filter",
+        "source": "{{ 'a  b'|spaceless }}",
+        "config": {
+            "optimizations": 14
+        },
+        "extensions": [
+            "sandbox"
+        ],
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = \"html\"\n  .escaper = false\n  [body] BodyNode @0\n    [0] PrintNode @1\n      [expr] CheckToStringNode @1\n        .spread = false\n        [expr] Expression\\FilterExpression @1\n          .name = \"spaceless\"\n          .type = \"filter\"\n          .twig_callable = Twig\\TwigFilter(spaceless)\n          [node] Expression\\ConstantExpression @1\n            .value = \"a  b\"\n          [filter] Expression\\ConstantExpression @1\n            .value = \"spaceless\"\n          [arguments] EmptyNode @0\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n    [0] CheckSecurityCallNode @0\n    [1] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n    [0] CheckSecurityNode @0\n    [1] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "security": [
+            {
+                "tags": [],
+                "filters": [
+                    [
+                        "spaceless",
+                        1
+                    ]
+                ],
+                "functions": [],
+                "tests": []
+            }
+        ],
+        "deprecations": [
+            "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+            "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing.",
+            "Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in index at line 1."
+        ]
+    },
+    {
+        "id": "opt-init-12-debug-deprecated-callable",
+        "source": "{{ 1|old }}",
+        "config": {
+            "optimizations": 12
+        },
+        "extensions": [
+            "debug"
+        ],
+        "ext": {
+            "filters": [
+                [
+                    "old",
+                    {
+                        "deprecated": [
+                            "acme/pkg",
+                            "1.2"
+                        ]
+                    }
+                ]
+            ]
+        },
+        "dump": "ModuleNode @1\n  .index = NULL\n  .strategy = \"html\"\n  .escaper = true\n  [body] BodyNode @0\n    [0] PrintNode @1\n      [expr] Expression\\Filter\\EscapeFilter @1\n        .name = \"escape\"\n        .type = \"filter\"\n        .twig_callable = Twig\\TwigFilter(escape)\n        .template_escaper = true\n        [node] Expression\\FilterExpression @1\n          .name = \"old\"\n          .type = \"filter\"\n          .twig_callable = Twig\\TwigFilter(old)\n          [node] Expression\\ConstantExpression @1\n            .value = 1\n          [filter] Expression\\ConstantExpression @1\n            .value = \"old\"\n          [arguments] EmptyNode @0\n        [filter] Expression\\ConstantExpression @1\n          .value = \"escape\"\n        [arguments] Nodes @0\n          [0] Expression\\ConstantExpression @1\n            .value = \"html\"\n          [1] Expression\\ConstantExpression @1\n            .value = NULL\n          [2] Expression\\ConstantExpression @1\n            .value = true\n  [blocks] EmptyNode @0\n  [macros] MacrosNode @0\n  [traits] EmptyNode @0\n  [display_start] Nodes @0\n  [display_end] Nodes @0\n  [constructor_start] Nodes @0\n  [constructor_end] Nodes @0\n  [class_end] Nodes @0\n  [.embedded_templates] EmptyNode @0",
+        "deprecations": [
+            "Since twig/twig 3.11: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_RAW_FILTER\" option is deprecated and does nothing.",
+            "Since twig/twig 3.12: The \"Twig\\NodeVisitor\\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES\" option is deprecated and does nothing.",
+            "Since acme/pkg 1.2: Twig Filter \"old\" is deprecated in index at line 1."
+        ]
+    }
+]

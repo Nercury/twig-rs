@@ -31,10 +31,6 @@
      1795658785,
      976425
     ]
-   },
-   "known_mismatch": {
-    "reason": "Twig compiles `a // b` as `(int) floor((a / b))` without outer parentheses (FloorDivBinary::compile(); explicit parentheses survive only on unary nodes), so as the base of `**` PHP evaluates `(int) (floor(a / b) ** c)`: casts bind looser than `**`. twig-rs computes `(a // b) ** c`. Suspected: src/lltl/codegen.rs, FloorDiv as the left operand of Power.",
-    "signature": "output:changed [\"int(N\" > \"float(N\"]"
    }
   },
   {
@@ -72,10 +68,6 @@
      1795658785,
      976952
     ]
-   },
-   "known_mismatch": {
-    "reason": "Twig compiles `a // b` as `(int) floor((a / b))` without outer parentheses (FloorDivBinary::compile(); explicit parentheses survive only on unary nodes), so as the base of `**` PHP evaluates `(int) (floor(a / b) ** c)`: casts bind looser than `**`. twig-rs computes `(a // b) ** c`. Suspected: src/lltl/codegen.rs, FloorDiv as the left operand of Power.",
-    "signature": "output:changed [\"int(N\" > \"float(INF\"] | diagnostics:-E_WARNING: The float INF is not representable as an int, cast occurred"
    }
   },
   {
@@ -107,10 +99,6 @@
      1795658785,
      977532
     ]
-   },
-   "known_mismatch": {
-    "reason": "Twig compiles `a // b` as `(int) floor((a / b))` without outer parentheses (FloorDivBinary::compile(); explicit parentheses survive only on unary nodes), so as the base of `**` PHP evaluates `(int) (floor(a / b) ** c)`: casts bind looser than `**`. twig-rs computes `(a // b) ** c`. Suspected: src/lltl/codegen.rs, FloorDiv as the left operand of Power.",
-    "signature": "output:extra [\"\" > \".N\"]"
    }
   },
   {
@@ -143,10 +131,6 @@
      1795658785,
      978050
     ]
-   },
-   "known_mismatch": {
-    "reason": "Twig compiles `a not in b` as `!CoreExtension::inFilter(a, b)` without parentheses (NotInBinary::compile()), so `(a not in b) ** c` is `!(inFilter(a, b) ** c)` in PHP and yields a bool. twig-rs computes `(a not in b) ** c`. Suspected: src/lltl/codegen.rs, NotIn as the left operand of Power.",
-    "signature": "output:changed [\"bool(false\" > \"int(N\"]"
    }
   },
   {
@@ -182,10 +166,6 @@
      1795658785,
      978428
     ]
-   },
-   "known_mismatch": {
-    "reason": "Twig compiles `a not in b` as `!CoreExtension::inFilter(a, b)` without parentheses (NotInBinary::compile()), so `(a not in b) ** c` is `!(inFilter(a, b) ** c)` in PHP and yields a bool. twig-rs computes `(a not in b) ** c`. Suspected: src/lltl/codegen.rs, NotIn as the left operand of Power.",
-    "signature": "output:changed [\"bool(false\" > \"float(INF\"] | diagnostics:+E_DEPRECATED: Power of base N and negative exponent is deprecated"
    }
   },
   {
@@ -221,10 +201,6 @@
      1795658785,
      978962
     ]
-   },
-   "known_mismatch": {
-    "reason": "Known since the tooling round (crates/twig-fuzz/vectors/round0-mismatches.json): the NotUnary built by IsNotExpressionParser compiles as ` !test` without parentheses, and PHP parses `!test ** y` as `!(test ** y)`. Suspected: src/lltl/codegen.rs, NotUnary from `is not` as the left operand of Power.",
-    "signature": "output:changed [\"bool(false\" > \"int(N\"]"
    }
   },
   {
@@ -292,10 +268,6 @@
      1795658785,
      979498
     ]
-   },
-   "known_mismatch": {
-    "reason": "Concatenation with a constant array literal on the right: zend_compile_binary_op() (PHPSRC/Zend/zend_compile.c ~10266) emits a separate ZEND_CAST to string for a constant array operand of ZEND_CONCAT, after both operands are compiled. Its `Array to string conversion` warning therefore comes before the conversion of the left operand (NAN warning, object error), and it is raised even when that conversion throws. twig-rs converts both operands in order inside the concatenation. Suspected: src/lltl/codegen.rs ConcatBinary / VM concat.",
-    "signature": "diagnostics:~order"
    }
   },
   {
@@ -379,10 +351,6 @@
      1795658785,
      979858
     ]
-   },
-   "known_mismatch": {
-    "reason": "Concatenation with a constant array literal on the right: zend_compile_binary_op() (PHPSRC/Zend/zend_compile.c ~10266) emits a separate ZEND_CAST to string for a constant array operand of ZEND_CONCAT, after both operands are compiled. Its `Array to string conversion` warning therefore comes before the conversion of the left operand (NAN warning, object error), and it is raised even when that conversion throws. twig-rs converts both operands in order inside the concatenation. Suspected: src/lltl/codegen.rs ConcatBinary / VM concat.",
-    "signature": "diagnostics:-E_WARNING: Array to string conversion"
    }
   },
   {
@@ -466,10 +434,6 @@
      1795658785,
      980572
     ]
-   },
-   "known_mismatch": {
-    "reason": "Concatenation with a constant array literal on the right: zend_compile_binary_op() (PHPSRC/Zend/zend_compile.c ~10266) emits a separate ZEND_CAST to string for a constant array operand of ZEND_CONCAT, after both operands are compiled. Its `Array to string conversion` warning therefore comes before the conversion of the left operand (NAN warning, object error), and it is raised even when that conversion throws. twig-rs converts both operands in order inside the concatenation. Suspected: src/lltl/codegen.rs ConcatBinary / VM concat.",
-    "signature": "diagnostics:-E_WARNING: Array to string conversion"
    }
   },
   {
@@ -553,10 +517,6 @@
      1795658785,
      981002
     ]
-   },
-   "known_mismatch": {
-    "reason": "Concatenation with a constant array literal on the right: zend_compile_binary_op() (PHPSRC/Zend/zend_compile.c ~10266) emits a separate ZEND_CAST to string for a constant array operand of ZEND_CONCAT, after both operands are compiled. Its `Array to string conversion` warning therefore comes before the conversion of the left operand (NAN warning, object error), and it is raised even when that conversion throws. twig-rs converts both operands in order inside the concatenation. Suspected: src/lltl/codegen.rs ConcatBinary / VM concat.",
-    "signature": "diagnostics:-E_WARNING: Array to string conversion"
    }
   },
   {
@@ -603,10 +563,6 @@
      1795658785,
      981474
     ]
-   },
-   "known_mismatch": {
-    "reason": "Line of a runtime error inside a multi-line array literal (sequence/mapping literals, method-call argument arrays, the variadic argument array of dump()). zend_try_ct_eval_array() runs zend_eval_const_expr() on the elements; this rebuilds the `null` default of each non-strict variable `($context[\"x\"] ?? null)` (and true/false/null or folded constants) as a new node carrying CG(zend_lineno), the line of the array's first element. An opline compiled right after such a node gets that PHP line, so Error::guess() reports the array's first line. Inside nested calls nothing is rebuilt. twig-rs attributes the instruction to the marker in effect where it is emitted. Suspected: src/lltl/codegen.rs line table.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -653,10 +609,6 @@
      1795658785,
      981881
     ]
-   },
-   "known_mismatch": {
-    "reason": "Line of a runtime error inside a multi-line array literal (sequence/mapping literals, method-call argument arrays, the variadic argument array of dump()). zend_try_ct_eval_array() runs zend_eval_const_expr() on the elements; this rebuilds the `null` default of each non-strict variable `($context[\"x\"] ?? null)` (and true/false/null or folded constants) as a new node carrying CG(zend_lineno), the line of the array's first element. An opline compiled right after such a node gets that PHP line, so Error::guess() reports the array's first line. Inside nested calls nothing is rebuilt. twig-rs attributes the instruction to the marker in effect where it is emitted. Suspected: src/lltl/codegen.rs line table.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -704,10 +656,6 @@
      1795658785,
      982220
     ]
-   },
-   "known_mismatch": {
-    "reason": "Line of a runtime error inside a multi-line array literal (sequence/mapping literals, method-call argument arrays, the variadic argument array of dump()). zend_try_ct_eval_array() runs zend_eval_const_expr() on the elements; this rebuilds the `null` default of each non-strict variable `($context[\"x\"] ?? null)` (and true/false/null or folded constants) as a new node carrying CG(zend_lineno), the line of the array's first element. An opline compiled right after such a node gets that PHP line, so Error::guess() reports the array's first line. Inside nested calls nothing is rebuilt. twig-rs attributes the instruction to the marker in effect where it is emitted. Suspected: src/lltl/codegen.rs line table.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -846,10 +794,6 @@
      1795658785,
      985904
     ]
-   },
-   "known_mismatch": {
-    "reason": "Line of a runtime error inside a multi-line array literal (sequence/mapping literals, method-call argument arrays, the variadic argument array of dump()). zend_try_ct_eval_array() runs zend_eval_const_expr() on the elements; this rebuilds the `null` default of each non-strict variable `($context[\"x\"] ?? null)` (and true/false/null or folded constants) as a new node carrying CG(zend_lineno), the line of the array's first element. An opline compiled right after such a node gets that PHP line, so Error::guess() reports the array's first line. Inside nested calls nothing is rebuilt. twig-rs attributes the instruction to the marker in effect where it is emitted. Suspected: src/lltl/codegen.rs line table.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -901,10 +845,6 @@
      1795658785,
      986439
     ]
-   },
-   "known_mismatch": {
-    "reason": "Line of a runtime error inside a multi-line array literal (sequence/mapping literals, method-call argument arrays, the variadic argument array of dump()). zend_try_ct_eval_array() runs zend_eval_const_expr() on the elements; this rebuilds the `null` default of each non-strict variable `($context[\"x\"] ?? null)` (and true/false/null or folded constants) as a new node carrying CG(zend_lineno), the line of the array's first element. An opline compiled right after such a node gets that PHP line, so Error::guess() reports the array's first line. Inside nested calls nothing is rebuilt. twig-rs attributes the instruction to the marker in effect where it is emitted. Suspected: src/lltl/codegen.rs line table.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -960,10 +900,6 @@
      1795658785,
      986787
     ]
-   },
-   "known_mismatch": {
-    "reason": "Line of a runtime error inside a multi-line array literal (sequence/mapping literals, method-call argument arrays, the variadic argument array of dump()). zend_try_ct_eval_array() runs zend_eval_const_expr() on the elements; this rebuilds the `null` default of each non-strict variable `($context[\"x\"] ?? null)` (and true/false/null or folded constants) as a new node carrying CG(zend_lineno), the line of the array's first element. An opline compiled right after such a node gets that PHP line, so Error::guess() reports the array's first line. Inside nested calls nothing is rebuilt. twig-rs attributes the instruction to the marker in effect where it is emitted. Suspected: src/lltl/codegen.rs line table.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
    }
   },
   {
@@ -1002,10 +938,6 @@
      1795658785,
      987416
     ]
-   },
-   "known_mismatch": {
-    "reason": "strict_variables + `undef?.x.y ?? d` / `is defined`: the outer GetAttrExpression compiles the object of the inner null-safe node (the `$_vK = ...` short-circuit) before that node is compiled. Only that later compile propagates `ignore_strict_check` to the variable, so PHP throws `Variable \"undef\" does not exist.`. When the null-safe node is outermost (`undef?.x ?? d`) the flag arrives in time. twig-rs passes the null-safe node's own ignore_strict_check to its object. Suspected: src/lltl/codegen.rs get_attr(), `self.expr_with(&ns.node, ns_ignore || ns.ignore_strict_check)`.",
-    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: Variable \"_\" does not exist in \"_\" at line N.]"
    }
   },
   {
@@ -1044,10 +976,6 @@
      1795658785,
      987828
     ]
-   },
-   "known_mismatch": {
-    "reason": "strict_variables + `undef?.x.y ?? d` / `is defined`: the outer GetAttrExpression compiles the object of the inner null-safe node (the `$_vK = ...` short-circuit) before that node is compiled. Only that later compile propagates `ignore_strict_check` to the variable, so PHP throws `Variable \"undef\" does not exist.`. When the null-safe node is outermost (`undef?.x ?? d`) the flag arrives in time. twig-rs passes the null-safe node's own ignore_strict_check to its object. Suspected: src/lltl/codegen.rs get_attr(), `self.expr_with(&ns.node, ns_ignore || ns.ignore_strict_check)`.",
-    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: Variable \"_\" does not exist in \"_\" at line N.]"
    }
   },
   {
@@ -1086,10 +1014,6 @@
      1795658785,
      988320
     ]
-   },
-   "known_mismatch": {
-    "reason": "strict_variables + `undef?.x.y ?? d` / `is defined`: the outer GetAttrExpression compiles the object of the inner null-safe node (the `$_vK = ...` short-circuit) before that node is compiled. Only that later compile propagates `ignore_strict_check` to the variable, so PHP throws `Variable \"undef\" does not exist.`. When the null-safe node is outermost (`undef?.x ?? d`) the flag arrives in time. twig-rs passes the null-safe node's own ignore_strict_check to its object. Suspected: src/lltl/codegen.rs get_attr(), `self.expr_with(&ns.node, ns_ignore || ns.ignore_strict_check)`.",
-    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: Variable \"_\" does not exist in \"_\" at line N.]"
    }
   },
   {
@@ -1128,10 +1052,6 @@
      1795658785,
      988727
     ]
-   },
-   "known_mismatch": {
-    "reason": "strict_variables + `undef?.x.y ?? d` / `is defined`: the outer GetAttrExpression compiles the object of the inner null-safe node (the `$_vK = ...` short-circuit) before that node is compiled. Only that later compile propagates `ignore_strict_check` to the variable, so PHP throws `Variable \"undef\" does not exist.`. When the null-safe node is outermost (`undef?.x ?? d`) the flag arrives in time. twig-rs passes the null-safe node's own ignore_strict_check to its object. Suspected: src/lltl/codegen.rs get_attr(), `self.expr_with(&ns.node, ns_ignore || ns.ignore_strict_check)`.",
-    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: Variable \"_\" does not exist in \"_\" at line N.]"
    }
   },
   {
@@ -1172,10 +1092,6 @@
      1795658785,
      990316
     ]
-   },
-   "known_mismatch": {
-    "reason": "With the SandboxExtension registered (not even sandboxing), the optimized `x[key]` access compiles `key` twice (the array fast path and the getAttribute() fallback, GetAttrExpression::compile()). A null-safe chain in `key` assigns its short-circuit variable only in the first copy, so when `x` is not an array the fallback path reads the unassigned `$_vN` (E_WARNING `Undefined variable $_vN`, then null). twig-rs neither warns nor reads null there. Suspected: src/lltl/codegen.rs get_attr() sandbox path; LoadLocal of an unassigned local.",
-    "signature": "diagnostics:-E_WARNING: Undefined variable $_vN"
    }
   },
   {
@@ -1218,10 +1134,6 @@
      1795658785,
      990758
     ]
-   },
-   "known_mismatch": {
-    "reason": "With the SandboxExtension registered (not even sandboxing), the optimized `x[key]` access compiles `key` twice (the array fast path and the getAttribute() fallback, GetAttrExpression::compile()). A null-safe chain in `key` assigns its short-circuit variable only in the first copy, so when `x` is not an array the fallback path reads the unassigned `$_vN` (E_WARNING `Undefined variable $_vN`, then null). twig-rs neither warns nor reads null there. Suspected: src/lltl/codegen.rs get_attr() sandbox path; LoadLocal of an unassigned local.",
-    "signature": "diagnostics:-E_WARNING: Undefined variable $_vN"
    }
   },
   {
@@ -1260,10 +1172,6 @@
      1795658785,
      992149
     ]
-   },
-   "known_mismatch": {
-    "reason": "Wrong values: a null-safe chain in a function argument can inherit the short-circuit state of an earlier call's null-safe node. call() binds arguments through CallableArgumentsExtractor::extract_arguments(), which returns cloned Expr nodes that are dropped after the call. The null-safe state map is keyed by node address (null_safe_key()), so a later node allocated at a freed address gets `short_circuited: true` and loads a stale or unassigned local. Suspected: src/lltl/codegen.rs call() and null_safe_key(). Reproduction depends on allocation reuse, hence many calls; also affects filter arguments (`join`, `default`), not tests, macros or method arguments.",
-    "signature": "output:changed"
    }
   },
   {
@@ -1302,10 +1210,6 @@
      1795658785,
      993140
     ]
-   },
-   "known_mismatch": {
-    "reason": "Wrong values: a null-safe chain in a function argument can inherit the short-circuit state of an earlier call's null-safe node. call() binds arguments through CallableArgumentsExtractor::extract_arguments(), which returns cloned Expr nodes that are dropped after the call. The null-safe state map is keyed by node address (null_safe_key()), so a later node allocated at a freed address gets `short_circuited: true` and loads a stale or unassigned local. Suspected: src/lltl/codegen.rs call() and null_safe_key(). Reproduction depends on allocation reuse, hence many calls; also affects filter arguments (`join`, `default`), not tests, macros or method arguments.",
-    "signature": "output:changed | diagnostics:+E_DEPRECATED: implode(): Passing null to parameter #N ($separator) of type array|string is deprecated"
    }
   },
   {
@@ -1350,10 +1254,6 @@
      1795658785,
      994601
     ]
-   },
-   "known_mismatch": {
-    "reason": "`a[k]?.b ?? d` under autoescape: in Twig the null test and the value of NullCoalesceBinary are one PHP object, still shared after the EscaperNodeVisitor wraps `left` in an escape filter, so the chain base is evaluated once. twig-rs's share_null_safe_state(shared, &binary.left) walks both trees in parallel and stops at the escape filter, so the base is evaluated twice (here a second implicit float-key deprecation). Suspected: src/lltl/codegen.rs NullCoalesce.",
-    "signature": "diagnostics:+E_DEPRECATED: Implicit conversion from float N to int loses precision"
    }
   },
   {
@@ -1394,10 +1294,6 @@
      1795658785,
      995527
     ]
-   },
-   "known_mismatch": {
-    "reason": "`a[k]?.b ?? d` under autoescape: in Twig the null test and the value of NullCoalesceBinary are one PHP object, still shared after the EscaperNodeVisitor wraps `left` in an escape filter, so the chain base is evaluated once. twig-rs's share_null_safe_state(shared, &binary.left) walks both trees in parallel and stops at the escape filter, so the base is evaluated twice (here a second implicit float-key deprecation). Suspected: src/lltl/codegen.rs NullCoalesce.",
-    "signature": "diagnostics:+E_DEPRECATED: Implicit conversion from float N to int loses precision"
    }
   },
   {
@@ -1446,10 +1342,6 @@
      1795658785,
      995972
     ]
-   },
-   "known_mismatch": {
-    "reason": "Known since the tooling round (cluster 1, crates/twig-fuzz/vectors/round0-mismatches.json): zend_vm_set_opcode_handler() swaps the operands of commutative opcodes (ADD, MUL, BW_AND/OR/XOR) when op1 is CONST and op2 is TMP/VAR/CV. TypeError texts and the order of conversion diagnostics follow the swapped order; twig-rs evaluates in source order. Suspected: codegen/VM of + * b-and b-or b-xor.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:TypeError [Unsupported operand types: array * int > Unsupported operand types: int * array]"
    }
   },
   {
@@ -1498,10 +1390,6 @@
      1795658785,
      996322
     ]
-   },
-   "known_mismatch": {
-    "reason": "Known since the tooling round (cluster 1, crates/twig-fuzz/vectors/round0-mismatches.json): zend_vm_set_opcode_handler() swaps the operands of commutative opcodes (ADD, MUL, BW_AND/OR/XOR) when op1 is CONST and op2 is TMP/VAR/CV. TypeError texts and the order of conversion diagnostics follow the swapped order; twig-rs evaluates in source order. Suspected: codegen/VM of + * b-and b-or b-xor.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:TypeError [Unsupported operand types: array & null > Unsupported operand types: null & array]"
    }
   },
   {
@@ -1542,10 +1430,6 @@
      1795658785,
      996637
     ]
-   },
-   "known_mismatch": {
-    "reason": "Known since the tooling round (cluster 1, crates/twig-fuzz/vectors/round0-mismatches.json): zend_vm_set_opcode_handler() swaps the operands of commutative opcodes (ADD, MUL, BW_AND/OR/XOR) when op1 is CONST and op2 is TMP/VAR/CV. TypeError texts and the order of conversion diagnostics follow the swapped order; twig-rs evaluates in source order. Suspected: codegen/VM of + * b-and b-or b-xor.",
-    "signature": "diagnostics:~order"
    }
   },
   {
@@ -1592,10 +1476,6 @@
      1795658785,
      996896
     ]
-   },
-   "known_mismatch": {
-    "reason": "Known since the tooling round (cluster 1, crates/twig-fuzz/vectors/round0-mismatches.json): zend_vm_set_opcode_handler() swaps the operands of commutative opcodes (ADD, MUL, BW_AND/OR/XOR) when op1 is CONST and op2 is TMP/VAR/CV. TypeError texts and the order of conversion diagnostics follow the swapped order; twig-rs evaluates in source order. Suspected: codegen/VM of + * b-and b-or b-xor.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:TypeError [Unsupported operand types: string & float > Unsupported operand types: float & string] | diagnostics:+E_DEPRECATED: Implicit conversion from float N to int loses precision"
    }
   },
   {
@@ -1649,10 +1529,6 @@
      1795658785,
      997455
     ]
-   },
-   "known_mismatch": {
-    "reason": "Known since the tooling round (cluster 3): a non-callable `has some`/`has every` operand. PHP says `Value of type bool is not callable` (zend_zval_type_name); twig-rs says `Value of type false is not callable`. Suspected: src/vm/arrow.rs invoke_value(), src/extension/runtime/arrays/callables.rs.",
-    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Value of type bool is not callable > Value of type false is not callable]"
    }
   }
  ]

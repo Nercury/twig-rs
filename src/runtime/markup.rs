@@ -137,33 +137,21 @@ impl Markup {
         })
     }
 
-    /// Twig: `Markup::count()`: `mb_strlen($this->content, $this->charset)`.
+    /// Twig: `Markup::count()` (TWIG/src/Markup.php): `mb_strlen($this->content, $this->charset)`, with mbstring's
+    /// resolution of the charset name (an unknown name is PHP's `ValueError`, a `null` charset the internal encoding,
+    /// UTF-8).
     ///
-    /// Only UTF-8 (and single-byte charsets, counted in bytes) are supported (reference/deviations.md).
-    pub fn count(&self) -> PhpResult<i64> {
-        let content = self.content();
+    /// # Errors
+    ///
+    /// The errors of `mb_strlen()`'s encoding argument; an encoding mbstring knows but twig-rs cannot count yet (the
+    /// multi-byte encodings other than UTF-8) is a twig-rs `Error` (reference/deviations.md).
+    pub fn count(&self, diag: &mut dyn Diagnostics) -> PhpResult<i64> {
         let charset = self.charset();
-        let name = charset
-            .as_ref()
-            .map(|c| c.to_string_lossy().to_ascii_uppercase())
-            .unwrap_or_else(|| "UTF-8".to_owned());
-        match name.as_str() {
-            "UTF-8" | "UTF8" => Ok(twig_unicode::mb_strlen(&content) as i64),
-            "ASCII" | "US-ASCII" | "8BIT" | "BINARY" => Ok(content.len() as i64),
-            n if n.starts_with("ISO-8859-")
-                || n.starts_with("WINDOWS-125")
-                || n.starts_with("CP125")
-                || n.starts_with("ISO8859-") =>
-            {
-                Ok(content.len() as i64)
-            }
-            _ => Err(PhpError::value_error(format!(
-                "mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"{}\" given",
-                charset
-                    .map(|c| c.to_string_lossy().into_owned())
-                    .unwrap_or_default()
-            ))),
-        }
+        crate::extension::runtime::strings::mb::mb_strlen(
+            &self.content(),
+            charset.as_ref().map(PhpString::as_bytes),
+            diag,
+        )
     }
 }
 
@@ -224,7 +212,7 @@ impl Object for Markup {
                     "Twig\\Markup::getCharset(): Return value must be of type string, null returned",
                 )),
             },
-            "count" => Ok(Value::Int(self.count()?)),
+            "count" => Ok(Value::Int(self.count(diag)?)),
             "issafefor" => {
                 let strategy =
                     string_arg("Twig\\Markup::isSafeFor", 1, "strategy", args.get(0), diag)?;

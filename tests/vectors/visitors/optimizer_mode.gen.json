@@ -1,0 +1,143 @@
+[
+ {
+  "id": "opt-init-16-empty",
+  "source": "",
+  "config": {
+   "optimizations": 16
+  }
+ },
+ {
+  "id": "opt-init-16-syntax",
+  "source": "{{ 1 + }}",
+  "config": {
+   "optimizations": 16
+  }
+ },
+ {
+  "id": "opt-init-16-lexer",
+  "source": "{{ 'a }}",
+  "config": {
+   "optimizations": 16
+  }
+ },
+ {
+  "id": "opt-init-16-unknown-tag",
+  "source": "{% foo %}",
+  "config": {
+   "optimizations": 16
+  }
+ },
+ {
+  "id": "opt-init-16-sandbox",
+  "source": "{{ 1 }}",
+  "config": {
+   "optimizations": 16
+  },
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "opt-init-15-deprecated-filter",
+  "source": "{{ 'a  b'|spaceless }}",
+  "config": {
+   "optimizations": 15
+  }
+ },
+ {
+  "id": "opt-init-max-int",
+  "source": "{{ 1 }}",
+  "config": {
+   "optimizations": 9223372036854775807
+  }
+ },
+ {
+  "id": "opt-init-4-syntax",
+  "source": "{{ 1 + }}",
+  "config": {
+   "optimizations": 4
+  }
+ },
+ {
+  "id": "opt-init-8-lexer",
+  "source": "{{ 'a }}",
+  "config": {
+   "optimizations": 8
+  }
+ },
+ {
+  "id": "opt-init-12-unknown-tag",
+  "source": "{% foo %}",
+  "config": {
+   "optimizations": 12
+  }
+ },
+ {
+  "id": "opt-init-4-deprecated-filter",
+  "source": "{{ 'a  b'|spaceless }}",
+  "config": {
+   "optimizations": 4
+  }
+ },
+ {
+  "id": "opt-init-12-deprecated-filter",
+  "source": "{{ 'a  b'|spaceless }}",
+  "config": {
+   "optimizations": 12
+  }
+ },
+ {
+  "id": "opt-init--2-deprecated-filter",
+  "source": "{{ 'a  b'|spaceless }}",
+  "config": {
+   "optimizations": -2
+  }
+ },
+ {
+  "id": "opt-init--5-deprecated-filter",
+  "source": "{{ 'a  b'|spaceless }}",
+  "config": {
+   "optimizations": -5
+  }
+ },
+ {
+  "id": "opt-init-4-deprecated-filter-then-syntax",
+  "source": "{{ 'a  b'|spaceless }}{{ 1 + }}",
+  "config": {
+   "optimizations": 4
+  }
+ },
+ {
+  "id": "opt-init-14-sandbox-deprecated-filter",
+  "source": "{{ 'a  b'|spaceless }}",
+  "config": {
+   "optimizations": 14
+  },
+  "extensions": [
+   "sandbox"
+  ]
+ },
+ {
+  "id": "opt-init-12-debug-deprecated-callable",
+  "source": "{{ 1|old }}",
+  "config": {
+   "optimizations": 12
+  },
+  "extensions": [
+   "debug"
+  ],
+  "ext": {
+   "filters": [
+    [
+     "old",
+     {
+      "deprecated": [
+       "acme/pkg",
+       "1.2"
+      ]
+     }
+    ]
+   ]
+  }
+ }
+]

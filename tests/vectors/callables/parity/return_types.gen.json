@@ -1,0 +1,176 @@
+[
+ {
+  "id": "join-throwing-tostring",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [cs]|join(',', ' and ')|json_encode|raw }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-stringable",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [ts]|join(',', ' and ')|json_encode|raw }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-array",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [[1]]|join(',', ' and ')|json_encode|raw }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-null",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [null]|join(',', ' and ')|json_encode|raw }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-float",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1.5]|join(',', ' and ')|json_encode|raw }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-true",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [true]|join(',', ' and ')|json_encode|raw }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-false",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [false]|join(',', ' and ')|json_encode|raw }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-object",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [std]|join(',', ' and ')|json_encode|raw }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-int",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [7]|join(',', ' and ')|json_encode|raw }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-implode-throwing",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [cs]|join }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-implode-and-same",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [cs]|join(',', ',') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-two-throwing",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [1, cs]|join(',', ' and ') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-mapping-throwing",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ {a: cs}|join(',', ' and ') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-traversable-throwing",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ foo|join(',', ' and ') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true
+ },
+ {
+  "id": "join-strict-throwing",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [cs]|join(',', ' and ') }}"
+  },
+  "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0), 'ts' => new \\Twig\\Tests\\ToStringStub('t'), 'std' => new \\stdClass(), 'foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+  "test_classes": true,
+  "config": {
+   "strict_variables": true
+  }
+ },
+ {
+  "id": "join-nan",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [constant('NAN')]|join(',', ' and ')|json_encode|raw }}"
+  }
+ },
+ {
+  "id": "join-nan-throw",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [constant('NAN')]|join(',', ' and ')|json_encode|raw }}"
+  },
+  "errors": "throw"
+ },
+ {
+  "id": "join-inf",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [constant('INF')]|join(',', ' and ') }}"
+  }
+ },
+ {
+  "id": "join-nan-implode",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ [constant('NAN')]|join }}"
+  }
+ },
+ {
+  "id": "date-format-nan",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{ constant('NAN')|date('U') }}"
+  }
+ }
+]

@@ -15,35 +15,17 @@ pub(crate) fn bind_user(
     args.bind(function, params, FunctionKind::User)
 }
 
-/// Port of `zend_verify_return_type()` in coercive mode (PHPSRC/Zend/zend_execute.c): the value as
-/// is when its type is declared or it is an instance of a declared class, else the weak scalar
-/// coercion, else `TypeError: F(): Return value must be of type T, V returned`
-/// (`zend_verify_return_error()`).
+/// The declared return type of a ported userland method: `zend_verify_return_type()` in coercive
+/// mode (PHPSRC/Zend/zend_execute.c), see [`param::verify_user_return`]. A coercion that throws
+/// (`ToStringStub::__toString()` returning an object whose `__toString()` throws) gives
+/// `TypeError: F(): Return value must be of type T, V returned` with that exception as previous.
 pub(crate) fn verify_return(
     value: Value,
     ty: &DeclaredType<'_>,
     function: &str,
     diag: &mut dyn Diagnostics,
 ) -> PhpResult<Value> {
-    if ty.mask.accepts_type_of(&value) {
-        return Ok(value);
-    }
-    if let Value::Object(o) = &value
-        && ty.classes.iter().any(|c| o.instance_of(c))
-    {
-        return Ok(value);
-    }
-    match param::verify_weak_scalar_type_hint(ty.mask, &value, diag)? {
-        Some(v) => Ok(v),
-        None => Err(PhpError::type_error(PhpString::concat(&[
-            function.as_bytes(),
-            b"(): Return value must be of type ",
-            ty.to_type_string().as_bytes(),
-            b", ",
-            types::zend_zval_value_name(&value).as_bytes(),
-            b" returned",
-        ]))),
-    }
+    param::verify_user_return(value, ty, function, diag)
 }
 
 /// `string` as a declared type.

@@ -65,7 +65,7 @@ pub fn batch(seed: u64, count: usize) -> Json {
 /// Case `index` of `seed`.
 pub fn case(seed: u64, index: usize) -> Json {
     let mut rng = Rng::new(seed ^ (index as u64).wrapping_mul(0xD1B5_4A32_D192_ED03));
-    Gen::new(&mut rng).case(format!("sbx-{seed}-{index}"))
+    super::with_case_cache(Gen::new(&mut rng).case(format!("sbx-{seed}-{index}")))
 }
 
 // ---------------------------------------------------------------------------------------------------------------

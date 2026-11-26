@@ -31,7 +31,8 @@ use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 use std::sync::{Arc, RwLock};
 
 use twig_value::object::ObjectRef;
-use twig_value::{Array, Ignore, PhpString, Value, convert};
+use twig_value::param::{DeclaredType, TypeMask, UserArg, verify_user_arg};
+use twig_value::{Array, Diagnostics, Ignore, PhpError, PhpString, ThrowableClass, Value, convert};
 
 use super::environment::Environment;
 use super::markup::Markup;
@@ -39,7 +40,7 @@ use super::template::Template;
 use crate::deprecation::{Deprecation, DeprecationSink};
 use crate::error::{Error, ErrorKind, Result};
 use crate::extension::{Extension, NodeVisitor, TokenParser};
-use crate::lltl::{Program, SecurityLists};
+use crate::lltl::{Program, SecurityLists, UnitKind};
 use crate::source::Source;
 use crate::token_parser::SandboxTokenParser;
 use crate::visitor::SandboxNodeVisitor;
@@ -73,6 +74,12 @@ pub enum SecurityErrorKind {
     },
     /// `Twig\Sandbox\SecurityError` itself.
     Other,
+    /// Not a violation: a PHP throwable the policy threw while checking, which templates wrap like any other
+    /// exception that is not a Twig error. Twig's `SecurityPolicy` throws the `Error` `Class name must be a valid
+    /// object or a string` when its loop reaches an integer class key, the `TypeError` of
+    /// `SecurityNotAllowedPropertyError::__construct()` for an `ArrayAccess` key that is not a string, and the
+    /// exceptions of converting a key to a string. [`SecurityError::php_error`] is the throwable.
+    Php,
 }
 
 /// A sandbox violation: Twig's `Twig\Sandbox\SecurityError` and its `SecurityNotAllowed*Error` subclasses, which
@@ -80,12 +87,31 @@ pub enum SecurityErrorKind {
 ///
 /// Policies return it; the checker turns it into a Twig [`Error`] of the violation's class
 /// ([`ErrorKind::SecurityNotAllowedFilter`], ...) with the template source and line; [`SecurityError::of`] gives the
-/// violation (and the names it carries) back from that error.
-#[derive(Debug, Clone, PartialEq, Eq)]
+/// violation (and the names it carries) back from that error. A policy that throws something else than a violation
+/// returns it as [`SecurityError::php`] ([`SecurityErrorKind::Php`]).
+#[derive(Debug, Clone)]
 pub struct SecurityError {
     kind: SecurityErrorKind,
     message: String,
+    /// The throwable of a [`SecurityErrorKind::Php`] error (boxed: policies return the error by value).
+    php: Option<Box<PhpError>>,
 }
+
+impl PartialEq for SecurityError {
+    fn eq(&self, other: &Self) -> bool {
+        let throwable = |error: &SecurityError| {
+            error
+                .php
+                .as_ref()
+                .map(|php| (php.class().name().to_owned(), php.message().clone()))
+        };
+        self.kind == other.kind
+            && self.message == other.message
+            && throwable(self) == throwable(other)
+    }
+}
+
+impl Eq for SecurityError {}
 
 impl SecurityError {
     /// A violation with the given message.
@@ -93,6 +119,17 @@ impl SecurityError {
         SecurityError {
             kind,
             message: message.into(),
+            php: None,
+        }
+    }
+
+    /// A PHP throwable a policy throws instead of a violation ([`SecurityErrorKind::Php`]): templates wrap it in
+    /// `An exception has been thrown during the rendering of a template ("...")`, as Twig's `handleException()` does.
+    pub fn php(error: PhpError) -> Self {
+        SecurityError {
+            kind: SecurityErrorKind::Php,
+            message: error.message_lossy().into_owned(),
+            php: Some(Box::new(error)),
         }
     }
 
@@ -106,8 +143,14 @@ impl SecurityError {
         &self.message
     }
 
-    /// The PHP class of the violation, e.g. `Twig\Sandbox\SecurityNotAllowedFilterError`.
-    pub fn class_name(&self) -> &'static str {
+    /// The throwable of a [`SecurityErrorKind::Php`] error.
+    pub fn php_error(&self) -> Option<&PhpError> {
+        self.php.as_deref()
+    }
+
+    /// The PHP class of the violation, e.g. `Twig\Sandbox\SecurityNotAllowedFilterError` (for
+    /// [`SecurityErrorKind::Php`], the class of the throwable).
+    pub fn class_name(&self) -> &str {
         match self.kind {
             SecurityErrorKind::Tag(_) => "Twig\\Sandbox\\SecurityNotAllowedTagError",
             SecurityErrorKind::Filter(_) => "Twig\\Sandbox\\SecurityNotAllowedFilterError",
@@ -116,10 +159,15 @@ impl SecurityError {
             SecurityErrorKind::Method { .. } => "Twig\\Sandbox\\SecurityNotAllowedMethodError",
             SecurityErrorKind::Property { .. } => "Twig\\Sandbox\\SecurityNotAllowedPropertyError",
             SecurityErrorKind::Other => "Twig\\Sandbox\\SecurityError",
+            SecurityErrorKind::Php => self
+                .php
+                .as_ref()
+                .map_or("Throwable", |php| php.class().name()),
         }
     }
 
-    /// The error kind of the violation's class, e.g. [`ErrorKind::SecurityNotAllowedFilter`].
+    /// The error kind of the violation's class, e.g. [`ErrorKind::SecurityNotAllowedFilter`] (for
+    /// [`SecurityErrorKind::Php`], the kind [`Error::php`] gives the throwable).
     pub fn error_kind(&self) -> ErrorKind {
         match self.kind {
             SecurityErrorKind::Tag(_) => ErrorKind::SecurityNotAllowedTag,
@@ -129,6 +177,10 @@ impl SecurityError {
             SecurityErrorKind::Method { .. } => ErrorKind::SecurityNotAllowedMethod,
             SecurityErrorKind::Property { .. } => ErrorKind::SecurityNotAllowedProperty,
             SecurityErrorKind::Other => ErrorKind::Security,
+            SecurityErrorKind::Php => match &self.php {
+                Some(php) if *php.class() == ThrowableClass::LogicException => ErrorKind::Logic,
+                _ => ErrorKind::Php,
+            },
         }
     }
 
@@ -138,8 +190,12 @@ impl SecurityError {
     }
 
     /// The Twig error of the violation: its class, its message, Twig's constructor defaults (no line, no source);
-    /// [`SecurityError::of`] finds the violation in it.
+    /// [`SecurityError::of`] finds the violation in it. A [`SecurityErrorKind::Php`] error gives its throwable back
+    /// unchanged ([`Error::php`]).
     pub fn into_error(self) -> Error {
+        if let Some(php) = self.php {
+            return Error::php(*php);
+        }
         Error::new(self.error_kind(), self.message.clone()).with_detail(Arc::new(self))
     }
 }
@@ -192,6 +248,24 @@ pub trait SecurityPolicyInterface: Send + Sync + 'static {
         object: &ObjectRef,
         property: &Value,
     ) -> std::result::Result<(), SecurityError>;
+
+    /// [`check_property_allowed`](Self::check_property_allowed) as the sandbox calls it while a template runs, with
+    /// the template's diagnostics: the PHP warnings of the string conversions the policy makes go to `diagnostics`
+    /// (Twig's `SecurityPolicy` formats its message with `sprintf('%s', $property)`, which warns `Array to string
+    /// conversion` for an array key). The default implementation ignores `diagnostics`.
+    ///
+    /// # Errors
+    ///
+    /// As [`check_property_allowed`](Self::check_property_allowed).
+    fn check_property_allowed_with_diagnostics(
+        &self,
+        object: &ObjectRef,
+        property: &Value,
+        diagnostics: &mut dyn Diagnostics,
+    ) -> std::result::Result<(), SecurityError> {
+        let _ = diagnostics;
+        self.check_property_allowed(object, property)
+    }
 
     /// The policy as `Any`, to reach the concrete type.
     fn as_any(&self) -> &dyn Any;
@@ -418,8 +492,10 @@ impl SecurityPolicyInterface for SecurityPolicy {
         Ok(())
     }
 
-    /// Twig: `SecurityPolicy::checkMethodAllowed()`: the methods of `Markup` (except the constructor and
-    /// `withContent()`) are always allowed.
+    /// Twig: `SecurityPolicy::checkMethodAllowed()` (TWIG/src/Sandbox/SecurityPolicy.php): the methods of `Markup`
+    /// (except the constructor and `withContent()`) are always allowed; otherwise the first class entry the object
+    /// is an instance of and that lists the method allows it, in the order of the allow-list (an integer class key
+    /// throws `Error: Class name must be a valid object or a string` when the loop reaches it).
     fn check_method_allowed(
         &self,
         object: &ObjectRef,
@@ -429,10 +505,19 @@ impl SecurityPolicyInterface for SecurityPolicy {
         if Markup::is_markup(object) && method != b"__construct" && method != b"withcontent" {
             return Ok(());
         }
-        let lists = self.lists();
-        let is_allowed = lists.methods.iter().any(|(class, methods)| {
-            object.instance_of(class) && methods.iter().any(|m| m.as_bytes() == method.as_slice())
-        });
+        let is_allowed = {
+            let lists = self.lists();
+            let mut is_allowed = false;
+            for (class, methods) in &lists.methods {
+                if instance_of_key(object, class)?
+                    && methods.iter().any(|m| m.as_bytes() == method.as_slice())
+                {
+                    is_allowed = true;
+                    break;
+                }
+            }
+            is_allowed
+        };
         if is_allowed {
             return Ok(());
         }
@@ -447,40 +532,93 @@ impl SecurityPolicyInterface for SecurityPolicy {
         ))
     }
 
-    /// Twig: `SecurityPolicy::checkPropertyAllowed()`.
+    /// Twig: `SecurityPolicy::checkPropertyAllowed()`, without diagnostics (see
+    /// [`check_property_allowed_with_diagnostics`](Self::check_property_allowed_with_diagnostics)).
     fn check_property_allowed(
         &self,
         object: &ObjectRef,
         property: &Value,
     ) -> std::result::Result<(), SecurityError> {
-        let lists = self.lists();
-        let is_allowed = match property {
-            Value::String(name) => lists.properties.iter().any(|(class, properties)| {
-                object.instance_of(class)
-                    && properties.iter().any(|p| p.as_bytes() == name.as_bytes())
-            }),
-            _ => false,
+        self.check_property_allowed_with_diagnostics(object, property, &mut Ignore)
+    }
+
+    /// Twig: `SecurityPolicy::checkPropertyAllowed()` (TWIG/src/Sandbox/SecurityPolicy.php): the first class entry
+    /// the object is an instance of and that lists the property (strict comparison: only a string property can match
+    /// the names of the allow-list) allows it (an integer class key throws as in
+    /// [`check_method_allowed`](Self::check_method_allowed)). Otherwise `throw new
+    /// SecurityNotAllowedPropertyError(sprintf('Calling "%s" property on a "%s" object is not allowed.', $property,
+    /// $class), $class, $property)`: `sprintf()` converts the property (an array warns `Array to string conversion`,
+    /// a `Stringable` key calls `__toString()`, other objects throw), then the constructor's `string $propertyName`
+    /// parameter coerces it again in coercive mode (`zend_verify_scalar_type_hint()`, PHPSRC/Zend/zend_execute.c),
+    /// which rejects `null`, arrays and objects without `__toString()` with a `TypeError` and calls `__toString()`
+    /// once more.
+    fn check_property_allowed_with_diagnostics(
+        &self,
+        object: &ObjectRef,
+        property: &Value,
+        diagnostics: &mut dyn Diagnostics,
+    ) -> std::result::Result<(), SecurityError> {
+        let is_allowed = {
+            let lists = self.lists();
+            let mut is_allowed = false;
+            for (class, properties) in &lists.properties {
+                if instance_of_key(object, class)?
+                    && matches!(property, Value::String(name)
+                        if properties.iter().any(|p| p.as_bytes() == name.as_bytes()))
+                {
+                    is_allowed = true;
+                    break;
+                }
+            }
+            is_allowed
         };
         if is_allowed {
             return Ok(());
         }
         let class = object.class_name().to_owned();
-        // sprintf('%s', $property)
-        let property = convert::to_string(property, &mut Ignore)
-            .map(|s| s.to_string_lossy().into_owned())
-            .unwrap_or_default();
+        let shown = convert::to_string(property, diagnostics).map_err(SecurityError::php)?;
+        let message = format!(
+            "Calling \"{}\" property on a \"{class}\" object is not allowed.",
+            shown.to_string_lossy()
+        );
+        let property_name = verify_user_arg(
+            property.clone(),
+            &DeclaredType::builtin(TypeMask::STRING),
+            &UserArg::new(
+                "Twig\\Sandbox\\SecurityNotAllowedPropertyError::__construct",
+                3,
+                "propertyName",
+            ),
+            diagnostics,
+        )
+        .and_then(|name| convert::to_string(&name, diagnostics))
+        .map_err(SecurityError::php)?;
         Err(SecurityError::new(
             SecurityErrorKind::Property {
-                class: class.clone(),
-                property: property.clone(),
+                class,
+                property: property_name.to_string_lossy().into_owned(),
             },
-            format!("Calling \"{property}\" property on a \"{class}\" object is not allowed."),
+            message,
         ))
     }
 
     fn as_any(&self) -> &dyn Any {
         self
     }
+}
+
+/// `$obj instanceof $class` for a class key of an allow-list. PHP normalises a canonical integer string key (`"0"`,
+/// `"7"`, `"-1"`) of the policy array into an integer, and `ZEND_FETCH_CLASS` (PHPSRC/Zend/zend_vm_def.h) throws
+/// `Error: Class name must be a valid object or a string` for it, so the loop of `checkMethodAllowed()` /
+/// `checkPropertyAllowed()` fails when it reaches such a key (an earlier entry that matched stops it first). Any other
+/// key is a class name, fetched without autoloading: an unknown class is no instance.
+fn instance_of_key(object: &ObjectRef, class: &str) -> std::result::Result<bool, SecurityError> {
+    if twig_value::key::handle_numeric_str(class.as_bytes()).is_some() {
+        return Err(SecurityError::php(PhpError::error(
+            "Class name must be a valid object or a string",
+        )));
+    }
+    Ok(object.instance_of(class))
 }
 
 thread_local! {
@@ -639,20 +777,21 @@ impl SecurityChecker {
     }
 
     /// Twig: `SecurityChecker::checkPropertyAllowed()`: a property violation gets the source and the line (and is
-    /// told apart, as `getAttribute()` falls back to a method then).
+    /// told apart, as `getAttribute()` falls back to a method then); the policy's PHP warnings go to `diagnostics`.
     pub(crate) fn check_property_allowed(
         &self,
         object: &ObjectRef,
         property: &Value,
         line: i64,
         source: &Source,
+        diagnostics: &mut dyn Diagnostics,
     ) -> std::result::Result<(), Violation> {
         if !self.is_sandboxed(Some(source)) {
             return Ok(());
         }
         match self
             .security_policy()
-            .check_property_allowed(object, property)
+            .check_property_allowed_with_diagnostics(object, property, diagnostics)
         {
             Ok(()) => Ok(()),
             Err(violation) if matches!(violation.kind, SecurityErrorKind::Property { .. }) => {
@@ -818,6 +957,28 @@ fn first_line(list: &[(Vec<u8>, i64)], name: &str) -> Option<i64> {
         .map(|(_, line)| *line)
 }
 
+/// The template line of the last `// line N` marker Twig's compiler wrote for the class of `program`, `None` when it
+/// wrote none: what `Error::guess()` (TWIG/src/Error/Error.php) gives a violation that `checkSecurity()` leaves at
+/// line `-1` (a name first used at line `0`, which `array_filter()` drops). The compiled `checkSecurity()` method is
+/// written after every other method of the class (`CheckSecurityNode` is compiled in `class_end`), so the PHP line of
+/// its call to the checker maps to the last marker of the class in compile order: `doDisplay()`, the block methods,
+/// then the macro closures (the markers carry over from method to method, and from the root class to the classes of
+/// its embedded templates).
+///
+/// The code generator compiles the units in that order and ends each of them with an instruction at the marker in
+/// effect, so the line of the last instruction of the last top-level unit (arrow functions are compiled inside their
+/// unit and finish first) is that marker.
+fn last_marker(program: &Program) -> Option<i64> {
+    let unit = program.units().iter().rev().find(|unit| {
+        matches!(
+            unit.kind(),
+            UnitKind::Body | UnitKind::Block(_) | UnitKind::Macro(_)
+        )
+    })?;
+    let last = u32::try_from(unit.code().len().checked_sub(1)?).ok()?;
+    unit.lines().line_at(last)
+}
+
 /// Twig: `ensureSecurityChecked()` of a template compiled with the sandbox (`CheckSecurityNode`): when the template
 /// runs sandboxed, `checkSecurity()` checks its tags, filters, functions and tests; a violation is reported at the line
 /// of the first use of what it names.
@@ -835,13 +996,16 @@ pub(crate) fn ensure_security_checked(
     if !checker.is_sandboxed(Some(source)) {
         return Ok(());
     }
-    check_security(&state.env, &checker, lists, source)
+    check_security(&state.env, &checker, template.program(), lists, source)
 }
 
-/// Twig: the compiled `checkSecurity()` (`CheckSecurityNode::compile()`).
+/// Twig: the compiled `checkSecurity()` (`CheckSecurityNode::compile()`): a tag, filter, function or test violation
+/// gets the line of the first use of its name; a violation left without a line gets the one `Error::guess()` finds
+/// ([`last_marker`]).
 fn check_security(
     env: &Environment,
     checker: &SecurityChecker,
+    program: &Program,
     lists: &SecurityLists,
     source: &Source,
 ) -> std::result::Result<(), Exception> {
@@ -859,7 +1023,10 @@ fn check_security(
                 SecurityErrorKind::Test(name) => first_line(&lists.tests, name),
                 _ => None,
             };
-            if let Some(line) = line {
+            // `throw $e;` with line -1: the handler's `$e->guess()` finds the last marker of the class
+            if let Some(line) = line.or_else(|| last_marker(program))
+                && error.kind().is_security_error()
+            {
                 error.set_template_line(line);
             }
             Err(error.into())

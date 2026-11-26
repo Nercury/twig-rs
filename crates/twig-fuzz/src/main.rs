@@ -12,7 +12,8 @@ use twig_fuzz::kit::json::Json;
 use twig_fuzz::kit::result::CaseResult;
 use twig_fuzz::kit::run::Outcome;
 use twig_fuzz::kit::vectors::{
-    KnownMismatch, ReplayStatus, Vector, VectorFile, replay_files, vector_files,
+    KnownMismatch, ReplayStatus, Vector, VectorFile, refresh_file, replay_files, update_file,
+    vector_files,
 };
 use twig_fuzz::minimize::{self, SameSignature, oracle_request};
 use twig_fuzz::oracle::Oracle;
@@ -25,19 +26,29 @@ twig-fuzz: differential testing of twig-rs against the PHP oracle (Twig 3.31.1 o
 USAGE:
   twig-fuzz drive <batch.json>... --out <dir> [--oracle-results <file>] [--no-minimize]
                   [--max-minimize N] [--per-cluster N] [--timeout-ms N] [--description TEXT] [--unmarked]
+                  [--shared-process] [--chunk N] [--jobs N]
       batch -> oracle (Docker) + twig-rs -> diff -> clusters -> minimised reproductions;
       writes <dir>/report.md, report.json, oracle.json, twig-rs.json, vectors.json
-  twig-fuzz oracle <batch.json> [--out <file>] [--chunk N]
+  twig-fuzz oracle <batch.json> [--out <file>] [--chunk N] [--jobs N]
       runs the batch through the oracle (data_php cases get \"typed_data\": true)
   twig-fuzz run <batch.json> [--oracle <results.json>] [--out <file>] [--timeout-ms N]
       runs the batch through twig-rs, printing results in the oracle's schema (data_php cases need
       the oracle's results for their typed data)
   twig-fuzz diff <batch.json> --oracle <results.json> [--twig-rs <results.json>]
       compares oracle results with twig-rs results (computed when --twig-rs is not given)
-  twig-fuzz minimize <batch.json> --id <id> [--out <file>] [--timeout-ms N]
-      minimises one mismatching case (needs Docker)
-  twig-fuzz replay <vectors.json or dir>...
-      replays regression vector files (what tests/fuzz_regressions.rs does)
+  twig-fuzz minimize <batch.json> --id <id> [--out <file>] [--timeout-ms N] [--shared-process]
+      minimises one mismatching case (needs Docker); every candidate runs in a PHP process of its
+      own unless --shared-process (faster, but candidates then share compiled templates, declared
+      classes and their compile-time deprecations)
+  twig-fuzz replay <vectors.json or dir>... [--update [--id ID]...]
+      replays regression vector files (what tests/fuzz_regressions.rs does); --update also removes
+      the known_mismatch marker of every marked vector that now matches the oracle (only the
+      vectors named by --id when given), editing nothing else in the file; a vector that still
+      mismatches keeps its marker, also when its signature changed (reported, left for a person)
+  twig-fuzz refresh <vectors.json or dir>... (--id ID... | --all)
+      runs the cases of the named vectors through the oracle again (each in a PHP process of its
+      own) and writes the new results in place of the recorded ones, changing nothing else: how a
+      vector gets what the oracle records today (replay --update afterwards flips it if it matches)
   twig-fuzz record <batch.json> --out <vectors.json> [--description TEXT] [--oracle <results.json>]
       records every case of the batch as a regression vector with the oracle's result; cases that
       mismatch are marked known_mismatch (with their signature), unsupported ones are left out
@@ -54,12 +65,15 @@ USAGE:
   twig-rs runs in a child process (`twig-fuzz worker`, internal) that is restarted after a timeout
   or a crash; --in-process runs it on threads of this process instead. --timeout-ms (default 5000)
   bounds one twig-rs run. Cases sent to the oracle get \"memory_limit\": \"512M\", \"time_limit\": 30
-  and \"clock\": true unless they set them. drive, diff and replay exit with 1 when something
-  mismatches or fails.
+  and \"clock\": true unless they set them. Isolated oracle batches run --jobs cases at a time
+  (default 8). A chunk whose container dies (PHP's hard memory limit, a crash) or stops making
+  progress is run again case by case in PHP processes of their own. drive, diff and replay exit
+  with 1 when something mismatches or fails.
 
 ENVIRONMENT:
-  TWIG_FUZZ_ORACLE   oracle command (default: docker run --rm -i $TWIG_ORACLE_IMAGE php runner.php)
-  TWIG_ORACLE_IMAGE  oracle image (default twig-oracle:3.31.1)
+  TWIG_FUZZ_ORACLE       oracle command (default: docker run --rm -i $TWIG_ORACLE_IMAGE php runner.php)
+  TWIG_ORACLE_IMAGE      oracle image (default twig-oracle:3.31.1)
+  TWIG_FUZZ_ORACLE_JOBS  default of --jobs
 ";
 
 struct Args {
@@ -82,6 +96,7 @@ impl Args {
             "--description",
             "--seed",
             "--count",
+            "--jobs",
         ];
         let mut positional = Vec::new();
         let mut flags = Vec::new();
@@ -109,6 +124,19 @@ impl Args {
             .rev()
             .find(|(n, _)| n == name)
             .and_then(|(_, v)| v.as_deref())
+    }
+
+    /// Every value of a repeatable flag; each value may list several, separated by commas.
+    fn values(&self, name: &str) -> Vec<String> {
+        self.flags
+            .iter()
+            .filter(|(n, _)| n == name)
+            .filter_map(|(_, v)| v.as_deref())
+            .flat_map(|v| v.split(','))
+            .map(str::trim)
+            .filter(|v| !v.is_empty())
+            .map(str::to_owned)
+            .collect()
     }
 
     fn has(&self, name: &str) -> bool {
@@ -162,6 +190,7 @@ fn main() -> ExitCode {
         "diff" => cmd_diff(&args),
         "minimize" | "minimise" => cmd_minimize(&args),
         "replay" => cmd_replay(&args),
+        "refresh" => cmd_refresh(&args),
         "record" => cmd_record(&args),
         "generate" => cmd_generate(&args),
         "selftest-fixtures" => cmd_selftest_fixtures(&args),
@@ -225,10 +254,10 @@ fn cmd_drive(args: &Args) -> Result<ExitCode, String> {
         oracle_results: args.value("--oracle-results").map(PathBuf::from),
         description: args.value("--description").unwrap_or_default().to_owned(),
         mark_known: !args.has("--unmarked"),
+        shared_minimize: args.has("--shared-process"),
         verbose: true,
     };
-    let mut oracle = Oracle::from_env();
-    oracle.chunk = args.number("--chunk", 2000)?;
+    let mut oracle = oracle_from_args(args)?;
     let mut executor = args.executor();
     let summary = drive::drive(&cases, &mut oracle, &mut executor, &options)?;
     drive::write_outputs(&summary, &options)?;
@@ -252,10 +281,18 @@ fn cmd_drive(args: &Args) -> Result<ExitCode, String> {
     })
 }
 
-fn cmd_oracle(args: &Args) -> Result<ExitCode, String> {
-    let (cases, isolation) = batch_arg(args)?;
+/// The oracle client with the `--chunk` and `--jobs` settings, reporting incidents on stderr.
+fn oracle_from_args(args: &Args) -> Result<Oracle, String> {
     let mut oracle = Oracle::from_env();
     oracle.chunk = args.number("--chunk", 2000)?;
+    oracle.jobs = args.number("--jobs", oracle.jobs)?.max(1);
+    oracle.verbose = true;
+    Ok(oracle)
+}
+
+fn cmd_oracle(args: &Args) -> Result<ExitCode, String> {
+    let (cases, isolation) = batch_arg(args)?;
+    let mut oracle = oracle_from_args(args)?;
     oracle.ensure_image()?;
     let requests: Vec<Json> = cases.iter().map(oracle_request).collect();
     let results = oracle.run(&requests, isolation.as_deref())?;
@@ -382,9 +419,15 @@ fn cmd_minimize(args: &Args) -> Result<ExitCode, String> {
         .ok_or_else(|| format!("no case with id {id:?}"))?
         .clone();
     let timeout = args.timeout()?;
-    let mut oracle = Oracle::from_env();
+    let mut oracle = oracle_from_args(args)?;
     let mut executor = args.executor();
     oracle.ensure_image()?;
+    // a PHP process per candidate unless --shared-process (see the minimize module)
+    let isolation = if args.has("--shared-process") {
+        isolation
+    } else {
+        Some(minimize::ISOLATION.to_owned())
+    };
     let request = oracle_request(&case);
     let expected = CaseResult::from_json(
         &oracle.run_served(std::slice::from_ref(&request), isolation.as_deref())?[0],
@@ -411,17 +454,22 @@ fn cmd_minimize(args: &Args) -> Result<ExitCode, String> {
             .collect();
         start.set("_fuzz_data_keys", Json::Array(keys));
     }
+    let drop_test_classes = isolation.as_deref() == Some(minimize::ISOLATION);
     let minimized = {
         let mut predicate =
             SameSignature::new(&mut oracle, &mut executor, signature, timeout, isolation);
         let settings = minimize::Options {
             verbose: true,
+            drop_test_classes,
             ..minimize::Options::default()
         };
         minimize::minimize(&start, &mut predicate, settings)
     };
     eprintln!("{} candidates tested", minimized.tests);
-    let mut result = minimized.case;
+    let mut result = match minimize::cache_dir(&case) {
+        Some(dir) => minimize::with_cache_dir(&minimized.case, dir),
+        None => minimized.case,
+    };
     result.remove("_fuzz_data_keys");
     write_or_print(args, &result)?;
     Ok(ExitCode::SUCCESS)
@@ -437,7 +485,7 @@ fn cmd_record(args: &Args) -> Result<ExitCode, String> {
     let results: Vec<Json> = match args.value("--oracle") {
         Some(path) => Json::load(&PathBuf::from(path))?.items().to_vec(),
         None => {
-            let mut oracle = Oracle::from_env();
+            let mut oracle = oracle_from_args(args)?;
             oracle.ensure_image()?;
             oracle.run(&requests, isolation.as_deref())?
         }
@@ -510,7 +558,8 @@ fn cmd_record(args: &Args) -> Result<ExitCode, String> {
     Ok(ExitCode::SUCCESS)
 }
 
-fn cmd_replay(args: &Args) -> Result<ExitCode, String> {
+/// The vector files named on the command line (directories are searched recursively).
+fn vector_file_args(args: &Args) -> Vec<PathBuf> {
     let mut files = Vec::new();
     for arg in &args.positional {
         let path = PathBuf::from(arg);
@@ -519,6 +568,39 @@ fn cmd_replay(args: &Args) -> Result<ExitCode, String> {
         } else {
             files.push(path);
         }
+    }
+    files
+}
+
+fn cmd_refresh(args: &Args) -> Result<ExitCode, String> {
+    let ids = args.values("--id");
+    if ids.is_empty() && !args.has("--all") {
+        return Err("refresh needs --id <id> (repeatable) or --all".to_owned());
+    }
+    let only = (!ids.is_empty()).then_some(ids.as_slice());
+    let files = vector_file_args(args);
+    let mut oracle = oracle_from_args(args)?;
+    oracle.ensure_image()?;
+    let mut total = 0;
+    for file in &files {
+        // each case alone in a fresh PHP process, as a recording of its own would run it
+        let mut run = |cases: &[Json]| -> Result<Vec<Json>, String> {
+            let requests: Vec<Json> = cases.iter().map(oracle_request).collect();
+            oracle.run(&requests, Some("process"))
+        };
+        for id in refresh_file(file, only, &mut run)? {
+            total += 1;
+            println!("{} {id}: oracle result recorded again", file.display());
+        }
+    }
+    println!("{total} vectors refreshed");
+    Ok(ExitCode::SUCCESS)
+}
+
+fn cmd_replay(args: &Args) -> Result<ExitCode, String> {
+    let files = vector_file_args(args);
+    if args.has("--update") {
+        return update_vector_files(&files, args);
     }
     let replayed = replay_files(&files, args.timeout()?);
     let mut failures = 0;
@@ -545,6 +627,60 @@ fn cmd_replay(args: &Args) -> Result<ExitCode, String> {
         }
     }
     println!("{} vectors, {failures} failures", replayed.len());
+    Ok(if failures == 0 {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::from(1)
+    })
+}
+
+/// `replay --update`: [`update_file`] on every file, then what replays now.
+fn update_vector_files(files: &[PathBuf], args: &Args) -> Result<ExitCode, String> {
+    let ids = args.values("--id");
+    let only = (!ids.is_empty()).then_some(ids.as_slice());
+    let timeout = args.timeout()?;
+    let (mut total, mut dropped, mut refused, mut failures) = (0, 0, 0, 0);
+    for file in files {
+        let updated = match update_file(file, timeout, only) {
+            Ok(updated) => updated,
+            Err(error) => {
+                failures += 1;
+                println!("{}: FAIL {error}", file.display());
+                continue;
+            }
+        };
+        for u in &updated {
+            total += 1;
+            if u.dropped {
+                dropped += 1;
+                println!(
+                    "{} {}: matches the oracle now, known_mismatch removed",
+                    file.display(),
+                    u.id
+                );
+                continue;
+            }
+            match &u.status {
+                ReplayStatus::Pass | ReplayStatus::PassWithDeviation(_) => {}
+                ReplayStatus::PassSignatureChanged { recorded, now } => {
+                    refused += 1;
+                    println!(
+                        "{} {}: still mismatches with another signature, left as it is\n    was: {recorded}\n    now: {now}",
+                        file.display(),
+                        u.id
+                    );
+                }
+                ReplayStatus::Fail(reason) => {
+                    failures += 1;
+                    println!("{} {}: FAIL {reason}", file.display(), u.id);
+                }
+            }
+        }
+    }
+    println!(
+        "{total} vectors: {dropped} known_mismatch markers removed, {refused} left with a changed \
+         signature, {failures} failures"
+    );
     Ok(if failures == 0 {
         ExitCode::SUCCESS
     } else {

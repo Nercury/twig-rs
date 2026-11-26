@@ -1,0 +1,944 @@
+{
+ "cases": [
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [n\n/ zero] }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-001"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, [\nn,\nn / zero]] }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-002"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [\na.b,\nn / zero] }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-003"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [\nn,\nn / zero] }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-004"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {a:\nn,\nb: n / zero} }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-005"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nn / 0] }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-006"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nn / -0] }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-007"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nn / zero] }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "config": {
+    "strict_variables": true
+   },
+   "id": "lines-008"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nmax(n / zero)] }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-009"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, max([\nn,\nn / zero])] }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-010"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, max([\n2,\nn / zero])] }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-011"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nn / x['a']] }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-012"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nn ~ o] }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-013"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nn ~ o] }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "extensions": [
+    "sandbox"
+   ],
+   "id": "lines-014"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nf] }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "config": {
+    "autoescape": false
+   },
+   "errors": "throw",
+   "id": "lines-015"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {a: 1, (\no): 2}|length }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-016"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {a: 1,\n1.5: n}|length }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-017"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {a: 1,\n1.5: n}|length }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "errors": "throw",
+   "id": "lines-018"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\n(true ? n / zero : 0)]|length }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-019"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\n(false ? 0 : n / zero)]|length }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-020"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nn / (null ?? zero)]|length }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-021"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nn / (1 - 1)]|length }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-022"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nn / (zero ?: 0)]|length }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-023"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nn / (true and false)]|length }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-024"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nn / (0 is null)]|length }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-025"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nn % (4 is even)]|length }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-026"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\nn / not 1]|length }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-027"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% set a, b = 1,\nn / zero %}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-028"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% set a, b = 1,\nn / zero %}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "config": {
+    "strict_variables": true
+   },
+   "id": "lines-029"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(a, b) %}{% endmacro %}{{ _self.m(1,\nn / zero) }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-030"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% include 'x.twig' with {a: 1,\nb: n / zero} %}",
+    "x.twig": "X"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-031"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% with {a: 1,\nb: n / zero} %}{% endwith %}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-032"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ dump(1,\nn / zero) }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "config": {
+    "debug": true
+   },
+   "extensions": [
+    "debug"
+   ],
+   "id": "lines-033"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a.b(1,\nn / zero) }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-034"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, a.b(\nn / zero)]|length }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-035"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, 2 ~ [\nn,\nn / zero]|length]|length }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-036"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~ ([1,\nn]|length) }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-037"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~ [1,\nn]|join }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-038"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o\n~ ([1,\nn]|join) }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-039"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,\n2] ~ o }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-040"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~\n[1,\n2] }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-041"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~ (false and\nn) }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-042"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~ (true or\nn) }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-043"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ o ~ (true and\nn) }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-044"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, -\no]|length }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-045"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, not\no]|length }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-046"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, ...\nn] }}"
+   },
+   "data_json": {
+    "n": 5,
+    "zero": 0,
+    "a": {
+     "b": 1
+    },
+    "x": {
+     "a": 0
+    },
+    "f": false,
+    "k": "kk"
+   },
+   "id": "lines-047"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ b.p(n,\n...t) }}"
+   },
+   "id": "lines-048"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [y ~\na] }}"
+   },
+   "data_json": {
+    "a": [
+     1
+    ],
+    "y": 1
+   },
+   "config": {
+    "autoescape": false
+   },
+   "errors": "throw",
+   "id": "lines-049"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% deprecated\nitems %}"
+   },
+   "data_json": {
+    "items": [
+     1,
+     2
+    ]
+   },
+   "errors": "throw",
+   "id": "lines-050"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% deprecated\nitems %}"
+   },
+   "data_json": {
+    "items": [
+     1,
+     2
+    ]
+   },
+   "id": "lines-051"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% deprecated\no %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-052"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% deprecated 'a' ~\no %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "lines-053"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% deprecated\n[1] %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "lines-054"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% deprecated\nitems package='p' version=\n'1' %}"
+   },
+   "data_json": {
+    "items": [
+     1,
+     2
+    ]
+   },
+   "errors": "throw",
+   "id": "lines-055"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% do\n[1, 2]|map((a, b, c) => a)|join %}"
+   },
+   "id": "lines-056"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, 2]|map((a, b,\nc) =>\na)|join }}"
+   },
+   "id": "lines-057"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1]|filter((a, b,\nc) => a)|join }}"
+   },
+   "id": "lines-058"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1]|reduce((c, v, k,\nx) => c, 0) }}"
+   },
+   "id": "lines-059"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m(f) %}{{ [1]|map(f)|join }}{% endmacro %}{{ _self.m((a, b,\nc) => a) }}"
+   },
+   "id": "lines-060"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1] has some (a,\nb, c) => a }}"
+   },
+   "id": "lines-061"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, 2]|find(x =>\nblock(e)) }}"
+   },
+   "errors": "throw",
+   "id": "lines-062"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, 2]|find(x =>\nblock(e)) }}"
+   },
+   "id": "lines-063"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, 2]|find(x =>\nblock('b'\n)) }}{% block b %}{% endblock %}"
+   },
+   "id": "lines-064"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, 2]|find(x =>\nblock('b') is defined) }}"
+   },
+   "id": "lines-065"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, 2]|find(x =>\nblock('b', 'index.twig')) }}{% block b %}B{% endblock %}"
+   },
+   "id": "lines-066"
+  }
+ ],
+ "isolation": "process"
+}

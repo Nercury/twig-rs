@@ -36,7 +36,7 @@ mod iter;
 mod props;
 mod std_class;
 
-pub use args::{CallArgs, FunctionKind, Param};
+pub use args::{CallArgs, CalleeParams, FunctionKind, Param};
 pub use array_object::{ArrayIterator, ArrayObject};
 pub use class::{
     ClassBuilder, ClassEntry, ClassKind, ClassRef, ConstantInfo, EnumBacking, MethodInfo,

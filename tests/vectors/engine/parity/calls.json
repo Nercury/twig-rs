@@ -1,0 +1,140 @@
+{
+  "description": "Named arguments while unpacking (P14), callable values (P15), spreads in special node classes (P16).",
+  "vectors": [
+    {
+      "id": "calls-001",
+      "case": {"env":"plain","templates":{"index.twig":"{{ 'x'|first(...{'k': 1, 0: 2}) }}"},"id":"calls-001","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-001","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $k\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $k\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $k\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Unknown named parameter $k","formatted":"Error: Unknown named parameter $k","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668907,693051]}
+    },
+    {
+      "id": "calls-002",
+      "case": {"env":"plain","templates":{"index.twig":"{{ 1|abs(...{0: 1, 'a': 2}) }}"},"id":"calls-002","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-002","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $a\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $a\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $a\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Unknown named parameter $a","formatted":"Error: Unknown named parameter $a","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668907,692988]}
+    },
+    {
+      "id": "calls-003",
+      "case": {"env":"plain","templates":{"index.twig":"{{ '%s'|format(...{a: 1, b: 2}) }}"},"id":"calls-003","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-003","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"sprintf() does not accept unknown named parameters\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"sprintf() does not accept unknown named parameters\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"sprintf() does not accept unknown named parameters\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ArgumentCountError","message":"sprintf() does not accept unknown named parameters","formatted":"ArgumentCountError: sprintf() does not accept unknown named parameters","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668907,701828]}
+    },
+    {
+      "id": "calls-004",
+      "case": {"env":"plain","templates":{"index.twig":"{{ 'abc'|slice(...{length: 1, start: 1}) }}"},"id":"calls-004","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-004","kind":"twig","ok":true,"output":"b","deprecations":[],"diagnostics":[],"clock":[1795668907,701185]}
+    },
+    {
+      "id": "calls-005",
+      "case": {"env":"plain","templates":{"index.twig":"{{ 'abc'|slice(...{start: 1, start2: 1}) }}"},"id":"calls-005","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-005","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $start2\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $start2\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $start2\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Unknown named parameter $start2","formatted":"Error: Unknown named parameter $start2","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668907,701864]}
+    },
+    {
+      "id": "calls-006",
+      "case": {"env":"plain","templates":{"index.twig":"{{ 'abc'|slice(1, ...{start: 2}) }}"},"id":"calls-006","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-006","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Named parameter $start overwrites previous argument\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $start overwrites previous argument\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Named parameter $start overwrites previous argument\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Named parameter $start overwrites previous argument","formatted":"Error: Named parameter $start overwrites previous argument","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668907,702585]}
+    },
+    {
+      "id": "calls-007",
+      "case": {"env":"plain","templates":{"index.twig":"{{ range(...{low: 1, high: 3})|join }}"},"id":"calls-007","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-007","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.","formatted":"Twig\\Error\\SyntaxError: Value for argument \"end\" is required for function \"range\" in \"index.twig\" at line 1.","rawMessage":"Value for argument \"end\" is required for function \"range\".","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "calls-008",
+      "case": {"env":"plain","templates":{"index.twig":"{{ [1] has some no }}"},"id":"calls-008","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-008","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Value of type null is not callable\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Value of type null is not callable\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Value of type null is not callable\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Value of type null is not callable","formatted":"Error: Value of type null is not callable","code":0}},"deprecations":["Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."}],"clock":[1795668907,694364]}
+    },
+    {
+      "id": "calls-009",
+      "case": {"env":"plain","templates":{"index.twig":"{{[2]has every b}}"},"id":"calls-009","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-009","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Value of type null is not callable\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Value of type null is not callable\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Value of type null is not callable\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Value of type null is not callable","formatted":"Error: Value of type null is not callable","code":0}},"deprecations":["Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has every\" operator is deprecated."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has every\" operator is deprecated."}],"clock":[1795668907,718464]}
+    },
+    {
+      "id": "calls-010",
+      "case": {"env":"plain","templates":{"index.twig":"{{ [1] has some ['a', 'b'] }}"},"id":"calls-010","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-010","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Class \"a\" not found\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Class \"a\" not found\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Class \"a\" not found\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Class \"a\" not found","formatted":"Error: Class \"a\" not found","code":0}},"deprecations":["Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."}],"clock":[1795668907,722398]}
+    },
+    {
+      "id": "calls-011",
+      "case": {"env":"plain","templates":{"index.twig":"{{ [1] has some [1, 2] }}"},"id":"calls-011","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-011","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"First array member is not a valid class name or object","formatted":"Error: First array member is not a valid class name or object","code":0}},"deprecations":["Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."}],"clock":[1795668907,730024]}
+    },
+    {
+      "id": "calls-012",
+      "case": {"env":"plain","templates":{"index.twig":"{{ [1] has some ['stdClass', 'x'] }}"},"id":"calls-012","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-012","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Call to undefined method stdClass::x()\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Call to undefined method stdClass::x()\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Call to undefined method stdClass::x()\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Call to undefined method stdClass::x()","formatted":"Error: Call to undefined method stdClass::x()","code":0}},"deprecations":["Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."}],"clock":[1795668907,731856]}
+    },
+    {
+      "id": "calls-013",
+      "case": {"env":"plain","templates":{"index.twig":"{{ [1] has every 5 }}"},"id":"calls-013","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-013","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Value of type int is not callable\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Value of type int is not callable\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Value of type int is not callable\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Value of type int is not callable","formatted":"Error: Value of type int is not callable","code":0}},"deprecations":["Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has every\" operator is deprecated."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has every\" operator is deprecated."}],"clock":[1795668907,727854]}
+    },
+    {
+      "id": "calls-014",
+      "case": {"env":"plain","templates":{"index.twig":"{{ [1]|map(true) }}"},"id":"calls-014","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-014","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Value of type bool is not callable\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Value of type bool is not callable\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Value of type bool is not callable\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Value of type bool is not callable","formatted":"Error: Value of type bool is not callable","code":0}},"deprecations":["Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."}],"clock":[1795668907,728244]}
+    },
+    {
+      "id": "calls-015",
+      "case": {"env":"plain","templates":{"index.twig":"{{ [1]|map(['a', 'b']) }}"},"id":"calls-015","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-015","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Class \"a\" not found\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Class \"a\" not found\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Class \"a\" not found\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Class \"a\" not found","formatted":"Error: Class \"a\" not found","code":0}},"deprecations":["Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."}],"clock":[1795668907,732917]}
+    },
+    {
+      "id": "calls-016",
+      "case": {"env":"plain","templates":{"index.twig":"{{ [1]|map([1, 2]) }}"},"id":"calls-016","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-016","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"First array member is not a valid class name or object","formatted":"Error: First array member is not a valid class name or object","code":0}},"deprecations":["Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."}],"clock":[1795668907,731474]}
+    },
+    {
+      "id": "calls-017",
+      "case": {"env":"plain","templates":{"index.twig":"{{ [1]|find(['stdClass', 'x']) }}"},"id":"calls-017","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-017","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Call to undefined method stdClass::x()\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Call to undefined method stdClass::x()\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Call to undefined method stdClass::x()\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Call to undefined method stdClass::x()","formatted":"Error: Call to undefined method stdClass::x()","code":0}},"deprecations":["Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"find\" filter is deprecated."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"find\" filter is deprecated."}],"clock":[1795668907,755139]}
+    },
+    {
+      "id": "calls-018",
+      "case": {"env":"plain","templates":{"index.twig":"{{ x is constant(...['PHP_EOL']) ? 'y' : 'n' }}"},"data_json":{"x":{"a":1}},"config":{"autoescape":false},"id":"calls-018","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-018","kind":"twig","ok":true,"output":"n","deprecations":[],"diagnostics":[],"clock":[1795668907,751746]}
+    },
+    {
+      "id": "calls-019",
+      "case": {"env":"plain","templates":{"index.twig":"{{ \"\\n\" is constant(...['PHP_EOL']) ? 'y' : 'n' }}"},"config":{"autoescape":false},"id":"calls-019","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-019","kind":"twig","ok":true,"output":"y","deprecations":[],"diagnostics":[],"clock":[1795668907,762544]}
+    },
+    {
+      "id": "calls-020",
+      "case": {"env":"plain","templates":{"index.twig":"{{ x is constant(...{name: 'PHP_EOL'}) ? 'y' : 'n' }}"},"data_json":{"x":{"a":1}},"config":{"autoescape":false},"id":"calls-020","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-020","kind":"twig","ok":true,"output":"n","deprecations":[],"diagnostics":[],"clock":[1795668907,752794]}
+    },
+    {
+      "id": "calls-021",
+      "case": {"env":"plain","templates":{"index.twig":"{{ x is constant(...[]) ? 'y' : 'n' }}"},"data_json":{"x":{"a":1}},"config":{"autoescape":false},"id":"calls-021","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-021","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"constant() expects exactly 1 argument, 0 given\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"constant() expects exactly 1 argument, 0 given\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"constant() expects exactly 1 argument, 0 given\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ArgumentCountError","message":"constant() expects exactly 1 argument, 0 given","formatted":"ArgumentCountError: constant() expects exactly 1 argument, 0 given","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668907,752635]}
+    },
+    {
+      "id": "calls-022",
+      "case": {"env":"plain","templates":{"index.twig":"{{ x is constant(...{k: 1}) ? 'y' : 'n' }}"},"data_json":{"x":{"a":1}},"config":{"autoescape":false},"id":"calls-022","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-022","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $k\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $k\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $k\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Unknown named parameter $k","formatted":"Error: Unknown named parameter $k","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668907,752785]}
+    },
+    {
+      "id": "calls-023",
+      "case": {"env":"plain","templates":{"index.twig":"{{ 'a'|default(...[]) }}"},"config":{"autoescape":false},"id":"calls-023","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-023","kind":"twig","ok":true,"output":"a","deprecations":[],"diagnostics":[],"clock":[1795668907,763449]}
+    },
+    {
+      "id": "calls-024",
+      "case": {"env":"plain","templates":{"index.twig":"{{ [n, ...null] }}"},"data_json":{"n":1},"config":{"autoescape":false},"id":"calls-024","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-024","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, null given\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, null given\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, null given\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Only arrays and Traversables can be unpacked, null given","formatted":"Error: Only arrays and Traversables can be unpacked, null given","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668907,764576]}
+    },
+    {
+      "id": "calls-025",
+      "case": {"env":"plain","templates":{"index.twig":"{{ max(1, ...null) }}"},"config":{"autoescape":false},"id":"calls-025","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-025","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, null given\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, null given\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, null given\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Only arrays and Traversables can be unpacked, null given","formatted":"TypeError: Only arrays and Traversables can be unpacked, null given","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668907,775186]}
+    },
+    {
+      "id": "calls-026",
+      "case": {"env":"plain","templates":{"index.twig":"{{ x is null(...[]) ? 'y' : 'n' }}"},"data_json":{"x":{"a":1}},"config":{"autoescape":false},"id":"calls-026","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-026","kind":"twig","ok":true,"output":"n","deprecations":[],"diagnostics":[],"clock":[1795668907,775314]}
+    },
+    {
+      "id": "calls-027",
+      "case": {"env":"plain","templates":{"index.twig":"{{ [...[1, 2], 3]|join }}"},"config":{"autoescape":false},"id":"calls-027","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"calls-027","kind":"twig","ok":true,"output":"123","deprecations":[],"diagnostics":[],"clock":[1795668907,777347]}
+    }
+  ]
+}

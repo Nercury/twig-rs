@@ -2,8 +2,9 @@
 
 Mismatches between twig-rs and Twig 3.31.1 on PHP 8.5.13 found by differential fuzzing (`crates/twig-fuzz`),
 minimised, with the result the PHP oracle recorded. `tests/fuzz_regressions.rs` replays every `*.json` file in this
-directory and its subdirectories without Docker; `twig-fuzz replay tests/vectors/fuzz` does the same from the command
-line.
+directory and its subdirectories without Docker (and twig-fuzz's own round-0 vectors,
+`crates/twig-fuzz/vectors/*.json`); `twig-fuzz replay tests/vectors/fuzz crates/twig-fuzz/vectors` does the same from
+the command line.
 
 ## Format
 
@@ -40,7 +41,14 @@ line.
   `var_dump()` object handles, lossy non-UTF-8 messages).
 - A vector with `known_mismatch` must still mismatch. A fix makes the test fail until the marker is removed, which
   turns the vector into a plain regression test (a ratchet, like `tests/twig/known-failures.txt`).
+- `twig-fuzz replay --update <files or dirs> [--id ID]...` removes the marker of every marked vector that now
+  matches the oracle (only those named by `--id` when given) and changes nothing else in the files. A marked vector
+  that still mismatches keeps its marker, also when its signature changed: the command lists it for a person to look
+  at (the test only reports such a vector, it does not fail).
 - Vectors come from `twig-fuzz drive <batch> --out <dir>` (`<dir>/vectors.json`: one minimised vector per mismatch
   cluster, marked `known_mismatch`). Give each file a topic name (`expressions.json`, `filters/round.json`, ...),
   replace the generic `reason` with the actual diagnosis, and keep each file below ~5 MB.
-- Never edit `oracle` by hand: re-run the case through the oracle (`twig-fuzz oracle`) instead.
+- Never edit `oracle` by hand: re-run the case through the oracle instead. `twig-fuzz refresh <file> --id ID...`
+  does that in place (each case in a PHP process of its own; only the `oracle` values change). A vector recorded
+  before the oracle learned something new about the data (for example the `props` of date objects in the typed
+  tree) gets it that way.

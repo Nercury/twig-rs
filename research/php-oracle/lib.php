@@ -238,6 +238,11 @@ function typed($v, array &$seen = [], int $depth = 0): array
  *          "inner"          CallbackFilterIterator: the inner iterator
  *          "accepts"        CallbackFilterIterator: for each element of the inner iterator whether the
  *                           filter yields it (the inner iterator is rewound afterwards)
+ *          "props"          also for DateTimeInterface, DateTimeZone and DateInterval (not in
+ *                           fixture_data.gen.php): get_object_vars(), so the properties their handlers write
+ *                           into the table plus the dynamic properties the data code added, in table order
+ *                           (twig-fuzz recreates the dynamic ones in their places, and createFromDateString()
+ *                           intervals from their date_string)
  * Like typed(), it calls __toString() and iterates CallbackFilterIterators and SplObjectStorages.
  */
 final class RichEncoder
@@ -281,6 +286,17 @@ final class RichEncoder
         return ['t' => get_debug_type($v)];
     }
 
+    /** get_object_vars() from outside the object, as [key, node] items in table order. */
+    private function props(object $v, int $depth): array
+    {
+        $props = [];
+        foreach (get_object_vars($v) as $k => $pv) {
+            $props[] = self::keyItem($k, $this->encode($pv, $depth + 1));
+        }
+
+        return $props;
+    }
+
     private static function keyItem($k, array $node): array
     {
         if (\is_string($k) && !mb_check_encoding($k, 'UTF-8')) {
@@ -321,10 +337,13 @@ final class RichEncoder
             $o['datetime'] = $v->format('Y-m-d\TH:i:s.uP');
             $o['timezone'] = $v->getTimezone()->getName();
             $o['timestamp'] = $v->getTimestamp();
+            $o['props'] = $this->props($v, $depth);
         } elseif ($v instanceof \DateTimeZone) {
             $o['name'] = $v->getName();
+            $o['props'] = $this->props($v, $depth);
         } elseif ($v instanceof \DateInterval) {
             $o['spec'] = ['y' => $v->y, 'm' => $v->m, 'd' => $v->d, 'h' => $v->h, 'i' => $v->i, 's' => $v->s, 'f' => $v->f, 'invert' => $v->invert, 'days' => $v->days];
+            $o['props'] = $this->props($v, $depth);
         } elseif ($v instanceof \Twig\TemplateWrapper) {
             $o['template'] = $v->getTemplateName();
             $userland = false; // its private properties are the whole Environment

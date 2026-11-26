@@ -1,0 +1,1247 @@
+{
+ "cases": [
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ undef?.x.y ?? 'd' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-001"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ undef?.x.y is defined ? 'y' : 'n' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-002"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ undef?.x.y|default('d') }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-003"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ undef?.x().y ?? 'd' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-004"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ undef?.x[0] ?? 'd' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-005"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ u?.c ?? 'd' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-006"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ u?.c?.z.w ?? 'd' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-007"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ u.b?.c.z ?? 'd' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-008"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ undef?.x ?? 'd' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-009"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ undef?.x is defined ? 'y' : 'n' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-010"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ u?.c.z is defined ? 'y' : 'n' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-011"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ undef?.x.y }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-012"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ n?.x.y ?? 'd' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-013"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,2]|join(a?.b) }}|{{ [1,2]|join(c?.d?.e) }}|{{ [1,2]|join(a?.b) }}|{{ [1,2]|join(c?.d?.e) }}|{{ [1,2]|join(a?.b) }}|{{ [1,2]|join(c?.d?.e) }}|{{ [1,2]|join(a?.b) }}|{{ [1,2]|join(c?.d?.e) }}|{{ [1,2]|join(a?.b) }}|{{ [1,2]|join(c?.d?.e) }}|"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "null_safe-014"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1,2]|join(a?.b ~ c?.d?.e) }}{{ max(a?.b, c?.d?.e) }}{{ [1,2]|join(c?.d?.e) }}{{ [1,2]|join(a?.b ~ c?.d?.e) }}{{ max(a?.b, c?.d?.e) }}{{ [1,2]|join(c?.d?.e) }}{{ [1,2]|join(a?.b ~ c?.d?.e) }}{{ max(a?.b, c?.d?.e) }}{{ [1,2]|join(c?.d?.e) }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "null_safe-015"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ arr?.p?.q ?? 'd' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "extensions": [
+    "sandbox"
+   ],
+   "config": {
+    "autoescape": false
+   },
+   "id": "null_safe-016"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ arr?.p?.q ?? 'd' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "extensions": [
+    "sandbox"
+   ],
+   "config": {
+    "autoescape": false,
+    "strict_variables": true
+   },
+   "id": "null_safe-017"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ arr?.p?.q ?? 'd' }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": "html"
+   },
+   "id": "null_safe-018"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ nested[0.5]?.1 ?? 7 }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": "html"
+   },
+   "id": "null_safe-019"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ arr?.p?.q ?? arr?.p?.q }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": "html"
+   },
+   "id": "null_safe-020"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ n[l?.a.b] }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "extensions": [
+    "sandbox"
+   ],
+   "config": {
+    "autoescape": false
+   },
+   "id": "null_safe-021"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% set z = 1 %}{{ n[l?.a.b] }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "extensions": [
+    "sandbox"
+   ],
+   "config": {
+    "autoescape": false
+   },
+   "id": "null_safe-022"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 'x' starts with 'x' }}{{ n[l?.a.b] }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "extensions": [
+    "sandbox"
+   ],
+   "config": {
+    "autoescape": false
+   },
+   "id": "null_safe-023"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% with {} %}{{ n[l?.a.b] }}{% endwith %}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "extensions": [
+    "sandbox"
+   ],
+   "config": {
+    "autoescape": false
+   },
+   "id": "null_safe-024"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for i in [1, 2] %}{{ n[l?.a.b] }}{% endfor %}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "extensions": [
+    "sandbox"
+   ],
+   "config": {
+    "autoescape": false
+   },
+   "id": "null_safe-025"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ arr[l?.a.b] }}|{{ n[l?.a.b] }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "extensions": [
+    "sandbox"
+   ],
+   "config": {
+    "autoescape": false
+   },
+   "id": "null_safe-026"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ n[l?.a.b] }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "extensions": [
+    "sandbox"
+   ],
+   "config": {
+    "autoescape": false
+   },
+   "errors": "throw",
+   "id": "null_safe-027"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ x|default(a?.b) }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "null_safe-028"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a.zz|default(a?.b) }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "null_safe-029"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ a|default(a?.b)|json_encode }}"
+   },
+   "data_json": {
+    "a": {
+     "b": "B"
+    },
+    "c": {
+     "d": {
+      "e": "E"
+     }
+    },
+    "arr": {
+     "a": 1,
+     "p": {
+      "q": 2
+     }
+    },
+    "nested": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "n": null,
+    "l": null,
+    "u": {
+     "c": null
+    }
+   },
+   "config": {
+    "autoescape": false
+   },
+   "id": "null_safe-030"
+  }
+ ],
+ "isolation": "process"
+}

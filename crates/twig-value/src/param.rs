@@ -1,5 +1,5 @@
 //! Coercive-mode ("weak") parameter passing: internal functions (`parse_*`) and userland functions
-//! with declared types ([`verify_user_arg`]).
+//! with declared types ([`verify_user_arg`], [`verify_user_return`]).
 //!
 //! reference/php/engine-semantics.md §11 and reference/php/stdlib.md §4.1. Neither Twig nor its
 //! compiled templates declare `strict_types`, so every builtin Twig calls coerces its arguments with
@@ -15,6 +15,7 @@
 //!   `zend_verify_weak_scalar_type_hint()` (PHPSRC/Zend/zend_execute.c): exact type matches pass,
 //!   objects match their class types, `null` passes only nullable types (no `null` coercion for
 //!   userland functions), scalars are coerced in the order int → float → string → bool.
+//!   [`verify_user_return`] applies the same rules to a declared return type.
 
 use crate::array::Array;
 use crate::convert;
@@ -551,6 +552,27 @@ pub fn verify_weak_scalar_type_hint(
     v: &Value,
     diag: &mut dyn Diagnostics,
 ) -> PhpResult<Option<Value>> {
+    weak_scalar(mask, v, diag).map_err(|failure| failure.error)
+}
+
+/// An exception raised while [`weak_scalar`] coerced a value, with the value PHP holds after it:
+/// `zend_parse_arg_str_weak()` (PHPSRC/Zend/zend_API.c) converts a scalar to a string in place
+/// (`convert_to_string()`) before it checks for an exception, so the value is a string from then on.
+struct WeakFailure {
+    error: PhpError,
+    converted: Option<Value>,
+}
+
+/// [`verify_weak_scalar_type_hint`], keeping what a failed coercion did to the value.
+fn weak_scalar(
+    mask: TypeMask,
+    v: &Value,
+    diag: &mut dyn Diagnostics,
+) -> Result<Option<Value>, WeakFailure> {
+    let failed = |error: PhpError| WeakFailure {
+        error,
+        converted: None,
+    };
     if v.is_null() {
         return Ok(None);
     }
@@ -563,21 +585,34 @@ pub fn verify_weak_scalar_type_hint(
                 }
             }
             _ => {
-                if let Some(l) = long_weak(v, &NO_ARG, diag)? {
+                if let Some(l) = long_weak(v, &NO_ARG, diag).map_err(failed)? {
                     return Ok(Some(Value::Int(l)));
                 }
             }
         }
     }
     if mask.intersects(TypeMask::FLOAT)
-        && let Some(d) = double_weak(v, &NO_ARG, diag)?
+        && let Some(d) = double_weak(v, &NO_ARG, diag).map_err(failed)?
     {
         return Ok(Some(Value::Float(d)));
     }
-    if mask.intersects(TypeMask::STRING)
-        && let Some(s) = str_weak(v, &NO_ARG, diag)?
-    {
-        return Ok(Some(Value::String(s)));
+    if mask.intersects(TypeMask::STRING) {
+        if let Value::Bool(_) | Value::Int(_) | Value::Float(_) = v {
+            // Converting `NAN` warns (`unexpected NAN value was coerced to string`); a sink that
+            // throws leaves the string in place.
+            return match convert::to_string(v, diag) {
+                Ok(s) => Ok(Some(Value::String(s))),
+                Err(error) => Err(WeakFailure {
+                    error,
+                    converted: Some(Value::String(
+                        convert::to_string(v, &mut crate::diag::Ignore).unwrap_or_default(),
+                    )),
+                }),
+            };
+        }
+        if let Some(s) = str_weak(v, &NO_ARG, diag).map_err(failed)? {
+            return Ok(Some(Value::String(s)));
+        }
     }
     if mask.contains(TypeMask::BOOL)
         && matches!(
@@ -585,7 +620,9 @@ pub fn verify_weak_scalar_type_hint(
             Value::Bool(_) | Value::Int(_) | Value::Float(_) | Value::String(_)
         )
     {
-        return Ok(Some(Value::Bool(convert::to_bool(v, diag)?)));
+        return Ok(Some(Value::Bool(
+            convert::to_bool(v, diag).map_err(failed)?,
+        )));
     }
     Ok(None)
 }
@@ -598,7 +635,10 @@ pub fn verify_weak_scalar_type_hint(
 /// instance of a declared class; `null` only for nullable types; otherwise the weak scalar
 /// coercion of [`verify_weak_scalar_type_hint`] (with its deprecations, e.g. `Implicit conversion
 /// from float 1.5 to int loses precision`). Failure: `TypeError` `f(): Argument #1 ($x) must be of
-/// type int, array given`.
+/// type int, array given`. An exception raised by the coercion (a throwing `__toString()`, a
+/// diagnostic the sink turns into an exception) is returned as it is: `zend_verify_arg_error()`
+/// reports through `zend_argument_error_variadic()` (PHPSRC/Zend/zend_API.c), which does nothing
+/// while an exception is pending.
 pub fn verify_user_arg(
     value: Value,
     ty: &DeclaredType<'_>,
@@ -616,6 +656,52 @@ pub fn verify_user_arg(
     match verify_weak_scalar_type_hint(ty.mask, &value, diag)? {
         Some(v) => Ok(v),
         None => Err(arg.type_error(ty, &value)),
+    }
+}
+
+/// Port of `zend_verify_return_type()` / `zend_check_type_slow()` (PHPSRC/Zend/zend_execute.c) for
+/// the declared return type of a userland function in coercive mode, with
+/// `zend_verify_return_error()`'s message: the value as is when its type is declared or it is an
+/// instance of a declared class; `null` only for nullable types; otherwise the weak scalar
+/// coercion of [`verify_weak_scalar_type_hint`]. Failure: `TypeError` `f(): Return value must be of
+/// type string, array returned` (`function` is the name PHP prints, `Class::method` for a method).
+///
+/// Unlike an argument check, the return check throws its `TypeError` even when the coercion failed
+/// with an exception (a throwing `__toString()`, a diagnostic the sink turns into an exception):
+/// `zend_type_error()` chains the pending exception as the previous one of the `TypeError`
+/// (`zend_throw_exception_internal()`, PHPSRC/Zend/zend_exceptions.c). The message names the value
+/// as the failed coercion left it (a scalar already converted to a string reads `string`).
+pub fn verify_user_return(
+    value: Value,
+    ty: &DeclaredType<'_>,
+    function: &str,
+    diag: &mut dyn Diagnostics,
+) -> PhpResult<Value> {
+    if ty.mask.accepts_type_of(&value) {
+        return Ok(value);
+    }
+    if let Value::Object(o) = &value
+        && ty.classes.iter().any(|c| o.instance_of(c))
+    {
+        return Ok(value);
+    }
+    let error = |returned: &Value| {
+        PhpError::type_error(PhpString::concat(&[
+            function.as_bytes(),
+            b"(): Return value must be of type ",
+            ty.to_type_string().as_bytes(),
+            b", ",
+            types::zend_zval_value_name(returned).as_bytes(),
+            b" returned",
+        ]))
+    };
+    match weak_scalar(ty.mask, &value, diag) {
+        Ok(Some(v)) => Ok(v),
+        Ok(None) => Err(error(&value)),
+        Err(failure) => {
+            let returned = failure.converted.as_ref().unwrap_or(&value);
+            Err(error(returned).with_previous(failure.error))
+        }
     }
 }
 

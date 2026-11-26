@@ -1,0 +1,140 @@
+{
+  "description": "Macro defaults PHP cannot fold, evaluated when the argument is missing (P9).",
+  "vectors": [
+    {
+      "id": "macro_defaults-001",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -'a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-001","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-001","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Unsupported operand types: int * string","formatted":"TypeError: Unsupported operand types: int * string","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668906,270547]}
+    },
+    {
+      "id": "macro_defaults-002",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = +'a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-002","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-002","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int + string\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int + string\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int + string\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Unsupported operand types: int + string","formatted":"TypeError: Unsupported operand types: int + string","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668906,270502]}
+    },
+    {
+      "id": "macro_defaults-003",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -[1]) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-003","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-003","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * array\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * array\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * array\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Unsupported operand types: int * array","formatted":"TypeError: Unsupported operand types: int * array","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668906,280892]}
+    },
+    {
+      "id": "macro_defaults-004",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = [-'a']) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-004","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-004","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Unsupported operand types: int * string","formatted":"TypeError: Unsupported operand types: int * string","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668906,275482]}
+    },
+    {
+      "id": "macro_defaults-005",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = - -'a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-005","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-005","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Unsupported operand types: int * string","formatted":"TypeError: Unsupported operand types: int * string","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668906,282893]}
+    },
+    {
+      "id": "macro_defaults-006",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -'1a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-006","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-006","kind":"twig","ok":true,"output":"[-1][-1][7]","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"A non-numeric value encountered"}],"clock":[1795668906,270501]}
+    },
+    {
+      "id": "macro_defaults-007",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = +'1a') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-007","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-007","kind":"twig","ok":true,"output":"[1][1][7]","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"A non-numeric value encountered"}],"clock":[1795668906,276206]}
+    },
+    {
+      "id": "macro_defaults-008",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = [1, -'1a']) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-008","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-008","kind":"twig","ok":true,"output":"[[1,-1]][[1,-1]][7]","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"A non-numeric value encountered"},{"type":"E_WARNING","message":"A non-numeric value encountered"}],"clock":[1795668906,279272]}
+    },
+    {
+      "id": "macro_defaults-009",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = {a: -'1a', b: 2}) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-009","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-009","kind":"twig","ok":true,"output":"[{\"a\":-1,\"b\":2}][{\"a\":-1,\"b\":2}][7]","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"A non-numeric value encountered"},{"type":"E_WARNING","message":"A non-numeric value encountered"}],"clock":[1795668906,296806]}
+    },
+    {
+      "id": "macro_defaults-010",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -'1') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-010","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-010","kind":"twig","ok":true,"output":"[-1][-1][7]","deprecations":[],"diagnostics":[],"clock":[1795668906,302250]}
+    },
+    {
+      "id": "macro_defaults-011",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -null) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-011","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-011","kind":"twig","ok":true,"output":"[0][0][7]","deprecations":[],"diagnostics":[],"clock":[1795668906,308249]}
+    },
+    {
+      "id": "macro_defaults-012",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -true) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-012","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-012","kind":"twig","ok":true,"output":"[-1][-1][7]","deprecations":[],"diagnostics":[],"clock":[1795668906,307958]}
+    },
+    {
+      "id": "macro_defaults-013",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = [-1, +2]) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-013","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-013","kind":"twig","ok":true,"output":"[[-1,2]][[-1,2]][7]","deprecations":[],"diagnostics":[],"clock":[1795668906,306629]}
+    },
+    {
+      "id": "macro_defaults-014",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -1.5) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-014","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-014","kind":"twig","ok":true,"output":"[-1.5][-1.5][7]","deprecations":[],"diagnostics":[],"clock":[1795668906,303553]}
+    },
+    {
+      "id": "macro_defaults-015",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = {(1): -'1a'}) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-015","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-015","kind":"twig","ok":true,"output":"[{\"1\":-1}][{\"1\":-1}][7]","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"A non-numeric value encountered"},{"type":"E_WARNING","message":"A non-numeric value encountered"}],"clock":[1795668906,312290]}
+    },
+    {
+      "id": "macro_defaults-016",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = {1.5: 2}) %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-016","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-016","kind":"twig","ok":true,"output":"[{\"1\":2}][{\"1\":2}][7]","deprecations":[],"diagnostics":[{"type":"E_DEPRECATED","message":"Implicit conversion from float 1.5 to int loses precision"},{"type":"E_DEPRECATED","message":"Implicit conversion from float 1.5 to int loses precision"}],"clock":[1795668906,317207]}
+    },
+    {
+      "id": "macro_defaults-017",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -'1e2') %}[{{ a|json_encode }}]{% endmacro %}{{ _self.m() }}{{ _self.m() }}{{ _self.m(7) }}"},"config":{"autoescape":false},"id":"macro_defaults-017","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-017","kind":"twig","ok":true,"output":"[-100][-100][7]","deprecations":[],"diagnostics":[],"clock":[1795668906,333366]}
+    },
+    {
+      "id": "macro_defaults-018",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -'a') %}\n[{{ a }}]\n{% endmacro %}\nx\n{{ _self.m() }}\ny\n{{ 'z' }}\n"},"config":{"autoescape":false},"id":"macro_defaults-018","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-018","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 7.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 7.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").","templateName":"index.twig","templateLine":7,"templateColumn":null,"previous":{"class":"TypeError","message":"Unsupported operand types: int * string","formatted":"TypeError: Unsupported operand types: int * string","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668906,328171]}
+    },
+    {
+      "id": "macro_defaults-019",
+      "case": {"env":"plain","templates":{"index.twig":"{% block b %}\nB\n{% endblock %}\n{% macro m(a = -'a') %}\n[{{ a }}]\n{% endmacro %}\n{{ _self.m() }}\n"},"config":{"autoescape":false},"id":"macro_defaults-019","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-019","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 2.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 2.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").","templateName":"index.twig","templateLine":2,"templateColumn":null,"previous":{"class":"TypeError","message":"Unsupported operand types: int * string","formatted":"TypeError: Unsupported operand types: int * string","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668906,339788]}
+    },
+    {
+      "id": "macro_defaults-020",
+      "case": {"env":"plain","templates":{"index.twig":"{% import 'm.twig' as m %}\n{{ m.m() }}\n","m.twig":"{% macro m(a = -'a') %}{{ a }}{% endmacro %}"},"config":{"autoescape":false},"id":"macro_defaults-020","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-020","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 2.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 2.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").","templateName":"index.twig","templateLine":2,"templateColumn":null,"previous":{"class":"TypeError","message":"Unsupported operand types: int * string","formatted":"TypeError: Unsupported operand types: int * string","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668906,333073]}
+    },
+    {
+      "id": "macro_defaults-021",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -'1a') %}{{ a }}{% endmacro %}{{ _self.m() }}{{ _self.m() }}"},"config":{"autoescape":false},"errors":"throw","id":"macro_defaults-021","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-021","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"A non-numeric value encountered\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"A non-numeric value encountered\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"A non-numeric value encountered\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ErrorException","message":"A non-numeric value encountered","formatted":"ErrorException: A non-numeric value encountered","code":0}},"deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"A non-numeric value encountered"}],"clock":[1795668906,332479]}
+    },
+    {
+      "id": "macro_defaults-022",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -'1a', b = 2, c = +'2b') %}{{ a }}{{ b }}{{ c }}{% endmacro %}{{ _self.m(b: 5) }}|{{ _self.m(1) }}|{{ _self.m(c: 3) }}"},"config":{"autoescape":false},"id":"macro_defaults-022","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-022","kind":"twig","ok":true,"output":"-152|122|-123","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"A non-numeric value encountered"},{"type":"E_WARNING","message":"A non-numeric value encountered"}],"clock":[1795668906,342862]}
+    },
+    {
+      "id": "macro_defaults-023",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -'a', b = -'b') %}{{ a }}{% endmacro %}{{ _self.m(1) }}"},"config":{"autoescape":false},"id":"macro_defaults-023","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-023","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Unsupported operand types: int * string","formatted":"TypeError: Unsupported operand types: int * string","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668906,345209]}
+    },
+    {
+      "id": "macro_defaults-024",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = [-'1a']) %}{{ a|json_encode }}{% endmacro %}{{ _self.m() }}{{ _self.m() }}"},"config":{"autoescape":false},"id":"macro_defaults-024","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-024","kind":"twig","ok":true,"output":"[-1][-1]","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"A non-numeric value encountered"},{"type":"E_WARNING","message":"A non-numeric value encountered"}],"clock":[1795668906,349908]}
+    },
+    {
+      "id": "macro_defaults-025",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -'1a') %}{{ a }}{% endmacro %}{% macro n(a = -'1a') %}{{ a }}{% endmacro %}{{ _self.m() }}{{ _self.n() }}{{ _self.m() }}"},"config":{"autoescape":false},"id":"macro_defaults-025","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-025","kind":"twig","ok":true,"output":"-1-1-1","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"A non-numeric value encountered"},{"type":"E_WARNING","message":"A non-numeric value encountered"}],"clock":[1795668906,355312]}
+    },
+    {
+      "id": "macro_defaults-026",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a = -'a') %}{{ a }}{% endmacro %}{{ _self.m(...[]) }}"},"config":{"autoescape":false},"id":"macro_defaults-026","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-026","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Unsupported operand types: int * string","formatted":"TypeError: Unsupported operand types: int * string","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795668906,358292]}
+    },
+    {
+      "id": "macro_defaults-027",
+      "case": {"env":"plain","templates":{"index.twig":"{% macro m(a, b = -'a') %}{{ a }}{% endmacro %}{{ _self.m() }}"},"config":{"autoescape":false},"id":"macro_defaults-027","memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"macro_defaults-027","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unsupported operand types: int * string\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Unsupported operand types: int * string","formatted":"TypeError: Unsupported operand types: int * string","code":0}},"deprecations":["Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.29: Not passing a value for the \"a\" argument of macro \"m\" is deprecated and the argument will be required in Twig 4.0; give it a default value in the macro definition or pass a value when calling it (in \"index.twig\" at line 1)."}],"clock":[1795668906,358966]}
+    }
+  ]
+}

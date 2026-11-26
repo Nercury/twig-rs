@@ -198,7 +198,8 @@ impl Template {
         self.program.name()
     }
 
-    /// The template source. Twig: `getSourceContext()`.
+    /// The source of the compiled template: its name, its path and, only when it was compiled with `debug` on, its
+    /// code (`''` otherwise). Twig: `getSourceContext()` (`ModuleNode::compileGetSourceContext()`).
     pub fn source(&self) -> &Source {
         self.program.source()
     }
@@ -377,7 +378,8 @@ impl TemplateWrapper {
         self.template.name()
     }
 
-    /// The template source. Twig: `TemplateWrapper::getSourceContext()`.
+    /// The source of the compiled template ([`Template::source`]: the code only with `debug`). Twig:
+    /// `TemplateWrapper::getSourceContext()`.
     pub fn source_context(&self) -> &Source {
         self.template.source()
     }

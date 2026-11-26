@@ -35,8 +35,9 @@
 //! ```
 
 mod arrays;
+pub(crate) mod callables;
 pub(crate) mod misc;
-mod strings;
+pub(crate) mod strings;
 
 pub use arrays::mt_srand;
 pub use strings::{EscaperCallback, EscaperRuntime};
@@ -46,6 +47,7 @@ use std::fmt;
 use std::sync::{Arc, LazyLock};
 
 use twig_value::object::{CallArgs, FunctionKind, Param};
+use twig_value::param::{DeclaredType, TypeMask, verify_user_return};
 use twig_value::{Array, Diagnostics, PhpError, PhpString, ThrowableClass, Value};
 
 use super::ExtensionSet;
@@ -54,7 +56,7 @@ use crate::deprecation::Deprecation;
 use crate::lltl::Program;
 use crate::runtime::Environment;
 use crate::source::Source;
-use crate::vm::{Exception, VmState, invoke_value};
+use crate::vm::{Exception, VmState};
 
 /// What a filter, function or test returns: a value, or the exception it throws (a Twig error or another PHP
 /// throwable, see [`Exception`]).
@@ -211,14 +213,16 @@ impl<'a> Call<'a> {
         self.state.env.report_deprecation(deprecation);
     }
 
-    /// Calls a callable value (a template arrow function or another closure or invokable object) with positional
-    /// arguments: `$arrow($v, $k)`.
+    /// Calls a callable value (a template arrow function or another closure or invokable object, `[$object,
+    /// 'method']`) with positional arguments, as the code of a Twig method does: `$arrow($v, $k)` (PHP's
+    /// `ZEND_INIT_DYNAMIC_CALL` in the class scope of `Twig\Extension\CoreExtension`).
     ///
     /// # Errors
     ///
-    /// What the callable throws.
+    /// PHP's errors for values that are not callable (`Value of type int is not callable`, `Class "X" not found`,
+    /// ...) and what the callable throws.
     pub fn invoke(&mut self, callable: &Value, args: Vec<Value>) -> CallResult {
-        invoke_value(self.state, callable, args)
+        callables::invoke(self.state, callable, args)
     }
 
     /// The name of the calling template.
@@ -234,6 +238,31 @@ impl<'a> Call<'a> {
     pub(crate) fn state(&mut self) -> &mut VmState {
         self.state
     }
+}
+
+/// The declared return type `string` of a userland method (`function f(): string`) checked in coercive typing mode,
+/// as for every Twig method: the value, coerced, or the `TypeError`
+/// (`twig_value::param::verify_user_return()`, also used by the PHP test classes of `twig-test-support`).
+///
+/// Port of `zend_verify_return_type()` (PHPSRC/Zend/zend_execute.c) for a `string` type: `zend_check_type_slow()` →
+/// `zend_verify_scalar_type_hint()` (coercive mode rejects `null` for a userland function) →
+/// `zend_verify_weak_scalar_type_hint()` → `zend_parse_arg_str_weak()`, which converts ints, floats and bools and casts
+/// objects with their `cast_object(IS_STRING)` handler (`__toString()`). When the value is rejected,
+/// `zend_verify_return_error()` throws `TypeError: %s(): Return value must be of type string, %s returned`
+/// (`zend_zval_value_name()`). An exception thrown by `__toString()` does not stop that: the cast fails with the
+/// exception pending, and `zend_throw_exception_internal()` (PHPSRC/Zend/zend_exceptions.c) chains it as the previous
+/// exception of the `TypeError` (TWIG/src/Extension/CoreExtension.php `join()` returning its only element).
+pub(crate) fn verify_return_string(
+    function: &str,
+    value: Value,
+    diag: &mut dyn Diagnostics,
+) -> CallResult {
+    Ok(verify_user_return(
+        value,
+        &DeclaredType::builtin(TypeMask::STRING),
+        function,
+        diag,
+    )?)
 }
 
 /// Calls a compiled filter, function or test with its argument list (the `Call` instruction).

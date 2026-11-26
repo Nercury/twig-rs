@@ -13,16 +13,17 @@
 //!   attribute mutations Twig performs while compiling (the `ignore_strict_check` a `GetAttrExpression` sets on its
 //!   object node, the short-circuit marks of null-safe chains shared by `??`, the single temporary of `apply`).
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::fmt;
-use std::sync::Arc;
+use std::sync::{Arc, OnceLock};
 
-use twig_value::object::ClassRef;
-use twig_value::{Array, ArrayKey, Diagnostics, Ignore, PhpString, Value, ops};
+use twig_value::object::{ClassRef, ObjectRef, StdClass};
+use twig_value::{Array, ArrayKey, PhpError, PhpString, ThrowableClass, Value};
 
 use super::instr::{
     BinaryOp, BlockOp, ConstId, GetAttrOp, Instr, Label, LocalId, NameMode, UnitId, YieldArgs,
 };
+use super::php::{self, PhpModel, folds_children, is_php_literal};
 use super::program::{
     BlockDef, FileId, LineTable, MacroDef, MacroParam, ParentDef, Program, SecurityLists, TraitDef,
     Unit, UnitKind,
@@ -86,13 +87,25 @@ pub fn compile(
 ) -> Result<Arc<Program>> {
     let mut codegen = Codegen {
         options: options.clone(),
+        php: PhpModel {
+            strict_variables: options.strict_variables,
+        },
         deprecations,
         file,
         last_line: 0,
         marker: None,
+        php_marker: None,
+        fold_marker: None,
+        own_fold: None,
+        in_folded: false,
         program: None,
         units: Vec::new(),
+        twig_vars: 0,
         null_safe: HashMap::new(),
+        strict_ignored: HashSet::new(),
+        aliases: HashMap::new(),
+        named_macro_vars: HashSet::new(),
+        temporaries: Vec::new(),
         apply_temps: Vec::new(),
     };
     codegen.module(module)
@@ -102,7 +115,18 @@ pub fn compile(
 #[derive(Debug, Clone, Copy)]
 struct NullSafeState {
     short_circuited: bool,
-    var: Option<LocalId>,
+    /// The local standing for `$_vN`, and `N`.
+    var: Option<(LocalId, u32)>,
+}
+
+/// Compiled temporaries kept alive until the end of the compilation (see [`Codegen::temporaries`]).
+#[allow(
+    dead_code,
+    reason = "the trees are only kept allocated, so that the addresses identifying their nodes stay unique"
+)]
+enum Temporary {
+    Exprs(Vec<Expr>),
+    Arguments(Box<Arguments>),
 }
 
 /// A constant-pool key for deduplication.
@@ -122,6 +146,8 @@ struct ProgramBuilder {
     callables: Vec<TwigCallable>,
     units: Vec<Unit>,
     security: Option<SecurityLists>,
+    /// The number of `ZEND_RECV_INIT` cache slots.
+    recv_cache: u32,
 }
 
 /// The `$macros` slot a `MacroVariable` names.
@@ -143,15 +169,47 @@ struct UnitBuilder {
 
 struct Codegen<'d> {
     options: CompileOptions,
+    /// What PHP's compiler makes of the generated code (constant folding, operand kinds).
+    php: PhpModel,
     deprecations: &'d mut dyn DeprecationSink,
     file: FileId,
     /// Twig's `Compiler::$lastLine` (`null` compares like `0`).
     last_line: i64,
     /// The line of the last emitted marker, `None` before the first one.
     marker: Option<i64>,
+    /// The marker in effect at PHP's `CG(zend_lineno)`: the line of the last AST node whose compilation started
+    /// (`zend_compile_expr_inner()` sets it on entry to every expression and nothing restores it), which is the line
+    /// an opcode emitted after its operands carries. It is the current marker after a token written by Twig's
+    /// compiler, and the line of the enclosing array literal after a constant PHP folded there (see
+    /// [`Codegen::fold_marker`]).
+    php_marker: Option<i64>,
+    /// While the elements of an array literal are compiled (outside the calls, assignments and closures they
+    /// contain): the marker of the outermost literal's line, which `zend_try_ct_eval_array()` gives every constant
+    /// it folds in them (`zend_eval_const_expr()` stamps a folded value with the current `CG(zend_lineno)`).
+    fold_marker: Option<Option<i64>>,
+    /// The fold marker of the tokens of the expression being compiled itself: the enclosing literal's, also for an
+    /// expression whose children are compiled outside it (the `null` that ends `x['k']`'s inline access).
+    own_fold: Option<Option<i64>>,
+    /// The expression being compiled is part of one PHP folded into a constant.
+    in_folded: bool,
     program: Option<ProgramBuilder>,
     units: Vec<UnitBuilder>,
+    /// Twig's `Compiler::$varNameSalt`: the `N` of the next `$_vN` (`Compiler::getVarName()`), counted per compiled
+    /// file (a template and its embedded templates) in compile order.
+    twig_vars: u32,
+    /// The `is_short_circuited` and `var_name` attributes of the null-safe nodes compiled so far, by node identity.
     null_safe: HashMap<usize, NullSafeState>,
+    /// The nodes whose `ignore_strict_check` attribute a compiled `GetAttrExpression` set, by node identity.
+    strict_ignored: HashSet<usize>,
+    /// Twig mutates node objects while compiling them, and some objects are compiled twice (the left operand of
+    /// `??` is also the operand of its null test); twig-rs copies such subtrees. A node key (see [`expr_key()`])
+    /// maps here to the key of the node that stands for the same PHP object.
+    aliases: HashMap<usize, usize>,
+    /// The `{% from %}` macro variables (`MacroVariable` without a name) already named by `getVarName()`.
+    named_macro_vars: HashSet<u32>,
+    /// Trees compiled from copies (the arguments `CallableArgumentsExtractor` binds): node identities are addresses,
+    /// so they stay allocated until the end.
+    temporaries: Vec<Temporary>,
     apply_temps: Vec<LocalId>,
 }
 
@@ -177,17 +235,49 @@ impl Codegen<'_> {
             .expect("a unit is being compiled while code is emitted")
     }
 
-    /// Twig: `Compiler::addDebugInfo()`: a marker is emitted when the line differs from the last marker's.
+    /// Twig: `Compiler::addDebugInfo()`: a marker is emitted when the line differs from the last marker's. The code
+    /// written next starts after it.
     fn add_debug_info(&mut self, line: i64) {
         if line != self.last_line {
             self.last_line = line;
             self.marker = Some(line);
         }
+        self.php_marker = self.marker;
     }
 
-    /// Emits an instruction at the current marker.
+    /// The marker `add_debug_info(line)` would leave in effect.
+    fn marker_after(&self, line: Option<i64>) -> Option<i64> {
+        match line {
+            Some(line) if line != self.last_line => Some(line),
+            _ => self.marker,
+        }
+    }
+
+    /// A token Twig's compiler writes at the current position (a literal, a variable, `$this->source`, ...) was
+    /// compiled: PHP's `CG(zend_lineno)` is its line.
+    fn leaf(&mut self) {
+        self.php_marker = self.marker;
+    }
+
+    /// A token PHP folds into a constant (`null`, `true`, `false`, a constant operation) was compiled: inside an
+    /// array literal its line is the literal's (`zend_eval_const_expr()`), elsewhere its own.
+    fn folded(&mut self) {
+        self.php_marker = self.own_fold.unwrap_or(self.marker);
+    }
+
+    /// Compiles `f` outside the array literal being folded: the operands of calls, assignments, `isset()` and
+    /// `instanceof`, which `zend_eval_const_expr()` does not descend into.
+    fn without_fold<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
+        let saved = self.fold_marker.take();
+        let result = f(self);
+        self.fold_marker = saved;
+        result
+    }
+
+    /// Emits an instruction at the line PHP gives an opcode emitted at this point: `CG(zend_lineno)`, the line of the
+    /// last compiled token (see [`Codegen::php_marker`]).
     fn emit(&mut self, instr: Instr) -> Label {
-        let line = self.marker;
+        let line = self.php_marker;
         self.emit_at(instr, line)
     }
 
@@ -216,6 +306,7 @@ impl Codegen<'_> {
             Instr::Jump(t) | Instr::JumpIfFalse(t) | Instr::JumpIfTrue(t) => *t = target,
             Instr::IterNext { exit, .. } => *exit = target,
             Instr::TryLoader { catch } => *catch = target,
+            Instr::RecvInit { skip, .. } => *skip = target,
             _ => {}
         }
     }
@@ -333,6 +424,13 @@ impl Codegen<'_> {
                 node.class_name()
             )));
         };
+        // PHP parses the whole generated file before compiling any of it
+        if self.program.is_none() && php::generated_parse_error(node) {
+            return Err(Error::php(PhpError::new(
+                ThrowableClass::ParseError,
+                "syntax error, unexpected token \"...\"",
+            )));
+        }
         let saved = self.program.replace(ProgramBuilder {
             source: module.source.clone(),
             index: module.index,
@@ -341,6 +439,7 @@ impl Codegen<'_> {
             callables: Vec::new(),
             units: Vec::new(),
             security: None,
+            recv_cache: 0,
         });
         let result = self.module_body(module);
         let builder = std::mem::replace(&mut self.program, saved)
@@ -364,6 +463,7 @@ impl Codegen<'_> {
             escaper: module.escaper,
             security: builder.security,
             debug: self.options.debug,
+            recv_cache: (0..builder.recv_cache).map(|_| OnceLock::new()).collect(),
         }))
     }
 
@@ -531,6 +631,8 @@ impl Codegen<'_> {
             )));
         };
         let mut params = Vec::new();
+        // the defaults PHP cannot fold: the parameter, its default and the value standing for it
+        let mut deferred: Vec<(Vec<u8>, &Expr, Value)> = Vec::new();
         if let ExprKind::Array(arguments) = &macro_node.arguments.kind {
             for (key, value) in &arguments.elements {
                 let name: Vec<u8> = match &key.kind {
@@ -542,14 +644,43 @@ impl Codegen<'_> {
                 };
                 let explicit_default =
                     !matches!(&value.kind, ExprKind::Constant(c) if c.is_implicit);
+                // MacroNode::compile() writes the default into the closure's signature (`function ($a = <default>,
+                // ...)`); zend_compile_params() folds it with zend_const_expr_to_zval() (zend_eval_const_expr()),
+                // and keeps a default that cannot be folded without an error as a constant expression (an
+                // `IS_CONSTANT_AST` value), which ZEND_RECV_INIT evaluates when the argument is missing
+                let default = match self.php.eval_const(value) {
+                    Some(default) => default,
+                    None => {
+                        let constant_ast = Value::Object(ObjectRef::new(StdClass::new()));
+                        deferred.push((name.clone(), value, constant_ast.clone()));
+                        constant_ast
+                    }
+                };
                 params.push(MacroParam {
                     name: PhpString::from(name),
-                    default: const_eval(value),
+                    default,
                     explicit_default,
                 });
             }
         }
         self.begin_unit(UnitKind::Macro(macro_node.name.clone()));
+        // ZEND_RECV_INIT: the first opcodes of the closure, on the line of its declaration, which Twig writes before
+        // the macro's own marker (the marker in effect is the last one compiled before the macro)
+        self.leaf();
+        for (name, default, constant_ast) in deferred {
+            let name = self.name_constant(&name);
+            let constant_ast = self.constant(constant_ast);
+            let cache = self.recv_cache_slot();
+            let init = self.emit(Instr::RecvInit {
+                name,
+                constant_ast,
+                cache,
+                skip: 0,
+            });
+            self.constant_expression(default)?;
+            self.emit(Instr::RecvStore { name, cache });
+            self.patch_here(init);
+        }
         self.add_debug_info(node.line);
         self.emit(Instr::CaptureStart);
         self.statement(&macro_node.body)?;
@@ -563,6 +694,71 @@ impl Codegen<'_> {
             variadic: macro_node.variadic_name.clone(),
             line: node.line,
         })
+    }
+
+    /// A runtime cache slot of `ZEND_RECV_INIT` (see [`Program::recv_cache`]).
+    fn recv_cache_slot(&mut self) -> u32 {
+        let program = self.program();
+        program.recv_cache += 1;
+        program.recv_cache - 1
+    }
+
+    /// The code evaluating a constant expression at runtime: `zend_ast_evaluate()` (PHPSRC/Zend/zend_ast.c) of the
+    /// default of a macro argument that PHP could not fold, whose operands it evaluates in its own order: a unary
+    /// minus is `mul_function(-1, value)`, a unary plus `add_function(0, value)`, an array literal adds its
+    /// elements in order, each key before its value. The parts PHP folded while compiling are constants.
+    fn constant_expression(&mut self, expr: &Expr) -> Result<()> {
+        if let Some(value) = self.php.eval_const(expr) {
+            self.emit_const(value);
+            return Ok(());
+        }
+        match &expr.kind {
+            ExprKind::Unary(unary) if matches!(unary.op, UnaryOp::Neg | UnaryOp::Pos) => {
+                let (left, op) = if unary.op == UnaryOp::Neg {
+                    (-1, BinaryOp::Mul)
+                } else {
+                    (0, BinaryOp::Add)
+                };
+                self.emit_const(Value::Int(left));
+                self.constant_expression(&unary.node)?;
+                self.emit(Instr::Binary(op));
+            }
+            ExprKind::Array(array) => {
+                self.emit(Instr::NewArray);
+                let mut is_sequence = true;
+                for (i, (key, value)) in array.elements.iter().enumerate() {
+                    let key_value = match &key.kind {
+                        ExprKind::LocalVariable(name) => Some(match name {
+                            TempName::Null => Value::Null,
+                            TempName::Int(i) => Value::Int(*i),
+                            TempName::String(s) => Value::String(PhpString::from(s.as_slice())),
+                        }),
+                        ExprKind::Constant(constant) => Some(const_value(&constant.value)),
+                        _ => None,
+                    };
+                    if !matches!(&key_value, Some(Value::Int(k)) if *k == i as i64) {
+                        is_sequence = false;
+                    }
+                    if is_sequence {
+                        self.constant_expression(value)?;
+                        self.emit(Instr::ArrayAppend);
+                        continue;
+                    }
+                    match key_value {
+                        Some(key) => self.emit_const(key),
+                        None => {
+                            self.constant_expression(key)?;
+                            self.emit(Instr::StringCast);
+                        }
+                    }
+                    self.constant_expression(value)?;
+                    self.emit(Instr::ArrayInsert);
+                }
+            }
+            // MacroTokenParser::checkConstantExpression() admits nothing else
+            _ => self.expr(expr)?,
+        }
+        Ok(())
     }
 
     // ---- statements ----------------------------------------------------------------------------------------------
@@ -613,10 +809,12 @@ impl Codegen<'_> {
                 // WithNode::compile()
                 self.add_debug_info(node.line);
                 let saved = self.local();
+                self.twig_var();
                 self.emit(Instr::LoadContext);
                 self.emit(Instr::StoreLocal(saved));
                 if let Some(variables) = &with.variables {
                     let local = self.local();
+                    self.twig_var();
                     self.expr(variables)?;
                     self.emit(Instr::StoreLocal(local));
                     self.emit(Instr::WithVars {
@@ -644,7 +842,8 @@ impl Codegen<'_> {
                 Ok(())
             }
             NodeKind::Deprecated(deprecated) => {
-                // DeprecatedNode::compile(): package, version, then the message
+                // DeprecatedNode::compile(): `trigger_deprecation(package, version, sprintf("%s in \"name\" at line
+                // N.", message, "name"))`: package, version, then the message
                 self.add_debug_info(node.line);
                 let start = self.marker;
                 if let Some(package) = &deprecated.package {
@@ -654,6 +853,12 @@ impl Codegen<'_> {
                     self.expr(version)?;
                 }
                 self.expr(&deprecated.expr)?;
+                // zend_compile_func_sprintf() (PHPSRC/Zend/zend_compile.c) compiles a sprintf() with a constant
+                // `%s`-only format into a rope: the arguments first (the template name literal last), then the rope,
+                // which converts the message to a string at the line of that literal, before trigger_deprecation()
+                // checks its parameters
+                self.leaf();
+                self.emit(Instr::StringCast);
                 self.emit_at(
                     Instr::Deprecated {
                         has_package: deprecated.package.is_some(),
@@ -881,10 +1086,22 @@ impl Codegen<'_> {
                     NodeKind::Nodes(nodes) | NodeKind::Body(nodes) => nodes.nodes().collect(),
                     _ => vec![&set.values],
                 };
+                // the array literal of the values folds its elements at its line
+                let first = values
+                    .first()
+                    .and_then(|value| value.as_expr())
+                    .and_then(php::first_debug_line);
+                let saved = self.fold_marker.replace(self.marker_after(first));
+                let mut result = Ok(());
                 for value in values {
-                    self.statement_value(value)?;
+                    result = self.statement_value(value);
+                    if result.is_err() {
+                        break;
+                    }
                     self.emit(Instr::ArrayAppend);
                 }
+                self.fold_marker = saved;
+                result?;
             }
             let mut targets = Array::new();
             for name in &names {
@@ -900,6 +1117,13 @@ impl Codegen<'_> {
             return Ok(());
         }
 
+        // SetNode::compile() writes the target first: the `LocalVariable` without a name of `apply` is named then
+        if let Some(Some(ExprKind::LocalVariable(TempName::Null))) = names
+            .first()
+            .map(|target| target.as_expr().map(|e| &e.kind))
+        {
+            self.twig_var();
+        }
         if set.capture {
             self.statement_value(&set.values)?;
         } else if set.safe {
@@ -985,25 +1209,53 @@ impl Codegen<'_> {
 
     // ---- expressions ---------------------------------------------------------------------------------------------
 
+    /// Compiles an expression.
+    ///
+    /// Besides the code, this tracks PHP's line state: `zend_compile_expr_inner()` sets `CG(zend_lineno)` to the
+    /// line of every expression it starts compiling, an expression PHP folds into a constant inside an array literal
+    /// takes the literal's line, and the operands of calls and assignments are not part of the literal's folding.
     fn expr(&mut self, expr: &Expr) -> Result<()> {
-        self.expr_with(expr, false)
+        self.php_marker = self.marker;
+        let saved_fold = self.fold_marker;
+        let saved_own = self.own_fold;
+        let saved_in_folded = self.in_folded;
+        self.own_fold = self.fold_marker;
+        let folded = self.fold_marker.is_some()
+            && !self.in_folded
+            && !is_php_literal(expr)
+            && self.php.eval_const(expr).is_some();
+        if folded {
+            self.in_folded = true;
+        }
+        if !folds_children(expr) {
+            self.fold_marker = None;
+        }
+        let result = self.expr_kind(expr);
+        self.fold_marker = saved_fold;
+        self.in_folded = saved_in_folded;
+        if folded {
+            self.folded();
+        }
+        self.own_fold = saved_own;
+        result
     }
 
-    /// Compiles an expression; `ignore_strict` stands for the `ignore_strict_check` attribute a parent
-    /// `GetAttrExpression` sets on its object node while compiling.
-    fn expr_with(&mut self, expr: &Expr, ignore_strict: bool) -> Result<()> {
+    fn expr_kind(&mut self, expr: &Expr) -> Result<()> {
         match &expr.kind {
             ExprKind::Constant(constant) => {
-                // ConstantExpression::compile()
+                // ConstantExpression::compile(): `Compiler::repr()`, a literal or a constant expression PHP folds
                 if constant.defined_test {
                     self.emit_const(Value::Bool(true));
                 } else {
                     self.emit_const(const_value(&constant.value));
                 }
+                if !is_php_literal(expr) {
+                    self.folded();
+                }
                 Ok(())
             }
             ExprKind::ContextVariable(name) => {
-                self.name(expr, name, ignore_strict);
+                self.name(expr, name);
                 Ok(())
             }
             ExprKind::AssignContextVariable(name) => {
@@ -1061,16 +1313,9 @@ impl Codegen<'_> {
             ExprKind::Binary(binary) => self.binary(expr, binary),
             ExprKind::ConditionalTernary(ternary) => {
                 // ConditionalTernary::compile(): ((test) ? (left) : (right))
-                self.expr(&ternary.test)?;
-                let otherwise = self.emit(Instr::JumpIfFalse(0));
-                self.expr(&ternary.left)?;
-                let end = self.emit(Instr::Jump(0));
-                self.patch_here(otherwise);
-                self.expr(&ternary.right)?;
-                self.patch_here(end);
-                Ok(())
+                self.conditional(&ternary.test, &ternary.left, &ternary.right, None)
             }
-            ExprKind::GetAttr(get_attr) => self.get_attr(get_attr, ignore_strict),
+            ExprKind::GetAttr(get_attr) => self.get_attr(expr, get_attr),
             ExprKind::MacroReference(reference) => {
                 // MacroReferenceExpression::compile(): `<template>->call(<name>, <arguments>, $context, line,
                 // $this->source)` or `<template>->has(<name>, $context)`
@@ -1092,11 +1337,17 @@ impl Codegen<'_> {
                     self.expr(&reference.arguments)?;
                     self.emit_at(Instr::MacroCall { line: expr.line }, start);
                 }
+                // `, $context)` / `, $context, line, $this->source)`
+                self.leaf();
                 Ok(())
             }
             ExprKind::BlockReference(block) => {
                 // BlockReferenceExpression::compile(): `[yield from ]<target>->unwrap()->yieldBlock|renderBlock|hasBlock(
-                // <name>, $context[, $blocks])` where the target is `$this` or `$this->load(<template>, line)`
+                // <name>, $context[, $blocks])` where the target is `$this` or `$this->load(<template>, line)`; a
+                // spread name or template is followed by positional arguments, which PHP refuses to compile
+                if is_spread(&block.name) || block.template.as_ref().is_some_and(is_spread) {
+                    return Err(positional_after_unpack());
+                }
                 if block.output && !block.defined_test {
                     self.add_debug_info(expr.line);
                 }
@@ -1115,6 +1366,11 @@ impl Codegen<'_> {
                     start = self.marker;
                 }
                 self.expr(&block.name)?;
+                if block.template.is_none() {
+                    // `, $context, $blocks)`
+                    self.leaf();
+                    self.emit(Instr::CheckBlocks);
+                }
                 let op = if block.defined_test {
                     BlockOp::Has
                 } else if block.output {
@@ -1128,10 +1384,13 @@ impl Codegen<'_> {
                 };
                 if op == BlockOp::Yield {
                     // the body of the yieldBlock() generator runs on `yield from`, at the end of the statement
+                    self.leaf();
                     self.emit(block);
                 } else {
                     self.emit_at(block, start);
                 }
+                // `, $context[, $blocks])`
+                self.leaf();
                 Ok(())
             }
             ExprKind::Parent(parent) => {
@@ -1141,6 +1400,7 @@ impl Codegen<'_> {
                     self.add_debug_info(expr.line);
                 }
                 let name = self.name_constant(&parent.name);
+                self.leaf();
                 self.emit(Instr::ParentBlock {
                     name,
                     render: !parent.output,
@@ -1156,7 +1416,7 @@ impl Codegen<'_> {
                 Ok(())
             }
             ExprKind::CheckToString(check) => {
-                // CheckToStringNode::compile()
+                // CheckToStringNode::compile(): `$this->sandbox->ensureToStringAllowed(expr, line, $this->source)`
                 let start = self.marker;
                 self.expr(&check.expr)?;
                 self.emit_at(
@@ -1166,6 +1426,7 @@ impl Codegen<'_> {
                     },
                     start,
                 );
+                self.leaf();
                 Ok(())
             }
             ExprKind::Custom(custom) => Err(Error::logic(format!(
@@ -1175,13 +1436,50 @@ impl Codegen<'_> {
         }
     }
 
+    /// `((test) ? (left) : (right))` (ConditionalTernary, ElvisBinary, NullCoalesceBinary); `share` names the
+    /// operand of the null test inside `test` and the node it is the same PHP object as (`NullCoalesceBinary`
+    /// passes its `$left` to the `NullTest`).
+    ///
+    /// Inside an array literal, `zend_eval_const_expr()` replaces a conditional whose test folds by the branch the
+    /// test selects, so PHP's line state is the one that branch leaves.
+    fn conditional(
+        &mut self,
+        test: &Expr,
+        left: &Expr,
+        right: &Expr,
+        share: Option<(&Expr, &Expr)>,
+    ) -> Result<()> {
+        let choice = if self.fold_marker.is_some() && !self.in_folded {
+            self.php.eval_const(test).map(|t| php::truthy(&t))
+        } else {
+            None
+        };
+        if let Some((copy, original)) = share {
+            self.alias_tree(copy, original);
+        }
+        self.expr(test)?;
+        let otherwise = self.emit(Instr::JumpIfFalse(0));
+        self.expr(left)?;
+        let left_marker = self.php_marker;
+        let end = self.emit(Instr::Jump(0));
+        self.patch_here(otherwise);
+        self.expr(right)?;
+        self.patch_here(end);
+        if choice == Some(true) {
+            self.php_marker = left_marker;
+        }
+        Ok(())
+    }
+
     /// Twig: `NameExpression::compile()`.
-    fn name(&mut self, expr: &Expr, name: &ast::NameExpr, ignore_strict: bool) {
+    fn name(&mut self, expr: &Expr, name: &ast::NameExpr) {
         self.add_debug_info(expr.line);
         let special = matches!(name.name.as_slice(), b"_self" | b"_context" | b"_charset");
         if name.defined_test {
             if special || expr.always_defined {
+                // `true`
                 self.emit_const(Value::Bool(true));
+                self.folded();
             } else {
                 let id = self.name_constant(&name.name);
                 self.emit(Instr::LoadName {
@@ -1201,13 +1499,20 @@ impl Codegen<'_> {
         }
         let mode = if expr.always_defined {
             NameMode::AlwaysDefined
-        } else if name.ignore_strict_check || ignore_strict || !self.options.strict_variables {
+        } else if name.ignore_strict_check
+            || self.strict_ignored.contains(&self.identity(expr_key(expr)))
+            || !self.options.strict_variables
+        {
             NameMode::Lenient
         } else {
             NameMode::Strict { line: expr.line }
         };
         let id = self.name_constant(&name.name);
         self.emit(Instr::LoadName { name: id, mode });
+        if mode == NameMode::Lenient {
+            // `($context["name"] ?? null)` ends with `null`
+            self.folded();
+        }
     }
 
     /// Twig: `ArrayExpression::compile()` (and `VariadicExpression::compile()`, whose `...` the caller adds).
@@ -1225,7 +1530,26 @@ impl Codegen<'_> {
                 .with_source(self.source()));
             }
         }
-        let _ = expr;
+        // zend_try_ct_eval_array() fails the compilation of a constant literal unpacking a constant that is not an array
+        if let Some(fatal) = self.php.array_fatal(array) {
+            return Err(compile_fatal(fatal));
+        }
+        // zend_compile_array() folds the elements of an outermost literal at the literal's line, the line of its first
+        // element's value; nested literals are folded with it
+        let outermost = self.fold_marker.is_none();
+        if outermost {
+            self.fold_marker = Some(self.marker_after(php::first_debug_line(expr)));
+        }
+        let result = self.array_elements(array);
+        if outermost {
+            self.fold_marker = None;
+        }
+        result
+    }
+
+    /// The elements of an `ArrayExpression`: `[v0, v1, ...]` while the keys are `0, 1, ...`, then `key => value`
+    /// (a dynamic key cast with `(string)`), and `...value` for spreads.
+    fn array_elements(&mut self, array: &ast::ArrayExpr) -> Result<()> {
         self.emit(Instr::NewArray);
         let mut is_sequence = true;
         for (i, (key, value)) in array.elements.iter().enumerate() {
@@ -1286,6 +1610,7 @@ impl Codegen<'_> {
             }
         }
         self.begin_unit(UnitKind::Arrow(params));
+        self.emit_at(Instr::Recv, start);
         let result = self.expr(&arrow.expr);
         if result.is_ok() {
             self.emit(Instr::Return);
@@ -1293,6 +1618,8 @@ impl Codegen<'_> {
         let unit = self.finish_unit();
         result?;
         self.emit_at(Instr::MakeArrow(unit), start);
+        // the closure ends with `; }`
+        self.leaf();
         Ok(())
     }
 
@@ -1324,58 +1651,69 @@ impl Codegen<'_> {
             })
         };
         if binary.op == B::Power {
-            // AbstractBinary::compile() writes `( -left ** right)` for a unary left operand without parentheses,
-            // which PHP parses as `-(left ** right)`: `**` binds tighter than unary `-`/`+`.
-            let mut peeled = Vec::new();
-            let mut left = &binary.left;
-            while let ExprKind::Unary(unary) = &left.kind {
-                if left.with_parentheses || !matches!(unary.op, UnaryOp::Neg | UnaryOp::Pos) {
-                    break;
-                }
-                peeled.push(unary.op);
-                left = &unary.node;
-            }
-            self.expr(left)?;
-            self.expr(&binary.right)?;
-            self.emit(Instr::Binary(BinaryOp::Pow));
-            for op in peeled.into_iter().rev() {
-                self.emit(if op == UnaryOp::Neg {
-                    Instr::Neg
-                } else {
-                    Instr::Pos
-                });
-            }
-            return Ok(());
+            return self.power(binary);
         }
         if let Some(op) = simple(binary.op) {
             // AbstractBinary::compile(): (left OP right)
             self.expr(&binary.left)?;
             self.expr(&binary.right)?;
-            self.emit(Instr::Binary(op));
+            match op {
+                BinaryOp::Concat => {
+                    // zend_compile_binary_op() (PHPSRC/Zend/zend_compile.c, ZEND_CONCAT): a constant operand is
+                    // converted while compiling, except a constant array, which gets a `ZEND_CAST` of its own (the
+                    // left operand's first), run before the concatenation converts the other operand
+                    if let Some(Value::Array(_)) = self.php.compile_const(&binary.left) {
+                        self.emit(Instr::StringCastBelow);
+                    }
+                    if let Some(Value::Array(_)) = self.php.compile_const(&binary.right) {
+                        self.emit(Instr::StringCast);
+                    }
+                    self.emit(Instr::Binary(op));
+                }
+                BinaryOp::Mul | BinaryOp::BitAnd | BinaryOp::BitOr | BinaryOp::BitXor => {
+                    // ZEND_MUL and ZEND_BW_* are SPEC(COMMUTATIVE): zend_vm_set_opcode_handler_ex() swaps the
+                    // operands when op1's kind is lower than op2's (IS_CONST < IS_TMP_VAR < IS_VAR < IS_CV), so the
+                    // operation converts and reports the right operand first (PHPSRC/Zend/zend_vm_execute.h,
+                    // zend_vm_def.h); the operands are still evaluated left to right
+                    let commuted =
+                        self.php.operand_kind(&binary.left) < self.php.operand_kind(&binary.right);
+                    self.emit(if commuted {
+                        Instr::CommutedBinary(op)
+                    } else {
+                        Instr::Binary(op)
+                    });
+                }
+                _ => {
+                    self.emit(Instr::Binary(op));
+                }
+            }
             return Ok(());
         }
         match binary.op {
-            B::And => {
-                // (T(left) && T(right))
+            B::And | B::Or => {
+                // (T(left) && T(right)) / (T(left) || T(right)); zend_compile_short_circuiting() does not compile the
+                // right operand when a constant left operand decides
+                let and = binary.op == B::And;
+                let decided = self
+                    .php
+                    .compile_const(&binary.left)
+                    .is_some_and(|left| php::truthy(&left) != and);
                 self.expr(&binary.left)?;
-                let short = self.emit(Instr::JumpIfFalse(0));
+                let left_marker = self.php_marker;
+                let short = self.emit(if and {
+                    Instr::JumpIfFalse(0)
+                } else {
+                    Instr::JumpIfTrue(0)
+                });
                 self.expr(&binary.right)?;
                 self.emit(Instr::ToBool);
                 let end = self.emit(Instr::Jump(0));
                 self.patch_here(short);
-                self.emit_const(Value::Bool(false));
+                self.emit_const(Value::Bool(!and));
                 self.patch_here(end);
-            }
-            B::Or => {
-                // (T(left) || T(right))
-                self.expr(&binary.left)?;
-                let short = self.emit(Instr::JumpIfTrue(0));
-                self.expr(&binary.right)?;
-                self.emit(Instr::ToBool);
-                let end = self.emit(Instr::Jump(0));
-                self.patch_here(short);
-                self.emit_const(Value::Bool(true));
-                self.patch_here(end);
+                if decided {
+                    self.php_marker = left_marker;
+                }
             }
             B::Xor => {
                 // (T(left) xor T(right))
@@ -1406,6 +1744,8 @@ impl Codegen<'_> {
                 // (is_string($a = left) && is_string($b = right) && str_starts_with($a, $b))
                 let a = self.local();
                 let b = self.local();
+                self.twig_var();
+                self.twig_var();
                 self.expr(&binary.left)?;
                 self.emit(Instr::StoreLocal(a));
                 self.emit(Instr::LoadLocal(a));
@@ -1428,6 +1768,8 @@ impl Codegen<'_> {
                 self.patch_here(fail_b);
                 self.emit_const(Value::Bool(false));
                 self.patch_here(end);
+                // `str_starts_with($a, $b))`
+                self.leaf();
             }
             B::HasSome | B::HasEvery => {
                 // CoreExtension::arraySome($this->env, left, right, <isSandboxed>)
@@ -1442,6 +1784,8 @@ impl Codegen<'_> {
                     },
                     start,
                 );
+                // the `<isSandboxed>` literal
+                self.leaf();
             }
             B::Range => {
                 // range(left, right)
@@ -1456,13 +1800,7 @@ impl Codegen<'_> {
                     .test
                     .as_ref()
                     .ok_or_else(|| missing_node("test", &expr.class_name()))?;
-                self.expr(test)?;
-                let otherwise = self.emit(Instr::JumpIfFalse(0));
-                self.expr(&binary.left)?;
-                let end = self.emit(Instr::Jump(0));
-                self.patch_here(otherwise);
-                self.expr(&binary.right)?;
-                self.patch_here(end);
+                self.conditional(test, &binary.left, &binary.right, None)?;
             }
             B::NullCoalesce => {
                 // ((test) ? (left) : (right)); the null test of `test` shares its operand with `left`
@@ -1470,16 +1808,8 @@ impl Codegen<'_> {
                     .test
                     .as_ref()
                     .ok_or_else(|| missing_node("test", &expr.class_name()))?;
-                self.expr(test)?;
-                if let Some(shared) = null_test_operand(test) {
-                    self.share_null_safe_state(shared, &binary.left);
-                }
-                let otherwise = self.emit(Instr::JumpIfFalse(0));
-                self.expr(&binary.left)?;
-                let end = self.emit(Instr::Jump(0));
-                self.patch_here(otherwise);
-                self.expr(&binary.right)?;
-                self.patch_here(end);
+                let share = null_test_operand(test).map(|shared| (shared, &binary.left));
+                self.conditional(test, &binary.left, &binary.right, share)?;
             }
             B::Set => {
                 // ($context["name"] = right)
@@ -1492,6 +1822,7 @@ impl Codegen<'_> {
             B::SequenceDestructuringSet => {
                 // SequenceDestructuringSetBinary::compile()
                 self.add_debug_info(expr.line);
+                self.twig_var();
                 let mut names = Array::new();
                 if let ExprKind::Array(array) = &binary.left.kind {
                     for (_, value) in &array.elements {
@@ -1504,10 +1835,12 @@ impl Codegen<'_> {
                 let names = self.constant(Value::Array(names));
                 self.expr(&binary.right)?;
                 self.emit(Instr::SeqDestructure(names));
+                self.leaf();
             }
             B::ObjectDestructuringSet => {
                 // ObjectDestructuringSetBinary::compile()
                 self.add_debug_info(expr.line);
+                self.twig_var();
                 let mut mappings: Vec<(Value, Vec<u8>)> = Vec::new();
                 if let ExprKind::Array(array) = &binary.left.kind {
                     for (key, value) in &array.elements {
@@ -1548,16 +1881,99 @@ impl Codegen<'_> {
                 }
                 let names = self.constant(Value::Array(names));
                 self.emit(Instr::ListAssign(names));
+                self.leaf();
             }
             _ => unreachable!("every simple operator is handled above"),
         }
         Ok(())
     }
 
+    /// Twig: `PowerBinary` (`AbstractBinary::compile()`: `(left ** right)`).
+    ///
+    /// The PHP of the left operand may begin with prefix operators, which bind more loosely than `**` in PHP, so PHP
+    /// applies the power to what follows them and the prefixes to the power: an unparenthesized unary ` -x`, ` +x`
+    /// or ` !x` (`AbstractUnary::compile()` writes parentheses only for `with_parentheses`), `(int) floor((a / b))`
+    /// (`FloorDivBinary::compile()`, whatever its parentheses) and `!CoreExtension::inFilter(a, b)`
+    /// (`NotInBinary::compile()`): `-x ** y` is `-(x ** y)`, `(a // b) ** y` is `(int) (floor(a / b) ** y)` and
+    /// `(a not in b) ** y` is `!(inFilter(a, b) ** y)`. Chains combine, the first prefix applied last.
+    fn power(&mut self, binary: &BinaryExpr) -> Result<()> {
+        enum Core<'a> {
+            Plain(&'a Expr),
+            Floor(&'a BinaryExpr),
+            In(&'a BinaryExpr),
+        }
+        let mut prefixes = Vec::new();
+        let mut left = &binary.left;
+        let core = loop {
+            match &left.kind {
+                ExprKind::Unary(unary)
+                    if !left.with_parentheses
+                        && matches!(unary.op, UnaryOp::Neg | UnaryOp::Pos | UnaryOp::Not) =>
+                {
+                    prefixes.push(match unary.op {
+                        UnaryOp::Neg => Instr::Neg,
+                        UnaryOp::Pos => Instr::Pos,
+                        _ => Instr::Not,
+                    });
+                    left = &unary.node;
+                }
+                ExprKind::Binary(inner) if inner.op == ast::BinaryOp::FloorDiv => {
+                    prefixes.push(Instr::IntCast);
+                    break Core::Floor(inner);
+                }
+                ExprKind::Binary(inner) if inner.op == ast::BinaryOp::NotIn => {
+                    prefixes.push(Instr::Not);
+                    break Core::In(inner);
+                }
+                _ => break Core::Plain(left),
+            }
+        };
+        match core {
+            Core::Plain(left) => self.expr(left)?,
+            Core::Floor(inner) => {
+                // `floor((a / b))`: the operands are arguments of a call
+                self.without_fold(|this| {
+                    this.expr(&inner.left)?;
+                    this.expr(&inner.right)
+                })?;
+                self.emit(Instr::Binary(BinaryOp::FloorOfDiv));
+            }
+            Core::In(inner) => {
+                // `CoreExtension::inFilter(a, b)`
+                let start = self.marker;
+                self.without_fold(|this| {
+                    this.expr(&inner.left)?;
+                    this.expr(&inner.right)
+                })?;
+                self.emit_at(Instr::In { negate: false }, start);
+            }
+        }
+        self.expr(&binary.right)?;
+        self.emit(Instr::Binary(BinaryOp::Pow));
+        for prefix in prefixes.into_iter().rev() {
+            self.emit(prefix);
+        }
+        Ok(())
+    }
+
     /// Twig: `GetAttrExpression::compile()`.
-    fn get_attr(&mut self, get_attr: &GetAttrExpr, ignore_strict: bool) -> Result<()> {
-        // a parent GetAttrExpression may have set `ignore_strict_check` on this node before compiling it
-        let ignore_strict_check = get_attr.ignore_strict_check || ignore_strict;
+    fn get_attr(&mut self, expr: &Expr, get_attr: &GetAttrExpr) -> Result<()> {
+        // `CoreExtension::getAttribute($this->env, $this->source, node, attribute, arguments, type, ...)`: a spread
+        // child (`attribute(x, ...y)`) is followed by positional arguments, which PHP refuses to compile
+        if [
+            Some(&get_attr.node),
+            Some(&get_attr.attribute),
+            get_attr.arguments.as_ref(),
+        ]
+        .into_iter()
+        .flatten()
+        .any(is_spread)
+        {
+            return Err(positional_after_unpack());
+        }
+        // a GetAttrExpression compiled with `ignore_strict_check` sets it on its node object
+        let ignore_strict_check = get_attr.ignore_strict_check
+            || self.strict_ignored.contains(&self.identity(expr_key(expr)));
         let mut sandbox_end = None;
 
         // optimize array calls
@@ -1566,56 +1982,74 @@ impl Codegen<'_> {
             && !get_attr.defined_test
             && get_attr.call_type == CallType::Array
         {
+            // `(($_vN = node) && is_array($_vN) || $_vN instanceof ArrayAccess ? ($_vN[key] ?? null) : null)`
             let var = self.local();
+            self.twig_var();
+            let start = self.marker;
             self.expr(&get_attr.node)?;
             self.emit(Instr::StoreLocal(var));
             self.emit(Instr::LoadLocal(var));
-            self.emit(Instr::ArrayLike {
-                sandboxed: self.options.sandboxed,
-            });
+            // zend_compile_assign() leaves `CG(zend_lineno)` at the line of `$_vN`, where `&&` converts the value
+            self.emit_at(
+                Instr::ArrayLike {
+                    sandboxed: self.options.sandboxed,
+                },
+                start,
+            );
+            self.leaf();
             let otherwise = self.emit(Instr::JumpIfFalse(0));
             self.emit(Instr::LoadLocal(var));
             match &get_attr.attribute.kind {
                 ExprKind::Constant(constant) => self.emit_const(const_value(&constant.value)),
                 _ => {
+                    // compileArrayKey(): `(($_vM = attribute) instanceof \Stringable && ...)`
+                    self.twig_var();
                     self.expr(&get_attr.attribute)?;
                     self.emit(Instr::StringableKey { container: var });
                 }
             }
+            // after the key (a literal or `$_vM`)
+            self.leaf();
             self.emit(Instr::DimIsset);
             let end = self.emit(Instr::Jump(0));
             self.patch_here(otherwise);
             if !self.options.sandboxed {
+                // `: null)`
                 self.emit_const(Value::Null);
+                self.folded();
                 self.patch_here(end);
                 return Ok(());
             }
             sandbox_end = Some(end);
         }
 
+        if ignore_strict_check {
+            let node = self.identity(expr_key(&get_attr.node));
+            self.strict_ignored.insert(node);
+        }
+
         // the null-safe node: this one, or the nearest null-safe node of the object chain
-        let mut null_safe_node: Option<&GetAttrExpr> = None;
+        let mut null_safe_node: Option<(&Expr, &GetAttrExpr)> = None;
         if get_attr.null_safe {
-            null_safe_node = Some(get_attr);
+            null_safe_node = Some((expr, get_attr));
         } else {
             let mut node = &get_attr.node;
             while let ExprKind::GetAttr(inner) = &node.kind {
                 if inner.null_safe {
-                    null_safe_node = Some(inner);
+                    null_safe_node = Some((node, inner));
                     break;
                 }
                 node = &inner.node;
             }
         }
         let mut short_circuit_end = None;
-        if let Some(ns) = null_safe_node
-            && !self.null_safe_state(ns).short_circuited
+        if let Some((ns_expr, ns)) = null_safe_node
+            && !self.null_safe_state(ns_expr).short_circuited
         {
-            // ((null === ($_vK = <ns.node>)) ? null : ...)
-            let var = self.null_safe_var(ns);
-            // the object node of `ns` was given `ignore_strict_check` when `ns` is this node
-            let ns_ignore = std::ptr::eq(ns, get_attr) && ignore_strict_check;
-            self.expr_with(&ns.node, ns_ignore || ns.ignore_strict_check)?;
+            // ((null === ($_vK = <ns.node>)) ? null : ...): written before `ns` compiles itself, so the node of a
+            // deeper `ns` has only the attributes it was given so far
+            let (var, _) = self.null_safe_var(ns_expr);
+            self.expr(&ns.node)?;
             self.emit(Instr::StoreLocal(var));
             self.emit(Instr::LoadLocal(var));
             self.emit(Instr::IsNull);
@@ -1623,15 +2057,21 @@ impl Codegen<'_> {
             self.emit_const(Value::Null);
             short_circuit_end = Some(self.emit(Instr::Jump(0)));
             self.patch_here(go);
-            self.mark_short_circuited(ns);
+            self.mark_short_circuited(ns_expr);
         }
 
         let start = self.marker;
         if get_attr.null_safe {
-            let var = self.null_safe_var(get_attr);
-            self.emit(Instr::LoadLocal(var));
+            // `$_vK`, unassigned when the code that assigns it did not run (a key compiled twice under the
+            // SandboxExtension, whose first copy sits in a branch that was not taken)
+            let (var, n) = self.null_safe_var(expr);
+            self.leaf();
+            self.emit(Instr::LoadVar {
+                local: var,
+                name: n,
+            });
         } else {
-            self.expr_with(&get_attr.node, ignore_strict_check)?;
+            self.expr(&get_attr.node)?;
         }
         self.expr(&get_attr.attribute)?;
         match &get_attr.arguments {
@@ -1654,16 +2094,19 @@ impl Codegen<'_> {
         if let Some(end) = short_circuit_end {
             self.patch_here(end);
         }
+        // `, line)` of the getAttribute() call
+        self.leaf();
         Ok(())
     }
 
-    fn null_safe_key(node: &GetAttrExpr) -> usize {
-        std::ptr::from_ref(node) as usize
+    /// The identity of a node: its key (see [`expr_key()`]), or the key of the node it is the same PHP object as.
+    fn identity(&self, key: usize) -> usize {
+        self.aliases.get(&key).copied().unwrap_or(key)
     }
 
-    fn null_safe_state(&self, node: &GetAttrExpr) -> NullSafeState {
+    fn null_safe_state(&self, node: &Expr) -> NullSafeState {
         self.null_safe
-            .get(&Self::null_safe_key(node))
+            .get(&self.identity(expr_key(node)))
             .copied()
             .unwrap_or(NullSafeState {
                 short_circuited: false,
@@ -1671,13 +2114,13 @@ impl Codegen<'_> {
             })
     }
 
-    /// Twig: `GetAttrExpression::getVarName()`: the variable is allocated once per node.
-    fn null_safe_var(&mut self, node: &GetAttrExpr) -> LocalId {
-        let key = Self::null_safe_key(node);
+    /// Twig: `GetAttrExpression::getVarName()`: the variable is named once per node (`Compiler::getVarName()`).
+    fn null_safe_var(&mut self, node: &Expr) -> (LocalId, u32) {
+        let key = self.identity(expr_key(node));
         if let Some(var) = self.null_safe.get(&key).and_then(|s| s.var) {
             return var;
         }
-        let var = self.local();
+        let var = (self.local(), self.twig_var());
         let state = self.null_safe.entry(key).or_insert(NullSafeState {
             short_circuited: false,
             var: None,
@@ -1686,9 +2129,10 @@ impl Codegen<'_> {
         var
     }
 
-    fn mark_short_circuited(&mut self, node: &GetAttrExpr) {
+    fn mark_short_circuited(&mut self, node: &Expr) {
+        let key = self.identity(expr_key(node));
         self.null_safe
-            .entry(Self::null_safe_key(node))
+            .entry(key)
             .or_insert(NullSafeState {
                 short_circuited: false,
                 var: None,
@@ -1696,23 +2140,41 @@ impl Codegen<'_> {
             .short_circuited = true;
     }
 
-    /// Copies the compile-time state of the null-safe nodes of `from` to the corresponding nodes of `to` (a clone of
-    /// the same tree): in Twig both are one PHP object (`NullCoalesceBinary` shares its left operand with its null
-    /// test).
-    fn share_null_safe_state(&mut self, from: &Expr, to: &Expr) {
-        if let (ExprKind::GetAttr(a), ExprKind::GetAttr(b)) = (&from.kind, &to.kind)
-            && let Some(state) = self.null_safe.get(&Self::null_safe_key(a)).copied()
-        {
-            self.null_safe.insert(Self::null_safe_key(b), state);
+    /// Twig: `Compiler::getVarName()`: the `N` of a new `$_vN`.
+    fn twig_var(&mut self) -> u32 {
+        let n = self.twig_vars;
+        self.twig_vars = self.twig_vars.wrapping_add(1);
+        n
+    }
+
+    /// Records that the nodes of `copy` are the PHP objects of the corresponding nodes of `original`: twig-rs
+    /// copied a subtree that Twig shares, so compiling one must change the state of the other. A wrapper a visitor
+    /// put around the original (`CheckToStringNode`, the escaper's escape filter) is skipped: its node is the shared
+    /// object.
+    fn alias_tree(&mut self, copy: &Expr, original: &Expr) {
+        let mut original = original;
+        while !same_node_class(copy, original) {
+            original = match &original.kind {
+                ExprKind::CheckToString(check) => &check.expr,
+                ExprKind::Filter(filter) if matches!(filter.kind, FilterKind::Escape { .. }) => {
+                    &filter.node
+                }
+                _ => return,
+            };
         }
-        let from_children = from.children();
-        let to_children = to.children();
-        for ((_, f), (_, t)) in from_children.iter().zip(to_children.iter()) {
-            match (f, t) {
-                (NodeRef::Expr(f), NodeRef::Expr(t)) => self.share_null_safe_state(f, t),
-                (NodeRef::Arguments(f), NodeRef::Arguments(t)) => {
-                    for ((_, f), (_, t)) in f.entries().iter().zip(t.entries().iter()) {
-                        self.share_null_safe_state(f, t);
+        let canonical = self.identity(expr_key(original));
+        let key = expr_key(copy);
+        if key != canonical {
+            self.aliases.insert(key, canonical);
+        }
+        let copies = copy.children();
+        let originals = original.children();
+        for ((_, c), (_, o)) in copies.iter().zip(originals.iter()) {
+            match (c, o) {
+                (NodeRef::Expr(c), NodeRef::Expr(o)) => self.alias_tree(c, o),
+                (NodeRef::Arguments(c), NodeRef::Arguments(o)) => {
+                    for ((_, c), (_, o)) in c.entries().iter().zip(o.entries().iter()) {
+                        self.alias_tree(c, o);
                     }
                 }
                 _ => {}
@@ -1755,12 +2217,15 @@ impl Codegen<'_> {
         if function.function.name() == b"constant" && function.defined_test {
             let mut arguments = function.arguments.clone();
             arguments.set_named(b"checkDefined".to_vec(), Expr::constant(true, expr.line));
-            return self.call(
+            let result = self.call(
                 &TwigCallable::Function(function.function.clone()),
                 None,
                 Some(&arguments),
                 expr.line,
             );
+            self.temporaries
+                .push(Temporary::Arguments(Box::new(arguments)));
+            return result;
         }
         self.call(
             &TwigCallable::Function(function.function.clone()),
@@ -1828,11 +2293,28 @@ impl Codegen<'_> {
                     .arguments
                     .as_ref()
                     .is_some_and(|a| a.get(&ast::ArgumentKey::Index(1)).is_some());
-                if with_object {
-                    self.expr(argument(1)?)?;
-                }
-                self.expr(argument(0)?)?;
-                self.emit_at(Instr::PhpConstant { with_object }, start);
+                // the arguments of constant() and get_class() are not part of an enclosing literal's folding
+                let name = argument(0)?;
+                let spread = match &name.kind {
+                    ExprKind::Unary(unary) if unary.op == UnaryOp::Spread && !with_object => {
+                        Some(&unary.node)
+                    }
+                    _ => None,
+                };
+                self.without_fold(|this| {
+                    if with_object {
+                        this.expr(argument(1)?)?;
+                    }
+                    // `constant(...value)` (valid PHP) unpacks the value into constant()'s arguments
+                    this.expr(spread.unwrap_or(name))
+                })?;
+                self.emit_at(
+                    Instr::PhpConstant {
+                        with_object,
+                        spread: spread.is_some(),
+                    },
+                    start,
+                );
                 self.emit(Instr::Binary(BinaryOp::Identical));
                 Ok(())
             }
@@ -1957,12 +2439,15 @@ impl Codegen<'_> {
             .with_line(strategy.line)
             .with_source(self.source()));
         }
-        self.call(
+        let result = self.call(
             &TwigCallable::Function(function.function.clone()),
             None,
             Some(&arguments),
             expr.line,
-        )
+        );
+        self.temporaries
+            .push(Temporary::Arguments(Box::new(arguments)));
+        result
     }
 
     /// The `$macros` slot of a `MacroVariable`: `_self`, its name, or the name Twig's compiler gives a nameless one
@@ -1975,10 +2460,19 @@ impl Codegen<'_> {
                 var.class_name()
             )));
         };
+        self.name_macro_var(variable);
         Ok(match &variable.name {
             TempName::String(name) if name.as_slice() == b"_self" => MacroSlot::This,
             other => MacroSlot::Key(macro_key(other, variable.id)),
         })
+    }
+
+    /// Twig: `MacroVariable::getName()`: a variable without a name is named by `Compiler::getVarName()` when it is
+    /// first compiled.
+    fn name_macro_var(&mut self, variable: &ast::MacroVariableExpr) {
+        if variable.name == TempName::Null && self.named_macro_vars.insert(variable.id) {
+            self.twig_var();
+        }
     }
 
     /// Twig: `ImportNode::compile()`: `$macros["name"] = [$this->macros["name"] = ]` (AssignMacroVariable, with its
@@ -1995,6 +2489,8 @@ impl Codegen<'_> {
             ));
         };
         self.add_debug_info(import.var.line);
+        // AssignMacroVariable::compile() names a `{% from %}` variable first
+        self.name_macro_var(variable);
         let start = self.marker;
         if import.expr.context_variable_name() == Some(b"_self".as_slice()) {
             self.emit(Instr::SelfMacroNamespace);
@@ -2032,7 +2528,10 @@ impl Codegen<'_> {
     ) -> Result<()> {
         self.add_debug_info(line);
         let start = self.marker;
-        let var = ignore_missing.then(|| self.local());
+        let var = ignore_missing.then(|| {
+            self.twig_var();
+            self.local()
+        });
         let try_at = ignore_missing.then(|| self.emit(Instr::TryLoader { catch: 0 }));
         match target {
             IncludeTarget::Expr(expr) => {
@@ -2125,25 +2624,62 @@ impl Codegen<'_> {
             let extractor =
                 CallableArgumentsExtractor::new(callable, line, Some(&source), node.is_some())?;
             let bound = extractor.extract_arguments(arguments, &mut *self.deprecations)?;
-            for argument in &bound {
-                match &argument.kind {
-                    ExprKind::Array(array) if array.variadic => {
-                        self.expr(argument)?;
-                        self.emit(Instr::ArgSpread);
-                    }
-                    ExprKind::Unary(unary) if unary.op == UnaryOp::Spread => {
-                        self.expr(&unary.node)?;
-                        self.emit(Instr::ArgSpread);
-                    }
-                    _ => {
-                        self.expr(argument)?;
-                        self.emit(Instr::Arg);
-                    }
-                }
-            }
+            // the extractor returns copies; Twig compiles the argument objects themselves
+            self.alias_arguments(&bound, arguments);
+            let result = self.bound_arguments(&bound, index);
+            self.temporaries.push(Temporary::Exprs(bound));
+            result?;
         }
         self.emit_at(Instr::Call(index), start);
         Ok(())
+    }
+
+    /// Compiles the arguments `CallableArgumentsExtractor` bound for the callable `callable`.
+    fn bound_arguments(&mut self, bound: &[Expr], callable: u32) -> Result<()> {
+        for argument in bound {
+            match &argument.kind {
+                ExprKind::Array(array) if array.variadic => {
+                    self.expr(argument)?;
+                    self.emit(Instr::ArgSpread { callable });
+                }
+                ExprKind::Unary(unary) if unary.op == UnaryOp::Spread => {
+                    self.expr(&unary.node)?;
+                    self.emit(Instr::ArgSpread { callable });
+                }
+                _ => {
+                    self.expr(argument)?;
+                    self.emit(Instr::Arg);
+                }
+            }
+        }
+        Ok(())
+    }
+
+    /// Aliases the copies `CallableArgumentsExtractor` returned to the argument nodes they copy (each to the first
+    /// unused argument equal to it; the elements of a variadic array likewise).
+    fn alias_arguments(&mut self, bound: &[Expr], arguments: &Arguments) {
+        let mut used = vec![false; arguments.len()];
+        let mut alias = |this: &mut Self, copy: &Expr| {
+            let found = arguments
+                .entries()
+                .iter()
+                .enumerate()
+                .find(|(i, (_, original))| !used[*i] && *original == *copy);
+            if let Some((i, (_, original))) = found {
+                used[i] = true;
+                this.alias_tree(copy, original);
+            }
+        };
+        for copy in bound {
+            match &copy.kind {
+                ExprKind::Array(array) if array.variadic => {
+                    for (_, value) in &array.elements {
+                        alias(self, value);
+                    }
+                }
+                _ => alias(self, copy),
+            }
+        }
     }
 }
 
@@ -2174,6 +2710,45 @@ struct ModuleParts {
     traits: Vec<TraitDef>,
     embedded: Vec<Arc<Program>>,
     traitable: bool,
+}
+
+/// Whether an expression is a `SpreadUnary` (`...expr`).
+fn is_spread(expr: &Expr) -> bool {
+    matches!(&expr.kind, ExprKind::Unary(unary) if unary.op == UnaryOp::Spread)
+}
+
+/// A compile-time fatal error of the generated PHP (`E_COMPILE_ERROR`): uncatchable in PHP; twig-rs fails the
+/// compilation with a `CompileError` carrying PHP's message.
+fn compile_fatal(fatal: php::CompileFatal) -> Error {
+    Error::php(PhpError::new(ThrowableClass::CompileError, fatal.0))
+}
+
+/// `zend_compile_args()`: `Cannot use positional argument after argument unpacking` (PHPSRC/Zend/zend_compile.c).
+fn positional_after_unpack() -> Error {
+    compile_fatal(php::CompileFatal(
+        "Cannot use positional argument after argument unpacking".to_owned(),
+    ))
+}
+
+/// The key of a node for the compile-time state Twig keeps on node objects: the address of the expression. The AST
+/// is borrowed for the whole compilation and compiled copies are kept alive ([`Codegen::temporaries`]), so
+/// addresses are unique.
+fn expr_key(expr: &Expr) -> usize {
+    std::ptr::from_ref(expr) as usize
+}
+
+/// Whether two nodes are of the same class, as far as telling a copy from a visitor's wrapper needs.
+fn same_node_class(a: &Expr, b: &Expr) -> bool {
+    match (&a.kind, &b.kind) {
+        (ExprKind::Filter(a), ExprKind::Filter(b)) => {
+            std::mem::discriminant(&a.kind) == std::mem::discriminant(&b.kind)
+                && a.filter.name() == b.filter.name()
+        }
+        (ExprKind::Unary(a), ExprKind::Unary(b)) => a.op == b.op,
+        (ExprKind::Binary(a), ExprKind::Binary(b)) => a.op == b.op,
+        (ExprKind::Test(a), ExprKind::Test(b)) => a.kind == b.kind,
+        (a, b) => std::mem::discriminant(a) == std::mem::discriminant(b),
+    }
 }
 
 /// The operand of the null test inside a `NullCoalesceBinary` test (`defined(clone) && !(null === left)`).
@@ -2240,41 +2815,5 @@ pub(crate) fn const_value(value: &ConstantValue) -> Value {
             }
             Value::Array(array)
         }
-    }
-}
-
-/// Evaluates the default value of a macro argument (a constant, an array of constants, or `-`/`+` of a constant), as
-/// PHP evaluates a parameter's constant default.
-fn const_eval(expr: &Expr) -> Value {
-    let mut diag = Ignore;
-    let diag: &mut dyn Diagnostics = &mut diag;
-    match &expr.kind {
-        ExprKind::Constant(constant) => const_value(&constant.value),
-        ExprKind::Unary(unary) if unary.op == UnaryOp::Neg => {
-            ops::negate(&const_eval(&unary.node), diag).unwrap_or(Value::Null)
-        }
-        ExprKind::Unary(unary) if unary.op == UnaryOp::Pos => {
-            ops::unary_plus(&const_eval(&unary.node), diag).unwrap_or(Value::Null)
-        }
-        ExprKind::Array(array) => {
-            let mut out = Array::new();
-            let mut is_sequence = true;
-            for (i, (key, value)) in array.elements.iter().enumerate() {
-                let key_value = key.as_constant().map(const_value);
-                if !matches!(&key_value, Some(Value::Int(k)) if *k == i as i64) {
-                    is_sequence = false;
-                }
-                let value = const_eval(value);
-                if is_sequence {
-                    let _ = out.push(value);
-                } else if let Some(key) = key_value
-                    && let Ok(key) = ArrayKey::from_value(&key, twig_value::KeyContext::Write, diag)
-                {
-                    out.insert(key, value);
-                }
-            }
-            Value::Array(out)
-        }
-        _ => Value::Null,
     }
 }

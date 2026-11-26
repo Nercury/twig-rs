@@ -11,7 +11,8 @@
 //!
 //! When fields differ, the [deviation rules](DEVIATION_RULES) (known, accepted differences listed
 //! in `reference/deviations.md`) are applied to both sides; a difference that disappears is a
-//! [`Verdict::Deviation`], not a mismatch. Two more deviations are recognised by twig-rs's own
+//! [`Verdict::Deviation`], not a mismatch. Outputs go through the rules byte for byte (each byte
+//! read as one character), so outputs that are not valid UTF-8 get them too. Two more deviations are recognised by twig-rs's own
 //! error texts: `memory-limit` (twig-rs's stand-in for PHP's 128M limit, `Allowed memory size of
 //! ...`, while the oracle runs with another limit) and `unsupported-by-twig-rs` (`... not supported
 //! by twig-rs`: charsets, `TemplateWrapper` methods). An error of a PHP class port of
@@ -222,6 +223,12 @@ fn lossy(bytes: &[u8]) -> String {
     String::from_utf8_lossy(bytes).into_owned()
 }
 
+/// The bytes as a string of one character per byte (U+0000 to U+00FF): a bijection, so texts are
+/// equal exactly when the bytes are, and the rules' ASCII patterns match as they would on bytes.
+fn latin1(bytes: &[u8]) -> String {
+    bytes.iter().map(|&b| char::from(b)).collect()
+}
+
 /// A quoted, escaped rendering of bytes: valid UTF-8 as Rust's `{:?}` writes it, invalid bytes as
 /// `\xNN`.
 pub fn escape_bytes(bytes: &[u8]) -> String {
@@ -281,12 +288,10 @@ fn fields(expected: &CaseResult, actual: &CaseResult, rules: &[&DeviationRule]) 
         let want = expected.output.clone().unwrap_or_default();
         let got = actual.output.clone().unwrap_or_default();
         if want != got {
-            // the rules rewrite text; outputs that are not valid UTF-8 are compared as bytes
+            // the rules rewrite ASCII text: each byte is one character, so outputs that are not
+            // valid UTF-8 get them too and the comparison stays exact
             let equal_after_rules = !rules.is_empty()
-                && match (std::str::from_utf8(&want), std::str::from_utf8(&got)) {
-                    (Ok(w), Ok(g)) => apply(rules, "output", w) == apply(rules, "output", g),
-                    _ => false,
-                };
+                && apply(rules, "output", &latin1(&want)) == apply(rules, "output", &latin1(&got));
             if !equal_after_rules {
                 out.push(FieldDiff {
                     field: "output".to_owned(),
@@ -686,47 +691,139 @@ fn strip_passed_in(text: &str) -> String {
     out
 }
 
+/// "Closure names and source locations in messages": PHP 8.4+ names a closure after where it is
+/// declared (`zend_begin_func_decl()`, PHPSRC/Zend/zend_compile.c): `{closure:<file>:<line>}`
+/// outside functions, `{closure:<Class>::<method>():<line>}` in a method and
+/// `{closure:<name of the enclosing closure>:<line>}` in another closure, so the arrow functions of
+/// a compiled template are `{closure:__TwigTemplate_<hash>::doDisplay():44}`, nested ones
+/// `{closure:{closure:...}:47}`, and macro bodies sit in the closures of `loadDeclaredMacros()`.
+/// Messages that name a function also give its scope (`zend_missing_arg_error()`,
+/// PHPSRC/Zend/zend_execute.c: `Too few arguments to function %s%s%s()`), the template class for
+/// these closures. twig-rs writes `{closure}` without a scope: every closure name becomes
+/// `{closure}` (braces matched, so nested names go whole), and the scope of a closure declared in a
+/// compiled template class (`__TwigTemplate_<hash>::`, `___<n>` for an embedded template) is
+/// dropped.
 fn plain_closure_names(text: &str) -> String {
     let mut out = String::with_capacity(text.len());
     let mut rest = text;
     while let Some(start) = rest.find("{closure:") {
-        out.push_str(&rest[..start]);
-        match rest[start..].find('}') {
-            Some(end) => {
-                out.push_str("{closure}");
-                rest = &rest[start + end + 1..];
-            }
-            None => {
-                out.push_str(&rest[start..]);
-                rest = "";
-            }
-        }
+        let Some(len) = braced_len(&rest[start..]) else {
+            break;
+        };
+        out.push_str(without_template_scope(&rest[..start]));
+        out.push_str("{closure}");
+        rest = &rest[start + len..];
     }
     out.push_str(rest);
     out
 }
 
+/// The length of the brace group `text` starts with (nested groups included).
+fn braced_len(text: &str) -> Option<usize> {
+    let mut depth = 0usize;
+    for (i, b) in text.bytes().enumerate() {
+        match b {
+            b'{' => depth += 1,
+            b'}' => {
+                depth -= 1;
+                if depth == 0 {
+                    return Some(i + 1);
+                }
+            }
+            _ => {}
+        }
+    }
+    None
+}
+
+/// `text` without a trailing `__TwigTemplate_<hex>::` / `__TwigTemplate_<hex>___<n>::`.
+fn without_template_scope(text: &str) -> &str {
+    let Some(before) = text.strip_suffix("::") else {
+        return text;
+    };
+    let start = before
+        .char_indices()
+        .rev()
+        .take_while(|(_, c)| c.is_ascii_alphanumeric() || *c == '_')
+        .last()
+        .map_or(before.len(), |(i, _)| i);
+    if is_template_class(&before[start..]) {
+        &text[..start]
+    } else {
+        text
+    }
+}
+
+/// `Environment::getTemplateClass()` names: `__TwigTemplate_` and a hash, plus `___<index>` for an
+/// embedded template (`Environment::loadTemplate()`).
+fn is_template_class(name: &str) -> bool {
+    let Some(rest) = name.strip_prefix("__TwigTemplate_") else {
+        return false;
+    };
+    let (hash, index) = match rest.split_once("___") {
+        Some((hash, index)) => (hash, Some(index)),
+        None => (rest, None),
+    };
+    !hash.is_empty()
+        && hash.bytes().all(|b| b.is_ascii_hexdigit())
+        && index.is_none_or(|i| !i.is_empty() && i.bytes().all(|b| b.is_ascii_digit()))
+}
+
+/// How `(`, `)` and `#` look in a `var_dump()` printed through an escaping strategy: as they are
+/// (no escaping, `html`), `html_attr` / `html_attr_relaxed` (`&#x23;`), `js` (`#`), `css`
+/// (`\23 `) and `url` (`%23`): `EscaperRuntime::escape()` (TWIG/src/Runtime/EscaperRuntime.php).
+const DUMP_PUNCTUATION: &[(&str, &str, &str)] = &[
+    ("(", ")", "#"),
+    ("&#x28;", "&#x29;", "&#x23;"),
+    ("\\u0028", "\\u0029", "\\u0023"),
+    ("\\28 ", "\\29 ", "\\23 "),
+    ("%28", "%29", "%23"),
+];
+
+/// "Object handles": the `#<handle>` after `object(<class>)` in `var_dump()` output
+/// (`php_var_dump()`, PHPSRC/ext/standard/var.c) becomes `#N`, also when an escaping strategy
+/// rewrote the punctuation ([`DUMP_PUNCTUATION`]) and after case filters (`|upper`, `|title`:
+/// `OBJECT(`, `Object(`); `enum(Foo::Bar)` has no handle.
 fn object_handles(text: &str) -> String {
-    // `object(Foo)#12 (0)` / `enum(Foo::Bar)` never carry handles; replace `)#<digits>`
-    let bytes = text.as_bytes();
+    let lower = text.to_ascii_lowercase();
+    let bytes = lower.as_bytes();
+    // where `object(` first appears, per spelling: a handle needs one before it
+    let first_object: Vec<Option<usize>> = DUMP_PUNCTUATION
+        .iter()
+        .map(|(open, _, _)| lower.find(&format!("object{open}")))
+        .collect();
     let mut out = String::with_capacity(text.len());
     let mut i = 0;
     let mut last = 0;
-    while i + 1 < bytes.len() {
-        if bytes[i] == b')' && bytes[i + 1] == b'#' {
-            let digits = bytes[i + 2..]
+    while i < bytes.len() {
+        let found =
+            DUMP_PUNCTUATION
                 .iter()
-                .take_while(|b| b.is_ascii_digit())
-                .count();
-            if digits > 0 && text[..i].rfind("object(").is_some() {
-                out.push_str(&text[last..i + 2]);
+                .zip(&first_object)
+                .find_map(|((_, close, hash), object)| {
+                    let marker = close.len() + hash.len();
+                    let rest = &bytes[i..];
+                    if !(rest.starts_with(close.as_bytes())
+                        && rest[close.len()..].starts_with(hash.as_bytes())
+                        && object.is_some_and(|o| o < i))
+                    {
+                        return None;
+                    }
+                    let digits = rest[marker..]
+                        .iter()
+                        .take_while(|b| b.is_ascii_digit())
+                        .count();
+                    (digits > 0).then_some((marker, digits))
+                });
+        match found {
+            Some((marker, digits)) => {
+                out.push_str(&text[last..i + marker]);
                 out.push('N');
-                i += 2 + digits;
+                i += marker + digits;
                 last = i;
-                continue;
             }
+            None => i += 1,
         }
-        i += 1;
     }
     out.push_str(&text[last..]);
     out
@@ -814,5 +911,81 @@ mod tests {
             ),
             "error.message:TypeError | diagnostics:+E_WARNING,-E_DEPRECATED"
         );
+    }
+
+    #[test]
+    fn closure_names_of_compiled_templates() {
+        // the forms the oracle prints (tests/vectors/deviations.json)
+        let class = "__TwigTemplate_10e02d70964b1815a5011b3d0ffa02aa";
+        for name in [
+            format!("{class}::{{closure:{class}::doDisplay():44}}"),
+            format!("{class}::{{closure:{{closure:{class}::doDisplay():47}}:47}}"),
+            format!(
+                "{class}::{{closure:{{closure:{{closure:{class}::loadDeclaredMacros():54}}:62}}:63}}"
+            ),
+            format!("{class}___1::{{closure:{class}___1::block_b():120}}"),
+            "{closure:/x/y.php:3}".to_owned(),
+        ] {
+            assert_eq!(
+                plain_closure_names(&format!(
+                    "Too few arguments to function {name}(), 2 passed and exactly 3 expected"
+                )),
+                "Too few arguments to function {closure}(), 2 passed and exactly 3 expected",
+                "{name}"
+            );
+        }
+        // other scopes stay; an unbalanced name is left alone
+        assert_eq!(
+            plain_closure_names("Foo::{closure:Foo::bar():3}() and {closure:x"),
+            "Foo::{closure}() and {closure:x"
+        );
+        assert!(!is_template_class("__TwigTemplate_"));
+        assert!(!is_template_class("__TwigTemplate_abc___"));
+        assert!(is_template_class("__TwigTemplate_abc___12"));
+    }
+
+    #[test]
+    fn object_handles_through_escaping_and_case_filters() {
+        for (php, rs) in [
+            ("object(stdClass)#217 (0) {", "object(stdClass)#7 (0) {"),
+            (
+                "object&#x28;stdClass&#x29;&#x23;217&#x20;&#x28;0&#x29;",
+                "object&#x28;stdClass&#x29;&#x23;7&#x20;&#x28;0&#x29;",
+            ),
+            (
+                "object\\u0028stdClass\\u0029\\u0023217\\u0020",
+                "object\\u0028stdClass\\u0029\\u00239\\u0020",
+            ),
+            (
+                "object\\28 stdClass\\29 \\23 217\\20 \\28 0\\29 ",
+                "object\\28 stdClass\\29 \\23 11\\20 \\28 0\\29 ",
+            ),
+            (
+                "object%28stdClass%29%23217%20%280%29",
+                "object%28stdClass%29%2313%20%280%29",
+            ),
+            ("Object(Stdclass)#1123 (0) {", "Object(Stdclass)#15 (0) {"),
+            ("OBJECT(STDCLASS)#1302 (0) {", "OBJECT(STDCLASS)#17 (0) {"),
+        ] {
+            assert_eq!(object_handles(php), object_handles(rs), "{php}");
+            assert_ne!(php, rs);
+        }
+        // no object before it, or no digits: not a handle
+        assert_eq!(object_handles("f(x)#12"), "f(x)#12");
+        assert_eq!(object_handles("object(a) (b)#x"), "object(a) (b)#x");
+        assert_eq!(object_handles("enum(Suit::Hearts)"), "enum(Suit::Hearts)");
+    }
+
+    #[test]
+    fn rules_apply_to_outputs_that_are_not_utf8() {
+        let php = CaseResult::success(Json::Null, b"object(stdClass)#1654 (0) {\n}\n\xff".to_vec());
+        let rs = CaseResult::success(Json::Null, b"object(stdClass)#21 (0) {\n}\n\xff".to_vec());
+        assert_eq!(
+            compare(&php, &rs),
+            Verdict::Deviation(vec!["object-handle"])
+        );
+        // the bytes themselves still count
+        let other = CaseResult::success(Json::Null, b"object(stdClass)#21 (0) {\n}\n\xfe".to_vec());
+        assert!(matches!(compare(&php, &other), Verdict::Mismatch(_)));
     }
 }

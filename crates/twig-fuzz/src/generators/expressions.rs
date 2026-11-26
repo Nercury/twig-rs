@@ -40,8 +40,9 @@
 //! fixture `expressions/array_dynamic_keys.test`.
 //!
 //! What cannot match by design is left out (`reference/deviations.md`): unseeded randomness, the
-//! current time, string callables, ranges large enough to reach a memory limit, `dump()` of objects
-//! under escaping strategies that would escape the object handles the comparison ignores.
+//! current time, string callables, ranges large enough to reach a memory limit. `dump()` of
+//! objects is fine under every escaping strategy: the comparison ignores object handles also in
+//! escaped dumps.
 //!
 //! [`generate`] is deterministic: case `i` of seed `s` depends only on `s` and `i`. Batches go
 //! through `twig-fuzz drive` like any other batch file.
@@ -63,7 +64,9 @@ pub fn generate_case(seed: u64, index: usize) -> Json {
     let mut rng = Rng::new(seed.wrapping_mul(0x2545_F491_4F6C_DD1D) ^ index as u64);
     let profile = rng.weighted(PROFILES);
     let mut generator = Generator::new(&mut rng);
-    generator.case(profile, &format!("x{seed}-{index:05}-{}", profile.name()))
+    super::with_case_cache(
+        generator.case(profile, &format!("x{seed}-{index:05}-{}", profile.name())),
+    )
 }
 
 // ---- random numbers ----------------------------------------------------------------------------
@@ -1985,11 +1988,7 @@ impl<'r> Generator<'r> {
         }
 
         let mut config: Vec<(String, Json)> = Vec::new();
-        let autoescape = if self.dump {
-            // dump() is safe for html only: other strategies would escape the `#N` object handles
-            // that the comparison ignores (reference/deviations.md, "Object handles")
-            *self.rng.pick(&[Autoescape::False, Autoescape::Html])
-        } else if profile == Profile::ToString {
+        let autoescape = if profile == Profile::ToString {
             *self.rng.pick(&[
                 Autoescape::False,
                 Autoescape::Html,

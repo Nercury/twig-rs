@@ -42,7 +42,9 @@
 //!   cache does (`reference/deviations.md`, "Line guessing with `cache => false`"). The minimiser's
 //!   candidates of one case must not share that directory (a compiled file of an earlier candidate
 //!   would be loaded instead of compiling the template again, with the options of that candidate):
-//!   wrap its predicate in [`FreshCache`].
+//!   [`crate::minimize::SameSignature`] gives each candidate a directory of its own, and the oracle's
+//!   runner empties a case's directory before the case runs; [`FreshCache`] does the former for any
+//!   other predicate.
 //! - **No unbounded recursion.** Templates only refer to templates generated before them; blocks only
 //!   contain or call blocks of a lower rank (`a` < `b` < ... < `content`), and `block(name, _self)`
 //!   keeps the rank limit of the enclosing block inside an embed (`_self` still names the enclosing
