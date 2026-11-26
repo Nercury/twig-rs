@@ -1767,6 +1767,28 @@ fn template_wrappers_in_templates_resolve_the_lazy_path_in_get_path() {
             "n|1",
             "",
         ),
+        // an arrow function of the template is not a first-class callable: it is uncomparable with the
+        // `$this->getSourcePath(...)` callable in either order, and with another arrow function
+        (
+            "{% set s = t.getSourceContext() %}{{ s.createWithLazyPath(s.getCode(), s.getName(), (x) => x) == s ? 'eq' : 'ne' }}|{{ foo }}",
+            "ne|1",
+            "",
+        ),
+        (
+            "{% set s = t.getSourceContext() %}{{ s == s.createWithLazyPath(s.getCode(), s.getName(), (x) => x) ? 'eq' : 'ne' }}|{{ foo }}",
+            "ne|1",
+            "",
+        ),
+        (
+            "{% set s = t.getSourceContext() %}{% set l = s.createWithLazyPath(s.getCode(), s.getName(), (x) => x) %}{{ l <= s ? 'le' : 'gt' }}{{ s >= l ? 'ge' : 'lt' }}{{ s <= l ? 'le' : 'gt' }}{{ l >= s ? 'ge' : 'lt' }}{{ l != s ? 'ne' : 'eq' }}|{{ foo }}",
+            "gtltgtltne|1",
+            "",
+        ),
+        (
+            "{% set s = t.getSourceContext() %}{% set l = s.createWithLazyPath(s.getCode(), s.getName(), (x) => x) %}{{ l == l ? 'eq' : 'ne' }}{{ s == s ? 'eq' : 'ne' }}{{ l == s.createWithLazyPath(s.getCode(), s.getName(), (x) => x) ? 'eq' : 'ne' }}|{{ foo }}",
+            "eqeqne|1",
+            "",
+        ),
     ] {
         let loader = RecordingLoader::new(&[("index.twig", code)], "/path/to/");
         let twig = Environment::with_options(loader.clone(), strict());

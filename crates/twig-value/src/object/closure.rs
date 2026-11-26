@@ -110,7 +110,11 @@ impl Object for Closure {
         Ok(ObjectRef::new(self.clone()))
     }
 
-    /// `zend_closure_compare()`: two closures (not both fake closures) are uncomparable.
+    /// Port of `zend_closure_compare()` (PHPSRC/Zend/zend_closures.c): two closures are equal only when both are
+    /// first-class callables (`ZEND_ACC_FAKE_CLOSURE`) of the same function, scope and `$this`. A Rust closure is
+    /// never one, so it is uncomparable (`ZEND_UNCOMPARABLE`) with every object of class `Closure`, also with the
+    /// closures other Rust types implement (the lazy source path of a template, for example). Any other operand
+    /// falls back to `zend_std_compare_objects()` (`ZEND_COMPARE_OBJECTS_FALLBACK`).
     fn compare(
         &self,
         _this: &ObjectRef,
@@ -119,8 +123,55 @@ impl Object for Closure {
         _compare_values: &mut dyn FnMut(&Value, &Value) -> PhpResult<i32>,
     ) -> Option<PhpResult<i32>> {
         match other {
-            Value::Object(o) if o.downcast_ref::<Closure>().is_some() => Some(Ok(1)),
+            Value::Object(o) if o.instance_of("Closure") => Some(Ok(1)),
             _ => None,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::compare;
+    use crate::object::StdClass;
+
+    /// A `Closure` that another Rust type implements, without a comparison of its own.
+    struct OtherClosure(ClassRef);
+
+    impl Object for OtherClosure {
+        fn class(&self) -> &ClassRef {
+            &self.0
+        }
+    }
+
+    /// `$f == $g` and `$f <=> $g`.
+    fn compared(f: &Value, g: &Value) -> (bool, i64) {
+        let mut diag = Vec::new();
+        let equal = compare::equals(f, g, &mut diag).unwrap();
+        let order = compare::spaceship(f, g, &mut diag).unwrap();
+        assert!(diag.is_empty());
+        (equal, order)
+    }
+
+    /// PHP (the oracle): with `$f = fn () => 1`, `$f == strlen(...)` is false, and `<=>` gives 1 both ways, like any
+    /// pair that is not two first-class callables of one function.
+    #[test]
+    fn closures_are_uncomparable_with_every_other_closure() {
+        let f = Value::Object(Closure::new(|_, _| Ok(Value::Int(1))).into_ref());
+        let g = Value::Object(Closure::new(|_, _| Ok(Value::Int(1))).into_ref());
+        let other = Value::Object(ObjectRef::new(OtherClosure(builtin::closure())));
+        assert_eq!(compared(&f, &g), (false, 1));
+        assert_eq!(compared(&g, &f), (false, 1));
+        assert_eq!(compared(&f, &other), (false, 1));
+        assert_eq!(compared(&f, &f), (true, 0));
+    }
+
+    /// Objects of other classes compare as `zend_std_compare_objects()` does: uncomparable.
+    #[test]
+    fn closures_and_other_objects_compare_as_objects() {
+        let f = Value::Object(Closure::new(|_, _| Ok(Value::Int(1))).into_ref());
+        let object = Value::Object(StdClass::new().into_ref());
+        assert_eq!(compared(&f, &object), (false, 1));
+        assert_eq!(compared(&object, &f), (false, 1));
     }
 }
