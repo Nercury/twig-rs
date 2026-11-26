@@ -12,12 +12,19 @@
 //! `// line N` marker. An error without an explicit line takes the line of the instruction that failed, in the
 //! innermost frame of the template that handles it, which is what Twig's `Error::guess()` computes from the PHP
 //! backtrace.
+//!
+//! Node classes defined by extensions ([`CustomNode`](crate::ast::CustomNode),
+//! [`CustomExpr`](crate::ast::CustomExpr)) compile themselves with a [`Compiler`], the counterpart of the `Compiler`
+//! a Twig node's `compile()` writes PHP with, and call Rust code at runtime through [`NodeRuntime`]s.
 
+mod builder;
 mod codegen;
 mod instr;
 mod php;
 mod program;
+mod runtime;
 
+pub use builder::{Compiler, Jump, Local, Mark};
 pub use codegen::{CompileOptions, EnumResolver, compile};
 pub use instr::{
     BinaryOp, BlockOp, ConstId, GetAttrOp, Instr, Label, LocalId, NameMode, UnitId, YieldArgs,
@@ -26,3 +33,4 @@ pub use program::{
     BlockDef, FileId, LineTable, MacroDef, MacroParam, ParentDef, Program, SecurityLists, TraitDef,
     Unit, UnitKind,
 };
+pub use runtime::{NodeCall, NodeRuntime};

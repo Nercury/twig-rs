@@ -7,10 +7,13 @@ use std::sync::Arc;
 use twig_value::{PhpError, ThrowableClass};
 
 use super::{NodeVisitor, Visit, VisitContext, VisitResult, priority};
-use crate::ast::{ArgumentKey, ConstantValue, Expr, ExprKind, Node, NodeKind, NodeMut};
+use crate::ast::{
+    ArgumentKey, Arguments, ChildKey, ConstantValue, Expr, ExprKind, Node, NodeKind, NodeMut,
+    NodeRef,
+};
 use crate::deprecation::{Deprecation, DeprecationSink};
 use crate::error::{Error, Result};
-use crate::extension::{Extension, ExtensionSet};
+use crate::extension::{Extension, ExtensionSet, TwigCallable};
 
 /// Optimizes the tree (priority 255, the last core visitor):
 ///
@@ -140,6 +143,27 @@ impl NodeVisitor for OptimizerNodeVisitor {
     }
 }
 
+/// Whether the arguments of an `include()` call pass `with_context = false`: `$node->getNode('arguments')->hasNode(
+/// 'with_context') && false === ...->getNode('with_context')->getAttribute('value')`.
+///
+/// # Errors
+///
+/// A `with_context` argument that is not a constant: `getAttribute()`'s `LogicException` `Attribute "value" does not
+/// exist for Node "%s".`.
+fn include_without_context(arguments: &Arguments) -> Result<bool> {
+    match arguments.get(&ArgumentKey::Name(b"with_context".to_vec())) {
+        None => Ok(false),
+        // `->getAttribute('value')`: only constants have the attribute
+        Some(argument) => match &argument.kind {
+            ExprKind::Constant(constant) => Ok(constant.value == ConstantValue::Bool(false)),
+            _ => Err(Error::logic(format!(
+                "Attribute \"value\" does not exist for Node \"{}\".",
+                argument.class_name()
+            ))),
+        },
+    }
+}
+
 /// A `for` loop being visited. Twig keeps the `ForNode` itself (`$loops`) and the target names (`$loopsTargets`);
 /// the `with_loop` flag is written back to the node when the pass leaves it.
 struct LoopState {
@@ -261,25 +285,31 @@ impl OptimizerPass<'_> {
             ExprKind::BlockReference(_) => self.add_loop_to_current(),
             // include function without the with_context=false parameter
             ExprKind::Function(function) if function.function.name() == b"include" => {
-                let with_context = function
-                    .arguments
-                    .get(&ArgumentKey::Name(b"with_context".to_vec()));
-                let disabled = match with_context {
-                    None => false,
-                    // `->getAttribute('value')`: only constants have the attribute
-                    Some(argument) => match &argument.kind {
-                        ExprKind::Constant(constant) => {
-                            constant.value == ConstantValue::Bool(false)
-                        }
-                        _ => {
-                            return Err(Error::logic(format!(
-                                "Attribute \"value\" does not exist for Node \"{}\".",
-                                argument.class_name()
-                            )));
-                        }
-                    },
+                if !include_without_context(&function.arguments)? {
+                    self.add_loop_to_all();
+                }
+            }
+            // a `FunctionExpression` subclass of an extension for the `include` function
+            ExprKind::Custom(custom)
+                if matches!(
+                    custom.callable(),
+                    Some(TwigCallable::Function(function)) if function.name() == b"include"
+                ) =>
+            {
+                let children = custom.children();
+                let arguments = children.iter().find_map(|(key, child)| match child {
+                    NodeRef::Arguments(arguments) if *key == ChildKey::Name("arguments") => {
+                        Some(*arguments)
+                    }
+                    _ => None,
+                });
+                let Some(arguments) = arguments else {
+                    return Err(Error::logic(format!(
+                        "Node \"arguments\" does not exist for Node \"{}\".",
+                        custom.class_name()
+                    )));
                 };
-                if !disabled {
+                if !include_without_context(arguments)? {
                     self.add_loop_to_all();
                 }
             }

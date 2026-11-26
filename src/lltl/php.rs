@@ -987,7 +987,9 @@ pub(crate) fn folds_children(expr: &Expr) -> bool {
 /// that place their arguments themselves: `DefaultFilter` (the first argument is also the else branch of its
 /// defined test, `x|default(...y)`), `SameasTest` (`(x === ...y)`), `DivisiblebyTest` (`(0 == x % ...y)`) and
 /// `ConstantTest` with an object (`constant(get_class(o)."::". ...y)`). PHP then throws `ParseError: syntax error,
-/// unexpected token "..."` when it loads the template.
+/// unexpected token "..."` when it loads the template. Node classes of extensions write no PHP: where their children
+/// land is their own code's business, so a spread child of theirs is no error (the children of the children are
+/// checked as anywhere else).
 pub(crate) fn generated_parse_error(node: &crate::ast::Node) -> bool {
     use crate::ast::NodeRef;
     fn walk_node(node: &crate::ast::Node) -> bool {
@@ -995,13 +997,14 @@ pub(crate) fn generated_parse_error(node: &crate::ast::Node) -> bool {
         if let crate::ast::NodeKind::Expression(expr) = &node.kind {
             return walk_expr(expr, false);
         }
+        let custom = matches!(node.kind, crate::ast::NodeKind::Custom(_));
         node.children().into_iter().any(|(_, child)| match child {
             NodeRef::Node(child) => walk_node(child),
-            NodeRef::Expr(expr) => walk_expr(expr, false),
+            NodeRef::Expr(expr) => walk_expr(expr, custom),
             NodeRef::Arguments(arguments) => arguments
                 .entries()
                 .iter()
-                .any(|(_, value)| walk_expr(value, false)),
+                .any(|(_, value)| walk_expr(value, custom)),
         })
     }
     /// `allowed`: the PHP position of `expr` accepts `...`.
@@ -1065,11 +1068,14 @@ pub(crate) fn generated_parse_error(node: &crate::ast::Node) -> bool {
                 walk_expr(&block.name, true)
                     || block.template.as_ref().is_some_and(|t| walk_expr(t, true))
             }
-            _ => expr.children().into_iter().any(|(_, child)| match child {
-                NodeRef::Expr(child) => walk_expr(child, false),
-                NodeRef::Node(child) => walk_node(child),
-                NodeRef::Arguments(args) => arguments(args, false),
-            }),
+            _ => {
+                let custom = matches!(expr.kind, ExprKind::Custom(_));
+                expr.children().into_iter().any(|(_, child)| match child {
+                    NodeRef::Expr(child) => walk_expr(child, custom),
+                    NodeRef::Node(child) => walk_node(child),
+                    NodeRef::Arguments(args) => arguments(args, custom),
+                })
+            }
         }
     }
     if walk_node(node) {

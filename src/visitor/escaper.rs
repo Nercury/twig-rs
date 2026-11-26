@@ -4,13 +4,13 @@ use std::collections::HashMap;
 
 use twig_value::PhpError;
 
-use super::safe_analysis::{is_operator_escape, is_safe_for};
+use super::safe_analysis::{check_analysis, is_operator_escape, is_safe_for};
 use super::{NodeVisitor, Visit, VisitContext, VisitResult, priority};
 use crate::ast::{
-    Arguments, ConstantValue, Expr, ExprKind, FilterKind, ModuleNode, NodeKind, NodeMut,
+    Arguments, ConstantValue, CustomExpr, Expr, ExprKind, FilterKind, ModuleNode, NodeKind, NodeMut,
 };
 use crate::error::{Error, Result};
-use crate::extension::{EscaperExtension, ExtensionSet};
+use crate::extension::{EscaperExtension, ExtensionSet, TwigCallable};
 
 /// Adds the auto-escaping filters (priority 0, registered by `EscaperExtension`).
 ///
@@ -22,6 +22,9 @@ use crate::extension::{EscaperExtension, ExtensionSet};
 /// - The strategy is the innermost `{% autoescape %}` value, else the template's default strategy
 ///   ([`EscaperExtension::default_strategy`] for the template name). A block body uses the strategy in effect at its
 ///   `{% block %}` tag; macro bodies use the template's default strategy.
+/// - Expression classes of extensions count as the class they declare: a `FilterExpression` subclass
+///   ([`CustomExpr::callable`]) has its `node` child pre-escaped, an `OperatorEscapeInterface`
+///   ([`CustomExpr::operand_names_to_escape`]) has its operands escaped one by one when it is printed.
 /// - It sets the module's `strategy` attribute (the default strategy when it is a string) and its `escaper`
 ///   attribute (whether an `EscapeFilter` compiles to the template's escaper), and marks such filters with
 ///   `template_escaper`.
@@ -59,6 +62,7 @@ impl NodeVisitor for EscaperNodeVisitor {
             blocks: HashMap::new(),
             default_strategy: ConstantValue::Bool(false),
             uses_escaper: false,
+            custom_exprs: false,
         })
     }
 }
@@ -74,11 +78,19 @@ struct EscaperPass<'a> {
     default_strategy: ConstantValue,
     /// Twig's `$usesEscaper`.
     uses_escaper: bool,
+    /// Whether the pass has entered an expression class defined by an extension: only those make the safe analysis
+    /// throw ([`check_analysis`]), and the subtree of a node is entered before the node is left.
+    custom_exprs: bool,
 }
 
 impl Visit for EscaperPass<'_> {
     /// Twig: `EscaperNodeVisitor::enterNode()`.
     fn enter(&mut self, mut node: NodeMut<'_>, _cx: &mut VisitContext<'_>) -> Result<()> {
+        if !self.custom_exprs
+            && let Some(expr) = node.as_ref().as_expr()
+        {
+            self.custom_exprs = matches!(expr.kind, ExprKind::Custom(_));
+        }
         let NodeMut::Node(node) = &mut node else {
             return Ok(());
         };
@@ -109,12 +121,21 @@ impl Visit for EscaperPass<'_> {
             return Ok(VisitResult::Keep);
         }
 
-        if let Some(expr) = node.as_expr_mut()
-            && matches!(expr.kind, ExprKind::Filter(_))
-        {
-            self.use_template_escaper(expr);
-            self.pre_escape_filter_node(expr)?;
-            return Ok(VisitResult::Keep);
+        if let Some(expr) = node.as_expr_mut() {
+            if matches!(expr.kind, ExprKind::Filter(_)) {
+                self.use_template_escaper(expr);
+                self.pre_escape_filter_node(expr)?;
+                return Ok(VisitResult::Keep);
+            }
+            // a `FilterExpression` subclass of an extension
+            if let ExprKind::Custom(custom) = &mut expr.kind
+                && let Some(TwigCallable::Filter(filter)) = custom.callable()
+            {
+                if let Some(strategy) = filter.pre_escape() {
+                    self.pre_escape_custom_filter(custom.as_mut(), strategy.as_bytes())?;
+                }
+                return Ok(VisitResult::Keep);
+            }
         }
 
         if let NodeMut::Node(n) = &mut node
@@ -168,6 +189,15 @@ impl EscaperPass<'_> {
         Ok(())
     }
 
+    /// The exceptions of the safe analysis of `expr` ([`check_analysis`]), when the pass has met an expression class
+    /// of an extension.
+    fn check_analysis(&self, expr: &Expr) -> Result<()> {
+        if self.custom_exprs {
+            check_analysis(expr)?;
+        }
+        Ok(())
+    }
+
     /// The current strategy: the top of the status stack, else the default strategy (`false` when falsy), passed
     /// through the `string|bool` return type of Twig's `needEscaping()`.
     ///
@@ -184,6 +214,9 @@ impl EscaperPass<'_> {
     /// Twig: `EscaperNodeVisitor::escapeConditional()`: escapes each operand of a `?:`, `??` or ternary, recursing
     /// into operands that are themselves such operators.
     fn escape_conditional(&mut self, expr: &mut Expr, strategy: &[u8]) -> Result<()> {
+        if let ExprKind::Custom(custom) = &mut expr.kind {
+            return self.escape_custom_operands(custom.as_mut(), strategy);
+        }
         let (left, right) = match &mut expr.kind {
             ExprKind::ConditionalTernary(ternary) => {
                 let ternary = &mut **ternary;
@@ -205,9 +238,58 @@ impl EscaperPass<'_> {
         Ok(())
     }
 
+    /// `escapeConditional()` for an `OperatorEscapeInterface` class of an extension: the operands it names, in its
+    /// order (a missing one is `getNode()`'s `LogicException`).
+    fn escape_custom_operands(
+        &mut self,
+        custom: &mut dyn CustomExpr,
+        strategy: &[u8],
+    ) -> Result<()> {
+        let names = custom.operand_names_to_escape().unwrap_or_default();
+        let class = custom.class_name().to_owned();
+        let mut children = custom.children_mut();
+        for name in &names {
+            let operand = children
+                .iter_mut()
+                .find(|(key, _)| key.to_string() == *name)
+                .and_then(|(_, child)| child.as_expr_mut())
+                .ok_or_else(|| missing_node(name, &class))?;
+            if is_operator_escape_expr(operand) {
+                self.escape_conditional(operand, strategy)?;
+            } else {
+                self.escape_expression(operand, strategy)?;
+            }
+        }
+        Ok(())
+    }
+
+    /// `preEscapeFilterNode()` for a `FilterExpression` subclass of an extension: its `node` child is escaped with the
+    /// filter's `pre_escape` strategy unless it is safe for it.
+    fn pre_escape_custom_filter(
+        &mut self,
+        custom: &mut dyn CustomExpr,
+        strategy: &[u8],
+    ) -> Result<()> {
+        let class = custom.class_name().to_owned();
+        let mut children = custom.children_mut();
+        let input = children
+            .iter_mut()
+            .find(|(key, _)| key.to_string() == "node")
+            .and_then(|(_, child)| child.as_expr_mut())
+            .ok_or_else(|| missing_node("node", &class))?;
+        self.check_analysis(input)?;
+        if is_safe_for(strategy, input) {
+            return Ok(());
+        }
+        let node = std::mem::replace(input, Expr::empty(0));
+        *input = self.escaper_filter(strategy, node)?;
+        Ok(())
+    }
+
     /// Twig: `EscaperNodeVisitor::escapeExpression()`: wraps the expression in the escape filter unless it is safe
     /// for the strategy.
     fn escape_expression(&mut self, slot: &mut Expr, strategy: &[u8]) -> Result<()> {
+        self.check_analysis(slot)?;
         if is_safe_for(strategy, slot) {
             return Ok(());
         }
@@ -225,6 +307,7 @@ impl EscaperPass<'_> {
         let Some(strategy) = filter.filter.pre_escape().map(|s| s.as_bytes().to_vec()) else {
             return Ok(());
         };
+        self.check_analysis(&filter.node)?;
         if is_safe_for(&strategy, &filter.node) {
             return Ok(());
         }
@@ -272,13 +355,22 @@ impl EscaperPass<'_> {
     }
 }
 
-/// Whether the expression class implements `OperatorEscapeInterface` (ternary, `?:`, `??`).
+/// Whether the expression class implements `OperatorEscapeInterface` (ternary, `?:`, `??`, and the classes of
+/// extensions that name operands to escape).
 fn is_operator_escape_expr(expr: &Expr) -> bool {
     match &expr.kind {
         ExprKind::ConditionalTernary(_) => true,
         ExprKind::Binary(binary) => is_operator_escape(binary.op),
+        ExprKind::Custom(custom) => custom.operand_names_to_escape().is_some(),
         _ => false,
     }
+}
+
+/// `Node "%s" does not exist for Node "%s".` (Twig's `Node::getNode()`).
+fn missing_node(name: &str, class: &str) -> Error {
+    Error::logic(format!(
+        "Node \"{name}\" does not exist for Node \"{class}\"."
+    ))
 }
 
 /// The strategy to escape with for a `needEscaping()` result: `None` for `false`; a string as is; `true` passed to

@@ -15,7 +15,9 @@ use super::output::Output;
 use super::state::VmState;
 use crate::error::Error;
 use crate::extension::runtime::call_callable;
-use crate::lltl::{BinaryOp, BlockOp, Instr, NameMode, Program, UnitId, UnitKind, YieldArgs};
+use crate::lltl::{
+    BinaryOp, BlockOp, Instr, NameMode, NodeCall, Program, UnitId, UnitKind, YieldArgs,
+};
 use crate::runtime::macros::{self, MacroNamespace};
 use crate::runtime::sandbox::{sandbox_end, sandbox_start};
 use crate::runtime::{Blocks, Markup, Template, TemplateObject, attribute, composition, core};
@@ -303,9 +305,11 @@ fn step(
         | Instr::ArrayLike { .. }
         | Instr::StringableKey { .. }
         | Instr::DimIsset => step_attributes(state, out, frame, program, instr),
-        Instr::ArgsStart { .. } | Instr::Arg | Instr::ArgSpread { .. } | Instr::Call(..) => {
-            step_calls(state, out, frame, program, instr)
-        }
+        Instr::ArgsStart { .. }
+        | Instr::Arg
+        | Instr::ArgSpread { .. }
+        | Instr::Call(..)
+        | Instr::CallRuntime { .. } => step_calls(state, out, frame, program, instr),
         Instr::SeqDestructure(..) | Instr::ListAssign(..) => {
             step_assignment(state, out, frame, program, instr)
         }
@@ -861,10 +865,38 @@ fn step_calls(
             let value = call_callable(state, program, callable, list)?;
             frame.push(value);
         }
+        Instr::CallRuntime { runtime, argc } => {
+            call_runtime(state, out, frame, program, *runtime, *argc)?;
+        }
 
         _ => unreachable!("step() dispatches by instruction group"),
     }
     Ok(Flow::Next)
+}
+
+/// `CallRuntime`: the runtime closure `runtime` of a node class of an extension with the top `argc` values. A function
+/// of its own, so that the frame of [`step_calls`], on the path of template recursion, stays small.
+#[inline(never)]
+fn call_runtime(
+    state: &mut VmState,
+    out: &mut Output<'_>,
+    frame: &mut Frame,
+    program: &Arc<Program>,
+    runtime: u32,
+    argc: u32,
+) -> Result<(), Exception> {
+    let first = frame.stack.len().saturating_sub(argc as usize);
+    let args = frame.stack.split_off(first);
+    let mut call = NodeCall {
+        state,
+        out,
+        context: &mut frame.context,
+        program,
+        args,
+    };
+    let value = program.runtimes()[runtime as usize].call(&mut call)?;
+    frame.push(value);
+    Ok(())
 }
 
 /// The `assignment` instructions.

@@ -331,6 +331,14 @@ pub enum Instr {
     /// Calls the filter, function or test `callables[i]` with the current argument list (the injected arguments
     /// are added by the runtime): `[] -> [result]`.
     Call(u32),
+    /// Calls the runtime closure of a node class defined by an extension (an index into the program's runtimes) with
+    /// the top `argc` values, in stack order: `[arg1 ... argN] -> [result]`.
+    CallRuntime {
+        /// The runtime (an index into the program's runtimes).
+        runtime: u32,
+        /// The number of arguments.
+        argc: u32,
+    },
 
     // ---- assignment ---------------------------------------------------------------------------------------------
     /// Sequence destructuring (SequenceDestructuringSetBinary): `[value] -> [result]`. The constant is an array of

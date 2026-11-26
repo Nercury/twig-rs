@@ -7,8 +7,9 @@ use std::collections::HashMap;
 use super::safe_analysis::is_operator_escape;
 use super::{NodeVisitor, Visit, VisitContext, VisitResult, priority};
 use crate::ast::{
-    ArgumentKey, Arguments, BinaryOp, CallType, CheckSecurityNode, ChildKey, Expr, ExprKind,
-    FilterExpr, FilterKind, MacroName, Node, NodeKind, NodeMut, NodeRef, Nodes, TestKind, UnaryOp,
+    ArgumentKey, Arguments, BinaryOp, CallType, CheckSecurityNode, ChildKey, CustomExpr, Expr,
+    ExprKind, FilterExpr, FilterKind, MacroName, Node, NodeKind, NodeMut, NodeRef, Nodes, TestKind,
+    UnaryOp,
 };
 use crate::error::{Error, Result};
 use crate::extension::{CallableParameter, ExtensionSet, PhpCallable, TwigCallable, TwigFilter};
@@ -30,8 +31,15 @@ use crate::extension::{CallableParameter, ExtensionSet, PhpCallable, TwigCallabl
 /// The PHP parameter types come from reflection in Twig. twig-rs callables carry no PHP types, so only the
 /// parameters of Twig's own callables whose type is string-coercion safe are known (the `num` of `abs`, the
 /// `flags` and `depth` of `json_encode`, the `step` of `range`, the `arrow` of `invoke`, the `checkDefined` of
-/// `constant`, the `ignoreMissing` of `include_only`, the `autoescape` of `escape`); the arguments of other callables
-/// are wrapped as for untyped PHP parameters. Node classes of extensions are not wrapped either.
+/// `constant`, the `ignoreMissing` of `include_only`, the `autoescape` of `escape`) and those host callables declare
+/// ([`CallableParameter::string_coercion_safe`]); the arguments of other callables are wrapped as for untyped PHP
+/// parameters.
+///
+/// Node classes of extensions count as the class they declare: a `FilterExpression`, `FunctionExpression` or
+/// `TestExpression` subclass ([`CustomExpr::callable`]) has its callable collected, is wrapped where its parent
+/// coerces it and has its children wrapped like the core class's; an `OperatorEscapeInterface`
+/// ([`CustomExpr::operand_names_to_escape`]) has its operands searched; a `CoercesChildrenToStringInterface`
+/// (`string_coerced_child_names()`) has the children it lists wrapped.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct SandboxNodeVisitor;
 
@@ -199,6 +207,28 @@ impl SandboxPass<'_> {
             {
                 self.tests.insert(test.test.name(), line);
             }
+            // a `FilterExpression`, `FunctionExpression` or `TestExpression` subclass of an extension
+            ExprKind::Custom(custom) => match custom.callable() {
+                Some(TwigCallable::Filter(filter))
+                    if !self.filters.contains(filter.name())
+                        && !filter.is_always_allowed_in_sandbox() =>
+                {
+                    self.filters.insert(filter.name(), line);
+                }
+                Some(TwigCallable::Function(function))
+                    if !self.functions.contains(function.name())
+                        && !function.is_always_allowed_in_sandbox() =>
+                {
+                    self.functions.insert(function.name(), line);
+                }
+                Some(TwigCallable::Test(test))
+                    if !self.tests.contains(test.name())
+                        && !test.is_always_allowed_in_sandbox() =>
+                {
+                    self.tests.insert(test.name(), line);
+                }
+                _ => {}
+            },
             _ => {}
         }
 
@@ -271,7 +301,8 @@ fn coerce_children(node: &mut NodeMut<'_>) -> Result<()> {
             NodeKind::Custom(custom) => {
                 let names = custom.string_coerced_child_names();
                 if !names.is_empty() {
-                    wrap_named_children(custom.children_mut(), &names);
+                    let class = custom.class_name().to_owned();
+                    wrap_named_children(&class, custom.children_mut(), &names, None)?;
                 }
             }
             _ => {}
@@ -282,35 +313,100 @@ fn coerce_children(node: &mut NodeMut<'_>) -> Result<()> {
     Ok(())
 }
 
-/// Twig: `wrapNode($node, $name)` for each child a node class defined by an extension lists in
-/// `getStringCoercedChildNames()`: an expression is wrapped like any other, a container (`Nodes`, an argument list)
-/// element by element.
-fn wrap_named_children(children: Vec<(ChildKey<'_>, NodeMut<'_>)>, names: &[String]) {
-    for (key, child) in children {
-        let key = key.to_string();
-        if !names.contains(&key) {
-            continue;
-        }
-        match child {
-            NodeMut::Expr(expr) => wrap_node(expr),
-            NodeMut::Arguments(arguments) => {
-                for (_, argument) in arguments.entries_mut() {
-                    wrap_node(argument);
+/// The calls of a class extending `FilterExpression`, `FunctionExpression` or `TestExpression`: the PHP parameters
+/// of its callable (`CallableParameters::fromNode()`), and whether its input is the first of them (filters and
+/// tests).
+struct CallableChildren<'c> {
+    params: CallParameters<'c>,
+    has_input: bool,
+}
+
+/// Twig: the `getStringCoercedChildNames()` loop of `enterNode()` for a node class defined by an extension: each
+/// listed child, in the order of the list, is wrapped like any other (`wrapNode()`: an expression by its class, a
+/// container element by element); with the PHP parameters of a call class, the `arguments` child is wrapped argument
+/// by argument (`wrapArguments()`) and the `node` child of a filter or test is skipped when the first parameter is
+/// string-coercion safe.
+///
+/// # Errors
+///
+/// A listed child the node does not have: `getNode()`'s `LogicException` `Node "%s" does not exist for Node "%s".`.
+fn wrap_named_children(
+    class: &str,
+    mut children: Vec<(ChildKey<'_>, NodeMut<'_>)>,
+    names: &[String],
+    call: Option<&CallableChildren<'_>>,
+) -> Result<()> {
+    let has_node = children
+        .iter()
+        .any(|(key, _)| *key == ChildKey::Name("node"));
+    for name in names {
+        let Some((_, child)) = children
+            .iter_mut()
+            .find(|(key, _)| key.to_string() == *name)
+        else {
+            return Err(Error::logic(format!(
+                "Node \"{name}\" does not exist for Node \"{class}\"."
+            )));
+        };
+        if let Some(call) = call {
+            if name == "arguments" {
+                match child {
+                    NodeMut::Arguments(arguments) => {
+                        wrap_arguments(arguments, &call.params, has_node);
+                    }
+                    // neither `Nodes` nor an `ArrayExpression`: `wrapNode($node, 'arguments')`
+                    other => wrap_child(other),
                 }
+                continue;
             }
-            NodeMut::Node(node) => match &mut node.kind {
-                NodeKind::Expression(expr) => wrap_node(expr),
-                NodeKind::Nodes(nodes) => {
-                    for (_, element) in nodes.entries_mut() {
-                        if let Some(expr) = element.as_expr_mut() {
-                            wrap_node(expr);
-                        }
+            // the input of a filter or test maps to the first PHP parameter
+            if name == "node" && call.has_input && call.params.is_safe(0) {
+                continue;
+            }
+        }
+        wrap_child(child);
+    }
+    Ok(())
+}
+
+/// Twig: `wrapNode($node, $name)` for a child of a node class defined by an extension.
+fn wrap_child(child: &mut NodeMut<'_>) {
+    match child {
+        NodeMut::Expr(expr) => wrap_node(expr),
+        NodeMut::Arguments(arguments) => {
+            for (_, argument) in arguments.entries_mut() {
+                wrap_node(argument);
+            }
+        }
+        NodeMut::Node(node) => match &mut node.kind {
+            NodeKind::Expression(expr) => wrap_node(expr),
+            NodeKind::Nodes(nodes) => {
+                for (_, element) in nodes.entries_mut() {
+                    if let Some(expr) = element.as_expr_mut() {
+                        wrap_node(expr);
                     }
                 }
-                _ => {}
-            },
-        }
+            }
+            _ => {}
+        },
     }
+}
+
+/// [`coerce_expr_children`] for an expression class defined by an extension.
+fn coerce_custom_expr_children(custom: &mut dyn CustomExpr) -> Result<()> {
+    let names = custom.string_coerced_child_names();
+    if names.is_empty() {
+        return Ok(());
+    }
+    let class = custom.class_name().to_owned();
+    let callable = custom.callable();
+    let call = callable.as_ref().and_then(|callable| {
+        Some(CallableChildren {
+            params: CallParameters::of(callable)?,
+            has_input: !matches!(callable, TwigCallable::Function(_)),
+        })
+    });
+    wrap_named_children(&class, custom.children_mut(), &names, call.as_ref())
 }
 
 /// [`coerce_children`] for the expression classes implementing `CoercesChildrenToStringInterface`.
@@ -405,12 +501,7 @@ fn coerce_expr_children(expr: &mut Expr) -> Result<()> {
                 coerce_arguments(arguments, params.as_ref(), true);
             }
         }
-        ExprKind::Custom(custom) => {
-            let names = custom.string_coerced_child_names();
-            if !names.is_empty() {
-                wrap_named_children(custom.children_mut(), &names);
-            }
-        }
+        ExprKind::Custom(custom) => coerce_custom_expr_children(custom.as_mut())?,
         _ => {}
     }
     Ok(())
@@ -578,7 +669,8 @@ fn normalize_name(name: &[u8]) -> Vec<u8> {
 
 /// Wraps an expression the parent coerces to a string: variables (but `_self`) and attribute accesses, calls and
 /// assignments get a `CheckToStringNode`, the element of a spread gets a spread check, arrays and the operands of
-/// `?:`, `??` and ternaries are searched.
+/// `?:`, `??` and ternaries are searched. A node class of an extension is wrapped when it is a call class, searched
+/// when it names operands to escape (the ones it has).
 ///
 /// Twig: `SandboxNodeVisitor::wrapNode()` (core expressions are never generators).
 fn wrap_node(slot: &mut Expr) {
@@ -620,6 +712,23 @@ fn wrap_node(slot: &mut Expr) {
             let binary = &mut **binary;
             wrap_node(&mut binary.left);
             wrap_node(&mut binary.right);
+        }
+        ExprKind::Custom(custom) => {
+            if let Some(names) = custom.operand_names_to_escape() {
+                // an `OperatorEscapeInterface`: the operands it names
+                let mut children = custom.children_mut();
+                for name in &names {
+                    if let Some((_, operand)) = children
+                        .iter_mut()
+                        .find(|(key, _)| key.to_string() == *name)
+                    {
+                        wrap_child(operand);
+                    }
+                }
+            } else if custom.callable().is_some() {
+                // a `FilterExpression`, `FunctionExpression` or `TestExpression`
+                wrap_in_check(slot, false);
+            }
         }
         _ => {}
     }

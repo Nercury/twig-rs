@@ -11,7 +11,8 @@
 //!
 //! [`Node::children`], [`Expr::children`] and their `_mut` variants list children with Twig's keys and in Twig's
 //! order; the node traverser ([`crate::visitor`]) walks the tree through them. Extensions add node classes through
-//! [`CustomNode`] and [`CustomExpr`]. [`dump`] prints a tree in the format the oracle vectors use.
+//! [`CustomNode`] and [`CustomExpr`], which compile themselves with [`crate::lltl::Compiler`]. [`dump`] prints a tree
+//! in the format the oracle vectors use.
 //!
 //! Deprecated Twig classes that only legacy PHP code creates (`NameExpression`, `AssignNameExpression`,
 //! `TempNameExpression`, `TemplateVariable`, `AssignTemplateVariable`, `ConditionalExpression`,

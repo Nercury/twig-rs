@@ -11,6 +11,9 @@ use std::fmt;
 use super::expr::{ArgumentKey, Arguments, Expr, ExprKind, MacroName};
 use super::node::{Node, NodeKey, NodeKind, Nodes};
 use super::value::AttrValue;
+use crate::error::Result;
+use crate::extension::TwigCallable;
+use crate::lltl::Compiler;
 
 /// The key of a child: a fixed child name (`expr`, `body`, ...), an int key or a string key.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -116,6 +119,22 @@ impl NodeMut<'_> {
 }
 
 /// An expression node class defined by an extension (a PHP subclass of `AbstractExpression`).
+///
+/// The parser creates such nodes through the node classes of callables ([`FunctionNodeClass::Custom`],
+/// [`FilterNodeClass::Custom`], [`TestNodeClass::Custom`]) and of operators ([`BinaryNodeClass::Custom`],
+/// [`UnaryNodeClass::Custom`]); a token parser creates them with [`Expr::custom`]. The node visitors walk the children
+/// the class lists ([`children`](Self::children)) and treat the node by the PHP class it stands for: a class extending
+/// `FilterExpression`, `FunctionExpression` or `TestExpression` gives its [`callable`](Self::callable), one
+/// implementing `OperatorEscapeInterface` its [`operand_names_to_escape`](Self::operand_names_to_escape), one
+/// implementing `CoercesChildrenToStringInterface` its
+/// [`string_coerced_child_names`](Self::string_coerced_child_names). The code generator runs
+/// [`compile`](Self::compile).
+///
+/// [`FunctionNodeClass::Custom`]: crate::extension::FunctionNodeClass::Custom
+/// [`FilterNodeClass::Custom`]: crate::extension::FilterNodeClass::Custom
+/// [`TestNodeClass::Custom`]: crate::extension::TestNodeClass::Custom
+/// [`BinaryNodeClass::Custom`]: crate::parser::expression::infix::BinaryNodeClass::Custom
+/// [`UnaryNodeClass::Custom`]: crate::parser::expression::prefix::UnaryNodeClass::Custom
 pub trait CustomExpr: fmt::Debug + Send + Sync + 'static {
     /// The class name shown in dumps and error messages.
     fn class_name(&self) -> &str;
@@ -167,13 +186,88 @@ pub trait CustomExpr: fmt::Debug + Send + Sync + 'static {
 
     /// The children the compiled node converts to strings at runtime, for a class implementing
     /// `CoercesChildrenToStringInterface` (Twig: `getStringCoercedChildNames()`): the sandbox wraps them in
-    /// `__toString()` checks (an argument container: each argument). None by default.
+    /// `__toString()` checks (an argument container: each argument).
+    ///
+    /// By default, what the class inherits from the class its [`callable`](Self::callable) stands for:
+    /// `["node", "arguments"]` for a `FilterExpression`, `["arguments"]` for a `FunctionExpression`, `["arguments"]`
+    /// for a `TestExpression` with an `arguments` child (`TestExpression` lists its `node` for its own class only);
+    /// none for other classes.
     fn string_coerced_child_names(&self) -> Vec<String> {
-        Vec::new()
+        inherited_string_coerced_child_names(self.callable().as_ref(), &self.children())
+    }
+
+    /// The Twig callable of a class extending `FilterExpression`, `FunctionExpression` or `TestExpression` (its
+    /// `twig_callable` attribute, which the parent constructor sets), `None` for other classes (the default). The node
+    /// visitors then treat the node like a call of the callable, finding its input in the child named `node` (filters
+    /// and tests) and its arguments in the child named `arguments` (an argument container):
+    ///
+    /// - the escaper: a filter node is safe for what the filter's `is_safe` (or `is_safe_callback`) gives, else for
+    ///   what its input is safe for among the filter's `preserves_safety`, and its input is escaped first for the
+    ///   filter's `pre_escape`; a function node is safe for what the function's `is_safe` gives;
+    /// - the sandbox: the callable's name is checked against the policy (unless the callable is always allowed), the
+    ///   node is wrapped in a `__toString()` check where its parent converts it to a string, and its arguments
+    ///   (and the input of a filter) are wrapped unless the PHP parameter receiving them has a string-coercion safe
+    ///   type;
+    /// - the optimizer: a node of the `include` function is an `include()` call.
+    fn callable(&self) -> Option<TwigCallable> {
+        None
+    }
+
+    /// Twig: `getOperandNamesToEscape()` of a class implementing `OperatorEscapeInterface` (an operator whose value is
+    /// one of its operands, like `?:` and `??`), `None` for other classes (the default). The escaper then escapes the
+    /// named operand children of a printed node one by one instead of the whole node, and computes what the node is
+    /// safe for from what both operands are safe for (more than two operands are Twig's `LogicException`); the
+    /// sandbox searches the operands for values to wrap.
+    fn operand_names_to_escape(&self) -> Option<Vec<String>> {
+        None
+    }
+
+    /// Twig: `compile()`: writes the code of the expression with the [`Compiler`]. The code must leave exactly one
+    /// value on the stack: the value of the expression (in a `defined` test, see
+    /// [`is_defined_test_enabled`](Self::is_defined_test_enabled), whether it is defined).
+    ///
+    /// The default is Twig's `Node::compile()`, which writes the code of the children: a class with exactly one child
+    /// compiles as that child; any other class fails with the `LogicException` `The "%s" node class cannot be
+    /// compiled by twig-rs.` (the PHP Twig would write is not valid).
+    ///
+    /// # Errors
+    ///
+    /// The errors of the compilation (a `SyntaxError` with a line becomes the template's error; another error
+    /// becomes `An exception has been thrown during the compilation of a template ("%s").`), and the builder's
+    /// errors (see [`Compiler`]).
+    fn compile<'t>(&'t self, compiler: &mut Compiler<'t, '_>) -> Result<()> {
+        compiler.subcompile_children(self.children())
     }
 }
 
-/// A statement node class defined by an extension (a PHP subclass of `Node`).
+/// What `getStringCoercedChildNames()` of a class extending `FilterExpression`, `FunctionExpression` or
+/// `TestExpression` returns when the class does not override it (TWIG/src/Node/Expression/FilterExpression.php,
+/// FunctionExpression.php, TestExpression.php).
+fn inherited_string_coerced_child_names(
+    callable: Option<&TwigCallable>,
+    children: &[(ChildKey<'_>, NodeRef<'_>)],
+) -> Vec<String> {
+    let names: &[&str] = match callable {
+        Some(TwigCallable::Filter(_)) => &["node", "arguments"],
+        Some(TwigCallable::Function(_)) => &["arguments"],
+        // `self::class === $this::class ? ['node'] : []`, then `arguments` when the node has the child
+        Some(TwigCallable::Test(_))
+            if children
+                .iter()
+                .any(|(key, _)| *key == ChildKey::Name("arguments")) =>
+        {
+            &["arguments"]
+        }
+        _ => &[],
+    };
+    names.iter().map(|name| (*name).to_owned()).collect()
+}
+
+/// A statement node class defined by an extension (a PHP subclass of `Node`), created by a token parser
+/// ([`Node::custom`]).
+///
+/// The node visitors walk the children the class lists ([`children`](Self::children)); the code generator runs
+/// [`compile`](Self::compile).
 pub trait CustomNode: fmt::Debug + Send + Sync + 'static {
     /// The class name shown in dumps and error messages.
     fn class_name(&self) -> &str;
@@ -220,6 +314,22 @@ pub trait CustomNode: fmt::Debug + Send + Sync + 'static {
     /// `__toString()` checks (a container or an argument container: each element). None by default.
     fn string_coerced_child_names(&self) -> Vec<String> {
         Vec::new()
+    }
+
+    /// Twig: `compile()`: writes the code of the node with the [`Compiler`]. The code must leave the stack as it
+    /// found it.
+    ///
+    /// The default is Twig's `Node::compile()`: the children are compiled in order. A class with an expression child
+    /// fails with the `LogicException` `The "%s" node class cannot be compiled by twig-rs.` (Twig would write the
+    /// expression's PHP where a statement belongs).
+    ///
+    /// # Errors
+    ///
+    /// The errors of the compilation (a `SyntaxError` with a line becomes the template's error; another error
+    /// becomes `An exception has been thrown during the compilation of a template ("%s").`), and the builder's
+    /// errors (see [`Compiler`]).
+    fn compile<'t>(&'t self, compiler: &mut Compiler<'t, '_>) -> Result<()> {
+        compiler.subcompile_children(self.children())
     }
 }
 

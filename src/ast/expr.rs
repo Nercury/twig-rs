@@ -708,6 +708,12 @@ impl Expr {
         }
     }
 
+    /// An expression of a class defined by an extension (`new MyExpression(..., $lineno)`), what the node class of a
+    /// callable or an operator creates.
+    pub fn custom(expr: impl CustomExpr, line: i64) -> Self {
+        Expr::new(ExprKind::Custom(Box::new(expr)), line)
+    }
+
     /// Twig: `new ConstantExpression($value, $lineno)`.
     pub fn constant(value: impl Into<ConstantValue>, line: i64) -> Self {
         Expr::new(

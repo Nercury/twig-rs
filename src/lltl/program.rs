@@ -7,6 +7,7 @@ use twig_value::array::PreparedKey;
 use twig_value::{PhpString, Value};
 
 use super::instr::{ConstId, Instr, UnitId};
+use super::runtime::NodeRuntime;
 use crate::extension::TwigCallable;
 use crate::source::Source;
 
@@ -237,6 +238,8 @@ pub struct Program {
     /// for the other constants.
     pub(crate) keys: Vec<PreparedKey>,
     pub(crate) callables: Vec<TwigCallable>,
+    /// The runtime closures the code of node classes defined by extensions calls.
+    pub(crate) runtimes: Vec<NodeRuntime>,
     pub(crate) units: Vec<Unit>,
     pub(crate) body: UnitId,
     pub(crate) blocks: Vec<BlockDef>,
@@ -304,6 +307,11 @@ impl Program {
     /// The filters, functions and tests the code calls.
     pub fn callables(&self) -> &[TwigCallable] {
         &self.callables
+    }
+
+    /// The runtime closures the code of node classes defined by extensions calls ([`Instr::CallRuntime`]).
+    pub fn runtimes(&self) -> &[NodeRuntime] {
+        &self.runtimes
     }
 
     /// The units.
@@ -435,6 +443,9 @@ impl Program {
                 Some(callable) => write!(out, "Call {callable}"),
                 None => write!(out, "Call #{i}?"),
             },
+            Instr::CallRuntime { runtime, argc } => {
+                write!(out, "CallRuntime #{runtime} argc={argc}")
+            }
             Instr::IterNext { exit, key, value } => write!(
                 out,
                 "IterNext exit={exit} key={} value={}",

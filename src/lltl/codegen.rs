@@ -20,6 +20,7 @@ use std::sync::{Arc, OnceLock};
 use twig_value::object::{ClassRef, ObjectRef, StdClass};
 use twig_value::{Array, ArrayKey, PhpError, PhpString, ThrowableClass, Value};
 
+use super::builder::{Compiler, Produces};
 use super::instr::{
     BinaryOp, BlockOp, ConstId, GetAttrOp, Instr, Label, LocalId, NameMode, UnitId, YieldArgs,
 };
@@ -28,12 +29,13 @@ use super::program::{
     BlockDef, FileId, LineTable, MacroDef, MacroParam, ParentDef, Program, SecurityLists, TraitDef,
     Unit, UnitKind,
 };
+use super::runtime::NodeRuntime;
 use crate::ast::{
     self, ArgumentKey, Arguments, BinaryExpr, CallType, ConstantValue, Expr, ExprKind, FilterKind,
     ForNode, FunctionKind, GetAttrExpr, MacroName, Node, NodeKey, NodeKind, NodeRef, TempName,
     TestKind, UnaryOp,
 };
-use crate::deprecation::DeprecationSink;
+use crate::deprecation::{Deprecation, DeprecationSink};
 use crate::error::{Error, Result};
 use crate::extension::arguments::CallableArgumentsExtractor;
 use crate::extension::{CallableKind, TwigCallable};
@@ -97,7 +99,7 @@ pub fn compile(
         php: PhpModel {
             strict_variables: options.strict_variables,
         },
-        deprecations,
+        deprecations: Vec::new(),
         file,
         last_line: 0,
         marker: None,
@@ -118,7 +120,12 @@ pub fn compile(
         temporaries: Vec::new(),
         apply_temps: Vec::new(),
     };
-    let program = codegen.module(module)?;
+    let program = codegen.module(module);
+    // Twig reports them while it compiles; nothing reads the sink before the compilation ends
+    for deprecation in codegen.deprecations.drain(..) {
+        deprecations.report(deprecation);
+    }
+    let program = program?;
     // PHP parses the whole generated file before compiling any of it
     if php::generated_parse_error(module) {
         return Err(Error::php(PhpError::new(
@@ -197,6 +204,7 @@ struct ProgramBuilder {
     constants: Vec<Value>,
     const_index: HashMap<ConstKey, ConstId>,
     callables: Vec<TwigCallable>,
+    runtimes: Vec<NodeRuntime>,
     units: Vec<Unit>,
     security: Option<SecurityLists>,
     /// The number of `ZEND_RECV_INIT` cache slots.
@@ -220,11 +228,12 @@ struct UnitBuilder {
     named_locals: HashMap<TempName, LocalId>,
 }
 
-struct Codegen<'d> {
-    options: CompileOptions,
+pub(super) struct Codegen {
+    pub(super) options: CompileOptions,
     /// What PHP's compiler makes of the generated code (constant folding, operand kinds).
     php: PhpModel,
-    deprecations: &'d mut dyn DeprecationSink,
+    /// The deprecations raised while compiling, in order, reported to the caller's sink when the compilation ends.
+    deprecations: Vec<Deprecation>,
     file: FileId,
     /// Twig's `Compiler::$lastLine` (`null` compares like `0`).
     last_line: i64,
@@ -283,7 +292,7 @@ fn missing_node(name: &str, class: &str) -> Error {
     ))
 }
 
-impl Codegen<'_> {
+impl Codegen {
     // ---- emission ------------------------------------------------------------------------------------------------
 
     fn program(&mut self) -> &mut ProgramBuilder {
@@ -300,7 +309,7 @@ impl Codegen<'_> {
 
     /// Twig: `Compiler::addDebugInfo()`: a marker is emitted when the line differs from the last marker's. The code
     /// written next starts after it.
-    fn add_debug_info(&mut self, line: i64) {
+    pub(super) fn add_debug_info(&mut self, line: i64) {
         if line != self.last_line {
             self.last_line = line;
             self.marker = Some(line);
@@ -318,7 +327,7 @@ impl Codegen<'_> {
 
     /// A token Twig's compiler writes at the current position (a literal, a variable, `$this->source`, ...) was
     /// compiled: PHP's `CG(zend_lineno)` is its line.
-    fn leaf(&mut self) {
+    pub(super) fn leaf(&mut self) {
         self.php_marker = self.marker;
     }
 
@@ -456,14 +465,14 @@ impl Codegen<'_> {
 
     /// Emits an instruction at the line PHP gives an opcode emitted at this point: `CG(zend_lineno)`, the line of the
     /// last compiled token (see [`Codegen::php_marker`]).
-    fn emit(&mut self, instr: Instr) -> Label {
+    pub(super) fn emit(&mut self, instr: Instr) -> Label {
         let line = self.php_marker;
         self.emit_at(instr, line)
     }
 
     /// Emits an instruction attributed to `line` (the marker in effect where the PHP construct starts: calls report
     /// the line of their beginning).
-    fn emit_at(&mut self, instr: Instr, line: Option<i64>) -> Label {
+    pub(super) fn emit_at(&mut self, instr: Instr, line: Option<i64>) -> Label {
         let line = self.known_line(line);
         let unit = self.unit();
         let ip = unit.code.len() as Label;
@@ -476,7 +485,7 @@ impl Codegen<'_> {
     }
 
     /// The label of the next instruction.
-    fn here(&mut self) -> Label {
+    pub(super) fn here(&mut self) -> Label {
         self.unit().code.len() as Label
     }
 
@@ -493,12 +502,12 @@ impl Codegen<'_> {
     }
 
     /// Points the jump at `at` to the next instruction.
-    fn patch_here(&mut self, at: Label) {
+    pub(super) fn patch_here(&mut self, at: Label) {
         let target = self.here();
         self.patch(at, target);
     }
 
-    fn local(&mut self) -> LocalId {
+    pub(super) fn local(&mut self) -> LocalId {
         let unit = self.unit();
         let id = unit.locals;
         unit.locals = unit.locals.saturating_add(1);
@@ -522,7 +531,7 @@ impl Codegen<'_> {
         slot
     }
 
-    fn constant(&mut self, value: Value) -> ConstId {
+    pub(super) fn constant(&mut self, value: Value) -> ConstId {
         let key = match &value {
             Value::Null => Some(ConstKey::Null),
             Value::Bool(b) => Some(ConstKey::Bool(*b)),
@@ -544,13 +553,28 @@ impl Codegen<'_> {
         id
     }
 
-    fn name_constant(&mut self, name: &[u8]) -> ConstId {
+    pub(super) fn name_constant(&mut self, name: &[u8]) -> ConstId {
         self.constant(Value::String(PhpString::from(name)))
     }
 
-    fn emit_const(&mut self, value: Value) {
+    pub(super) fn emit_const(&mut self, value: Value) {
         let id = self.constant(value);
         self.emit(Instr::Const(id));
+    }
+
+    /// The index of a runtime closure in the program's runtimes (each closure once).
+    pub(super) fn runtime(&mut self, runtime: &NodeRuntime) -> u32 {
+        let program = self.program();
+        if let Some(i) = program.runtimes.iter().position(|r| r.ptr_eq(runtime)) {
+            return i as u32;
+        }
+        program.runtimes.push(runtime.clone());
+        (program.runtimes.len() - 1) as u32
+    }
+
+    /// The line of the last emitted marker (`None` before the first one): where a call written now starts.
+    pub(super) fn marker(&self) -> Option<i64> {
+        self.marker
     }
 
     fn callable(&mut self, callable: &TwigCallable) -> u32 {
@@ -611,6 +635,7 @@ impl Codegen<'_> {
             constants: Vec::new(),
             const_index: HashMap::new(),
             callables: Vec::new(),
+            runtimes: Vec::new(),
             units: Vec::new(),
             security: None,
             recv_cache: 0,
@@ -626,6 +651,7 @@ impl Codegen<'_> {
             keys: Program::keys_of(&builder.constants),
             constants: builder.constants,
             callables: builder.callables,
+            runtimes: builder.runtimes,
             units: builder.units,
             body: parts.body,
             blocks: parts.blocks,
@@ -938,7 +964,7 @@ impl Codegen<'_> {
 
     // ---- statements ----------------------------------------------------------------------------------------------
 
-    fn statement(&mut self, node: &Node) -> Result<()> {
+    pub(super) fn statement(&mut self, node: &Node) -> Result<()> {
         match &node.kind {
             NodeKind::Nodes(nodes) | NodeKind::Body(nodes) => {
                 let apply = node.tag.as_deref() == Some("apply");
@@ -1120,10 +1146,12 @@ impl Codegen<'_> {
             NodeKind::Module(_) => Err(Error::logic(
                 "A \"Twig\\Node\\ModuleNode\" cannot be compiled inside a template body.",
             )),
-            NodeKind::Custom(custom) => Err(Error::logic(format!(
-                "The \"{}\" node class cannot be compiled by twig-rs.",
-                custom.class_name()
-            ))),
+            NodeKind::Custom(custom) => {
+                // Twig: the node's own `compile()`
+                let mut compiler = Compiler::new(self, custom.class_name(), Produces::Nothing);
+                custom.compile(&mut compiler)?;
+                compiler.finish()
+            }
         }
     }
 
@@ -1415,7 +1443,7 @@ impl Codegen<'_> {
     /// constant inside an array literal takes the literal's line unless the constant is a value of the parser, which
     /// keeps its own ([`PhpModel::keeps_parsed_line`]), and the operands of calls and assignments are not part of the
     /// literal's folding.
-    fn expr(&mut self, expr: &Expr) -> Result<()> {
+    pub(super) fn expr(&mut self, expr: &Expr) -> Result<()> {
         self.php_marker = self.marker;
         let saved_fold = self.fold_marker;
         let saved_own = self.own_fold;
@@ -1630,10 +1658,12 @@ impl Codegen<'_> {
                 self.leaf();
                 Ok(())
             }
-            ExprKind::Custom(custom) => Err(Error::logic(format!(
-                "The \"{}\" node class cannot be compiled by twig-rs.",
-                custom.class_name()
-            ))),
+            ExprKind::Custom(custom) => {
+                // Twig: the expression's own `compile()`
+                let mut compiler = Compiler::new(self, custom.class_name(), Produces::Value);
+                custom.compile(&mut compiler)?;
+                compiler.finish()
+            }
         }
     }
 
@@ -2348,7 +2378,7 @@ impl Codegen<'_> {
     }
 
     /// Twig: `Compiler::getVarName()`: the `N` of a new `$_vN`.
-    fn twig_var(&mut self) -> u32 {
+    pub(super) fn twig_var(&mut self) -> u32 {
         let n = self.twig_vars;
         self.twig_vars = self.twig_vars.wrapping_add(1);
         n
@@ -2395,7 +2425,7 @@ impl Codegen<'_> {
             // DefaultFilter::compile() and RawFilter::compile(): the node only
             FilterKind::Default | FilterKind::Raw => self.expr(&filter.node),
             FilterKind::Filter if filter.filter.name() == b"raw" => {
-                self.deprecations.report(crate::deprecation::Deprecation::twig(
+                self.deprecations.push(Deprecation::twig(
                     "3.11",
                     "Creating the \"raw\" filter via \"FilterExpression\" is deprecated; use \"RawFilter\" instead.",
                 ));
@@ -2805,7 +2835,7 @@ impl Codegen<'_> {
     }
 
     /// Twig: `CallExpression::compileCallable()` and `compileArguments()`.
-    fn call(
+    pub(super) fn call(
         &mut self,
         callable: &TwigCallable,
         node: Option<&Expr>,
@@ -2837,7 +2867,7 @@ impl Codegen<'_> {
             let source = self.source();
             let extractor =
                 CallableArgumentsExtractor::new(callable, line, Some(&source), node.is_some())?;
-            let bound = extractor.extract_arguments(arguments, &mut *self.deprecations)?;
+            let bound = extractor.extract_arguments(arguments, &mut self.deprecations)?;
             // the extractor returns copies; Twig compiles the argument objects themselves
             self.alias_arguments(&bound, arguments);
             let result = self.bound_arguments(&bound, index);

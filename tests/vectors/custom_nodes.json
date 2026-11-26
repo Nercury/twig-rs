@@ -1,0 +1,853 @@
+[
+    {
+        "name": "unless_true",
+        "templates": {
+            "index.twig": "{% unless x %}no{% else %}yes{% endunless %}|{% unless y %}<{{ y }}>{% endunless %}"
+        },
+        "context": {
+            "x": true,
+            "y": 0
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "yes|<0>",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "unless_false",
+        "templates": {
+            "index.twig": "{% unless x %}no{% else %}yes{% endunless %}|{% unless y %}<{{ y }}>{% endunless %}"
+        },
+        "context": {
+            "x": false,
+            "y": "a"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "no|",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "unless_loop",
+        "templates": {
+            "index.twig": "{% for i in 1..3 %}{% unless loop.first %}, {% endunless %}{{ i }}{% endfor %}"
+        },
+        "context": {},
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "1, 2, 3",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "unless_loop_last",
+        "templates": {
+            "index.twig": "{% for i in [1, 2, 3] %}{{ i }}{% unless loop.last %}+{% else %}={% endunless %}{% endfor %}"
+        },
+        "context": {},
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "1+2+3=",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "unless_block",
+        "templates": {
+            "index.twig": "{% extends 'base.twig' %}{% block b %}{% unless x %}[{{ parent() }}]{% endunless %}{% endblock %}",
+            "base.twig": "<{% block b %}base{% endblock %}>"
+        },
+        "context": {
+            "x": 0
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "<[base]>",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "unless_macro",
+        "templates": {
+            "index.twig": "{% macro m(v) %}{% unless v %}empty{% else %}{{ v }}{% endunless %}{% endmacro %}{{ _self.m('') }}|{{ _self.m('a') }}"
+        },
+        "context": {},
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "empty|a",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "unless_escape",
+        "templates": {
+            "index.twig": "{% unless x %}{{ y }}{% endunless %}"
+        },
+        "context": {
+            "y": "<b>"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "&lt;b&gt;",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "unless_apply",
+        "templates": {
+            "index.twig": "{% apply upper %}{% unless x %}a{% else %}b{% endunless %}{% endapply %}"
+        },
+        "context": {
+            "x": 1
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "B",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "unless_whitespace",
+        "templates": {
+            "index.twig": "a {%- unless x -%} b {%- endunless -%} c\n{% unless x %}\n  d\n{% endunless %}\n"
+        },
+        "context": {},
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "abc\n  d\n",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "unless_nested",
+        "templates": {
+            "index.twig": "{% unless a %}{% unless b %}none{% else %}b{% endunless %}{% else %}a{% endunless %}"
+        },
+        "context": {
+            "a": 0,
+            "b": 0
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "none",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "unless_strict_condition",
+        "templates": {
+            "index.twig": "line 1\n{% unless foo.bar %}\nx{% endunless %}"
+        },
+        "context": {},
+        "objects": [],
+        "strict_variables": true,
+        "sandbox": null,
+        "output": null,
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Variable \"foo\" does not exist in \"index.twig\" at line 2."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "unless_body_error",
+        "templates": {
+            "index.twig": "{% unless x %}\n\n{{ 1 / 0 }}{% endunless %}"
+        },
+        "context": {},
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": null,
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 3."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "unless_else_error",
+        "templates": {
+            "index.twig": "{% unless x %}a{% else %}\n{{ missing.attr }}\n{% endunless %}"
+        },
+        "context": {
+            "x": 1
+        },
+        "objects": [],
+        "strict_variables": true,
+        "sandbox": null,
+        "output": null,
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Variable \"missing\" does not exist in \"index.twig\" at line 2."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "unless_syntax",
+        "templates": {
+            "index.twig": "{% unless x %}a{% endif %}"
+        },
+        "context": {},
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": null,
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "Unexpected \"endif\" tag (expecting closing tag for the \"unless\" tag defined near line 1) in \"index.twig\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "unless_sandbox_denied",
+        "templates": {
+            "index.twig": "a{% unless x %}b{% endunless %}"
+        },
+        "context": {},
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": {
+            "tags": [],
+            "filters": [],
+            "functions": [],
+            "tests": []
+        },
+        "output": null,
+        "error": {
+            "class": "Twig\\Sandbox\\SecurityNotAllowedTagError",
+            "message": "Tag \"unless\" is not allowed in \"index.twig\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "unless_sandbox_allowed",
+        "templates": {
+            "index.twig": "{% unless x %}<{{ y }}>{% endunless %}"
+        },
+        "context": {
+            "y": "&"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": {
+            "tags": [
+                "unless"
+            ],
+            "filters": [
+                "escape"
+            ],
+            "functions": [],
+            "tests": []
+        },
+        "output": "<&amp;>",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "shout_set",
+        "templates": {
+            "index.twig": "{% shout_set v = 'abc' ~ x %}{{ v }}"
+        },
+        "context": {
+            "x": "d"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "ABCD",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "shout_block",
+        "templates": {
+            "index.twig": "{% shout_block %}a{{ x }}<b>{% endshout_block %}|{{ x }}"
+        },
+        "context": {
+            "x": "<i>"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "A&LT;I&GT;<B>|&lt;i&gt;",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "repeat",
+        "templates": {
+            "index.twig": "{% repeat n %}x{% endrepeat %}|{% repeat 0 %}y{% endrepeat %}|{% repeat 2.5 %}z{% endrepeat %}"
+        },
+        "context": {
+            "n": 3
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "xxx||zzz",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "repeat_nested",
+        "templates": {
+            "index.twig": "{% repeat 2 %}[{% repeat 3 %}.{% endrepeat %}]{% endrepeat %}"
+        },
+        "context": {},
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "[...][...]",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "repeat_syntax_error",
+        "templates": {
+            "index.twig": "a\n{% repeat 'x' %}y{% endrepeat %}"
+        },
+        "context": {},
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": null,
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "The count of the \"repeat\" tag must be a number in \"index.twig\" at line 2."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "shout_set_logic_error",
+        "templates": {
+            "index.twig": "a\n{% shout_set _context = 'x' %}"
+        },
+        "context": {},
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": null,
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "An exception has been thrown during the compilation of a template (\"Cannot assign to _context.\") in \"index.twig\"."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "shout_escape",
+        "templates": {
+            "index.twig": "{{ shout(x) }}|{{ shout(x)|raw }}"
+        },
+        "context": {
+            "x": "<b>a"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "&lt;B&gt;A|<B>A",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "shout_safe",
+        "templates": {
+            "index.twig": "{{ shout_safe(x) }}"
+        },
+        "context": {
+            "x": "<b>a"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "<B>A",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "shout_concat",
+        "templates": {
+            "index.twig": "{{ 'x' ~ shout(x) }}"
+        },
+        "context": {
+            "x": "<b>"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "x&lt;B&gt;",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "shout_sandbox_denied",
+        "templates": {
+            "index.twig": "{{ shout(x) }}"
+        },
+        "context": {
+            "x": "a"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": {
+            "filters": [
+                "escape"
+            ],
+            "tags": [],
+            "functions": [],
+            "tests": []
+        },
+        "output": null,
+        "error": {
+            "class": "Twig\\Sandbox\\SecurityNotAllowedFunctionError",
+            "message": "Function \"shout\" is not allowed in \"index.twig\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "shout_sandbox_wrap",
+        "templates": {
+            "index.twig": "{{ shout(obj) }}"
+        },
+        "context": {},
+        "objects": [
+            "obj"
+        ],
+        "strict_variables": false,
+        "sandbox": {
+            "functions": [
+                "shout"
+            ],
+            "filters": [
+                "escape"
+            ],
+            "tags": [],
+            "tests": []
+        },
+        "output": null,
+        "error": {
+            "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+            "message": "Calling \"__tostring\" method on a \"Obj\" object is not allowed in \"index.twig\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "shout2_typed_parameter",
+        "templates": {
+            "index.twig": "{{ shout2('a', obj) }}"
+        },
+        "context": {},
+        "objects": [
+            "obj"
+        ],
+        "strict_variables": false,
+        "sandbox": {
+            "functions": [
+                "shout2"
+            ],
+            "filters": [
+                "escape"
+            ],
+            "tags": [],
+            "tests": []
+        },
+        "output": "A",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "shout2_untyped_parameter",
+        "templates": {
+            "index.twig": "{{ shout2(obj, 1) }}"
+        },
+        "context": {},
+        "objects": [
+            "obj"
+        ],
+        "strict_variables": false,
+        "sandbox": {
+            "functions": [
+                "shout2"
+            ],
+            "filters": [
+                "escape"
+            ],
+            "tags": [],
+            "tests": []
+        },
+        "output": null,
+        "error": {
+            "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+            "message": "Calling \"__tostring\" method on a \"Obj\" object is not allowed in \"index.twig\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "fail_line",
+        "templates": {
+            "index.twig": "{{ 'a' }}\n{{ fail(\n  x\n) }}"
+        },
+        "context": {
+            "x": ""
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": null,
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "Value is empty in \"index.twig\" at line 2."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "fail_logic_line",
+        "templates": {
+            "index.twig": "{{ 'a' }}\n{{ fail_logic(\n  x\n) }}"
+        },
+        "context": {
+            "x": 0
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": null,
+        "error": {
+            "class": "Twig\\Error\\RuntimeError",
+            "message": "An exception has been thrown during the rendering of a template (\"Value is empty.\") in \"index.twig\" at line 2."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "fail_passes",
+        "templates": {
+            "index.twig": "{{ fail(x) }}"
+        },
+        "context": {
+            "x": "ok"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "ok",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "wrap_pre_escape",
+        "templates": {
+            "index.twig": "{{ x|wrap }}|{{ '<i>'|wrap }}"
+        },
+        "context": {
+            "x": "<b>"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "<p>&lt;b&gt;</p>|<p><i></p>",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "wrap_preserves_safety",
+        "templates": {
+            "index.twig": "{{ '<i>'|wrap2 }}|{{ x|wrap2 }}"
+        },
+        "context": {
+            "x": "<b>"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "<p><i></p>|&lt;p&gt;&lt;b&gt;&lt;/p&gt;",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "wrap_sandbox_denied",
+        "templates": {
+            "index.twig": "{{ x|wrap }}"
+        },
+        "context": {
+            "x": "a"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": {
+            "filters": [
+                "escape"
+            ],
+            "tags": [],
+            "functions": [],
+            "tests": []
+        },
+        "output": null,
+        "error": {
+            "class": "Twig\\Sandbox\\SecurityNotAllowedFilterError",
+            "message": "Filter \"wrap\" is not allowed in \"index.twig\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "wrap_sandbox_wrap",
+        "templates": {
+            "index.twig": "{{ obj|wrap }}"
+        },
+        "context": {},
+        "objects": [
+            "obj"
+        ],
+        "strict_variables": false,
+        "sandbox": {
+            "filters": [
+                "escape",
+                "wrap"
+            ],
+            "tags": [],
+            "functions": [],
+            "tests": []
+        },
+        "output": null,
+        "error": {
+            "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+            "message": "Calling \"__tostring\" method on a \"Obj\" object is not allowed in \"index.twig\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "empty_string",
+        "templates": {
+            "index.twig": "{{ x is empty_string ? 'empty' : 'full' }}|{{ y is empty_string ? 'empty' : 'full' }}"
+        },
+        "context": {
+            "x": "",
+            "y": 0
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "empty|full",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "empty_string_sandbox_denied",
+        "templates": {
+            "index.twig": "{{ x is empty_string ? 'e' }}"
+        },
+        "context": {
+            "x": ""
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": {
+            "filters": [
+                "escape"
+            ],
+            "tags": [],
+            "functions": [],
+            "tests": []
+        },
+        "output": null,
+        "error": {
+            "class": "Twig\\Sandbox\\SecurityNotAllowedTestError",
+            "message": "Test \"empty_string\" is not allowed in \"index.twig\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "orelse_escape",
+        "templates": {
+            "index.twig": "{{ '<i>a</i>' orelse x }}|{{ '' orelse x }}"
+        },
+        "context": {
+            "x": "<b>"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "<i>a</i>|&lt;b&gt;",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "orelse_nested",
+        "templates": {
+            "index.twig": "{{ x orelse ('' orelse '<i>') }}"
+        },
+        "context": {
+            "x": ""
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "<i>",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "orelse_concat",
+        "templates": {
+            "index.twig": "{{ (x orelse '<i>') ~ '' }}"
+        },
+        "context": {
+            "x": ""
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "&lt;i&gt;",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "orelse_preserved",
+        "templates": {
+            "index.twig": "{{ ('<i>' orelse '<b>')|wrap2 }}|{{ (x orelse '<b>')|wrap2 }}"
+        },
+        "context": {
+            "x": "<u>"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "<p><i></p>|&lt;p&gt;&lt;u&gt;&lt;/p&gt;",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "orelse_sandbox",
+        "templates": {
+            "index.twig": "{{ obj orelse 'x' }}"
+        },
+        "context": {},
+        "objects": [
+            "obj"
+        ],
+        "strict_variables": false,
+        "sandbox": {
+            "filters": [
+                "escape"
+            ],
+            "tags": [],
+            "functions": [],
+            "tests": []
+        },
+        "output": null,
+        "error": {
+            "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+            "message": "Calling \"__tostring\" method on a \"Obj\" object is not allowed in \"index.twig\" at line 1."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "three_printed",
+        "templates": {
+            "index.twig": "{{ a three b }}|{{ c three b }}"
+        },
+        "context": {
+            "a": "<",
+            "b": ">",
+            "c": ""
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "&lt;|&gt;",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "three_nested",
+        "templates": {
+            "index.twig": "{{ (a three b) ~ '' }}"
+        },
+        "context": {
+            "a": "<",
+            "b": ">"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": null,
+        "error": {
+            "class": "Twig\\Error\\SyntaxError",
+            "message": "An exception has been thrown during the compilation of a template (\"Operators with more than 2 operands are not supported yet, got 3.\") in \"index.twig\"."
+        },
+        "deprecations": []
+    },
+    {
+        "name": "up_escape",
+        "templates": {
+            "index.twig": "{{ up x }}"
+        },
+        "context": {
+            "x": "<b>a"
+        },
+        "objects": [],
+        "strict_variables": false,
+        "sandbox": null,
+        "output": "&lt;B&gt;A",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "up_sandbox",
+        "templates": {
+            "index.twig": "{{ up obj }}"
+        },
+        "context": {},
+        "objects": [
+            "obj"
+        ],
+        "strict_variables": false,
+        "sandbox": {
+            "filters": [
+                "escape"
+            ],
+            "tags": [],
+            "functions": [],
+            "tests": []
+        },
+        "output": "OBJ",
+        "error": null,
+        "deprecations": []
+    },
+    {
+        "name": "upc_sandbox",
+        "templates": {
+            "index.twig": "{{ upc obj }}"
+        },
+        "context": {},
+        "objects": [
+            "obj"
+        ],
+        "strict_variables": false,
+        "sandbox": {
+            "filters": [
+                "escape"
+            ],
+            "tags": [],
+            "functions": [],
+            "tests": []
+        },
+        "output": null,
+        "error": {
+            "class": "Twig\\Sandbox\\SecurityNotAllowedMethodError",
+            "message": "Calling \"__tostring\" method on a \"Obj\" object is not allowed in \"index.twig\" at line 1."
+        },
+        "deprecations": []
+    }
+]

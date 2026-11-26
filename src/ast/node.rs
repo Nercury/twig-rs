@@ -562,6 +562,12 @@ impl Node {
         Node::new(NodeKind::Empty, line)
     }
 
+    /// A node of a class defined by an extension (`new MyNode(..., $lineno)`), what a token parser returns for a tag
+    /// that compiles itself.
+    pub fn custom(node: impl CustomNode, line: i64) -> Self {
+        Node::new(NodeKind::Custom(Box::new(node)), line)
+    }
+
     /// An expression in a node position; the node line is the expression's.
     pub fn expression(expr: Expr) -> Self {
         let line = expr.line;
