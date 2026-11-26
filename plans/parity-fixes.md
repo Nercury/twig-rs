@@ -46,12 +46,12 @@ is a newline). "PHP" is the oracle's result (`twig-oracle:3.31.1`), "twig-rs" th
     `silenced-compile-warning` never fired, and no mismatch came from D2, whose inputs the generators leave out
     without `--d2`.
   - One cluster was a parity bug (P40, fixed since): the line of a sequence destructuring after an array literal whose last element
-    ends with a constant PHP folds (G1, the generated-PHP line model). The other is harness noise: T15, template names
-    that are not valid UTF-8 in the oracle's `templateName`. 5 raw cases in 360,000.
-  - The not-comparable cases are harness limits: 192 composition cases whose `data_php` loads a template that fails
-    (T17), 31 sandbox cases that access `SimpleXMLElement` properties (T8), 2 formats cases whose data throws (`new
-    \DateTimeZone("Etc/Unknown")`), and 6 callables cases where PHP stops at a compile-time fatal error (D3: `Cannot use
-    positional argument after argument unpacking`).
+    ends with a constant PHP folds (G1, the generated-PHP line model). The other was harness noise (T15, fixed since):
+    template names that are not valid UTF-8 in the oracle's `templateName`. 5 raw cases in 360,000.
+  - The not-comparable cases were harness limits, all fixed since but D3's: 192 composition cases whose `data_php` loads
+    a template that fails (T17), 31 sandbox cases that access `SimpleXMLElement` properties (T8), 2 formats cases whose
+    data throws (`new \DateTimeZone("Etc/Unknown")`), and 6 callables cases where PHP stops at a compile-time fatal error
+    (D3: `Cannot use positional argument after argument unpacking`).
   - The harness features of the round-3 fixes ran without a mismatch: custom lexer syntax in 4543 whitespace cases
     (T13), source policies in 1875 sandbox cases and wall-clock intervals in 235 formats cases (T8). No generator puts
     a `DatePeriod` into the data yet; `callables/round4-date-period.json` covers it instead.
@@ -59,11 +59,20 @@ is a newline). "PHP" is the oracle's result (`twig-oracle:3.31.1`), "twig-rs" th
     isolation): 10 marked `known_mismatch` (P40: 7, T15: 3) and 20 controls that match and must keep matching, 8 of
     them in `callables/round4-date-period.json` (the `DatePeriod` data of T8 and the method parameters of P34, which
     the fuzz data could not hold when P34 was fixed).
-  - Items reported by the round-3 fixers: P41 (G2's report on P38), P42 and T16 (G4's reports); G1's remark that the
-    loop and `with` bookkeeping of P36 has no vector for a host object whose `count()` or iteration throws stays a
-    known coverage gap (the typed data cannot hold such an object).
+  - Items reported by the round-3 fixers: P41 (G2's report on P38), P42 and T16 (G4's reports), fixed since; G1's
+    remark that the loop and `with` bookkeeping of P36 has no vector for a host object whose `count()` or iteration
+    throws stays a known coverage gap (the typed data cannot hold such an object).
   - A whole 30,000-case `drive` took 77 s (formats) to 520 s (dynamic, process isolation), with three drives running
     at once.
+- **After round 4** (2026-11-26): P41, P42, T15, T16 and T17 are fixed, and T8 is reduced to the gaps listed below (the
+  `SimpleXMLElement` handlers and a `DatePeriod` generator path are done). The oracle image was rebuilt for T15
+  (`templateName_b64`) and T17 (the case field `preload`). Checks of the changed paths, all without a mismatch:
+  escaping seeds 9301 to 9305 (10,000 cases, about 240 with `{% autoescape null %}`'s `TypeError`), callables seeds
+  9205, 9206, 9209 and 9211 (8,000 cases, the four T15 cases among them), composition seeds 9201 to 9205 (10,000 cases,
+  none left not comparable, 186 load errors of preloaded or main templates), sandbox seeds 9201 to 9206 (12,000 cases;
+  the 17 that touched `SimpleXMLElement` properties now compare identical) and formats seeds 9301 to 9305 (10,000
+  cases, 130 with a `DatePeriod`, none not comparable). New vectors: `composition/preload.json` (6) and
+  `sandbox/simplexml.json` (14); the three T15 vectors were recorded again and are no longer marked.
 
 ## Working rules
 
@@ -93,123 +102,27 @@ hit; **low** = obscure error paths, API-only behaviour, or harness work that hid
 
 | id | root cause | groups | raw | vectors | tests | priority |
 |---|---|---|---|---|---|---|
-| P41 | A template closure compares equal to the lazy path of a template's `Twig\Source` | G5 | report | – | – | low |
-| P42 | PHP `\Error`s of API misuse are LogicException-kind errors that `compile_source()` wraps | G4 | report | – | – | low |
-| T8 | Typed data and environments the fuzz harness cannot express yet (partly done) | G6, G5 | 31 not comparable | – | – | low |
-| T15 | The oracle's `templateName` substitutes invalid UTF-8 differently from twig-rs's lossy name | G6 | 4 | 3 +3 controls | – | low |
-| T16 | The escaping generator never writes `{% autoescape null %}` | G6 | – | – | – | low |
-| T17 | Composition cases whose `data_php` loads a failing template are not compared | G6 | 192 not comparable | – | – | low |
+| T8 | Typed data and environments the fuzz harness cannot express yet | G6, G5 | – | – | – | low |
 
 ---
 
-## G4: syntax
-
-### P42. PHP `\Error`s of API misuse are LogicException-kind errors that `compile_source()` wraps
-
-- **Groups**: G4 (`src/visitor/escaper.rs`, `src/parser/mod.rs`, `src/token_parser/apply.rs`).
-- **Covers**: reported by the round-3 fix of `needEscaping()`'s `TypeError`. No vector: none of them is reachable from
-  templates in an environment with the standard extensions, so the oracle's plain environment cannot show them.
-- **What**: three method calls on `null` that PHP reports as an `Error` (`Call to a member function %s() on %s`,
-  `zend_invalid_method_call()`, PHPSRC/Zend/zend_execute.c:2560) are `Error::logic(..)` in twig-rs:
-  - `EscaperNodeVisitor::getEscaperFilter()`, `$env->getFilter('escape')->getNodeClass()` without an `escape`
-    filter: `Call to a member function getNodeClass() on null` (`src/visitor/escaper.rs:244`);
-  - `ImportedSymbol::macro_variable()` of a symbol without an import node: `Call to a member function getNode() on
-    null` (`src/parser/mod.rs:71`);
-  - `ApplyTokenParser::parse()` without a `FilterExpressionParser`: `Call to a member function parse() on null (no
-    FilterExpressionParser is registered)` (`src/token_parser/apply.rs:35`), which also adds a twig-rs suffix to PHP's
-    text.
-- **Upstream**: `Environment::compileSource()` (TWIG/src/Environment.php:614) wraps only `\Exception`s in a
-  `SyntaxError`; a PHP `Error` leaves it unwrapped.
-- **Fix notes**: return `Error::php(PhpError::error(..))` with PHP's verbatim message, as the round-3 fix did for
-  `needEscaping()`'s `TypeError`, and check each case with an API test against a PHP script.
-
-## G5: library crates
-
-### P41. A template closure compares equal to the lazy path of a template's `Twig\Source`
-
-- **Groups**: G5 (`crates/twig-value/src/object/closure.rs`).
-- **Covers**: reported by the round-3 fix of P38. No vector: only a template loaded from a file has a lazy path
-  (`ModuleNode::compileGetSourceContext()` without `debug` and with a non-empty path), and the oracle's plain
-  environment uses an `ArrayLoader`. Check it with a `tests/engine_api.rs` scenario run against PHP, like P38's
-  lazy-path cases.
-- **Repro**: `s.createWithLazyPath(s.getCode(), s.getName(), (x) => x) == s`, with `s` the `getSourceContext()` of a
-  template from a `FilesystemLoader` compiled without `debug`, before its path is resolved. PHP: false; twig-rs: true.
-  The other order is false in both.
-- **Upstream**: `zend_closure_compare()` (PHPSRC/Zend/zend_closures.c:446): two closures are equal only when both are
-  first-class callables (`ZEND_ACC_FAKE_CLOSURE`) of the same function, scope and `$this`; any other pair is
-  `ZEND_UNCOMPARABLE`.
-- **twig-rs**: twig-value's `Closure::compare()` answers only for another twig-value `Closure`. For the
-  `SourcePathClosure` of `src/runtime/template.rs` (class `Closure` too) it returns `None`, and
-  `std_compare_objects()` finds two objects of one class without properties equal. `SourcePathClosure::compare()`
-  already treats every other closure as uncomparable.
-- **Fix notes**: in `Closure::compare()`, treat any other object of class `Closure` (`instance_of("Closure")`) as
-  uncomparable.
-
 ## G6: fuzz tooling
 
-- **T8. Typed data and environments the harness cannot express** (partly fixed). Done:
-  - the factory rebuilds exact `DateInterval` microseconds and `createFromDateString()` intervals;
-  - it places dynamic properties of date objects where PHP keeps them, from the `props` of the typed trees;
-  - dates at the second of two equal local times, and dates with five-digit years, are rebuilt from the timestamp;
-  - `SplObjectStorage::seek()` is ported (G5);
-  - `DatePeriod`s are rebuilt with `__set_state()` from their `props` (`get_object_vars()`;
-    `tests/vectors/fuzz/callables/round4-date-period.json`);
-  - the civil/wall mode of intervals: the oracle probes it (`interval_is_wall()` in `research/php-oracle/lib.php`:
-    `add()`/`sub()` across the end of DST in New York against an `unserialize()`d copy) and marks `new DateInterval()`
-    intervals `"wall": true`; the factory passes `civil_or_wall` to `__set_state()`
-    (`crates/twig-fuzz/tests/vectors/typed-data.json`);
-  - source policies: the case's `"sandbox": {"source_policy": [names]}` (an anonymous `SourcePolicyInterface` in the
-    oracle, `SandboxExtension::with_source_policy()` in the runner); the sandbox family sets one in a quarter of the
-    cases that are not sandboxed globally.
-
-  Remaining:
+- **T8. Typed data and environments the harness cannot express.** What the generators leave out because the harness
+  cannot rebuild or set it up:
   - closures and resources (not reproducible: PHP code, process state), and TemplateWrappers of another environment
     (the typed tree records only the template name);
-  - no generator writes a `DatePeriod` into its data yet (the formats or callables family could);
-  - the full `SimpleXMLElement` port (G5, `crates/twig-test-support/src/classes/simplexml.rs`): property and
-    dimension access (`$sxe->child` lists, `$sxe['attr']`), `children()`, `attributes()`. 31 sandbox cases of round 4
-    (37 in round 3) are not comparable because of it (`SimpleXMLElement property access is not supported by
-    twig-test-support`): `sx.c`, `sx['b']`, and every `.name` access, which looks for a property first. They become
-    comparable without a generator change once the port exists;
-  - coverage the plain oracle environment cannot express yet:
-    - an ArrayAccess class outside `ARRAY_LIKE_CLASSES`, which needs a G5 class port first;
-    - `render_sandboxed()` and `Twig\Sandbox\Sandbox`: the second environment is easy to build on both sides, but
-      PHP's error handler records the diagnostics of both environments in one sequence, and twig-rs collects them
-      per environment (`Environment::take_notices()`), so their order across the two cannot be compared without an
-      API that shares one diagnostics sink between environments;
-    - custom policy classes (PHP code);
-    - `config_php`, a callable `autoescape`, a `FilesystemLoader` (lazy source paths, P41), and the integration
-      environment.
-- **T15. Template names that are not valid UTF-8 in the oracle's `templateName`.** Round 4: 4 raw of 30,000 callables
-  cases (`c9205-00691m`, `c9206-01172m`, `c9209-00884v`, `c9211-01749v`), all in
-  `tests/vectors/fuzz/callables/round4-template-name-bytes.json`: `round4-template-name-bytes-truncated-sequence`
-  (minimised from `c9205-00691m`), `-named-argument`, `-overlong-prefix`; controls `-ctl-valid-prefix`,
-  `-ctl-lone-byte`, `-ctl-utf8`.
-  - Repro: `"{{ block('x', template_from_string('', \"\\xed\\xa0\")) }}"` (extension `string_loader`). The error's
-    `templateName` is `"\u{fffd} (string template ...)"` in the oracle's result and `"\u{fffd}\u{fffd} (string template
-    ...)"` in twig-rs's; the messages, which embed the name, are identical.
-  - Cause (harness, not twig-rs): `describe_throwable()` (`research/php-oracle/lib.php`) writes `templateName` as it
-    is instead of with `put_string()`, so the runner's `json_encode(..., JSON_INVALID_UTF8_SUBSTITUTE)` puts one U+FFFD
-    for each sequence `php_next_utf8_char()` rejects (PHPSRC/ext/standard/html.c:139: `\xed\xa0` and `\xe0\x80` before
-    a space are one two-byte sequence). twig-rs's name is `to_string_lossy()` of the bytes (accepted deviation
-    "Non-UTF-8 template names given to `template_from_string()`"), which replaces maximal subparts: two U+FFFD.
-  - Fix: write `templateName` with `put_string()` (adding `templateName_b64`), read it with `get_bytes()` in
-    `ErrorDesc::from_json()` (`kit/result.rs`) and compare its lossy conversion with twig-rs's name, as `kit/diff.rs`
-    does for messages; rebuild the oracle image, then `twig-fuzz refresh` the three marked vectors and `replay
-    --update` flips them.
-- **T16. The escaping generator never writes `{% autoescape null %}`.** `autoescape_arg()` in
-  `crates/twig-fuzz/src/generators/escaping.rs` leaves `null` out, and the module docs ("What the cases avoid") still
-  call it "a listed deviation". Since the round-3 fixes `needEscaping()` raises PHP's own unwrapped `TypeError`
-  (`tests/vectors/visitors/need_escaping_env.json`, 53 oracle cases), so `null` can be one of the arguments again, in
-  a few percent of the cases.
-- **T17. Composition cases whose `data_php` loads a failing template.** 192 of 30,000 composition cases in round 4
-  (143 of 20,000 in round 3) call `$twig->load()` in their data on a template that fails to compile or load
-  (`A template that extends another one cannot include content outside Twig blocks`, `Calling the "parent" function on
-  a template that does not call "extends" or "use" is forbidden`, `Template "nope.twig" is not defined`, trait errors,
-  ...). The oracle stops in phase `data` without typed data, so twig-rs cannot rebuild the data and the template's
-  error is never compared. Fix in `crates/twig-fuzz/src/generators/composition.rs`: name the templates the data loads
-  in the case so the runner loads them first and reports their error in phase `data` (an oracle protocol field), or
-  load them from the templates instead (`include`, `template_from_string()`).
+  - `SimpleXMLElement` writes, `xpath()`, `addChild()`/`addAttribute()` and namespaces (twig-test-support throws
+    `... is not supported by twig-test-support`, which the diff reports as not comparable), and objects the data
+    derives from one document (the typed tree records each object's `asXML()`, and the factory rebuilds it as the root
+    of a document of its own, so `$sxe->child == $sxe` would differ);
+  - an ArrayAccess class outside `ARRAY_LIKE_CLASSES`, which needs a G5 class port first;
+  - `render_sandboxed()` and `Twig\Sandbox\Sandbox`: the second environment is easy to build on both sides, but PHP's
+    error handler records the diagnostics of both environments in one sequence, and twig-rs collects them per
+    environment (`Environment::take_notices()`), so their order across the two cannot be compared without an API that
+    shares one diagnostics sink between environments;
+  - custom policy classes (PHP code);
+  - `config_php`, a callable `autoescape`, a `FilesystemLoader` (lazy source paths), and the integration environment.
 - **Smaller notes** (unchanged):
   - long output diffs share the coarse signature `output:changed`;
   - `data_php` minimisation only drops top-level keys;
@@ -263,7 +176,7 @@ The diff accepts these deviations of `reference/deviations.md`, so they show up 
 - closure names with file and line;
 - `var_dump()` object handles, also escaped or case-changed, and the `string(N)` length of a dumped string that holds
   a dump (rule `dump-string-length`, which checks the length against the bytes);
-- lossy non-UTF-8 bytes in messages;
+- lossy non-UTF-8 bytes in messages and template names;
 - the `not supported by twig-rs` errors of mbstring encodings and static method calls;
 - compile-time warnings a filesystem cache silences in PHP ("Warnings of compiled PHP code", rule
   `silenced-compile-warning`).

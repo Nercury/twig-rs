@@ -40,8 +40,8 @@ the command line.
   line and column, previous errors, deprecations and diagnostics. Only the deviations twig-fuzz knows from
   `reference/deviations.md` are accepted (`, called in <file> on line N` suffixes, closure names with file and line,
   `var_dump()` object handles, also in the `string(N)` length of a dumped string that holds a dump, lossy non-UTF-8
-  messages, and a warning PHP raised while compiling the template class under a filesystem cache, which silences it,
-  where twig-rs raises it when the expression runs).
+  messages and template names, and a warning PHP raised while compiling the template class under a filesystem cache,
+  which silences it, where twig-rs raises it when the expression runs).
 - A vector with `known_mismatch` must still mismatch. A fix makes the test fail until the marker is removed, which
   turns the vector into a plain regression test (a ratchet, like `tests/twig/known-failures.txt`).
 - `twig-fuzz replay --update <files or dirs> [--id ID]...` removes the marker of every marked vector that now

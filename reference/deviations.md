@@ -74,7 +74,8 @@ where C reads out of bounds, defined error codes where C leaves them uninitialis
 Differences in the rebuilt `--DATA--` values that no fixture output depends on: `class_implements()` order for some
 userland classes, anonymous class names and the `SplFileInfo` path (taken from the oracle's eval site), the
 `DateTimeImmutable('now')` of `expressions/attributes.test` (oracle run time), resources (handed to the harness),
-next-free integer keys derived from keys, partial `SimpleXMLElement`, `CallbackFilterIterator` callbacks rebuilt from
+next-free integer keys derived from keys, `SimpleXMLElement` without writes, XPath and namespaces (each object rebuilt
+from its `asXML()` as the root of a document of its own), `CallbackFilterIterator` callbacks rebuilt from
 recorded decisions, unsupported `Generator::send()/throw()` and rare SPL methods.
 
 The fixture harness (`tests/fixtures/`) gives the one resource of the corpus (`tests/in.test`) to templates as a
