@@ -623,6 +623,7 @@ impl Codegen<'_> {
             file: self.file,
             source: builder.source,
             index: builder.index,
+            keys: Program::keys_of(&builder.constants),
             constants: builder.constants,
             callables: builder.callables,
             units: builder.units,

@@ -270,9 +270,12 @@ impl ArrayData {
         self.find_ref(KeyRef::Int(h))
     }
 
-    fn push_entry(&mut self, key: ArrayKey, value: Value) {
+    fn push_entry(&mut self, key: ArrayKey, value: Value, hash: Option<u32>) {
         let pos = self.entries.len();
-        let hash = self.index.as_ref().map(|_| key_hash(key.as_key_ref()));
+        let hash = self
+            .index
+            .as_ref()
+            .map(|_| hash.unwrap_or_else(|| key_hash(key.as_key_ref())));
         self.entries.push(Some((key, value)));
         self.len += 1;
         match (&mut self.index, hash) {
@@ -312,7 +315,7 @@ impl ArrayData {
 
     /// Insert of a new int key `h` (the caller checked that it does not exist): the layout part of
     /// `_zend_hash_index_add_or_update_i()` followed by the `nNextFreeElement` update.
-    fn insert_new_int(&mut self, h: i64, value: Value) {
+    fn insert_new_int(&mut self, h: i64, value: Value, hash: Option<u32>) {
         let uh = h as u64;
         let packed = match self.layout {
             Layout::Uninit { table_size } => {
@@ -350,7 +353,7 @@ impl ArrayData {
             }
             Layout::Hash => false,
         };
-        self.push_entry(ArrayKey::Int(h), value);
+        self.push_entry(ArrayKey::Int(h), value, hash);
         if packed {
             // add_to_packed: ht->nNextFreeElement = ht->nNumUsed = h + 1;
             if let Layout::Packed { table_size, .. } = self.layout {
@@ -365,16 +368,49 @@ impl ArrayData {
         }
     }
 
-    fn insert_new_str(&mut self, key: PhpString, value: Value) {
+    fn insert_new_str(&mut self, key: PhpString, value: Value, hash: Option<u32>) {
         // zend_hash_real_init_mixed() / zend_hash_packed_to_hash()
         self.layout = Layout::Hash;
-        self.push_entry(ArrayKey::Str(key), value);
+        self.push_entry(ArrayKey::Str(key), value, hash);
     }
 
     fn insert_new(&mut self, key: ArrayKey, value: Value) {
+        self.insert_new_hashed(key, value, None);
+    }
+
+    /// Insert of a new key whose hash may be known.
+    fn insert_new_hashed(&mut self, key: ArrayKey, value: Value, hash: Option<u32>) {
         match key {
-            ArrayKey::Int(h) => self.insert_new_int(h, value),
-            ArrayKey::Str(s) => self.insert_new_str(s, value),
+            ArrayKey::Int(h) => self.insert_new_int(h, value, hash),
+            ArrayKey::Str(s) => self.insert_new_str(s, value, hash),
+        }
+    }
+
+    /// Position of a prepared key: the stored hash is the key's, and a string key sharing the prepared string is
+    /// found without comparing bytes.
+    fn find_prepared(&self, key: &PreparedKey) -> Option<usize> {
+        let matches = |entry: &Option<(ArrayKey, Value)>| match (entry, &key.key) {
+            (Some((ArrayKey::Str(a), _)), ArrayKey::Str(b)) => PhpString::ptr_eq(a, b) || a == b,
+            (Some((ArrayKey::Int(a), _)), ArrayKey::Int(b)) => a == b,
+            _ => false,
+        };
+        match &self.index {
+            Some(index) => {
+                let mask = index.mask();
+                let mut i = key.hash as usize & mask;
+                loop {
+                    let pos = index.slots[i];
+                    if pos == EMPTY_SLOT {
+                        return None;
+                    }
+                    let pos = pos as usize;
+                    if index.hashes[pos] == key.hash && matches(&self.entries[pos]) {
+                        return Some(pos);
+                    }
+                    i = (i + 1) & mask;
+                }
+            }
+            None => self.entries.iter().position(matches),
         }
     }
 
@@ -423,6 +459,30 @@ impl ArrayData {
             self.compact();
         }
         value
+    }
+}
+
+/// An array key normalised and hashed once, for repeated lookups in any array: the variable names of a compiled
+/// template, for example ([`Array::get_prepared`], [`Array::insert_prepared`], [`Array::remove_prepared`]). The hash
+/// is only valid in the process that computed it (arrays hash their keys with a seed chosen at startup).
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct PreparedKey {
+    key: ArrayKey,
+    hash: u32,
+}
+
+impl PreparedKey {
+    /// The prepared form of `key` (strings convert to keys with the symtable normalisation, like every
+    /// [`ArrayKey`]).
+    pub fn new(key: impl Into<ArrayKey>) -> PreparedKey {
+        let key = key.into();
+        let hash = key_hash(key.as_key_ref());
+        PreparedKey { key, hash }
+    }
+
+    /// The key.
+    pub fn key(&self) -> &ArrayKey {
+        &self.key
     }
 }
 
@@ -572,6 +632,39 @@ impl Array {
         None
     }
 
+    /// Looks up a prepared key ([`Array::get`] without normalising or hashing the key again).
+    pub fn get_prepared(&self, key: &PreparedKey) -> Option<&Value> {
+        let pos = self.0.find_prepared(key)?;
+        self.0.entries[pos].as_ref().map(|(_, v)| v)
+    }
+
+    /// Mutable access to the element of a prepared key (separates a shared array first, like [`Array::get_mut`]).
+    pub fn get_mut_prepared(&mut self, key: &PreparedKey) -> Option<&mut Value> {
+        let data = self.data_mut();
+        let pos = data.find_prepared(key)?;
+        data.entries[pos].as_mut().map(|(_, v)| v)
+    }
+
+    /// Inserts or updates the element of a prepared key ([`Array::insert`]; an existing key keeps its position and
+    /// its string, the prepared key is cloned into the table only when it is new). Returns the previous value.
+    pub fn insert_prepared(&mut self, key: &PreparedKey, value: impl Into<Value>) -> Option<Value> {
+        let value = value.into();
+        let data = self.data_mut();
+        if let Some(pos) = data.find_prepared(key) {
+            let slot = data.entries[pos].as_mut().map(|(_, v)| v);
+            return slot.map(|v| std::mem::replace(v, value));
+        }
+        data.insert_new_hashed(key.key.clone(), value, Some(key.hash));
+        None
+    }
+
+    /// Removes a prepared key ([`Array::remove`]: a shared array is separated even when the key is absent).
+    pub fn remove_prepared(&mut self, key: &PreparedKey) -> Option<Value> {
+        let data = self.data_mut();
+        let pos = data.find_prepared(key)?;
+        Some(data.remove_at(pos))
+    }
+
     /// Inserts or updates (`zend_hash_update` / `zend_hash_index_update`, i.e. `$a[$k] = $v` and
     /// array-literal elements with a key). An existing key keeps its position. Returns the previous
     /// value.
@@ -627,7 +720,7 @@ impl Array {
                 "Cannot add element to the array as the next element is already occupied",
             ));
         }
-        self.data_mut().insert_new_int(h, value.into());
+        self.data_mut().insert_new_int(h, value.into(), None);
         Ok(h)
     }
 
@@ -1114,7 +1207,11 @@ mod tests {
                 0..=3 => {
                     let k = key(next(range));
                     let v = Value::Int(step);
-                    array.insert(k.clone(), v.clone());
+                    if step % 2 == 0 {
+                        array.insert(k.clone(), v.clone());
+                    } else {
+                        array.insert_prepared(&PreparedKey::new(k.clone()), v.clone());
+                    }
                     match model.iter_mut().find(|(mk, _)| *mk == k) {
                         Some(entry) => entry.1 = v,
                         None => model.push((k, v)),
@@ -1122,7 +1219,11 @@ mod tests {
                 }
                 4..=6 => {
                     let k = key(next(range));
-                    let removed = array.remove(&k);
+                    let removed = if step % 2 == 0 {
+                        array.remove(&k)
+                    } else {
+                        array.remove_prepared(&PreparedKey::new(k.clone()))
+                    };
                     let position = model.iter().position(|(mk, _)| *mk == k);
                     assert_eq!(removed, position.map(|p| model.remove(p).1));
                 }
@@ -1146,11 +1247,17 @@ mod tests {
             let which = which.min(arrays.len() - 1);
             let (array, model) = &arrays[which];
             assert_eq!(array.len(), model.len());
-            assert!(array.iter().map(|(k, v)| (k.clone(), v.clone())).eq(model.iter().cloned()));
+            assert!(
+                array
+                    .iter()
+                    .map(|(k, v)| (k.clone(), v.clone()))
+                    .eq(model.iter().cloned())
+            );
             for n in 0..range {
                 let k = key(n);
                 let expected = model.iter().find(|(mk, _)| *mk == k).map(|(_, v)| v);
                 assert_eq!(array.get(&k), expected, "step {step}, key {k:?}");
+                assert_eq!(array.get_prepared(&PreparedKey::new(k)), expected);
             }
         }
     }

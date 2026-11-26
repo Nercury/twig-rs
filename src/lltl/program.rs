@@ -3,6 +3,7 @@
 use std::fmt::{self, Write as _};
 use std::sync::{Arc, OnceLock};
 
+use twig_value::array::PreparedKey;
 use twig_value::{PhpString, Value};
 
 use super::instr::{ConstId, Instr, UnitId};
@@ -232,6 +233,9 @@ pub struct Program {
     pub(crate) source: Source,
     pub(crate) index: Option<i64>,
     pub(crate) constants: Vec<Value>,
+    /// The constants as array keys (`$context["name"]`), prepared once: the key of a string constant, the empty key
+    /// for the other constants.
+    pub(crate) keys: Vec<PreparedKey>,
     pub(crate) callables: Vec<TwigCallable>,
     pub(crate) units: Vec<Unit>,
     pub(crate) body: UnitId,
@@ -279,6 +283,22 @@ impl Program {
     /// The constant `i`.
     pub fn constant(&self, i: ConstId) -> &Value {
         &self.constants[i as usize]
+    }
+
+    /// The constant `i` as an array key (a string normalised like a PHP string offset; other constants give `""`).
+    pub(crate) fn key(&self, i: ConstId) -> &PreparedKey {
+        &self.keys[i as usize]
+    }
+
+    /// The prepared array keys of `constants`.
+    pub(crate) fn keys_of(constants: &[Value]) -> Vec<PreparedKey> {
+        constants
+            .iter()
+            .map(|constant| match constant {
+                Value::String(name) => PreparedKey::new(name.clone()),
+                _ => PreparedKey::new(PhpString::empty()),
+            })
+            .collect()
     }
 
     /// The filters, functions and tests the code calls.
