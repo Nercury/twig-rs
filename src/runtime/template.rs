@@ -332,18 +332,18 @@ pub(crate) fn yield_template(
 /// A template ready to render: what `Environment::load()` returns. Twig: `Twig\TemplateWrapper`
 /// (TWIG/src/TemplateWrapper.php).
 ///
-/// The context is a PHP array ([`twig_value::Array`]); keys are template variable names.
+/// The context is a PHP array ([`twig_value::Array`]) whose keys are the template variable names; the methods take
+/// anything that converts into one: [`context!`](crate::context), a `BTreeMap`, a `HashMap`, an `IndexMap` or an
+/// array of key-value pairs.
 ///
 /// ```
 /// use twig::loader::ArrayLoader;
 /// use twig::runtime::Environment;
-/// use twig::value::{Array, Value};
+/// use twig::value::Array;
 ///
 /// let env = Environment::new(ArrayLoader::new([("index", "Hello {{ name }}!{% block title %}T{% endblock %}")]));
 /// let template = env.load("index")?;
-/// let mut context = Array::new();
-/// context.insert("name", Value::from("Fabien"));
-/// assert_eq!(template.render(context)?, "Hello Fabien!T");
+/// assert_eq!(template.render([("name", "Fabien")])?, "Hello Fabien!T");
 /// assert_eq!(template.render_block("title", Array::new())?, "T");
 /// assert!(template.has_block("title", Array::new())?);
 /// # Ok::<(), twig::Error>(())
@@ -441,7 +441,11 @@ impl TemplateWrapper {
     /// # Errors
     ///
     /// The Twig error the rendering raised; what was produced so far is discarded.
-    pub fn render_bytes(&self, context: Array) -> Result<Vec<u8>> {
+    pub fn render_bytes(&self, context: impl Into<Array>) -> Result<Vec<u8>> {
+        self.render_array(context.into())
+    }
+
+    fn render_array(&self, context: Array) -> Result<Vec<u8>> {
         let mut buffer: Vec<u8> = Vec::new();
         {
             let mut out = Output::new(&mut buffer, false);
@@ -458,8 +462,8 @@ impl TemplateWrapper {
     ///
     /// The Twig error the rendering raised, or a runtime error when the output is not valid UTF-8 (use
     /// [`render_bytes`](Self::render_bytes) for byte output).
-    pub fn render(&self, context: Array) -> Result<String> {
-        let bytes = self.render_bytes(context)?;
+    pub fn render(&self, context: impl Into<Array>) -> Result<String> {
+        let bytes = self.render_array(context.into())?;
         self.utf8(bytes)
     }
 
@@ -472,13 +476,17 @@ impl TemplateWrapper {
         })
     }
 
-    /// Displays the template: writes its output to `sink` as it is produced (`{% flush %}` flushes the sink).
-    /// Twig: `TemplateWrapper::display()`.
+    /// Displays the template: writes its output to `sink` (a `Vec<u8>`, any [`std::io::Write`], see [`Sink`]) as it
+    /// is produced; `{% flush %}` flushes the sink. Twig: `TemplateWrapper::display()`.
     ///
     /// # Errors
     ///
     /// The Twig error the rendering raised (the output written before it stays written), or an error of the sink.
-    pub fn display(&self, context: Array, sink: &mut dyn Sink) -> Result<()> {
+    pub fn display(&self, context: impl Into<Array>, sink: &mut dyn Sink) -> Result<()> {
+        self.display_array(context.into(), sink)
+    }
+
+    fn display_array(&self, context: Array, sink: &mut dyn Sink) -> Result<()> {
         let mut out = Output::new(sink, true);
         let mut state = self.state();
         yield_template(&mut state, &mut out, &self.template, context).map_err(Exception::into_error)
@@ -490,8 +498,8 @@ impl TemplateWrapper {
     /// # Errors
     ///
     /// As [`display`](Self::display).
-    pub fn stream(&self, context: Array, sink: &mut dyn Sink) -> Result<()> {
-        self.display(context, sink)
+    pub fn stream(&self, context: impl Into<Array>, sink: &mut dyn Sink) -> Result<()> {
+        self.display_array(context.into(), sink)
     }
 
     /// Renders one block of the template to bytes, with the globals added to the context. Twig:
@@ -500,7 +508,11 @@ impl TemplateWrapper {
     /// # Errors
     ///
     /// `Block "%s" on template "%s" does not exist.` and the errors of the block.
-    pub fn render_block_bytes(&self, name: &str, context: Array) -> Result<Vec<u8>> {
+    pub fn render_block_bytes(&self, name: &str, context: impl Into<Array>) -> Result<Vec<u8>> {
+        self.render_block_array(name, context.into())
+    }
+
+    fn render_block_array(&self, name: &str, context: Array) -> Result<Vec<u8>> {
         let mut buffer: Vec<u8> = Vec::new();
         {
             let mut out = Output::new(&mut buffer, false);
@@ -514,8 +526,8 @@ impl TemplateWrapper {
     /// # Errors
     ///
     /// As [`render_block_bytes`](Self::render_block_bytes), and non-UTF-8 output.
-    pub fn render_block(&self, name: &str, context: Array) -> Result<String> {
-        let bytes = self.render_block_bytes(name, context)?;
+    pub fn render_block(&self, name: &str, context: impl Into<Array>) -> Result<String> {
+        let bytes = self.render_block_array(name, context.into())?;
         self.utf8(bytes)
     }
 
@@ -524,9 +536,14 @@ impl TemplateWrapper {
     /// # Errors
     ///
     /// As [`render_block_bytes`](Self::render_block_bytes), and the errors of the sink.
-    pub fn display_block(&self, name: &str, context: Array, sink: &mut dyn Sink) -> Result<()> {
+    pub fn display_block(
+        &self,
+        name: &str,
+        context: impl Into<Array>,
+        sink: &mut dyn Sink,
+    ) -> Result<()> {
         let mut out = Output::new(sink, true);
-        self.yield_block_into(name, context, &mut out)
+        self.yield_block_into(name, context.into(), &mut out)
     }
 
     /// Streams one block of the template into `sink`. Twig: `TemplateWrapper::streamBlock()`.
@@ -534,7 +551,12 @@ impl TemplateWrapper {
     /// # Errors
     ///
     /// As [`display_block`](Self::display_block).
-    pub fn stream_block(&self, name: &str, context: Array, sink: &mut dyn Sink) -> Result<()> {
+    pub fn stream_block(
+        &self,
+        name: &str,
+        context: impl Into<Array>,
+        sink: &mut dyn Sink,
+    ) -> Result<()> {
         self.display_block(name, context, sink)
     }
 
@@ -559,8 +581,8 @@ impl TemplateWrapper {
     /// # Errors
     ///
     /// The errors of resolving a dynamic parent.
-    pub fn has_block(&self, name: &str, context: Array) -> Result<bool> {
-        let context = self.with_globals(context);
+    pub fn has_block(&self, name: &str, context: impl Into<Array>) -> Result<bool> {
+        let context = self.with_globals(context.into());
         let mut state = self.state();
         composition::has_block(
             &mut state,
@@ -578,8 +600,8 @@ impl TemplateWrapper {
     /// # Errors
     ///
     /// The errors of resolving a dynamic parent.
-    pub fn block_names(&self, context: Array) -> Result<Vec<String>> {
-        let context = self.with_globals(context);
+    pub fn block_names(&self, context: impl Into<Array>) -> Result<Vec<String>> {
+        let context = self.with_globals(context.into());
         let mut state = self.state();
         let names =
             composition::block_names(&mut state, &self.template, &context, &Blocks::default())

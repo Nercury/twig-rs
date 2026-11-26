@@ -1,12 +1,14 @@
-//! The ergonomic API of roadmap phase 6 (`plans/product.md`, "API ergonomics"): the top-level re-exports, the `From`
-//! conversions of Rust data, the `context!` macro, callables made of closures (`TwigFilter::from_fn` & co.) and, with
-//! the `serde` feature, `to_value`/`to_context`.
+//! The ergonomic API of roadmap phase 6: the top-level re-exports, the `From` conversions of Rust data, the `context!`
+//! macro, render methods that take any data convertible into a context, `render_string`, writers as sinks, callables
+//! made of closures (`TwigFilter::from_fn` & co.), host objects made with `ObjectBuilder` and, with the `serde`
+//! feature, `to_value`/`to_context`.
 //!
 //! Expected outputs and messages come from the oracle (Twig 3.31.1 on PHP 8.5.13) rendering the same templates with
-//! the PHP equivalent of the data (`json_decode()` for the integers beyond PHP's `int` range and for the maps) and
-//! with PHP closures registered with the same options, e.g. `new TwigFilter('repeat', fn ($value, $times = 2, $sep =
-//! '') => implode($sep, array_fill(0, $times, $value)))` for the `repeat` filter below. Where twig-rs cannot match
-//! (the name PHP gives a closure in an `ArgumentCountError`), the test says so.
+//! the PHP equivalent of the data (`json_decode()` for the integers beyond PHP's `int` range and for the maps), with
+//! PHP closures registered with the same options, e.g. `new TwigFilter('repeat', fn ($value, $times = 2, $sep = '')
+//! => implode($sep, array_fill(0, $times, $value)))` for the `repeat` filter below, and with the PHP classes that the
+//! built host objects stand for (written out above each builder). Where twig-rs cannot match (the name PHP gives a
+//! closure in an `ArgumentCountError`, the file PHP names in one), the test says so.
 
 use std::collections::{BTreeMap, HashMap};
 use std::io::Write as _;
@@ -160,24 +162,57 @@ fn rust_data_renders_like_the_php_equivalent() {
     );
 }
 
-/// Maps convert into whole contexts; their keys are normalised (oracle: `render('index', ['1' => 'x', 'name' =>
+/// Maps are contexts as they are; their keys are normalised (oracle: `render('index', ['1' => 'x', 'name' =>
 /// 'y'])`).
 #[test]
 fn maps_are_contexts() {
     let env = env("{{ 1 }}{{ _context|keys|json_encode }}");
     let map = BTreeMap::from([("1", "x"), ("name", "y")]);
-    assert_eq!(render(&env, Array::from(map)), "1[1,&quot;name&quot;]");
+    assert_eq!(env.render("index", map).unwrap(), "1[1,&quot;name&quot;]");
 
     let env = self::env("Hello {{ name }}!");
     let map = HashMap::from([("name".to_owned(), "World".to_owned())]);
-    assert_eq!(render(&env, Array::from(map)), "Hello World!");
+    assert_eq!(env.render("index", map).unwrap(), "Hello World!");
+    let pairs = [("name", PhpString::from(&b"bytes"[..]))];
+    assert_eq!(env.render("index", pairs).unwrap(), "Hello bytes!");
+}
+
+/// Every method that takes a context takes anything that converts into an `Array`.
+#[test]
+fn render_methods_take_any_context_data() {
+    let env = Environment::new(ArrayLoader::new([(
+        "index",
+        "{{ greeting }} {{ name }}{% block end %}{{ end ?? '!' }}{% endblock %}",
+    )]));
+    let map = BTreeMap::from([("greeting", "Hi"), ("name", "you")]);
+    assert_eq!(env.render("index", map.clone()).unwrap(), "Hi you!");
+    assert_eq!(env.render_bytes("index", map.clone()).unwrap(), b"Hi you!");
+    let mut out = Vec::new();
+    env.display("index", map.clone(), &mut out).unwrap();
+    assert_eq!(out, b"Hi you!");
+
+    let template = env.load("index").unwrap();
+    let pairs = [("greeting", "Yo"), ("name", "me"), ("end", "?")];
+    assert_eq!(template.render(pairs).unwrap(), "Yo me?");
+    assert_eq!(template.render_bytes(pairs).unwrap(), b"Yo me?");
+    assert_eq!(template.render_block("end", pairs).unwrap(), "?");
     assert_eq!(
-        render(
-            &env,
-            Array::from([("name", PhpString::from(&b"bytes"[..]))])
-        ),
-        "Hello bytes!"
+        template.render_block_bytes("end", map.clone()).unwrap(),
+        b"!"
     );
+    let mut out = Vec::new();
+    template.display_block("end", pairs, &mut out).unwrap();
+    template.stream_block("end", map.clone(), &mut out).unwrap();
+    template
+        .display(context! { greeting => 1, name => 2 }, &mut out)
+        .unwrap();
+    template.stream(Array::new(), &mut out).unwrap();
+    assert_eq!(out, b"?!1 2! !");
+    assert!(template.has_block("end", map.clone()).unwrap());
+    assert_eq!(template.block_names(map).unwrap(), ["end"]);
+    // a list is a context too (the keys 0, 1, ...)
+    let env = self::env("{{ _context|join(',') }}");
+    assert_eq!(env.render("index", vec!["a", "b"]).unwrap(), "a,b");
 }
 
 /// Globals take any convertible value.
@@ -189,29 +224,110 @@ fn globals_take_converted_values() {
     assert_eq!(render(&env, Array::new()), "Docs en/lt");
 }
 
-// ---- rendering conveniences that exist today -----------------------------------------------------------------------
+// ---- rendering conveniences ------------------------------------------------------------------------------------------
 
-/// Template source rendered without registering it (Twig's `createTemplate()`), and output into any `io::Write`
-/// through `IoSink`.
+/// Template source rendered without registering it: Twig's `createTemplate($source)->render($context)` (oracle: the
+/// names, the loader error and the deprecation reported once for two `createTemplate()` calls of one source).
 #[test]
-fn string_templates_and_io_writers() {
-    let env = env("");
-    let template = env
-        .create_template(b"{{ greeting }}, {{ name }}!", None)
-        .unwrap();
+fn render_string_renders_sources_no_loader_knows() {
+    let env = Environment::new(ArrayLoader::new([
+        ("layout", "[{% block body %}{% endblock %}]"),
+        ("index", "{{ include('__string_template__' ~ hash) }}"),
+    ]));
+    let source = "{% extends 'layout' %}{% block body %}Hello {{ name }}!{% endblock %}";
     assert_eq!(
-        template
-            .render(context! { greeting => "Hello", name => "you" })
+        env.render_string(source, context! { name => "Fabien" })
             .unwrap(),
-        "Hello, you!"
+        "[Hello Fabien!]"
+    );
+    let error = env
+        .render_string("{{ name|nope }}", [("name", "Fabien")])
+        .unwrap_err();
+    assert_eq!(error.kind(), ErrorKind::Syntax);
+    assert_eq!(
+        error.to_string(),
+        "Unknown \"nope\" filter in \"__string_template__e447569389deda7aacdfc7238ab4517c\" at line 1."
+    );
+    // the name is not registered with the loader
+    assert_eq!(env.render_string(b"x", Array::new()).unwrap(), "x");
+    let error = env
+        .render("index", [("hash", "5c7401c0ec22eeeeeaf06c6480b2cd11")])
+        .unwrap_err();
+    assert_eq!(
+        error.to_string(),
+        "Template \"__string_template__5c7401c0ec22eeeeeaf06c6480b2cd11\" is not defined in \"index\" at line 1."
     );
 
-    let env = self::env("{% for i in 1..3 %}{{ i }}{% endfor %}");
-    let mut out = std::io::Cursor::new(Vec::new());
-    env.display("index", Array::new(), &mut twig::vm::IoSink(&mut out))
+    // compiled once per source, like the templates of a loader
+    env.set_diagnostics_policy(DiagnosticsPolicy::Collect);
+    for _ in 0..2 {
+        assert_eq!(
+            env.render_string("{{ 'a'|spaceless }}", Array::new())
+                .unwrap(),
+            "a"
+        );
+    }
+    let notices: Vec<String> = env.take_notices().iter().map(ToString::to_string).collect();
+    assert_eq!(
+        notices,
+        [
+            "Deprecated: Since twig/twig 3.12: Twig Filter \"spaceless\" is deprecated in \
+             __string_template__d325a5821eae967c6f2625380e868d8a at line 1."
+        ]
+    );
+    let first = env.create_template(b"{{ x }}", None).unwrap();
+    let again = env.create_template(b"{{ x }}", None).unwrap();
+    assert!(std::sync::Arc::ptr_eq(first.template(), again.template()));
+}
+
+/// Any `io::Write` is a sink: `{% flush %}` flushes it; the `IoSink` wrapper of older code still works.
+#[test]
+fn display_writes_into_any_writer() {
+    #[derive(Default)]
+    struct Recorder {
+        bytes: Vec<u8>,
+        flushes: usize,
+    }
+
+    impl std::io::Write for Recorder {
+        fn write(&mut self, bytes: &[u8]) -> std::io::Result<usize> {
+            self.bytes.extend_from_slice(bytes);
+            Ok(bytes.len())
+        }
+
+        fn flush(&mut self) -> std::io::Result<()> {
+            self.flushes += 1;
+            Ok(())
+        }
+    }
+
+    let env = env("{% for i in 1..3 %}{{ i }}{% endfor %}{% flush %}");
+    let mut recorder = Recorder::default();
+    env.display("index", Array::new(), &mut recorder).unwrap();
+    assert_eq!(
+        (recorder.bytes.as_slice(), recorder.flushes),
+        (&b"123"[..], 1)
+    );
+
+    let mut cursor = std::io::Cursor::new(Vec::new());
+    env.display("index", Array::new(), &mut cursor).unwrap();
+    let mut writer: Box<dyn std::io::Write> = Box::new(Vec::new());
+    env.display("index", Array::new(), &mut writer).unwrap();
+    let mut buffer = std::io::BufWriter::new(Vec::new());
+    env.load("index")
+        .unwrap()
+        .display(Array::new(), &mut buffer)
         .unwrap();
-    out.flush().unwrap();
-    assert_eq!(out.into_inner(), b"123");
+    assert_eq!(buffer.into_inner().unwrap(), b"123");
+    env.display("index", Array::new(), &mut twig::vm::IoSink(&mut cursor))
+        .unwrap();
+    cursor.flush().unwrap();
+    assert_eq!(cursor.into_inner(), b"123123");
+    // a borrowed sink lends on
+    let lend = |mut sink: &mut dyn twig::vm::Sink| env.display("index", Array::new(), &mut sink);
+    let mut out = Vec::new();
+    lend(&mut out).unwrap();
+    assert_eq!(out, b"123");
 }
 
 // ---- callables made of closures -------------------------------------------------------------------------------------
@@ -544,6 +660,331 @@ fn builders_make_ordinary_callables() {
     .unwrap();
     // `f` gets one value per declared parameter, `g` none (extra arguments are dropped, as PHP does for closures)
     assert_eq!(render(&env, Array::new()), "20");
+}
+
+// ---- host objects made with ObjectBuilder --------------------------------------------------------------------------
+
+mod host_objects {
+    use twig::runtime::{Sandbox, SecurityPolicy};
+    use twig::value::FetchMode;
+    use twig::value::object::{ObjectBuilder, ObjectRef, Param};
+
+    use super::*;
+
+    /// `$a.$b...`: PHP's string conversion of each part.
+    fn concat(
+        parts: &[&Value],
+        diag: &mut dyn twig::value::Diagnostics,
+    ) -> twig::value::PhpResult<PhpString> {
+        let mut bytes = Vec::new();
+        for part in parts {
+            bytes.extend_from_slice(convert::to_string(part, diag)?.as_bytes());
+        }
+        Ok(PhpString::from(bytes))
+    }
+
+    /// ```php
+    /// namespace App;
+    ///
+    /// class User
+    /// {
+    ///     public $name;
+    ///     public $roles;
+    ///
+    ///     public function __construct($name, $roles) { $this->name = $name; $this->roles = $roles; }
+    ///     public function isAdmin() { return in_array('admin', $this->roles, true); }
+    ///     public function hasRole($role) { return in_array($role, $this->roles, true); }
+    ///     public function greet($greeting, $end = '!') { return $greeting.' '.$this->name.$end; }
+    ///     public function __toString(): string { return $this->name; }
+    /// }
+    /// ```
+    fn user(name: &str, roles: &[&str]) -> ObjectRef {
+        let roles: Vec<Value> = roles.iter().map(|role| Value::from(*role)).collect();
+        let (admin, has) = (roles.clone(), roles.clone());
+        ObjectBuilder::new("App\\User")
+            .property("name", name)
+            .property("roles", roles)
+            .method("isAdmin", [], move |_, _, _| {
+                Ok(admin.contains(&Value::from("admin")))
+            })
+            .method("hasRole", [Param::required("role")], move |_, args, _| {
+                Ok(has.contains(&args[0]))
+            })
+            .method(
+                "greet",
+                [Param::required("greeting"), Param::optional("end", "!")],
+                |this, args, diag| {
+                    let name = this.read_property(b"name", FetchMode::Read, diag)?;
+                    concat(&[&args[0], &Value::from(" "), &name, &args[1]], diag)
+                },
+            )
+            .stringable(|this, diag| this.read_property(b"name", FetchMode::Read, diag))
+            .build()
+    }
+
+    fn strict_env(templates: &[(&'static str, &'static str)]) -> Environment {
+        Environment::with_options(
+            ArrayLoader::new(templates.iter().copied()),
+            EnvironmentOptions {
+                strict_variables: true,
+                ..Default::default()
+            },
+        )
+    }
+
+    /// The outputs (or the error messages) of the templates, in order.
+    fn render_all(env: &Environment, names: &[&str], context: &Array) -> Vec<String> {
+        names
+            .iter()
+            .map(|name| match env.render(name, context.clone()) {
+                Ok(output) => output,
+                Err(error) => error.to_string(),
+            })
+            .collect()
+    }
+
+    /// Methods are found like Twig finds those of a PHP object: by name, case-insensitively, through the `is` prefix;
+    /// arguments bind like a PHP method's.
+    #[test]
+    fn built_objects_resolve_like_php_objects() {
+        let env = strict_env(&[
+            (
+                "methods",
+                "{{ user.name }}|{{ user.admin ? 'admin' : 'user' }}|{{ user.ISADMIN ? 'y' : 'n' }}|\
+                 {{ user.isAdmin() ? 'y' : 'n' }}|{{ user.hasRole('dev') ? 'dev' : 'not dev' }}|\
+                 {{ user.hasRole(1) ? 'one' : 'not one' }}|{{ user.greet('Hi') }}|\
+                 {{ user.Greet(end: '?', greeting: 'Yo') }}|{{ user.greet('Hey', '.', 'extra') }}",
+            ),
+            (
+                "strings",
+                "{{ user }}|{{ user ~ '!' }}|{{ user|upper }}|{{ user|length }}|{{ user.roles|join(',') }}|\
+                 {{ user|json_encode }}",
+            ),
+            (
+                "defined",
+                "{{ user.missing is defined ? 'y' : 'n' }}|{{ user.name is defined ? 'y' : 'n' }}|\
+                 {{ user.greet is defined ? 'y' : 'n' }}|{{ user.missing ?? 'none' }}",
+            ),
+            (
+                "compare",
+                "{{ user == same ? 'equal' : 'different' }}|{{ user == other ? 'equal' : 'different' }}|\
+                 {{ user is same as(same) ? 'same' : 'not same' }}|{{ user is same as(user) ? 'same' : 'not same' }}",
+            ),
+            ("unknown named", "{{ user.greet(nope: 1) }}"),
+            ("too few", "{{ user.greet() }}"),
+            ("missing", "{{ user.missing }}"),
+        ]);
+        let context = context! {
+            user => user("Fabien", &["admin", "dev"]),
+            same => user("Fabien", &["admin", "dev"]),
+            other => user("Nerijus", &["dev"]),
+        };
+        let names = [
+            "methods",
+            "strings",
+            "defined",
+            "compare",
+            "unknown named",
+            "too few",
+            "missing",
+        ];
+        assert_eq!(
+            render_all(&env, &names, &context),
+            [
+                "Fabien|admin|y|y|dev|not one|Hi Fabien!|Yo Fabien?|Hey Fabien.",
+                "Fabien|Fabien!|FABIEN|6|admin,dev|\
+                 {&quot;name&quot;:&quot;Fabien&quot;,&quot;roles&quot;:[&quot;admin&quot;,&quot;dev&quot;]}",
+                "n|y|y|none",
+                // objects of one class compare by their properties
+                "equal|different|not same|same",
+                "An exception has been thrown during the rendering of a template (\"Unknown named parameter $nope\") \
+                 in \"unknown named\" at line 1.",
+                // PHP: `0 passed in /.../CoreExtension.php on line 2001 and ...` (reference/deviations.md)
+                "An exception has been thrown during the rendering of a template (\"Too few arguments to function \
+                 App\\User::greet(), 0 passed and at least 1 expected\") in \"too few\" at line 1.",
+                "Neither the property \"missing\" nor one of the methods \"missing()\", \"getmissing()\", \
+                 \"ismissing()\", \"hasmissing()\" or \"__call()\" exist and have public access in class \"App\\User\" \
+                 in \"missing\" at line 1.",
+            ]
+        );
+    }
+
+    /// ```php
+    /// namespace App;
+    ///
+    /// class Config implements \ArrayAccess
+    /// {
+    ///     public $name = 'property';
+    ///
+    ///     public function __construct(private array $data) {}
+    ///     public function getName() { return 'getter'; }
+    ///     public function getOther() { return 'other getter'; }
+    ///     public function offsetExists($offset): bool { return is_string($offset) && array_key_exists($offset, $this->data); }
+    ///     public function offsetGet($offset): mixed { return $this->offsetExists($offset) ? $this->data[$offset] : null; }
+    ///     public function offsetSet($offset, $value): void { throw new \LogicException('App\Config is read-only.'); }
+    ///     public function offsetUnset($offset): void { throw new \LogicException('App\Config is read-only.'); }
+    /// }
+    /// ```
+    ///
+    /// with `new Config(['title' => 'offset', 'theme' => 'dark', 'empty' => null])`.
+    fn config() -> ObjectRef {
+        let data = context! { title => "offset", theme => "dark", empty => None::<i64> };
+        ObjectBuilder::new("App\\Config")
+            .property("name", "property")
+            .method("getName", [], |_, _, _| Ok("getter"))
+            .method("getOther", [], |_, _, _| Ok("other getter"))
+            .array_access(move |_, offset, _| {
+                Ok(match offset {
+                    Value::String(key) => data.get_str(key.as_bytes()).cloned(),
+                    _ => None,
+                })
+            })
+            .build()
+    }
+
+    /// `ArrayAccess` offsets come before properties, properties before methods (unless called with parentheses).
+    #[test]
+    fn offsets_come_before_properties_and_properties_before_methods() {
+        let env = strict_env(&[
+            (
+                "resolution",
+                "{{ config.title }}|{{ config.name }}|{{ config.name() }}|{{ config.getName }}|{{ config.other }}|\
+                 {{ config['theme'] }}|{{ config.nothing ?? 'none' }}|{{ config.theme is defined ? 'y' : 'n' }}|\
+                 {{ config.absent is defined ? 'y' : 'n' }}|{{ config.empty is null ? 'null' : 'not null' }}|\
+                 {{ config.empty ?? 'default' }}|{{ config[0] ?? 'no 0' }}",
+            ),
+            ("set", "{{ config.offsetSet('a', 1) }}"),
+            ("missing", "{{ config.nothing }}"),
+            ("missing key", "{{ config['nothing'] }}"),
+        ]);
+        let context = context! { config => config() };
+        assert_eq!(
+            render_all(
+                &env,
+                &["resolution", "set", "missing", "missing key"],
+                &context
+            ),
+            [
+                "offset|property|getter|getter|other getter|dark|none|y|n|null|default|no 0",
+                "An exception has been thrown during the rendering of a template (\"App\\Config is read-only.\") in \
+                 \"set\" at line 1.",
+                "Neither the property \"nothing\" nor one of the methods \"nothing()\", \"getnothing()\", \
+                 \"isnothing()\", \"hasnothing()\" or \"__call()\" exist and have public access in class \
+                 \"App\\Config\" in \"missing\" at line 1.",
+                "Key \"nothing\" does not exist in ArrayAccess-able object of class \"App\\Config\" in \"missing key\" \
+                 at line 1.",
+            ]
+        );
+    }
+
+    /// ```php
+    /// namespace App;
+    ///
+    /// class Magic
+    /// {
+    ///     public function __isset($name) { return 'shown' === $name; }
+    ///     public function __get($name) { return 'got '.$name; }
+    ///     public function __call($name, $arguments) { return $name.'('.implode(',', $arguments).')'; }
+    /// }
+    ///
+    /// class Steps implements \IteratorAggregate
+    /// {
+    ///     public function __construct(private array $steps) {}
+    ///     public function getIterator(): \Iterator { return new \ArrayIterator($this->steps); }
+    /// }
+    /// ```
+    ///
+    /// with `new Steps(['lex' => 'lexer', 'parse' => 'parser', 'run' => 'vm'])`.
+    #[test]
+    fn magic_methods_and_iteration() {
+        let magic = ObjectBuilder::new("App\\Magic")
+            .method("__isset", [Param::required("name")], |_, args, _| {
+                Ok(args[0] == Value::from("shown"))
+            })
+            .method("__get", [Param::required("name")], |_, args, diag| {
+                concat(&[&Value::from("got "), &args[0]], diag)
+            })
+            .method(
+                "__call",
+                [Param::required("name"), Param::required("arguments")],
+                |_, args, diag| {
+                    let mut parts = Vec::new();
+                    for (_, argument) in args[1].as_array().into_iter().flatten() {
+                        parts.push(
+                            convert::to_string(argument, diag)?
+                                .to_string_lossy()
+                                .into_owned(),
+                        );
+                    }
+                    let name = convert::to_string(&args[0], diag)?;
+                    Ok(format!("{}({})", name.to_string_lossy(), parts.join(",")))
+                },
+            )
+            .build();
+        let steps = ObjectBuilder::new("App\\Steps")
+            .iterable(|_, _| Ok(context! { lex => "lexer", parse => "parser", run => "vm" }))
+            .build();
+        let env = strict_env(&[
+            (
+                "magic",
+                "{{ magic.shown }}|{{ magic.hidden }}|{{ magic.run(1, 2) }}|{{ magic.run(a: 1) }}|\
+                 {{ magic.hidden is defined ? 'y' : 'n' }}|{{ magic.shown is defined ? 'y' : 'n' }}",
+            ),
+            (
+                "steps",
+                "{{ steps|length }}|{% for key, step in steps %}{{ key }}={{ step }}{{ loop.first ? '(first)' }} \
+                 {% endfor %}|{{ steps|keys|join(',') }}|{{ steps|join('/') }}|{{ steps is iterable ? 'iterable' }}|\
+                 {{ steps is empty ? 'empty' : 'not empty' }}",
+            ),
+            ("steps ends", "{{ steps|first }}|{{ steps|last }}"),
+        ]);
+        let context = context! { magic, steps };
+        assert_eq!(
+            render_all(&env, &["magic", "steps", "steps ends"], &context),
+            [
+                "got shown|hidden()|run(1,2)|run(1)|y|y",
+                "3|lex=lexer(first) parse=parser run=vm |lex,parse,run|lexer/parser/vm|iterable|not empty",
+                "lexer|vm",
+            ]
+        );
+    }
+
+    /// Sandbox policies name the class and the members of a built object like those of a PHP object.
+    #[test]
+    fn sandbox_policies_apply_to_built_objects() {
+        let env = Environment::new(ArrayLoader::new([
+            ("allowed", "{{ user.name }} {{ user.admin ? 'admin' }}"),
+            ("method", "{{ user.greet('Hi') }}"),
+            ("property", "{{ user.roles }}"),
+            ("to string", "{{ user }}"),
+        ]));
+        let policy = SecurityPolicy::new();
+        policy.set_allowed_filters(["escape"]);
+        policy.set_allowed_methods([("App\\User", ["isAdmin"])]);
+        policy.set_allowed_properties([("App\\User", ["name"])]);
+        policy.set_strict(true);
+        let sandbox = Sandbox::new(env, std::sync::Arc::new(policy)).unwrap();
+        let context = context! { user => user("Fabien", &["admin", "dev"]) };
+        let results: Vec<String> = ["allowed", "method", "property", "to string"]
+            .iter()
+            .map(|name| match sandbox.render(name, context.clone()) {
+                Ok(output) => output,
+                Err(error) => format!("{}: {error}", error.class_name()),
+            })
+            .collect();
+        assert_eq!(
+            results,
+            [
+                "Fabien admin",
+                "Twig\\Sandbox\\SecurityNotAllowedMethodError: Calling \"greet\" method on a \"App\\User\" object is \
+                 not allowed in \"method\" at line 1.",
+                "Twig\\Sandbox\\SecurityNotAllowedPropertyError: Calling \"roles\" property on a \"App\\User\" object \
+                 is not allowed in \"property\" at line 1.",
+                "Twig\\Sandbox\\SecurityNotAllowedMethodError: Calling \"__tostring\" method on a \"App\\User\" object \
+                 is not allowed in \"to string\" at line 1.",
+            ]
+        );
+    }
 }
 
 // ---- serde -----------------------------------------------------------------------------------------------------------

@@ -1181,10 +1181,13 @@ impl Environment {
 
     /// Renders a template to a string. Twig: `Environment::render()`.
     ///
+    /// The context is anything that converts into an [`Array`]: [`context!`](crate::context), a `BTreeMap`, a
+    /// `HashMap`, an `IndexMap`, an array of key-value pairs.
+    ///
     /// # Errors
     ///
     /// Loading, compiling and rendering errors (see [`TemplateWrapper::render`]).
-    pub fn render(&self, name: &str, context: Array) -> Result<String> {
+    pub fn render(&self, name: &str, context: impl Into<Array>) -> Result<String> {
         self.load(name)?.render(context)
     }
 
@@ -1193,17 +1196,59 @@ impl Environment {
     /// # Errors
     ///
     /// Loading, compiling and rendering errors.
-    pub fn render_bytes(&self, name: &str, context: Array) -> Result<Vec<u8>> {
+    pub fn render_bytes(&self, name: &str, context: impl Into<Array>) -> Result<Vec<u8>> {
         self.load(name)?.render_bytes(context)
     }
 
-    /// Displays a template into `sink`. Twig: `Environment::display()`.
+    /// Displays a template into `sink`: a `Vec<u8>`, any [`std::io::Write`] (see [`Sink`]). Twig:
+    /// `Environment::display()`.
     ///
     /// # Errors
     ///
-    /// Loading, compiling and rendering errors.
-    pub fn display(&self, name: &str, context: Array, sink: &mut dyn Sink) -> Result<()> {
+    /// Loading, compiling and rendering errors, and the errors of the sink.
+    pub fn display(
+        &self,
+        name: &str,
+        context: impl Into<Array>,
+        sink: &mut dyn Sink,
+    ) -> Result<()> {
         self.load(name)?.display(context, sink)
+    }
+
+    /// Renders template source code that no loader knows. Twig: `$twig->createTemplate($source)->render($context)`
+    /// ([`create_template`](Self::create_template) without a name), the equivalent of `template_from_string()`.
+    ///
+    /// The template is named `__string_template__<xxh128 of the source>` in error messages and is not registered
+    /// with the loader: other templates cannot include it by that name. Like every template, it is compiled once and
+    /// kept by the environment, under its source; so rendering many different sources keeps them all, as Twig does
+    /// for a process.
+    ///
+    /// ```
+    /// use twig::{Environment, loader::ArrayLoader};
+    ///
+    /// let env = Environment::new(ArrayLoader::new([("layout", "[{% block body %}{% endblock %}]")]));
+    /// let html = env.render_string(
+    ///     "{% extends 'layout' %}{% block body %}Hello {{ name }}!{% endblock %}",
+    ///     [("name", "Fabien")],
+    /// )?;
+    /// assert_eq!(html, "[Hello Fabien!]");
+    /// let error = env.render_string("{{ name|nope }}", [("name", "Fabien")]).unwrap_err();
+    /// assert_eq!(
+    ///     error.to_string(),
+    ///     "Unknown \"nope\" filter in \"__string_template__e447569389deda7aacdfc7238ab4517c\" at line 1."
+    /// );
+    /// # Ok::<(), twig::Error>(())
+    /// ```
+    ///
+    /// # Errors
+    ///
+    /// Compiling and rendering errors.
+    pub fn render_string(
+        &self,
+        source: impl AsRef<[u8]>,
+        context: impl Into<Array>,
+    ) -> Result<String> {
+        self.create_template(source.as_ref(), None)?.render(context)
     }
 
     /// Creates a template from source code. Twig: `createTemplate()`: the template is named

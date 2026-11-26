@@ -1255,7 +1255,7 @@ impl Sandbox {
     /// # Errors
     ///
     /// Loading and rendering errors, sandbox violations among them.
-    pub fn render(&self, name: &str, context: Array) -> Result<String> {
+    pub fn render(&self, name: &str, context: impl Into<Array>) -> Result<String> {
         self.env.render(name, context)
     }
 
@@ -1264,7 +1264,7 @@ impl Sandbox {
     /// # Errors
     ///
     /// As [`render`](Self::render).
-    pub fn render_bytes(&self, name: &str, context: Array) -> Result<Vec<u8>> {
+    pub fn render_bytes(&self, name: &str, context: impl Into<Array>) -> Result<Vec<u8>> {
         self.env.render_bytes(name, context)
     }
 
@@ -1273,7 +1273,12 @@ impl Sandbox {
     /// # Errors
     ///
     /// As [`render`](Self::render), and the errors of the sink.
-    pub fn display(&self, name: &str, context: Array, sink: &mut dyn Sink) -> Result<()> {
+    pub fn display(
+        &self,
+        name: &str,
+        context: impl Into<Array>,
+        sink: &mut dyn Sink,
+    ) -> Result<()> {
         self.env.display(name, context, sink)
     }
 
@@ -1282,7 +1287,12 @@ impl Sandbox {
     /// # Errors
     ///
     /// As [`render`](Self::render).
-    pub fn render_block(&self, name: &str, block: &str, context: Array) -> Result<String> {
+    pub fn render_block(
+        &self,
+        name: &str,
+        block: &str,
+        context: impl Into<Array>,
+    ) -> Result<String> {
         self.env.load(name)?.render_block(block, context)
     }
 
@@ -1295,7 +1305,7 @@ impl Sandbox {
         &self,
         name: &str,
         block: &str,
-        context: Array,
+        context: impl Into<Array>,
         sink: &mut dyn Sink,
     ) -> Result<()> {
         self.env.load(name)?.display_block(block, context, sink)
@@ -1337,7 +1347,7 @@ impl SandboxBridgeRuntime {
     /// # Errors
     ///
     /// As [`Sandbox::render_bytes`].
-    pub fn render(&self, name: &str, context: Array) -> Result<PhpString> {
+    pub fn render(&self, name: &str, context: impl Into<Array>) -> Result<PhpString> {
         Ok(PhpString::from(self.sandbox.render_bytes(name, context)?))
     }
 }

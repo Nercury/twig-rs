@@ -4,6 +4,9 @@ use std::io;
 
 /// Where rendered bytes go. Twig yields string chunks that `display()` echoes; twig-rs writes them to a sink.
 ///
+/// Every [`std::io::Write`] is a sink: a `Vec<u8>` collects the output in memory, a file, a socket or a locked
+/// stdout writes it out (`write` is `write_all`). Implement the trait for other destinations.
+///
 /// `flush` is called for `{% flush %}` when the template is displayed (never when it is rendered to a string, where
 /// Twig's output buffer swallows the flush).
 pub trait Sink {
@@ -24,15 +27,19 @@ pub trait Sink {
     }
 }
 
-/// Collects the output in memory.
-impl Sink for Vec<u8> {
+/// A writer is a sink: `write` writes all of the chunk, `{% flush %}` flushes the writer.
+impl<W: io::Write + ?Sized> Sink for W {
     fn write(&mut self, bytes: &[u8]) -> io::Result<()> {
-        self.extend_from_slice(bytes);
-        Ok(())
+        io::Write::write_all(self, bytes)
+    }
+
+    fn flush(&mut self) -> io::Result<()> {
+        io::Write::flush(self)
     }
 }
 
-impl<S: Sink + ?Sized> Sink for &mut S {
+/// A borrowed sink is a sink, so that code holding a `&mut dyn Sink` can lend it on.
+impl Sink for &mut dyn Sink {
     fn write(&mut self, bytes: &[u8]) -> io::Result<()> {
         (**self).write(bytes)
     }
@@ -42,7 +49,8 @@ impl<S: Sink + ?Sized> Sink for &mut S {
     }
 }
 
-/// A sink over any [`std::io::Write`].
+/// A sink over any [`std::io::Write`]. Writers are sinks themselves, so this wrapper is not needed any more; it is
+/// kept for code written before.
 #[derive(Debug)]
 pub struct IoSink<W: io::Write>(pub W);
 
