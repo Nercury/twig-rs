@@ -77,11 +77,24 @@ impl PhpString {
     /// Concatenates byte slices into a new string.
     pub fn concat(parts: &[&[u8]]) -> Self {
         let len = parts.iter().map(|p| p.len()).sum();
-        let mut buf = Vec::with_capacity(len);
-        for part in parts {
-            buf.extend_from_slice(part);
+        PhpString::build(len, |buf| {
+            let mut at = 0;
+            for part in parts {
+                buf[at..at + part.len()].copy_from_slice(part);
+                at += part.len();
+            }
+        })
+    }
+
+    /// A string of `len` bytes written by `fill` into a zeroed buffer, built in one allocation (a `Vec<u8>` would
+    /// be copied into the shared allocation).
+    pub(crate) fn build(len: usize, fill: impl FnOnce(&mut [u8])) -> Self {
+        if len == 0 {
+            return Self::empty();
         }
-        PhpString::from(buf)
+        let mut bytes: Arc<[u8]> = std::iter::repeat_n(0, len).collect();
+        fill(Arc::get_mut(&mut bytes).expect("a new allocation is not shared"));
+        PhpString(bytes)
     }
 }
 

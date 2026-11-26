@@ -249,7 +249,27 @@ pub fn to_double(v: &Value, diag: &mut dyn Diagnostics) -> PhpResult<f64> {
 
 /// Port of `zend_long_to_str()`: decimal representation.
 pub fn long_to_string(i: i64) -> PhpString {
-    PhpString::from(i.to_string())
+    let mut buf = [0; 20];
+    PhpString::from_bytes(long_digits(i, &mut buf))
+}
+
+/// The decimal digits of `i` (with a leading `-` when negative), written at the end of `buf`.
+fn long_digits(i: i64, buf: &mut [u8; 20]) -> &[u8] {
+    let mut n = i.unsigned_abs();
+    let mut at = buf.len();
+    loop {
+        at -= 1;
+        buf[at] = b'0' + (n % 10) as u8;
+        n /= 10;
+        if n == 0 {
+            break;
+        }
+    }
+    if i < 0 {
+        at -= 1;
+        buf[at] = b'-';
+    }
+    &buf[at..]
 }
 
 /// Port of `zend_double_to_str()` (PHPSRC/Zend/zend_operators.c): `precision` = 14 formatting plus
@@ -453,6 +473,23 @@ mod tests {
 
     fn d() -> Vec<Diagnostic> {
         Vec::new()
+    }
+
+    #[test]
+    fn long_strings() {
+        for i in [
+            0,
+            7,
+            -7,
+            10,
+            -10,
+            1234567890,
+            i64::MAX,
+            i64::MIN,
+            i64::MIN + 1,
+        ] {
+            assert_eq!(long_to_string(i), i.to_string().as_str());
+        }
     }
 
     #[test]
