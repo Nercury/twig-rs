@@ -124,7 +124,8 @@ pub const DEFAULT_MAX_DEPTH: usize = 200;
 /// feature, `twig_iconv::GlibcIconv`, glibc 2.41's behaviour for every charset it converts (the twig-iconv crate,
 /// LGPL-2.1-or-later); otherwise twig-value's clean-room
 /// [`BasicIconv`](twig_value::builtins::string::BasicIconv), which converts UTF-8, UTF-16, UTF-32, UCS-2, UCS-4,
-/// ASCII and ISO-8859-1 and throws `Error: iconv(): conversion of charset "X" is not supported by twig-rs` for the
+/// ASCII, ISO-8859-1 and the single-byte codepages (ISO-8859-2 to -16, Windows-1250 to -1258, KOI8-R/U/RU, CP437/850/852/866, MACINTOSH), and throws
+/// `Error: iconv(): conversion of charset "X" is not supported by twig-rs` for the
 /// other charsets glibc knows (reference/deviations.md).
 pub fn default_iconv_backend() -> Arc<dyn IconvBackend> {
     #[cfg(feature = "glibc-iconv")]
@@ -506,13 +507,13 @@ impl Environment {
     /// let env = Environment::with_options(
     ///     ArrayLoader::new([
     ///         ("utf16", "{{ 'é'|convert_encoding('UTF-16BE', 'UTF-8')|url_encode }}"),
-    ///         ("koi8", "{{ 'é'|convert_encoding('KOI8-R', 'UTF-8') }}"),
+    ///         ("eucjp", "{{ 'é'|convert_encoding('EUC-JP', 'UTF-8') }}"),
     ///     ]),
     ///     EnvironmentOptions { iconv_backend: Arc::new(BasicIconv), ..Default::default() },
     /// );
     /// assert_eq!(env.render("utf16", Array::new())?, "%00%E9");
-    /// let error = env.render("koi8", Array::new()).unwrap_err().to_string();
-    /// assert!(error.contains(r#"iconv(): conversion of charset "KOI8-R" is not supported by twig-rs"#));
+    /// let error = env.render("eucjp", Array::new()).unwrap_err().to_string();
+    /// assert!(error.contains(r#"iconv(): conversion of charset "EUC-JP" is not supported by twig-rs"#));
     /// # Ok::<(), twig::Error>(())
     /// ```
     pub fn iconv_backend(&self) -> Arc<dyn IconvBackend> {

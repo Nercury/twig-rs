@@ -442,7 +442,7 @@ fn run_case(case: &Json, expected: &Json) -> Option<String> {
 /// feature they must fail with twig-rs's `iconv(): conversion of charset "X" is not supported by twig-rs`
 /// (reference/deviations.md) instead of giving PHP's result; with the feature they must match the oracle.
 #[cfg(not(feature = "glibc-iconv"))]
-const ICONV_UNSUPPORTED_IN_THIS_BUILD: &[&str] = &["escape-058"];
+const ICONV_UNSUPPORTED_IN_THIS_BUILD: &[&str] = &[];
 /// The cases that convert through a charset beyond this build's iconv backend: none with `glibc-iconv`.
 #[cfg(feature = "glibc-iconv")]
 const ICONV_UNSUPPORTED_IN_THIS_BUILD: &[&str] = &[];

@@ -17,7 +17,7 @@ pub const UPDATE_VARIABLE: &str = "TWIG_FIXTURES_UPDATE";
 
 /// The fixture trials that fail in this build only, by build: without the `glibc-iconv` feature, the conversions
 /// through charsets beyond the default iconv backend (reference/deviations.md: the default build converts the Unicode
-/// charsets, ASCII and ISO-8859-1). They count as known failures of this build, and the ratchet applies: once one
+/// charsets, ASCII, ISO-8859-1 and the common single-byte codepages). They count as known failures of this build, and the ratchet applies: once one
 /// passes, the run fails until it is removed here.
 #[cfg(not(feature = "glibc-iconv"))]
 pub const BUILD_KNOWN_FAILURES: &[&str] = &[

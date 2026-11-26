@@ -14,7 +14,7 @@
 //! | [`mod@levenshtein`] | `levenshtein` | `ext/standard/levenshtein.c` |
 //! | [`ctype`] | the eleven `ctype_*` functions (C.UTF-8 `LC_CTYPE`) | `ext/ctype/ctype.c` |
 //! | [`mod@iconv`] | `iconv` through an [`IconvBackend`]; the default, [`BasicIconv`], is [`charset_basic`] | `ext/iconv/iconv.c` |
-//! | [`charset_basic`] | the clean-room `iconv()`: UTF-8, UTF-16, UTF-32, UCS-2, UCS-4, ASCII, ISO-8859-1 | `ext/iconv/iconv.c` (black-box glibc behaviour) |
+//! | [`charset_basic`] | the clean-room `iconv()`: the Unicode charsets, ASCII, ISO-8859-1 and the common single-byte codepages | `ext/iconv/iconv.c` (black-box glibc behaviour) |
 //!
 //! # Two levels per builtin
 //!

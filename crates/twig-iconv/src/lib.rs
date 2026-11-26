@@ -3,8 +3,8 @@
 //!
 //! twig converts charsets through a backend: Twig's `convert_encoding` filter, the escaping strategies under a
 //! charset other than UTF-8, and the other callables that convert from and to the environment's charset. The default
-//! backend, twig-value's clean-room `BasicIconv`, converts UTF-8, UTF-16, UTF-32, UCS-2, UCS-4, ASCII and ISO-8859-1
-//! and throws `Error: iconv(): conversion of charset "X" is not supported by twig-rs` for the other charsets glibc
+//! backend, twig-value's clean-room `BasicIconv`, converts UTF-8, UTF-16, UTF-32, UCS-2, UCS-4, ASCII, ISO-8859-1 and
+//! the single-byte codepages (ISO-8859-2 to -16, Windows-1250 to -1258, KOI8-R/U/RU, CP437/850/852/866, MACINTOSH), and throws `Error: iconv(): conversion of charset "X" is not supported by twig-rs` for the other charsets glibc
 //! knows. [`GlibcIconv`] converts those too: the single-byte codepages (ISO-8859-*, Windows, DOS, EBCDIC, Mac, KOI8,
 //! ...), EUC-JP, Shift_JIS and CP932, the ISO-2022 family, GB2312, GBK, GB18030, BIG5 and BIG5-HKSCS, EUC-KR and UHC,
 //! with glibc's names, aliases, shift states, error handling and transliteration. The [`mod@iconv`] module lists what is

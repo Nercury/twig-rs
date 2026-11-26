@@ -38,7 +38,8 @@ bug.
     data.
   - `glibc-iconv`: twig-iconv becomes the default charset converter of environments (the `convert_encoding` filter,
     escaping with a non-UTF-8 charset). Without it, environments use twig-value's clean-room converter for UTF-8,
-    UTF-16, UTF-32, UCS-2, UCS-4, ASCII and ISO-8859-1, and other charsets fail with twig-rs's "not supported" error.
+    UTF-16, UTF-32, UCS-2, UCS-4, ASCII, ISO-8859-1 and the common single-byte codepages (ISO-8859, Windows, KOI8, DOS,
+    MACINTOSH), and other charsets fail with twig-rs's "not supported" error.
 - The crate documentation is a guide (data and the `context!` macro, serde, autoescaping, filters, functions, tests,
   extensions and tags, loaders, the sandbox, errors and PHP diagnostics, threads), with runnable examples in
   `examples/`.

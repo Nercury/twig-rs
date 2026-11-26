@@ -372,33 +372,19 @@ fn guesses_strategies_from_file_names() {
 
 /// Charsets of the vectors whose `iconv()` conversions the build's default backend does not convert (it throws
 /// `iconv(): conversion of charset "X" is not supported by twig-rs`, reference/deviations.md): none with the
-/// `glibc-iconv` feature; without it, every charset but the Unicode ones, ASCII and ISO-8859-1.
+/// `glibc-iconv` feature; without it, the charsets the clean-room converter does not handle (multi-byte CJK, MacRoman's
+/// non-glibc alias).
 #[cfg(feature = "glibc-iconv")]
 const UNSUPPORTED_ICONV_CHARSETS: &[&str] = &[];
 #[cfg(not(feature = "glibc-iconv"))]
-const UNSUPPORTED_ICONV_CHARSETS: &[&str] = &[
-    "CP1252",
-    "windows-1252",
-    "ISO-8859-15",
-    "WINDOWS-1251",
-    "KOI8-R",
-    "koi8-ru",
-    "MACROMAN",
-    "CP866",
-    "ISO-8859-5",
-    "ISO-8859-2",
-    "BIG5",
-    "SJIS",
-    "EUC-JP",
-    "GB2312",
-];
+const UNSUPPORTED_ICONV_CHARSETS: &[&str] = &["MACROMAN", "BIG5", "SJIS", "EUC-JP", "GB2312"];
 
 /// How many cases of the vectors the build's default backend cannot convert (see
 /// [`UNSUPPORTED_ICONV_CHARSETS`]).
 #[cfg(feature = "glibc-iconv")]
 const UNSUPPORTED_CASES: usize = 0;
 #[cfg(not(feature = "glibc-iconv"))]
-const UNSUPPORTED_CASES: usize = 8603;
+const UNSUPPORTED_CASES: usize = 2288;
 
 #[test]
 fn strategy_vectors() {

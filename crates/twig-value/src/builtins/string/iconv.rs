@@ -7,7 +7,7 @@
 //! `Environment` holds one.
 //!
 //! - [`BasicIconv`], the default, is the clean-room converter of [`charset_basic`](super::charset_basic): UTF-8,
-//!   UTF-16, UTF-32, UCS-2 and UCS-4 with their byte-order variants, ASCII and ISO-8859-1, under every name glibc
+//!   UTF-16, UTF-32, UCS-2 and UCS-4 with their byte-order variants, ASCII, ISO-8859-1 and the single-byte codepages (ISO-8859-2 to -16, Windows-1250 to -1258, KOI8-R/U/RU, CP437/850/852/866, MACINTOSH), under every name glibc
 //!   gives them, byte for byte like the oracle. Any other charset glibc knows throws
 //!   `Error: iconv(): conversion of charset "X" is not supported by twig-rs`; a name glibc does not know behaves as in
 //!   PHP (the `Wrong encoding` warning, then `false`). It contains no glibc code.
@@ -74,7 +74,7 @@ pub trait IconvBackend: fmt::Debug + Send + Sync {
 }
 
 /// The default backend: [`charset_basic`](super::charset_basic), the clean-room `iconv()` for the Unicode charsets,
-/// ASCII and ISO-8859-1 (see the module documentation).
+/// ASCII, ISO-8859-1 and the single-byte codepages (ISO-8859-2 to -16, Windows-1250 to -1258, KOI8-R/U/RU, CP437/850/852/866, MACINTOSH) (see the module documentation).
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash)]
 pub struct BasicIconv;
 
