@@ -115,9 +115,11 @@ Environment::load(name)
   (`Template::load()`: `string|TemplateWrapper|array` coercion, own class family, error source/line rules),
   `env_load`, `resolve_template`, `merge_include_variables`. Exception handlers sit exactly where Twig's are
   (`yield()`, `yieldBlock()` (block owner), `getParent()`); macros, arrows and captures have none.
-- `macros`: `MacroNamespace` objects (weak references to their template, so imports never form cycles), `call`/`has`
-  (`MacroNamespace`), `TwigMacro::callLegacy()` checks and deprecations, PHP's binding of spread arguments to the
-  macro closure (positional, named, reserved-name renaming, bucket).
+- `macros`: the namespace objects (one per template, `getMacroNamespace()`; weak references to their template, so
+  imports never form cycles), `call`/`has` (`MacroNamespace`), `TwigMacro::callLegacy()` checks and deprecations,
+  PHP's binding of spread arguments to the macro closure (positional, named, reserved-name renaming, bucket); the
+  public `MacroNamespace` handle (`TemplateWrapper::macro_namespace()`) and `TwigMacro` (a macro of a Rust closure)
+  share that code.
 - `attribute`: `get_attribute()` (`CoreExtension::getAttribute()`). A method call, `$object->$method(...$arguments)`
   in Twig, sends arguments with a named key the way `ZEND_SEND_UNPACK` does (P33): `ObjectRef::method_params()` finds
   the parameters of the method (those of the `__call()` trampoline for a missing or non-public method of a class
@@ -127,19 +129,31 @@ Environment::load(name)
   `ArrayObject`, `ArrayIterator` and enum cases; in twig-date the date classes, from the per-class tables of
   `args::method_params()` that their methods also bind with (P34); here `Markup`, `Twig\Source` and
   `Twig\TemplateWrapper`.
+- `block_chain`: `BlockChain` (Twig 3.31), over `get_parent`, `Template::block_table()` and `yield_block`/`render_block`
+  with the composed `Blocks`.
+- `core_extension`: `CoreExtension::get_attribute()` (`attribute::get_attribute_in`) and the static helpers, which run
+  the core runtimes through `call_callable` with functions of a private extension set named after them and an empty
+  host program.
+- `runtime_loader`: `RuntimeLoader` (Twig's `RuntimeLoaderInterface`) and `FactoryRuntimeLoader`.
 - `sandbox`: `SecurityPolicyInterface` (trait for custom policies), `SecurityPolicy` (allow-lists, strict mode),
   `SourcePolicyInterface` (deprecated), `SecurityChecker`, `SecurityError`/`SecurityErrorKind`,
   `SandboxExtension` (Twig's class name: registers the `sandbox` tag and the sandbox visitor, holds the checker),
   `Sandbox` (Twig 3.29 facade), `SandboxBridgeRuntime`, `ensure_security_checked` (compiled `checkSecurity()`),
-  `ensure_traits_allowed`. A violation is an `Error` of its own class (`ErrorKind::SecurityNotAllowedFilter`, ...);
-  `SecurityError::of(&error)` gives the violation and its names back.
+  `ensure_traits_allowed` (whose other failures the template handles: the line of the last marker, non-Twig
+  exceptions wrapped). A violation is an `Error` of its own class (`ErrorKind::SecurityNotAllowedFilter`, ...);
+  `SecurityError::of(&error)` gives the violation and its names back. `SecurityChecker::new()` and its public checks
+  serve host code.
 - `functions` (registered after the group modules in `extension/runtime/mod.rs`): `include`, `include_only`,
   `source`, `render_sandboxed`.
-- `Environment` additions: `resolve_template`, `sandbox_checker`, `is_sandboxed`, `add_runtime`/`runtime` (runtime
-  objects by class, Twig's `getRuntime()`: the object registered for the class, the escaper runtime for
-  `Twig\Runtime\EscaperRuntime`, else the registered extension of that class name, kept as the runtime of the class
-  from then on (P26; the value holds the `Arc<dyn Extension>`), else `Unable to load the "%s" runtime.`),
-  `escaper_runtime`, `core_settings`, `load_family`, `load_template_index`.
+- `Environment` additions: `resolve_template`, `sandbox_checker`, `is_sandboxed`, `add_runtime`/`add_runtime_loader`/
+  `runtime` (runtime objects by class, Twig's `getRuntime()`: the object registered for the class or created before,
+  else the first one a runtime loader creates, kept from then on, else the escaper runtime for
+  `Twig\Runtime\EscaperRuntime` (the default runtime loader), else the registered extension of that class name, kept
+  as the runtime of the class from then on (P26; the value holds the `Arc<dyn Extension>`), else `Unable to load the
+  "%s" runtime.`), `escaper_runtime` (`try_escaper_runtime` for the compiled constructor, which reports a failing
+  runtime loader), `core_settings`, `load_family`, `load_template_index`, `reset_globals`, `is_template_fresh` (the
+  executable's modification time stands for the extensions'); `load()` and the render methods take names or wrappers
+  (`TemplateRef`).
 - `TemplateWrapper` as a value: `to_value()` / `from_value()` (`Twig\TemplateWrapper` object with `render`,
   `renderBlock`, `hasBlock`, `getBlockNames`, `getTemplateName`, `getDefaultEscapeStrategy`, `getSourceContext` (a
   `Twig\Source` object: code only when compiled with `debug`); ownership checked against the running

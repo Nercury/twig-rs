@@ -40,9 +40,16 @@ bug.
     escaping with a non-UTF-8 charset). Without it, environments use twig-value's clean-room converter for UTF-8,
     UTF-16, UTF-32, UCS-2, UCS-4, ASCII, ISO-8859-1 and the common single-byte codepages (ISO-8859, Windows, KOI8, DOS,
     MACINTOSH), and other charsets fail with twig-rs's "not supported" error.
+- The host API of Twig's public PHP classes: `Environment::load()` and the render methods take names or
+  `TemplateWrapper`s (checked against their environment, `TemplateWrapper::unwrap()`), `BlockChain` (Twig 3.31's block
+  composition), macro namespaces (`TemplateWrapper::macro_namespace()`, `MacroNamespace::call()`/`has()`,
+  `TwigMacro`), `CoreExtension::get_attribute()` and the other static helpers of `CoreExtension`, runtime loaders
+  (`Environment::add_runtime_loader()`, `FactoryRuntimeLoader`), `Environment::reset_globals()` and
+  `is_template_fresh()`, `SecurityChecker::new()` and its checks, `Sandbox::stream()`/`stream_block()`; in
+  twig-value, `RecursiveArrayIterator` and objects of host classes extending `ArrayObject` or `ArrayIterator`.
 - The crate documentation is a guide (data and the `context!` macro, serde, autoescaping, filters, functions, tests,
-  extensions and tags, loaders, the sandbox, errors and PHP diagnostics, threads), with runnable examples in
-  `examples/`.
+  extensions and tags, loaders, the sandbox, templates from Rust, errors and PHP diagnostics, threads), with runnable
+  examples in `examples/`.
 - `NOTICE` files listing the third-party code and data each crate contains and their licences.
 
 ### Changed

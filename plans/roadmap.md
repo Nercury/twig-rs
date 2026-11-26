@@ -129,12 +129,7 @@ Plan: [product.md](product.md). Remaining:
   filters) than PHP Twig, and compiling is 11.5–13.5× faster; the remaining hot spots are in
   `research/benchmarks/README.md`. The SecurityChecker walk P43 added costs about 3 ns per element of every wrapped
   array once the SandboxExtension is registered (PHP walks them too).
-- API gaps the PHPUnit ports reported: `CoreExtension`'s static helpers and `getAttribute()` as an entry point;
-  `TemplateWrapper::unwrap()`, and `Environment::load()` taking a wrapper; macro namespaces as values
-  (`getMacroNamespace()`, `MacroNamespace::call`/`has`, `TwigMacro`); `resetGlobals()`, `isTemplateFresh()`,
-  `Twig\BlockChain`; the `Sandbox` stream methods, lazy runtime factories, `SecurityChecker::new`/`check_security`;
-  `RecursiveArrayIterator`, and ArrayObject/ArrayIterator subclasses in twig-value. A derive macro for `Object` once
-  someone needs one.
+- API ergonomics: a derive macro for `Object` once someone needs one.
 - Engine gaps ([engine.md](engine.md), "Remaining work"): multi-byte and table-based encodings in the mbstring
   functions, compiled-template caching across processes (optional).
 - Fuzzing: the harness's open gaps are in [fuzzing.md](../research/fuzzing.md).

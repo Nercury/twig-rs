@@ -1298,7 +1298,7 @@ fixture (`last`, `merge`, `slice`, `striptags`, `url_encode`, `capitalize`, `con
 
 | file | tests | what it tests | class | porting notes |
 |---|---:|---|---|---|
-| `BlockChainTest.php` | 44 | `Twig\BlockChain` (3.31): composing blocks of several templates/chains, precedence, `parent()`, default vs render context, globals, sandbox policy re-checks, macro ownership, profiler attribution, error context, circular inheritance | A/B | only if BlockChain is implemented; 69 render calls; messages e.g. `A block chain requires at least one template.`, `Circular template inheritance detected while building a block chain from "one".` |
+| `BlockChainTest.php` | 44 | `Twig\BlockChain` (3.31): composing blocks of several templates/chains, precedence, `parent()`, default vs render context, globals, sandbox policy re-checks, macro ownership, profiler attribution, error context, circular inheritance | A/B | ported (`twig::runtime::BlockChain`) except the hand-written `Template` subclasses, the internal wrapper constructor and the profiler; messages e.g. `A block chain requires at least one template.`, `Circular template inheritance detected while building a block chain from "one".` |
 | `Cache/ChainTest.php` | 10 | chain of compiled-PHP caches | D | — |
 | `Cache/FilesystemTest.php` | 12 | filesystem cache keys, write failures (needs non-root), opcache interplay | D | — |
 | `Cache/ReadOnlyFilesystemTest.php` | 6 | read-only cache | D | — |
@@ -1321,7 +1321,7 @@ fixture (`last`, `merge`, `slice`, `striptags`, `url_encode`, `capitalize`, `con
 | `Extension/SandboxStateChangeTest.php` | 16 | policy/sandbox changes after first render, pre-warmed parents/macros | A | render-based |
 | `Extension/SandboxTest.php` | 154 | full sandbox matrix: core tags (incl. `flush`), extends/use, parser-callable functions, tests (`constant`), strict mode, methods/properties/`__toString`, arrow functions (`The callable passed to the "filter" filter must be a Closure in sandbox mode in "index" at line 1.`), messages with `(string template <xxh128>)` names | A | main sandbox spec |
 | `Extension/StringLoaderExtensionTest.php` | 1 | include of a string template without sandbox | A | trivial |
-| `FactoryRuntimeLoaderTest.php` | 2 | factory runtime loader | D | — |
+| `FactoryRuntimeLoaderTest.php` | 2 | factory runtime loader | B | ported (`twig::runtime::FactoryRuntimeLoader`) |
 | `FileExtensionEscapingStrategyTest.php` | 1 (17 cases) | `guess()`: `foo.html`/`foo`/`foo.bar.twig`/`foo.txt/foo` → html; `foo.css`, `foo.twig.css`, `foo.js.css.twig` → css; `foo.js`, `foo.txt.twig/foo.js` → js; `foo.txt`, `foo.txt.twig` → false | A | pure function — port 1:1 |
 | `IntegrationTest.php` | 0 (488 data sets) | the fixture runner | — | §1–§3 |
 | `LexerTest.php` | 41 | token types/values/lines/offsets/columns, `{% line %}` directive, 100k-char tokens, big int literal kept as string, escaped delimiters (+deprecation), interpolation (nested, escaped `#{`), `#` in strings, operators ending with a letter at end of line, filter/attribute named like operators, inline comments `#`, unclosed/unexpected brackets with column, custom syntax, offsets with normalised line endings | B | port to the Rust lexer; messages exact (`Unclosed "variable" in "index" at line 3`, `Unexpected "}" in "index" at line 1 column N.`) |
