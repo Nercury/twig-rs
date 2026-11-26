@@ -45,7 +45,7 @@ is a newline). "PHP" is the oracle's result (`twig-oracle:3.31.1`), "twig-rs" th
     errors of mbstring encodings (2173: unicode 1915, escaping 233, callables 25). The rules `dump-string-length` and
     `silenced-compile-warning` never fired, and no mismatch came from D2, whose inputs the generators leave out
     without `--d2`.
-  - One cluster is a parity bug: P40, the line of a sequence destructuring after an array literal whose last element
+  - One cluster was a parity bug (P40, fixed since): the line of a sequence destructuring after an array literal whose last element
     ends with a constant PHP folds (G1, the generated-PHP line model). The other is harness noise: T15, template names
     that are not valid UTF-8 in the oracle's `templateName`. 5 raw cases in 360,000.
   - The not-comparable cases are harness limits: 192 composition cases whose `data_php` loads a template that fails
@@ -93,7 +93,6 @@ hit; **low** = obscure error paths, API-only behaviour, or harness work that hid
 
 | id | root cause | groups | raw | vectors | tests | priority |
 |---|---|---|---|---|---|---|
-| P40 | A sequence destructuring reports its right operand's folded line instead of the marker after it | G1 | 1 | 7 +9 controls | – | low |
 | P41 | A template closure compares equal to the lazy path of a template's `Twig\Source` | G5 | report | – | – | low |
 | P42 | PHP `\Error`s of API misuse are LogicException-kind errors that `compile_source()` wraps | G4 | report | – | – | low |
 | T8 | Typed data and environments the fuzz harness cannot express yet (partly done) | G6, G5 | 31 not comparable | – | – | low |
@@ -102,47 +101,6 @@ hit; **low** = obscure error paths, API-only behaviour, or harness work that hid
 | T17 | Composition cases whose `data_php` loads a failing template are not compared | G6 | 192 not comparable | – | – | low |
 
 ---
-
-## G1: codegen and VM
-
-### P40. A sequence destructuring reports its right operand's folded line instead of the marker after it
-
-- **Groups**: G1 (`src/lltl/codegen.rs`).
-- **Covers** (round 4: 1 raw of 30,000 expressions cases), all in
-  `tests/vectors/fuzz/expressions/round4-seq-destructure-line.json` (warnings thrown as exceptions with `"errors":
-  "throw"` unless noted):
-  - `round4-seq-destructure-line`, minimised from `x9213-00802-assign`; `round4-seq-destructure-line-print`, `-do`,
-    `-two-targets`, `-explicit-keys`, `-skip`, `-array-pad-type`;
-  - controls, which must keep matching: `round4-seq-destructure-ctl-one-line`, `-marker-before`, `-constant-tail`,
-    `-call-tail`, `-sequence`, `-key-present`, `-object`, `-object-strict`, `-collected-warning` (warnings collected:
-    no line to see).
-- **Repro**: `"{{ [b] = {f,\nj} }}"`. PHP: `Undefined array key 0` at line 2; twig-rs: line 1.
-  - The same through `{% do %}`, with two targets, with a skipped target (`[, b]`: key 1), with explicit keys, and for
-    `array_pad()`'s `TypeError` when the right operand is null (`{f,\nj}|first`: `array_pad(): Argument #1 ($array)
-    must be of type array, null given`).
-  - Both agree when everything is on one line, when the literal starts after the marker, when its last element writes
-    no marker (`{f,\nj: 1}`), when the right operand ends with a call (`{f,\nj}|merge({})`), when key 0 exists, and for
-    object destructuring (`{a: b} = ...`).
-- **Upstream**:
-  - `SequenceDestructuringSetBinary::compile()` (TWIG/src/Node/Expression/Binary/SequenceDestructuringSetBinary.php)
-    writes `[(($_v0 = RIGHT) instanceof \Traversable ? CoreExtension::destructureSequence($context, ["b"], $_v0) :
-    ([$context["b"]] = array_pad($_v0, 1, null))), $_v0 = null][0]`.
-  - The `destructureSequence()` call and the list assignment are AST nodes of their own, written after RIGHT;
-    `zend_compile_expr_inner()` sets `CG(zend_lineno)` to their line when it compiles them
-    (PHPSRC/Zend/zend_compile.c:11817). `zend_compile_list_assign()` (:3307) emits `ZEND_FETCH_LIST_R` (:3366) after
-    compiling `array_pad(...)`, so the undefined key, like `array_pad()`'s `TypeError`, reports the marker in effect
-    after RIGHT's text.
-- **twig-rs**: `B::SequenceDestructuringSet` in `Codegen::expr()` emits `Instr::SeqDestructure` with `self.emit()`
-  right after RIGHT, at `php_marker`. When RIGHT is an array literal whose last element ends with a constant PHP folds
-  (the `null` of `($context["j"] ?? null)`, which `zend_try_ct_eval_array()` stamps with the literal's line, P35's
-  model), `php_marker` is the literal's line instead of the current marker.
-- **Fix notes**: `self.leaf()` before emitting `SeqDestructure`: the tokens after RIGHT are Twig's, so both paths
-  (`destructureSequence()` for a `Traversable`, the list assignment and `array_pad()` otherwise) take the current
-  marker. Tried in a scratch copy of the round-4 tree: with that line the 7 marked vectors match, and the other 4724
-  vectors of `tests/vectors/fuzz` and `crates/twig-fuzz/vectors` replay as before (the test suite was not run). A
-  `Traversable` whose iteration throws would show the `destructureSequence()` path; the typed data cannot hold one.
-  Also look for other instructions emitted with `self.emit()` right after an operand whose PHP code Twig writes after
-  more tokens of its own (an audit like P36's for statements).
 
 ## G4: syntax
 

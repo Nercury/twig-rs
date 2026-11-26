@@ -2042,6 +2042,9 @@ impl Codegen<'_> {
                 }
                 let names = self.constant(Value::Array(names));
                 self.expr(&binary.right)?;
+                // The destructuring assignment is a statement of its own after the right operand: PHP reports its
+                // warnings at the marker in effect there, not at a folded literal's line.
+                self.leaf();
                 self.emit(Instr::SeqDestructure(names));
                 self.leaf();
             }
