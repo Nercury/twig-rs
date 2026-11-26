@@ -178,6 +178,41 @@ fn io_error(error: std::io::Error) -> Exception {
     Error::runtime(format!("Unable to write the template output: {error}.")).into()
 }
 
+/// `echo $value`: PHP's string conversion of the value, written to the output. Strings, ints, `null` and booleans
+/// are written without building a string.
+fn print(state: &mut VmState, out: &mut Output<'_>, value: &Value) -> Result<(), Exception> {
+    match value {
+        Value::String(s) => out.write(s),
+        Value::Int(i) => out.write(long_digits(*i, &mut [0; 20])),
+        Value::Null | Value::Bool(false) => Ok(()),
+        Value::Bool(true) => out.write(b"1"),
+        _ => {
+            let string = convert::to_string(value, state)?;
+            out.write(&string)
+        }
+    }
+    .map_err(io_error)
+}
+
+/// The decimal digits of `i` (`zend_long_to_str()`), written at the end of `buf`.
+fn long_digits(i: i64, buf: &mut [u8; 20]) -> &[u8] {
+    let mut n = i.unsigned_abs();
+    let mut at = buf.len();
+    loop {
+        at -= 1;
+        buf[at] = b'0' + (n % 10) as u8;
+        n /= 10;
+        if n == 0 {
+            break;
+        }
+    }
+    if i < 0 {
+        at -= 1;
+        buf[at] = b'-';
+    }
+    &buf[at..]
+}
+
 /// Executes one instruction. The instructions are grouped in functions of their own so that the frame of each
 /// stays small: units call units recursively (blocks, includes, macros, arrow functions), and every level of a
 /// template recursion costs the frames on that path.
@@ -340,8 +375,7 @@ fn step_output(
         Instr::Text(id) => out.write(constant_bytes(program, *id)).map_err(io_error)?,
         Instr::Print => {
             let value = frame.pop();
-            let string = convert::to_string(&value, state)?;
-            out.write(&string).map_err(io_error)?;
+            print(state, out, &value)?;
         }
         Instr::Flush => out.flush().map_err(io_error)?,
         Instr::CaptureStart => {
