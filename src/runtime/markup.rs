@@ -3,8 +3,8 @@
 use std::sync::LazyLock;
 
 use twig_value::object::{
-    CallArgs, ClassBuilder, ClassRef, FunctionKind, MethodParams, Object, ObjectRef, Param,
-    PropertyInfo, PropertyStore, Visibility, builtin,
+    CallArgs, CastTarget, ClassBuilder, ClassRef, FunctionKind, MethodParams, Object, ObjectRef,
+    Param, PropertyInfo, PropertyStore, Visibility, builtin, std_cast,
 };
 use twig_value::param::{DeclaredType, TypeMask, UserArg, verify_user_arg};
 use twig_value::{
@@ -241,6 +241,19 @@ impl Object for Markup {
 
     fn method_params(&self, method: &str) -> Option<MethodParams> {
         markup_params(method).map(MethodParams::user)
+    }
+
+    /// `(string) $markup` calls `__toString()`, which returns the content: [`std_cast`] without the dynamic call.
+    fn cast(
+        &self,
+        this: &ObjectRef,
+        target: CastTarget,
+        diag: &mut dyn Diagnostics,
+    ) -> PhpResult<Option<Value>> {
+        match target {
+            CastTarget::String => Ok(Some(Value::String(self.content()))),
+            _ => std_cast(this, target, diag),
+        }
     }
 
     /// The methods of `Twig\Markup`, each called like a userland method: the arguments are bound to the declared

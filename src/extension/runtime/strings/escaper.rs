@@ -352,12 +352,19 @@ impl EscaperRuntime {
             && let Value::Object(object) = &value
             && Markup::is_markup(object)
         {
-            let safe = object.call_method(
-                "isSafeFor",
-                CallArgs::from(vec![Value::from(strategy)]),
-                diag,
-            )?;
-            if convert::to_bool(&safe, diag)? {
+            let safe = match object.downcast_ref::<Markup>() {
+                // the method of Twig's own class, without the dynamic call
+                Some(markup) => markup.is_safe_for(strategy, diag)?,
+                None => {
+                    let safe = object.call_method(
+                        "isSafeFor",
+                        CallArgs::from(vec![Value::from(strategy)]),
+                        diag,
+                    )?;
+                    convert::to_bool(&safe, diag)?
+                }
+            };
+            if safe {
                 return Ok(value);
             }
             let content = object.to_php_string(diag)?;
