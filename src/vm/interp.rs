@@ -232,7 +232,9 @@ fn io_error(error: std::io::Error) -> Exception {
 
 /// Executes one instruction. The instructions are grouped in functions of their own so that the frame of each
 /// stays small: units call units recursively (blocks, includes, macros, arrow functions), and every level of a
-/// template recursion costs the frames on that path.
+/// template recursion costs the frames on that path. The dispatch itself is part of the loop of [`execute`], which
+/// spares every instruction a call.
+#[inline(always)]
 fn step(
     state: &mut VmState,
     out: &mut Output<'_>,
