@@ -18,6 +18,15 @@ echo '[{"fixture":"filters/abs.test","typed":true}]' | ./oracle.sh --pretty     
 From Git Bash on Windows keep `MSYS_NO_PATHCONV=1` (oracle.sh sets it) and write JSON batches to files instead of
 inline heredocs, which mangle backslashes.
 
+Optional "twig" case fields used by the differential-testing toolkit (`crates/twig-fuzz`; cases without them behave
+as before): `templates_b64` (base64 template sources that are not valid UTF-8), `test_classes` (declare the helper
+classes of Twig's `tests/IntegrationTest.php` first), `typed_data` (return the rich typed tree of the evaluated data
+as `data`, the PHP/`CoreExtension` state after the data phase as `state`, and what the data code raised as
+`data_diagnostics`/`data_deprecations`), `clock` (return `gettimeofday()` taken right before rendering, so that
+twig-rs can render with the same "now"), `time_limit`, `memory_limit`, and `tests`/`strict` in the sandbox `policy`.
+`php runner.php --serve` reads one batch per line and answers with one line per batch (twig-fuzz's minimiser keeps
+one such container running).
+
 | File | Role |
 |---|---|
 | `Dockerfile`, `composer.json`, `composer.lock` | Pinned image (base image digest, Twig commit, PHPUnit 9.6) |

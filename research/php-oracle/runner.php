@@ -29,6 +29,22 @@
  *       "load_all": true,                // load every template first, in order, like the harness (default true)
  *       "errors": "collect" | "throw"    // PHP warnings/notices: collect (default) or throw \ErrorException
  *                                        // (PHPUnit 9 converts them to exceptions inside Twig's test suite)
+ *       // optional, used by twig-fuzz (crates/twig-fuzz); without them nothing changes:
+ *       "templates_b64": {"x.twig": "/w=="}, // templates given as base64 (sources that are not valid UTF-8),
+ *                                        //   added after "templates", replacing a template of the same name
+ *       "test_classes": true,            // load tests/IntegrationTest.php first (declares TwigTestFoo & co.)
+ *       "typed_data": true,              // also return "data" (TwigOracle\typed_rich() of the evaluated data,
+ *                                        //   taken before rendering), "state" (default timezone and the
+ *                                        //   CoreExtension timezone/date format/number format after the data
+ *                                        //   phase) and "data_diagnostics"/"data_deprecations" (what the data
+ *                                        //   code raised)
+ *       "time_limit": 120,               // set_time_limit() for the case (default 120)
+ *       "memory_limit": "512M",          // ini memory_limit for the case (the image default is -1)
+ *       "clock": true,                   // also return "clock": [sec, usec] (gettimeofday() right before
+ *                                        //   rendering), so that a runner with a settable clock can use the
+ *                                        //   same "now"
+ *       // and in "sandbox": "policy": {"tests": [...], "strict": true}: SecurityPolicy's allowed tests and
+ *       // setStrict(), applied when the environment is built
  *     }
  *     -> {"id","kind":"twig","ok":true,"output":"...","deprecations":[...],"diagnostics":[...]}
  *     -> {"id","kind":"twig","ok":false,"phase":"load"|"data"|"render","error":{class,message,formatted,rawMessage,
@@ -55,6 +71,10 @@
  * Batch option "isolation": "process" runs every case in its own PHP process (protects the batch from fatal
  * errors, redeclared classes and global state such as date_default_timezone_set()). Default "none": cases run
  * sequentially in one process; a fatal error still produces valid JSON (remaining cases are reported as lost).
+ *
+ * Server mode (twig-fuzz's minimiser): `php runner.php --serve` reads one batch per line and writes its results
+ * as one line, until stdin closes. A fatal error ends the server after it printed that batch's results (the case
+ * that died has "phase": "fatal", the cases after it "lost"). --pretty is ignored in server mode.
  */
 
 declare(strict_types=0);
@@ -71,6 +91,7 @@ use function TwigOracle\plain_environment;
 use function TwigOracle\put_string;
 use function TwigOracle\run_fixture;
 use function TwigOracle\typed;
+use function TwigOracle\typed_rich;
 use function TwigOracle\var_dump_string;
 
 ini_set('display_errors', 'stderr');
@@ -78,7 +99,14 @@ error_reporting(\E_ALL);
 
 $pretty = in_array('--pretty', $argv, true);
 $single = in_array('--single', $argv, true);
-$jsonFlags = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PRESERVE_ZERO_FRACTION | ($pretty ? JSON_PRETTY_PRINT : 0);
+$serve = in_array('--serve', $argv, true);
+$jsonFlags = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PRESERVE_ZERO_FRACTION | ($pretty && !$serve ? JSON_PRETTY_PRINT : 0);
+$GLOBALS['__oracle_flags'] = $jsonFlags;
+
+if ($serve) {
+    serve($jsonFlags);
+    exit(0);
+}
 
 $input = stream_get_contents(STDIN);
 try {
@@ -87,24 +115,66 @@ try {
     echo json_encode([['ok' => false, 'error' => ['class' => 'JsonException', 'message' => 'Invalid JSON input: '.$e->getMessage()]]], $jsonFlags), "\n";
     exit(1);
 }
-$isolation = 'none';
-if (is_array($batch) && array_is_list($batch)) {
-    $cases = $batch;
-} elseif (is_array($batch) && isset($batch['cases'])) {
-    $cases = $batch['cases'];
-    $isolation = $batch['isolation'] ?? 'none';
-} else {
-    $cases = [$batch];
+[$cases, $isolation] = batch_cases($batch);
+
+// a closure, as before the runner was split into functions: object ids (spl_object_id, var_dump handles) stay put
+register_shutdown_function(static function () {
+    shutdown_report();
+});
+$results = run_batch($cases, $isolation, $single);
+echo json_encode($single ? $results[0] : $results, $jsonFlags), "\n";
+
+// ---------------------------------------------------------------------------------------------------------
+
+/** The cases and the isolation mode of a decoded batch. */
+function batch_cases($batch): array
+{
+    if (is_array($batch) && array_is_list($batch)) {
+        return [$batch, 'none'];
+    }
+    if (is_array($batch) && isset($batch['cases'])) {
+        return [$batch['cases'], $batch['isolation'] ?? 'none'];
+    }
+
+    return [[$batch], 'none'];
 }
 
-$GLOBALS['__oracle_results'] = [];
-$GLOBALS['__oracle_current'] = null;
-$GLOBALS['__oracle_flags'] = $jsonFlags;
-$GLOBALS['__oracle_total'] = count($cases);
+/** Runs the cases of one batch in order; shutdown_report() covers a batch that dies. */
+function run_batch($cases, $isolation, bool $single): array
+{
+    $GLOBALS['__oracle_results'] = [];
+    $GLOBALS['__oracle_current'] = null;
+    $GLOBALS['__oracle_total'] = count($cases);
+    unset($GLOBALS['__oracle_done']);
 
-register_shutdown_function(static function () {
+    $defaultTz = date_default_timezone_get();
+    foreach ($cases as $case) {
+        $GLOBALS['__oracle_current'] = $case;
+        set_time_limit((int) ($case['time_limit'] ?? 120));
+        $memory = isset($case['memory_limit']) ? ini_set('memory_limit', (string) $case['memory_limit']) : false;
+        if ('process' === $isolation && !$single) {
+            $GLOBALS['__oracle_results'][] = run_isolated($case);
+        } else {
+            try {
+                $GLOBALS['__oracle_results'][] = run_case($case);
+            } catch (\Throwable $e) {
+                $GLOBALS['__oracle_results'][] = ['id' => $case['id'] ?? null, 'ok' => false, 'phase' => 'oracle', 'error' => describe_throwable($e)];
+            }
+        }
+        if (false !== $memory) {
+            ini_set('memory_limit', $memory);
+        }
+        date_default_timezone_set($defaultTz);
+    }
+    $GLOBALS['__oracle_done'] = true;
+
+    return $GLOBALS['__oracle_results'];
+}
+
+/** Shutdown function: a fatal error (redeclared class, timeout, memory...) still emits valid JSON. */
+function shutdown_report(): void
+{
     if (!isset($GLOBALS['__oracle_done'])) {
-        // fatal error (redeclared class, timeout, memory...): still emit valid JSON
         while (ob_get_level() > 0) {
             ob_end_clean();
         }
@@ -117,27 +187,33 @@ register_shutdown_function(static function () {
         }
         echo json_encode($results, $GLOBALS['__oracle_flags']), "\n";
     }
-});
-
-$defaultTz = date_default_timezone_get();
-foreach ($cases as $case) {
-    $GLOBALS['__oracle_current'] = $case;
-    set_time_limit(120);
-    if ('process' === $isolation && !$single) {
-        $GLOBALS['__oracle_results'][] = run_isolated($case);
-    } else {
-        try {
-            $GLOBALS['__oracle_results'][] = run_case($case);
-        } catch (\Throwable $e) {
-            $GLOBALS['__oracle_results'][] = ['id' => $case['id'] ?? null, 'ok' => false, 'phase' => 'oracle', 'error' => describe_throwable($e)];
-        }
-    }
-    date_default_timezone_set($defaultTz);
 }
-$GLOBALS['__oracle_done'] = true;
-echo json_encode($single ? $GLOBALS['__oracle_results'][0] : $GLOBALS['__oracle_results'], $jsonFlags), "\n";
 
-// ---------------------------------------------------------------------------------------------------------
+/** --serve: one batch per input line, its results as one output line. */
+function serve(int $jsonFlags): void
+{
+    $registered = false;
+    while (false !== ($line = fgets(STDIN))) {
+        if ('' === trim($line)) {
+            continue;
+        }
+        try {
+            $batch = json_decode($line, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            echo json_encode([['ok' => false, 'error' => ['class' => 'JsonException', 'message' => 'Invalid JSON input: '.$e->getMessage()]]], $jsonFlags), "\n";
+            fflush(STDOUT);
+            continue;
+        }
+        [$cases, $isolation] = batch_cases($batch);
+        if (!$registered) {
+            register_shutdown_function('shutdown_report');
+            $registered = true;
+        }
+        echo json_encode(run_batch($cases, $isolation, false), $jsonFlags), "\n";
+        fflush(STDOUT);
+    }
+    $GLOBALS['__oracle_done'] = true;
+}
 
 function run_isolated(array $case): array
 {
@@ -176,6 +252,12 @@ function run_twig(array $case): array
 {
     $res = ['id' => $case['id'] ?? null, 'kind' => 'twig'];
     $templates = $case['templates'] ?? null;
+    if (isset($case['templates_b64']) && is_array($case['templates_b64'])) {
+        $templates = is_array($templates) ? $templates : [];
+        foreach ($case['templates_b64'] as $name => $code) {
+            $templates[$name] = base64_decode((string) $code);
+        }
+    }
     if (!is_array($templates) || !$templates) {
         throw new \InvalidArgumentException('A twig case needs a non-empty "templates" object.');
     }
@@ -187,7 +269,12 @@ function run_twig(array $case): array
     }
 
     $phase = 'setup';
+    $typed = null;
+    $clock = null;
     try {
+        if ($case['test_classes'] ?? false) {
+            class_exists(\Twig\Tests\IntegrationTest::class); // declares the helper classes of the test suite
+        }
         $twig = null;
         $config = $case['config'] ?? [];
         if (isset($case['config_php'])) {
@@ -210,6 +297,8 @@ function run_twig(array $case): array
         }, $mode);
 
         $phase = 'data';
+        $diagnosticsBefore = count($diag->diagnostics);
+        $deprecationsBefore = count($diag->deprecations);
         $context = $diag->run(static function () use ($case, $twig) {
             if (isset($case['data_php'])) {
                 return eval_data_code($case['data_php'], $twig);
@@ -217,11 +306,29 @@ function run_twig(array $case): array
 
             return $case['data_json'] ?? [];
         }, $mode);
+        if ($case['typed_data'] ?? false) {
+            $core = $twig->getExtension(\Twig\Extension\CoreExtension::class);
+            $typed = [
+                'data' => typed_rich($context),
+                'state' => [
+                    'php_default_timezone' => date_default_timezone_get(),
+                    'core_timezone' => $core->getTimezone()->getName(),
+                    'core_date_format' => $core->getDateFormat(),
+                    'core_number_format' => $core->getNumberFormat(),
+                ],
+                'data_diagnostics' => array_slice($diag->diagnostics, $diagnosticsBefore),
+                'data_deprecations' => array_slice($diag->deprecations, $deprecationsBefore),
+            ];
+        }
         if (!is_array($context)) {
             throw new \InvalidArgumentException(sprintf('The data must evaluate to an array, got "%s".', get_debug_type($context)));
         }
 
         $phase = 'render';
+        if ($case['clock'] ?? false) {
+            $now = gettimeofday();
+            $clock = [$now['sec'], $now['usec']];
+        }
         $output = $diag->run(static fn () => $loaded->render($context), $mode);
         $res['ok'] = true;
         put_string($res, 'output', $output);
@@ -232,6 +339,12 @@ function run_twig(array $case): array
     }
     $res['deprecations'] = $diag->deprecations;
     $res['diagnostics'] = $diag->diagnostics;
+    if (null !== $typed) {
+        $res += $typed;
+    }
+    if (null !== $clock) {
+        $res['clock'] = $clock;
+    }
 
     return $res;
 }

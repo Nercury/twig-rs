@@ -1,0 +1,22 @@
+[package]
+name = "twig-fuzz"
+version = "0.1.0"
+description = "Differential testing of twig-rs against the PHP oracle (Twig 3.31.1 on PHP 8.5.13): runner, diff, minimiser and driver."
+edition.workspace = true
+rust-version.workspace = true
+license = "BSD-3-Clause"
+repository.workspace = true
+authors.workspace = true
+publish = false
+
+[dependencies]
+twig = { path = "../.." }
+twig-value.workspace = true
+twig-date.workspace = true
+# The oracle's typed data trees -> values, the PHP test classes, Twig's option handling.
+twig-test-support.workspace = true
+# float_roundtrip: exact floats in typed trees (DateInterval fractions).
+serde_json = { workspace = true, features = ["float_roundtrip"] }
+
+[lints]
+workspace = true

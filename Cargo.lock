@@ -339,6 +339,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "twig-fuzz"
+version = "0.1.0"
+dependencies = [
+ "serde_json",
+ "twig",
+ "twig-date",
+ "twig-test-support",
+ "twig-value",
+]
+
+[[package]]
 name = "twig-pcre"
 version = "0.1.0"
 dependencies = [

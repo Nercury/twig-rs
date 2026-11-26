@@ -222,6 +222,192 @@ function typed($v, array &$seen = [], int $depth = 0): array
     return ['t' => get_debug_type($v)];
 }
 
+/**
+ * typed() plus what twig-test-support needs to rebuild objects exactly (the "rich" trees of
+ * crates/twig-test-support/tests/vectors/fixture_data.gen.php, same fields in the same order):
+ *   float  "bits"           IEEE-754 bit pattern (hex), exact even for NAN signs
+ *   array  [k, node, k_b64] third element when a string key is not valid UTF-8 (k is then lossy)
+ *   object "methods"        get_class_methods() from the global scope (PHP's order)
+ *          "parents"        class_parents() order
+ *          "interfaces_raw" class_implements() order (typed() sorts its "interfaces" copy)
+ *          "props_hidden"   private/protected properties of userland classes (mangled names), from
+ *                           get_mangled_object_vars()
+ *          "flags"          ArrayObject/ArrayIterator: getFlags()
+ *          "iterator_class" ArrayObject: getIteratorClass()
+ *          "storage"        SplObjectStorage: [[object, info], ...]
+ *          "inner"          CallbackFilterIterator: the inner iterator
+ *          "accepts"        CallbackFilterIterator: for each element of the inner iterator whether the
+ *                           filter yields it (the inner iterator is rewound afterwards)
+ * Like typed(), it calls __toString() and iterates CallbackFilterIterators and SplObjectStorages.
+ */
+final class RichEncoder
+{
+    /** @var array<int, true> */
+    private array $seen = [];
+    /** Objects encoded so far, kept alive so that spl_object_id() values are never reused. */
+    private array $keep = [];
+
+    public function encode($v, int $depth = 0): array
+    {
+        if ($depth > 64) {
+            return ['t' => 'truncated'];
+        }
+        switch (true) {
+            case null === $v: return ['t' => 'null'];
+            case \is_bool($v): return ['t' => 'bool', 'v' => $v];
+            case \is_int($v): return ['t' => 'int', 'v' => $v];
+            case \is_float($v):
+                $repr = is_nan($v) ? 'NAN' : (is_infinite($v) ? ($v > 0 ? 'INF' : '-INF') : var_export($v, true));
+
+                return ['t' => 'float', 'v' => $repr, 'bits' => bin2hex(strrev(pack('d', $v)))];
+            case \is_string($v):
+                $o = ['t' => 'string'];
+                put_string($o, 'v', $v);
+
+                return $o;
+            case \is_array($v):
+                $items = [];
+                foreach ($v as $k => $item) {
+                    $items[] = self::keyItem($k, $this->encode($item, $depth + 1));
+                }
+
+                return ['t' => 'array', 'v' => $items];
+            case \is_resource($v) || 'resource (closed)' === get_debug_type($v):
+                return ['t' => 'resource', 'type' => get_resource_type($v)];
+            case \is_object($v):
+                return $this->object($v, $depth);
+        }
+
+        return ['t' => get_debug_type($v)];
+    }
+
+    private static function keyItem($k, array $node): array
+    {
+        if (\is_string($k) && !mb_check_encoding($k, 'UTF-8')) {
+            return [mb_convert_encoding($k, 'UTF-8', 'UTF-8'), $node, base64_encode($k)];
+        }
+
+        return [$k, $node];
+    }
+
+    private function object(object $v, int $depth): array
+    {
+        $id = spl_object_id($v);
+        if (isset($this->seen[$id])) {
+            return ['t' => 'ref', 'class' => $v::class, 'id' => $id];
+        }
+        $this->seen[$id] = true;
+        $this->keep[] = $v;
+        $o = ['t' => 'object', 'class' => $v::class, 'id' => $id];
+        if ($v instanceof \UnitEnum) {
+            $o['t'] = 'enum';
+            $o['case'] = $v->name;
+            if ($v instanceof \BackedEnum) {
+                $o['value'] = $this->encode($v->value, $depth + 1);
+            }
+
+            return $o;
+        }
+        if ($v instanceof \Closure) {
+            $o['t'] = 'closure';
+
+            return $o;
+        }
+        $userland = !(new \ReflectionObject($v))->isInternal();
+        if ($v instanceof \Twig\Markup) {
+            $o['content'] = $this->encode((string) $v, $depth + 1);
+            $o['charset'] = $v->getCharset();
+        } elseif ($v instanceof \DateTimeInterface) {
+            $o['datetime'] = $v->format('Y-m-d\TH:i:s.uP');
+            $o['timezone'] = $v->getTimezone()->getName();
+            $o['timestamp'] = $v->getTimestamp();
+        } elseif ($v instanceof \DateTimeZone) {
+            $o['name'] = $v->getName();
+        } elseif ($v instanceof \DateInterval) {
+            $o['spec'] = ['y' => $v->y, 'm' => $v->m, 'd' => $v->d, 'h' => $v->h, 'i' => $v->i, 's' => $v->s, 'f' => $v->f, 'invert' => $v->invert, 'days' => $v->days];
+        } elseif ($v instanceof \Twig\TemplateWrapper) {
+            $o['template'] = $v->getTemplateName();
+            $userland = false; // its private properties are the whole Environment
+        } elseif ($v instanceof \ArrayObject || $v instanceof \ArrayIterator) {
+            $o['entries'] = $this->encode($v->getArrayCopy(), $depth + 1);
+        } elseif ($v instanceof \SimpleXMLElement) {
+            $o['xml'] = $v->asXML();
+        } else {
+            $o['interfaces'] = array_values(class_implements($v));
+            sort($o['interfaces']);
+            if (method_exists($v, '__toString') && !$v instanceof \Throwable) {
+                try {
+                    $o['toString'] = $this->encode((string) $v, $depth + 1);
+                } catch (\Throwable $e) {
+                    $o['toString_error'] = describe_throwable($e);
+                }
+            }
+            $props = [];
+            foreach (get_object_vars($v) as $k => $pv) {
+                $props[] = [$k, $this->encode($pv, $depth + 1)];
+            }
+            $o['props'] = $props;
+        }
+
+        // Extras (not in typed()).
+        $o['methods'] = get_class_methods($v);
+        $o['parents'] = array_values(class_parents($v));
+        $o['interfaces_raw'] = array_values(class_implements($v));
+        if ($userland) {
+            $hidden = [];
+            foreach (get_mangled_object_vars($v) as $k => $pv) {
+                if (\is_string($k) && '' !== $k && "\0" === $k[0]) {
+                    $hidden[] = self::keyItem($k, $this->encode($pv, $depth + 1));
+                }
+            }
+            $o['props_hidden'] = $hidden;
+        }
+        if ($v instanceof \ArrayObject || $v instanceof \ArrayIterator) {
+            $o['flags'] = $v->getFlags();
+            if ($v instanceof \ArrayObject) {
+                $o['iterator_class'] = $v->getIteratorClass();
+            }
+        }
+        if ($v instanceof \SplObjectStorage) {
+            $storage = [];
+            foreach ($v as $i => $obj) {
+                $storage[] = [$this->encode($obj, $depth + 1), $this->encode($v[$obj], $depth + 1)];
+            }
+            $v->rewind();
+            $o['storage'] = $storage;
+        }
+        if ($v instanceof \CallbackFilterIterator) {
+            $inner = $v->getInnerIterator();
+            $o['inner'] = $this->encode($inner, $depth + 1);
+            $accepted = [];
+            foreach ($v as $k => $x) {
+                $accepted[] = $k;
+            }
+            $accepts = [];
+            foreach ($inner as $k => $x) {
+                $accepts[] = \in_array($k, $accepted, true);
+            }
+            $inner->rewind();
+            $o['accepts'] = $accepts;
+        }
+
+        return $o;
+    }
+}
+
+/** RichEncoder::encode() of a value, with every diagnostic it raises swallowed. */
+function typed_rich($v): array
+{
+    set_error_handler(static fn (): bool => true);
+    try {
+        return (new RichEncoder())->encode($v);
+    } catch (\Throwable $e) {
+        return ['t' => 'error', 'error' => describe_throwable($e)];
+    } finally {
+        restore_error_handler();
+    }
+}
+
 /** Captures var_dump() output of a value. */
 function var_dump_string($v): string
 {
@@ -297,7 +483,10 @@ function plain_environment(array $templates, array $config, array $extensions, a
     }
     if (null !== $sandbox || \in_array('sandbox', $extensions, true)) {
         $p = $sandbox['policy'] ?? [];
-        $policy = new \Twig\Sandbox\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? []);
+        $policy = new \Twig\Sandbox\SecurityPolicy($p['tags'] ?? [], $p['filters'] ?? [], $p['methods'] ?? [], $p['properties'] ?? [], $p['functions'] ?? [], $p['tests'] ?? []);
+        if (isset($p['strict'])) {
+            $policy->setStrict((bool) $p['strict']);
+        }
         $twig->addExtension(new \Twig\Extension\SandboxExtension($policy, (bool) ($sandbox['global'] ?? false)));
     }
 

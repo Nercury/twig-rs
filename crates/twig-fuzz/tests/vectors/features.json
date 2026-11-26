@@ -1,0 +1,115 @@
+{
+  "description": "twig-fuzz self-test: one case per runner feature",
+  "vectors": [
+    {
+      "id": "json-scalars",
+      "case": {"id":"json-scalars","env":"plain","templates":{"index.twig":"{{ i }} {{ neg }} {{ big }} {{ f }} {{ e }} {{ t ? 'y' : 'n' }} {{ n is null ? 'null' }} {{ list|join(',') }} {{ map|keys|join(',') }}"},"data_json":{"i":42,"neg":-0,"big":9223372036854775808,"f":0.1,"e":1e3,"t":true,"n":null,"list":[1,2.5,"x"],"map":{"10":"a","b":"c","-1":"d","01":"e"}},"config":{"autoescape":false},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"json-scalars","kind":"twig","ok":true,"output":"42 0 9.2233720368548E+18 0.1 1000 y null 1,2.5,x 10,b,-1,01","deprecations":[],"diagnostics":[],"clock":[1795654810,69753]}
+    },
+    {
+      "id": "json-nested",
+      "case": {"id":"json-nested","env":"plain","templates":{"index.twig":"{% for k, v in m %}{{ k }}={{ v is iterable ? v|json_encode : v }};{% endfor %}"},"data_json":{"m":{"a":{"x":[1,{"y":null}]},"0":"zero","":"empty"}},"config":{"autoescape":false},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"json-nested","kind":"twig","ok":true,"output":"a={\"x\":[1,{\"y\":null}]};0=zero;=empty;","deprecations":[],"diagnostics":[],"clock":[1795654810,73428]}
+    },
+    {
+      "id": "php-objects",
+      "case": {"id":"php-objects","env":"plain","test_classes":true,"config":{"autoescape":false},"templates":{"index.twig":"{{ foo.bar }}|{{ foo.getFoo() }}|{{ ao|length }}:{{ ao|join(',') }}|{{ m }}|{{ m|length }}|{{ d|date('Y-m-d H:i:s T') }}|{{ tz.name }}|{{ iv|date('%d days %h hours') }}|{{ s|length }}|{{ o.a }}{{ o.b|join }}|{{ bin|url_encode }}|{{ nz }}|{{ nan }}|{{ inf }}"},"data_php":"$s = new \\SplObjectStorage(); $s[new \\stdClass()] = 'info'; $o = new \\stdClass(); $o->a = 'A'; $o->b = [1, 2]; return ['foo' => new \\Twig\\Tests\\TwigTestFoo(), 'ao' => new \\ArrayObject([3, 4]), 'm' => new \\Twig\\Markup('<b>été</b>', 'UTF-8'), 'd' => new \\DateTimeImmutable('2020-02-29 23:59:58.25', new \\DateTimeZone('America/New_York')), 'tz' => new \\DateTimeZone('Asia/Kolkata'), 'iv' => new \\DateInterval('P3DT4H'), 's' => $s, 'o' => $o, 'bin' => \"\\xff\\x00a\", 'nz' => -0.0, 'nan' => NAN, 'inf' => -INF]","typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"php-objects","kind":"twig","ok":true,"output":"bar|foo|2:3,4|<b>été</b>|10|2020-03-01 04:59:58 UTC|Asia/Kolkata|3 days 4 hours|1|A12|%FF%00a|-0|NAN|-INF","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"unexpected NAN value was coerced to string"}],"data":{"t":"array","v":[["foo",{"t":"object","class":"Twig\\Tests\\TwigTestFoo","id":845,"interfaces":["Iterator","Traversable"],"props":[["position",{"t":"int","v":0}],["array",{"t":"array","v":[[0,{"t":"int","v":1}],[1,{"t":"int","v":2}]]}]],"methods":["bar","getFoo","getEmpty","getNull","getSelf","is","in","not","strToLower","rewind","current","key","next","valid"],"parents":[],"interfaces_raw":["Iterator","Traversable"],"props_hidden":[]}],["ao",{"t":"object","class":"ArrayObject","id":843,"entries":{"t":"array","v":[[0,{"t":"int","v":3}],[1,{"t":"int","v":4}]]},"methods":["__construct","offsetExists","offsetGet","offsetSet","offsetUnset","append","getArrayCopy","count","getFlags","setFlags","asort","ksort","uasort","uksort","natsort","natcasesort","unserialize","serialize","__serialize","__unserialize","getIterator","exchangeArray","setIteratorClass","getIteratorClass","__debugInfo"],"parents":[],"interfaces_raw":["IteratorAggregate","Traversable","ArrayAccess","Serializable","Countable"],"flags":0,"iterator_class":"ArrayIterator"}],["m",{"t":"object","class":"Twig\\Markup","id":842,"content":{"t":"string","v":"<b>été</b>"},"charset":"UTF-8","methods":["__construct","__toString","getCharset","withContent","isSafeFor","count","jsonSerialize"],"parents":[],"interfaces_raw":["Countable","JsonSerializable","Stringable"],"props_hidden":[["\u0000Twig\\Markup\u0000content",{"t":"string","v":"<b>été</b>"}],["\u0000Twig\\Markup\u0000charset",{"t":"string","v":"UTF-8"}],["\u0000Twig\\Markup\u0000safeStrategies",{"t":"array","v":[[0,{"t":"string","v":"all"}]]}]]}],["d",{"t":"object","class":"DateTimeImmutable","id":841,"datetime":"2020-02-29T23:59:58.250000-05:00","timezone":"America/New_York","timestamp":1583038798,"methods":["__construct","__serialize","__unserialize","__wakeup","__set_state","createFromFormat","createFromTimestamp","getLastErrors","format","getTimezone","getOffset","getTimestamp","getMicrosecond","diff","modify","add","sub","setTimezone","setTime","setDate","setISODate","setTimestamp","setMicrosecond","createFromMutable","createFromInterface"],"parents":[],"interfaces_raw":["DateTimeInterface"]}],["tz",{"t":"object","class":"DateTimeZone","id":840,"name":"Asia/Kolkata","methods":["__construct","getName","getOffset","getTransitions","getLocation","listAbbreviations","listIdentifiers","__serialize","__unserialize","__wakeup","__set_state"],"parents":[],"interfaces_raw":[]}],["iv",{"t":"object","class":"DateInterval","id":839,"spec":{"y":0,"m":0,"d":3,"h":4,"i":0,"s":0,"f":0.0,"invert":0,"days":false},"methods":["__construct","createFromDateString","format","__serialize","__unserialize","__wakeup","__set_state"],"parents":[],"interfaces_raw":[]}],["s",{"t":"object","class":"SplObjectStorage","id":848,"interfaces":["ArrayAccess","Countable","Iterator","SeekableIterator","Serializable","Traversable"],"props":[],"methods":["attach","detach","contains","addAll","removeAll","removeAllExcept","getInfo","setInfo","count","rewind","valid","key","current","next","seek","unserialize","serialize","offsetExists","offsetGet","offsetSet","offsetUnset","getHash","__serialize","__unserialize","__debugInfo"],"parents":[],"interfaces_raw":["Countable","SeekableIterator","Traversable","Iterator","Serializable","ArrayAccess"],"storage":[[{"t":"object","class":"stdClass","id":847,"interfaces":[],"props":[],"methods":[],"parents":[],"interfaces_raw":[]},{"t":"string","v":"info"}]]}],["o",{"t":"object","class":"stdClass","id":846,"interfaces":[],"props":[["a",{"t":"string","v":"A"}],["b",{"t":"array","v":[[0,{"t":"int","v":1}],[1,{"t":"int","v":2}]]}]],"methods":[],"parents":[],"interfaces_raw":[]}],["bin",{"t":"string","v":"?\u0000a","v_b64":"/wBh"}],["nz",{"t":"float","v":"-0.0","bits":"8000000000000000"}],["nan",{"t":"float","v":"NAN","bits":"7ff8000000000000"}],["inf",{"t":"float","v":"-INF","bits":"fff0000000000000"}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795654810,83725]}
+    },
+    {
+      "id": "php-state",
+      "case": {"id":"php-state","env":"plain","config":{"autoescape":false},"templates":{"index.twig":"{{ ts|date }}|{{ ts|date('H:i T') }}|{{ 1234.5678|number_format }}|{{ x }}"},"data_php":"date_default_timezone_set('Asia/Tokyo'); $core = $twig->getExtension(\\Twig\\Extension\\CoreExtension::class); $core->setNumberFormat(2, ',', '.'); $core->setDateFormat('d/m/Y H:i', '%d d'); $core->setTimezone('Europe/Lisbon'); trigger_error('notice from data', E_USER_NOTICE); trigger_error('deprecated from data', E_USER_DEPRECATED); return ['ts' => 1700000000, 'x' => 'X']","typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"php-state","kind":"twig","ok":true,"output":"14/11/2023 22:13|22:13 WET|1.234,57|X","deprecations":["deprecated from data"],"diagnostics":[{"type":"E_USER_NOTICE","message":"notice from data"},{"type":"E_USER_DEPRECATED","message":"deprecated from data"}],"data":{"t":"array","v":[["ts",{"t":"int","v":1700000000}],["x",{"t":"string","v":"X"}]]},"state":{"php_default_timezone":"Asia/Tokyo","core_timezone":"Europe/Lisbon","core_date_format":["d/m/Y H:i","%d d"],"core_number_format":[2,",","."]},"data_diagnostics":[{"type":"E_USER_NOTICE","message":"notice from data"},{"type":"E_USER_DEPRECATED","message":"deprecated from data"}],"data_deprecations":["deprecated from data"],"clock":[1795654810,84926]}
+    },
+    {
+      "id": "php-not-array",
+      "case": {"id":"php-not-array","env":"plain","templates":{"index.twig":"x"},"data_php":"return 'not an array'","typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"php-not-array","kind":"twig","ok":false,"phase":"data","error":{"class":"InvalidArgumentException","message":"The data must evaluate to an array, got \"string\".","formatted":"InvalidArgumentException: The data must evaluate to an array, got \"string\".","code":0},"deprecations":[],"diagnostics":[],"data":{"t":"string","v":"not an array"},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[]}
+    },
+    {
+      "id": "b64-template",
+      "case": {"id":"b64-template","env":"plain","config":{"autoescape":false},"templates":{"index.twig":"","other.twig":"O"},"templates_b64":{"index.twig":"/3t7ICdcdTAwZTknIH19IOl7JSBpbmNsdWRlICdvdGhlci50d2lnJyAlfQ=="},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"b64-template","kind":"twig","ok":true,"output":"?u00e9 ?O","output_b64":"/3UwMGU5IOlP","deprecations":["Since twig/twig 3.12: Character \"u\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 2 in \"index.twig\" at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.12: Character \"u\" should not be escaped; the \"\\\" character is ignored in Twig 3 but will not be in Twig 4. Please remove the extra \"\\\" character at position 2 in \"index.twig\" at line 1."}],"clock":[1795654810,86490]}
+    },
+    {
+      "id": "throw-warning",
+      "case": {"id":"throw-warning","env":"plain","errors":"throw","templates":{"index.twig":"a\n{{ list }}"},"data_json":{"list":[1]},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"throw-warning","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 2.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 2.","rawMessage":"An exception has been thrown during the rendering of a template (\"Array to string conversion\").","templateName":"index.twig","templateLine":2,"templateColumn":null,"previous":{"class":"ErrorException","message":"Array to string conversion","formatted":"ErrorException: Array to string conversion","code":0}},"deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"Array to string conversion"}],"clock":[1795654810,87375]}
+    },
+    {
+      "id": "collect-warning",
+      "case": {"id":"collect-warning","env":"plain","templates":{"index.twig":"a{{ list }}b"},"data_json":{"list":[1]},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"collect-warning","kind":"twig","ok":true,"output":"aArrayb","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"Array to string conversion"}],"clock":[1795654810,88711]}
+    },
+    {
+      "id": "load-deprecation",
+      "case": {"id":"load-deprecation","env":"plain","templates":{"index.twig":"{{ '42' ~ 1 + 41 }}"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"load-deprecation","kind":"twig","ok":true,"output":"462","deprecations":["Since twig/twig 3.15: As the \"~\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.15: As the \"~\" infix operator will change its precedence in the next major version, add explicit parentheses to avoid behavior change in \"index.twig\" at line 1."}],"clock":[1795654810,90805]}
+    },
+    {
+      "id": "syntax-error",
+      "case": {"id":"syntax-error","env":"plain","templates":{"index.twig":"ok\n{% for x in [1] %}\n{{ x }"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"syntax-error","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected \"}\" in \"index.twig\" at line 3 column 6.","formatted":"Twig\\Error\\SyntaxError: Unexpected \"}\" in \"index.twig\" at line 3 column 6.","rawMessage":"Unexpected \"}\".","templateName":"index.twig","templateLine":3,"templateColumn":6},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "unknown-extension",
+      "case": {"id":"unknown-extension","env":"plain","extensions":["debug","foo"],"templates":{"index.twig":"x"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"unknown-extension","kind":"twig","ok":false,"phase":"setup","error":{"class":"InvalidArgumentException","message":"Unknown extension \"foo\" (supported: debug, string_loader, sandbox).","formatted":"InvalidArgumentException: Unknown extension \"foo\" (supported: debug, string_loader, sandbox).","code":0},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "charset-type-error",
+      "case": {"id":"charset-type-error","env":"plain","config":{"charset":[]},"templates":{"index.twig":"x"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"charset-type-error","kind":"twig","ok":false,"phase":"setup","error":{"class":"TypeError","message":"Twig\\Environment::setCharset(): Argument #1 ($charset) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php on line 136","formatted":"TypeError: Twig\\Environment::setCharset(): Argument #1 ($charset) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php on line 136","code":0},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "sandbox-filter",
+      "case": {"id":"sandbox-filter","env":"plain","sandbox":{"global":true,"policy":{"tags":["if"],"filters":["upper"],"functions":[],"methods":{},"properties":{},"tests":[],"strict":true}},"templates":{"index.twig":"{% if true %}{{ 'a'|upper }}{{ 'b'|lower }}{% endif %}"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"sandbox-filter","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Sandbox\\SecurityNotAllowedFilterError","message":"Filter \"escape\" is not allowed in \"index.twig\" at line 1.","formatted":"Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"escape\" is not allowed in \"index.twig\" at line 1.","rawMessage":"Filter \"escape\" is not allowed.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795654810,97007]}
+    },
+    {
+      "id": "sandbox-extends-deprecation",
+      "case": {"id":"sandbox-extends-deprecation","env":"plain","sandbox":{"global":true,"policy":{"tags":["block"]}},"templates":{"index.twig":"{% extends 'base.twig' %}{% block b %}child{% endblock %}","base.twig":"[{% block b %}{% endblock %}]"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"sandbox-extends-deprecation","kind":"twig","ok":true,"output":"[child]","deprecations":["Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).","Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."],"diagnostics":[{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."},{"type":"E_USER_DEPRECATED","message":"Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now)."}],"clock":[1795654810,99101]}
+    },
+    {
+      "id": "globals-timezone",
+      "case": {"id":"globals-timezone","env":"plain","timezone":"Pacific/Auckland","globals":{"g":{"k":"v"},"n":1},"config":{"autoescape":false},"templates":{"index.twig":"{{ g.k }}{{ n }} {{ 0|date('Y-m-d H:i T') }}"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"globals-timezone","kind":"twig","ok":true,"output":"v1 1970-01-01 12:00 NZST","deprecations":[],"diagnostics":[],"clock":[1795654810,99557]}
+    },
+    {
+      "id": "main-not-loaded",
+      "case": {"id":"main-not-loaded","env":"plain","load_all":false,"main":"page.twig","templates":{"broken.twig":"{% if %}","page.twig":"page"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"main-not-loaded","kind":"twig","ok":true,"output":"page","deprecations":[],"diagnostics":[],"clock":[1795654810,99953]}
+    },
+    {
+      "id": "data-scalar",
+      "case": {"id":"data-scalar","env":"plain","templates":{"index.twig":"x"},"data_json":5,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"data-scalar","kind":"twig","ok":false,"phase":"data","error":{"class":"InvalidArgumentException","message":"The data must evaluate to an array, got \"int\".","formatted":"InvalidArgumentException: The data must evaluate to an array, got \"int\".","code":0},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "dump",
+      "case": {"id":"dump","env":"plain","config":{"debug":true,"autoescape":false},"extensions":["debug"],"templates":{"index.twig":"{{ dump([1, 'a', true, null, 1.5]) }}"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"dump","kind":"twig","ok":true,"output":"array(5) {\n  [0]=>\n  int(1)\n  [1]=>\n  string(1) \"a\"\n  [2]=>\n  bool(true)\n  [3]=>\n  NULL\n  [4]=>\n  float(1.5)\n}\n","deprecations":[],"diagnostics":[],"clock":[1795654810,101176]}
+    },
+    {
+      "id": "string-loader",
+      "case": {"id":"string-loader","env":"plain","extensions":["string_loader"],"config":{"autoescape":false},"templates":{"index.twig":"{{ include(template_from_string('Hi {{ name }}')) }}"},"data_json":{"name":"N"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"string-loader","kind":"twig","ok":true,"output":"Hi N","deprecations":[],"diagnostics":[],"clock":[1795654810,101898]}
+    },
+    {
+      "id": "composition",
+      "case": {"id":"composition","env":"plain","config":{"strict_variables":true},"templates":{"index.twig":"{% extends 'layout.twig' %}{% block content %}{{ parent() }}+{{ include('part.twig') }}{% endblock %}","layout.twig":"<{% block content %}L{% endblock %}>","part.twig":"\n\n{{ missing }}"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"composition","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variable \"missing\" does not exist in \"part.twig\" at line 3.","formatted":"Twig\\Error\\RuntimeError: Variable \"missing\" does not exist in \"part.twig\" at line 3.","rawMessage":"Variable \"missing\" does not exist.","templateName":"part.twig","templateLine":3,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795654810,103685]}
+    },
+    {
+      "id": "runtime-line",
+      "case": {"id":"runtime-line","env":"plain","templates":{"index.twig":"a\nb\n{{ [1]|join(',')|slice(1)|f }}"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"runtime-line","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unknown \"f\" filter. Did you mean \"find\", \"first\", \"format\", \"filter\", \"shuffle\", \"default\", \"date_modify\", \"number_format\" in \"index.twig\" at line 3?","formatted":"Twig\\Error\\SyntaxError: Unknown \"f\" filter. Did you mean \"find\", \"first\", \"format\", \"filter\", \"shuffle\", \"default\", \"date_modify\", \"number_format\" in \"index.twig\" at line 3?","rawMessage":"Unknown \"f\" filter. Did you mean \"find\", \"first\", \"format\", \"filter\", \"shuffle\", \"default\", \"date_modify\", \"number_format\"?","templateName":"index.twig","templateLine":3,"templateColumn":null},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "binary-output",
+      "case": {"id":"binary-output","env":"plain","config":{"autoescape":false},"templates":{"index.twig":"[{{ s }}]"},"data_php":"return ['s' => \"\\xfe\\xff\"]","typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"binary-output","kind":"twig","ok":true,"output":"[??]","output_b64":"W/7/XQ==","deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"??","v_b64":"/v8="}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795654810,104396]}
+    }
+  ]
+}

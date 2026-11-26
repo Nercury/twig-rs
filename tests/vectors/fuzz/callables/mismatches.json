@@ -1,0 +1,1306 @@
+{
+ "description": "Mismatches found by differential fuzzing of the core filters, functions and tests (crates/twig-fuzz/src/gen/callables.rs), minimised by hand and recorded with process isolation. Every vector is a known_mismatch; its reason names the root cause.",
+ "vectors": [
+  {
+   "id": "callables-A1",
+   "case": {
+    "id": "callables-A1",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ attribute(x, 'a', null) }}"
+    },
+    "data_json": {
+     "x": {
+      "a": 5
+     }
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-A1",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "TypeError",
+      "message": "Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+      "formatted": "TypeError: Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, null given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+      "code": 0
+     }
+    },
+    "deprecations": [
+     "Since twig/twig 3.15: Not passing a \"Twig\\Node\\Expression\\ArrayExpression\" instance as the \"arguments\" argument of the \"Twig\\Node\\Expression\\GetAttrExpression\" constructor is deprecated (\"Twig\\Node\\Expression\\ConstantExpression\" given)."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.15: Not passing a \"Twig\\Node\\Expression\\ArrayExpression\" instance as the \"arguments\" argument of the \"Twig\\Node\\Expression\\GetAttrExpression\" constructor is deprecated (\"Twig\\Node\\Expression\\ConstantExpression\" given)."
+     }
+    ],
+    "clock": [
+     1795659155,
+     421963
+    ]
+   },
+   "known_mismatch": {
+    "reason": "attribute() with a non-array third argument: CoreExtension::getAttribute() declares `array $arguments`, so PHP throws TypeError `Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, <type> given` (plus the accepted `, called in` suffix) before any lookup or sandbox check; twig-rs never checks the type and performs the lookup (src/runtime/attribute.rs get_attribute(), the arguments come from src/lltl/codegen.rs get_attr()).",
+    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.]"
+   }
+  },
+  {
+   "id": "callables-A2",
+   "case": {
+    "id": "callables-A2",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ attribute(x, 'a', 'b') }}"
+    },
+    "data_json": {
+     "x": {
+      "a": 5
+     }
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-A2",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "TypeError",
+      "message": "Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+      "formatted": "TypeError: Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+      "code": 0
+     }
+    },
+    "deprecations": [
+     "Since twig/twig 3.15: Not passing a \"Twig\\Node\\Expression\\ArrayExpression\" instance as the \"arguments\" argument of the \"Twig\\Node\\Expression\\GetAttrExpression\" constructor is deprecated (\"Twig\\Node\\Expression\\ConstantExpression\" given)."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.15: Not passing a \"Twig\\Node\\Expression\\ArrayExpression\" instance as the \"arguments\" argument of the \"Twig\\Node\\Expression\\GetAttrExpression\" constructor is deprecated (\"Twig\\Node\\Expression\\ConstantExpression\" given)."
+     }
+    ],
+    "clock": [
+     1795659155,
+     444788
+    ]
+   },
+   "known_mismatch": {
+    "reason": "attribute() with a non-array third argument: CoreExtension::getAttribute() declares `array $arguments`, so PHP throws TypeError `Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, <type> given` (plus the accepted `, called in` suffix) before any lookup or sandbox check; twig-rs never checks the type and performs the lookup (src/runtime/attribute.rs get_attribute(), the arguments come from src/lltl/codegen.rs get_attr()).",
+    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.]"
+   }
+  },
+  {
+   "id": "callables-A3",
+   "case": {
+    "id": "callables-A3",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ attribute(x, 'a', y) }}"
+    },
+    "data_json": {
+     "x": {
+      "a": 5
+     },
+     "y": 1
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-A3",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, int given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, int given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, int given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "TypeError",
+      "message": "Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, int given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+      "formatted": "TypeError: Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, int given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 47",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659155,
+     467769
+    ]
+   },
+   "known_mismatch": {
+    "reason": "attribute() with a non-array third argument: CoreExtension::getAttribute() declares `array $arguments`, so PHP throws TypeError `Twig\\Extension\\CoreExtension::getAttribute(): Argument #5 ($arguments) must be of type array, <type> given` (plus the accepted `, called in` suffix) before any lookup or sandbox check; twig-rs never checks the type and performs the lookup (src/runtime/attribute.rs get_attribute(), the arguments come from src/lltl/codegen.rs get_attr()).",
+    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.]"
+   }
+  },
+  {
+   "id": "callables-B1",
+   "case": {
+    "id": "callables-B1",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1]|map(true) }}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-B1",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Value of type bool is not callable\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Value of type bool is not callable\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Value of type bool is not callable\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Value of type bool is not callable",
+      "formatted": "Error: Value of type bool is not callable",
+      "code": 0
+     }
+    },
+    "deprecations": [
+     "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+     }
+    ],
+    "clock": [
+     1795659155,
+     490275
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Wording of the non-callable error: ZEND_INIT_DYNAMIC_CALL uses zend_zval_type_name() (`Value of type bool is not callable`), twig-rs uses zend_zval_value_name() (`true`) in src/vm/arrow.rs invoke_value() (same root cause as round0 cluster 3, `has every`).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Value of type bool is not callable > Value of type true is not callable]"
+   }
+  },
+  {
+   "id": "callables-C1",
+   "case": {
+    "id": "callables-C1",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1]|map(['a', 'b']) }}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-C1",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Class \"a\" not found\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Class \"a\" not found\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Class \"a\" not found\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Class \"a\" not found",
+      "formatted": "Error: Class \"a\" not found",
+      "code": 0
+     }
+    },
+    "deprecations": [
+     "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+     }
+    ],
+    "clock": [
+     1795659155,
+     513057
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Array callables called as `$arrow(...)` by map/reduce/find/has some (zend_init_dynamic_call_array(), PHPSRC/Zend/zend_execute.c): PHP reports `Class \"a\" not found`, `First array member is not a valid class name or object`, `Second array member is not a valid method` or `Call to undefined method stdClass::x()`; twig-rs reports `Array callback has to contain indices 0 and 1` for every two-element array that is not [object, string] (src/vm/arrow.rs invoke_value()).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\"a\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Class \"_\" not found > Array callback has to contain indices N and N]"
+   }
+  },
+  {
+   "id": "callables-C2",
+   "case": {
+    "id": "callables-C2",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1]|map([1, 2]) }}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-C2",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "First array member is not a valid class name or object",
+      "formatted": "Error: First array member is not a valid class name or object",
+      "code": 0
+     }
+    },
+    "deprecations": [
+     "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+     }
+    ],
+    "clock": [
+     1795659155,
+     537195
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Array callables called as `$arrow(...)` by map/reduce/find/has some (zend_init_dynamic_call_array(), PHPSRC/Zend/zend_execute.c): PHP reports `Class \"a\" not found`, `First array member is not a valid class name or object`, `Second array member is not a valid method` or `Call to undefined method stdClass::x()`; twig-rs reports `Array callback has to contain indices 0 and 1` for every two-element array that is not [object, string] (src/vm/arrow.rs invoke_value()).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [First array member is not a valid class name or object > Array callback has to contain indices N and N]"
+   }
+  },
+  {
+   "id": "callables-C3",
+   "case": {
+    "id": "callables-C3",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1]|reduce([include('b.twig'), 1]) }}",
+     "b.twig": "B[{{ v|default('-') }}]{% block blk %}in-b{% endblock %}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-C3",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Second array member is not a valid method\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Second array member is not a valid method\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Second array member is not a valid method\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Second array member is not a valid method",
+      "formatted": "Error: Second array member is not a valid method",
+      "code": 0
+     }
+    },
+    "deprecations": [
+     "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"reduce\" filter is deprecated."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"reduce\" filter is deprecated."
+     }
+    ],
+    "clock": [
+     1795659155,
+     561284
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Array callables called as `$arrow(...)` by map/reduce/find/has some (zend_init_dynamic_call_array(), PHPSRC/Zend/zend_execute.c): PHP reports `Class \"a\" not found`, `First array member is not a valid class name or object`, `Second array member is not a valid method` or `Call to undefined method stdClass::x()`; twig-rs reports `Array callback has to contain indices 0 and 1` for every two-element array that is not [object, string] (src/vm/arrow.rs invoke_value()).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Second array member is not a valid method > Array callback has to contain indices N and N]"
+   }
+  },
+  {
+   "id": "callables-C4",
+   "case": {
+    "id": "callables-C4",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1]|find(['stdClass', 'x']) }}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-C4",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Call to undefined method stdClass::x()\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Call to undefined method stdClass::x()\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Call to undefined method stdClass::x()\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Call to undefined method stdClass::x()",
+      "formatted": "Error: Call to undefined method stdClass::x()",
+      "code": 0
+     }
+    },
+    "deprecations": [
+     "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"find\" filter is deprecated."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"find\" filter is deprecated."
+     }
+    ],
+    "clock": [
+     1795659155,
+     583883
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Array callables called as `$arrow(...)` by map/reduce/find/has some (zend_init_dynamic_call_array(), PHPSRC/Zend/zend_execute.c): PHP reports `Class \"a\" not found`, `First array member is not a valid class name or object`, `Second array member is not a valid method` or `Call to undefined method stdClass::x()`; twig-rs reports `Array callback has to contain indices 0 and 1` for every two-element array that is not [object, string] (src/vm/arrow.rs invoke_value()).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Call to undefined method stdClass::x() > Array callback has to contain indices N and N]"
+   }
+  },
+  {
+   "id": "callables-C5",
+   "case": {
+    "id": "callables-C5",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1] has some ['a', 'b'] }}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-C5",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Class \"a\" not found\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Class \"a\" not found\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Class \"a\" not found\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Class \"a\" not found",
+      "formatted": "Error: Class \"a\" not found",
+      "code": 0
+     }
+    },
+    "deprecations": [
+     "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"has some\" operator is deprecated."
+     }
+    ],
+    "clock": [
+     1795659155,
+     607235
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Array callables called as `$arrow(...)` by map/reduce/find/has some (zend_init_dynamic_call_array(), PHPSRC/Zend/zend_execute.c): PHP reports `Class \"a\" not found`, `First array member is not a valid class name or object`, `Second array member is not a valid method` or `Call to undefined method stdClass::x()`; twig-rs reports `Array callback has to contain indices 0 and 1` for every two-element array that is not [object, string] (src/vm/arrow.rs invoke_value()).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\"a\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Class \"_\" not found > Array callback has to contain indices N and N]"
+   }
+  },
+  {
+   "id": "callables-D1a",
+   "case": {
+    "id": "callables-D1a",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 'x'|first(...{'k': 1, 0: 2}) }}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-D1a",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $k\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $k\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $k\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Unknown named parameter $k",
+      "formatted": "Error: Unknown named parameter $k",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659155,
+     630763
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Argument unpacking checks names as it goes: ZEND_SEND_UNPACK calls zend_handle_named_arg() for each string key, so `Unknown named parameter $k` comes before a later int key (`Cannot use positional argument after named argument during unpacking`) and before an internal function's argument count check (`abs() expects exactly 1 argument, 2 given`); twig-rs checks names only when it binds (src/vm/frame.rs ArgList::unpack(), crates/twig-value/src/object/args.rs).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Unknown named parameter $k > Cannot use positional argument after named argument during unpacking]"
+   }
+  },
+  {
+   "id": "callables-D1b",
+   "case": {
+    "id": "callables-D1b",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1|abs(...{0: 1, 'a': 2}) }}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-D1b",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $a\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $a\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $a\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Unknown named parameter $a",
+      "formatted": "Error: Unknown named parameter $a",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659155,
+     653966
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Argument unpacking checks names as it goes: ZEND_SEND_UNPACK calls zend_handle_named_arg() for each string key, so `Unknown named parameter $k` comes before a later int key (`Cannot use positional argument after named argument during unpacking`) and before an internal function's argument count check (`abs() expects exactly 1 argument, 2 given`); twig-rs checks names only when it binds (src/vm/frame.rs ArgList::unpack(), crates/twig-value/src/object/args.rs).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.class:Error>ArgumentCountError [Unknown named parameter $a > abs() expects exactly N argument, N given]"
+   }
+  },
+  {
+   "id": "callables-D2a",
+   "case": {
+    "id": "callables-D2a",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ include(...{'template': 'b.twig'}) }}",
+     "b.twig": "B[{{ v|default('-') }}]{% block blk %}in-b{% endblock %}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-D2a",
+    "kind": "twig",
+    "ok": true,
+    "output": "B[-]in-b",
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659155,
+     678248
+    ]
+   },
+   "known_mismatch": {
+    "reason": "include/include_only/source ignore unpacked named arguments: src/runtime/functions.rs include(), include_only() and source() read call.args() only, so `...{'template': 'b.twig'}` passes no template (TypeError for null) where PHP binds by name, PHP's parameter names (`$template`, `$withContext`, `$ignoreMissing`, `$name`) are not enforced (`Unknown named parameter $ignore_missing`), and a missing template is not PHP's ArgumentCountError (`Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), 1 passed and at least 2 expected`). They need Call::bind() with the PHP signatures.",
+    "signature": "ok:ok>Twig\\Error\\RuntimeError [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.]"
+   }
+  },
+  {
+   "id": "callables-D2b",
+   "case": {
+    "id": "callables-D2b",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ source(...{'name': 'b.twig'}) }}",
+     "b.twig": "B[{{ v|default('-') }}]{% block blk %}in-b{% endblock %}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-D2b",
+    "kind": "twig",
+    "ok": true,
+    "output": "B[{{ v|default('-') }}]{% block blk %}in-b{% endblock %}",
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659155,
+     702111
+    ]
+   },
+   "known_mismatch": {
+    "reason": "include/include_only/source ignore unpacked named arguments: src/runtime/functions.rs include(), include_only() and source() read call.args() only, so `...{'template': 'b.twig'}` passes no template (TypeError for null) where PHP binds by name, PHP's parameter names (`$template`, `$withContext`, `$ignoreMissing`, `$name`) are not enforced (`Unknown named parameter $ignore_missing`), and a missing template is not PHP's ArgumentCountError (`Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), 1 passed and at least 2 expected`). They need Call::bind() with the PHP signatures.",
+    "signature": "ok:ok>Twig\\Error\\RuntimeError [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.]"
+   }
+  },
+  {
+   "id": "callables-D2c",
+   "case": {
+    "id": "callables-D2c",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ include_only(...[]) }}",
+     "b.twig": "B[{{ v|default('-') }}]{% block blk %}in-b{% endblock %}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-D2c",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 2 expected\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 2 expected\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 2 expected\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "ArgumentCountError",
+      "message": "Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 2 expected",
+      "formatted": "ArgumentCountError: Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), 1 passed in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44 and at least 2 expected",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659155,
+     725994
+    ]
+   },
+   "known_mismatch": {
+    "reason": "include/include_only/source ignore unpacked named arguments: src/runtime/functions.rs include(), include_only() and source() read call.args() only, so `...{'template': 'b.twig'}` passes no template (TypeError for null) where PHP binds by name, PHP's parameter names (`$template`, `$withContext`, `$ignoreMissing`, `$name`) are not enforced (`Unknown named parameter $ignore_missing`), and a missing template is not PHP's ArgumentCountError (`Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), 1 passed and at least 2 expected`). They need Call::bind() with the PHP signatures.",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.class:ArgumentCountError>TypeError [Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), N passed and at least N expected > Twig\\Environment::getTemplateClass(): Argument #N ($name) must be of type string, null given]"
+   }
+  },
+  {
+   "id": "callables-D2d",
+   "case": {
+    "id": "callables-D2d",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ include('b.twig', ...{'ignore_missing': true}) }}",
+     "b.twig": "B[{{ v|default('-') }}]{% block blk %}in-b{% endblock %}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-D2d",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $ignore_missing\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $ignore_missing\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Unknown named parameter $ignore_missing\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Unknown named parameter $ignore_missing",
+      "formatted": "Error: Unknown named parameter $ignore_missing",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659155,
+     750611
+    ]
+   },
+   "known_mismatch": {
+    "reason": "include/include_only/source ignore unpacked named arguments: src/runtime/functions.rs include(), include_only() and source() read call.args() only, so `...{'template': 'b.twig'}` passes no template (TypeError for null) where PHP binds by name, PHP's parameter names (`$template`, `$withContext`, `$ignoreMissing`, `$name`) are not enforced (`Unknown named parameter $ignore_missing`), and a missing template is not PHP's ArgumentCountError (`Too few arguments to function Twig\\Extension\\CoreExtension::includeOnly(), 1 passed and at least 2 expected`). They need Call::bind() with the PHP signatures.",
+    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.]"
+   }
+  },
+  {
+   "id": "callables-D3a",
+   "case": {
+    "id": "callables-D3a",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ '%s'|format(...foo) }}"
+    },
+    "data_php": "return ['foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+    "test_classes": true,
+    "typed_data": true,
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-D3a",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Named parameter $a overwrites previous argument\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $a overwrites previous argument\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Named parameter $a overwrites previous argument\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Named parameter $a overwrites previous argument",
+      "formatted": "Error: Named parameter $a overwrites previous argument",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "data": {
+     "t": "array",
+     "v": [
+      [
+       "foo",
+       {
+        "t": "object",
+        "class": "Twig\\Tests\\TwigTestFoo",
+        "id": 205,
+        "interfaces": [
+         "Iterator",
+         "Traversable"
+        ],
+        "props": [
+         [
+          "position",
+          {
+           "t": "int",
+           "v": 0
+          }
+         ],
+         [
+          "array",
+          {
+           "t": "array",
+           "v": [
+            [
+             0,
+             {
+              "t": "int",
+              "v": 1
+             }
+            ],
+            [
+             1,
+             {
+              "t": "int",
+              "v": 2
+             }
+            ]
+           ]
+          }
+         ]
+        ],
+        "methods": [
+         "bar",
+         "getFoo",
+         "getEmpty",
+         "getNull",
+         "getSelf",
+         "is",
+         "in",
+         "not",
+         "strToLower",
+         "rewind",
+         "current",
+         "key",
+         "next",
+         "valid"
+        ],
+        "parents": [],
+        "interfaces_raw": [
+         "Iterator",
+         "Traversable"
+        ],
+        "props_hidden": []
+       }
+      ]
+     ]
+    },
+    "state": {
+     "php_default_timezone": "UTC",
+     "core_timezone": "UTC",
+     "core_date_format": [
+      "F j, Y H:i",
+      "%d days"
+     ],
+     "core_number_format": [
+      0,
+      ".",
+      ","
+     ]
+    },
+    "data_diagnostics": [],
+    "data_deprecations": [],
+    "clock": [
+     1795659155,
+     775683
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Duplicate string keys from a Traversable spread into a userland variadic (CoreExtension::sprintf(...$values), CoreExtension::merge(...$arrays)): PHP throws `Named parameter $a overwrites previous argument` at the second key (zend_handle_named_arg()); twig-rs keeps both and fails later (`sprintf() does not accept unknown named parameters`, merge's `$argNumber + 1`) (src/vm/frame.rs ArgList::unpack()).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.class:Error>ArgumentCountError [Named parameter $a overwrites previous argument > sprintf() does not accept unknown named parameters]"
+   }
+  },
+  {
+   "id": "callables-D3b",
+   "case": {
+    "id": "callables-D3b",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1]|merge(...foo) }}"
+    },
+    "data_php": "return ['foo' => new \\Twig\\Tests\\TwigTestFoo()];",
+    "test_classes": true,
+    "typed_data": true,
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-D3b",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Named parameter $a overwrites previous argument\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Named parameter $a overwrites previous argument\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Named parameter $a overwrites previous argument\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Named parameter $a overwrites previous argument",
+      "formatted": "Error: Named parameter $a overwrites previous argument",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "data": {
+     "t": "array",
+     "v": [
+      [
+       "foo",
+       {
+        "t": "object",
+        "class": "Twig\\Tests\\TwigTestFoo",
+        "id": 209,
+        "interfaces": [
+         "Iterator",
+         "Traversable"
+        ],
+        "props": [
+         [
+          "position",
+          {
+           "t": "int",
+           "v": 0
+          }
+         ],
+         [
+          "array",
+          {
+           "t": "array",
+           "v": [
+            [
+             0,
+             {
+              "t": "int",
+              "v": 1
+             }
+            ],
+            [
+             1,
+             {
+              "t": "int",
+              "v": 2
+             }
+            ]
+           ]
+          }
+         ]
+        ],
+        "methods": [
+         "bar",
+         "getFoo",
+         "getEmpty",
+         "getNull",
+         "getSelf",
+         "is",
+         "in",
+         "not",
+         "strToLower",
+         "rewind",
+         "current",
+         "key",
+         "next",
+         "valid"
+        ],
+        "parents": [],
+        "interfaces_raw": [
+         "Iterator",
+         "Traversable"
+        ],
+        "props_hidden": []
+       }
+      ]
+     ]
+    },
+    "state": {
+     "php_default_timezone": "UTC",
+     "core_timezone": "UTC",
+     "core_date_format": [
+      "F j, Y H:i",
+      "%d days"
+     ],
+     "core_number_format": [
+      0,
+      ".",
+      ","
+     ]
+    },
+    "data_diagnostics": [],
+    "data_deprecations": [],
+    "clock": [
+     1795659155,
+     800474
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Duplicate string keys from a Traversable spread into a userland variadic (CoreExtension::sprintf(...$values), CoreExtension::merge(...$arrays)): PHP throws `Named parameter $a overwrites previous argument` at the second key (zend_handle_named_arg()); twig-rs keeps both and fails later (`sprintf() does not accept unknown named parameters`, merge's `$argNumber + 1`) (src/vm/frame.rs ArgList::unpack()).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.class:Error>TypeError [Named parameter $a overwrites previous argument > Unsupported operand types: string + int]"
+   }
+  },
+  {
+   "id": "callables-E1",
+   "case": {
+    "id": "callables-E1",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ x|default(...[]) }}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-E1",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "ParseError",
+     "message": "syntax error, unexpected token \"...\"",
+     "formatted": "ParseError: syntax error, unexpected token \"...\"",
+     "code": 0
+    },
+    "deprecations": [],
+    "diagnostics": []
+   },
+   "known_mismatch": {
+    "reason": "`x|default(...expr)` on a variable or attribute: DefaultFilter puts its first argument node, the spread, in the else branch of the defined-test ternary, so the compiled PHP (`... : ...[]`) does not parse and PHP fails at load with ParseError `syntax error, unexpected token \"...\"`; twig-rs evaluates the spread as a value (src/ast/expr.rs, DefaultFilter construction). Reproduce the load-time ParseError or list it in reference/deviations.md.",
+    "signature": "ok:ParseError>ok [load: syntax error, unexpected token \"_\"] | diagnostics:+E_WARNING: Array to string conversion"
+   }
+  },
+  {
+   "id": "callables-E2",
+   "case": {
+    "id": "callables-E2",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ x.y|default(...['d']) }}"
+    },
+    "data_json": {
+     "x": {
+      "y": ""
+     }
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-E2",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "ParseError",
+     "message": "syntax error, unexpected token \"...\"",
+     "formatted": "ParseError: syntax error, unexpected token \"...\"",
+     "code": 0
+    },
+    "deprecations": [],
+    "diagnostics": []
+   },
+   "known_mismatch": {
+    "reason": "`x|default(...expr)` on a variable or attribute: DefaultFilter puts its first argument node, the spread, in the else branch of the defined-test ternary, so the compiled PHP (`... : ...[]`) does not parse and PHP fails at load with ParseError `syntax error, unexpected token \"...\"`; twig-rs evaluates the spread as a value (src/ast/expr.rs, DefaultFilter construction). Reproduce the load-time ParseError or list it in reference/deviations.md.",
+    "signature": "ok:ParseError>ok [load: syntax error, unexpected token \"_\"]"
+   }
+  },
+  {
+   "id": "callables-F1",
+   "case": {
+    "id": "callables-F1",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 is constant('FOO', include('b.twig')) }}",
+     "b.twig": "B[{{ v|default('-') }}]{% block blk %}in-b{% endblock %}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-F1",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Undefined constant Twig\\Markup::FOO\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Undefined constant Twig\\Markup::FOO\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Undefined constant Twig\\Markup::FOO\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Undefined constant Twig\\Markup::FOO",
+      "formatted": "Error: Undefined constant Twig\\Markup::FOO",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659155,
+     869060
+    ]
+   },
+   "known_mismatch": {
+    "reason": "The constant test compiles to PHP's constant(), which needs the class: Twig\\Markup and Twig\\TemplateWrapper exist in PHP (`Undefined constant Twig\\Markup::FOO`), but twig-rs's class table lacks them (src/extension/runtime/misc/constants.rs builtin_classes()) and reports `Class \"Twig\\Markup\" not found`. The constant() function (defined()) is unaffected; the twig-fuzz runner registers the classes of data objects, so the bug hides when the data holds a Markup.",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\"Twig\\Markup\"_\") in \"_\" at line N.] | error.previous.message:Error [Undefined constant Twig\\Markup::FOO > Class \"_\" not found]"
+   }
+  },
+  {
+   "id": "callables-F2",
+   "case": {
+    "id": "callables-F2",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 is constant('Twig\\\\Markup::FOO') }}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-F2",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Undefined constant Twig\\Markup::FOO\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Undefined constant Twig\\Markup::FOO\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Undefined constant Twig\\Markup::FOO\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Undefined constant Twig\\Markup::FOO",
+      "formatted": "Error: Undefined constant Twig\\Markup::FOO",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659155,
+     892867
+    ]
+   },
+   "known_mismatch": {
+    "reason": "The constant test compiles to PHP's constant(), which needs the class: Twig\\Markup and Twig\\TemplateWrapper exist in PHP (`Undefined constant Twig\\Markup::FOO`), but twig-rs's class table lacks them (src/extension/runtime/misc/constants.rs builtin_classes()) and reports `Class \"Twig\\Markup\" not found`. The constant() function (defined()) is unaffected; the twig-fuzz runner registers the classes of data objects, so the bug hides when the data holds a Markup.",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\"Twig\\Markup\"_\") in \"_\" at line N.] | error.previous.message:Error [Undefined constant Twig\\Markup::FOO > Class \"_\" not found]"
+   }
+  },
+  {
+   "id": "callables-F3",
+   "case": {
+    "id": "callables-F3",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 is constant('FOO', template_from_string('x')) }}"
+    },
+    "data_json": {},
+    "extensions": [
+     "string_loader"
+    ],
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-F3",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Undefined constant Twig\\TemplateWrapper::FOO\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Undefined constant Twig\\TemplateWrapper::FOO\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Undefined constant Twig\\TemplateWrapper::FOO\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Undefined constant Twig\\TemplateWrapper::FOO",
+      "formatted": "Error: Undefined constant Twig\\TemplateWrapper::FOO",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659155,
+     914972
+    ]
+   },
+   "known_mismatch": {
+    "reason": "The constant test compiles to PHP's constant(), which needs the class: Twig\\Markup and Twig\\TemplateWrapper exist in PHP (`Undefined constant Twig\\Markup::FOO`), but twig-rs's class table lacks them (src/extension/runtime/misc/constants.rs builtin_classes()) and reports `Class \"Twig\\Markup\" not found`. The constant() function (defined()) is unaffected; the twig-fuzz runner registers the classes of data objects, so the bug hides when the data holds a Markup.",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\"Twig\\TemplateWrapper\"_\") in \"_\" at line N.] | error.previous.message:Error [Undefined constant Twig\\TemplateWrapper::FOO > Class \"_\" not found]"
+   }
+  },
+  {
+   "id": "callables-G1",
+   "case": {
+    "id": "callables-G1",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [cs]|join(',', ' and ') }}"
+    },
+    "data_php": "return ['cs' => new \\Twig\\Tests\\CountableStub(0)];",
+    "test_classes": true,
+    "typed_data": true,
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "callables-G1",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, Twig\\Tests\\CountableStub returned\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, Twig\\Tests\\CountableStub returned\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Twig\\Extension\\CoreExtension::join(): Return value must be of type string, Twig\\Tests\\CountableStub returned\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "TypeError",
+      "message": "Twig\\Extension\\CoreExtension::join(): Return value must be of type string, Twig\\Tests\\CountableStub returned",
+      "formatted": "TypeError: Twig\\Extension\\CoreExtension::join(): Return value must be of type string, Twig\\Tests\\CountableStub returned",
+      "code": 0,
+      "previous": {
+       "class": "Exception",
+       "message": "__toString shall not be called on \\Countables.",
+       "formatted": "Exception: __toString shall not be called on \\Countables.",
+       "code": 0
+      }
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "data": {
+     "t": "array",
+     "v": [
+      [
+       "cs",
+       {
+        "t": "object",
+        "class": "Twig\\Tests\\CountableStub",
+        "id": 210,
+        "interfaces": [
+         "Countable",
+         "Stringable"
+        ],
+        "toString_error": {
+         "class": "Exception",
+         "message": "__toString shall not be called on \\Countables.",
+         "formatted": "Exception: __toString shall not be called on \\Countables.",
+         "code": 0
+        },
+        "props": [],
+        "methods": [
+         "__construct",
+         "count",
+         "__toString"
+        ],
+        "parents": [],
+        "interfaces_raw": [
+         "Countable",
+         "Stringable"
+        ],
+        "props_hidden": [
+         [
+          "\u0000Twig\\Tests\\CountableStub\u0000count",
+          {
+           "t": "int",
+           "v": 0
+          }
+         ]
+        ]
+       }
+      ]
+     ]
+    },
+    "state": {
+     "php_default_timezone": "UTC",
+     "core_timezone": "UTC",
+     "core_date_format": [
+      "F j, Y H:i",
+      "%d days"
+     ],
+     "core_number_format": [
+      0,
+      ".",
+      ","
+     ]
+    },
+    "data_diagnostics": [],
+    "data_deprecations": [],
+    "clock": [
+     1795659155,
+     940752
+    ]
+   },
+   "known_mismatch": {
+    "reason": "CoreExtension::join() returns its only element through the declared `string` return type; when that element's __toString() throws, PHP raises TypeError `Twig\\Extension\\CoreExtension::join(): Return value must be of type string, Twig\\Tests\\CountableStub returned` with the exception as previous; twig-rs propagates the exception alone (src/extension/runtime/strings.rs return_string(); the twin in misc.rs behaves the same).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.class:TypeError>Exception [Twig\\Extension\\CoreExtension::join(): Return value must be of type string, Twig\\Tests\\CountableStub returned > __toString shall not be called on \\Countables.] | error.previous.previous:Exception>none"
+   }
+  }
+ ]
+}

@@ -1,0 +1,2030 @@
+{
+ "description": "Errors, lines and deprecations (crates/twig-fuzz/src/gen/errors.rs): minimised mismatches between twig-rs and Twig 3.31.1 on PHP 8.5.13, one or more per cluster, each with its diagnosis.",
+ "vectors": [
+  {
+   "id": "deprecated-package-array",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "deprecated-package-array",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{% deprecated 'msg' package = [] %}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-deprecated-package-array"
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "deprecated-package-array",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /tmp/twig-fuzz-errors/curated-deprecated-package-array/54/547586ec3901bf3ec705a888a382669c.php on line 44\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /tmp/twig-fuzz-errors/curated-deprecated-package-array/54/547586ec3901bf3ec705a888a382669c.php on line 44\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /tmp/twig-fuzz-errors/curated-deprecated-package-array/54/547586ec3901bf3ec705a888a382669c.php on line 44\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "TypeError",
+      "message": "trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /tmp/twig-fuzz-errors/curated-deprecated-package-array/54/547586ec3901bf3ec705a888a382669c.php on line 44",
+      "formatted": "TypeError: trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /tmp/twig-fuzz-errors/curated-deprecated-package-array/54/547586ec3901bf3ec705a888a382669c.php on line 44",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     397351
+    ]
+   },
+   "known_mismatch": {
+    "reason": "{% deprecated %}: `package` and `version` go to PHP's `trigger_deprecation(string $package, string $version, ...)`, so an array or null raises a TypeError (wrapped in a RuntimeError at the tag's line); twig-rs converts them to strings (\"Array\" with an \"Array to string conversion\" warning, \"\" for null) and emits the deprecation. Suspected: the DeprecatedNode codegen/runtime (src/lltl codegen of `deprecated`, the trigger_deprecation port).",
+    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | deprecations:+msg in \"_\" at line N. | diagnostics:+E_USER_DEPRECATED: msg in \"_\" at line N."
+   }
+  },
+  {
+   "id": "deprecated-version-null",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "deprecated-version-null",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{% deprecated 'msg' version = null %}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-deprecated-version-null"
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "deprecated-version-null",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"trigger_deprecation(): Argument #2 ($version) must be of type string, null given, called in /tmp/twig-fuzz-errors/curated-deprecated-version-null/93/93739370cc99415aca0ab0e793e99e2c.php on line 44\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"trigger_deprecation(): Argument #2 ($version) must be of type string, null given, called in /tmp/twig-fuzz-errors/curated-deprecated-version-null/93/93739370cc99415aca0ab0e793e99e2c.php on line 44\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"trigger_deprecation(): Argument #2 ($version) must be of type string, null given, called in /tmp/twig-fuzz-errors/curated-deprecated-version-null/93/93739370cc99415aca0ab0e793e99e2c.php on line 44\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "TypeError",
+      "message": "trigger_deprecation(): Argument #2 ($version) must be of type string, null given, called in /tmp/twig-fuzz-errors/curated-deprecated-version-null/93/93739370cc99415aca0ab0e793e99e2c.php on line 44",
+      "formatted": "TypeError: trigger_deprecation(): Argument #2 ($version) must be of type string, null given, called in /tmp/twig-fuzz-errors/curated-deprecated-version-null/93/93739370cc99415aca0ab0e793e99e2c.php on line 44",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     398488
+    ]
+   },
+   "known_mismatch": {
+    "reason": "{% deprecated %}: `package` and `version` go to PHP's `trigger_deprecation(string $package, string $version, ...)`, so an array or null raises a TypeError (wrapped in a RuntimeError at the tag's line); twig-rs converts them to strings (\"Array\" with an \"Array to string conversion\" warning, \"\" for null) and emits the deprecation. Suspected: the DeprecatedNode codegen/runtime (src/lltl codegen of `deprecated`, the trigger_deprecation port).",
+    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | deprecations:+msg in \"_\" at line N. | diagnostics:+E_USER_DEPRECATED: msg in \"_\" at line N."
+   }
+  },
+  {
+   "id": "deprecated-package-map-throw",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "deprecated-package-map-throw",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{% deprecated 'msg' package = {a: 1} %}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-deprecated-package-map-throw"
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "errors": "throw",
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "deprecated-package-map-throw",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /tmp/twig-fuzz-errors/curated-deprecated-package-map-throw/ab/abc227ab071cf0ed2e12360dcc7ca56c.php on line 44\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /tmp/twig-fuzz-errors/curated-deprecated-package-map-throw/ab/abc227ab071cf0ed2e12360dcc7ca56c.php on line 44\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /tmp/twig-fuzz-errors/curated-deprecated-package-map-throw/ab/abc227ab071cf0ed2e12360dcc7ca56c.php on line 44\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "TypeError",
+      "message": "trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /tmp/twig-fuzz-errors/curated-deprecated-package-map-throw/ab/abc227ab071cf0ed2e12360dcc7ca56c.php on line 44",
+      "formatted": "TypeError: trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /tmp/twig-fuzz-errors/curated-deprecated-package-map-throw/ab/abc227ab071cf0ed2e12360dcc7ca56c.php on line 44",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     399216
+    ]
+   },
+   "known_mismatch": {
+    "reason": "{% deprecated %}: `package` and `version` go to PHP's `trigger_deprecation(string $package, string $version, ...)`, so an array or null raises a TypeError (wrapped in a RuntimeError at the tag's line); twig-rs converts them to strings (\"Array\" with an \"Array to string conversion\" warning, \"\" for null) and emits the deprecation. Suspected: the DeprecatedNode codegen/runtime (src/lltl codegen of `deprecated`, the trigger_deprecation port).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.class:TypeError>ErrorException [trigger_deprecation(): Argument #N ($package) must be of type string, array given > Array to string conversion] | diagnostics:+E_WARNING: Array to string conversion"
+   }
+  },
+  {
+   "id": "array-callable-ints",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "array-callable-ints",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1]|map([1, 2])|join }}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-array-callable-ints"
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "array-callable-ints",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "First array member is not a valid class name or object",
+      "formatted": "Error: First array member is not a valid class name or object",
+      "code": 0
+     }
+    },
+    "deprecations": [
+     "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+     }
+    ],
+    "clock": [
+     1795659165,
+     401195
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Calling a two-element array as a callable (ZEND_INIT_DYNAMIC_CALL, zend_init_dynamic_call_array()): twig-rs reports `Array callback has to contain indices 0 and 1` for every list that is not [object, method]; PHP checks the members in order: non-string non-object first member -> `First array member is not a valid class name or object`, non-string second member -> `Second array member is not a valid method`, unknown class -> `Class \"a\" not found`, missing static method -> `Call to undefined method stdClass::nope()`. Only direct invocation (map, reduce, find, has some/every, invoke) is affected; filter/sort use PHP's callable check and match. Suspected: src/vm/arrow.rs invoke_value().",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [First array member is not a valid class name or object > Array callback has to contain indices N and N]"
+   }
+  },
+  {
+   "id": "array-callable-class",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "array-callable-class",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1]|map(['a', 'b'])|join }}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-array-callable-class"
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "array-callable-class",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Class \"a\" not found\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Class \"a\" not found\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Class \"a\" not found\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Class \"a\" not found",
+      "formatted": "Error: Class \"a\" not found",
+      "code": 0
+     }
+    },
+    "deprecations": [
+     "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+     }
+    ],
+    "clock": [
+     1795659165,
+     402876
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Calling a two-element array as a callable (ZEND_INIT_DYNAMIC_CALL, zend_init_dynamic_call_array()): twig-rs reports `Array callback has to contain indices 0 and 1` for every list that is not [object, method]; PHP checks the members in order: non-string non-object first member -> `First array member is not a valid class name or object`, non-string second member -> `Second array member is not a valid method`, unknown class -> `Class \"a\" not found`, missing static method -> `Call to undefined method stdClass::nope()`. Only direct invocation (map, reduce, find, has some/every, invoke) is affected; filter/sort use PHP's callable check and match. Suspected: src/vm/arrow.rs invoke_value().",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\"a\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Class \"_\" not found > Array callback has to contain indices N and N]"
+   }
+  },
+  {
+   "id": "array-callable-method",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "array-callable-method",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1]|map(['stdClass', 'nope'])|join }}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-array-callable-method"
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "array-callable-method",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Call to undefined method stdClass::nope()\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Call to undefined method stdClass::nope()\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Call to undefined method stdClass::nope()\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Call to undefined method stdClass::nope()",
+      "formatted": "Error: Call to undefined method stdClass::nope()",
+      "code": 0
+     }
+    },
+    "deprecations": [
+     "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+     }
+    ],
+    "clock": [
+     1795659165,
+     403677
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Calling a two-element array as a callable (ZEND_INIT_DYNAMIC_CALL, zend_init_dynamic_call_array()): twig-rs reports `Array callback has to contain indices 0 and 1` for every list that is not [object, method]; PHP checks the members in order: non-string non-object first member -> `First array member is not a valid class name or object`, non-string second member -> `Second array member is not a valid method`, unknown class -> `Class \"a\" not found`, missing static method -> `Call to undefined method stdClass::nope()`. Only direct invocation (map, reduce, find, has some/every, invoke) is affected; filter/sort use PHP's callable check and match. Suspected: src/vm/arrow.rs invoke_value().",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Call to undefined method stdClass::nope() > Array callback has to contain indices N and N]"
+   }
+  },
+  {
+   "id": "array-callable-second",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "array-callable-second",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1]|map(['a', 1])|join }}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-array-callable-second"
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "array-callable-second",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Second array member is not a valid method\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Second array member is not a valid method\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Second array member is not a valid method\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Second array member is not a valid method",
+      "formatted": "Error: Second array member is not a valid method",
+      "code": 0
+     }
+    },
+    "deprecations": [
+     "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+     }
+    ],
+    "clock": [
+     1795659165,
+     404407
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Calling a two-element array as a callable (ZEND_INIT_DYNAMIC_CALL, zend_init_dynamic_call_array()): twig-rs reports `Array callback has to contain indices 0 and 1` for every list that is not [object, method]; PHP checks the members in order: non-string non-object first member -> `First array member is not a valid class name or object`, non-string second member -> `Second array member is not a valid method`, unknown class -> `Class \"a\" not found`, missing static method -> `Call to undefined method stdClass::nope()`. Only direct invocation (map, reduce, find, has some/every, invoke) is affected; filter/sort use PHP's callable check and match. Suspected: src/vm/arrow.rs invoke_value().",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [Second array member is not a valid method > Array callback has to contain indices N and N]"
+   }
+  },
+  {
+   "id": "arrow-arity-line",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "arrow-arity-line",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{% do\n[1, 2]|map((a, b, c) => a)|join %}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-arrow-arity-line"
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "arrow-arity-line",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Too few arguments to function __TwigTemplate_cf5938c61a2e917f58419fb1a41e2db0::{closure:__TwigTemplate_cf5938c61a2e917f58419fb1a41e2db0::doDisplay():45}(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2117 and exactly 3 expected\") in \"index.twig\" at line 2.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function __TwigTemplate_cf5938c61a2e917f58419fb1a41e2db0::{closure:__TwigTemplate_cf5938c61a2e917f58419fb1a41e2db0::doDisplay():45}(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2117 and exactly 3 expected\") in \"index.twig\" at line 2.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Too few arguments to function __TwigTemplate_cf5938c61a2e917f58419fb1a41e2db0::{closure:__TwigTemplate_cf5938c61a2e917f58419fb1a41e2db0::doDisplay():45}(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2117 and exactly 3 expected\").",
+     "templateName": "index.twig",
+     "templateLine": 2,
+     "templateColumn": null,
+     "previous": {
+      "class": "ArgumentCountError",
+      "message": "Too few arguments to function __TwigTemplate_cf5938c61a2e917f58419fb1a41e2db0::{closure:__TwigTemplate_cf5938c61a2e917f58419fb1a41e2db0::doDisplay():45}(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2117 and exactly 3 expected",
+      "formatted": "ArgumentCountError: Too few arguments to function __TwigTemplate_cf5938c61a2e917f58419fb1a41e2db0::{closure:__TwigTemplate_cf5938c61a2e917f58419fb1a41e2db0::doDisplay():45}(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2117 and exactly 3 expected",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     405595
+    ]
+   },
+   "known_mismatch": {
+    "reason": "An arrow function called with too few arguments: PHP raises the ArgumentCountError on entry of the closure, so Error::guess() takes the arrow's own debug marker (ArrowFunctionExpression::compile emits one) and reports the arrow's line; twig-rs reports the line of the statement that called it. The message part of the diff is the listed closure-name deviation (twig-fuzz's closure-name rule does not normalise PHP's class-scoped names `__TwigTemplate_<hash>::{closure:__TwigTemplate_<hash>::doDisplay():N}`); the line is the bug. Suspected: line attribution of arrow invocations (src/vm/arrow.rs, line table of Arrow units).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs | error.previous.message:ArgumentCountError [Too few arguments to function __TwigTemplate_cfNcNaNeNfNfbNaNeNdbN::{closure}(), N passed and exactly N expected > Too few arguments to function {closure}(), N passed and exactly N expected]"
+   }
+  },
+  {
+   "id": "array-literal-line-div",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "array-literal-line-div",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [n\n/ zero] }}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-array-literal-line-div",
+     "strict_variables": false
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "array-literal-line-div",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "DivisionByZeroError",
+      "message": "Division by zero",
+      "formatted": "DivisionByZeroError: Division by zero",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     406411
+    ]
+   },
+   "known_mismatch": {
+    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
+   }
+  },
+  {
+   "id": "array-literal-line-second",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "array-literal-line-second",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [n,\nn / zero]|length }}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-array-literal-line-second",
+     "strict_variables": false
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "array-literal-line-second",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "DivisionByZeroError",
+      "message": "Division by zero",
+      "formatted": "DivisionByZeroError: Division by zero",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     407077
+    ]
+   },
+   "known_mismatch": {
+    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
+   }
+  },
+  {
+   "id": "array-literal-line-set",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "array-literal-line-set",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{% set a, b = 1,\nn / f %}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-array-literal-line-set",
+     "strict_variables": false
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "array-literal-line-set",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "DivisionByZeroError",
+      "message": "Division by zero",
+      "formatted": "DivisionByZeroError: Division by zero",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     407848
+    ]
+   },
+   "known_mismatch": {
+    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
+   }
+  },
+  {
+   "id": "array-literal-line-spread",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "array-literal-line-spread",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1, ...\nneg] }}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-array-literal-line-spread",
+     "strict_variables": false
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "array-literal-line-spread",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, int given\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, int given\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Only arrays and Traversables can be unpacked, int given\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Only arrays and Traversables can be unpacked, int given",
+      "formatted": "Error: Only arrays and Traversables can be unpacked, int given",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     408573
+    ]
+   },
+   "known_mismatch": {
+    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
+   }
+  },
+  {
+   "id": "array-literal-line-neg",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "array-literal-line-neg",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1, -\nempty]|length }}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-array-literal-line-neg",
+     "strict_variables": false
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "array-literal-line-neg",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array * int\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "TypeError",
+      "message": "Unsupported operand types: array * int",
+      "formatted": "TypeError: Unsupported operand types: array * int",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     409253
+    ]
+   },
+   "known_mismatch": {
+    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
+   }
+  },
+  {
+   "id": "array-literal-line-hash-arg",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "array-literal-line-hash-arg",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ include('p.twig', {v: n\n/ zero}) }}",
+     "p.twig": "x"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-array-literal-line-hash-arg",
+     "strict_variables": false
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "array-literal-line-hash-arg",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "DivisionByZeroError",
+      "message": "Division by zero",
+      "formatted": "DivisionByZeroError: Division by zero",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     410505
+    ]
+   },
+   "known_mismatch": {
+    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
+   }
+  },
+  {
+   "id": "array-literal-line-strict-const",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "array-literal-line-strict-const",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [true,\nnul - []]|length }}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-array-literal-line-strict-const",
+     "strict_variables": true
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "array-literal-line-strict-const",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: null - array\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: null - array\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: null - array\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "TypeError",
+      "message": "Unsupported operand types: null - array",
+      "formatted": "TypeError: Unsupported operand types: null - array",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     411307
+    ]
+   },
+   "known_mismatch": {
+    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
+   }
+  },
+  {
+   "id": "array-literal-line-strict-loop",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "array-literal-line-strict-loop",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{% for i in [1] %}{{ [1,\ni % null]|length }}{% endfor %}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-array-literal-line-strict-loop",
+     "strict_variables": true
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "array-literal-line-strict-loop",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Modulo by zero\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Modulo by zero\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Modulo by zero\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "DivisionByZeroError",
+      "message": "Modulo by zero",
+      "formatted": "DivisionByZeroError: Modulo by zero",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     412296
+    ]
+   },
+   "known_mismatch": {
+    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
+   }
+  },
+  {
+   "id": "array-literal-line-strict-false",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "array-literal-line-strict-false",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1,\nneg / false]|length }}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-array-literal-line-strict-false",
+     "strict_variables": true
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "array-literal-line-strict-false",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "DivisionByZeroError",
+      "message": "Division by zero",
+      "formatted": "DivisionByZeroError: Division by zero",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     412985
+    ]
+   },
+   "known_mismatch": {
+    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
+   }
+  },
+  {
+   "id": "deprecated-message-line",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "deprecated-message-line",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{% deprecated\nitems %}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-deprecated-message-line"
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "errors": "throw",
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "deprecated-message-line",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 2.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 2.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Array to string conversion\").",
+     "templateName": "index.twig",
+     "templateLine": 2,
+     "templateColumn": null,
+     "previous": {
+      "class": "ErrorException",
+      "message": "Array to string conversion",
+      "formatted": "ErrorException: Array to string conversion",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [
+     {
+      "type": "E_WARNING",
+      "message": "Array to string conversion"
+     }
+    ],
+    "clock": [
+     1795659165,
+     413515
+    ]
+   },
+   "known_mismatch": {
+    "reason": "PHP >= 8.4 compiles the `sprintf('%s in \"%s\" at line N.', <message>, <name>)` that DeprecatedNode generates into a rope (zend_compile_func_sprintf), so the string conversion of a non-string message (Array to string conversion, thrown with errors=throw; an object without __toString) happens at the line of the last debug marker emitted inside the message expression; twig-rs attributes it to the tag's line. Suspected: the DeprecatedNode codegen (line of the message's string conversion).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs"
+   }
+  },
+  {
+   "id": "deprecated-message-line-strict",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "deprecated-message-line-strict",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{% deprecated\n\nitems|merge(\n[key]) %}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-deprecated-message-line-strict",
+     "strict_variables": true
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "errors": "throw",
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "deprecated-message-line-strict",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 4.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Array to string conversion\") in \"index.twig\" at line 4.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Array to string conversion\").",
+     "templateName": "index.twig",
+     "templateLine": 4,
+     "templateColumn": null,
+     "previous": {
+      "class": "ErrorException",
+      "message": "Array to string conversion",
+      "formatted": "ErrorException: Array to string conversion",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [
+     {
+      "type": "E_WARNING",
+      "message": "Array to string conversion"
+     }
+    ],
+    "clock": [
+     1795659165,
+     414165
+    ]
+   },
+   "known_mismatch": {
+    "reason": "PHP >= 8.4 compiles the `sprintf('%s in \"%s\" at line N.', <message>, <name>)` that DeprecatedNode generates into a rope (zend_compile_func_sprintf), so the string conversion of a non-string message (Array to string conversion, thrown with errors=throw; an object without __toString) happens at the line of the last debug marker emitted inside the message expression; twig-rs attributes it to the tag's line. Suspected: the DeprecatedNode codegen (line of the message's string conversion).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs"
+   }
+  },
+  {
+   "id": "deprecated-message-object-line",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "deprecated-message-object-line",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{% deprecated\nobj %}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-deprecated-message-object-line"
+    },
+    "data_php": "return ['obj' => (object) ['a' => 1], 'key' => 'a'];",
+    "typed_data": true,
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "deprecated-message-object-line",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Object of class stdClass could not be converted to string\") in \"index.twig\" at line 2.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class stdClass could not be converted to string\") in \"index.twig\" at line 2.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Object of class stdClass could not be converted to string\").",
+     "templateName": "index.twig",
+     "templateLine": 2,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "Object of class stdClass could not be converted to string",
+      "formatted": "Error: Object of class stdClass could not be converted to string",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "data": {
+     "t": "array",
+     "v": [
+      [
+       "obj",
+       {
+        "t": "object",
+        "class": "stdClass",
+        "id": 3584,
+        "interfaces": [],
+        "props": [
+         [
+          "a",
+          {
+           "t": "int",
+           "v": 1
+          }
+         ]
+        ],
+        "methods": [],
+        "parents": [],
+        "interfaces_raw": []
+       }
+      ],
+      [
+       "key",
+       {
+        "t": "string",
+        "v": "a"
+       }
+      ]
+     ]
+    },
+    "state": {
+     "php_default_timezone": "UTC",
+     "core_timezone": "UTC",
+     "core_date_format": [
+      "F j, Y H:i",
+      "%d days"
+     ],
+     "core_number_format": [
+      0,
+      ".",
+      ","
+     ]
+    },
+    "data_diagnostics": [],
+    "data_deprecations": [],
+    "clock": [
+     1795659165,
+     414824
+    ]
+   },
+   "known_mismatch": {
+    "reason": "PHP >= 8.4 compiles the `sprintf('%s in \"%s\" at line N.', <message>, <name>)` that DeprecatedNode generates into a rope (zend_compile_func_sprintf), so the string conversion of a non-string message (Array to string conversion, thrown with errors=throw; an object without __toString) happens at the line of the last debug marker emitted inside the message expression; twig-rs attributes it to the tag's line. Suspected: the DeprecatedNode codegen (line of the message's string conversion).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs"
+   }
+  },
+  {
+   "id": "block-in-arrow-line",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "block-in-arrow-line",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ [1, 2]|find(x =>\nblock(e)) }}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-block-in-arrow-line"
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "errors": "throw",
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "block-in-arrow-line",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Undefined variable $blocks\") in \"index.twig\" at line 2.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Undefined variable $blocks\") in \"index.twig\" at line 2.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Undefined variable $blocks\").",
+     "templateName": "index.twig",
+     "templateLine": 2,
+     "templateColumn": null,
+     "previous": {
+      "class": "ErrorException",
+      "message": "Undefined variable $blocks",
+      "formatted": "ErrorException: Undefined variable $blocks",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [
+     {
+      "type": "E_WARNING",
+      "message": "Undefined variable $blocks"
+     }
+    ],
+    "clock": [
+     1795659165,
+     415648
+    ]
+   },
+   "known_mismatch": {
+    "reason": "block() with a variable name inside an arrow function: the closure has no $blocks, so PHP warns `Undefined variable $blocks` when renderBlock()'s third argument is read, after the name expression whose variable emitted a debug marker for its own (later) line; twig-rs attributes the warning to the arrow's line. Suspected: line of the $blocks read of BlockReferenceExpression in Arrow units (src/lltl codegen, src/vm).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs"
+   }
+  },
+  {
+   "id": "cr-debug-embed-line",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "cr-debug-embed-line",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{% embed 'e.twig' %}{% block b %}{{ s|replace(5) }}\r{{ 'x' }}\r\r\r{% endblock %}{% endembed %}",
+     "e.twig": "{% block b %}{% endblock %}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-cr-debug-embed-line",
+     "debug": true
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "cr-debug-embed-line",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "The \"replace\" filter expects a sequence or a mapping, got \"int\" in \"index.twig\" at line 2.",
+     "formatted": "Twig\\Error\\RuntimeError: The \"replace\" filter expects a sequence or a mapping, got \"int\" in \"index.twig\" at line 2.",
+     "rawMessage": "The \"replace\" filter expects a sequence or a mapping, got \"int\".",
+     "templateName": "index.twig",
+     "templateLine": 2,
+     "templateColumn": null
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659165,
+     417209
+    ]
+   },
+   "known_mismatch": {
+    "reason": "With debug=true the compiled main class embeds the original source in getSourceContext(); lone CR bytes are not escaped by Compiler::string() and PHP counts them as line breaks, while Compiler::addDebugInfo() counts only LF. Embedded templates (the ___N classes) are compiled after the main class in the same file, so Error::guess() maps their PHP lines to later markers; twig-rs reports the actual line. Depends on the layout of the generated PHP (like the listed `cache => false` deviation): either list it in reference/deviations.md or emulate it (shift embedded templates by the number of lone CRs in the debug source).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [The \"_\" filter expects a sequence or a mapping, got \"_\" in \"_\" at line N. > The \"_\" filter expects a sequence or a mapping, got \"_\" in \"_\" at line N.] | error.templateLine:php>rs"
+   }
+  },
+  {
+   "id": "optimizer-mode-class",
+   "note": "hand-minimised from a cluster of the errors generator (crates/twig-fuzz/src/gen/errors.rs)",
+   "case": {
+    "id": "optimizer-mode-class",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{ 1 }}"
+    },
+    "config": {
+     "cache": "/tmp/twig-fuzz-errors/curated-optimizer-mode-class",
+     "optimizations": 16
+    },
+    "data_json": {
+     "n": 5,
+     "zero": 0,
+     "f": false,
+     "e": "",
+     "s": "abc",
+     "key": "a",
+     "neg": -3,
+     "items": [
+      1,
+      2
+     ],
+     "empty": [],
+     "map": {
+      "a": 1
+     },
+     "nul": null
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "optimizer-mode-class",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "formatted": "Twig\\Error\\SyntaxError: An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "rawMessage": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\").",
+     "templateName": "index.twig",
+     "templateLine": -1,
+     "templateColumn": null,
+     "previous": {
+      "class": "InvalidArgumentException",
+      "message": "Optimizer mode \"16\" is not valid.",
+      "formatted": "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": []
+   },
+   "known_mismatch": {
+    "reason": "Invalid optimizer mode: OptimizerNodeVisitor throws \\InvalidArgumentException('Optimizer mode \"16\" is not valid.'); twig-rs's error has the class LogicException (when it is reported -- at the first parse instead of extension initialisation -- is the listed deviation, the class is not). Suspected: the optimizer mode check (src/visitors, error kind).",
+    "signature": "error.previous.class:InvalidArgumentException>LogicException [Optimizer mode \"_\" is not valid. > Optimizer mode \"_\" is not valid.]"
+   }
+  },
+  {
+   "id": "min-errors-22-97-edge",
+   "note": "fuzz case errors-22-97-edge minimised by twig-fuzz minimize",
+   "case": {
+    "id": "min-errors-22-97-edge",
+    "env": "plain",
+    "templates": {
+     "index.twig": ""
+    },
+    "config": {
+     "optimizations": 16
+    },
+    "data_json": {},
+    "errors": "throw",
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "min-errors-22-97-edge",
+    "kind": "twig",
+    "ok": false,
+    "phase": "load",
+    "error": {
+     "class": "Twig\\Error\\SyntaxError",
+     "message": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "formatted": "Twig\\Error\\SyntaxError: An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\") in \"index.twig\".",
+     "rawMessage": "An exception has been thrown during the compilation of a template (\"Optimizer mode \"16\" is not valid.\").",
+     "templateName": "index.twig",
+     "templateLine": -1,
+     "templateColumn": null,
+     "previous": {
+      "class": "InvalidArgumentException",
+      "message": "Optimizer mode \"16\" is not valid.",
+      "formatted": "InvalidArgumentException: Optimizer mode \"16\" is not valid.",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": []
+   },
+   "known_mismatch": {
+    "reason": "Invalid optimizer mode: OptimizerNodeVisitor throws \\InvalidArgumentException('Optimizer mode \"16\" is not valid.'); twig-rs's error has the class LogicException (when it is reported -- at the first parse instead of extension initialisation -- is the listed deviation, the class is not). Suspected: the optimizer mode check (src/visitors, error kind).",
+    "signature": "error.previous.class:InvalidArgumentException>LogicException [Optimizer mode \"_\" is not valid. > Optimizer mode \"_\" is not valid.]"
+   }
+  },
+  {
+   "id": "min-errors-15-1545-stmt",
+   "note": "fuzz case errors-15-1545-stmt minimised by twig-fuzz minimize",
+   "case": {
+    "id": "min-errors-15-1545-stmt",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{%deprecated'msg'package=map%}"
+    },
+    "data_json": {
+     "map": {
+      "a": 1
+     }
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "min-errors-15-1545-stmt",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "TypeError",
+      "message": "trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+      "formatted": "TypeError: trigger_deprecation(): Argument #1 ($package) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Environment.php(444) : eval()'d code on line 44",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659223,
+     528373
+    ]
+   },
+   "known_mismatch": {
+    "reason": "{% deprecated %}: `package` and `version` go to PHP's `trigger_deprecation(string $package, string $version, ...)`, so an array or null raises a TypeError (wrapped in a RuntimeError at the tag's line); twig-rs converts them to strings (\"Array\" with an \"Array to string conversion\" warning, \"\" for null) and emits the deprecation. Suspected: the DeprecatedNode codegen/runtime (src/lltl codegen of `deprecated`, the trigger_deprecation port).",
+    "signature": "ok:Twig\\Error\\RuntimeError>ok [render: An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | deprecations:+Since Array : msg in \"_\" at line N. | diagnostics:+E_USER_DEPRECATED: Since Array : msg in \"_\" at line N. +E_WARNING: Array to string conversion"
+   }
+  },
+  {
+   "id": "min-errors-43-1011-div",
+   "note": "fuzz case errors-43-1011-div minimised by twig-fuzz minimize",
+   "case": {
+    "id": "min-errors-43-1011-div",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{%with{1:\n[]%o}%}{%endwith%}"
+    },
+    "data_json": {},
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "min-errors-43-1011-div",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array % null\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unsupported operand types: array % null\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Unsupported operand types: array % null\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "TypeError",
+      "message": "Unsupported operand types: array % null",
+      "formatted": "TypeError: Unsupported operand types: array % null",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659223,
+     529289
+    ]
+   },
+   "known_mismatch": {
+    "reason": "An operation that throws inside an array or hash literal (division, modulo, subtraction, unary minus, spread, the values of `set a, b = ...`, hash arguments) is attributed by PHP to an earlier line (the literal's start / its first element), while twig-rs applies the debug marker that a variable on a later Twig line emits in the middle of the expression. It happens with non-strict variables (compiled as `($context['x'] ?? null)`), loop variables and constant right operands (`[]`, `null`, `false`, `(1 - 1)`) also in strict mode; with an ordinary strict variable as the right operand, and outside literals, both report the later line. PHP's rule is its compiler's line bookkeeping (CG(zend_lineno) when the opline is emitted inside zend_compile_array); the exact model needs opcode-level study. Suspected: LLTL line attribution (emit_at) of array/hash literal elements (src/lltl codegen).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
+   }
+  },
+  {
+   "id": "min-errors-28-1691-glob.call",
+   "note": "fuzz case errors-28-1691-glob.call minimised by twig-fuzz minimize",
+   "case": {
+    "id": "min-errors-28-1691-glob.call",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{{(strs|map([1,2]))}}"
+    },
+    "data_json": {
+     "strs": [
+      "a"
+     ]
+    },
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "min-errors-28-1691-glob.call",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\") in \"index.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\") in \"index.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"First array member is not a valid class name or object\").",
+     "templateName": "index.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "Error",
+      "message": "First array member is not a valid class name or object",
+      "formatted": "Error: First array member is not a valid class name or object",
+      "code": 0
+     }
+    },
+    "deprecations": [
+     "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+    ],
+    "diagnostics": [
+     {
+      "type": "E_USER_DEPRECATED",
+      "message": "Since twig/twig 3.15: Passing a callable that is not a PHP \\Closure as an argument to the \"map\" filter is deprecated."
+     }
+    ],
+    "clock": [
+     1795659223,
+     531143
+    ]
+   },
+   "known_mismatch": {
+    "reason": "Calling a two-element array as a callable (ZEND_INIT_DYNAMIC_CALL, zend_init_dynamic_call_array()): twig-rs reports `Array callback has to contain indices 0 and 1` for every list that is not [object, method]; PHP checks the members in order: non-string non-object first member -> `First array member is not a valid class name or object`, non-string second member -> `Second array member is not a valid method`, unknown class -> `Class \"a\" not found`, missing static method -> `Call to undefined method stdClass::nope()`. Only direct invocation (map, reduce, find, has some/every, invoke) is affected; filter/sort use PHP's callable check and match. Suspected: src/vm/arrow.rs invoke_value().",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.previous.message:Error [First array member is not a valid class name or object > Array callback has to contain indices N and N]"
+   }
+  },
+  {
+   "id": "min-errors-36-1987-storm.fancy.call.line.crlf",
+   "note": "fuzz case errors-36-1987-storm.fancy.call.line.crlf minimised by twig-fuzz minimize",
+   "case": {
+    "id": "min-errors-36-1987-storm.fancy.call.line.crlf",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{% line 7 %}{{\r\n    [1, 2]|map((a, b, c) =>\r\na)|join }}\r\n"
+    },
+    "config": {
+     "autoescape": "js"
+    },
+    "data_json": {},
+    "errors": "throw",
+    "load_all": false,
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "min-errors-36-1987-storm.fancy.call.line.crlf",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Too few arguments to function __TwigTemplate_c6a758b1cfd28c19a769aa87da230b9f::{closure:__TwigTemplate_c6a758b1cfd28c19a769aa87da230b9f::doDisplay():48}(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2117 and exactly 3 expected\") in \"index.twig\" at line 8.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function __TwigTemplate_c6a758b1cfd28c19a769aa87da230b9f::{closure:__TwigTemplate_c6a758b1cfd28c19a769aa87da230b9f::doDisplay():48}(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2117 and exactly 3 expected\") in \"index.twig\" at line 8.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Too few arguments to function __TwigTemplate_c6a758b1cfd28c19a769aa87da230b9f::{closure:__TwigTemplate_c6a758b1cfd28c19a769aa87da230b9f::doDisplay():48}(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2117 and exactly 3 expected\").",
+     "templateName": "index.twig",
+     "templateLine": 8,
+     "templateColumn": null,
+     "previous": {
+      "class": "ArgumentCountError",
+      "message": "Too few arguments to function __TwigTemplate_c6a758b1cfd28c19a769aa87da230b9f::{closure:__TwigTemplate_c6a758b1cfd28c19a769aa87da230b9f::doDisplay():48}(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2117 and exactly 3 expected",
+      "formatted": "ArgumentCountError: Too few arguments to function __TwigTemplate_c6a758b1cfd28c19a769aa87da230b9f::{closure:__TwigTemplate_c6a758b1cfd28c19a769aa87da230b9f::doDisplay():48}(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2117 and exactly 3 expected",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659223,
+     531906
+    ]
+   },
+   "known_mismatch": {
+    "reason": "An arrow function called with too few arguments: PHP raises the ArgumentCountError on entry of the closure, so Error::guess() takes the arrow's own debug marker (ArrowFunctionExpression::compile emits one) and reports the arrow's line; twig-rs reports the line of the statement that called it. The message part of the diff is the listed closure-name deviation (twig-fuzz's closure-name rule does not normalise PHP's class-scoped names `__TwigTemplate_<hash>::{closure:__TwigTemplate_<hash>::doDisplay():N}`); the line is the bug. Suspected: line attribution of arrow invocations (src/vm/arrow.rs, line table of Arrow units).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs | error.previous.message:ArgumentCountError [Too few arguments to function __TwigTemplate_cNaNbNcfdNcNaNaaNdaNbNf::{closure}(), N passed and exactly N expected > Too few arguments to function {closure}(), N passed and exactly N expected]"
+   }
+  },
+  {
+   "id": "min-errors-11-1063-pcall.for.div.cr",
+   "note": "fuzz case errors-11-1063-pcall.for.div.cr minimised by twig-fuzz minimize",
+   "case": {
+    "id": "min-errors-11-1063-pcall.for.div.cr",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{%extends'base1.twig'%}{%block b%}{%endblock%}",
+     "base1.twig": "{%block b3%}{%for x4 in items%}{%-if true-%}{%-endif%}{{({v:[(100)\r    /(nn)]})}}{%endfor%}{%endblock%}"
+    },
+    "config": {
+     "strict_variables": false,
+     "debug": true,
+     "cache": "/tmp/twig-fuzz-errors/errors-11-1063-pcall.for.div.cr"
+    },
+    "extensions": [
+     "debug"
+    ],
+    "data_json": {
+     "n": 5,
+     "one": 1,
+     "neg": -3,
+     "zero": 0,
+     "big": 9223372036854775807,
+     "fl": 2.5,
+     "fzero": 0.0,
+     "s": "abc",
+     "e": "",
+     "html": "<b>x</b> & y",
+     "num": "10",
+     "word": "a,b,c",
+     "key": "a",
+     "bad_key": "zz",
+     "fmt": "%s-%d",
+     "tpl": "part.twig",
+     "missing": "nope.twig",
+     "date_s": "2020-01-02 03:04:05",
+     "bad_date": "not a date",
+     "bad_tz": "Mars/Phobos",
+     "pattern": "/(/",
+     "t": true,
+     "f": false,
+     "nul": null,
+     "items": [
+      1,
+      2,
+      3
+     ],
+     "strs": [
+      "a",
+      "b"
+     ],
+     "empty": [],
+     "rows": [
+      {
+       "id": 1,
+       "name": "x"
+      },
+      {
+       "id": 2
+      }
+     ],
+     "tpls": [
+      "nope.twig",
+      "part.twig"
+     ],
+     "map": {
+      "a": 1,
+      "b": 2
+     },
+     "nested": {
+      "a": {
+       "b": [
+        1,
+        {
+         "c": "d"
+        }
+       ]
+      }
+     }
+    },
+    "timezone": "UTC",
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "min-errors-11-1063-pcall.for.div.cr",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Division by zero\") in \"base1.twig\" at line 1.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Division by zero\") in \"base1.twig\" at line 1.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Division by zero\").",
+     "templateName": "base1.twig",
+     "templateLine": 1,
+     "templateColumn": null,
+     "previous": {
+      "class": "DivisionByZeroError",
+      "message": "Division by zero",
+      "formatted": "DivisionByZeroError: Division by zero",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [],
+    "clock": [
+     1795659223,
+     535263
+    ]
+   },
+   "known_mismatch": {
+    "reason": "With debug=true the compiled main class embeds the original source in getSourceContext(); lone CR bytes are not escaped by Compiler::string() and PHP counts them as line breaks, while Compiler::addDebugInfo() counts only LF. Embedded templates (the ___N classes) are compiled after the main class in the same file, so Error::guess() maps their PHP lines to later markers; twig-rs reports the actual line. Depends on the layout of the generated PHP (like the listed `cache => false` deviation): either list it in reference/deviations.md or emulate it (shift embedded templates by the number of lone CRs in the debug source).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php<rs"
+   }
+  },
+  {
+   "id": "min-errors-63-1968-storm.blk.arrow.dmacrodep",
+   "note": "fuzz case errors-63-1968-storm.blk.arrow.dmacrodep minimised by twig-fuzz minimize",
+   "case": {
+    "id": "min-errors-63-1968-storm.blk.arrow.dmacrodep",
+    "env": "plain",
+    "templates": {
+     "index.twig": "{%block b%}{{strs|find(x=>\nblock(l))}}{%endblock%}"
+    },
+    "data_json": {
+     "strs": [
+      "a"
+     ]
+    },
+    "errors": "throw",
+    "memory_limit": "512M",
+    "time_limit": 30,
+    "clock": true
+   },
+   "oracle": {
+    "id": "min-errors-63-1968-storm.blk.arrow.dmacrodep",
+    "kind": "twig",
+    "ok": false,
+    "phase": "render",
+    "error": {
+     "class": "Twig\\Error\\RuntimeError",
+     "message": "An exception has been thrown during the rendering of a template (\"Undefined variable $blocks\") in \"index.twig\" at line 2.",
+     "formatted": "Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Undefined variable $blocks\") in \"index.twig\" at line 2.",
+     "rawMessage": "An exception has been thrown during the rendering of a template (\"Undefined variable $blocks\").",
+     "templateName": "index.twig",
+     "templateLine": 2,
+     "templateColumn": null,
+     "previous": {
+      "class": "ErrorException",
+      "message": "Undefined variable $blocks",
+      "formatted": "ErrorException: Undefined variable $blocks",
+      "code": 0
+     }
+    },
+    "deprecations": [],
+    "diagnostics": [
+     {
+      "type": "E_WARNING",
+      "message": "Undefined variable $blocks"
+     }
+    ],
+    "clock": [
+     1795659223,
+     535953
+    ]
+   },
+   "known_mismatch": {
+    "reason": "block() with a variable name inside an arrow function: the closure has no $blocks, so PHP warns `Undefined variable $blocks` when renderBlock()'s third argument is read, after the name expression whose variable emitted a debug marker for its own (later) line; twig-rs attributes the warning to the arrow's line. Suspected: line of the $blocks read of BlockReferenceExpression in Arrow units (src/lltl codegen, src/vm).",
+    "signature": "error.message:Twig\\Error\\RuntimeError [An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N. > An exception has been thrown during the rendering of a template (\"_\") in \"_\" at line N.] | error.templateLine:php>rs"
+   }
+  }
+ ]
+}
