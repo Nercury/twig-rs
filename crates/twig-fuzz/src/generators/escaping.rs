@@ -3,8 +3,9 @@
 //! - the auto-escaping strategy of the environment (`html`, `js`, `css`, `url`, `html_attr`,
 //!   `html_attr_relaxed`, `false`, `name` with template names of every shape, falsy and invalid
 //!   strategy strings) and the `charset` option;
-//! - `{% autoescape %}` nesting (strings, `false`, `true`, numbers, invalid strategies, non-constant
-//!   arguments);
+//! - `{% autoescape %}` nesting (strings, `false`, `true`, `null`, numbers, invalid strategies,
+//!   non-constant arguments); `null` makes `EscaperNodeVisitor::needEscaping()` throw PHP's
+//!   `TypeError` as soon as a print, a block or a block reference needs the strategy;
 //! - the `raw`, `escape` and `e` filters with every strategy and charset, named arguments and the
 //!   `autoescape` argument;
 //! - `Twig\Markup` values in the data (charsets, declared safe strategies), Stringable and
@@ -31,10 +32,9 @@
 //!
 //! # What the cases avoid
 //!
-//! What cannot match by design, or what the twig-rs runner cannot rebuild: `{% autoescape null %}`
-//! around a print (a listed deviation), callable `autoescape` options, Markup objects with a `null`
-//! charset (twig-test-support cannot rebuild them), `dump()` of objects (handles), dates and
-//! randomness. CR bytes reach the filters through the data, not through string literals: a `\x0d`
+//! What cannot match by design, or what the twig-rs runner cannot rebuild: callable `autoescape`
+//! options, Markup objects with a `null` charset (twig-test-support cannot rebuild them), `dump()` of
+//! objects (handles), dates and randomness. CR bytes reach the filters through the data, not through string literals: a `\x0d`
 //! escape puts a CR byte into the compiled PHP, which moves the error lines PHP reports (accepted
 //! deviation D2, `reference/deviations.md`; [`super::Options::d2`] lets them through). Every case
 //! has a filesystem cache of its own ([`super::with_case_cache`]): with
@@ -1585,7 +1585,8 @@ impl Gen {
             ),
             81..=86 => " \"html\"".to_owned(),
             87..=91 => " 'html_attr_relaxed'".to_owned(),
-            92..=98 => " 'js'".to_owned(),
+            92..=94 => " 'js'".to_owned(),
+            95..=98 => " null".to_owned(),
             _ => format!(
                 " {}",
                 self.rng.pick(&["v", "'js' ~ ''", "-1", "[]", "('css')"])
@@ -2895,6 +2896,16 @@ mod tests {
         };
         assert_eq!(with_cr(&Options::default()), 0);
         assert!(with_cr(&Options { d2: true }) > 20);
+    }
+
+    /// `{% autoescape null %}` (PHP's `TypeError` of `needEscaping()`) comes in a few percent of the cases.
+    #[test]
+    fn autoescape_null_in_a_few_percent_of_the_cases() {
+        let with_null = generate(3, 2000)
+            .iter()
+            .filter(|json| json.to_compact().contains("{% autoescape null %}"))
+            .count();
+        assert!((20..=200).contains(&with_null), "{with_null}");
     }
 
     #[test]
