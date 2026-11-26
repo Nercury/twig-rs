@@ -44,3 +44,8 @@ pub use mbstring::{
 
 /// Version of the Unicode Character Database behind the tables (that of PHP 8.5.13's mbstring).
 pub const UNICODE_VERSION: (u8, u8, u8) = (17, 0, 0);
+
+/// The example of `README.md`, compiled and run as a doctest.
+#[cfg(doctest)]
+#[doc = include_str!("../README.md")]
+pub struct ReadmeDoctests;

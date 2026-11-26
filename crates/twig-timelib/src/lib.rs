@@ -77,3 +77,8 @@ pub const VERSION: i32 = 202217;
 pub const EXTENDED_VERSION: i32 = 20221701;
 /// `TIMELIB_ASCII_VERSION`.
 pub const ASCII_VERSION: &str = "2022.17";
+
+/// The example of `README.md`, compiled and run as a doctest.
+#[cfg(doctest)]
+#[doc = include_str!("../README.md")]
+pub struct ReadmeDoctests;

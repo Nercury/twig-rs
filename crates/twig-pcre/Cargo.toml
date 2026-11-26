@@ -3,7 +3,7 @@ name = "twig-pcre"
 version.workspace = true
 description = "PCRE2 10.44 with PHP preg semantics for the twig template engine's matches operator."
 documentation = "https://docs.rs/twig-pcre"
-readme.workspace = true
+readme = "README.md"
 keywords = ["twig", "pcre", "pcre2", "regex", "preg"]
 categories = ["text-processing"]
 edition.workspace = true
@@ -15,7 +15,7 @@ repository.workspace = true
 authors.workspace = true
 links = "twig_pcre2"
 # Tests and their oracle vectors stay in the repository.
-include = ["/build.rs", "/src/**", "/pcre2/**", "/LICENSE", "/NOTICE"]
+include = ["/build.rs", "/src/**", "/README.md", "/pcre2/**", "/LICENSE", "/NOTICE"]
 
 [package.metadata.docs.rs]
 all-features = true

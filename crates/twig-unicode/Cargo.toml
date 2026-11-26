@@ -3,7 +3,7 @@ name = "twig-unicode"
 version.workspace = true
 description = "Unicode tables and mbstring-compatible text functions for the twig template engine."
 documentation = "https://docs.rs/twig-unicode"
-readme.workspace = true
+readme = "README.md"
 keywords = ["twig", "unicode", "mbstring", "case-mapping", "utf-8"]
 categories = ["text-processing", "internationalization"]
 edition.workspace = true
@@ -14,7 +14,7 @@ license = "BSD-3-Clause AND PHP-3.01 AND Unicode-3.0 AND MIT"
 repository.workspace = true
 authors.workspace = true
 # Tests and their oracle vectors stay in the repository.
-include = ["/src/**", "/LICENSE", "/NOTICE"]
+include = ["/src/**", "/README.md", "/LICENSE", "/NOTICE"]
 
 [package.metadata.docs.rs]
 all-features = true

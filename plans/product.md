@@ -35,9 +35,9 @@ clean-room converter (`charset_basic`: the Unicode charsets, ASCII and ISO-8859-
 
 ## Release
 
-0.2.0 is prepared (versions, crates.io and docs.rs metadata, per-crate licence files, `CHANGELOG.md`, the README's
-installation section); `cargo package` builds the seven published crates, each far below crates.io's 10 MB limit.
-Open:
+0.2.0 is prepared (versions, crates.io and docs.rs metadata, per-crate licence files and READMEs, `CHANGELOG.md`, the
+README's installation section); `cargo package` builds the seven published crates, each far below crates.io's 10 MB
+limit. Open:
 
 - Publishing needs the owner's go. Before it: check on crates.io that the owner holds the `twig` name (the 2015
   versions may be there) and that the `twig-*` names are free. Then `cargo publish` in dependency order (twig-unicode,
@@ -47,5 +47,3 @@ Open:
 - twig-iconv's publication (see the licensing section) gates twig's `glibc-iconv` feature: crates.io refuses
   dependencies that are not published, optional ones included, so without twig-iconv the feature and its optional
   dependency have to be removed before twig is published.
-- The sub-crates show the repository's README on crates.io, where its relative links resolve against the crate's
-  directory and break; short per-crate READMEs would fix that.

@@ -88,3 +88,8 @@ pub use datetime::{DateObject, WarningMode};
 pub use interval::IntervalObject;
 pub use period::DatePeriodObject;
 pub use timezone::{TimeZoneObject, TzValue};
+
+/// The example of `README.md`, compiled and run as a doctest.
+#[cfg(doctest)]
+#[doc = include_str!("../README.md")]
+pub struct ReadmeDoctests;

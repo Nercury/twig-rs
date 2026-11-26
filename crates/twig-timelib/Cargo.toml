@@ -3,7 +3,7 @@ name = "twig-timelib"
 version.workspace = true
 description = "Rust port of timelib (date/time parsing and arithmetic as used by PHP) for the twig template engine."
 documentation = "https://docs.rs/twig-timelib"
-readme.workspace = true
+readme = "README.md"
 keywords = ["twig", "timelib", "date", "time", "timezone"]
 categories = ["date-and-time", "parser-implementations"]
 edition.workspace = true
@@ -12,7 +12,7 @@ license = "MIT"
 repository.workspace = true
 authors.workspace = true
 # Tests and their oracle vectors stay in the repository.
-include = ["/src/**", "/LICENSE-timelib"]
+include = ["/src/**", "/README.md", "/LICENSE-timelib"]
 
 [package.metadata.docs.rs]
 all-features = true

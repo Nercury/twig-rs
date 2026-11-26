@@ -121,8 +121,7 @@ vector file, 2 are D1's and one is a doctest.
 ### 6. Product
 Plan: [product.md](product.md). Remaining:
 - Release: publishing 0.2.0 needs the owner's go (the crate names on crates.io, `cargo publish` in dependency order,
-  the CHANGELOG date, the tag); twig-iconv's publication gates twig's `glibc-iconv` feature; the sub-crates need
-  READMEs of their own.
+  the CHANGELOG date, the tag); twig-iconv's publication gates twig's `glibc-iconv` feature.
 - Licensing: a legal review of `twig-iconv` (PHP-3.01 code inside an LGPL crate); the clean-room iconv converter of
   the default build could grow.
 - Performance: after the first profiling pass rendering ranges from 3.1× faster (escaping) to 1.2× slower (dates,

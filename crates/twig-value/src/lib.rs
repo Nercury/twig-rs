@@ -128,6 +128,11 @@ pub use object::{FetchMode, ObjectRef};
 pub use string::PhpString;
 pub use value::{Number, TypeTag, Value};
 
+/// The example of `README.md`, compiled and run as a doctest.
+#[cfg(doctest)]
+#[doc = include_str!("../README.md")]
+pub struct ReadmeDoctests;
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -3,7 +3,7 @@ name = "twig-value"
 version.workspace = true
 description = "PHP-exact value model and builtin functions used by the twig template engine."
 documentation = "https://docs.rs/twig-value"
-readme.workspace = true
+readme = "README.md"
 keywords = ["twig", "template", "value"]
 categories = ["template-engine"]
 edition.workspace = true
@@ -18,7 +18,7 @@ license = "BSD-3-Clause AND PHP-3.01 AND Zend-2.0 AND MIT AND ISC AND Zlib AND A
 repository.workspace = true
 authors.workspace = true
 # Tests and their oracle vectors stay in the repository.
-include = ["/src/**", "/LICENSE", "/NOTICE"]
+include = ["/src/**", "/README.md", "/LICENSE", "/NOTICE"]
 
 [package.metadata.docs.rs]
 # The `serde` module (`to_value`, `to_array`).

@@ -107,3 +107,8 @@ fn str_param(
         diag,
     )
 }
+
+/// The example of `README.md`, compiled and run as a doctest.
+#[cfg(doctest)]
+#[doc = include_str!("../README.md")]
+pub struct ReadmeDoctests;

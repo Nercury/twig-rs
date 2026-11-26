@@ -129,3 +129,8 @@ pub fn validate_constant_regexp(regexp: &[u8]) -> Result<(), Vec<u8>> {
 pub fn null_constant_regexp_error() -> Vec<u8> {
     preg::twig_null_constant_error()
 }
+
+/// The example of `README.md`, compiled and run as a doctest.
+#[cfg(doctest)]
+#[doc = include_str!("../README.md")]
+pub struct ReadmeDoctests;

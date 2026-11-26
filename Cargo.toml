@@ -86,7 +86,7 @@ edition = "2024"
 rust-version = "1.88"
 repository = "https://github.com/Nercury/twig-rs"
 authors = ["Nerijus Arlauskas <nercury@gmail.com>"]
-# The sub-crates inherit it: crates.io shows the README of the repository for every crate.
+# The README of the repository, which is the `twig` package's; each published sub-crate has a README of its own.
 readme = "README.md"
 
 [workspace.dependencies]

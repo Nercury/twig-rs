@@ -3,7 +3,7 @@ name = "twig-iconv"
 version.workspace = true
 description = "glibc-exact iconv() backend for the twig template engine: every charset PHP's iconv() converts on glibc 2.41 (LGPL)."
 documentation = "https://docs.rs/twig-iconv"
-readme.workspace = true
+readme = "README.md"
 keywords = ["twig", "iconv", "charset", "encoding", "glibc"]
 categories = ["encoding", "text-processing", "internationalization"]
 edition.workspace = true
@@ -15,7 +15,7 @@ license = "LGPL-2.1-or-later AND PHP-3.01 AND Unicode-3.0"
 repository.workspace = true
 authors.workspace = true
 # Tests and their oracle vectors stay in the repository.
-include = ["/src/**", "/LICENSE", "/NOTICE"]
+include = ["/src/**", "/README.md", "/LICENSE", "/NOTICE"]
 
 [package.metadata.docs.rs]
 all-features = true
