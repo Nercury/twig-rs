@@ -302,6 +302,33 @@ impl CallArgs {
     ) -> PhpResult<Vec<Value>> {
         let variadic = params.last().is_some_and(|p| p.variadic);
         let declared = &params[..params.len() - usize::from(variadic)];
+        if self.named.is_empty() {
+            // positional arguments only: no slot is skipped, and when the count fits the values are the arguments
+            // then the defaults (what `Sent::call()` computes, without building the slots)
+            let given = self.positional.len();
+            let fixed = declared.len();
+            let required = declared
+                .iter()
+                .rposition(|p| p.default.is_none())
+                .map_or(0, |i| i + 1);
+            let fits =
+                given >= required && (kind == FunctionKind::User || variadic || given <= fixed);
+            if fits {
+                let mut out = Vec::with_capacity(fixed + usize::from(variadic));
+                out.extend(self.positional.iter().take(fixed).cloned());
+                for param in &declared[given.min(fixed)..] {
+                    out.push(param.default.clone().unwrap_or_default());
+                }
+                if variadic {
+                    let mut rest = Array::new();
+                    for value in self.positional.iter().skip(fixed) {
+                        let _ = rest.push(value.clone());
+                    }
+                    out.push(Value::Array(rest));
+                }
+                return Ok(out);
+            }
+        }
         let mut sent = Sent {
             slots: self.positional.iter().cloned().map(Some).collect(),
             extra: Vec::new(),
