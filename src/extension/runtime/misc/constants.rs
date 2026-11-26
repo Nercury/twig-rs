@@ -424,7 +424,6 @@ pub(super) fn constant(call: &mut Call<'_>) -> CallResult {
     let args = bind(
         call,
         FUNCTION,
-        0,
         &[
             Param::required("constant"),
             Param::optional("object", Value::Null),
@@ -506,7 +505,6 @@ fn enum_name(call: &mut Call<'_>, function: &str) -> CallResult<PhpString> {
     let args = bind(
         call,
         function,
-        0,
         &[Param::required("enum")],
         FunctionKind::User,
     )?;

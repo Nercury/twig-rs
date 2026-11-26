@@ -15,6 +15,11 @@ fn charset_and_string() -> [Param; 2] {
 
 /// Binds `(string $charset, $string)` and returns the charset and `$string ?? ''`.
 fn bind_charset_string(call: &mut Call<'_>, function: &str) -> CallResult<(PhpString, Value)> {
+    if call.named_args().is_empty() && !call.args().is_empty() {
+        // the binding is trivial (see `Call::bind_trivially()`): the charset, then the first argument
+        let string = std::mem::take(&mut call.args_mut()[0]);
+        return Ok((call.charset(), or_empty(string)));
+    }
     let charset = Value::String(call.charset());
     let mut args = bind_user(call, function, vec![charset], &charset_and_string())?.into_iter();
     let charset = match args.next() {

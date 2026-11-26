@@ -7,7 +7,7 @@ use twig_value::param::{self, Arg};
 use twig_value::types::get_debug_type;
 use twig_value::{Array, ArrayKey, PhpError, PhpString, Value, convert};
 
-use super::{CORE, Call, CallResult, bind_user, or_empty, return_string};
+use super::{Call, CallResult, bind_user, or_empty, return_string};
 use crate::error::Error;
 use crate::runtime::Markup;
 use crate::runtime::core::to_array;
@@ -24,7 +24,7 @@ const DEFAULT_TRIM_CHARS: &[u8] = b" \t\n\r\0\x0B";
 pub(super) fn trim(call: &mut Call<'_>) -> CallResult {
     let mut args = bind_user(
         call,
-        &format!("{CORE}::trim"),
+        "Twig\\Extension\\CoreExtension::trim",
         Vec::new(),
         &[
             Param::required("string"),
@@ -72,7 +72,7 @@ pub(super) fn trim(call: &mut Call<'_>) -> CallResult {
 pub(super) fn nl2br(call: &mut Call<'_>) -> CallResult {
     let mut args = bind_user(
         call,
-        &format!("{CORE}::nl2br"),
+        "Twig\\Extension\\CoreExtension::nl2br",
         Vec::new(),
         &[Param::required("string")],
     )?
@@ -97,7 +97,7 @@ pub(super) fn nl2br(call: &mut Call<'_>) -> CallResult {
 pub(super) fn spaceless(call: &mut Call<'_>) -> CallResult {
     let mut args = bind_user(
         call,
-        &format!("{CORE}::spaceless"),
+        "Twig\\Extension\\CoreExtension::spaceless",
         Vec::new(),
         &[Param::required("content")],
     )?
@@ -162,7 +162,7 @@ fn collapse_tag_spaces(subject: &[u8]) -> PhpString {
 pub(super) fn striptags(call: &mut Call<'_>) -> CallResult {
     let mut args = bind_user(
         call,
-        &format!("{CORE}::striptags"),
+        "Twig\\Extension\\CoreExtension::striptags",
         Vec::new(),
         &[
             Param::required("string"),
@@ -185,7 +185,7 @@ pub(super) fn striptags(call: &mut Call<'_>) -> CallResult {
 pub(super) fn replace(call: &mut Call<'_>) -> CallResult {
     let mut args = bind_user(
         call,
-        &format!("{CORE}::replace"),
+        "Twig\\Extension\\CoreExtension::replace",
         Vec::new(),
         &[Param::required("str"), Param::required("from")],
     )?
@@ -212,7 +212,7 @@ pub(super) fn replace(call: &mut Call<'_>) -> CallResult {
 pub(super) fn sprintf(call: &mut Call<'_>) -> CallResult {
     let mut args = bind_user(
         call,
-        &format!("{CORE}::sprintf"),
+        "Twig\\Extension\\CoreExtension::sprintf",
         Vec::new(),
         &[Param::required("format"), Param::variadic("values")],
     )?
@@ -241,7 +241,7 @@ pub(super) fn sprintf(call: &mut Call<'_>) -> CallResult {
 pub(super) fn urlencode(call: &mut Call<'_>) -> CallResult {
     let mut args = bind_user(
         call,
-        &format!("{CORE}::urlencode"),
+        "Twig\\Extension\\CoreExtension::urlencode",
         Vec::new(),
         &[Param::required("url")],
     )?
@@ -288,10 +288,10 @@ pub(super) fn json_encode(call: &mut Call<'_>) -> CallResult {
 /// environment's [`iconv_backend`](crate::runtime::Environment::iconv_backend); a failed conversion returns `false`
 /// (after `iconv()`'s warning or notice), which the return type turns into `''`.
 pub(super) fn convert_encoding(call: &mut Call<'_>) -> CallResult {
-    let function = format!("{CORE}::convertEncoding");
+    let function = "Twig\\Extension\\CoreExtension::convertEncoding";
     let mut args = bind_user(
         call,
-        &function,
+        function,
         Vec::new(),
         &[
             Param::required("string"),
@@ -309,5 +309,5 @@ pub(super) fn convert_encoding(call: &mut Call<'_>) -> CallResult {
         Some(converted) => Value::String(converted),
         None => Value::Bool(false),
     };
-    return_string(&function, converted, diag)
+    return_string(function, converted, diag)
 }

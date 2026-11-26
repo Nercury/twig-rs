@@ -6,7 +6,7 @@ use twig_value::param::{self, Arg, DeclaredType, TypeMask, UserArg, verify_user_
 use twig_value::{Array, Diagnostics, PhpString, Value, compare, convert, ops};
 
 use super::mb;
-use super::{CORE, Call, CallResult, bind_user, or_empty, return_string};
+use super::{Call, CallResult, bind_user, or_empty, return_string};
 use crate::error::Error;
 use crate::runtime::core::to_array;
 
@@ -25,7 +25,11 @@ fn split_into_characters(
     let string = match verify_user_arg(
         value,
         &DeclaredType::builtin(TypeMask::STRING),
-        &UserArg::new(&format!("{CORE}::splitIntoCharacters"), 1, "string"),
+        &UserArg::new(
+            "Twig\\Extension\\CoreExtension::splitIntoCharacters",
+            1,
+            "string",
+        ),
         diag,
     )? {
         Value::String(string) => string,
@@ -66,7 +70,7 @@ pub(super) fn split(call: &mut Call<'_>) -> CallResult {
     let charset = call.charset();
     let mut args = bind_user(
         call,
-        &format!("{CORE}::split"),
+        "Twig\\Extension\\CoreExtension::split",
         vec![Value::String(charset.clone())],
         &[
             Param::required("charset"),
@@ -158,10 +162,10 @@ fn mb_substr(
 ///
 /// `implode()` is PHP's two-argument (frameless) variant; the single element is coerced by the return type.
 pub(super) fn join(call: &mut Call<'_>) -> CallResult {
-    let function = format!("{CORE}::join");
+    let function = "Twig\\Extension\\CoreExtension::join";
     let mut args = bind_user(
         call,
-        &function,
+        function,
         Vec::new(),
         &[
             Param::required("value"),
@@ -197,7 +201,7 @@ pub(super) fn join(call: &mut Call<'_>) -> CallResult {
     }
     if items.len() == 1 {
         let first = items.get_int(0).cloned().unwrap_or_default();
-        return return_string(&function, first, diag);
+        return return_string(function, first, diag);
     }
     let head = array::array_slice(&value, &Value::Int(0), Some(&Value::Int(-1)), None, diag)?;
     let joined = string::implode_frameless(&glue, Some(&Value::Array(head)), diag)?;

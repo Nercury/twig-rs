@@ -43,9 +43,6 @@ use crate::error::Error;
 use crate::runtime::core::test_empty;
 use crate::vm::Exception;
 
-/// The class of the core extension, the prefix of the reflection names of its callables.
-const CORE: &str = "Twig\\Extension\\CoreExtension";
-
 /// Registers the runtimes of the misc group.
 pub(crate) fn register(table: &mut RuntimeTable) {
     table.register("Twig\\Extension\\CoreExtension::default", default);
@@ -94,7 +91,7 @@ pub(crate) fn register(table: &mut RuntimeTable) {
 ///
 /// PHP's binding errors (`Unknown named parameter $x`, `Named parameter $x overwrites previous argument`,
 /// `abs() expects exactly 1 argument, 2 given`, `Too few arguments to function ...`).
-fn bind(
+fn bind_injected(
     call: &Call<'_>,
     function: &str,
     injected: usize,
@@ -110,6 +107,21 @@ fn bind(
     let mut values = args.bind(function, params, kind)?;
     values.drain(..injected.min(values.len()));
     Ok(values)
+}
+
+/// [`bind_injected`] without injected arguments, as an array; the arguments are moved out of the call when PHP's
+/// binding is trivial ([`Call::bind_trivially`]).
+fn bind<const N: usize>(
+    call: &mut Call<'_>,
+    function: &str,
+    params: &[Param; N],
+    kind: FunctionKind,
+) -> CallResult<[Value; N]> {
+    if let Some(values) = call.bind_trivially(params, kind) {
+        return Ok(values);
+    }
+    let mut values = bind_injected(call, function, 0, params, kind)?.into_iter();
+    Ok(std::array::from_fn(|_| values.next().unwrap_or_default()))
 }
 
 /// An exception of a Twig method that `twig-value` ports (`Twig\Error\RuntimeError` raised by
@@ -147,7 +159,6 @@ fn default(call: &mut Call<'_>) -> CallResult {
     let args = bind(
         call,
         "Twig\\Extension\\CoreExtension::default",
-        0,
         &[Param::required("value"), Param::optional("default", "")],
         FunctionKind::User,
     )?;

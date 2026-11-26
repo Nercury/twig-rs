@@ -4,7 +4,7 @@ use twig_value::object::{FunctionKind, Param};
 use twig_value::param::{DeclaredType, TypeMask, UserArg, verify_user_arg};
 use twig_value::{Value, convert};
 
-use super::bind;
+use super::bind_injected;
 use crate::extension::runtime::{Call, CallResult};
 
 /// The PHP name of the runtime, used in its argument errors.
@@ -19,7 +19,7 @@ const TEMPLATE_FROM_STRING: &str = "Twig\\Extension\\StringLoaderExtension::temp
 /// `Argument #3 ($name) must be of type ?string`) and the errors of compiling the template (a `SyntaxError` in the
 /// generated name).
 pub(super) fn template_from_string(call: &mut Call<'_>) -> CallResult {
-    let args = bind(
+    let args = bind_injected(
         call,
         TEMPLATE_FROM_STRING,
         1,

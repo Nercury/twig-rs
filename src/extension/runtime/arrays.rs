@@ -93,12 +93,15 @@ pub(crate) fn register(table: &mut RuntimeTable) {
 /// # Errors
 ///
 /// The `Error`s and `ArgumentCountError`s of PHP's binding.
-fn bind_method(
-    call: &Call<'_>,
+fn bind_method<const N: usize>(
+    call: &mut Call<'_>,
     method: &str,
     injected: &[&'static str],
-    params: &[Param],
-) -> CallResult<Vec<Value>> {
+    params: &[Param; N],
+) -> CallResult<[Value; N]> {
+    if let Some(values) = call.bind_trivially(params, FunctionKind::User) {
+        return Ok(values);
+    }
     let mut all: Vec<Param> = injected.iter().map(|name| Param::required(name)).collect();
     all.extend_from_slice(params);
     let mut positional = vec![Value::Null; injected.len()];
@@ -108,7 +111,7 @@ fn bind_method(
         named: call.named_args().to_vec(),
     };
     let mut bound = args.bind(&format!("{CORE}::{method}"), &all, FunctionKind::User)?;
-    Ok(bound.split_off(injected.len()))
+    Ok(take(bound.split_off(injected.len())))
 }
 
 /// Takes the bound values in order.
@@ -160,7 +163,7 @@ fn to_array_with(
 /// `uasort()`'s `callable` check) the values are sorted by the arrow (`zval_get_long()` of its result, PHP's stable
 /// `zend_sort`), otherwise with `asort()` (`SORT_REGULAR`); keys are kept.
 fn sort(call: &mut Call<'_>) -> CallResult {
-    let [array, arrow] = take(bind_method(
+    let [array, arrow] = bind_method(
         call,
         "sort",
         &["env", "isSandboxed"],
@@ -168,7 +171,7 @@ fn sort(call: &mut Call<'_>) -> CallResult {
             Param::required("array"),
             Param::optional("arrow", Value::Null),
         ],
-    )?);
+    )?;
     let sandboxed = call.is_sandboxed();
     let mut array = match array {
         Value::Object(object) if object.instance_of("Traversable") => {
@@ -207,12 +210,7 @@ fn sort(call: &mut Call<'_>) -> CallResult {
 /// input first; a non-iterable throws `The "merge" filter expects a sequence or a mapping, got "%s" for argument
 /// %d.` with `$argNumber + 1` (the variadic's key: a named argument of a spread makes it a string).
 fn merge(call: &mut Call<'_>) -> CallResult {
-    let [arrays] = take(bind_method(
-        call,
-        "merge",
-        &[],
-        &[Param::variadic("arrays")],
-    )?);
+    let [arrays] = bind_method(call, "merge", &[], &[Param::variadic("arrays")])?;
     let diag = call.diagnostics();
     let arrays = match arrays {
         Value::Array(arrays) => arrays,
@@ -241,7 +239,7 @@ fn merge(call: &mut Call<'_>) -> CallResult {
 /// int|float, string given`), `array_chunk(toArray($items, $preserveKeys), $size, $preserveKeys)`, then the last
 /// row is filled with `$fill` (appended with the row's next integer key) when `$fill` is not `null`.
 fn batch(call: &mut Call<'_>) -> CallResult {
-    let [items, size, fill, preserve_keys] = take(bind_method(
+    let [items, size, fill, preserve_keys] = bind_method(
         call,
         "batch",
         &[],
@@ -251,7 +249,7 @@ fn batch(call: &mut Call<'_>) -> CallResult {
             Param::optional("fill", Value::Null),
             Param::optional("preserveKeys", true),
         ],
-    )?);
+    )?;
     let diag = call.diagnostics();
     if !items.is_iterable() {
         return Err(expects_iterable("batch", "filter", &items));
@@ -288,7 +286,7 @@ fn batch(call: &mut Call<'_>) -> CallResult {
 /// error has no source or line until the template handles it): `checkPropertyAllowed($item, (string) $name)`, and
 /// the same for `$index` when it is not `null`.
 fn column(call: &mut Call<'_>) -> CallResult {
-    let [array, name, index] = take(bind_method(
+    let [array, name, index] = bind_method(
         call,
         "column",
         &["env", "isSandboxed"],
@@ -297,7 +295,7 @@ fn column(call: &mut Call<'_>) -> CallResult {
             Param::required("name"),
             Param::optional("index", Value::Null),
         ],
-    )?);
+    )?;
     if !array.is_iterable() {
         return Err(expects_iterable("column", "filter", &array));
     }
@@ -344,12 +342,12 @@ fn column(call: &mut Call<'_>) -> CallResult {
 /// `null` arrow keeps the truthy values); a `Traversable` gives a lazy `CallbackFilterIterator` over an
 /// `IteratorIterator` whose callback receives `($value, $key, $iterator)`.
 fn filter(call: &mut Call<'_>) -> CallResult {
-    let [array, arrow] = take(bind_method(
+    let [array, arrow] = bind_method(
         call,
         "filter",
         &["env", "isSandboxed"],
         &[Param::required("array"), Param::required("arrow")],
-    )?);
+    )?;
     if !array.is_iterable() {
         return Err(Error::runtime(format!(
             "The \"filter\" filter expects a sequence/mapping or \"Traversable\", got \"{}\".",
@@ -391,12 +389,12 @@ fn filter(call: &mut Call<'_>) -> CallResult {
 /// Twig: `CoreExtension::map(Environment $env, bool $isSandboxed, $array, $arrow)`: `$r[$k] = $arrow($v, $k)` for
 /// every element (`foreach`), keys preserved (a repeated key of a `Traversable` keeps its first position).
 fn map(call: &mut Call<'_>) -> CallResult {
-    let [array, arrow] = take(bind_method(
+    let [array, arrow] = bind_method(
         call,
         "map",
         &["env", "isSandboxed"],
         &[Param::required("array"), Param::required("arrow")],
-    )?);
+    )?;
     if !array.is_iterable() {
         return Err(expects_iterable("map", "filter", &array));
     }
@@ -416,7 +414,7 @@ fn map(call: &mut Call<'_>) -> CallResult {
 /// Twig: `CoreExtension::reduce(Environment $env, bool $isSandboxed, $array, $arrow, $initial = null)`:
 /// `$accumulator = $arrow($accumulator, $value, $key)` for every element, from `$initial`.
 fn reduce(call: &mut Call<'_>) -> CallResult {
-    let [array, arrow, initial] = take(bind_method(
+    let [array, arrow, initial] = bind_method(
         call,
         "reduce",
         &["env", "isSandboxed"],
@@ -425,7 +423,7 @@ fn reduce(call: &mut Call<'_>) -> CallResult {
             Param::required("arrow"),
             Param::optional("initial", Value::Null),
         ],
-    )?);
+    )?;
     if !array.is_iterable() {
         return Err(expects_iterable("reduce", "filter", &array));
     }
@@ -444,12 +442,12 @@ fn reduce(call: &mut Call<'_>) -> CallResult {
 /// Twig: `CoreExtension::find(Environment $env, bool $isSandboxed, $array, $arrow)`: the first value for which
 /// `$arrow($v, $k)` is truthy, else `null`.
 fn find(call: &mut Call<'_>) -> CallResult {
-    let [array, arrow] = take(bind_method(
+    let [array, arrow] = bind_method(
         call,
         "find",
         &["env", "isSandboxed"],
         &[Param::required("array"), Param::required("arrow")],
-    )?);
+    )?;
     if !array.is_iterable() {
         return Err(expects_iterable("find", "filter", &array));
     }
@@ -475,7 +473,7 @@ fn find(call: &mut Call<'_>) -> CallResult {
 /// (`splitIntoCharacters()`), converted from and back to the charset with iconv (the environment's backend) when it
 /// is not UTF-8.
 fn reverse(call: &mut Call<'_>) -> CallResult {
-    let [item, preserve_keys] = take(bind_method(
+    let [item, preserve_keys] = bind_method(
         call,
         "reverse",
         &["charset"],
@@ -483,7 +481,7 @@ fn reverse(call: &mut Call<'_>) -> CallResult {
             Param::required("item"),
             Param::optional("preserveKeys", false),
         ],
-    )?);
+    )?;
     let charset = call.charset();
     let iconv = call.env().iconv_backend();
     let diag = call.diagnostics();
@@ -524,12 +522,7 @@ fn reverse(call: &mut Call<'_>) -> CallResult {
 /// thread's Mersenne Twister ([`with_mt_rand`]). A string in a charset other than UTF-8 is converted with the
 /// environment's iconv backend.
 fn shuffle(call: &mut Call<'_>) -> CallResult {
-    let [item] = take(bind_method(
-        call,
-        "shuffle",
-        &["charset"],
-        &[Param::required("item")],
-    )?);
+    let [item] = bind_method(call, "shuffle", &["charset"], &[Param::required("item")])?;
     let charset = call.charset();
     let iconv = call.env().iconv_backend();
     let diag = call.diagnostics();
@@ -564,37 +557,35 @@ fn shuffle(call: &mut Call<'_>) -> CallResult {
 /// `count()` of arrays and `Countable`s, `iterator_count()` of other `Traversable`s, `mb_strlen()` of `Stringable`s,
 /// `1` for any other object.
 fn length(call: &mut Call<'_>) -> CallResult {
-    let [thing] = take(bind_method(
-        call,
-        "length",
-        &["charset"],
-        &[Param::required("thing")],
-    )?);
-    let charset = call.charset();
-    let diag = call.diagnostics();
+    let [thing] = bind_method(call, "length", &["charset"], &[Param::required("thing")])?;
     Ok(Value::Int(match &thing {
         Value::Null => 0,
         Value::Array(array) => array.len() as i64,
         Value::Object(object) => {
             if object.instance_of("Countable") || object.instance_of("SimpleXMLElement") {
-                dim::count(&thing, 0, diag)?
+                dim::count(&thing, 0, call.diagnostics())?
             } else if object.instance_of("Traversable") {
-                object::iterator_count(object, diag)?
+                object::iterator_count(object, call.diagnostics())?
             } else if object.instance_of("Stringable") {
+                let charset = call.charset();
+                let diag = call.diagnostics();
                 let string = Value::String(object.to_php_string(diag)?);
                 mb_strlen(&string, &charset, diag)?
             } else {
                 1
             }
         }
-        scalar => mb_strlen(scalar, &charset, diag)?,
+        scalar => {
+            let charset = call.charset();
+            mb_strlen(scalar, &charset, call.diagnostics())?
+        }
     }))
 }
 
 /// Twig: `CoreExtension::slice(string $charset, $item, $start, $length = null, $preserveKeys = false)` (the `slice`
 /// filter and the `x[a:b]` syntax).
 fn slice(call: &mut Call<'_>) -> CallResult {
-    let [item, start, length, preserve_keys] = take(bind_method(
+    let [item, start, length, preserve_keys] = bind_method(
         call,
         "slice",
         &["charset"],
@@ -604,7 +595,7 @@ fn slice(call: &mut Call<'_>) -> CallResult {
             Param::optional("length", Value::Null),
             Param::optional("preserveKeys", false),
         ],
-    )?);
+    )?;
     let charset = call.charset();
     slice_value(
         &charset,
@@ -680,12 +671,7 @@ fn slice_value(
 /// The common body of `CoreExtension::first()` and `last()`: `$elements = slice($charset, $item, $start, 1, false)`,
 /// then the string itself or `current($elements)` (`false` for `[]`).
 fn first_or_last(call: &mut Call<'_>, method: &str, start: i64) -> CallResult {
-    let [item] = take(bind_method(
-        call,
-        method,
-        &["charset"],
-        &[Param::required("item")],
-    )?);
+    let [item] = bind_method(call, method, &["charset"], &[Param::required("item")])?;
     let charset = call.charset();
     let elements = slice_value(
         &charset,
@@ -717,7 +703,7 @@ fn last(call: &mut Call<'_>) -> CallResult {
 /// `valid()`, `key()`, `next()` methods (keys kept raw, repeated keys included), anything else with `foreach`.
 /// Arrays give `array_keys()`, other values `[]`.
 fn keys(call: &mut Call<'_>) -> CallResult {
-    let [mut array] = take(bind_method(call, "keys", &[], &[Param::required("array")])?);
+    let [mut array] = bind_method(call, "keys", &[], &[Param::required("array")])?;
     if matches!(&array, Value::Object(o) if o.instance_of("Traversable")) {
         let diag = call.diagnostics();
         while let Value::Object(object) = &array
@@ -773,12 +759,12 @@ fn foreach_keys(call: &mut Call<'_>, value: &Value, keys: &mut Array) -> CallRes
 ///
 /// A non-`Closure` input throws PHP's `TypeError` without the `, called in ...` suffix (`reference/deviations.md`).
 fn invoke(call: &mut Call<'_>) -> CallResult {
-    let [arrow, arguments] = take(bind_method(
+    let [arrow, arguments] = bind_method(
         call,
         "invoke",
         &[],
         &[Param::required("arrow"), Param::variadic("arguments")],
-    )?);
+    )?;
     let diag = call.diagnostics();
     let arrow = verify_user_arg(
         arrow,
@@ -799,12 +785,12 @@ fn invoke(call: &mut Call<'_>) -> CallResult {
 /// Twig: `CoreExtension::cycle($values, $position): mixed`: `$values[$position % count($values)]` for an array or
 /// an `ArrayAccess` (a non-countable one is deprecated and converted with `toArray($values, false)`).
 fn cycle(call: &mut Call<'_>) -> CallResult {
-    let [values, position] = take(bind_method(
+    let [values, position] = bind_method(
         call,
         "cycle",
         &[],
         &[Param::required("values"), Param::required("position")],
-    )?);
+    )?;
     let mut values = values;
     if !matches!(values, Value::Array(_)) {
         let Value::Object(object) = &values else {
@@ -844,7 +830,7 @@ fn cycle(call: &mut Call<'_>) -> CallResult {
 /// come from the thread's Mersenne Twister ([`with_mt_rand`]). A string in a charset other than UTF-8 is converted with
 /// the environment's iconv backend.
 fn random_function(call: &mut Call<'_>) -> CallResult {
-    let [values, max] = take(bind_method(
+    let [values, max] = bind_method(
         call,
         "random",
         &["charset"],
@@ -852,7 +838,7 @@ fn random_function(call: &mut Call<'_>) -> CallResult {
             Param::optional("values", Value::Null),
             Param::optional("max", Value::Null),
         ],
-    )?);
+    )?;
     let charset = call.charset();
     let iconv = call.env().iconv_backend();
     let diag = call.diagnostics();
@@ -1023,19 +1009,14 @@ fn is_iterable(call: &mut Call<'_>) -> CallResult {
 
 /// Twig: `CoreExtension::testEmpty($value): bool` (the `empty` test).
 fn test_empty_runtime(call: &mut Call<'_>) -> CallResult {
-    let [value] = take(bind_method(
-        call,
-        "testEmpty",
-        &[],
-        &[Param::required("value")],
-    )?);
+    let [value] = bind_method(call, "testEmpty", &[], &[Param::required("value")])?;
     Ok(Value::Bool(test_empty(&value, call.diagnostics())?))
 }
 
 /// The conversions of `testSequence()` and `testMapping()`: an `ArrayObject` becomes `getArrayCopy()`, then a
 /// `Traversable` becomes `iterator_to_array()` (consuming generators).
 fn sequence_or_mapping_value(call: &mut Call<'_>, method: &str) -> CallResult {
-    let [mut value] = take(bind_method(call, method, &[], &[Param::required("value")])?);
+    let [mut value] = bind_method(call, method, &[], &[Param::required("value")])?;
     let diag = call.diagnostics();
     if let Value::Object(object) = &value
         && object.instance_of("ArrayObject")

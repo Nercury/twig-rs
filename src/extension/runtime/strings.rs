@@ -33,9 +33,6 @@ use twig_value::{PhpString, Value};
 
 use super::{Call, CallResult, RuntimeTable};
 
-/// The class of Twig's core callables.
-const CORE: &str = "Twig\\Extension\\CoreExtension";
-
 /// Registers the runtimes of the string group.
 pub(crate) fn register(table: &mut RuntimeTable) {
     table.register("Twig\\Runtime\\EscaperRuntime::escape", escaper::escape);
@@ -82,6 +79,29 @@ fn bind_user(
     injected: Vec<Value>,
     params: &[Param],
 ) -> CallResult<Vec<Value>> {
+    // without named arguments and with the required ones, the values are the arguments in order (see
+    // `Call::bind_trivially()`)
+    let rest = params.get(injected.len()..).unwrap_or_default();
+    let required = rest
+        .iter()
+        .rposition(|param| param.default.is_none())
+        .map_or(0, |i| i + 1);
+    if call.named_args().is_empty()
+        && !params.iter().any(|param| param.variadic)
+        && call.args().len() >= required
+        && injected.len() <= params.len()
+    {
+        let mut values = injected;
+        values.reserve(rest.len());
+        let args = call.args_mut();
+        for (i, param) in rest.iter().enumerate() {
+            values.push(match args.get_mut(i) {
+                Some(value) => std::mem::take(value),
+                None => param.default.clone().unwrap_or_default(),
+            });
+        }
+        return Ok(values);
+    }
     let mut args = call.take_args();
     if !injected.is_empty() {
         args.positional.splice(0..0, injected);

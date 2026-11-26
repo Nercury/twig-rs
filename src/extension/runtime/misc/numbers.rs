@@ -19,7 +19,6 @@ pub(super) fn abs(call: &mut Call<'_>) -> CallResult {
     let args = bind(
         call,
         "abs",
-        0,
         &[Param::required("num")],
         FunctionKind::Internal,
     )?;
@@ -34,7 +33,6 @@ pub(super) fn round(call: &mut Call<'_>) -> CallResult {
     let args = bind(
         call,
         "Twig\\Extension\\CoreExtension::round",
-        0,
         &[
             Param::required("value"),
             Param::optional("precision", 0),
@@ -52,7 +50,6 @@ pub(super) fn format_number(call: &mut Call<'_>) -> CallResult {
     let args = bind(
         call,
         "Twig\\Extension\\CoreExtension::formatNumber",
-        0,
         &[
             Param::required("number"),
             Param::optional("decimal", Value::Null),

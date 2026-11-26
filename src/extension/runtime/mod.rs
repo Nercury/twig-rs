@@ -192,6 +192,36 @@ impl<'a> Call<'a> {
         &mut self.args.positional
     }
 
+    /// PHP's binding of the arguments to `params` (the parameters after those of the arguments Twig injects first)
+    /// when it can neither fail nor reorder anything: no named arguments, no variadic parameter, the arguments of at
+    /// least the required parameters (every injected parameter is required) and, for an internal function, none
+    /// more than declared (a userland function ignores extra ones). The values are the arguments, moved out of the
+    /// call, then the defaults of the missing parameters; `None` leaves the arguments untouched for
+    /// [`bind`](Self::bind), which reports PHP's errors.
+    pub(crate) fn bind_trivially<const N: usize>(
+        &mut self,
+        params: &[Param; N],
+        kind: FunctionKind,
+    ) -> Option<[Value; N]> {
+        let given = self.args.positional.len();
+        let required = params
+            .iter()
+            .rposition(|param| param.default.is_none())
+            .map_or(0, |i| i + 1);
+        if !self.args.named.is_empty()
+            || params.iter().any(|param| param.variadic)
+            || given < required
+            || (kind == FunctionKind::Internal && given > N)
+        {
+            return None;
+        }
+        let args = &mut self.args.positional;
+        Some(std::array::from_fn(|i| match args.get_mut(i) {
+            Some(value) => std::mem::take(value),
+            None => params[i].default.clone().unwrap_or_default(),
+        }))
+    }
+
     /// Binds the arguments to PHP parameters with PHP's rules (named arguments, defaults, a trailing variadic;
     /// internal functions reject extra positional arguments, userland functions ignore them), with PHP's messages
     /// for `function`.

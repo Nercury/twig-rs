@@ -11,7 +11,7 @@ use twig_value::object::{CallArgs, FunctionKind, ObjectRef, Param};
 use twig_value::{Diagnostics, Value, convert, ops};
 
 use super::settings::{CoreSettings, core_settings, new_timezone};
-use super::{CORE, bind, call_method_on, return_string};
+use super::{bind, call_method_on, return_string};
 use crate::extension::runtime::{Call, CallResult};
 
 /// Twig: `CoreExtension::formatDate($date, $format = null, $timezone = null): string`, the `date` filter.
@@ -19,7 +19,6 @@ pub(super) fn format_date_runtime(call: &mut Call<'_>) -> CallResult {
     let args = bind(
         call,
         "Twig\\Extension\\CoreExtension::formatDate",
-        0,
         &[
             Param::required("date"),
             Param::optional("format", Value::Null),
@@ -44,7 +43,6 @@ pub(super) fn modify_date_runtime(call: &mut Call<'_>) -> CallResult {
     let args = bind(
         call,
         "Twig\\Extension\\CoreExtension::modifyDate",
-        0,
         &[Param::required("date"), Param::required("modifier")],
         FunctionKind::User,
     )?;
@@ -58,7 +56,6 @@ pub(super) fn convert_date_runtime(call: &mut Call<'_>) -> CallResult {
     let args = bind(
         call,
         "Twig\\Extension\\CoreExtension::convertDate",
-        0,
         &[
             Param::optional("date", Value::Null),
             Param::optional("timezone", Value::Null),
@@ -102,7 +99,11 @@ pub(super) fn format_date(
         let date = convert_date(settings, ctx, date, timezone, diag)?;
         call_method_on(&date, "format", vec![format], diag)?
     };
-    return_string(&format!("{CORE}::formatDate"), formatted, diag)
+    return_string(
+        "Twig\\Extension\\CoreExtension::formatDate",
+        formatted,
+        diag,
+    )
 }
 
 /// Twig: `CoreExtension::modifyDate()`: `convertDate($date, false)->modify($modifier)` (the date keeps its timezone;
