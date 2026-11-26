@@ -218,57 +218,60 @@ pub fn date_format(format: &[u8], t: &Time, localtime: bool) -> Vec<u8> {
         let c = format[i];
         let _ = match c {
             // day
-            b'd' => write!(buf, "{:02}", t.d as i32),
-            b'D' => write!(buf, "{}", short_day_name(t.y, t.m, t.d)),
-            b'j' => write!(buf, "{}", t.d as i32),
-            b'l' => write!(buf, "{}", full_day_name(t.y, t.m, t.d)),
-            b'S' => write!(buf, "{}", english_suffix(t.d)),
-            b'w' => write!(buf, "{}", dow::day_of_week(t.y, t.m, t.d) as i32),
-            b'N' => write!(buf, "{}", dow::iso_day_of_week(t.y, t.m, t.d) as i32),
-            b'z' => write!(buf, "{}", dow::day_of_year(t.y, t.m, t.d) as i32),
+            b'd' => int(&mut buf, (t.d as i32).into(), 2),
+            b'D' => text(&mut buf, short_day_name(t.y, t.m, t.d)),
+            b'j' => int(&mut buf, (t.d as i32).into(), 0),
+            b'l' => text(&mut buf, full_day_name(t.y, t.m, t.d)),
+            b'S' => text(&mut buf, english_suffix(t.d)),
+            b'w' => int(&mut buf, (dow::day_of_week(t.y, t.m, t.d) as i32).into(), 0),
+            b'N' => int(
+                &mut buf,
+                (dow::iso_day_of_week(t.y, t.m, t.d) as i32).into(),
+                0,
+            ),
+            b'z' => int(&mut buf, (dow::day_of_year(t.y, t.m, t.d) as i32).into(), 0),
 
             // week
-            b'W' => write!(buf, "{:02}", isoweek(t).0 as i32), // iso weeknr
-            b'o' => write!(buf, "{}", isoweek(t).1),           // iso year
+            b'W' => int(&mut buf, (isoweek(t).0 as i32).into(), 2), // iso weeknr
+            b'o' => int(&mut buf, isoweek(t).1, 0),                 // iso year
 
             // month
-            b'F' => write!(buf, "{}", month_name(&MON_FULL_NAMES, t.m)),
-            b'm' => write!(buf, "{:02}", t.m as i32),
-            b'M' => write!(buf, "{}", month_name(&MON_SHORT_NAMES, t.m)),
-            b'n' => write!(buf, "{}", t.m as i32),
-            b't' => write!(buf, "{}", dow::days_in_month(t.y, t.m) as i32),
+            b'F' => text(&mut buf, month_name(&MON_FULL_NAMES, t.m)),
+            b'm' => int(&mut buf, (t.m as i32).into(), 2),
+            b'M' => text(&mut buf, month_name(&MON_SHORT_NAMES, t.m)),
+            b'n' => int(&mut buf, (t.m as i32).into(), 0),
+            b't' => int(&mut buf, (dow::days_in_month(t.y, t.m) as i32).into(), 0),
 
             // year
-            b'L' => write!(buf, "{}", i32::from(is_leap(i64::from(t.y as i32)))),
-            b'y' => write!(buf, "{:02}", (t.y % 100) as i32),
-            b'Y' => write!(
-                buf,
-                "{}{:04}",
-                if t.y < 0 { "-" } else { "" },
-                t.y.unsigned_abs()
+            b'L' => int(
+                &mut buf,
+                i32::from(is_leap(i64::from(t.y as i32))).into(),
+                0,
             ),
-            b'x' => write!(
-                buf,
-                "{}{:04}",
-                if t.y < 0 {
+            b'y' => int(&mut buf, ((t.y % 100) as i32).into(), 2),
+            b'Y' => {
+                let _ = text(&mut buf, if t.y < 0 { "-" } else { "" });
+                uint(&mut buf, t.y.unsigned_abs(), 4)
+            }
+            b'x' => {
+                let sign = if t.y < 0 {
                     "-"
                 } else if t.y >= 10000 {
                     "+"
                 } else {
                     ""
-                },
-                t.y.unsigned_abs()
-            ),
-            b'X' => write!(
-                buf,
-                "{}{:04}",
-                if t.y < 0 { "-" } else { "+" },
-                t.y.unsigned_abs()
-            ),
+                };
+                let _ = text(&mut buf, sign);
+                uint(&mut buf, t.y.unsigned_abs(), 4)
+            }
+            b'X' => {
+                let _ = text(&mut buf, if t.y < 0 { "-" } else { "+" });
+                uint(&mut buf, t.y.unsigned_abs(), 4)
+            }
 
             // time
-            b'a' => write!(buf, "{}", if t.h >= 12 { "pm" } else { "am" }),
-            b'A' => write!(buf, "{}", if t.h >= 12 { "PM" } else { "AM" }),
+            b'a' => text(&mut buf, if t.h >= 12 { "pm" } else { "am" }),
+            b'A' => text(&mut buf, if t.h >= 12 { "PM" } else { "AM" }),
             b'B' => {
                 let sse = t.sse;
                 let mut retval = (sse
@@ -279,19 +282,23 @@ pub fn date_format(format: &[u8], t: &Time, localtime: bool) -> Vec<u8> {
                 }
                 // Make sure to do this on a positive int to avoid rounding errors
                 retval = (retval / 864) % 1000;
-                write!(buf, "{retval:03}")
+                int(&mut buf, retval.into(), 3)
             }
-            b'g' => write!(buf, "{}", twelve_hour(t.h)),
-            b'G' => write!(buf, "{}", t.h as i32),
-            b'h' => write!(buf, "{:02}", twelve_hour(t.h)),
-            b'H' => write!(buf, "{:02}", t.h as i32),
-            b'i' => write!(buf, "{:02}", t.i as i32),
-            b's' => write!(buf, "{:02}", t.s as i32),
-            b'u' => write!(buf, "{:06}", t.us as i32),
-            b'v' => write!(buf, "{:03}", (t.us / 1000) as i32),
+            b'g' => int(&mut buf, twelve_hour(t.h).into(), 0),
+            b'G' => int(&mut buf, (t.h as i32).into(), 0),
+            b'h' => int(&mut buf, twelve_hour(t.h).into(), 2),
+            b'H' => int(&mut buf, (t.h as i32).into(), 2),
+            b'i' => int(&mut buf, (t.i as i32).into(), 2),
+            b's' => int(&mut buf, (t.s as i32).into(), 2),
+            b'u' => int(&mut buf, (t.us as i32).into(), 6),
+            b'v' => int(&mut buf, ((t.us / 1000) as i32).into(), 3),
 
             // timezone
-            b'I' => write!(buf, "{}", if localtime { offset.is_dst as i32 } else { 0 }),
+            b'I' => int(
+                &mut buf,
+                i64::from(if localtime { offset.is_dst as i32 } else { 0 }),
+                0,
+            ),
             b'p' | b'P' | b'O' => {
                 if c == b'p'
                     && (!localtime
@@ -304,14 +311,10 @@ pub fn date_format(format: &[u8], t: &Time, localtime: bool) -> Vec<u8> {
                     if c != b'O' {
                         rfc_colon = true;
                     }
-                    write!(
-                        buf,
-                        "{}{:02}{}{:02}",
-                        sign(localtime),
-                        hours,
-                        if rfc_colon { ":" } else { "" },
-                        minutes
-                    )
+                    buf.push(sign(localtime) as u8);
+                    let _ = int(&mut buf, hours.into(), 2);
+                    let _ = text(&mut buf, if rfc_colon { ":" } else { "" });
+                    int(&mut buf, minutes.into(), 2)
                 }
             }
             b'T' => {
@@ -358,37 +361,47 @@ pub fn date_format(format: &[u8], t: &Time, localtime: bool) -> Vec<u8> {
                 }
                 Ok(())
             }
-            b'Z' => write!(buf, "{}", if localtime { off } else { 0 }),
+            b'Z' => int(&mut buf, i64::from(if localtime { off } else { 0 }), 0),
 
-            // full date/time
-            b'c' => write!(
-                buf,
-                "{:04}-{:02}-{:02}T{:02}:{:02}:{:02}{}{:02}:{:02}",
-                t.y,
-                t.m as i32,
-                t.d as i32,
-                t.h as i32,
-                t.i as i32,
-                t.s as i32,
-                sign(localtime),
-                hours,
-                minutes
-            ),
-            b'r' => write!(
-                buf,
-                "{:>3}, {:02} {:>3} {:04} {:02}:{:02}:{:02} {}{:02}{:02}",
-                short_day_name(t.y, t.m, t.d),
-                t.d as i32,
-                month_name(&MON_SHORT_NAMES, t.m),
-                t.y,
-                t.h as i32,
-                t.i as i32,
-                t.s as i32,
-                sign(localtime),
-                hours,
-                minutes
-            ),
-            b'U' => write!(buf, "{}", t.sse),
+            // full date/time: "%04d-%02d-%02dT%02d:%02d:%02d%c%02d:%02d"
+            b'c' => {
+                let _ = int(&mut buf, t.y, 4);
+                buf.push(b'-');
+                let _ = int(&mut buf, (t.m as i32).into(), 2);
+                buf.push(b'-');
+                let _ = int(&mut buf, (t.d as i32).into(), 2);
+                buf.push(b'T');
+                let _ = int(&mut buf, (t.h as i32).into(), 2);
+                buf.push(b':');
+                let _ = int(&mut buf, (t.i as i32).into(), 2);
+                buf.push(b':');
+                let _ = int(&mut buf, (t.s as i32).into(), 2);
+                buf.push(sign(localtime) as u8);
+                let _ = int(&mut buf, hours.into(), 2);
+                buf.push(b':');
+                int(&mut buf, minutes.into(), 2)
+            }
+            // "%3s, %02d %3s %04d %02d:%02d:%02d %c%02d%02d"
+            b'r' => {
+                let _ = right_aligned(&mut buf, short_day_name(t.y, t.m, t.d), 3);
+                buf.extend_from_slice(b", ");
+                let _ = int(&mut buf, (t.d as i32).into(), 2);
+                buf.push(b' ');
+                let _ = right_aligned(&mut buf, month_name(&MON_SHORT_NAMES, t.m), 3);
+                buf.push(b' ');
+                let _ = int(&mut buf, t.y, 4);
+                buf.push(b' ');
+                let _ = int(&mut buf, (t.h as i32).into(), 2);
+                buf.push(b':');
+                let _ = int(&mut buf, (t.i as i32).into(), 2);
+                buf.push(b':');
+                let _ = int(&mut buf, (t.s as i32).into(), 2);
+                buf.push(b' ');
+                buf.push(sign(localtime) as u8);
+                let _ = int(&mut buf, hours.into(), 2);
+                int(&mut buf, minutes.into(), 2)
+            }
+            b'U' => int(&mut buf, t.sse, 0),
 
             b'\\' => {
                 if i < format.len() {
@@ -410,6 +423,50 @@ pub fn date_format(format: &[u8], t: &Time, localtime: bool) -> Vec<u8> {
         i += 1;
     }
     out
+}
+
+/// `%0<width>d` of a number (the digits, zero-padded after a `-` sign to `width` characters, like
+/// `write!(buf, "{:0width$}", value)`), written without the formatting machinery.
+fn int(buf: &mut Vec<u8>, value: i64, width: usize) -> std::io::Result<()> {
+    digits(buf, value < 0, value.unsigned_abs(), width);
+    Ok(())
+}
+
+/// [`int`] of an unsigned number.
+fn uint(buf: &mut Vec<u8>, value: u64, width: usize) -> std::io::Result<()> {
+    digits(buf, false, value, width);
+    Ok(())
+}
+
+fn digits(buf: &mut Vec<u8>, negative: bool, mut n: u64, width: usize) {
+    let mut digits = [0u8; 20];
+    let mut at = digits.len();
+    loop {
+        at -= 1;
+        digits[at] = b'0' + (n % 10) as u8;
+        n /= 10;
+        if n == 0 {
+            break;
+        }
+    }
+    let len = digits.len() - at + usize::from(negative);
+    if negative {
+        buf.push(b'-');
+    }
+    buf.extend(std::iter::repeat_n(b'0', width.saturating_sub(len)));
+    buf.extend_from_slice(&digits[at..]);
+}
+
+/// `%s` of a string.
+fn text(buf: &mut Vec<u8>, s: &str) -> std::io::Result<()> {
+    buf.extend_from_slice(s.as_bytes());
+    Ok(())
+}
+
+/// `%<width>s` of an ASCII string (padded with spaces on the left).
+fn right_aligned(buf: &mut Vec<u8>, s: &str, width: usize) -> std::io::Result<()> {
+    buf.extend(std::iter::repeat_n(b' ', width.saturating_sub(s.len())));
+    text(buf, s)
 }
 
 /// `(t->h % 12) ? (int) t->h % 12 : 12`.
@@ -552,5 +609,48 @@ mod tests {
             ..RelTime::default()
         };
         assert_eq!(date_interval_format(b"%a%R%r", &unknown), b"(unknown)--");
+    }
+
+    /// The digit writers give what Rust's formatting gives for the same widths.
+    #[test]
+    fn digits_like_formatting() {
+        for value in [
+            0i64,
+            1,
+            7,
+            -7,
+            9,
+            10,
+            59,
+            99,
+            100,
+            -100,
+            999_999,
+            2026,
+            -2026,
+            i64::MAX,
+            i64::MIN,
+        ] {
+            for width in [0usize, 2, 3, 4, 6] {
+                let mut buf = Vec::new();
+                let _ = int(&mut buf, value, width);
+                assert_eq!(
+                    buf,
+                    format!("{value:0width$}").into_bytes(),
+                    "{value} {width}"
+                );
+                let mut buf = Vec::new();
+                let _ = uint(&mut buf, value.unsigned_abs(), width);
+                assert_eq!(
+                    buf,
+                    format!("{:0width$}", value.unsigned_abs()).into_bytes()
+                );
+            }
+        }
+        for s in ["", "Mon", "Unknown", "x"] {
+            let mut buf = Vec::new();
+            let _ = right_aligned(&mut buf, s, 3);
+            assert_eq!(buf, format!("{s:>3}").into_bytes());
+        }
     }
 }
