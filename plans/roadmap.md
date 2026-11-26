@@ -108,9 +108,13 @@ runs every upstream fixture end to end (488 of 500 cases at the end of phase 4).
 ### 5. Full parity
 Working list: [parity-fixes.md](parity-fixes.md). Upstream fixtures 500/500; behaviour-level PHPUnit tests ported;
 differential fuzzing converged (round 1 ~1% of cases mismatched, round 4: 5 of 360,000 across 12 construct families,
-all fixed or classified). Remaining:
-- the low-priority items in parity-fixes.md (API-misuse error kinds, closure equality, harness gaps T8/T15–T17);
-- a final fuzz round after the performance work (exit: a round that finds nothing new).
+all fixed or classified). Round 5, the fuzz round after the performance work, found no regression of the pass but is
+not the round that finds nothing new: 4 raw mismatches of 360,000, one of them P43 (an older sandbox bug: outside the
+sandbox twig-rs skips the array walk that makes PHP 8.5 warn about NAN elements), the other three harness artefacts
+(T18, T19). Remaining:
+- P43 (medium) and the fuzz tooling items T18–T20 and T8 in parity-fixes.md;
+- round 6 once P43 is fixed, best after T18 and T19 so their artefacts stay out (exit: a round that finds nothing
+  new).
 
 ### 6. Product
 Plan: [product.md](product.md). Done: re-exports, `From` conversions, `context!`, serde feature, `from_fn` callables,
