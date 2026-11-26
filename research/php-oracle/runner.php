@@ -46,6 +46,10 @@
  *       "lexer": {"tag_block": ["<%", "%>"], "whitespace_trim": "="},  // Lexer options:
  *                                        //   $twig->setLexer(new \Twig\Lexer($twig, $lexer)) right after the
  *                                        //   environment is built (Twig's defaults for the keys left out)
+ *       "preload": ["a.twig"],           // templates loaded at the end of the load phase, after the main one,
+ *                                        //   in order: the templates data_php loads with $twig->load(), so that
+ *                                        //   one that fails is reported in phase "load" (data_php would stop the
+ *                                        //   data phase without typed data)
  *       // and in "sandbox": "policy": {"tests": [...], "strict": true}: SecurityPolicy's allowed tests and
  *       // setStrict(), applied when the environment is built; "source_policy": ["a.twig"]: a SourcePolicyInterface
  *       // whose enableSandbox() is true for the templates of these names (the third SandboxExtension argument)
@@ -631,8 +635,12 @@ function run_twig(array $case): array
                     $loaded[$name] = $twig->load($name);
                 }
             }
+            $wrapper = $loaded[$main] ?? $twig->load($main);
+            foreach ((array) ($case['preload'] ?? []) as $name) {
+                $twig->load((string) $name);
+            }
 
-            return $loaded[$main] ?? $twig->load($main);
+            return $wrapper;
         }, $mode);
 
         $phase = 'data';

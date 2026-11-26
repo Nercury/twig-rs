@@ -14,9 +14,9 @@
 //! 3. `data_json` is reduced by ddmin over the entries of each array/object level, deepest last;
 //!    `data_php` loses top-level keys (the code is wrapped and `unset()`s them; the keys come from
 //!    the oracle's typed tree of the data);
-//! 4. the `config`, `globals`, `extensions`, `sandbox` and `lexer` entries are dropped one at a
-//!    time (and `test_classes`, when [`Options::drop_test_classes`] says candidates run in fresh
-//!    processes).
+//! 4. the `config`, `globals`, `extensions`, `sandbox`, `lexer` and `preload` entries are dropped
+//!    one at a time (and `test_classes`, when [`Options::drop_test_classes`] says candidates run in
+//!    fresh processes).
 //!
 //! Candidates must not see each other: PHP compiles a template class once per process (with `cache
 //! => false` a later candidate with the same source and options reuses it, without its
@@ -592,6 +592,7 @@ fn drop_settings(session: &mut Session<'_>, mut current: Json) -> Json {
         "sandbox",
         "timezone",
         "lexer",
+        "preload",
         "test_classes",
     ] {
         if current.get(field).is_none()

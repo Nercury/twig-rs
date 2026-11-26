@@ -21,7 +21,10 @@
 //! ```
 //!
 //! `lexer` holds Lexer options (`$twig->setLexer(new \Twig\Lexer($twig, $lexer))` before any
-//! template is loaded; twig-rs's `EnvironmentOptions::lexer`).
+//! template is loaded; twig-rs's `EnvironmentOptions::lexer`). `preload` lists templates both
+//! runners load at the end of the load phase, after the main one: the templates `data_php` loads
+//! with `$twig->load()`, so that one that fails is a load error both sides report, not a data phase
+//! the oracle leaves without the typed data twig-rs needs.
 //!
 //! Data comes as `data_json` (decoded like PHP's `json_decode($json, true)`) or as `data_php` (PHP
 //! code, the way a fixture's `--DATA--` is written). twig-rs cannot run PHP: for `data_php` the oracle

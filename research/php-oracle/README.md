@@ -25,7 +25,9 @@ as `data`, the PHP/`CoreExtension` state after the data phase as `state`, and wh
 `data_diagnostics`/`data_deprecations`), `clock` (return `gettimeofday()` taken right before rendering, so that
 twig-rs can render with the same "now"), `time_limit`, `memory_limit`, `wall_limit` (wall-clock seconds after which an
 isolated child is killed), `lexer` (Lexer options: `$twig->setLexer(new \Twig\Lexer($twig, $lexer))` right after the
-environment is built, before any template is loaded), and `tests`/`strict` in the sandbox `policy`. Batch option
+environment is built, before any template is loaded), `preload` (templates loaded at the end of the load phase, after
+the main one: the templates `data_php` loads with `$twig->load()`, so that one that fails is reported in phase `load`
+instead of stopping the data phase without typed data), and `tests`/`strict` in the sandbox `policy`. Batch option
 `"jobs": N` runs up to N isolated cases at a time. Isolated children get their case's own text from the batch (so
 `1e400` stays `INF`), and a case whose `config.cache` is a directory under `/tmp/` gets it emptied before it runs.
 `php runner.php --serve` reads one batch per line and answers with one line per batch (twig-fuzz's minimiser keeps one

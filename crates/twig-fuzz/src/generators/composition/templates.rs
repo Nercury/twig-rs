@@ -246,6 +246,8 @@ pub(super) struct Plan {
     pub data: Vec<(String, Json)>,
     /// Data built by PHP code: `(key, PHP expression)` (`$twig` is in scope).
     pub php: Vec<(String, String)>,
+    /// The templates the PHP code loads (`$twig->load()`), in order: the oracle's `preload`.
+    pub preload: Vec<String>,
     pub globals: Vec<(String, Json)>,
     pub strict: bool,
     /// `autoescape` (`None`: Twig's default, `html`).
@@ -318,6 +320,8 @@ pub(super) struct Gen {
     tpls: Vec<Tpl>,
     data: Vec<(String, Json)>,
     php: Vec<(String, String)>,
+    /// The templates `php` loads, in order (each once).
+    preload: Vec<String>,
     globals: Vec<(String, Json)>,
     string_loader: bool,
     sandbox: bool,
@@ -341,6 +345,7 @@ impl Gen {
             tpls: Vec::new(),
             data: Vec::new(),
             php: Vec::new(),
+            preload: Vec::new(),
             globals: Vec::new(),
             string_loader: false,
             sandbox: false,
@@ -405,6 +410,7 @@ impl Gen {
             templates,
             data: self.data,
             php: self.php,
+            preload: self.preload,
             globals: self.globals,
             strict,
             autoescape,
@@ -502,7 +508,6 @@ impl Gen {
         name
     }
 
-    /// A `Twig\TemplateWrapper` of `name` built by the data code (`$twig->load()`).
     /// A `Twig\Markup` holding `content`, built by the data code.
     fn markup_var(&mut self, content: &str) -> String {
         let var = self.fresh("mk");
@@ -513,10 +518,17 @@ impl Gen {
         var
     }
 
+    /// A `Twig\TemplateWrapper` of `name` built by the data code (`$twig->load()`). The case
+    /// preloads `name` (the oracle's `preload`): a template that fails to load then fails the load
+    /// phase in both runners, instead of stopping the oracle's data phase without the typed data
+    /// twig-rs needs.
     fn wrapper_var(&mut self, name: &str) -> String {
         let var = self.fresh("w");
         self.php
             .push((var.clone(), format!("$twig->load({})", php_string(name))));
+        if !self.preload.iter().any(|known| known == name) {
+            self.preload.push(name.to_owned());
+        }
         var
     }
 

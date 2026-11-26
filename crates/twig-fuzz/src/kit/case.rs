@@ -56,6 +56,10 @@ pub struct Case {
     pub errors: ErrorsMode,
     /// `"load_all"` (default `true`).
     pub load_all: bool,
+    /// `"preload"`: the templates loaded at the end of the load phase, after the main one, in
+    /// order (the templates `data_php` loads with `$twig->load()`, so that one that fails is
+    /// reported in phase `load` instead of stopping the data phase without typed data).
+    pub preload: Vec<String>,
 }
 
 impl Case {
@@ -129,6 +133,16 @@ impl Case {
             _ => ErrorsMode::Collect,
         };
         let load_all = json.get_non_null("load_all").is_none_or(Json::truthy);
+        let preload = json
+            .get("preload")
+            .map(Json::items)
+            .unwrap_or_default()
+            .iter()
+            .map(|name| match name {
+                Json::String(s) => s.clone(),
+                other => other.to_compact(),
+            })
+            .collect();
         Ok(Case {
             json: json.clone(),
             id,
@@ -138,6 +152,7 @@ impl Case {
             env,
             errors,
             load_all,
+            preload,
         })
     }
 
@@ -228,7 +243,8 @@ mod tests {
     fn parses_like_the_runner() {
         let json = Json::parse(
             r#"{"id":7,"env":"plain","templates":{"a.twig":"x","index.twig":"y"},
-                "templates_b64":{"a.twig":"/w=="},"data_json":[1],"errors":"throw","load_all":0}"#,
+                "templates_b64":{"a.twig":"/w=="},"data_json":[1],"errors":"throw","load_all":0,
+                "preload":["a.twig"]}"#,
         )
         .unwrap();
         let case = Case::from_json(&json).unwrap();
@@ -239,6 +255,7 @@ mod tests {
         assert_eq!(case.env, EnvKind::Plain);
         assert_eq!(case.errors, ErrorsMode::Throw);
         assert!(!case.load_all);
+        assert_eq!(case.preload, ["a.twig"]);
         assert!(matches!(case.data, CaseData::Json(_)));
         let rebuilt = Case::from_json(&case.with_templates(&case.templates)).unwrap();
         assert_eq!(rebuilt.templates, case.templates);

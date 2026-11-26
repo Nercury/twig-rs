@@ -54,6 +54,13 @@
 //!   `depth` guard from the context).
 //!   Twig has no recursion limit and PHP dies with a fatal error, while twig-rs reports its own
 //!   limit (`reference/deviations.md`, "Recursion depth").
+//! - **Templates the data loads are preloaded.** The `Twig\TemplateWrapper`s of `data_php` come from
+//!   `$twig->load()`; without `load_all` a template that fails to compile or load would stop the
+//!   oracle's data phase without the typed data twig-rs rebuilds the data from, and the case could
+//!   not be compared. The case lists those templates in `"preload"` (in the order the data code
+//!   loads them), which both runners load at the end of the load phase: such a failure is a
+//!   comparable load error. Nothing else in the data code raises a diagnostic, so loading them
+//!   earlier changes no order.
 //! - **No unseeded randomness**, no dates, no `dump()` of objects, no closures in the data.
 
 mod rng;
@@ -181,6 +188,12 @@ pub fn case(seed: u64, id: &str, cache: bool) -> Json {
         fields.push(("globals".to_owned(), Json::Object(plan.globals.clone())));
     }
     fields.push(("load_all".to_owned(), Json::Bool(plan.load_all)));
+    if !plan.preload.is_empty() {
+        fields.push((
+            "preload".to_owned(),
+            Json::Array(plan.preload.iter().map(Json::str).collect()),
+        ));
+    }
     if plan.throw {
         fields.push(("errors".to_owned(), Json::str("throw")));
     }
@@ -271,5 +284,47 @@ mod tests {
             moved.get("config").and_then(|c| c.get("cache")),
             Some(&Json::str("/tmp/x"))
         );
+    }
+
+    /// The single-quoted PHP string at the start of `code` (`templates::php_string()`'s escapes).
+    fn php_unquote(code: &str) -> Option<String> {
+        let mut chars = code.strip_prefix('\'')?.chars();
+        let mut out = String::new();
+        loop {
+            match chars.next()? {
+                '\'' => return Some(out),
+                '\\' => out.push(chars.next()?),
+                c => out.push(c),
+            }
+        }
+    }
+
+    /// The templates the data code loads are the case's `preload`, in the order of their first load.
+    #[test]
+    fn templates_the_data_loads_are_preloaded() {
+        let settings = Settings {
+            seed: 11,
+            count: 400,
+            ..Settings::default()
+        };
+        let mut preloading = 0;
+        for json in batch(&settings)
+            .get("cases")
+            .map(Json::items)
+            .unwrap_or_default()
+        {
+            let case = Case::from_json(json).expect("a twig case");
+            let code = json.get("data_php").and_then(Json::as_str).unwrap_or("");
+            let mut loaded: Vec<String> = Vec::new();
+            for call in code.split("$twig->load(").skip(1) {
+                let name = php_unquote(call).expect("a quoted name");
+                if !loaded.contains(&name) {
+                    loaded.push(name);
+                }
+            }
+            assert_eq!(case.preload, loaded, "{code}");
+            preloading += usize::from(!loaded.is_empty());
+        }
+        assert!(preloading > 50, "{preloading}");
     }
 }

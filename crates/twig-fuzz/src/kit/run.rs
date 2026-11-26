@@ -236,7 +236,11 @@ fn run_inner(case: &Case, oracle: Option<&CaseResult>) -> Result<CaseResult, Sto
                 env.load(name)?;
             }
         }
-        env.load(&case.main)
+        let wrapper = env.load(&case.main)?;
+        for name in &case.preload {
+            env.load(name)?;
+        }
+        Ok::<_, twig::Error>(wrapper)
     })();
     recorder.take(&env);
     let wrapper = match loaded {
