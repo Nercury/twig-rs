@@ -542,6 +542,23 @@ fn invoke(
     def: &MacroDef,
     arguments: &Array,
 ) -> Result<Value, Exception> {
+    if arguments.keys().all(|key| matches!(key, ArrayKey::Int(_))) {
+        // positional arguments only: they fill the parameters in order, the rest goes to the bucket
+        let mut values = arguments.values();
+        let mut context = Array::new();
+        for param in &def.params {
+            let value = values.next().cloned();
+            context.insert(
+                ArrayKey::from_string(param.name.clone()),
+                value.unwrap_or_else(|| param.default.clone()),
+            );
+        }
+        let mut bucket = Array::new();
+        for value in values {
+            bucket.push(value.clone())?;
+        }
+        return run_macro(state, template, def, context, bucket);
+    }
     let mut values: Vec<Option<Value>> = vec![None; def.params.len()];
     let mut bucket = Array::new();
     let mut named = false;
@@ -591,6 +608,17 @@ fn invoke(
             value.unwrap_or_else(|| param.default.clone()),
         );
     }
+    run_macro(state, template, def, context, bucket)
+}
+
+/// Runs the body of a macro with the context of its parameters, to which the bucket and the globals are added.
+fn run_macro(
+    state: &mut VmState,
+    template: &Arc<Template>,
+    def: &MacroDef,
+    mut context: Array,
+    bucket: Array,
+) -> Result<Value, Exception> {
     let bucket_name = match &def.variadic {
         Some(name) => PhpString::from(name.as_slice()),
         None => PhpString::clone(&VARARGS),
