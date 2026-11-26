@@ -1,6 +1,7 @@
 <?php
 // PHP Twig counterpart of the criterion benchmarks in benches/: the same scenarios (benches/scenarios/<name>/: the
-// templates, index.twig as the entry point, data.json as the context) and the same operations, timed with hrtime().
+// templates, index.twig as the entry point, data.json as the context), the same micro templates (the `micro` group of
+// benches/render.rs) and the same operations, timed with hrtime().
 //
 //   php bench.php <scenarios dir> [--cache=<dir>] [--dump=<dir>] [--time=<seconds>] [--only=<substring>]
 //
@@ -116,6 +117,25 @@ function measure(callable $fn, float $seconds): array
     ];
 }
 
+/** The templates of the `micro` group of benches/render.rs (keep them in sync). */
+function micro_templates(): array
+{
+    return [
+        'hello' => 'Hello {{ name }}!',
+        'text' => str_repeat('x{# c #}', 1000),
+        'print_int' => str_repeat('{{ 1 }}', 1000),
+        'print_raw' => str_repeat('{{ a|raw }}', 1000),
+        'print_escaped' => str_repeat('{{ a }}', 1000),
+        'set' => str_repeat('{% set x = a %}', 1000),
+        'set_add' => str_repeat('{% set x = a + 1 %}', 1000),
+        'for' => '{% for i in items %}{{ i }}{% endfor %}',
+        'attribute' => str_repeat('{{ user.name }}', 1000),
+        'filter' => str_repeat('{{ name|length }}', 1000),
+        'empty_loop' => str_repeat('{% for i in [1, 2] %}{% endfor %}', 1000),
+        'macro' => '{% macro m(v) %}{{ v }}{% endmacro %}'.str_repeat('{{ _self.m(a) }}', 1000),
+    ];
+}
+
 $results = [];
 foreach (scenarios($dir) as $name => $scenario) {
     if ($only !== null && !str_contains($name, $only)) {
@@ -147,4 +167,17 @@ foreach (scenarios($dir) as $name => $scenario) {
     }
     $stats = measure(fn () => $env->render('index.twig', $context), $time);
     echo json_encode(['group' => 'render', 'name' => $name, 'bytes' => strlen($output)] + $stats), "\n";
+}
+
+// micro: one-off templates repeating a single construct (the `micro` group of benches/render.rs)
+$templates = micro_templates();
+$env = environment($templates, $cache === false ? false : "$cache/micro");
+$context = ['name' => 'World', 'a' => 1, 'items' => range(1, 1000), 'user' => ['name' => 'Ada']];
+foreach (array_keys($templates) as $name) {
+    if ($only !== null && !str_contains($name, $only)) {
+        continue;
+    }
+    $env->render($name, $context);
+    $stats = measure(fn () => $env->render($name, $context), $time);
+    echo json_encode(['group' => 'micro', 'name' => $name] + $stats), "\n";
 }
