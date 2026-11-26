@@ -36,6 +36,9 @@ use crate::extension::{EscaperExtension, ExtensionSet};
 /// `TypeError` (`Twig\NodeVisitor\EscaperNodeVisitor::needEscaping(): Return value must be of type string|bool, null
 /// returned`). It is a PHP `\Error`, so `compileSource()` lets it through unwrapped. Numbers are coerced to strings as
 /// PHP does (`{% autoescape 1 %}` escapes with the strategy `"1"`), and `true` becomes the strategy `"1"`.
+///
+/// An expression to escape in an extension set without an `escape` filter (the visitor registered without the
+/// `EscaperExtension`) is PHP's `Error` `Call to a member function getNodeClass() on null`, also unwrapped.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct EscaperNodeVisitor;
 
@@ -235,13 +238,17 @@ impl EscaperPass<'_> {
     /// template's escaper.
     ///
     /// Twig: `EscaperNodeVisitor::getEscaperFilter()`.
+    ///
+    /// Without an `escape` filter, `$env->getFilter('escape')->getNodeClass()` is PHP's `Error` `Call to a member
+    /// function getNodeClass() on null` (`zend_invalid_method_call()`, PHPSRC/Zend/zend_execute.c), which
+    /// `compileSource()` lets through unwrapped.
     fn escaper_filter(&mut self, strategy: &[u8], node: Expr) -> Result<Expr> {
         let line = node.line;
-        // `$env->getFilter('escape')->getNodeClass()` (a PHP Error on null)
-        let filter = self
-            .extensions
-            .get_filter(b"escape")?
-            .ok_or_else(|| Error::logic("Call to a member function getNodeClass() on null"))?;
+        let filter = self.extensions.get_filter(b"escape")?.ok_or_else(|| {
+            Error::php(PhpError::error(
+                "Call to a member function getNodeClass() on null",
+            ))
+        })?;
         let mut arguments = Arguments::new();
         arguments.push(Expr::constant(
             ConstantValue::String(strategy.to_vec()),

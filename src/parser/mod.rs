@@ -23,6 +23,8 @@ pub use context::{ParseContext, compile_source_error};
 use std::collections::HashMap;
 use std::sync::Arc;
 
+use twig_value::PhpError;
+
 use crate::ast::{
     ArgumentKey, Arguments, ArrayExpr, BinaryOp, ChildKey, ConstantValue, Expr, ExprKind, Lossy,
     Node, NodeKey, NodeKind, NodeMut, Nodes, UnaryOp,
@@ -64,11 +66,15 @@ impl ImportedSymbol {
     ///
     /// # Errors
     ///
-    /// A `LogicException`-kind error when the symbol has no import node (a `template` symbol).
+    /// PHP's `Error` `Call to a member function getNode() on null` (`zend_invalid_method_call()`,
+    /// PHPSRC/Zend/zend_execute.c) when the symbol has no import node (a `template` symbol, or a `function` symbol a
+    /// token parser registered without one); `compileSource()` lets it through unwrapped.
     pub fn macro_variable(&self) -> Result<Expr> {
         match self.node.as_ref().map(|node| &node.kind) {
             Some(ExprKind::AssignMacroVariable(assign)) => Ok(assign.var.clone()),
-            _ => Err(Error::logic("Call to a member function getNode() on null")),
+            _ => Err(Error::php(PhpError::error(
+                "Call to a member function getNode() on null",
+            ))),
         }
     }
 }

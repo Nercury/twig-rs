@@ -951,6 +951,50 @@ fn need_escaping_type_errors_are_not_wrapped() {
     assert!(error.source_context().is_none());
 }
 
+/// `EscaperNodeVisitor::getEscaperFilter()` without an `escape` filter (the visitor registered without the
+/// `EscaperExtension`): `$env->getFilter('escape')->getNodeClass()` is PHP's `Error` on `null`, which `compileSource()`
+/// lets through. PHP (the oracle, an `Environment` subclass whose `getFilter('escape')` returns `null`) throws it for
+/// both templates, from `compileSource()` and from `load()`.
+#[test]
+fn missing_escape_filters_are_unwrapped_php_errors() {
+    struct EscaperVisitorOnly;
+    impl Extension for EscaperVisitorOnly {
+        fn class_name(&self) -> &str {
+            "Acme\\EscaperVisitorOnlyExtension"
+        }
+        fn token_parsers(&self) -> Vec<Arc<dyn twig::extension::TokenParser>> {
+            vec![Arc::new(twig::token_parser::AutoEscapeTokenParser)]
+        }
+        fn node_visitors(&self) -> Vec<Arc<dyn twig::visitor::NodeVisitor>> {
+            vec![Arc::new(twig::visitor::EscaperNodeVisitor)]
+        }
+        fn as_any(&self) -> &dyn Any {
+            self
+        }
+    }
+    for code in [
+        "{{ a|nl2br }}",
+        "{% autoescape 'js' %}{{ a }}{% endautoescape %}",
+    ] {
+        let mut set = ExtensionSet::new();
+        set.add_extension(Arc::new(CoreExtension::new())).unwrap();
+        set.add_extension(Arc::new(EscaperVisitorOnly)).unwrap();
+        let mut deprecations: Vec<Deprecation> = Vec::new();
+        let error = ParseContext::new(set)
+            .parse_template(&Source::new(code, "index"), &mut deprecations)
+            .unwrap_err();
+        assert_eq!(error.kind(), ErrorKind::Php, "{code}");
+        assert_eq!(error.class_name(), "Error", "{code}");
+        assert_eq!(
+            error.to_string(),
+            "Call to a member function getNodeClass() on null",
+            "{code}"
+        );
+        assert!(error.previous().is_none(), "{code}");
+        assert!(error.source_context().is_none(), "{code}");
+    }
+}
+
 // ---- the sandbox visitor --------------------------------------------------------------------------------------------
 
 /// Port of `SandboxTest::testSelfIsNeverWrapped()` (on a print instead of a custom node class) and of the

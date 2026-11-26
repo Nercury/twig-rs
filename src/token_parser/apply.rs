@@ -1,5 +1,7 @@
 //! Twig: `Twig\TokenParser\ApplyTokenParser` (TWIG/src/TokenParser/ApplyTokenParser.php).
 
+use twig_value::PhpError;
+
 use super::{TokenParser, expect_block_end, subparse_until};
 use crate::ast::{Expr, Node, Nodes, TempNameInput};
 use crate::error::{Error, Result};
@@ -31,10 +33,11 @@ impl TokenParser for ApplyTokenParser {
             .expression_parsers()
             .by_class::<FilterExpressionParser>()
         else {
-            // `getByClass()` returns null and `$op->parse()` fails on null.
-            return Err(Error::logic(
-                "Call to a member function parse() on null (no FilterExpressionParser is registered)",
-            ));
+            // `getByClass()` returns null and `$op->parse()` is PHP's `Error` on null (`zend_invalid_method_call()`,
+            // PHPSRC/Zend/zend_execute.c), which `compileSource()` lets through unwrapped
+            return Err(Error::php(PhpError::error(
+                "Call to a member function parse() on null",
+            )));
         };
         let op = std::sync::Arc::clone(op);
         loop {

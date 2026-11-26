@@ -1,6 +1,7 @@
 //! The parser's tag plumbing (`subparse()`, scopes, imported symbols, blocks, the parent template, documentation
 //! targets) through the core `from`, `import`, `block` and `extends` token parsers, against
-//! `tests/vectors/parser/tags.json`, and two custom tags (a `null` return and a discarded body).
+//! `tests/vectors/parser/tags.json`, two custom tags (a `null` return and a discarded body), and the PHP `Error`s of
+//! token parsers used without what they expect (an import node, a `FilterExpressionParser`).
 //!
 //! Regenerate (from the repository root; Git Bash on Windows needs MSYS_NO_PATHCONV=1):
 //!
@@ -13,7 +14,8 @@ use twig::ast::{Node, NodeKind, Nodes, PrintNode, dump::dump_node_bytes};
 use twig::deprecation::Deprecation;
 use twig::extension::{Extension, ExtensionSet, TokenParser};
 use twig::lexer::{Token, TokenType};
-use twig::parser::{DocumentationTarget, EndTagTest, Parser};
+use twig::parser::{DocumentationTarget, EndTagTest, ParseContext, Parser};
+use twig::token_parser::ApplyTokenParser;
 use twig::{Result, Source};
 
 use super::support::{keep_parser_visitors, parse_with};
@@ -239,4 +241,98 @@ fn embedded_templates_get_increasing_indices() {
     );
     assert_eq!(parser.embed_template(module.clone()), 1);
     assert_eq!(parser.embed_template(module), 2);
+}
+
+// ---- PHP `Error`s of API misuse --------------------------------------------------------------------------------------
+//
+// Calls on `null` that PHP reports as an `Error` (`Call to a member function %s() on null`): `compileSource()` wraps
+// only `\Exception`s, so these come out unwrapped, without a source or a line. The PHP side ran in the oracle with
+// the same tags in a custom extension (`$parser->addImportedSymbol('function', 'foo', 'bar')`) and with an
+// `Environment` subclass whose `getExpressionParsers()` leaves the `FilterExpressionParser` out; `compileSource()`
+// and `load()` threw the same `Error`s.
+
+/// A tag registering the `function` symbol `foo` (macro `bar`) without an import node.
+struct Bare;
+
+impl TokenParser for Bare {
+    fn tag(&self) -> &str {
+        "bare"
+    }
+
+    fn parse(&self, parser: &mut Parser<'_>, token: &Token) -> Result<Option<Node>> {
+        parser.add_imported_symbol("function", b"foo".to_vec(), Some(b"bar".to_vec()), None);
+        parser
+            .stream_mut()
+            .expect(TokenType::BlockEnd, None, None)?;
+        Ok(Some(Node::nodes(Nodes::new(), token.line())))
+    }
+}
+
+/// An extension with the given token parsers only.
+struct Tags(Vec<Arc<dyn TokenParser>>);
+
+impl Extension for Tags {
+    fn class_name(&self) -> &str {
+        "Acme\\TagsExtension"
+    }
+
+    fn token_parsers(&self) -> Vec<Arc<dyn TokenParser>> {
+        self.0.clone()
+    }
+
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
+}
+
+/// `compileSource()`'s error for `code`, checked to be PHP's unwrapped `Error`.
+fn compile_error(set: ExtensionSet, code: &str) -> String {
+    let mut deprecations: Vec<Deprecation> = Vec::new();
+    let error = ParseContext::new(set)
+        .parse_template(&Source::new(code, "index"), &mut deprecations)
+        .unwrap_err();
+    assert_eq!(error.kind(), twig::ErrorKind::Php, "{code}");
+    assert_eq!(error.class_name(), "Error", "{code}");
+    assert!(error.previous().is_none(), "{code}");
+    assert!(error.source_context().is_none(), "{code}");
+    assert_eq!(error.template_line(), -1, "{code}");
+    error.to_string()
+}
+
+/// Twig: `FunctionExpressionParser::parse()` and `IsExpressionParser::parse()` read `$alias['node']->getNode('var')`
+/// of an imported `function` symbol before its arguments.
+#[test]
+fn function_symbols_without_an_import_node_are_php_errors() {
+    for code in [
+        "{% bare %}{{ foo() }}",
+        "{% bare %}{{ foo(1, 2) }}",
+        "{% bare %}{{ foo is defined }}",
+    ] {
+        let mut set = ExtensionSet::with_core_extensions();
+        set.add_extension(Arc::new(Tags(vec![Arc::new(Bare)])))
+            .unwrap();
+        assert_eq!(
+            compile_error(set, code),
+            "Call to a member function getNode() on null",
+            "{code}"
+        );
+    }
+}
+
+/// Twig: `ApplyTokenParser::parse()` calls `parse()` on what `getByClass(FilterExpressionParser::class)` returns.
+#[test]
+fn apply_without_a_filter_expression_parser_is_a_php_error() {
+    for code in [
+        "{% apply upper %}x{% endapply %}",
+        "{% apply %}x{% endapply %}",
+    ] {
+        let mut set = ExtensionSet::new();
+        set.add_extension(Arc::new(Tags(vec![Arc::new(ApplyTokenParser)])))
+            .unwrap();
+        assert_eq!(
+            compile_error(set, code),
+            "Call to a member function parse() on null",
+            "{code}"
+        );
+    }
 }
