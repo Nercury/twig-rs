@@ -3,7 +3,8 @@
 //! links, case variants, offsets, abbreviations, `false`, `DateTimeZone` objects, invalid names)
 //! and inputs (timestamps including negative and huge ones, digit strings, float strings,
 //! absolute, relative, composed, mutated and token-soup date strings, `DateTime`,
-//! `DateTimeImmutable` and `DateInterval` objects built by `data_php`), `date_modify`, local times
+//! `DateTimeImmutable` and `DateInterval` objects built by `data_php`), `DatePeriod`s of the data
+//! (iterated, counted, their getters, properties, JSON and dumps), `date_modify`, local times
 //! around DST gaps, overlaps and other offset changes, date comparisons, methods of date objects
 //! (`modify`, `setDate`, `setTime`, `setISODate`, `setTimestamp`, `add`, `sub`, `setTimezone`,
 //! `getTransitions`, `getOffset`, ...), `diff()` and interval formats, `number_format`, `round`,
@@ -44,7 +45,7 @@ pub const FAMILY: &str = "formats";
 pub enum Kind {
     /// `date` filter and function, `date_modify`, date objects, their attributes and comparisons.
     Dates,
-    /// `DateInterval` formats (`diff()` results and interval objects).
+    /// `DateInterval` formats (`diff()` results and interval objects) and `DatePeriod`s.
     Intervals,
     /// `number_format`, `round`, `abs`.
     Numbers,
@@ -2160,13 +2161,17 @@ impl Gen {
                     4 => (V::php("(object) ['date' => '2020-01-01']"), false),
                     5 => (V::php("new \\ArrayObject(['2020-01-01'])"), false),
                     6 => (V::php("new \\Twig\\Markup('1700000000', 'UTF-8')"), false),
-                    _ => (
-                        V::php(format!(
-                            "new \\DateTimeZone({})",
-                            php_plain(&self.pick_str(TZ_NAMES))
-                        )),
-                        false,
-                    ),
+                    _ => {
+                        // the data code must not throw: `new \DateTimeZone('Etc/Unknown')` does
+                        let name = match self.pick_str(TZ_NAMES) {
+                            unknown if unknown == "Etc/Unknown" => "Etc/UTC".to_owned(),
+                            name => name,
+                        };
+                        (
+                            V::php(format!("new \\DateTimeZone({})", php_plain(&name))),
+                            false,
+                        )
+                    }
                 };
                 DateIn {
                     expr: self.var(value),
@@ -3065,7 +3070,7 @@ impl Gen {
                 "{{{{ date({left}{keep}).diff(date({right}{keep}){absolute})|date({format}) }}}}"
             );
         }
-        match self.rng.weighted(&[40, 30, 15, 15]) {
+        match self.rng.weighted(&[40, 30, 15, 15, 20]) {
             // date(A).diff(date(B)[, absolute])|date(IF)
             0 => {
                 let a = self.date_input();
@@ -3111,7 +3116,7 @@ impl Gen {
                 format!("{{{{ {interval}.{member} }}}}")
             }
             // intervals in json and dumps
-            _ => {
+            3 => {
                 let interval = self.interval_object();
                 let interval = self.var(interval);
                 if self.rng.chance(60) {
@@ -3121,7 +3126,102 @@ impl Gen {
                     format!("{{{{ dump({interval}) }}}}")
                 }
             }
+            // date periods
+            _ => self.period_statement(),
         }
+    }
+
+    /// A statement on a `DatePeriod` of the data: its iteration, `length`, `first`/`last`, the getters and
+    /// properties, the interval, JSON and dumps.
+    fn period_statement(&mut self) -> String {
+        let period = self.period_object();
+        let p = self.var(period);
+        match self.rng.below(8) {
+            0 => {
+                let format = self.date_format(true);
+                format!(
+                    "{{% for k, d in {p} %}}{{{{ k }}}}={{{{ d|date({format}) }}}} {{% endfor %}}"
+                )
+            }
+            1 => format!("{{{{ {p}|length }}}}"),
+            2 => {
+                let format = self.date_format(true);
+                format!("{{{{ {p}|first|date({format}) }}}}|{{{{ {p}|last|date({format}) }}}}")
+            }
+            3 => {
+                let format = self.date_format(true);
+                format!(
+                    "{{{{ {p}.getStartDate()|date({format}) }}}}|{{{{ {p}.getEndDate() is null ? 'none' : {p}.getEndDate()|date({format}) }}}}|{{{{ {p}.getRecurrences() ?? 'null' }}}}"
+                )
+            }
+            4 => {
+                let format = self.interval_format(true);
+                format!("{{{{ {p}.getDateInterval()|date({format}) }}}}")
+            }
+            5 => {
+                let member = *self.rng.pick(&[
+                    "recurrences",
+                    "include_start_date",
+                    "include_end_date",
+                    "current",
+                    "start",
+                    "end",
+                    "interval",
+                ]);
+                format!("{{{{ {p}.{member}|json_encode|raw }}}}")
+            }
+            6 => format!("{{{{ {p}|json_encode|raw }}}}"),
+            _ => {
+                self.debug = true;
+                format!("{{{{ dump({p}) }}}}")
+            }
+        }
+    }
+
+    /// A `DatePeriod` built by the data code: a start date, an interval and a number of recurrences or an end
+    /// date a few intervals later (so the iteration stays short), sometimes with options, or an ISO 8601
+    /// repeating interval (`createFromISO8601String()`).
+    fn period_object(&mut self) -> V {
+        let class = self.pick_static(&["\\DateTime", "\\DateTimeImmutable"]);
+        let options = match self.rng.below(8) {
+            0 => ", \\DatePeriod::EXCLUDE_START_DATE",
+            1 => ", \\DatePeriod::INCLUDE_END_DATE",
+            2 => ", \\DatePeriod::EXCLUDE_START_DATE | \\DatePeriod::INCLUDE_END_DATE",
+            _ => "",
+        };
+        // (a recurrence count below 1 throws in the data code)
+        if self.rng.chance(12) {
+            let year = self.rng.range(1990, 2040);
+            let month = self.rng.range(1, 12);
+            let day = self.rng.range(1, 28);
+            let hour = self.rng.range(0, 23);
+            let recurrences = self.rng.range(1, 4);
+            let spec = self.pick_static(&["P1D", "PT6H", "P1W", "P1M", "P1Y", "P1DT2H"]);
+            return V::php(format!(
+                "\\DatePeriod::createFromISO8601String('R{recurrences}/{year:04}-{month:02}-{day:02}T{hour:02}:00:00Z/{spec}'{options})"
+            ));
+        }
+        let start = self.fixed_php_date();
+        let spec = self.pick_static(&[
+            "P1D", "PT12H", "P1W", "P1M", "PT90M", "P2D", "P1Y", "P1DT6H",
+        ]);
+        let interval = format!("new \\DateInterval('{spec}')");
+        let tail = if self.rng.chance(60) {
+            self.rng.range(1, 5).to_string()
+        } else {
+            let unit = match spec {
+                "P1M" => "months",
+                "P1Y" => "years",
+                "P1W" => "weeks",
+                "PT12H" | "PT90M" => "hours",
+                _ => "days",
+            };
+            let n = self.rng.range(-1, 6);
+            format!("(new {class}({start}))->modify('{n:+} {unit}')")
+        };
+        V::php(format!(
+            "new \\DatePeriod(new {class}({start}), {interval}, {tail}{options})"
+        ))
     }
 
     /// An interval format as a Twig expression (`micro_ok`: `%f` and `%F` may appear).
@@ -4088,6 +4188,32 @@ mod tests {
             assert_eq!(cases.len(), 50);
             assert_eq!(Kind::from_name(kind.name()), Some(kind));
         }
+    }
+
+    /// The intervals kind puts `DatePeriod`s into the data, and no data code builds a timezone that
+    /// `new \DateTimeZone()` rejects.
+    #[test]
+    fn date_periods_in_the_data() {
+        let cases = generate_kinds(3, 400, &[Kind::Intervals]);
+        let data: Vec<String> = cases
+            .iter()
+            .filter_map(|case| {
+                case.get("data_php")
+                    .and_then(Json::as_str)
+                    .map(str::to_owned)
+            })
+            .collect();
+        let periods = data
+            .iter()
+            .filter(|code| code.contains("DatePeriod"))
+            .count();
+        assert!(periods > 20, "{periods}");
+        let all = generate(5, 3000);
+        assert!(!all.iter().any(|case| {
+            case.get("data_php")
+                .and_then(Json::as_str)
+                .is_some_and(|code| code.contains("DateTimeZone(\"Etc/Unknown\")"))
+        }));
     }
 
     #[test]
