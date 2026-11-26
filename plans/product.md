@@ -44,12 +44,17 @@ clean-room converter (`charset_basic`: the Unicode charsets, ASCII and ISO-8859-
 
 ## Release
 
-- `NOTICE` listing every third-party source and licence: Twig (BSD-3-Clause; ported logic and vendored fixtures), PHP
-  (PHP License 3.01) and the Zend Engine (Zend Engine License 2.00) for ported php-src logic, timelib (MIT), PCRE2
-  (BSD-3-Clause) and sljit (BSD-2-Clause), Unicode data (Unicode License v3), the IANA time zone database (public
-  domain), musl/ARM optimized-routines (MIT), glibc's iconv (LGPL-2.1-or-later, only the optional `twig-iconv`) and
-  its measured tables, xxHash via `xxhash-rust`.
-- Per-crate licence expressions reviewed against what each crate contains.
-- CHANGELOG, versions (0.2.0 for every crate), crates.io metadata, docs.rs settings (with the `serde` feature, so
-  that `to_context` and `to_value` are documented). The README's installation section then names the crates.io
-  version. Publishing needs the owner's go.
+0.2.0 is prepared (versions, crates.io and docs.rs metadata, per-crate licence files, `CHANGELOG.md`, the README's
+installation section); `cargo package` builds the seven published crates, each far below crates.io's 10 MB limit.
+Open:
+
+- Publishing needs the owner's go. Before it: check on crates.io that the owner holds the `twig` name (the 2015
+  versions may be there) and that the `twig-*` names are free. Then `cargo publish` in dependency order (twig-unicode,
+  twig-timelib, twig-pcre, twig-value, twig-iconv, twig-date, twig), date the CHANGELOG entry, tag `v0.2.0`, and
+  update the README's status bullet, which still says that nothing is published. Until then the installation section
+  names a version that is not on crates.io.
+- twig-iconv's publication (see the licensing section) gates twig's `glibc-iconv` feature: crates.io refuses
+  dependencies that are not published, optional ones included, so without twig-iconv the feature and its optional
+  dependency have to be removed before twig is published.
+- The sub-crates show the repository's README on crates.io, where its relative links resolve against the crate's
+  directory and break; short per-crate READMEs would fix that.
