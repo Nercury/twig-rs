@@ -694,7 +694,7 @@ pub fn describe(error: &twig::Error, depth: usize) -> ErrorDesc {
             message: error.message().into_bytes(),
             twig: Some(TwigErrorInfo {
                 raw_message: error.raw_message().as_bytes().to_vec(),
-                template_name: error.source_context().map(|s| s.name().to_owned()),
+                template_name: error.source_context().map(|s| s.name().as_bytes().to_vec()),
                 template_line: error.template_line(),
                 template_column: column,
             }),

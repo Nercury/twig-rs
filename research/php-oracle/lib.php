@@ -88,7 +88,7 @@ function describe_throwable(\Throwable $e, int $depth = 0): array
     if ($e instanceof TwigError) {
         put_string($out, 'rawMessage', $e->getRawMessage());
         $src = $e->getSourceContext();
-        $out['templateName'] = $src?->getName();
+        put_string($out, 'templateName', $src?->getName());
         $out['templateLine'] = $e->getTemplateLine();
         $out['templateColumn'] = $e->getTemplateColumn();
     } else {

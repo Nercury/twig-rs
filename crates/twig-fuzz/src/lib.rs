@@ -106,7 +106,8 @@
 //! diagnostics. Differences that `reference/deviations.md` accepts (the `, called in <file>` suffix
 //! of userland `TypeError`s, closure names with file and line or template class scope,
 //! `var_dump()` object handles also through escaping strategies and case filters and in the
-//! `string(N)` lengths of dumped dumps, lossy non-UTF-8 messages, the compile-time warnings a
+//! `string(N)` lengths of dumped dumps, lossy non-UTF-8 messages and template names (the oracle
+//! sends their exact bytes, compared after twig-rs's lossy conversion), the compile-time warnings a
 //! filesystem cache silences in PHP and twig-rs raises when the expression runs) make a
 //! [`Verdict::Deviation`](kit::diff::Verdict::Deviation), not a mismatch.
 //! Each mismatch has a signature ([`kit::diff::Mismatch::signature`]) built from the differing fields

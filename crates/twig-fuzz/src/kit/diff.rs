@@ -8,7 +8,8 @@
 //! extras.
 //!
 //! Messages are compared the way twig-rs produces them: invalid UTF-8 in a PHP message is decoded
-//! lossily (`reference/deviations.md`, "Non-UTF-8 bytes in error and deprecation messages").
+//! lossily (`reference/deviations.md`, "Non-UTF-8 bytes in error and deprecation messages"), and so
+//! is the error's template name ("Non-UTF-8 template names given to `template_from_string()`").
 //!
 //! When fields differ, the [deviation rules](DEVIATION_RULES) (known, accepted differences listed
 //! in `reference/deviations.md`) are applied to both sides; a difference that disappears is a
@@ -538,11 +539,15 @@ fn error_fields(
                     signature: format!("{path}.rawMessage [{} > {}]", shape(&w_raw), shape(&g_raw)),
                 });
             }
-            if w.template_name != g.template_name {
+            // twig-rs's template names are lossy UTF-8 (a listed deviation): the oracle's bytes are
+            // compared after the same conversion, as the messages that embed the name are
+            let w_name = w.template_name.as_deref().map(lossy);
+            let g_name = g.template_name.as_deref().map(lossy);
+            if w_name != g_name {
                 out.push(FieldDiff {
                     field: format!("{path}.templateName"),
-                    expected: format!("{:?}", w.template_name),
-                    actual: format!("{:?}", g.template_name),
+                    expected: format!("{w_name:?}"),
+                    actual: format!("{g_name:?}"),
                     signature: format!("{path}.templateName"),
                 });
             }
@@ -1063,6 +1068,34 @@ mod tests {
             }
             v => panic!("{v:?}"),
         }
+    }
+
+    /// The oracle's exact template name (`templateName_b64`) is compared after twig-rs's lossy
+    /// conversion: `\xed\xa0` is two maximal invalid subparts, two U+FFFD.
+    #[test]
+    fn template_names_that_are_not_utf8() {
+        let rs = result(
+            r#"{"ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"m","rawMessage":"m","templateName":"�� (string template 1)","templateLine":1},"deprecations":[],"diagnostics":[]}"#,
+        );
+        let php = result(
+            r#"{"ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"m","rawMessage":"m","templateName":"? (string template 1)","templateName_b64":"7aAgKHN0cmluZyB0ZW1wbGF0ZSAxKQ==","templateLine":1},"deprecations":[],"diagnostics":[]}"#,
+        );
+        assert_eq!(compare(&php, &rs), Verdict::Same);
+        // what json_encode()'s JSON_INVALID_UTF8_SUBSTITUTE made of the name before the oracle wrote
+        // it with put_string(): one U+FFFD for the sequence
+        let substituted = result(
+            r#"{"ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"m","rawMessage":"m","templateName":"� (string template 1)","templateLine":1},"deprecations":[],"diagnostics":[]}"#,
+        );
+        match compare(&substituted, &rs) {
+            Verdict::Mismatch(m) => assert_eq!(m.signature(), "error.templateName"),
+            other => panic!("{other:?}"),
+        }
+        // the twig-rs side writes the bytes back with put_string()'s fields
+        let json = php.error.as_ref().unwrap().to_json();
+        assert_eq!(
+            json.get("templateName_b64").and_then(Json::as_str),
+            Some("7aAgKHN0cmluZyB0ZW1wbGF0ZSAxKQ==")
+        );
     }
 
     #[test]

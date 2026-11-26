@@ -7,12 +7,13 @@
 //!            "templateColumn", "code", "previous"}, "deprecations": [...], "diagnostics": [...]}
 //! ```
 //!
-//! Strings that are not valid UTF-8 carry a `<field>_b64` copy (lib.php's `put_string()`); the
-//! model keeps the exact bytes. With `typed_data` the oracle adds `data` (the typed tree of the
-//! evaluated `data_php`), `state` (PHP and `CoreExtension` state after the data phase) and
-//! `data_diagnostics` / `data_deprecations` (what the data code raised); with `clock` it adds `clock`
-//! (`[sec, usec]` of `gettimeofday()` right before rendering). The model keeps them as JSON. A dead oracle process reports `phase` `fatal` (the case that died) or `lost` (cases that
-//! never ran).
+//! Strings that are not valid UTF-8 carry a `<field>_b64` copy (lib.php's `put_string()`: the
+//! output, the messages, the template name); the model keeps the exact bytes. With `typed_data` the
+//! oracle adds `data` (the typed tree of the evaluated `data_php`), `state` (PHP and `CoreExtension`
+//! state after the data phase) and `data_diagnostics` / `data_deprecations` (what the data code
+//! raised); with `clock` it adds `clock` (`[sec, usec]` of `gettimeofday()` right before rendering).
+//! The model keeps them as JSON. A dead oracle process reports `phase` `fatal` (the case that died)
+//! or `lost` (cases that never ran).
 
 use super::json::{Json, get_bytes, put_bytes};
 
@@ -76,8 +77,9 @@ pub struct ErrorDesc {
 pub struct TwigErrorInfo {
     /// `getRawMessage()`, exact bytes.
     pub raw_message: Vec<u8>,
-    /// `getSourceContext()?->getName()`.
-    pub template_name: Option<String>,
+    /// `getSourceContext()?->getName()`, exact bytes (twig-rs's names are lossy UTF-8: a listed
+    /// deviation, which the diff accepts).
+    pub template_name: Option<Vec<u8>>,
     /// `getTemplateLine()`.
     pub template_line: i64,
     /// `getTemplateColumn()`.
@@ -89,10 +91,11 @@ impl ErrorDesc {
     pub fn from_json(json: &Json) -> ErrorDesc {
         let twig = json.get("rawMessage").map(|_| TwigErrorInfo {
             raw_message: get_bytes(json, "rawMessage").unwrap_or_default(),
-            template_name: json.get("templateName").and_then(|n| match n {
-                Json::String(s) => Some(s.clone()),
-                Json::Number(n) => Some(n.clone()),
-                _ => None,
+            template_name: get_bytes(json, "templateName").or_else(|| {
+                match json.get("templateName") {
+                    Some(Json::Number(n)) => Some(n.clone().into_bytes()),
+                    _ => None,
+                }
             }),
             template_line: json
                 .get("templateLine")
@@ -125,10 +128,10 @@ impl ErrorDesc {
         match &self.twig {
             Some(twig) => {
                 put_bytes(&mut fields, "rawMessage", &twig.raw_message);
-                fields.push((
-                    "templateName".to_owned(),
-                    twig.template_name.clone().map_or(Json::Null, Json::String),
-                ));
+                match &twig.template_name {
+                    Some(name) => put_bytes(&mut fields, "templateName", name),
+                    None => fields.push(("templateName".to_owned(), Json::Null)),
+                }
                 fields.push(("templateLine".to_owned(), Json::int(twig.template_line)));
                 fields.push((
                     "templateColumn".to_owned(),
