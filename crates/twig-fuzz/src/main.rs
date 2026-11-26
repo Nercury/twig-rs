@@ -41,6 +41,9 @@ USAGE:
   twig-fuzz record <batch.json> --out <vectors.json> [--description TEXT] [--oracle <results.json>]
       records every case of the batch as a regression vector with the oracle's result; cases that
       mismatch are marked known_mismatch (with their signature), unsupported ones are left out
+  twig-fuzz generate <family> [--seed N] [--count N] [--out <batch.json>]
+      writes a random batch of one construct family: expressions, callables, control, composition,
+      escaping, errors, formats, sandbox (default seed 1, count 1000)
   twig-fuzz selftest-fixtures --out <dir>
       writes the plain-environment equivalents of the fixture corpus (fixtures.json,
       fixtures-isolated.json)
@@ -77,6 +80,8 @@ impl Args {
             "--max-minimize",
             "--per-cluster",
             "--description",
+            "--seed",
+            "--count",
         ];
         let mut positional = Vec::new();
         let mut flags = Vec::new();
@@ -158,6 +163,7 @@ fn main() -> ExitCode {
         "minimize" | "minimise" => cmd_minimize(&args),
         "replay" => cmd_replay(&args),
         "record" => cmd_record(&args),
+        "generate" => cmd_generate(&args),
         "selftest-fixtures" => cmd_selftest_fixtures(&args),
         "selftest-engine" => cmd_selftest_engine(&args),
         "worker" => {
@@ -597,5 +603,42 @@ fn cmd_selftest_engine(args: &Args) -> Result<ExitCode, String> {
     )?;
     write("engine-results.json", Json::Array(results))?;
     println!("{} cases", cases.len());
+    Ok(ExitCode::SUCCESS)
+}
+
+fn cmd_generate(args: &Args) -> Result<ExitCode, String> {
+    use twig_fuzz::generators as g;
+    let family = args
+        .positional
+        .first()
+        .ok_or("missing family (try `twig-fuzz help`)")?;
+    let number = |flag: &str, default: u64| -> Result<u64, String> {
+        args.value(flag)
+            .map(|v| {
+                v.parse::<u64>()
+                    .map_err(|e| format!("bad {flag} {v:?}: {e}"))
+            })
+            .transpose()
+            .map(|v| v.unwrap_or(default))
+    };
+    let seed = number("--seed", 1)?;
+    let count =
+        usize::try_from(number("--count", 1000)?).map_err(|e| format!("bad --count: {e}"))?;
+    let batch = match family.as_str() {
+        "expressions" => Json::Array(g::expressions::generate(seed, count)),
+        "callables" => Json::Array(g::callables::generate(seed, count)),
+        "control" => Json::Array(g::control::generate(seed, count)),
+        "composition" => g::composition::batch(&g::composition::Settings {
+            seed,
+            count,
+            ..Default::default()
+        }),
+        "escaping" => Json::Array(g::escaping::generate(seed, count)),
+        "errors" => Json::Array(g::errors::generate(seed, count)),
+        "formats" => Json::Array(g::formats::generate(seed, count)),
+        "sandbox" => g::sandbox::batch(seed, count),
+        other => return Err(format!("unknown family {other:?} (try `twig-fuzz help`)")),
+    };
+    write_or_print(args, &batch)?;
     Ok(ExitCode::SUCCESS)
 }

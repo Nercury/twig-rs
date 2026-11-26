@@ -1,8 +1,8 @@
-pub mod formats;
-pub mod control;
-pub mod escaping;
 pub mod callables;
-pub mod expressions;
-pub mod errors;
 pub mod composition;
+pub mod control;
+pub mod errors;
+pub mod escaping;
+pub mod expressions;
+pub mod formats;
 pub mod sandbox;

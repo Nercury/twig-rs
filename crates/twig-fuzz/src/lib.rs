@@ -95,6 +95,7 @@
 //! | [`worker`] | twig-rs runs in a child process (hangs, memory blow-ups and crashes stay contained) |
 
 pub mod drive;
+pub mod generators;
 pub mod kit;
 pub mod minimize;
 pub mod oracle;
