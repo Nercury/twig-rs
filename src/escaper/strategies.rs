@@ -195,14 +195,18 @@ pub fn escape_js(
         }
         let codepoint = u32::from(ch);
         if codepoint < 0x10000 {
-            out.extend_from_slice(format!("\\u{codepoint:04X}").as_bytes());
+            out.extend_from_slice(b"\\u");
+            push_hex(out, codepoint, 4);
             return;
         }
         // Split characters outside the BMP into surrogate pairs (RFC 2781, section 2.1)
         let u = codepoint - 0x10000;
         let high = 0xD800 | (u >> 10);
         let low = 0xDC00 | (u & 0x3FF);
-        out.extend_from_slice(format!("\\u{high:04X}\\u{low:04X}").as_bytes());
+        out.extend_from_slice(b"\\u");
+        push_hex(out, high, 4);
+        out.extend_from_slice(b"\\u");
+        push_hex(out, low, 4);
     })
 }
 
@@ -223,7 +227,9 @@ pub fn escape_css(
             out.push(ch as u8);
             return;
         }
-        out.extend_from_slice(format!("\\{:X} ", u32::from(ch)).as_bytes());
+        out.push(b'\\');
+        push_hex(out, u32::from(ch), 1);
+        out.push(b' ');
     })
 }
 
@@ -268,14 +274,29 @@ pub fn escape_html_attr(
                 38 => out.extend_from_slice(b"&amp;"),
                 60 => out.extend_from_slice(b"&lt;"),
                 62 => out.extend_from_slice(b"&gt;"),
-                _ => out.extend_from_slice(format!("&#x{ord:02X};").as_bytes()),
+                _ => {
+                    out.extend_from_slice(b"&#x");
+                    push_hex(out, u32::from(ord), 2);
+                    out.push(b';');
+                }
             }
             return;
         }
         // Per OWASP recommendations, we'll use hex entities for any other characters where a named entity does not
         // exist.
-        out.extend_from_slice(format!("&#x{:04X};", u32::from(ch)).as_bytes());
+        out.extend_from_slice(b"&#x");
+        push_hex(out, u32::from(ch), 4);
+        out.push(b';');
     })
+}
+
+/// Appends `value` in upper-case hexadecimal with at least `width` digits (`sprintf('%0<width>X', $value)`).
+fn push_hex(out: &mut Vec<u8>, value: u32, width: usize) {
+    const DIGITS: &[u8; 16] = b"0123456789ABCDEF";
+    let needed = (32 - value.leading_zeros() as usize).div_ceil(4);
+    for i in (0..needed.max(width)).rev() {
+        out.push(DIGITS[((value >> (i * 4)) & 0xF) as usize]);
+    }
 }
 
 /// The `url` strategy: `rawurlencode($string)` (RFC 3986; bytes, whatever the charset).
@@ -304,15 +325,33 @@ fn escape_utf8(
     let Ok(text) = std::str::from_utf8(input) else {
         return Err(EscapeError::InvalidUtf8);
     };
-    let mut out = Vec::with_capacity(text.len());
+    // the escaped bytes are collected in a buffer of the thread (taken out while in use) and copied into the string
+    let mut out = SCRATCH.with(|scratch| std::mem::take(&mut *scratch.borrow_mut()));
+    out.clear();
+    out.reserve(text.len());
     for ch in text.chars() {
         replace(&mut out, ch);
     }
-    if is_utf8 {
-        return Ok(Some(PhpString::from(out)));
+    let result = if is_utf8 {
+        Ok(Some(PhpString::from_bytes(&out)))
+    } else {
+        iconv
+            .iconv_bytes(b"UTF-8", charset, &out, diag)
+            .map_err(EscapeError::from)
+    };
+    if out.capacity() <= SCRATCH_CAPACITY {
+        SCRATCH.with(|scratch| *scratch.borrow_mut() = out);
     }
-    Ok(iconv.iconv_bytes(b"UTF-8", charset, &out, diag)?)
+    result
 }
+
+thread_local! {
+    /// The buffer [`escape_utf8`] collects escaped bytes in.
+    static SCRATCH: std::cell::RefCell<Vec<u8>> = const { std::cell::RefCell::new(Vec::new()) };
+}
+
+/// The largest buffer [`SCRATCH`] keeps.
+const SCRATCH_CAPACITY: usize = 64 * 1024;
 
 /// `iconv($from, $to, $string)`. Twig: `EscaperRuntime::convertEncoding()` (`iconv()` always exists here).
 fn convert_encoding(
@@ -323,4 +362,38 @@ fn convert_encoding(
     diag: &mut dyn Diagnostics,
 ) -> Result<Option<PhpString>, PhpError> {
     iconv.iconv_bytes(from, to, string, diag)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn hex_digits_like_sprintf() {
+        for value in [
+            0,
+            1,
+            0xA,
+            0xF,
+            0x10,
+            0x7F,
+            0xFF,
+            0x100,
+            0xFFFD,
+            0xFFFF,
+            0x1F600,
+            0x10FFFF,
+            u32::MAX,
+        ] {
+            for (width, expected) in [
+                (1, format!("{value:X}")),
+                (2, format!("{value:02X}")),
+                (4, format!("{value:04X}")),
+            ] {
+                let mut out = Vec::new();
+                push_hex(&mut out, value, width);
+                assert_eq!(out, expected.as_bytes(), "{value:#x} width {width}");
+            }
+        }
+    }
 }
