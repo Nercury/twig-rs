@@ -1451,7 +1451,7 @@
     ]
    },
    "known_mismatch": {
-    "reason": "Accepted deviation (reference/deviations.md, Engine: \"Lone CR bytes in the generated PHP\"; D2 of plans/parity-fixes.md): with debug=true the compiled main class embeds the original source in getSourceContext(); Compiler::string() does not escape its lone CR bytes and PHP counts them as line breaks, while the Compiler counts only LF for getDebugInfo(). Embedded templates (the ___N classes) are compiled after the main class in the same file, so Error::guess() maps their PHP lines to later markers; twig-rs attributes lines by markers and has no PHP line counts.",
+    "reason": "Accepted deviation (reference/deviations.md, Engine: \"Lone CR bytes in the generated PHP\"; D2 of research/fuzzing.md (history: git log -- plans/parity-fixes.md)): with debug=true the compiled main class embeds the original source in getSourceContext(); Compiler::string() does not escape its lone CR bytes and PHP counts them as line breaks, while the Compiler counts only LF for getDebugInfo(). Embedded templates (the ___N classes) are compiled after the main class in the same file, so Error::guess() maps their PHP lines to later markers; twig-rs attributes lines by markers and has no PHP line counts.",
     "signature": "error.message:Twig\\Error\\RuntimeError [The \"_\" filter expects a sequence or a mapping, got \"_\" in \"_\" at line N. > The \"_\" filter expects a sequence or a mapping, got \"_\" in \"_\" at line N.] | error.templateLine:php>rs"
    }
   },

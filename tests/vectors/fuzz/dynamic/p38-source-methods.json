@@ -1,5 +1,5 @@
 {
-  "description": "P38 (plans/parity-fixes.md, G2): the methods of the Twig\\Source objects templates reach through getSourceContext() (TWIG/src/Source.php): getColumn(int $offset) with its coercions and line breaks, __serialize() ((array) $this after resolving the path), __construct() and createWithLazyPath() with their typed parameters, the named-argument checks of every method, var_dump() of the three private properties. Recorded with \"isolation\": \"process\".",
+  "description": "P38 (G2): the methods of the Twig\\Source objects templates reach through getSourceContext() (TWIG/src/Source.php): getColumn(int $offset) with its coercions and line breaks, __serialize() ((array) $this after resolving the path), __construct() and createWithLazyPath() with their typed parameters, the named-argument checks of every method, var_dump() of the three private properties. Recorded with \"isolation\": \"process\".",
   "vectors": [
     {
       "id": "p38-col-debug",

@@ -51,6 +51,10 @@ the command line.
 - Vectors come from `twig-fuzz drive <batch> --out <dir>` (`<dir>/vectors.json`: one minimised vector per mismatch
   cluster, marked `known_mismatch`). Give each file a topic name (`expressions.json`, `filters/round.json`, ...),
   replace the generic `reason` with the actual diagnosis, and keep each file below ~5 MB.
+- A fuzz round's files (`<family>/round<N>-<topic>.json`) hold the minimised vector of a cluster, oracle-recorded
+  variants and controls that match. The controls are unmarked on purpose: a fix must keep them matching. The vectors
+  of an accepted deviation the diff cannot accept stay marked by design (D2's 9, listed in `research/fuzzing.md`,
+  which also describes how rounds are run).
 - Never edit `oracle` by hand: re-run the case through the oracle instead. `twig-fuzz refresh <file> --id ID...`
   does that in place (each case in a PHP process of its own; only the `oracle` values change). A vector recorded
   before the oracle learned something new about the data (for example the `props` of date objects in the typed

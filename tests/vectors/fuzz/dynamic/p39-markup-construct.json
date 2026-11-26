@@ -1,5 +1,5 @@
 {
-  "description": "P39 (plans/parity-fixes.md, G2): Twig\\Markup::__construct($content, $charset, private array $safeStrategies = ['all']) (TWIG/src/Markup.php): the promoted array kept as given, (string) $content, then $charset checked against the typed property private ?string $charset (coercions, TypeError of zend_verify_property_type_error()); Markup::isSafeFor() over declared strategies that are not strings (EscaperRuntime::IMPLIED_STRATEGIES[$declared] ?? []: offset deprecations and TypeErrors). Recorded with \"isolation\": \"process\".",
+  "description": "P39 (G2): Twig\\Markup::__construct($content, $charset, private array $safeStrategies = ['all']) (TWIG/src/Markup.php): the promoted array kept as given, (string) $content, then $charset checked against the typed property private ?string $charset (coercions, TypeError of zend_verify_property_type_error()); Markup::isSafeFor() over declared strategies that are not strings (EscaperRuntime::IMPLIED_STRATEGIES[$declared] ?? []: offset deprecations and TypeErrors). Recorded with \"isolation\": \"process\".",
   "vectors": [
     {
       "id": "p39-charset-stringable",

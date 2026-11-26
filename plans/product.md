@@ -1,7 +1,7 @@
 # Product plan (roadmap phase 6)
 
-Turns the engine into a library people can pick up. Starts when the parity rounds run dry; nothing here may change
-template behaviour.
+Turns the engine into a library people can pick up. The parity rounds ran dry with fuzz round 6 (roadmap phase 5 is
+done); nothing here may change template behaviour.
 
 ## API ergonomics
 

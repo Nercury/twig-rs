@@ -30,7 +30,8 @@
 //!
 //! The data comes from `data_php` with `"test_classes": true`. Settings vary: `strict_variables`,
 //! `autoescape`, `debug` and warnings turned into exceptions. Spreads in `attribute()` arguments
-//! are left out (open items P16/P32 of `plans/parity-fixes.md`), and so are string callables
+//! are left out (PHP rejects some of them with an uncatchable compile-time fatal error that cannot be
+//! compared, deviation D3 in `reference/deviations.md`), and so are string callables
 //! (`reference/deviations.md`).
 //!
 //! [`generate`] is deterministic: case `i` of seed `s` depends only on `(s, i)` ([`case`]). Ids

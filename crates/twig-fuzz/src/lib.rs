@@ -91,7 +91,8 @@
 //! (`tests/fuzz_regressions.rs` replays it too). `replay --update` removes the `known_mismatch`
 //! marker of every marked vector that now matches the oracle and edits nothing else
 //! ([`kit::vectors::update_file`]): a vector that still mismatches keeps its marker, also when its
-//! signature changed.
+//! signature changed. How a fuzz round is run and triaged, what the rounds found and what the
+//! harness cannot express yet: `research/fuzzing.md`.
 //!
 //! The oracle runs as `docker run --rm -i twig-oracle:3.31.1 php runner.php`, what
 //! `research/php-oracle/oracle.sh` does (`TWIG_ORACLE_IMAGE` picks the image, `TWIG_FUZZ_ORACLE`

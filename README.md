@@ -89,8 +89,8 @@ sandbox, errors and PHP diagnostics, threads.
   string-loader extensions, and the array, filesystem and chain loaders.
 - All 500 runnable cases of Twig 3.31.1's integration fixtures pass (two more are skipped by their `--CONDITION--`,
   as in PHPUnit), and Twig's behaviour-level PHPUnit tests are ported.
-- Differential fuzzing against PHP finds a handful of edge cases per round of 240,000 generated templates; they are
-  tracked in [`plans/parity-fixes.md`](plans/parity-fixes.md) until fixed. Deliberate differences are listed in
+- Differential fuzzing against PHP ran six rounds; the last, 360,000 generated templates across 12 construct families,
+  found nothing new ([`research/fuzzing.md`](research/fuzzing.md)). Deliberate differences are listed in
   [`reference/deviations.md`](reference/deviations.md).
 - The API is being prepared for a first release ([`plans/product.md`](plans/product.md)); nothing is published on
   crates.io yet.

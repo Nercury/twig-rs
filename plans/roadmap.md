@@ -103,25 +103,48 @@ Done so far: workspace; the PHP-level crates (`twig-value`, `twig-pcre`, `twig-t
 `twig-unicode`); the syntax layer (lexer, AST, extension registry, expression parser, all core tags,
 CorrectnessNodeVisitor); the engine ([engine.md](engine.md): LLTL codegen, VM, runtime, composition, sandbox runtime,
 escaper/optimizer/sandbox visitors, loaders, all core callables); `twig-test-support` and the fixture harness, which
-runs every upstream fixture end to end (488 of 500 cases at the end of phase 4).
+runs every upstream fixture end to end.
 
-### 5. Full parity
-Working list: [parity-fixes.md](parity-fixes.md). Upstream fixtures 500/500; behaviour-level PHPUnit tests ported;
-differential fuzzing converged (round 1 ~1% of cases mismatched, round 4: 5 of 360,000 across 12 construct families,
-all fixed or classified). Round 5, the fuzz round after the performance work, found no regression of the pass but is
-not the round that finds nothing new: 4 raw mismatches of 360,000, one of them P43 (an older sandbox bug: outside the
-sandbox twig-rs skips the array walk that makes PHP 8.5 warn about NAN elements), the other three harness artefacts
-(T18, T19). Remaining:
-- P43 (medium) and the fuzz tooling items T18–T20 and T8 in parity-fixes.md;
-- round 6 once P43 is fixed, best after T18 and T19 so their artefacts stay out (exit: a round that finds nothing
-  new).
+### 5. Full parity (done)
+All 500 runnable cases of the 488 upstream fixture files pass, against 488 passing cases at the end of phase 4 (two
+more cases are skipped by their `--CONDITION--`, as in PHPUnit, and the ratchet `tests/twig/known-failures.txt` is
+empty). The behaviour-level PHPUnit tests (classes A and B of `reference/twig/test-suite.md` §6) are ported: 429 tests
+in `tests/upstream_*.rs`, 81 in `tests/lexer_test.rs`, `tests/token_stream_test.rs` and `tests/loader_upstream.rs`,
+and the PHPUnit parts of the parser and escaper tests; only D1's two stay ignored. Six rounds of differential fuzzing
+([fuzzing.md](../research/fuzzing.md)) went from about 1% of the cases mismatching in round 1 to one raw mismatch in
+360,000 generated cases across 12 construct families in round 6 (an accepted deviation the callables generator
+reaches, T19). They produced 43 parity fixes (P1–P43), four rows of `reference/deviations.md` (D1–D4) and 4,795
+oracle-recorded regression vectors (`tests/vectors/fuzz` and twig-fuzz's round-0 file; the 9 still marked are D2's, by
+design). `cargo +stable test --workspace --all-features` runs 1,982 tests and ignores 11: 5 need Docker, 3 an external
+vector file, 2 are D1's and one is a doctest.
 
 ### 6. Product
-Plan: [product.md](product.md). Done: re-exports, `From` conversions, `context!`, serde feature, `from_fn` callables,
-render methods taking any context data, `render_string`, writers as sinks, the host-object guide and `ObjectBuilder`,
-crate guide and examples, cargo-deny configuration, `NOTICE`, criterion benchmarks with a PHP comparison. The glibc-derived
-iconv now lives in the opt-in LGPL crate `twig-iconv` behind a clean-room default. Next: a performance pass (render is
-1.7–2.6× slower than PHP Twig, compile 11–13× faster), release preparation.
+Plan: [product.md](product.md). Remaining:
+- Release: publishing 0.2.0 needs the owner's go (the crate names on crates.io, `cargo publish` in dependency order,
+  the CHANGELOG date, the tag); twig-iconv's publication gates twig's `glibc-iconv` feature; the sub-crates need
+  READMEs of their own.
+- Licensing: a legal review of `twig-iconv` (PHP-3.01 code inside an LGPL crate); the clean-room iconv converter of
+  the default build could grow.
+- Performance: after the first profiling pass rendering ranges from 3.1× faster (escaping) to 1.2× slower (dates,
+  filters) than PHP Twig, and compiling is 11.5–13.5× faster; the remaining hot spots are in
+  `research/benchmarks/README.md`. The SecurityChecker walk P43 added costs about 3 ns per element of every wrapped
+  array once the SandboxExtension is registered (PHP walks them too).
+- API gaps the PHPUnit ports reported: `CoreExtension`'s static helpers and `getAttribute()` as an entry point;
+  `TemplateWrapper::unwrap()`, and `Environment::load()` taking a wrapper; macro namespaces as values
+  (`getMacroNamespace()`, `MacroNamespace::call`/`has`, `TwigMacro`); `resetGlobals()`, `isTemplateFresh()`,
+  `Twig\BlockChain`; the `Sandbox` stream methods, lazy runtime factories, `SecurityChecker::new`/`check_security`;
+  `RecursiveArrayIterator`, and ArrayObject/ArrayIterator subclasses in twig-value. A derive macro for `Object` once
+  someone needs one.
+- Engine gaps ([engine.md](engine.md), "Remaining work"): multi-byte and table-based encodings in the mbstring
+  functions, a code generation hook for node classes of extensions, compiled-template caching across processes
+  (optional).
+- Left from phase 5: D1's two ignored `CallableArgumentsExtractor` tests could assert twig-rs's documented text (`...
+  in "test.twig".`); engine.md does not describe yet `Environment::runtime()`'s fallback to a registered extension
+  (P26), the lazily resolved source path of a program outside `debug` (P24), `Object::method_params()` and the method
+  binding of `getAttribute()` (P33; twig-date's `args::method_params()`, P34), `extension::runtime::callables` and
+  `misc/twig_classes.rs` (P15, P27), the line rules of P35–P37 (`DeferredLine`, `LineTable::replace_from()`,
+  `leaf()`), the `Twig\Source` objects (P38) and `runtime::typed_property` (P39); the fuzz harness's open gaps are in
+  [fuzzing.md](../research/fuzzing.md).
 
 ## Open questions
 
