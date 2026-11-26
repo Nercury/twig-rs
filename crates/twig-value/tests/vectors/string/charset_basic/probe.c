@@ -1,13 +1,15 @@
 /*
  * Black-box tracer for iconv(3) in the oracle image, used while working out how glibc's iconv() reports errors,
- * where a call stops (E2BIG, rounds of 8160 characters, //IGNORE) and when UTF-16/UTF-32 write a byte order mark.
+ * where a call stops (E2BIG, rounds of 8160 characters, //IGNORE), when UTF-16/UTF-32 write a byte order mark and
+ * which characters the CP1255 and CP1258 decoders hold back until the next call or the flush.
  * It only calls the public iconv_open()/iconv() API and prints what comes back; it generates no vector file (the
  * vectors come from PHP, see the *.gen.php next to it) and the tests do not need it.
  *
  * Each input line is "FROM TO INPUT SPACE MODE", the charset names and the input in hex ("-" for empty):
  *   MODE one   one iconv() call with SPACE bytes of output space;
+ *   MODE flush one iconv() call, then the flush (iconv(cd, NULL, NULL, ...)) with SPACE bytes left;
  *   MODE php   PHP's php_iconv_string() loop (SPACE -1: input length + 32), skipping one input byte after EILSEQ
- *              like PHP does for a target ending in //IGNORE;
+ *              like PHP does for a target ending in //IGNORE, and its flush (the buffer growing by 16 on E2BIG);
  *   MODE seq   successive calls, the output space of each taken from $SEQ (comma separated).
  *
  *   MSYS_NO_PATHCONV=1 docker run --rm -i -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
@@ -85,13 +87,20 @@ int main(void)
                 hex((unsigned char *)start, out_p - start);
                 printf("]");
             }
-        } else if (strcmp(mode, "one") == 0) {
+        } else if (strcmp(mode, "one") == 0 || strcmp(mode, "flush") == 0) {
             errno = 0;
             size_t r = iconv(cd, &in_p, &in_left, &out_p, &out_left);
             printf(" r=%ld %s consumed=%ld out=", (long)r, r == (size_t)-1 ? err(errno) : "-", (long)(in_p - (char *)in));
             hex(out, out_p - (char *)out);
+            if (strcmp(mode, "flush") == 0) {
+                char *start = out_p;
+                errno = 0;
+                r = iconv(cd, NULL, NULL, &out_p, &out_left);
+                printf(" flush r=%ld %s out=", (long)r, r == (size_t)-1 ? err(errno) : "-");
+                hex((unsigned char *)start, out_p - start);
+            }
         } else {
-            int ignore = strlen(to) >= 9 && strcmp(to + strlen(to) - 8, "//IGNORE") == 0;
+            int ignore = strlen(to) >= 9 && strcmp(to + strlen(to) - 8, "//IGNORE") == 0, failed = 0;
             while (in_left > 0) {
                 char *before = in_p;
                 errno = 0;
@@ -116,7 +125,19 @@ int main(void)
                     continue;
                 }
                 printf(" FAIL");
+                failed = 1;
                 break;
+            }
+            while (!failed) {
+                errno = 0;
+                size_t r = iconv(cd, NULL, NULL, &out_p, &out_left);
+                printf(" [flush r=%ld %s]", (long)r, r == (size_t)-1 ? err(errno) : "-");
+                if (r != (size_t)-1 || errno != E2BIG) {
+                    break;
+                }
+                size_t used = out_p - (char *)out;
+                size += 16;
+                out_left = size - used;
             }
             printf(" out=");
             hex(out, out_p - (char *)out);

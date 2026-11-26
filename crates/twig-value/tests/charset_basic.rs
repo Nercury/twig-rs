@@ -6,11 +6,15 @@
 //!
 //! ```text
 //! cd crates/twig-value/tests/vectors
-//! for t in pairs pairs_ignore names long sweep codepoints fuzz php; do
+//! for t in pairs pairs_ignore names long sweep codepoints fuzz php codepages codepages_cases codepages_fuzz; do
 //!   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
 //!       php /t/string/charset_basic/$t.gen.php > string/charset_basic/$t.json
 //! done
 //! ```
+//!
+//! The `codepages*` files cover the single-byte charsets with tables (`codepage.rs`): every byte and every code
+//! point of each (`codepages.json`), conversions between them and everything else, the characters CP1255 and CP1258
+//! combine and hold back, long inputs (`codepages_cases.json`) and random conversions (`codepages_fuzz.json`).
 //!
 //! The tables the module embeds have their own generators in `src/builtins/string/charset_basic/`; `probe.c` next
 //! to the vectors is the black-box `iconv(3)` tracer used while modelling glibc's calls (no vector depends on it).
@@ -453,4 +457,133 @@ fn php_arguments() {
 #[test]
 fn fuzz() {
     assert_eq!(run_conversions("fuzz.json", false), 0);
+}
+
+/// The inputs of a `codepages.json` kind, in blocks (see `codepage_inputs()` in `codepages.gen.php`).
+fn codepage_inputs(kind: &str) -> Vec<Vec<Vec<u8>>> {
+    let mut blocks = Vec::new();
+    match kind {
+        "bytes1" => blocks.push((0..=255u8).map(|b| vec![b]).collect()),
+        "strings" => {
+            let up: Vec<u8> = (0..=255u8).collect();
+            let down: Vec<u8> = up.iter().rev().copied().collect();
+            let mut interleaved = Vec::new();
+            for b in 0x80..=0xFFu8 {
+                interleaved.extend([b, b ^ 0xC0, b'a']);
+            }
+            blocks.push(vec![up, down, interleaved]);
+        }
+        "bytes12" => blocks = sweep_inputs("bytes12"),
+        "bmp" => {
+            for chunk in (0..=0xFFFFu32).collect::<Vec<_>>().chunks(256) {
+                blocks.push(chunk.iter().map(|c| c.to_be_bytes().to_vec()).collect());
+            }
+        }
+        "translit" | "ignore" => {
+            for start in (0..0x11_0000u32).step_by(4096) {
+                let mut input = Vec::new();
+                for c in start..start + 4096 {
+                    if !(0xD800..=0xDFFF).contains(&c) {
+                        input.extend(c.to_be_bytes());
+                        if kind == "translit" {
+                            input.extend(0x0Au32.to_be_bytes());
+                        }
+                    }
+                }
+                blocks.push(vec![input]);
+            }
+        }
+        other => panic!("unknown codepage kind {other}"),
+    }
+    blocks
+}
+
+/// Runs the sets of `codepages.json` whose kind is one of `kinds`: of those, the ones whose index modulo `groups` is
+/// `group` (the bigger kinds are split across tests, which run in parallel).
+fn codepage_sets(kinds: &[&str], group: usize, groups: usize) {
+    let v = load("string/charset_basic/codepages.json");
+    let mut m = Mismatches::new("codepages.json");
+    let mut sets = 0;
+    let selected = v["sets"]
+        .as_array()
+        .expect("sets")
+        .iter()
+        .filter(|set| kinds.contains(&s(&set["kind"])))
+        .enumerate()
+        .filter(|(i, _)| i % groups == group);
+    for (_, set) in selected {
+        let (from, to, kind) = (s(&set["from"]), s(&set["to"]), s(&set["kind"]));
+        sets += 1;
+        let blocks = codepage_inputs(kind);
+        let expected = set["blocks"].as_array().expect("blocks");
+        assert_eq!(blocks.len(), expected.len(), "{from} -> {to} {kind}");
+        for (i, (block, want)) in blocks.iter().zip(expected).enumerate() {
+            let mut t = Vec::new();
+            for input in block {
+                t.extend(token(from.as_bytes(), to.as_bytes(), input));
+            }
+            m.check(
+                || format!("{from} -> {to} {kind} block {i}"),
+                fnv1a64(&t),
+                s(want).to_string(),
+            );
+        }
+    }
+    assert!(sets > 0, "no sets of kinds {kinds:?}");
+    m.finish();
+}
+
+#[test]
+fn codepages_decode() {
+    codepage_sets(&["bytes1", "strings", "bytes12"], 0, 1);
+}
+
+#[test]
+fn codepages_bmp_0() {
+    codepage_sets(&["bmp"], 0, 2);
+}
+
+#[test]
+fn codepages_bmp_1() {
+    codepage_sets(&["bmp"], 1, 2);
+}
+
+#[test]
+fn codepages_translit_0() {
+    codepage_sets(&["translit"], 0, 4);
+}
+
+#[test]
+fn codepages_translit_1() {
+    codepage_sets(&["translit"], 1, 4);
+}
+
+#[test]
+fn codepages_translit_2() {
+    codepage_sets(&["translit"], 2, 4);
+}
+
+#[test]
+fn codepages_translit_3() {
+    codepage_sets(&["translit"], 3, 4);
+}
+
+#[test]
+fn codepages_ignore_0() {
+    codepage_sets(&["ignore"], 0, 2);
+}
+
+#[test]
+fn codepages_ignore_1() {
+    codepage_sets(&["ignore"], 1, 2);
+}
+
+#[test]
+fn codepages_cases() {
+    assert_eq!(run_conversions("codepages_cases.json", false), 0);
+}
+
+#[test]
+fn codepages_fuzz() {
+    assert_eq!(run_conversions("codepages_fuzz.json", false), 0);
 }
