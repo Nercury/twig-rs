@@ -398,9 +398,35 @@ impl Array {
 
     /// Mutable access to an element (separates a shared array first, like PHP's write fetch).
     pub fn get_mut(&mut self, key: &ArrayKey) -> Option<&mut Value> {
+        self.get_mut_ref(key.as_key_ref())
+    }
+
+    /// Mutable access to the element of a borrowed, normalised key (separates a shared array first, like
+    /// [`Array::get_mut`]).
+    pub fn get_mut_ref(&mut self, key: KeyRef<'_>) -> Option<&mut Value> {
         let data = self.data_mut();
-        let pos = data.find(key)?;
+        let pos = data.find_ref(key)?;
         data.entries[pos].as_mut().map(|(_, v)| v)
+    }
+
+    /// Inserts or updates the element of a string key with symtable normalisation (`$a["name"] = $v`, like
+    /// [`Array::insert`] with `ArrayKey::from_string(key.clone())`). The key is looked up borrowed: an existing key
+    /// keeps its position and its string, and `key` is only cloned into the table when it is new. Returns the
+    /// previous value.
+    pub fn insert_sym(&mut self, key: &PhpString, value: impl Into<Value>) -> Option<Value> {
+        let value = value.into();
+        let key_ref = KeyRef::sym(key);
+        let data = self.data_mut();
+        if let Some(pos) = data.find_ref(key_ref) {
+            let slot = data.entries[pos].as_mut().map(|(_, v)| v);
+            return slot.map(|v| std::mem::replace(v, value));
+        }
+        let key = match key_ref {
+            KeyRef::Int(h) => ArrayKey::Int(h),
+            KeyRef::Str(_) => ArrayKey::Str(key.clone()),
+        };
+        data.insert_new(key, value);
+        None
     }
 
     /// Inserts or updates (`zend_hash_update` / `zend_hash_index_update`, i.e. `$a[$k] = $v` and
@@ -465,8 +491,14 @@ impl Array {
     /// Removes a key (`unset($a[$k])`, `zend_hash_del`). Does not change [`Array::next_free`]. Like
     /// `ZEND_UNSET_DIM`, a shared array is separated even when the key is absent.
     pub fn remove(&mut self, key: &ArrayKey) -> Option<Value> {
+        self.remove_ref(key.as_key_ref())
+    }
+
+    /// Removes a borrowed, normalised key ([`Array::remove`] without building an [`ArrayKey`]; a shared array is
+    /// separated even when the key is absent).
+    pub fn remove_ref(&mut self, key: KeyRef<'_>) -> Option<Value> {
         let data = self.data_mut();
-        let pos = data.find(key)?;
+        let pos = data.find_ref(key)?;
         Some(data.remove_at(pos))
     }
 

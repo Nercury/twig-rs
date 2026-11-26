@@ -1,11 +1,11 @@
 //! The interpreter loop: executes the instructions of one unit on a frame.
 
-use std::sync::Arc;
+use std::sync::{Arc, LazyLock};
 
 use twig_value::object::FetchMode;
 use twig_value::{
-    Array, ArrayKey, Diagnostic, Diagnostics, KeyContext, Level, PhpError, PhpString, Value,
-    compare, convert, dim, ops,
+    Array, ArrayKey, Diagnostic, Diagnostics, KeyContext, KeyRef, Level, PhpError, PhpString,
+    Value, compare, convert, dim, ops,
 };
 
 use super::exception::Exception;
@@ -174,8 +174,21 @@ fn constant_bytes(program: &Program, id: u32) -> &[u8] {
     }
 }
 
-fn io_error(error: std::io::Error) -> Exception {
-    Error::runtime(format!("Unable to write the template output: {error}.")).into()
+/// `$array["name"] = $value` with the name constant `id` (normalised like a PHP string offset); the key shares the
+/// constant's string.
+fn store_constant_key(array: &mut Array, program: &Program, id: u32, value: Value) {
+    match program.constant(id) {
+        Value::String(name) => array.insert_sym(name, value),
+        _ => array.insert_sym(&PhpString::empty(), value),
+    };
+}
+
+/// The array key of the name constant `id` (normalised like a PHP string offset), sharing the constant's string.
+fn constant_key(program: &Program, id: u32) -> ArrayKey {
+    match program.constant(id) {
+        Value::String(name) => ArrayKey::from_string(name.clone()),
+        _ => ArrayKey::Str(PhpString::empty()),
+    }
 }
 
 /// `echo $value`: PHP's string conversion of the value, written to the output. Strings, ints, `null` and booleans
@@ -211,6 +224,10 @@ fn long_digits(i: i64, buf: &mut [u8; 20]) -> &[u8] {
         buf[at] = b'-';
     }
     &buf[at..]
+}
+
+fn io_error(error: std::io::Error) -> Exception {
+    Error::runtime(format!("Unable to write the template output: {error}.")).into()
 }
 
 /// Executes one instruction. The instructions are grouped in functions of their own so that the frame of each
@@ -457,8 +474,7 @@ fn step_context(
         Instr::LoadCharset => frame.push(Value::from(state.env.charset())),
         Instr::StoreName(name) => {
             let value = frame.pop();
-            let key = ArrayKey::from_string(PhpString::from(constant_bytes(program, *name)));
-            frame.context.insert(key, value);
+            store_constant_key(&mut frame.context, program, *name, value);
         }
         Instr::SetContext => match frame.pop() {
             Value::Array(context) => frame.context = context,
@@ -870,7 +886,7 @@ fn step_loops(
     match instr {
         Instr::ForParent => {
             let parent = frame.context.clone();
-            frame.context.insert("_parent", Value::Array(parent));
+            frame.context.insert_sym(&names::PARENT, Value::Array(parent));
         }
         Instr::LoopInit => loop_init(state, frame)?,
         Instr::IterStart => {
@@ -885,12 +901,8 @@ fn step_loops(
             match iter.next(state)? {
                 None => return Ok(Flow::Jump(*exit)),
                 Some((k, v)) => {
-                    let value_key =
-                        ArrayKey::from_string(PhpString::from(constant_bytes(program, *value)));
-                    frame.context.insert(value_key, v);
-                    let key_key =
-                        ArrayKey::from_string(PhpString::from(constant_bytes(program, *key)));
-                    frame.context.insert(key_key, k);
+                    store_constant_key(&mut frame.context, program, *value, v);
+                    store_constant_key(&mut frame.context, program, *key, k);
                 }
             }
         }
@@ -1253,7 +1265,7 @@ fn step_macros(
         }
         Instr::SetMacroNamespace { name, global } => {
             let namespace = frame.pop();
-            let key = ArrayKey::from_string(PhpString::from(constant_bytes(program, *name)));
+            let key = constant_key(program, *name);
             if *global {
                 frame.template.set_macro(key.clone(), namespace.clone());
             }
@@ -1283,13 +1295,13 @@ fn step_macros(
             frame.push(Value::Bool(defined));
         }
         Instr::RecvInit {
-            name,
+            name: name_id,
             constant_ast,
             cache,
             skip,
         } => {
             // ZEND_RECV_INIT (PHPSRC/Zend/zend_vm_def.h): an argument that was passed is kept
-            let name = constant_bytes(program, *name);
+            let name = constant_bytes(program, *name_id);
             let missing = match frame.context.get_sym(name) {
                 Some(value) => compare::identical(value, program.constant(*constant_ast)),
                 None => false,
@@ -1298,9 +1310,7 @@ fn step_macros(
                 return Ok(Flow::Jump(*skip));
             }
             if let Some(cached) = program.recv_cache[*cache as usize].get() {
-                frame
-                    .context
-                    .insert(ArrayKey::from_string(PhpString::from(name)), cached.clone());
+                store_constant_key(&mut frame.context, program, *name_id, cached.clone());
                 return Ok(Flow::Jump(*skip));
             }
         }
@@ -1313,10 +1323,7 @@ fn step_macros(
             ) {
                 let _ = program.recv_cache[*cache as usize].set(value.clone());
             }
-            let name = constant_bytes(program, *name);
-            frame
-                .context
-                .insert(ArrayKey::from_string(PhpString::from(name)), value);
+            store_constant_key(&mut frame.context, program, *name, value);
         }
 
         _ => unreachable!("step() dispatches by instruction group"),
@@ -1433,15 +1440,44 @@ fn read_context(state: &mut VmState, frame: &Frame, name: &[u8]) -> Result<Value
     }
 }
 
+/// The names the code of a `for` loop uses as array keys (none is a canonical integer string), allocated once.
+mod names {
+    use std::sync::LazyLock;
+
+    use twig_value::PhpString;
+
+    macro_rules! name {
+        ($($id:ident = $text:literal),* $(,)?) => {
+            $(pub(super) static $id: LazyLock<PhpString> = LazyLock::new(|| PhpString::from($text));)*
+        };
+    }
+
+    name!(
+        PARENT = "_parent",
+        LOOP = "loop",
+        LOOP_PARENT = "parent",
+        INDEX0 = "index0",
+        INDEX = "index",
+        FIRST = "first",
+        REVINDEX0 = "revindex0",
+        REVINDEX = "revindex",
+        LENGTH = "length",
+        LAST = "last",
+    );
+}
+
 /// The `loop` initialisation of `ForNode::compile()`.
 fn loop_init(state: &mut VmState, frame: &mut Frame) -> Result<(), Exception> {
     let parent = read_context(state, frame, b"_parent")?;
     let mut loop_array = Array::new_hash();
-    loop_array.insert("parent", parent);
-    loop_array.insert("index0", 0);
-    loop_array.insert("index", 1);
-    loop_array.insert("first", true);
-    frame.context.insert("loop", Value::Array(loop_array));
+    let key = |name: &LazyLock<PhpString>| ArrayKey::Str(PhpString::clone(name));
+    loop_array.insert(key(&names::LOOP_PARENT), parent);
+    loop_array.insert(key(&names::INDEX0), 0);
+    loop_array.insert(key(&names::INDEX), 1);
+    loop_array.insert(key(&names::FIRST), true);
+    frame
+        .context
+        .insert_sym(&names::LOOP, Value::Array(loop_array));
     let seq = read_context(state, frame, b"_seq")?;
     let countable = match &seq {
         Value::Array(_) => true,
@@ -1451,10 +1487,10 @@ fn loop_init(state: &mut VmState, frame: &mut Frame) -> Result<(), Exception> {
     if countable {
         let length = dim::count(&seq, 0, state)?;
         let revindex0 = ops::sub(&Value::Int(length), &Value::Int(1), state)?;
-        assign_loop_field(state, frame, b"revindex0", revindex0)?;
-        assign_loop_field(state, frame, b"revindex", Value::Int(length))?;
-        assign_loop_field(state, frame, b"length", Value::Int(length))?;
-        assign_loop_field(state, frame, b"last", Value::Bool(length == 1))?;
+        assign_loop_field(state, frame, &names::REVINDEX0, revindex0)?;
+        assign_loop_field(state, frame, &names::REVINDEX, Value::Int(length))?;
+        assign_loop_field(state, frame, &names::LENGTH, Value::Int(length))?;
+        assign_loop_field(state, frame, &names::LAST, Value::Bool(length == 1))?;
     }
     Ok(())
 }
@@ -1467,14 +1503,17 @@ fn loop_slot<'a>(
     frame: &'a mut Frame,
     read: bool,
 ) -> Result<&'a mut Value, Exception> {
-    let key = ArrayKey::from_string(PhpString::from("loop"));
-    if !frame.context.contains_key(&key) {
+    if !frame.context.contains_ref(KeyRef::Str(b"loop")) {
+        let key = ArrayKey::Str(PhpString::clone(&names::LOOP));
         if read {
             dim::undefined_key(&key, state)?;
         }
-        frame.context.insert(key.clone(), Value::Null);
+        frame.context.insert(key, Value::Null);
     }
-    Ok(frame.context.get_mut(&key).expect("the key was just added"))
+    Ok(frame
+        .context
+        .get_mut_ref(KeyRef::Str(b"loop"))
+        .expect("the key was just added"))
 }
 
 /// The container `$context['loop'][...]` writes into: `zend_fetch_dimension_address()` with `BP_VAR_W`/`BP_VAR_RW`
@@ -1529,16 +1568,16 @@ fn writes_through(object: &twig_value::ObjectRef) -> bool {
 fn assign_loop_field(
     state: &mut VmState,
     frame: &mut Frame,
-    field: &'static [u8],
+    field: &PhpString,
     value: Value,
 ) -> Result<(), Exception> {
     let slot = loop_slot(state, frame, false)?;
     match loop_container(slot, state)? {
         LoopContainer::Array(array) => {
-            array.insert(ArrayKey::from_string(PhpString::from(field)), value);
+            array.insert_sym(field, value);
         }
         LoopContainer::Object(object) => {
-            let offset = Value::String(PhpString::from(field));
+            let offset = Value::String(field.clone());
             object.write_dimension(Some(&offset), value, state)?;
         }
     }
@@ -1552,26 +1591,25 @@ fn assign_loop_field(
 fn incdec_loop_field(
     state: &mut VmState,
     frame: &mut Frame,
-    field: &'static [u8],
+    field: &PhpString,
     increment: bool,
 ) -> Result<(), Exception> {
-    let key = ArrayKey::from_string(PhpString::from(field));
     let slot = loop_slot(state, frame, true)?;
     match loop_container(slot, state)? {
         LoopContainer::Array(array) => {
-            let current = match array.get(&key) {
-                Some(value) => value.clone(),
-                None => {
-                    dim::undefined_key(&key, state)?;
-                    array.insert(key.clone(), Value::Null);
-                    Value::Null
-                }
-            };
-            let updated = core::increment(&current, increment, state)?;
-            array.insert(key, updated);
+            if let Some(current) = array.get_mut_ref(KeyRef::Str(field)) {
+                let updated = core::increment(current, increment, state)?;
+                *current = updated;
+            } else {
+                let key = ArrayKey::Str(field.clone());
+                dim::undefined_key(&key, state)?;
+                array.insert(key.clone(), Value::Null);
+                let updated = core::increment(&Value::Null, increment, state)?;
+                array.insert(key, updated);
+            }
         }
         LoopContainer::Object(object) => {
-            let offset = Value::String(PhpString::from(field));
+            let offset = Value::String(field.clone());
             let current = object.read_dimension(&offset, FetchMode::Read, state)?;
             if writes_through(&object) {
                 let updated = core::increment(&current, increment, state)?;
@@ -1595,37 +1633,54 @@ fn incdec_loop_field(
 
 /// `ForLoopNode::compile()` with `with_loop`, statement by statement.
 fn loop_update(state: &mut VmState, frame: &mut Frame) -> Result<(), Exception> {
-    incdec_loop_field(state, frame, b"index0", true)?;
-    incdec_loop_field(state, frame, b"index", true)?;
-    assign_loop_field(state, frame, b"first", Value::Bool(false))?;
+    incdec_loop_field(state, frame, &names::INDEX0, true)?;
+    incdec_loop_field(state, frame, &names::INDEX, true)?;
+    assign_loop_field(state, frame, &names::FIRST, Value::Bool(false))?;
     // isset($context['loop']['revindex0'], $context['loop']['revindex'])
     let both_set = match frame.context.get_sym(b"loop") {
         Some(loop_value) => {
-            let revindex0 = Value::from("revindex0");
-            let revindex = Value::from("revindex");
-            dim::isset(loop_value, &revindex0, state)? && dim::isset(loop_value, &revindex, state)?
+            loop_field_isset(loop_value, &names::REVINDEX0, state)?
+                && loop_field_isset(loop_value, &names::REVINDEX, state)?
         }
         None => false,
     };
     if both_set {
-        incdec_loop_field(state, frame, b"revindex0", false)?;
-        incdec_loop_field(state, frame, b"revindex", false)?;
-        // `$context['loop']['last'] = 0 === $context['loop']['revindex0'];`: the right side is read first
-        let loop_value = read_context(state, frame, b"loop")?;
-        let revindex0 = dim::read(
-            &loop_value,
-            &Value::from("revindex0"),
-            FetchMode::Read,
-            state,
-        )?;
-        assign_loop_field(
-            state,
-            frame,
-            b"last",
-            Value::Bool(compare::identical(&Value::Int(0), &revindex0)),
-        )?;
+        incdec_loop_field(state, frame, &names::REVINDEX0, false)?;
+        incdec_loop_field(state, frame, &names::REVINDEX, false)?;
+        // `$context['loop']['last'] = 0 === $context['loop']['revindex0'];`: the right side is read first (and no
+        // copy of `$context['loop']` outlives the read, so the assignment does not separate it)
+        let last = match frame.context.get_sym(b"loop") {
+            Some(Value::Array(array)) => match array.get_ref(KeyRef::Str(b"revindex0")) {
+                Some(revindex0) => compare::identical(&Value::Int(0), revindex0),
+                None => {
+                    dim::undefined_key(&ArrayKey::Str(PhpString::clone(&names::REVINDEX0)), state)?;
+                    false
+                }
+            },
+            _ => {
+                let loop_value = read_context(state, frame, b"loop")?;
+                let offset = Value::String(PhpString::clone(&names::REVINDEX0));
+                let revindex0 = dim::read(&loop_value, &offset, FetchMode::Read, state)?;
+                compare::identical(&Value::Int(0), &revindex0)
+            }
+        };
+        assign_loop_field(state, frame, &names::LAST, Value::Bool(last))?;
     }
     Ok(())
+}
+
+/// `isset($context['loop'][$field])`.
+fn loop_field_isset(
+    loop_value: &Value,
+    field: &PhpString,
+    state: &mut VmState,
+) -> Result<bool, Exception> {
+    Ok(match loop_value {
+        Value::Array(array) => array
+            .get_ref(KeyRef::Str(field))
+            .is_some_and(|value| !value.is_null()),
+        other => dim::isset(other, &Value::String(field.clone()), state)?,
+    })
 }
 
 /// The restore sequence of `ForNode::compile()`.
@@ -1638,17 +1693,14 @@ fn for_restore(
     with_loop: bool,
 ) -> Result<(), Exception> {
     let parent = read_context(state, frame, b"_parent")?;
-    let mut names: Vec<&[u8]> = vec![b"_seq", key, value, b"_parent"];
+    for name in [&b"_seq"[..], key, value, b"_parent"] {
+        frame.context.remove_ref(KeyRef::sym(name));
+    }
     if has_else {
-        names.push(b"_iterated");
+        frame.context.remove_ref(KeyRef::Str(b"_iterated"));
     }
     if with_loop {
-        names.push(b"loop");
-    }
-    for name in names {
-        frame
-            .context
-            .remove(&ArrayKey::from_string(PhpString::from(name)));
+        frame.context.remove_ref(KeyRef::Str(b"loop"));
     }
     let context = std::mem::take(&mut frame.context);
     let intersected =
