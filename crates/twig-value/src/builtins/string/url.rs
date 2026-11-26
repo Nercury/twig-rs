@@ -47,9 +47,37 @@ pub fn url_encode_into(out: &mut Vec<u8>, s: &[u8], raw: bool) {
 
 /// `php_raw_url_encode()` (`raw = true`) / `php_url_encode()` (`raw = false`).
 pub fn url_encode_bytes(s: &[u8], raw: bool) -> PhpString {
-    let mut out = Vec::with_capacity(s.len());
-    url_encode_into(&mut out, s, raw);
-    PhpString::from(out)
+    // [`url_encode_into`], sized first so that the string is built in one allocation
+    let unreserved = |c: u8| {
+        c.is_ascii_alphanumeric() || c == b'-' || c == b'.' || c == b'_' || (raw && c == b'~')
+    };
+    let len = s
+        .iter()
+        .map(|&c| {
+            if unreserved(c) || (!raw && c == b' ') {
+                1
+            } else {
+                3
+            }
+        })
+        .sum();
+    PhpString::build(len, |buf| {
+        let mut at = 0;
+        for &c in s {
+            if !raw && c == b' ' {
+                buf[at] = b'+';
+                at += 1;
+            } else if unreserved(c) {
+                buf[at] = c;
+                at += 1;
+            } else {
+                buf[at] = b'%';
+                buf[at + 1] = HEXCHARS[usize::from(c >> 4)];
+                buf[at + 2] = HEXCHARS[usize::from(c & 15)];
+                at += 3;
+            }
+        }
+    })
 }
 
 /// Port of `PHP_FUNCTION(rawurlencode)` (RFC 3986).
@@ -297,4 +325,21 @@ pub fn http_build_query(
         )));
     }
     build_query(data, &prefix, sep.as_deref(), enc_type, diag)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn encoded_strings_match_the_appending_encoder() {
+        let all: Vec<u8> = (0..=255).collect();
+        for raw in [true, false] {
+            for s in [&all[..], b"", b"a b~c-d.e_f", b"%%  "] {
+                let mut expected = Vec::new();
+                url_encode_into(&mut expected, s, raw);
+                assert_eq!(url_encode_bytes(s, raw).as_bytes(), &expected[..]);
+            }
+        }
+    }
 }
