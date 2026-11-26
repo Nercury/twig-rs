@@ -25,6 +25,8 @@
 //!   [extensions](#extensions), [tags](#tags), [node classes](#node-classes);
 //! - [Loaders](#loaders);
 //! - [Sandbox](#sandbox);
+//! - [Templates from Rust](#templates-from-rust): loaded templates, block chains, macros, attribute access and
+//!   Twig's core helpers, runtimes created when needed, globals per request;
 //! - [Errors and diagnostics](#errors-and-diagnostics);
 //! - [Thread safety](#thread-safety);
 //! - [How it works](#how-it-works): the pipeline and the modules.
@@ -951,7 +953,60 @@
 //! [Twig's sandbox documentation](https://twig.symfony.com/doc/3.x/sandbox.html) applies, including what the
 //! sandbox does not protect against: the policy limits what templates can reach, not the time and memory they use.
 //! [`runtime::sandbox`] also covers the `SandboxExtension` setup that Twig 3.29 deprecated (`{% sandbox %}`,
-//! `include(..., sandboxed = true)`); `examples/sandbox.rs` adds a host object with allowed methods.
+//! `include(..., sandboxed = true)`); `examples/sandbox.rs` adds a host object with allowed methods. Outside
+//! templates, a [`SecurityChecker`](runtime::SecurityChecker) applies a policy to lists of tags, filters, functions
+//! and tests, and to method calls and property reads, with Twig's errors.
+//!
+//! # Templates from Rust
+//!
+//! Beyond rendering, the host API offers what the public PHP classes of Twig offer:
+//!
+//! - **Loaded templates.** [`Environment::load`] and the render methods take a name or a [`TemplateWrapper`] (Twig's
+//!   `string|TemplateWrapper`); a wrapper loaded by another environment is refused with Twig's error
+//!   ([`TemplateWrapper::unwrap`], [`TemplateWrapper::is_owned_by`]).
+//! - **Blocks.** A wrapper renders, displays and streams single blocks and lists them; a
+//!   [`BlockChain`](runtime::BlockChain) composes the blocks of several templates and of their parents (Twig 3.31's
+//!   `Twig\BlockChain`, the base of form themes), as in the example below.
+//! - **Macros.** [`TemplateWrapper::macro_namespace`] gives the macros of a template as a
+//!   [`MacroNamespace`](runtime::MacroNamespace), whose `call()` and `has()` are what `forms.input(...)` and
+//!   `forms.input is defined` compile to; a [`TwigMacro`](runtime::TwigMacro) is a macro made of a Rust closure,
+//!   with Twig's lenient handling of its arguments.
+//! - **Attribute access and the core helpers.**
+//!   [`CoreExtension::get_attribute`](extension::CoreExtension::get_attribute) reads `object.item` (or calls
+//!   `object.item(...)`) exactly as a template does, and the static helpers of Twig's `CoreExtension` that the core
+//!   filters, functions and tests run (`cycle()`, `random()`, `include()`, ...) are functions of
+//!   [`CoreExtension`](extension::CoreExtension) too.
+//! - **Runtimes created when needed.** A filter, function or test implemented by a runtime class gets its runtime
+//!   object from [`Environment::runtime`]; [`Environment::add_runtime_loader`] with a
+//!   [`FactoryRuntimeLoader`](runtime::FactoryRuntimeLoader) creates it the first time a template needs it (Twig's
+//!   runtime loaders), [`Environment::add_runtime`] registers one created beforehand.
+//! - **Long-running processes.** [`Environment::reset_globals`] makes the environment ask the extensions for their
+//!   globals again (between two requests, say), and [`Environment::is_template_fresh`] tells whether a template
+//!   compiled at a given time is still fresh (Twig's `auto_reload` check: the loader's
+//!   [`is_fresh`](loader::Loader::is_fresh)).
+//!
+//! ```
+//! use twig::runtime::BlockChain;
+//! use twig::{Array, Environment, context, loader::ArrayLoader};
+//!
+//! let env = Environment::new(ArrayLoader::new([
+//!     (
+//!         "form_layout",
+//!         "{% block form_row %}<div>{{ block('form_label') }}{{ block('form_widget') }}</div>{% endblock %}\
+//!          {% block form_label %}<label>{{ label }}</label>{% endblock %}\
+//!          {% block form_widget %}<input name=\"{{ name }}\">{% endblock %}",
+//!     ),
+//!     ("theme", "{% block form_label %}<label class=\"big\">{{ label|upper }}</label>{% endblock %}"),
+//! ]));
+//! // the theme comes first: its blocks override those of the layout, also inside the layout's blocks
+//! let chain = BlockChain::new(&env, ["theme", "form_layout"], Array::new())?;
+//! assert_eq!(chain.block_names(Array::new())?, ["form_label", "form_row", "form_widget"]);
+//! assert_eq!(
+//!     chain.render_block("form_row", context! { label => "Name", name => "name" })?,
+//!     "<div><label class=\"big\">NAME</label><input name=\"name\"></div>",
+//! );
+//! # Ok::<(), twig::Error>(())
+//! ```
 //!
 //! # Errors and diagnostics
 //!
@@ -1212,6 +1267,11 @@ mod tests {
         assert_send_sync::<crate::parser::ParseContext>();
         assert_send_sync::<crate::runtime::Environment>();
         assert_send_sync::<crate::runtime::TemplateWrapper>();
+        assert_send_sync::<crate::runtime::BlockChain>();
+        assert_send_sync::<crate::runtime::MacroNamespace>();
+        assert_send_sync::<crate::runtime::TwigMacro>();
+        assert_send_sync::<crate::runtime::FactoryRuntimeLoader>();
+        assert_send_sync::<crate::runtime::SecurityChecker>();
         assert_send_sync::<crate::lltl::Program>();
         assert_send_sync::<crate::vm::Exception>();
         assert_send_sync::<crate::extension::runtime::CallableRuntime>();

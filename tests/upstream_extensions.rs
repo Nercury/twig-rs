@@ -11,6 +11,7 @@
 //! | `Runtime/EscaperRuntimeTest.php` | `upstream/extensions/runtime/escaper_runtime_test.rs` |
 //! | `Util/CallableArgumentsExtractorTest.php` | `upstream/extensions/util/callable_arguments_extractor_test.rs` |
 //! | `Util/DeprecationCollectorTest.php` | `upstream/extensions/util/deprecation_collector_test.rs` |
+//! | `FactoryRuntimeLoaderTest.php` | `upstream/extensions/factory_runtime_loader_test.rs` |
 //!
 //! Test functions keep the upstream names in snake case and data providers stay functions returning the cases (a
 //! data-provider test reports every failing case at once). Expected values are the upstream assertions, which pass on
@@ -36,9 +37,8 @@
 //! - `CustomExtensionTest.php` (`testGetInvalidOperators`): the legacy `ExtensionInterface::getOperators()` is not
 //!   supported by twig-rs (reference/deviations.md, "Legacy node classes and APIs").
 //! - `Extension/DebugExtensionTest.php`: does not exist in Twig 3.31.1.
-//! - `ContainerRuntimeLoaderTest.php`, `FactoryRuntimeLoaderTest.php`: twig-rs has no runtime loaders
-//!   (`RuntimeLoaderInterface`, `FactoryRuntimeLoader`, `ContainerRuntimeLoader`); runtimes are registered with
-//!   `Environment::add_runtime()` instead (PSR-11 containers are PHP infrastructure).
+//! - `ContainerRuntimeLoaderTest.php`: `ContainerRuntimeLoader` adapts a PSR-11 container, PHP infrastructure; a
+//!   host's container is a `RuntimeLoader` of its own.
 //! - `Util/CallableParametersTest.php`: `CallableParameters::isStringCoercionSafe()` reflects PHP types; host
 //!   callables declare `CallableParameter::string_coercion_safe()` instead (reference/deviations.md, "Parameter types in
 //!   the sandbox").
@@ -62,6 +62,8 @@ mod differential;
 mod escaper_runtime_test;
 #[path = "upstream/extensions/escaper_test.rs"]
 mod escaper_test;
+#[path = "upstream/extensions/factory_runtime_loader_test.rs"]
+mod factory_runtime_loader_test;
 #[path = "upstream/extensions/sandbox_test.rs"]
 mod sandbox_test;
 #[path = "upstream/extensions/string_loader_extension_test.rs"]

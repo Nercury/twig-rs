@@ -14,6 +14,7 @@ use twig_value::{Array, Diagnostic, Level, PhpError, PhpResult, PhpString, Throw
 
 use super::constants::Constants;
 use super::regex::PcreRegexValidator;
+use super::runtime_loader::RuntimeLoader;
 use super::sandbox::{SandboxExtension, SecurityChecker, ensure_traits_allowed};
 use super::template::{BlockRef, Template, TemplateWrapper, Traits};
 use crate::ast::ConstantValue;
@@ -193,8 +194,10 @@ struct Inner {
     /// The template instances by class key (`___N` appended for embedded templates).
     templates: RwLock<HashMap<Vec<u8>, Arc<Template>>>,
     notices: Mutex<Vec<Notice>>,
-    /// The runtimes registered with `add_runtime()` (Twig's runtime loaders).
+    /// The runtimes registered with `add_runtime()` or created by the runtime loaders (`$this->runtimes`).
     runtimes: RwLock<HashMap<String, Arc<dyn Any + Send + Sync>>>,
+    /// The runtime loaders (`addRuntimeLoader()`), in order.
+    runtime_loaders: RwLock<Vec<Arc<dyn RuntimeLoader>>>,
     /// The checker of the `SandboxExtension`, fixed once the extensions are initialized.
     sandbox: OnceLock<Option<Arc<SecurityChecker>>>,
     date: DateContext,
@@ -372,6 +375,63 @@ impl TraitBlocks {
     }
 }
 
+mod sealed {
+    pub trait Sealed {}
+}
+
+impl<T: AsRef<str> + ?Sized> sealed::Sealed for T {}
+impl sealed::Sealed for TemplateWrapper {}
+
+/// A template as [`Environment::load`] and the render methods take it: a name (`&str`, `&String`, ...) or a
+/// [`TemplateWrapper`]. Twig: `string|TemplateWrapper $name`.
+///
+/// A wrapper is checked against the environment it is given to: it must have been loaded by that environment
+/// ([`TemplateWrapper::is_owned_by`]).
+pub trait TemplateRef: sealed::Sealed {
+    /// The name of the template, for a name.
+    fn template_name(&self) -> Option<&str>;
+
+    /// The loaded template, for a wrapper.
+    fn template_wrapper(&self) -> Option<&TemplateWrapper>;
+}
+
+impl<T: AsRef<str> + ?Sized> TemplateRef for T {
+    fn template_name(&self) -> Option<&str> {
+        Some(self.as_ref())
+    }
+
+    fn template_wrapper(&self) -> Option<&TemplateWrapper> {
+        None
+    }
+}
+
+impl TemplateRef for TemplateWrapper {
+    fn template_name(&self) -> Option<&str> {
+        None
+    }
+
+    fn template_wrapper(&self) -> Option<&TemplateWrapper> {
+        Some(self)
+    }
+}
+
+/// The modification time of the code of the extensions: Twig's `ExtensionSet::getLastModified()`, the newest
+/// modification time of the files of the extension classes, which are part of the running executable here (`0` when
+/// the operating system does not tell it). Taken once per process, as Twig keeps it per extension set.
+fn extensions_last_modified() -> i64 {
+    static LAST_MODIFIED: OnceLock<i64> = OnceLock::new();
+    *LAST_MODIFIED.get_or_init(|| {
+        std::env::current_exe()
+            .and_then(std::fs::metadata)
+            .and_then(|metadata| metadata.modified())
+            .ok()
+            .and_then(|modified| modified.duration_since(std::time::UNIX_EPOCH).ok())
+            .map_or(0, |since| {
+                i64::try_from(since.as_secs()).unwrap_or(i64::MAX)
+            })
+    })
+}
+
 /// The Twig environment: the options, the extensions and everything they register, the globals, the loader and the
 /// cache of loaded templates. Twig: `Twig\Environment` (TWIG/src/Environment.php).
 ///
@@ -459,6 +519,7 @@ impl Environment {
                 templates: RwLock::new(HashMap::new()),
                 notices: Mutex::new(Vec::new()),
                 runtimes: RwLock::new(HashMap::new()),
+                runtime_loaders: RwLock::new(Vec::new()),
                 sandbox: OnceLock::new(),
                 date: DateContext::new(),
                 constants: RwLock::new(Constants::new()),
@@ -524,13 +585,17 @@ impl Environment {
     /// ([`EscaperRuntime::add_safe_class`]) of the `escape` filter and of auto-escaping.
     ///
     /// Twig: `getRuntime(EscaperRuntime::class)`: a runtime registered with [`add_runtime`](Self::add_runtime) under
-    /// `Twig\Runtime\EscaperRuntime` (Twig's runtime loaders come first), else the default runtime loader's `new
-    /// EscaperRuntime($this->charset)`; the first answer is kept. The default runtime takes the charset of the
-    /// moment it is created (the first call, or the first template that escapes), so a later
-    /// [`set_charset`](Self::set_charset) changes `_charset` and the `needs_charset` callables but not escaping
-    /// (VERIFIED with the oracle). It converts charsets with the environment's
-    /// [`iconv_backend`](Self::iconv_backend); a registered runtime with the backend it was created with
-    /// ([`EscaperRuntime::with_iconv_backend`]).
+    /// `Twig\Runtime\EscaperRuntime`, else the first one a [runtime loader](Self::add_runtime_loader) creates, else
+    /// the default runtime loader's `new EscaperRuntime($this->charset)`; the first answer is kept (a runtime of
+    /// another type than [`EscaperRuntime`] is skipped). The default runtime takes the charset of the moment it is
+    /// created (the first call, or the first template that escapes), so a later [`set_charset`](Self::set_charset)
+    /// changes `_charset` and the `needs_charset` callables but not escaping (VERIFIED with the oracle). It converts
+    /// charsets with the environment's [`iconv_backend`](Self::iconv_backend); a registered runtime with the backend
+    /// it was created with ([`EscaperRuntime::with_iconv_backend`]).
+    ///
+    /// This method cannot fail: when a runtime loader fails, it returns a default runtime that it does not keep, and
+    /// loading a template that escapes reports the loader's error, as in Twig (the compiled constructor fetches the
+    /// runtime).
     ///
     /// ```
     /// use std::sync::Arc;
@@ -555,18 +620,49 @@ impl Environment {
     /// # Ok::<(), twig::Error>(())
     /// ```
     pub fn escaper_runtime(&self) -> Arc<EscaperRuntime> {
-        Arc::clone(self.inner.escaper.get_or_init(|| {
-            let registered = read(&self.inner.runtimes)
-                .get(ESCAPER_RUNTIME)
-                .cloned()
-                .and_then(|runtime| runtime.downcast::<EscaperRuntime>().ok());
-            registered.unwrap_or_else(|| {
-                Arc::new(EscaperRuntime::with_iconv_backend(
-                    self.charset_value(),
-                    self.iconv_backend(),
-                ))
-            })
-        }))
+        self.try_escaper_runtime()
+            .unwrap_or_else(|_| self.default_escaper_runtime())
+    }
+
+    /// `new EscaperRuntime($this->charset)` with the environment's iconv backend.
+    fn default_escaper_runtime(&self) -> Arc<EscaperRuntime> {
+        Arc::new(EscaperRuntime::with_iconv_backend(
+            self.charset_value(),
+            self.iconv_backend(),
+        ))
+    }
+
+    /// [`escaper_runtime`](Self::escaper_runtime) with the errors of the runtime loaders.
+    pub(crate) fn try_escaper_runtime(&self) -> Result<Arc<EscaperRuntime>> {
+        if let Some(runtime) = self.inner.escaper.get() {
+            return Ok(Arc::clone(runtime));
+        }
+        let registered = read(&self.inner.runtimes)
+            .get(ESCAPER_RUNTIME)
+            .cloned()
+            .and_then(|runtime| runtime.downcast::<EscaperRuntime>().ok());
+        let runtime = match registered {
+            Some(runtime) => runtime,
+            None => match self.load_runtime(ESCAPER_RUNTIME)? {
+                Some(runtime) => runtime
+                    .downcast::<EscaperRuntime>()
+                    .unwrap_or_else(|_| self.default_escaper_runtime()),
+                None => self.default_escaper_runtime(),
+            },
+        };
+        Ok(Arc::clone(self.inner.escaper.get_or_init(|| runtime)))
+    }
+
+    /// `foreach ($this->runtimeLoaders as $loader) { if (null !== $runtime = $loader->load($class)) { return
+    /// $runtime; } }`: the first runtime a runtime loader creates.
+    fn load_runtime(&self, class: &str) -> Result<Option<Arc<dyn Any + Send + Sync>>> {
+        let loaders = read(&self.inner.runtime_loaders).clone();
+        for loader in loaders {
+            if let Some(runtime) = loader.load(class)? {
+                return Ok(Some(runtime));
+            }
+        }
+        Ok(None)
     }
 
     /// Twig: `setCharset()`: upper case, `UTF8` → `UTF-8`.
@@ -816,6 +912,46 @@ impl Environment {
         merged
     }
 
+    /// Forgets the globals computed once the environment is initialized, so that the next
+    /// [`globals`](Self::globals) asks the extensions for theirs again (Twig: `resetGlobals()`, called between the
+    /// requests of a long-running process). The values [`add_global`](Self::add_global) changed after
+    /// initialization are forgotten too: the globals come back to what extensions give and what was added before.
+    ///
+    /// ```
+    /// use std::any::Any;
+    /// use std::sync::Arc;
+    /// use std::sync::atomic::{AtomicI64, Ordering};
+    /// use twig::extension::Extension;
+    /// use twig::{Array, Environment, context, loader::ArrayLoader};
+    ///
+    /// /// The globals of a request.
+    /// struct RequestExtension(AtomicI64);
+    ///
+    /// impl Extension for RequestExtension {
+    ///     fn globals(&self) -> Option<Array> {
+    ///         Some(context! { request => self.0.fetch_add(1, Ordering::SeqCst) })
+    ///     }
+    ///
+    ///     fn as_any(&self) -> &dyn Any {
+    ///         self
+    ///     }
+    /// }
+    ///
+    /// let env = Environment::new(ArrayLoader::new([("index", "request {{ request }}")]));
+    /// env.add_extension(Arc::new(RequestExtension(AtomicI64::new(1))))?;
+    /// assert_eq!(env.render("index", Array::new())?, "request 1");
+    /// // the globals are computed once
+    /// assert_eq!(env.render("index", Array::new())?, "request 1");
+    /// env.reset_globals();
+    /// assert_eq!(env.render("index", Array::new())?, "request 2");
+    /// # Ok::<(), twig::Error>(())
+    /// ```
+    pub fn reset_globals(&self) {
+        // `$this->resolvedGlobals = null; $this->extensionSet->resetGlobals();` (the extensions are asked for their
+        // globals whenever the merged globals are computed)
+        lock(&self.inner.globals).resolved = None;
+    }
+
     // ---- loader --------------------------------------------------------------------------------------------------
 
     /// The loader. Twig: `getLoader()`.
@@ -879,13 +1015,37 @@ impl Environment {
         Ok(key)
     }
 
-    /// Loads a template. Twig: `Environment::load()`.
+    /// Loads a template: a name, or a wrapper this environment loaded, which comes back as it is. Twig:
+    /// `Environment::load(string|TemplateWrapper $name)`.
+    ///
+    /// ```
+    /// use twig::{Array, Environment, loader::ArrayLoader};
+    ///
+    /// let env = Environment::new(ArrayLoader::new([("index", "Hello")]));
+    /// let index = env.load("index")?;
+    /// assert_eq!(env.load(&index)?.render(Array::new())?, "Hello");
+    /// assert_eq!(env.render(&index, Array::new())?, "Hello");
+    ///
+    /// let other = Environment::new(ArrayLoader::new([("index", "Hello")]));
+    /// assert_eq!(
+    ///     other.load(&index).unwrap_err().to_string(),
+    ///     "A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it.",
+    /// );
+    /// # Ok::<(), twig::Error>(())
+    /// ```
     ///
     /// # Errors
     ///
     /// The loader's errors (`Template "%s" is not defined.`), the errors of compiling the template and of resolving
-    /// its traits.
-    pub fn load(&self, name: &str) -> Result<TemplateWrapper> {
+    /// its traits; for a wrapper of another environment `A "Twig\TemplateWrapper" can only be used with the
+    /// "Twig\Environment" that created it.` (a runtime error, [`TemplateWrapper::unwrap`]).
+    pub fn load<N: TemplateRef + ?Sized>(&self, name: &N) -> Result<TemplateWrapper> {
+        if let Some(wrapper) = name.template_wrapper() {
+            // `$name->unwrap($this); return $name;`
+            wrapper.unwrap(Some(self))?;
+            return Ok(wrapper.clone());
+        }
+        let name = name.template_name().unwrap_or_default();
         Ok(TemplateWrapper::new(
             self.clone(),
             self.load_template(name)?,
@@ -1014,7 +1174,7 @@ impl Environment {
         }
         if program.uses_template_escaper() {
             // `$this->escaper = $env->getRuntime(EscaperRuntime::class)`
-            self.escaper_runtime();
+            self.try_escaper_runtime()?;
         }
         let traits = self.resolve_traits(&program, &family, &key)?;
         Ok(Arc::new(Template::new(
@@ -1180,7 +1340,8 @@ impl Environment {
             .map_err(|error| compile_source_error(error, source))
     }
 
-    /// Renders a template to a string. Twig: `Environment::render()`.
+    /// Renders a template (a name or a wrapper, see [`load`](Self::load)) to a string. Twig:
+    /// `Environment::render()`.
     ///
     /// The context is anything that converts into an [`Array`]: [`context!`](crate::context), a `BTreeMap`, a
     /// `HashMap`, an `IndexMap`, an array of key-value pairs.
@@ -1188,32 +1349,69 @@ impl Environment {
     /// # Errors
     ///
     /// Loading, compiling and rendering errors (see [`TemplateWrapper::render`]).
-    pub fn render(&self, name: &str, context: impl Into<Array>) -> Result<String> {
+    pub fn render<N: TemplateRef + ?Sized>(
+        &self,
+        name: &N,
+        context: impl Into<Array>,
+    ) -> Result<String> {
         self.load(name)?.render(context)
     }
 
-    /// Renders a template to bytes.
+    /// Renders a template (a name or a wrapper) to bytes.
     ///
     /// # Errors
     ///
     /// Loading, compiling and rendering errors.
-    pub fn render_bytes(&self, name: &str, context: impl Into<Array>) -> Result<Vec<u8>> {
+    pub fn render_bytes<N: TemplateRef + ?Sized>(
+        &self,
+        name: &N,
+        context: impl Into<Array>,
+    ) -> Result<Vec<u8>> {
         self.load(name)?.render_bytes(context)
     }
 
-    /// Displays a template into `sink`: a `Vec<u8>`, any [`std::io::Write`] (see [`Sink`]). Twig:
-    /// `Environment::display()`.
+    /// Displays a template (a name or a wrapper) into `sink`: a `Vec<u8>`, any [`std::io::Write`] (see [`Sink`]).
+    /// Twig: `Environment::display()`.
     ///
     /// # Errors
     ///
     /// Loading, compiling and rendering errors, and the errors of the sink.
-    pub fn display(
+    pub fn display<N: TemplateRef + ?Sized>(
         &self,
-        name: &str,
+        name: &N,
         context: impl Into<Array>,
         sink: &mut dyn Sink,
     ) -> Result<()> {
         self.load(name)?.display(context, sink)
+    }
+
+    /// Whether a template compiled at `time` (a Unix timestamp) is still fresh: the code of the extensions has not
+    /// changed since, and the loader says the template has not ([`Loader::is_fresh`]). Twig:
+    /// `isTemplateFresh(string $name, int $time)` (`$this->extensionSet->getLastModified() <= $time &&
+    /// $this->getLoader()->isFresh($name, $time)`), the check behind Twig's `auto_reload` option.
+    ///
+    /// Twig takes the modification time of the extensions from the files of their PHP classes; the code of Rust
+    /// extensions is part of the running executable, whose modification time stands for it
+    /// (`reference/deviations.md`). The environment keeps its compiled templates in memory and does not ask this
+    /// itself; a host that keeps compiled output elsewhere can.
+    ///
+    /// ```
+    /// use std::time::{SystemTime, UNIX_EPOCH};
+    /// use twig::{Environment, loader::ArrayLoader};
+    ///
+    /// let env = Environment::new(ArrayLoader::new([("page", "hey")]));
+    /// let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs() as i64;
+    /// assert!(env.is_template_fresh("page", now)?);
+    /// // the extensions changed after 1970
+    /// assert!(!env.is_template_fresh("page", 0)?);
+    /// # Ok::<(), twig::Error>(())
+    /// ```
+    ///
+    /// # Errors
+    ///
+    /// The errors of the loader's `is_fresh()` (`Template "%s" is not defined.`), when the extensions are fresh.
+    pub fn is_template_fresh(&self, name: &str, time: i64) -> Result<bool> {
+        Ok(extensions_last_modified() <= time && self.loader().is_fresh(name, time)?)
     }
 
     /// Renders template source code that no loader knows. Twig: `$twig->createTemplate($source)->render($context)`
@@ -1378,30 +1576,48 @@ impl Environment {
 
     // ---- runtimes ------------------------------------------------------------------------------------------------
 
-    /// Registers the runtime object of a runtime class (Twig's runtime loaders, e.g. a `FactoryRuntimeLoader`); the
-    /// callables implemented by that class find it with [`runtime`](Self::runtime). For `render_sandboxed()`, register
-    /// a [`SandboxBridgeRuntime`](super::SandboxBridgeRuntime) under its class name.
+    /// Registers the runtime object of a runtime class, created beforehand (a
+    /// [runtime loader](Self::add_runtime_loader) creates runtimes when they are first needed); the callables
+    /// implemented by that class find it with [`runtime`](Self::runtime). For `render_sandboxed()`, register a
+    /// [`SandboxBridgeRuntime`](super::SandboxBridgeRuntime) under its class name.
     pub fn add_runtime(&self, class: &str, runtime: Arc<dyn Any + Send + Sync>) {
         write(&self.inner.runtimes).insert(class.trim_start_matches('\\').to_owned(), runtime);
     }
 
+    /// Adds a runtime loader, which [`runtime`](Self::runtime) asks for the runtime of a class the first time it is
+    /// needed (after the loaders added before it). Twig: `addRuntimeLoader()`;
+    /// [`FactoryRuntimeLoader`](super::FactoryRuntimeLoader) is Twig's `FactoryRuntimeLoader`.
+    pub fn add_runtime_loader(&self, loader: Arc<dyn RuntimeLoader>) {
+        write(&self.inner.runtime_loaders).push(loader);
+    }
+
     /// The runtime object of a runtime class. Twig: `getRuntime()` (TWIG/src/Environment.php): a runtime registered
-    /// with [`add_runtime`](Self::add_runtime) (Twig's runtime loaders), else for `Twig\Runtime\EscaperRuntime` the
-    /// [`escaper_runtime`](Self::escaper_runtime) (the default runtime loader), else the registered extension of that
-    /// class (`hasExtension($class) && $extension instanceof $class`), which is kept as the runtime of the class from
-    /// then on. For an extension, the returned value holds the `Arc<dyn Extension>`: downcast it to that type, then
-    /// use [`Extension::as_any`] to reach the concrete extension.
+    /// with [`add_runtime`](Self::add_runtime) or created before, else the first one a
+    /// [runtime loader](Self::add_runtime_loader) creates (kept from then on), else for
+    /// `Twig\Runtime\EscaperRuntime` the [`escaper_runtime`](Self::escaper_runtime) (the default runtime loader),
+    /// else the registered extension of that class (`hasExtension($class) && $extension instanceof $class`), which
+    /// is kept as the runtime of the class from then on. For an extension, the returned value holds the `Arc<dyn
+    /// Extension>`: downcast it to that type, then use [`Extension::as_any`] to reach the concrete extension. A
+    /// leading backslash of `class` is ignored.
     ///
     /// # Errors
     ///
-    /// `Unable to load the "%s" runtime.` (a runtime error).
+    /// What a runtime loader throws, and `Unable to load the "%s" runtime.` (a runtime error).
     pub fn runtime(&self, class: &str) -> Result<Arc<dyn Any + Send + Sync>> {
         let name = class.trim_start_matches('\\');
         if name == ESCAPER_RUNTIME {
-            return Ok(self.escaper_runtime());
+            return Ok(self.try_escaper_runtime()?);
         }
         if let Some(runtime) = read(&self.inner.runtimes).get(name).cloned() {
             return Ok(runtime);
+        }
+        if let Some(runtime) = self.load_runtime(name)? {
+            // `return $this->runtimes[$class] = $runtime;`
+            return Ok(Arc::clone(
+                write(&self.inner.runtimes)
+                    .entry(name.to_owned())
+                    .or_insert(runtime),
+            ));
         }
         let extension = self.with_extensions(|set| set.get_extension(name).ok().cloned());
         match extension {

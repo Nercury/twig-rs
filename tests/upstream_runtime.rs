@@ -1,7 +1,7 @@
 //! Ports of Twig 3.31.1's behaviour-level PHPUnit tests of the runtime (reference/twig/test-suite.md §6):
 //! `TemplateTest.php`, `TemplateWrapperTest.php`, `EnvironmentTest.php`, `ErrorTest.php`, the behavioural parts of
-//! `EnvironmentOptionsHashTest.php`, `CallMacroTest.php`, `TwigMacroTest.php`, `MarkupTest.php` and `SourceTest.php`.
-//! `BlockChainTest.php` is not ported: twig-rs has no `Twig\BlockChain` (see `upstream/runtime/block_chain_test.rs`).
+//! `EnvironmentOptionsHashTest.php`, `BlockChainTest.php`, `CallMacroTest.php`, `TwigMacroTest.php`, `MarkupTest.php`
+//! and `SourceTest.php`.
 //!
 //! Test names are the upstream method names in snake case; data providers keep their data sets and order. Each
 //! module lists the upstream methods it does not port and why. Tests that fail because twig-rs behaves differently
@@ -13,6 +13,10 @@
 //! of TemplateTest.php/ErrorTest.php (Rust versions in `upstream/runtime/classes.rs`).
 //!
 //! Oracle vectors live in `tests/vectors/upstream/runtime/`; each `.gen.php` says how to regenerate its `.json`.
+//! `host_api.json` holds the oracle's answers to the calls of Twig's host API that the ports check outside templates
+//! (macro namespaces, `unwrap()`, `resetGlobals()`, `isTemplateFresh()`, the `SecurityChecker` and the runtime
+//! loaders, the policy failures of the `use` check, `RecursiveArrayIterator`), generated from the oracle batch
+//! `host_api.gen.json` (`research/php-oracle/oracle.sh --pretty < host_api.gen.json > host_api.json`).
 
 #[path = "upstream/runtime/classes.rs"]
 mod classes;

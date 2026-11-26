@@ -13,7 +13,7 @@
 use std::sync::Arc;
 
 use twig::extension::runtime::{EscaperCallback, EscaperRuntime};
-use twig::runtime::Environment;
+use twig::runtime::{Environment, FactoryRuntimeLoader};
 use twig::value::{Ignore, PhpString, Value, ops};
 
 use super::support::{check_cases, export, loader};
@@ -113,7 +113,12 @@ fn test_safe_classes_use_custom_runtime_loader() {
     let runtime = Arc::new(EscaperRuntime::default());
     let twig = Environment::new(loader(&[]));
     // new FactoryRuntimeLoader([EscaperRuntime::class => static fn () => $runtime])
-    twig.add_runtime("Twig\\Runtime\\EscaperRuntime", runtime.clone());
+    let factory = Arc::clone(&runtime);
+    twig.add_runtime_loader(Arc::new(
+        FactoryRuntimeLoader::new().factory("Twig\\Runtime\\EscaperRuntime", move || {
+            Ok(Arc::clone(&factory))
+        }),
+    ));
     twig.escaper_runtime()
         .add_safe_class("ThisClassIsSafe", ["html"]);
     assert!(Arc::ptr_eq(&runtime, &twig.escaper_runtime()));

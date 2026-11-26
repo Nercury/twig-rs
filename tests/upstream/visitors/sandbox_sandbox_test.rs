@@ -2,16 +2,6 @@
 //! untrusted templates. Where the upstream test checks an exception class or a message substring, the exact result
 //! is compared with the oracle too (`sandbox.json`, `sandbox_test/*`; the test object class is named
 //! `TwigRsSandboxTestObject` there and here).
-//!
-//! Not ported:
-//!
-//! - `testSecurityCheckerAddsTheSourceToPolicyErrors` calls `SecurityChecker::checkSecurity()` directly; twig-rs's
-//!   checker is built by `SandboxExtension` and checks templates only: ported on the source of the error a render
-//!   raises.
-//! - `testAPolicyFailureWhileResolvingTraitsKeepsItsTwigContext`: its policy throws a `RuntimeException` from
-//!   `checkSecurity()`; `SecurityPolicyInterface::check_security()` can only fail with a `SecurityError` (missing API).
-//! - `testStream` and `testStreamBlock`: `Sandbox` has no `stream()`/`streamBlock()` (missing API); ported with the
-//!   `TemplateWrapper` of the sandbox environment, which is what Twig's methods delegate to.
 
 use std::any::Any;
 use std::sync::{Arc, LazyLock};
@@ -24,14 +14,14 @@ use twig::extension::{
 };
 use twig::loader::ArrayLoader;
 use twig::runtime::{
-    Environment, EnvironmentOptions, Markup, Sandbox, SandboxExtension, SecurityError,
-    SecurityErrorKind, SecurityPolicy, SecurityPolicyInterface,
+    Environment, EnvironmentOptions, Markup, Sandbox, SandboxExtension, SecurityChecker,
+    SecurityError, SecurityErrorKind, SecurityPolicy, SecurityPolicyInterface,
 };
 use twig::value::object::{
     CallArgs, ClassBuilder, ClassRef, Object, ObjectRef, PropertyInfo, PropertyStore, Visibility,
 };
 use twig::value::{Array, Diagnostics, PhpResult, PhpString, Value};
-use twig::{Error, ErrorKind};
+use twig::{Error, ErrorKind, Source};
 
 use super::support::{Mismatches, Oracle, Outcome, ctx, env as env_with, no_escape, s, tried};
 
@@ -419,11 +409,25 @@ fn funky() -> TwigTest {
     TwigTest::new("funky", Some(callable), TestOptions::default())
 }
 
-/// `testSecurityCheckerAddsTheSourceToPolicyErrors()`, on the error of a render: the violation carries the source of
-/// the template. Upstream passes its own `Source` to `checkSecurity()`; through a render the source is the compiled
-/// template's `getSourceContext()`, whose code is `''` unless `debug` is on (checked with the oracle).
+/// `testSecurityCheckerAddsTheSourceToPolicyErrors()`.
 #[test]
 fn security_checker_adds_the_source_to_policy_errors() {
+    let checker = SecurityChecker::new(strict(), true, None);
+    let source = Source::new("{% if 1 %}x{% endif %}", "index");
+    let error = checker
+        .check_security(&[b"if"], &[], &[], &[], Some(&source), &mut Vec::new())
+        .unwrap_err();
+    assert_eq!(error.kind(), ErrorKind::SecurityNotAllowedTag);
+    // `assertSame($source, $e->getSourceContext())`
+    assert_eq!(error.source_context(), Some(&source));
+    // the oracle's message (tests/vectors/upstream/runtime/host_api.json, `checker`)
+    assert_eq!(error.to_string(), "Tag \"if\" is not allowed in \"index\".");
+}
+
+/// The same violation through a render: the source is the compiled template's `getSourceContext()`, whose code is
+/// `''` unless `debug` is on (checked with the oracle).
+#[test]
+fn security_checker_adds_the_source_to_policy_errors_of_a_render() {
     let error = sandbox(&[("index", "{% if 1 %}x{% endif %}")], strict())
         .render("index", Array::new())
         .unwrap_err();
@@ -431,6 +435,111 @@ fn security_checker_adds_the_source_to_policy_errors() {
     let source = error.source_context().expect("a source");
     assert_eq!(source.name(), "index");
     assert_eq!(source.code(), b"");
+}
+
+/// The other checks of a `SecurityChecker` called by host code, as the oracle reports them (host_api.json, `checker`): without a
+/// source, method and property violations with the caller's line, the deprecations of a non-strict policy, and no
+/// check at all when the checker is not sandboxed.
+#[test]
+fn security_checker_checks_for_host_code() {
+    let checker = SecurityChecker::new(strict(), true, None);
+    let source = Source::new("{% if 1 %}x{% endif %}", "index");
+    let error = checker
+        .check_security(&[b"if"], &[], &[], &[], None, &mut Vec::new())
+        .unwrap_err();
+    assert_eq!(error.to_string(), "Tag \"if\" is not allowed.");
+    assert_eq!((error.source_context(), error.template_line()), (None, -1));
+
+    let unsandboxed = SecurityChecker::new(strict(), false, None);
+    unsandboxed
+        .check_security(&[b"if"], &[], &[], &[], Some(&source), &mut Vec::new())
+        .unwrap();
+    assert!(!unsandboxed.is_sandboxed(None));
+    unsandboxed.set_sandboxed(true);
+    assert!(unsandboxed.is_sandboxed(None));
+    assert!(checker.is_sandboxed(None) && checker.is_sandboxed_globally());
+
+    let object = twig::value::object::StdClass::new().into_ref();
+    let error = checker
+        .check_method_allowed(&object, b"foo", 3, Some(&source))
+        .unwrap_err();
+    assert_eq!(error.kind(), ErrorKind::SecurityNotAllowedMethod);
+    assert_eq!(
+        error.to_string(),
+        "Calling \"foo\" method on a \"stdClass\" object is not allowed in \"index\" at line 3."
+    );
+    let error = checker
+        .check_method_allowed(&object, b"foo", -1, None)
+        .unwrap_err();
+    assert_eq!(
+        (error.to_string().as_str(), error.template_line()),
+        (
+            "Calling \"foo\" method on a \"stdClass\" object is not allowed.",
+            -1
+        )
+    );
+    let error = checker
+        .check_property_allowed(
+            &object,
+            &Value::from("foo"),
+            4,
+            Some(&source),
+            &mut Vec::new(),
+        )
+        .unwrap_err();
+    assert_eq!(error.kind(), ErrorKind::SecurityNotAllowedProperty);
+    assert_eq!(
+        error.to_string(),
+        "Calling \"foo\" property on a \"stdClass\" object is not allowed in \"index\" at line 4."
+    );
+    for (lists, message) in [
+        (
+            [&[][..], &[b"upper".as_slice()][..], &[][..], &[][..]],
+            "Filter \"upper\" is not allowed in \"index\".",
+        ),
+        (
+            [&[][..], &[][..], &[b"max".as_slice()][..], &[][..]],
+            "Function \"max\" is not allowed in \"index\".",
+        ),
+        (
+            [&[][..], &[][..], &[][..], &[b"odd".as_slice()][..]],
+            "Test \"odd\" is not allowed in \"index\".",
+        ),
+    ] {
+        let [tags, filters, functions, tests] = lists;
+        let error = checker
+            .check_security(
+                tags,
+                filters,
+                functions,
+                tests,
+                Some(&source),
+                &mut Vec::new(),
+            )
+            .unwrap_err();
+        assert_eq!(error.to_string(), message);
+    }
+
+    let lax = SecurityChecker::new(Arc::new(SecurityPolicy::new()), true, None);
+    let mut deprecations = Vec::new();
+    lax.check_security(
+        &[b"extends"],
+        &[],
+        &[b"parent"],
+        &[b"odd"],
+        Some(&source),
+        &mut deprecations,
+    )
+    .unwrap();
+    let deprecations: Vec<String> = deprecations.iter().map(ToString::to_string).collect();
+    assert_eq!(
+        deprecations,
+        [
+            "Since twig/twig 3.12: The \"extends\" tag is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+            "Since twig/twig 3.27: The \"parent\" function is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+            "Since twig/twig 3.28: The \"odd\" test is always allowed in sandboxes, but won't be in 4.0, please enable it explicitly in your sandbox policy if needed (or enable strict mode on the security policy to opt-in to the 4.0 behavior now).",
+        ]
+    );
 }
 
 /// `testAllowedTestIsAccepted()`.
@@ -1015,17 +1124,12 @@ fn display() {
     assert_eq!(output, b"Hello FABIEN");
 }
 
-/// `testStream()`, through the template wrapper (`Sandbox` has no `stream()`).
+/// `testStream()`.
 #[test]
 fn stream() {
     let sandbox = greeting_sandbox(&[("index", "Hello {{ name|upper }}")], &[]);
     let mut output: Vec<u8> = Vec::new();
-    sandbox
-        .environment()
-        .load("index")
-        .unwrap()
-        .stream(fabien(), &mut output)
-        .unwrap();
+    sandbox.stream("index", fabien(), &mut output).unwrap();
     assert_eq!(output, b"Hello FABIEN");
 }
 
@@ -1052,16 +1156,13 @@ fn display_block() {
     assert_eq!(output, b"Hello FABIEN");
 }
 
-/// `testStreamBlock()`, through the template wrapper (`Sandbox` has no `streamBlock()`).
+/// `testStreamBlock()`.
 #[test]
 fn stream_block() {
     let sandbox = greeting_sandbox(&[BLOCKS], &["block"]);
     let mut output: Vec<u8> = Vec::new();
     sandbox
-        .environment()
-        .load("blocks")
-        .unwrap()
-        .stream_block("greeting", fabien(), &mut output)
+        .stream_block("blocks", "greeting", fabien(), &mut output)
         .unwrap();
     assert_eq!(output, b"Hello FABIEN");
 }

@@ -2,16 +2,17 @@
 //!
 //! Not ported: `testLastModifiedIncludesTheRuntime` (the `filemtime()` of PHP class files) and
 //! `testOutputStrategyIsNotPassedToTheRuntime` (an assertion on generated PHP; the runtime is a concrete type that
-//! receives the name and the context only). `testLoadsTheSandboxLazily` registers a runtime factory that throws;
-//! twig-rs registers runtime objects (`Environment::add_runtime()`), so the port registers none: a template that does
-//! not call `render_sandboxed()` renders without the runtime.
+//! receives the name and the context only).
 
 use std::sync::Arc;
+use std::sync::atomic::{AtomicBool, Ordering};
 
 use twig::escaper::DefaultStrategy;
 use twig::extension::SandboxBridgeExtension;
-use twig::runtime::{Environment, EnvironmentOptions, Sandbox, SandboxBridgeRuntime};
-use twig::value::Array;
+use twig::runtime::{
+    Environment, EnvironmentOptions, FactoryRuntimeLoader, Sandbox, SandboxBridgeRuntime,
+};
+use twig::value::{Array, PhpError, ThrowableClass};
 
 use super::support::{Mismatches, Oracle, Outcome, env, policy, tried};
 
@@ -25,14 +26,19 @@ fn create_environment(template: &str) -> Environment {
             ..Default::default()
         },
     );
-    let sandbox = Sandbox::new(sandbox_environment, policy(&[], &[], &[], true)).unwrap();
+    let policy = policy(&[], &[], &[], true);
     let twig = env(&[("index", template)], EnvironmentOptions::default());
     twig.add_extension(Arc::new(SandboxBridgeExtension::new()))
         .unwrap();
-    twig.add_runtime(
+    // new FactoryRuntimeLoader([SandboxBridgeRuntime::class => static fn () => new SandboxBridgeRuntime(new
+    // Sandbox($sandboxEnvironment, $policy))])
+    twig.add_runtime_loader(Arc::new(FactoryRuntimeLoader::new().factory(
         SandboxBridgeRuntime::CLASS,
-        Arc::new(SandboxBridgeRuntime::new(sandbox)),
-    );
+        move || {
+            let sandbox = Sandbox::new(sandbox_environment.clone(), policy.clone())?;
+            Ok(Arc::new(SandboxBridgeRuntime::new(sandbox)))
+        },
+    )));
     twig
 }
 
@@ -118,17 +124,51 @@ fn render_sandboxed() {
     mismatches.assert_none();
 }
 
-/// `testLoadsTheSandboxLazily()`: the runtime is not needed by a template that does not call `render_sandboxed()`.
+/// `testLoadsTheSandboxLazily()`: the runtime is not created for a template that does not call `render_sandboxed()`.
 #[test]
 fn loads_the_sandbox_lazily() {
+    static RUNTIME_LOADED: AtomicBool = AtomicBool::new(false);
     let twig = env(
-        &[("index", "trusted content")],
+        &[
+            ("index", "trusted content"),
+            (
+                "sandboxed",
+                "x\n{{ render_sandboxed(\"content\", {}, \"html\") }}",
+            ),
+        ],
         EnvironmentOptions::default(),
     );
     twig.add_extension(Arc::new(SandboxBridgeExtension::new()))
         .unwrap();
+    twig.add_runtime_loader(Arc::new(FactoryRuntimeLoader::new().factory(
+        SandboxBridgeRuntime::CLASS,
+        || -> twig::Result<Arc<SandboxBridgeRuntime>> {
+            RUNTIME_LOADED.store(true, Ordering::SeqCst);
+            Err(twig::Error::php(PhpError::new(
+                ThrowableClass::LogicException,
+                "The sandbox should not be loaded.",
+            )))
+        },
+    )));
     assert_eq!(
         twig.render("index", Array::new()).unwrap(),
         "trusted content"
+    );
+    assert!(!RUNTIME_LOADED.load(Ordering::SeqCst));
+
+    // a template that needs the runtime gets the factory's exception, wrapped like any other (oracle,
+    // `runtime-factory-throws`)
+    let error = twig.render("sandboxed", Array::new()).unwrap_err();
+    assert!(RUNTIME_LOADED.load(Ordering::SeqCst));
+    assert_eq!(
+        error.to_string(),
+        "An exception has been thrown during the rendering of a template (\"The sandbox should not be loaded.\") in \"sandboxed\" at line 2."
+    );
+    let previous = error
+        .previous()
+        .and_then(|previous| previous.downcast_ref::<twig::Error>());
+    assert_eq!(
+        previous.map(|previous| (previous.class_name(), previous.raw_message())),
+        Some(("LogicException", "The sandbox should not be loaded."))
     );
 }

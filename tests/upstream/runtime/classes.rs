@@ -6,8 +6,7 @@ use std::sync::LazyLock;
 
 use twig::value::object::{
     ArrayIterator, ArrayObject, CallArgs, ClassBuilder, ClassRef, Closure, FetchMode, FunctionKind,
-    Object, ObjectIterator, ObjectRef, Param, PropertyInfo, PropertyStore, StdClass, Visibility,
-    builtin,
+    Object, ObjectRef, Param, PropertyInfo, PropertyStore, StdClass, Visibility, builtin,
 };
 use twig::value::{Array, Diagnostics, PhpError, PhpResult, PhpString, ThrowableClass, Value, dim};
 
@@ -793,86 +792,6 @@ pub fn tracked_calls(data: &ObjectRef, property: &str) -> Vec<Value> {
 
 // ---- subclasses of ArrayObject and ArrayIterator ------------------------------------------------------------------
 
-/// A class extending an internal SPL array class without overriding anything (`final class
-/// TemplateArrayObjectSubclass extends \ArrayObject {}`): the object behaves exactly like its parent's instance, only
-/// its class differs. twig-rs's `ArrayObject`/`ArrayIterator` cannot be given another class, so the subclass forwards
-/// every handler to a parent instance.
-struct SplArraySubclass {
-    class: ClassRef,
-    inner: ObjectRef,
-}
-
-impl Object for SplArraySubclass {
-    fn class(&self) -> &ClassRef {
-        &self.class
-    }
-
-    fn call(
-        &self,
-        _this: &ObjectRef,
-        method: &str,
-        args: CallArgs,
-        diag: &mut dyn Diagnostics,
-    ) -> PhpResult<Value> {
-        self.inner.invoke_method(method, args, diag)
-    }
-
-    fn read_dimension(
-        &self,
-        _this: &ObjectRef,
-        offset: &Value,
-        mode: FetchMode,
-        diag: &mut dyn Diagnostics,
-    ) -> PhpResult<Value> {
-        self.inner.read_dimension(offset, mode, diag)
-    }
-
-    fn has_dimension(
-        &self,
-        _this: &ObjectRef,
-        offset: &Value,
-        check_empty: bool,
-        diag: &mut dyn Diagnostics,
-    ) -> PhpResult<bool> {
-        self.inner.has_dimension(offset, check_empty, diag)
-    }
-
-    fn write_dimension(
-        &self,
-        _this: &ObjectRef,
-        offset: Option<&Value>,
-        value: Value,
-        diag: &mut dyn Diagnostics,
-    ) -> PhpResult<()> {
-        self.inner.write_dimension(offset, value, diag)
-    }
-
-    fn unset_dimension(
-        &self,
-        _this: &ObjectRef,
-        offset: &Value,
-        diag: &mut dyn Diagnostics,
-    ) -> PhpResult<()> {
-        self.inner.unset_dimension(offset, diag)
-    }
-
-    fn count_elements(
-        &self,
-        _this: &ObjectRef,
-        diag: &mut dyn Diagnostics,
-    ) -> PhpResult<Option<i64>> {
-        self.inner.count(diag)
-    }
-
-    fn get_iterator(
-        &self,
-        _this: &ObjectRef,
-        diag: &mut dyn Diagnostics,
-    ) -> PhpResult<Option<Box<dyn ObjectIterator>>> {
-        self.inner.get_iterator(diag)
-    }
-}
-
 static TEMPLATE_ARRAY_OBJECT_SUBCLASS: LazyLock<ClassRef> = LazyLock::new(|| {
     ClassBuilder::class("Twig\\Tests\\TemplateArrayObjectSubclass")
         .final_class()
@@ -887,37 +806,19 @@ static TEMPLATE_ARRAY_ITERATOR_SUBCLASS: LazyLock<ClassRef> = LazyLock::new(|| {
         .build()
 });
 
-static RECURSIVE_ARRAY_ITERATOR: LazyLock<ClassRef> = LazyLock::new(|| {
-    ClassBuilder::class("RecursiveArrayIterator")
-        .extends(&builtin::array_iterator())
-        .method("hasChildren")
-        .method("getChildren")
-        .build()
-});
-
-/// A subclass of `ArrayIterator` named `name` (only `RecursiveArrayIterator`, which twig-value does not provide).
-pub fn named_array_iterator_subclass(name: &str, array: Array) -> Value {
-    assert_eq!(name, "RecursiveArrayIterator");
-    Value::Object(ObjectRef::new(SplArraySubclass {
-        class: RECURSIVE_ARRAY_ITERATOR.clone(),
-        inner: ArrayIterator::new(array).into_ref(),
-    }))
-}
-
-/// `new TemplateArrayObjectSubclass($array)`.
+/// `new TemplateArrayObjectSubclass($array)` (`final class TemplateArrayObjectSubclass extends \ArrayObject {}`).
 pub fn template_array_object_subclass(array: Array) -> Value {
-    Value::Object(ObjectRef::new(SplArraySubclass {
-        class: TEMPLATE_ARRAY_OBJECT_SUBCLASS.clone(),
-        inner: ArrayObject::new(array).into_ref(),
-    }))
+    Value::Object(
+        ArrayObject::with_class(TEMPLATE_ARRAY_OBJECT_SUBCLASS.clone(), array, 0).into_ref(),
+    )
 }
 
-/// `new TemplateArrayIteratorSubclass($array)`.
+/// `new TemplateArrayIteratorSubclass($array)` (`final class TemplateArrayIteratorSubclass extends \ArrayIterator
+/// {}`).
 pub fn template_array_iterator_subclass(array: Array) -> Value {
-    Value::Object(ObjectRef::new(SplArraySubclass {
-        class: TEMPLATE_ARRAY_ITERATOR_SUBCLASS.clone(),
-        inner: ArrayIterator::new(array).into_ref(),
-    }))
+    Value::Object(
+        ArrayIterator::with_class(TEMPLATE_ARRAY_ITERATOR_SUBCLASS.clone(), array, 0).into_ref(),
+    )
 }
 
 // ---- ErrorTest_Foo -----------------------------------------------------------------------------------------------

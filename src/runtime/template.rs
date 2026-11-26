@@ -1,6 +1,6 @@
 //! Template instances, their block tables, and `TemplateWrapper`.
 
-use std::sync::{Arc, LazyLock, Mutex, MutexGuard};
+use std::sync::{Arc, LazyLock, Mutex, MutexGuard, OnceLock};
 
 use twig_value::object::{
     CallArgs, ClassBuilder, ClassRef, FunctionKind, MethodParams, Object, ObjectRef, Param,
@@ -11,7 +11,9 @@ use twig_value::{Array, ArrayKey, Diagnostics, PhpError, PhpResult, PhpString, V
 
 use super::composition;
 use super::environment::Environment;
+use super::macros::MacroNamespace;
 use super::typed_property::verify_property_type;
+use crate::deprecation::Deprecation;
 use crate::error::{Error, Result};
 use crate::lltl::{Program, UnitId};
 use crate::source::Source;
@@ -39,10 +41,15 @@ pub(crate) struct Blocks {
 }
 
 impl Blocks {
-    fn from_entries(entries: Vec<(PhpString, BlockRef)>) -> Blocks {
+    pub(crate) fn from_entries(entries: Vec<(PhpString, BlockRef)>) -> Blocks {
         Blocks {
             entries: Arc::new(entries),
         }
+    }
+
+    /// The entries in order (`foreach ($blocks as $name => $block)`).
+    pub(crate) fn entries(&self) -> impl Iterator<Item = &(PhpString, BlockRef)> {
+        self.entries.iter()
     }
 
     /// The block named `name` (`$blocks[$name]`).
@@ -124,6 +131,8 @@ pub struct Template {
     traits: Vec<(PhpString, BlockRef)>,
     trait_aliases: Vec<(PhpString, PhpString)>,
     blocks: Vec<(PhpString, BlockSlot)>,
+    /// `$this->macroNamespace` (`getMacroNamespace()`), made on first use.
+    macro_namespace: OnceLock<Value>,
 }
 
 impl std::fmt::Debug for Template {
@@ -172,6 +181,7 @@ impl Template {
             traits: traits.blocks,
             trait_aliases: traits.aliases,
             blocks,
+            macro_namespace: OnceLock::new(),
         }
     }
 
@@ -190,9 +200,15 @@ impl Template {
         &self.key
     }
 
-    /// The identity of the environment that loaded the template (`Template::isOwnedBy()`).
-    pub(crate) fn env_id(&self) -> usize {
-        self.env_id
+    /// Whether `env` loaded the template. Twig: `Template::isOwnedBy()` (`$this->env === $env`).
+    pub fn is_owned_by(&self, env: &Environment) -> bool {
+        self.env_id == env.id()
+    }
+
+    /// `$this->macroNamespace ??= ...` (`getMacroNamespace()`): the namespace object `make` creates on the first
+    /// call, the same object afterwards.
+    pub(crate) fn macro_namespace_value(&self, make: impl FnOnce() -> Value) -> Value {
+        self.macro_namespace.get_or_init(make).clone()
     }
 
     /// The template name. Twig: `getTemplateName()`.
@@ -413,18 +429,77 @@ impl TemplateWrapper {
         }
     }
 
-    /// Twig: `TemplateWrapper::unwrap($env)`: the template, when the wrapper belongs to `env`.
+    /// Whether the wrapper and its template belong to `env`. Twig: `TemplateWrapper::isOwnedBy()` (`$this->env ===
+    /// $env && $this->template->isOwnedBy($env)`).
+    pub fn is_owned_by(&self, env: &Environment) -> bool {
+        self.env.same_as(env) && self.template.is_owned_by(env)
+    }
+
+    /// The template, checked against the environment that uses it. Twig: `TemplateWrapper::unwrap(?Environment $env
+    /// = null)`.
+    ///
+    /// Without an environment the template is returned unchecked, which Twig deprecated: the deprecation `Since
+    /// twig/twig 3.30: Calling "Twig\TemplateWrapper::unwrap()" without arguments is deprecated, pass the Twig
+    /// environment instead.` is reported to the wrapper's environment.
+    ///
+    /// ```
+    /// use twig::{Environment, loader::ArrayLoader};
+    ///
+    /// let env = Environment::new(ArrayLoader::new([("index", "x")]));
+    /// let wrapper = env.load("index")?;
+    /// assert_eq!(wrapper.unwrap(Some(&env))?.name(), "index");
+    /// let other = Environment::new(ArrayLoader::new([("index", "x")]));
+    /// assert_eq!(
+    ///     wrapper.unwrap(Some(&other)).unwrap_err().to_string(),
+    ///     "A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it.",
+    /// );
+    /// # Ok::<(), twig::Error>(())
+    /// ```
     ///
     /// # Errors
     ///
-    /// `RuntimeError('A "Twig\TemplateWrapper" can only be used with the "Twig\Environment" that created it.')`.
-    pub(crate) fn unwrap_for(&self, env: &Environment) -> Result<Arc<Template>> {
-        if !self.env.same_as(env) || self.template.env_id() != env.id() {
-            return Err(Error::runtime(
-                "A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it.",
-            ));
+    /// `RuntimeError('A "Twig\TemplateWrapper" can only be used with the "Twig\Environment" that created it.')` when
+    /// the wrapper is not [owned](Self::is_owned_by) by `env`.
+    pub fn unwrap(&self, env: Option<&Environment>) -> Result<Arc<Template>> {
+        match env {
+            None => self.env.report_deprecation(Deprecation::twig(
+                "3.30",
+                "Calling \"Twig\\TemplateWrapper::unwrap()\" without arguments is deprecated, pass the Twig environment instead.",
+            )),
+            Some(env) if !self.is_owned_by(env) => {
+                return Err(Error::runtime(
+                    "A \"Twig\\TemplateWrapper\" can only be used with the \"Twig\\Environment\" that created it.",
+                ));
+            }
+            Some(_) => {}
         }
         Ok(Arc::clone(&self.template))
+    }
+
+    /// The macros of the template as a namespace: what `{% import %}` binds. Twig:
+    /// `$wrapper->unwrap($env)->getMacroNamespace()` (`Template::getMacroNamespace()`, the same namespace object
+    /// every time).
+    ///
+    /// ```
+    /// use twig::value::{Ignore, convert};
+    /// use twig::{Array, Environment, Source, context, loader::ArrayLoader};
+    ///
+    /// let env = Environment::new(ArrayLoader::new([(
+    ///     "forms",
+    ///     "{% macro input(name, type = 'text') %}<input type=\"{{ type }}\" name=\"{{ name }}\">{% endmacro %}",
+    /// )]));
+    /// let forms = env.load("forms")?.macro_namespace();
+    /// assert!(forms.has("input", &Array::new())?);
+    /// // `{{ forms.input(type: 'password', name: 'secret') }}`, called from line 1 of a template named "host"
+    /// let arguments = context! { type => "password", name => "secret" };
+    /// let html = forms.call("input", arguments, &Array::new(), 1, &Source::new("", "host"))?;
+    /// // a `Twig\Markup`
+    /// let html = convert::to_string(&html, &mut Ignore).map_err(twig::Error::php)?;
+    /// assert_eq!(html.to_string_lossy(), "<input type=\"password\" name=\"secret\">");
+    /// # Ok::<(), twig::Error>(())
+    /// ```
+    pub fn macro_namespace(&self) -> MacroNamespace {
+        MacroNamespace::new(self.env.clone(), Arc::clone(&self.template))
     }
 
     fn state(&self) -> VmState {

@@ -4,8 +4,6 @@
 //! `getTemplateClass()` and no PHP class files, so the cache, class-name and reflection tests do not apply.
 //!
 //! Not ported:
-//! - `testRejectsTemplateWrapperFromAnotherEnvironment`: `Environment::load()` takes template names only (missing API:
-//!   loading a `TemplateWrapper`); the same check through a template is ported in `template_wrapper_test.rs`.
 //! - `testResolveTemplateRejectsTemplateFromAnotherEnvironment`: deprecated `Twig\Template` instances.
 //! - `testCloningIsDeprecated`: PHP `clone`; a Rust `Environment` clone is a handle to the same environment.
 //! - `testExtensionsAreNotInitializedWhenRenderingACompiledTemplate`, `testAutoReloadCacheMiss`,
@@ -17,7 +15,6 @@
 //! - `testFailLoadTemplate`: `loadTemplate($class, $name, $index)` is internal (twig-rs has no class names).
 //! - `testLegacyEchoingNode`: a node class of an extension compiling to `echo`; twig-rs has no code generation hook
 //!   for extension nodes.
-//! - `testResettingGlobals`: twig-rs has no `resetGlobals()` (missing API).
 //! - `testTemplateClassFollowsExtensionsAddedAfterItWasComputed`, `testTemplateClassFollowsDebugAndStrictVariablesChanges`,
 //!   `testTemplateClassDependsOnOptimizations`: generated class names (`tests/engine_api.rs` covers recompiling after
 //!   `enableStrictVariables()`).
@@ -26,7 +23,6 @@
 //! - `testDebugTemplatesInstantiatedWithoutTheirConstructorKnowTheirPath`,
 //!   `testTemplatesInstantiatedWithoutTheirConstructorDoNotFailOnTheirPath`: PHP reflection.
 //! - `testTheSourceOfACompiledTemplateCanBeSerialized`: PHP `serialize()`.
-//! - From `testAddMockExtension`: `isTemplateFresh()` (missing API); the `getExtension()` part is ported.
 //! - From `testCompiledTemplatesDoNotDependOnTheLocationOfTheirSource`: `getTemplateClass()` and `compileSource()`
 //!   output; the paths and messages are ported.
 
@@ -51,7 +47,9 @@ use twig::parser::expression::prefix::{
     UnaryNodeClass, UnaryNodeFactory, UnaryOperatorExpressionParser,
 };
 use twig::parser::expression::{ExpressionParserEntry, InfixAssociativity};
-use twig::runtime::{Environment, EnvironmentOptions};
+use twig::runtime::{
+    Environment, EnvironmentOptions, FactoryRuntimeLoader, Runtime, RuntimeLoader,
+};
 use twig::value::object::{FunctionKind, Param};
 use twig::value::{Array, Value};
 use twig::visitor::{Visit, VisitContext, VisitResult};
@@ -382,6 +380,42 @@ fn test_autoescape_option() {
 }
 
 #[test]
+fn test_rejects_template_wrapper_from_another_environment() {
+    let foreign = env(&[("index", "foreign")]);
+    let twig = env(&[]);
+    let error = expect_error(
+        twig.load(&foreign.load("index").unwrap()),
+        ErrorKind::Runtime,
+    );
+    assert!(
+        error
+            .to_string()
+            .contains(r#"can only be used with the "Twig\Environment" that created it"#),
+        "{error}"
+    );
+    // the oracle's whole message (host_api.json, `unwrap-deprecation`), also for render()
+    assert_eq!(
+        error.to_string(),
+        r#"A "Twig\TemplateWrapper" can only be used with the "Twig\Environment" that created it."#
+    );
+    let error = expect_error(
+        twig.render(&foreign.load("index").unwrap(), Array::new()),
+        ErrorKind::Runtime,
+    );
+    assert_eq!(
+        error.to_string(),
+        r#"A "Twig\TemplateWrapper" can only be used with the "Twig\Environment" that created it."#
+    );
+    // a wrapper of the environment itself comes back as it is
+    let index = foreign.load("index").unwrap();
+    assert!(Arc::ptr_eq(
+        foreign.load(&index).unwrap().template(),
+        index.template()
+    ));
+    assert_eq!(foreign.render(&index, Array::new()).unwrap(), "foreign");
+}
+
+#[test]
 fn test_globals() {
     let foo = |twig: &Environment| twig.globals().get_sym(b"foo").cloned();
     let mock = || Environment::new(MockLoader);
@@ -516,7 +550,27 @@ fn test_add_mock_extension() {
         set.get_extension("Mock_ExtensionInterface_12345678")
             .is_ok()
     }));
-    // `$twig->isTemplateFresh('page', time())` has no twig-rs equivalent
+    assert!(twig.is_template_fresh("page", now()).unwrap());
+}
+
+/// `time()`.
+fn now() -> i64 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_secs() as i64
+}
+
+/// `isTemplateFresh()` beyond `testAddMockExtension` (oracle: host_api.json, `is-fresh`): the extensions changed after `0`, which
+/// is decided before the loader is asked (no error for a missing template then).
+#[test]
+fn is_template_fresh_asks_the_loader_after_the_extensions() {
+    let twig = env(&[("page", "hey")]);
+    assert!(twig.is_template_fresh("page", now()).unwrap());
+    assert!(!twig.is_template_fresh("page", 0).unwrap());
+    assert!(!twig.is_template_fresh("missing", 0).unwrap());
+    let error = expect_error(twig.is_template_fresh("missing", now()), ErrorKind::Loader);
+    assert_eq!(error.to_string(), "Template \"missing\" is not defined.");
 }
 
 #[test]
@@ -558,8 +612,8 @@ fn test_add_runtime_loader() {
         .unwrap();
     twig.add_function(from_runtime_function("from_runtime_string"))
         .unwrap();
-    // addRuntimeLoader($runtimeLoader) loading new EnvironmentTest_Runtime()
-    twig.add_runtime(RUNTIME_CLASS, Arc::new(EnvironmentTestRuntime));
+    // `$runtimeLoader->method('load')->willReturn(new EnvironmentTest_Runtime())`
+    twig.add_runtime_loader(Arc::new(MockRuntimeLoader));
 
     for (name, expected) in [
         ("func_array", "foo"),
@@ -597,13 +651,27 @@ fn test_get_extension_returns_the_extension_registered_with_its_own_class() {
     let extension: Arc<dyn Extension> = Arc::new(NamedExtension(CLASS));
     twig.add_extension(Arc::clone(&extension)).unwrap();
     // new FactoryRuntimeLoader([CLASS => static fn () => new EnvironmentTest_ExtensionWithAttributes('runtime')])
-    let runtime: Arc<dyn Any + Send + Sync> = Arc::new(NamedExtension(CLASS));
-    twig.add_runtime(CLASS, Arc::clone(&runtime));
+    twig.add_runtime_loader(Arc::new(
+        FactoryRuntimeLoader::new().factory(CLASS, || Ok(Arc::new(NamedExtension(CLASS)))),
+    ));
 
     let found = twig.with_extensions(|set| set.get_extension(CLASS).map(Arc::clone));
     assert!(Arc::ptr_eq(&found.unwrap(), &extension));
+    // `assertNotSame($extension, $twig->getRuntime(CLASS))`: the runtime loader's object, kept from then on
     let loaded = twig.runtime(CLASS).unwrap();
-    assert!(Arc::ptr_eq(&loaded, &runtime));
+    assert!(loaded.downcast_ref::<NamedExtension>().is_some());
+    // not the registered extension, which `runtime()` gives as an `Arc<dyn Extension>`
+    assert!(loaded.downcast_ref::<Arc<dyn Extension>>().is_none());
+    assert!(Arc::ptr_eq(&loaded, &twig.runtime(CLASS).unwrap()));
+}
+
+/// The runtime loader mock of `testAddRuntimeLoader`: `load()` returns an `EnvironmentTest_Runtime` for any class.
+struct MockRuntimeLoader;
+
+impl RuntimeLoader for MockRuntimeLoader {
+    fn load(&self, _class: &str) -> twig::Result<Option<Runtime>> {
+        Ok(Some(Arc::new(EnvironmentTestRuntime)))
+    }
 }
 
 fn dynamic_function() -> TwigFunction {
@@ -699,6 +767,61 @@ fn test_undefined_token_parser_callback() {
     // getTag() was called once: by the test itself
     assert_eq!(calls.load(Ordering::SeqCst), 1);
     assert_eq!(created.lock().unwrap().len(), 1);
+}
+
+/// The extension of `testResettingGlobals`: `getGlobals()` returns a new `global_ext` value every time
+/// (`bin2hex(random_bytes(16))` in PHP, a counter here).
+struct RequestGlobalsExtension(AtomicUsize);
+
+impl Extension for RequestGlobalsExtension {
+    fn globals(&self) -> Option<Array> {
+        let value = self.0.fetch_add(1, Ordering::SeqCst);
+        Some(ctx(&[("global_ext", Value::from(format!("{value:032x}")))]))
+    }
+
+    fn as_any(&self) -> &dyn Any {
+        self
+    }
+}
+
+#[test]
+fn test_resetting_globals() {
+    let twig = env(&[("index", "")]);
+    twig.add_extension(Arc::new(RequestGlobalsExtension(AtomicUsize::new(0))))
+        .unwrap();
+    // Force extensions initialization
+    twig.load("index").unwrap();
+    // Simulate request
+    let g1 = twig.globals();
+    // Simulate another call from request 1 (the globals are cached)
+    let g2 = twig.globals();
+    assert_eq!(g1.get_str(b"global_ext"), g2.get_str(b"global_ext"));
+    // Simulate request 2
+    twig.reset_globals();
+    let g3 = twig.globals();
+    assert_ne!(g3.get_str(b"global_ext"), g2.get_str(b"global_ext"));
+}
+
+/// `resetGlobals()` forgets what `addGlobal()` changed after initialization (oracle: host_api.json, `reset-globals`).
+#[test]
+fn resetting_globals_forgets_the_globals_changed_after_initialization() {
+    let twig = env(&[("index", "{{ g }}")]);
+    twig.add_global("g", "before").unwrap();
+    twig.load("index").unwrap();
+    twig.add_global("g", "after").unwrap();
+    assert_eq!(twig.render("index", Array::new()).unwrap(), "after");
+    twig.reset_globals();
+    assert_eq!(twig.render("index", Array::new()).unwrap(), "before");
+    twig.add_global("g", "third").unwrap();
+    assert_eq!(twig.render("index", Array::new()).unwrap(), "third");
+    let error = expect_error(twig.add_global("new", "x"), ErrorKind::Logic);
+    assert_eq!(
+        error.to_string(),
+        "Unable to add global \"new\" as the runtime or the extensions have already been initialized."
+    );
+    twig.reset_globals();
+    assert_eq!(twig.render("index", Array::new()).unwrap(), "before");
+    assert!(twig.globals().get_str(b"new").is_none());
 }
 
 #[test]

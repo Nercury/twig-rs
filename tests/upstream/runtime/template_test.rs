@@ -1,15 +1,11 @@
 //! Port of TWIG/tests/TemplateTest.php.
 //!
-//! twig-rs has no public `CoreExtension::getAttribute()` and no `Template` subclassing, so the tests that call
-//! `getAttribute()` directly run it through templates instead: `o.(i)` (`Template::ANY_CALL`), `o.(i)()`
-//! (`METHOD_CALL`) and `o[i]` (`ARRAY_CALL`), plus `is defined` for the defined tests; `GetAttrExpression::compile()`
-//! turns them into the same `getAttribute()` call (with the template's line, so strict-mode messages end with `at
-//! line 1`). The oracle confirms that the template path gives every expectation of the data providers
-//! (`tests/vectors/upstream/runtime/get_attribute.json`, generator next to it).
-//!
-//! twig-value has no `RecursiveArrayIterator` and its `ArrayObject`/`ArrayIterator` cannot take another class, so
-//! `RecursiveArrayIterator`, `TemplateArrayObjectSubclass` and `TemplateArrayIteratorSubclass` are subclasses that
-//! forward every handler to a parent instance (what a PHP subclass without overrides does).
+//! The tests that call `CoreExtension::getAttribute()` directly call [`CoreExtension::get_attribute`] with the source
+//! of `TemplateForTest` (`new Source('', 'index.twig')`). The data sets also run through templates
+//! (`get_attribute_matrix_matches_the_oracle`): `o.(i)` (`Template::ANY_CALL`), `o.(i)()` (`METHOD_CALL`) and `o[i]`
+//! (`ARRAY_CALL`), plus `is defined` for the defined tests, which `GetAttrExpression::compile()` turns into the same
+//! `getAttribute()` call (with the template's line, so strict-mode messages end with `at line 1`), compared with the
+//! oracle's runs of the same templates (`tests/vectors/upstream/runtime/get_attribute.json`, generator next to it).
 //!
 //! Not ported:
 //! - `testDisplayBlocksAcceptTemplateOnlyAsBlocks`: passes a hand-made `$blocks` array to `Template::displayBlock()`;
@@ -24,10 +20,13 @@
 
 use std::sync::Arc;
 
-use twig::ErrorKind;
+use twig::ast::CallType;
+use twig::extension::CoreExtension;
+use twig::lltl::GetAttrOp;
 use twig::runtime::{Environment, SandboxExtension, SecurityError, SecurityPolicy};
 use twig::value::object::ObjectRef;
 use twig::value::{Array, Value};
+use twig::{ErrorKind, Source};
 use twig_test_support::classes::spl::SplObjectStorage;
 
 use crate::classes::*;
@@ -164,11 +163,60 @@ fn test_get_attribute_exceptions() {
 
 // ---- testGetAttributeWithSandbox ---------------------------------------------------------------------------------
 
+/// `new TemplateForTest($twig)`'s `getSourceContext()`: `new Source('', 'index.twig')`.
+fn template_for_test() -> Source {
+    Source::new("", "index.twig")
+}
+
+/// The operands `CoreExtension::getAttribute()` gets after `$arguments`: `$type`, `$isDefinedTest`,
+/// `$ignoreStrictCheck`, `$sandboxed` and the default `$lineno = -1`.
+fn op(call_type: &str, defined_test: bool, sandboxed: bool) -> GetAttrOp {
+    GetAttrOp {
+        call_type: match call_type {
+            "array" => CallType::Array,
+            "method" => CallType::Method,
+            _ => CallType::Any,
+        },
+        defined_test,
+        ignore_strict_check: false,
+        sandboxed,
+        line: -1,
+    }
+}
+
 #[test]
 fn test_get_attribute_with_sandbox() {
-    // `CoreExtension::getAttribute($twig, $source, $object, 'defined', [], 'any', false, false, true)` is what
-    // `{{ object.defined }}` compiles to once the SandboxExtension is registered; autoescaping is off so that no
-    // `escape` filter is checked first. VERIFIED with the oracle (messages).
+    let objects: [ObjectFactory; 2] = [template_property_object, template_method_object];
+    for object in objects {
+        for allowed in [false, true] {
+            let twig = env(&[]);
+            // `new SandboxExtension($policy, !$allowed)`
+            sandbox_with(&twig, SecurityPolicy::new(), !allowed);
+            let result = CoreExtension::get_attribute(
+                &twig,
+                &template_for_test(),
+                object(),
+                Value::from("defined"),
+                Array::new(),
+                op("any", false, true),
+            );
+            match result {
+                Ok(_) => assert!(allowed, "the property must not be allowed"),
+                Err(error) => {
+                    assert!(!allowed, "{error}");
+                    assert!(SecurityError::of(&error).is_some(), "{error}");
+                    assert!(error.to_string().contains("is not allowed"), "{error}");
+                }
+            }
+        }
+    }
+}
+
+/// `testGetAttributeWithSandbox()` through a template: `CoreExtension::getAttribute($twig, $source, $object,
+/// 'defined', [], 'any', false, false, true)` is what `{{ object.defined }}` compiles to once the SandboxExtension is
+/// registered; autoescaping is off so that no `escape` filter is checked first. VERIFIED with the oracle (messages).
+#[test]
+fn get_attribute_with_sandbox_through_a_template() {
     let objects: [(&str, ObjectFactory); 2] = [
         ("TemplatePropertyObject", template_property_object),
         ("TemplateMethodObject", template_method_object),
@@ -364,23 +412,15 @@ fn test_array_with_stringable_key_is_consistent_across_strict_modes() {
 }
 
 fn internal_array_access(kind: &str) -> Value {
+    use twig::value::object::{ArrayIterator, ArrayObject};
     match kind {
-        "ArrayObject" => {
-            Value::Object(twig::value::object::ArrayObject::new(string_value_array()).into_ref())
+        "ArrayObject" => Value::Object(ArrayObject::new(string_value_array()).into_ref()),
+        "ArrayIterator" => Value::Object(ArrayIterator::new(string_value_array()).into_ref()),
+        "RecursiveArrayIterator" => {
+            Value::Object(ArrayIterator::recursive(string_value_array()).into_ref())
         }
-        "ArrayIterator" => {
-            Value::Object(twig::value::object::ArrayIterator::new(string_value_array()).into_ref())
-        }
-        "RecursiveArrayIterator" => recursive_array_iterator(string_value_array()),
         other => panic!("unknown container {other}"),
     }
-}
-
-/// `new \RecursiveArrayIterator($array)`. twig-value has no `RecursiveArrayIterator`; it extends `ArrayIterator`
-/// without changing its dimension handlers, so a subclass of that name stands in for it (the getAttribute() logic
-/// under test only looks at the class name and at `instanceof \ArrayIterator`).
-fn recursive_array_iterator(array: Array) -> Value {
-    crate::classes::named_array_iterator_subclass("RecursiveArrayIterator", array)
 }
 
 #[test]
@@ -999,6 +1039,22 @@ impl Matrix {
     }
 }
 
+/// `CoreExtension::getAttribute($twig, $template->getSourceContext(), $object, $item, [], $type, $isDefinedTest)` in an
+/// environment with or without `strict_variables`.
+fn direct(case: &AttributeCase, defined: bool, strict_mode: bool) -> Outcome {
+    let twig = env_with(&[], strict(strict_mode));
+    CoreExtension::get_attribute(
+        &twig,
+        &template_for_test(),
+        case.object.clone(),
+        case.item.clone(),
+        Array::new(),
+        op(case.call_type, defined, false),
+    )
+    .map(|value| var_export(&value))
+    .map_err(|error| describe(&error))
+}
+
 fn label(index: usize, case: &AttributeCase) -> String {
     let class = match &case.object {
         Value::Object(object) => object.class_name().to_owned(),
@@ -1059,12 +1115,11 @@ fn oracle_outcome(row: &serde_json::Value, mode: &str) -> Outcome {
 
 #[test]
 fn test_get_attribute() {
-    let matrix = Matrix::new();
     let mut failures = Failures::default();
     for (index, case) in get_get_attribute_tests().iter().enumerate() {
         failures.check(
             &label(index, case),
-            matrix.run(case, false, false),
+            direct(case, false, false),
             Ok(var_export(&case.value)),
         );
     }
@@ -1073,29 +1128,24 @@ fn test_get_attribute() {
 
 #[test]
 fn test_get_attribute_strict() {
-    let matrix = Matrix::new();
-    let rows = oracle_rows();
     let mut failures = Failures::default();
     for (index, case) in get_get_attribute_tests().iter().enumerate() {
-        let outcome = matrix.run(case, false, true);
+        let outcome = direct(case, false, true);
         let label = label(index, case);
         if case.defined {
             failures.check(&label, outcome, Ok(var_export(&case.value)));
         } else {
-            // a RuntimeError; the PHPUnit test checks the message of the last data sets (without the template line
-            // the template path adds), the oracle gives every message
+            // `expectException(RuntimeError::class)`, and `expectExceptionMessage()` for the last data sets
             match &outcome {
                 Err(error) if error.starts_with("Twig\\Error\\RuntimeError: ") => {
-                    if let Some(message) = case.message {
-                        let message = message.trim_end_matches('.');
-                        if !error.contains(message) {
-                            failures.fail(format!("{label}: {error} does not contain {message}"));
-                        }
+                    if let Some(message) = case.message
+                        && !error.contains(message)
+                    {
+                        failures.fail(format!("{label}: {error} does not contain {message}"));
                     }
                 }
                 _ => failures.fail(format!("{label}: expected a RuntimeError, got {outcome:?}")),
             }
-            failures.check(&label, outcome, oracle_outcome(&rows[index], "strict"));
         }
     }
     failures.assert_none();
@@ -1103,12 +1153,11 @@ fn test_get_attribute_strict() {
 
 #[test]
 fn test_get_attribute_defined() {
-    let matrix = Matrix::new();
     let mut failures = Failures::default();
     for (index, case) in get_get_attribute_tests().iter().enumerate() {
         failures.check(
             &label(index, case),
-            matrix.run(case, true, false),
+            direct(case, true, false),
             Ok(var_export(&Value::Bool(case.defined))),
         );
     }
@@ -1117,14 +1166,30 @@ fn test_get_attribute_defined() {
 
 #[test]
 fn test_get_attribute_defined_strict() {
-    let matrix = Matrix::new();
     let mut failures = Failures::default();
     for (index, case) in get_get_attribute_tests().iter().enumerate() {
         failures.check(
             &label(index, case),
-            matrix.run(case, true, true),
+            direct(case, true, true),
             Ok(var_export(&Value::Bool(case.defined))),
         );
+    }
+    failures.assert_none();
+}
+
+/// The strict-mode errors of the direct calls are those of the template path without its line: the oracle's
+/// messages of the template runs (`get_attribute.json`), ` at line 1` removed.
+#[test]
+fn get_attribute_strict_errors_match_the_oracle() {
+    let rows = oracle_rows();
+    let mut failures = Failures::default();
+    for (index, case) in get_get_attribute_tests().iter().enumerate() {
+        if case.defined {
+            continue;
+        }
+        let expected = oracle_outcome(&rows[index], "strict")
+            .map_err(|error| error.replace(" at line 1.", "."));
+        failures.check(&label(index, case), direct(case, false, true), expected);
     }
     failures.assert_none();
 }
@@ -1158,6 +1223,22 @@ fn get_attribute_matrix_matches_the_oracle() {
 #[test]
 fn test_get_attribute_call_exceptions() {
     // `__call()` throws a BadMethodCallException: null in lax mode
+    let twig = env(&[]);
+    let value = CoreExtension::get_attribute(
+        &twig,
+        &template_for_test(),
+        template_magic_method_exception_object(),
+        Value::from("foo"),
+        Array::new(),
+        op("any", false, false),
+    )
+    .unwrap();
+    assert!(value.is_null());
+}
+
+/// `testGetAttributeCallExceptions()` through a template.
+#[test]
+fn get_attribute_call_exceptions_through_a_template() {
     let env = env(&[("index.twig", "{{ capture(object.foo) }}")]);
     let captured = add_capture(&env);
     env.render(

@@ -13,6 +13,7 @@ use super::sandbox::Violation;
 use crate::ast::CallType;
 use crate::error::Error;
 use crate::lltl::{GetAttrOp, Program};
+use crate::source::Source;
 use crate::vm::{Exception, VmState};
 
 /// Twig: `CoreExtension::ARRAY_LIKE_CLASSES`: classes whose `ArrayAccess` implementation the sandbox trusts.
@@ -174,6 +175,18 @@ pub(crate) fn get_attribute(
     arguments: Value,
     op: &GetAttrOp,
 ) -> Result<Value, Exception> {
+    get_attribute_in(state, program.source(), object, item, arguments, op)
+}
+
+/// [`get_attribute`] for the template whose source is `source` (`$this->source` of the compiled call).
+pub(crate) fn get_attribute_in(
+    state: &mut VmState,
+    source: &Source,
+    object: Value,
+    item: Value,
+    arguments: Value,
+    op: &GetAttrOp,
+) -> Result<Value, Exception> {
     // An existing element of an array under a string or int item: the key the array branch builds (`(string)` of
     // the item, then the array offset) is the item's own symtable key, and nothing before the lookup has an effect
     // (only objects meet the sandbox checks).
@@ -210,7 +223,6 @@ pub(crate) fn get_attribute(
     };
     let strict = state.env.is_strict_variables();
     let lenient = op.ignore_strict_check || !strict;
-    let source = program.source();
     let error = |message: String| -> Exception {
         Error::runtime(message)
             .with_line(op.line)
@@ -251,7 +263,7 @@ pub(crate) fn get_attribute(
             && container.instance_of("ArrayAccess")
             && !is_array_like_class(container)
         {
-            match checker.check_property_allowed(container, &array_item, op.line, source, state) {
+            match checker.property_allowed(container, &array_item, op.line, source, state) {
                 Ok(()) => {}
                 Err(Violation::NotAllowed(violation)) => {
                     property_not_allowed = Some(violation);
@@ -408,7 +420,7 @@ pub(crate) fn get_attribute(
     // object property
     let mut properties = op.call_type != CallType::Method && property_not_allowed.is_none();
     if properties && let Some(checker) = &checker {
-        match checker.check_property_allowed(
+        match checker.property_allowed(
             object_ref,
             &Value::String(item.clone()),
             op.line,
@@ -497,7 +509,7 @@ pub(crate) fn get_attribute(
     };
 
     if let Some(checker) = &checker {
-        match checker.check_method_allowed(object_ref, method.as_bytes(), op.line, source) {
+        match checker.method_allowed(object_ref, method.as_bytes(), op.line, source) {
             Ok(()) => {}
             Err(Violation::NotAllowed(violation)) => {
                 if op.defined_test {

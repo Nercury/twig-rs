@@ -1,9 +1,10 @@
 //! Port of `TWIG/tests/Extension/CoreTest.php`.
 //!
 //! The upstream tests call the static helpers of `CoreExtension` (`cycle()`, `random()`, `first()`, ...) directly.
-//! twig-rs does not expose these helpers; the ports call the filters, functions and operators that templates compile
-//! to those helpers and hand the result back with a `capture()` function, so `assertSame()` still compares the PHP
-//! values (`CoreExtension::compare()` is public: `twig::runtime::compare_values`).
+//! The ports do it twice: through the filters, functions and operators that templates compile to those helpers,
+//! handing the result back with a `capture()` function so that `assertSame()` still compares the PHP values; and
+//! through the Rust functions of `CoreExtension` (`CoreExtension::cycle()`, ..., the `*_called_directly` tests), whose
+//! `$charset` is the environment's.
 //!
 //! Where the upstream test only checks an exception class, the ports also compare the message and the deprecations
 //! raised, as the oracle reported them (`tests/vectors/upstream/extensions/messages.gen.json`, results in
@@ -15,6 +16,7 @@
 use std::sync::Arc;
 
 use twig::ErrorKind;
+use twig::extension::CoreExtension;
 use twig::runtime::{
     DiagnosticsPolicy, Environment, EnvironmentOptions, Markup, SandboxExtension, SecurityPolicy,
     compare_values,
@@ -840,4 +842,240 @@ fn test_cycle_with_array_access_and_traversable_but_not_countable() {
     assert_eq!(deprecations.len(), 1, "{deprecations:?}");
     // cycle should return the first item from the traversable sequence, not the sequence itself.
     assert_eq!(same(&Value::from("odd"), &capture.take()[0]), Ok(()));
+}
+
+// ---- the helpers called directly ----------------------------------------------------------------------------------
+//
+// The upstream tests call the static helpers of `CoreExtension`; the tests above call them through templates (and
+// compare the messages with the oracle), these call them as the PHPUnit test does, through the Rust functions of
+// `CoreExtension` (the charset is the environment's, which templates pass as `$charset`).
+
+fn helpers_env() -> Environment {
+    env_with(&[], options())
+}
+
+/// A helper's value, or its error as `Class: message`.
+fn helper(result: twig::Result<Value>) -> Result<Value, String> {
+    result.map_err(|e| format!("{}: {e}", e.class_name()))
+}
+
+#[test]
+fn cycle_called_directly() {
+    let env = helpers_env();
+    check_cases(
+        "testCycleFunction",
+        provide_cycle_cases(),
+        |(values, position, expected)| {
+            let actual = helper(CoreExtension::cycle(
+                &env,
+                values.clone(),
+                Value::Int(*position),
+            ))?;
+            same(expected, &actual)
+        },
+    );
+    // testCycleFunctionThrowRuntimeError: no template, so no template name in the message
+    for values in [
+        Value::Array(Array::new()),
+        Value::Object(ArrayObject::new(Array::new()).into_ref()),
+    ] {
+        let error = CoreExtension::cycle(&env, values, Value::Int(0)).unwrap_err();
+        assert_eq!(error.kind(), ErrorKind::Runtime);
+        assert_eq!(
+            error.to_string(),
+            "The \"cycle\" function expects a non-empty sequence."
+        );
+    }
+    // testCycleWithArrayAccessAndTraversableButNotCountable
+    env.set_diagnostics_policy(DiagnosticsPolicy::Collect);
+    let value = CoreExtension::cycle(&env, NonCountableSequence::value(), Value::Int(0)).unwrap();
+    assert_eq!(same(&Value::from("odd"), &value), Ok(()));
+    assert_eq!(
+        deprecations(&env),
+        [
+            "Since twig/twig 3.12: Passing a non-countable sequence of values to \"Twig\\Extension\\CoreExtension::cycle()\" is deprecated."
+        ]
+    );
+}
+
+#[test]
+fn random_called_directly() {
+    let env = helpers_env();
+    check_cases(
+        "testRandomFunction",
+        get_random_function_test_data(),
+        |(expected_in_array, value1, value2)| {
+            for _ in 0..100 {
+                let value = helper(CoreExtension::random(&env, value1.clone(), value2.clone()))?;
+                if !expected_in_array
+                    .iter()
+                    .any(|e| twig::value::compare::identical(e, &value))
+                {
+                    return Err(format!(
+                        "{} is not an expected value",
+                        super::support::export(&value)
+                    ));
+                }
+            }
+            Ok(())
+        },
+    );
+    // testRandomFunctionWithoutParameter, testRandomFunctionReturnsAsIs
+    let value = CoreExtension::random(&env, Value::Null, Value::Null).unwrap();
+    assert!(matches!(value, Value::Int(v) if (0..=2_147_483_647).contains(&v)));
+    let empty = CoreExtension::random(&env, Value::from(""), Value::Null).unwrap();
+    assert_eq!(same(&Value::from(""), &empty), Ok(()));
+    let instance = Value::Object(StdClass::new().into_ref());
+    let same_instance = CoreExtension::random(&env, instance.clone(), Value::Null).unwrap();
+    assert_eq!(same(&instance, &same_instance), Ok(()));
+    // testRandomFunctionOfEmptyArrayThrowsException
+    let error = CoreExtension::random(&env, Value::Array(Array::new()), Value::Null).unwrap_err();
+    assert_eq!(
+        error.to_string(),
+        "The \"random\" function cannot pick from an empty sequence or mapping."
+    );
+    // testRandomFunctionOnNonUTF8String: `CoreExtension::random('ISO-8859-1', $text)`
+    let iso = env_with(&[], iso_8859_1());
+    for _ in 0..30 {
+        let value =
+            CoreExtension::random(&iso, Value::from(&b"\xC4\xE9"[..]), Value::Null).unwrap();
+        assert!(
+            value == Value::from(&b"\xC4"[..]) || value == Value::from(&b"\xE9"[..]),
+            "{value:?}"
+        );
+    }
+    // testReverseFilterOnNonUTF8String
+    let reversed =
+        CoreExtension::reverse(&iso, Value::from(&b"\xC4\xE9"[..]), Value::Bool(false)).unwrap();
+    assert_eq!(same(&Value::from(&b"\xE9\xC4"[..]), &reversed), Ok(()));
+}
+
+#[test]
+fn first_last_keys_and_slice_called_directly() {
+    let env = helpers_env();
+    check_cases(
+        "testTwigFirst",
+        provide_twig_first_cases(),
+        |(expected, input)| {
+            same(
+                expected,
+                &helper(CoreExtension::first(&env, input.clone()))?,
+            )
+        },
+    );
+    check_cases(
+        "testTwigLast",
+        provide_twig_last_cases(),
+        |(expected, input)| same(expected, &helper(CoreExtension::last(&env, input.clone()))?),
+    );
+    check_cases(
+        "testArrayKeysFilter",
+        provide_array_key_cases(),
+        |(expected, input)| same(expected, &helper(CoreExtension::keys(&env, input.clone()))?),
+    );
+    check_cases(
+        "testSliceFilter",
+        provide_slice_filter_cases(),
+        |(expected, input, start, length, preserve_keys)| {
+            let actual = helper(CoreExtension::slice(
+                &env,
+                input.clone(),
+                Value::Int(*start),
+                length.clone(),
+                Value::Bool(*preserve_keys),
+            ))?;
+            same(expected, &actual)
+        },
+    );
+}
+
+#[test]
+fn in_filter_and_compare_called_directly() {
+    let env = helpers_env();
+    check_cases(
+        "testInFilter",
+        provide_in_filter_cases(),
+        |(expected, value, compare)| {
+            let actual = CoreExtension::in_filter(&env, value, compare)
+                .map_err(|e| format!("{}: {e}", e.class_name()))?;
+            same(&Value::Bool(*expected), &Value::Bool(actual))
+        },
+    );
+    check_cases(
+        "testCompare",
+        provide_compare_cases(),
+        |(expected, a, b)| {
+            let ab = CoreExtension::compare(&env, a, b).map_err(|e| e.to_string())?;
+            let ba = CoreExtension::compare(&env, b, a).map_err(|e| e.to_string())?;
+            if (ab, -ba) != (*expected, *expected) {
+                return Err(format!("compare: {ab} and {}, expected {expected}", -ba));
+            }
+            Ok(())
+        },
+    );
+}
+
+/// `(string) $markup`.
+fn markup_string(value: &Value) -> String {
+    let Value::Object(object) = value else {
+        panic!("expected a Markup, got {value:?}");
+    };
+    assert!(Markup::is_markup(object), "{value:?}");
+    object
+        .to_php_string(&mut Ignore)
+        .unwrap()
+        .to_string_lossy()
+        .into_owned()
+}
+
+#[test]
+fn include_called_directly() {
+    let twig = default_env(&[("included", "content"), ("empty", "")]);
+    let include = |template: &str, ignore_missing: bool| {
+        CoreExtension::include(
+            &twig,
+            Array::new(),
+            Value::from(template),
+            Value::Array(Array::new()),
+            true,
+            ignore_missing,
+        )
+        .unwrap()
+    };
+    // testIncludeReturnsMarkupForRenderedContent
+    assert_eq!(markup_string(&include("included", false)), "content");
+    // testIncludeReturnsAnEmptyStringForEmptyContent
+    assert_eq!(same(&Value::from(""), &include("empty", false)), Ok(()));
+    // testIncludeReturnsAnEmptyStringForIgnoredMissingTemplate
+    assert_eq!(same(&Value::from(""), &include("missing", true)), Ok(()));
+
+    // the context is the one given, under the variables
+    let twig = default_env(&[("greeting", "Hello {{ name }}")]);
+    let greeting = CoreExtension::include(
+        &twig,
+        ctx(&[("name", Value::from("you"))]),
+        Value::from("greeting"),
+        Value::Array(Array::new()),
+        true,
+        false,
+    )
+    .unwrap();
+    assert_eq!(markup_string(&greeting), "Hello you");
+
+    // any other static helper, by name
+    let arguments = twig::value::object::CallArgs::new()
+        .arg(Value::from(vec!["a", "b", "c"]))
+        .arg(", ")
+        .arg(" and ");
+    let joined = CoreExtension::call_static(&twig, "join", arguments.clone()).unwrap();
+    assert_eq!(joined, Value::from("a, b and c"));
+    // method names are case-insensitive
+    let joined = CoreExtension::call_static(&twig, "JOIN", arguments).unwrap();
+    assert_eq!(joined, Value::from("a, b and c"));
+    let error = CoreExtension::call_static(&twig, "nope", twig::value::object::CallArgs::new())
+        .unwrap_err();
+    assert_eq!(
+        error.to_string(),
+        "Call to undefined method Twig\\Extension\\CoreExtension::nope()"
+    );
 }

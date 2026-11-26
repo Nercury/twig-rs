@@ -634,7 +634,27 @@ thread_local! {
 static NEXT_CHECKER: AtomicUsize = AtomicUsize::new(1);
 
 /// Applies a policy to the templates that run sandboxed. Twig: `Twig\Sandbox\SecurityChecker`
-/// (TWIG/src/Sandbox/SecurityChecker.php, internal).
+/// (TWIG/src/Sandbox/SecurityChecker.php, internal in Twig).
+///
+/// A [`SandboxExtension`] holds the checker of an environment ([`Environment::sandbox_checker`]); the compiled
+/// templates call its checks. [`SecurityChecker::new`] makes one for host code, whose checks apply the policy when
+/// the checker is sandboxed and attach the source and line of the caller to the violations, as Twig's do:
+///
+/// ```
+/// use std::sync::Arc;
+/// use twig::runtime::{SecurityChecker, SecurityError, SecurityPolicy};
+/// use twig::{ErrorKind, Source};
+///
+/// let policy = SecurityPolicy::new();
+/// policy.set_strict(true);
+/// let checker = SecurityChecker::new(Arc::new(policy), true, None);
+/// let source = Source::new("{% if 1 %}x{% endif %}", "index");
+/// let error = checker.check_security(&[b"if"], &[], &[], &[], Some(&source), &mut Vec::new()).unwrap_err();
+/// assert_eq!(error.kind(), ErrorKind::SecurityNotAllowedTag);
+/// assert_eq!(error.to_string(), "Tag \"if\" is not allowed in \"index\".");
+/// assert_eq!(error.source_context().map(Source::name), Some("index"));
+/// assert!(SecurityError::of(&error).is_some());
+/// ```
 pub struct SecurityChecker {
     id: usize,
     policy: RwLock<Arc<dyn SecurityPolicyInterface>>,
@@ -661,7 +681,11 @@ impl DeprecationSink for EnvSink<'_> {
 }
 
 impl SecurityChecker {
-    fn new(
+    /// Twig: `new SecurityChecker($policy, $sandboxedGlobally, $sourcePolicy)`: a checker applying `policy`, to every
+    /// template when `sandboxed_globally` (what a [`Sandbox`] uses), else while the sandbox is switched on
+    /// ([`set_sandboxed`](Self::set_sandboxed), `{% sandbox %}`) or for the sources `source_policy` (deprecated in
+    /// Twig 3.27) sandboxes.
+    pub fn new(
         policy: Arc<dyn SecurityPolicyInterface>,
         sandboxed_globally: bool,
         source_policy: Option<Arc<dyn SourcePolicyInterface>>,
@@ -723,8 +747,104 @@ impl SecurityChecker {
         Arc::clone(&self.policy.read().unwrap_or_else(|e| e.into_inner()))
     }
 
-    /// Twig: `SecurityChecker::checkSecurity()`: the policy check when sandboxed; a violation gets the source.
-    fn check_security(
+    /// Checks the tags, filters, functions and tests a template uses against the policy, when the checker is
+    /// sandboxed for `source`. Twig: `SecurityChecker::checkSecurity(array $tags, array $filters, array $functions,
+    /// array $tests, ?Source $source)`.
+    ///
+    /// # Errors
+    ///
+    /// The policy's violation (a [`SecurityError`] as a Twig error, see [`SecurityError::into_error`]) with the
+    /// source `source`; another exception of the policy ([`SecurityErrorKind::Php`]) as it is.
+    pub fn check_security(
+        &self,
+        tags: &[&[u8]],
+        filters: &[&[u8]],
+        functions: &[&[u8]],
+        tests: &[&[u8]],
+        source: Option<&Source>,
+        deprecations: &mut dyn DeprecationSink,
+    ) -> Result<()> {
+        if !self.is_sandboxed(source) {
+            return Ok(());
+        }
+        self.security_policy()
+            .check_security(tags, filters, functions, tests, deprecations)
+            .map_err(|violation| {
+                // `catch (SecurityError $e) { $e->setSourceContext($source); throw $e; }`
+                let is_violation = !matches!(violation.kind, SecurityErrorKind::Php);
+                let mut error = violation.into_error();
+                if is_violation {
+                    error.set_source_context(source.cloned());
+                }
+                error
+            })
+    }
+
+    /// Checks a method call against the policy, when the checker is sandboxed for `source`. Twig:
+    /// `SecurityChecker::checkMethodAllowed(mixed $obj, mixed $method, int $lineno = -1, ?Source $source = null)`.
+    ///
+    /// # Errors
+    ///
+    /// A method violation ([`SecurityErrorKind::Method`]) with the source `source` and the line `line` (`-1`: none);
+    /// another error of the policy as it is.
+    pub fn check_method_allowed(
+        &self,
+        object: &ObjectRef,
+        method: &[u8],
+        line: i64,
+        source: Option<&Source>,
+    ) -> Result<()> {
+        if !self.is_sandboxed(source) {
+            return Ok(());
+        }
+        self.security_policy()
+            .check_method_allowed(object, method)
+            .map_err(|violation| {
+                let is_method = matches!(violation.kind, SecurityErrorKind::Method { .. });
+                let mut error = violation.into_error();
+                if is_method {
+                    error.set_source_context(source.cloned());
+                    error.set_template_line(line);
+                }
+                error
+            })
+    }
+
+    /// Checks a property read (or an `ArrayAccess` offset) against the policy, when the checker is sandboxed for
+    /// `source`; the PHP warnings of the policy go to `diagnostics`. Twig: `SecurityChecker::checkPropertyAllowed(mixed
+    /// $obj, mixed $property, int $lineno = -1, ?Source $source = null)`.
+    ///
+    /// # Errors
+    ///
+    /// A property violation ([`SecurityErrorKind::Property`]) with the source `source` and the line `line` (`-1`:
+    /// none); another error of the policy as it is.
+    pub fn check_property_allowed(
+        &self,
+        object: &ObjectRef,
+        property: &Value,
+        line: i64,
+        source: Option<&Source>,
+        diagnostics: &mut dyn Diagnostics,
+    ) -> Result<()> {
+        if !self.is_sandboxed(source) {
+            return Ok(());
+        }
+        self.security_policy()
+            .check_property_allowed_with_diagnostics(object, property, diagnostics)
+            .map_err(|violation| {
+                let is_property = matches!(violation.kind, SecurityErrorKind::Property { .. });
+                let mut error = violation.into_error();
+                if is_property {
+                    error.set_source_context(source.cloned());
+                    error.set_template_line(line);
+                }
+                error
+            })
+    }
+
+    /// Twig: `SecurityChecker::checkSecurity()` as the compiled templates call it: the policy check when sandboxed;
+    /// a violation gets the source, and comes back with the error.
+    fn check_lists(
         &self,
         env: &Environment,
         lists: [&[&[u8]]; 4],
@@ -742,9 +862,9 @@ impl SecurityChecker {
             })
     }
 
-    /// Twig: `SecurityChecker::checkMethodAllowed()`: a method violation gets the source and the line (and is told
-    /// apart, as `getAttribute()` catches it).
-    pub(crate) fn check_method_allowed(
+    /// Twig: `SecurityChecker::checkMethodAllowed()` as `getAttribute()` calls it: a method violation gets the source
+    /// and the line (and is told apart, as `getAttribute()` catches it).
+    pub(crate) fn method_allowed(
         &self,
         object: &ObjectRef,
         method: &[u8],
@@ -779,9 +899,10 @@ impl SecurityChecker {
         }
     }
 
-    /// Twig: `SecurityChecker::checkPropertyAllowed()`: a property violation gets the source and the line (and is
-    /// told apart, as `getAttribute()` falls back to a method then); the policy's PHP warnings go to `diagnostics`.
-    pub(crate) fn check_property_allowed(
+    /// Twig: `SecurityChecker::checkPropertyAllowed()` as `getAttribute()` calls it: a property violation gets the
+    /// source and the line (and is told apart, as `getAttribute()` falls back to a method then); the policy's PHP
+    /// warnings go to `diagnostics`.
+    pub(crate) fn property_allowed(
         &self,
         object: &ObjectRef,
         property: &Value,
@@ -1060,7 +1181,7 @@ fn check_security(
     let filters = names(&lists.filters);
     let functions = names(&lists.functions);
     let tests = names(&lists.tests);
-    match checker.check_security(env, [&tags, &filters, &functions, &tests], source) {
+    match checker.check_lists(env, [&tags, &filters, &functions, &tests], source) {
         Ok(()) => Ok(()),
         Err((violation, mut error)) => {
             let line = match violation.kind() {
@@ -1104,7 +1225,7 @@ pub(crate) fn ensure_traits_allowed(env: &Environment, program: &Program) -> Res
         return Ok(());
     }
     let use_tag: &[u8] = b"use";
-    match checker.check_security(env, [&[use_tag], &[], &[], &[]], source) {
+    match checker.check_lists(env, [&[use_tag], &[], &[], &[]], source) {
         Ok(()) => Ok(()),
         Err((violation, mut error)) => {
             if matches!(violation.kind(), SecurityErrorKind::Tag(_)) {
@@ -1329,6 +1450,16 @@ impl Sandbox {
         self.env.display(name, context, sink)
     }
 
+    /// Twig: `Sandbox::stream()`: the output of the template written to `sink` chunk by chunk as it is produced (a
+    /// generator in PHP, [`TemplateWrapper::stream`](super::TemplateWrapper::stream) here).
+    ///
+    /// # Errors
+    ///
+    /// As [`display`](Self::display).
+    pub fn stream(&self, name: &str, context: impl Into<Array>, sink: &mut dyn Sink) -> Result<()> {
+        self.env.load(name)?.stream(context, sink)
+    }
+
     /// Twig: `Sandbox::renderBlock()`.
     ///
     /// # Errors
@@ -1356,6 +1487,21 @@ impl Sandbox {
         sink: &mut dyn Sink,
     ) -> Result<()> {
         self.env.load(name)?.display_block(block, context, sink)
+    }
+
+    /// Twig: `Sandbox::streamBlock()`: the output of one block written to `sink` chunk by chunk.
+    ///
+    /// # Errors
+    ///
+    /// As [`display`](Self::display).
+    pub fn stream_block(
+        &self,
+        name: &str,
+        block: &str,
+        context: impl Into<Array>,
+        sink: &mut dyn Sink,
+    ) -> Result<()> {
+        self.env.load(name)?.stream_block(block, context, sink)
     }
 
     /// Twig: `Sandbox::createTemplate()`: a sandboxed template from source code.

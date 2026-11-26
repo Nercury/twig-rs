@@ -388,7 +388,7 @@ pub(crate) fn load(
     )?;
     let result = match &template {
         Value::Array(names) => resolve_template_array(state, names)
-            .and_then(|wrapper| wrapper.unwrap_for(&state.env).map_err(Exception::from)),
+            .and_then(|wrapper| wrapper.unwrap(Some(&state.env)).map_err(Exception::from)),
         Value::String(name) if name.as_bytes() == this.name().as_bytes() => {
             state.env.load_family(this, index).map_err(Exception::from)
         }
@@ -397,7 +397,7 @@ pub(crate) fn load(
             .load_template_index(&name.to_string_lossy(), index)
             .map_err(Exception::from),
         other => match TemplateWrapper::from_value(other) {
-            Some(wrapper) => wrapper.unwrap_for(&state.env).map_err(Exception::from),
+            Some(wrapper) => wrapper.unwrap(Some(&state.env)).map_err(Exception::from),
             None => Err(UserArg::new("Twig\\Template::load", 1, "template")
                 .type_error(&LOAD_TYPE, other)
                 .into()),
@@ -445,7 +445,7 @@ fn string_param(
 /// the (string) value.
 pub(crate) fn env_load(state: &mut VmState, name: &Value) -> Result<TemplateWrapper, Exception> {
     if let Some(wrapper) = TemplateWrapper::from_value(name) {
-        wrapper.unwrap_for(&state.env)?;
+        wrapper.unwrap(Some(&state.env))?;
         return Ok(wrapper);
     }
     let name = string_param(name, "Twig\\Environment::getTemplateClass", "name", state)?;

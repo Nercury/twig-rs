@@ -56,7 +56,7 @@ fn container(name: &str, key: &Value) -> Value {
         "ArrayObject" => Value::Object(ArrayObject::new(string_value()).into_ref()),
         "ArrayIterator" => Value::Object(ArrayIterator::new(string_value()).into_ref()),
         "RecursiveArrayIterator" => {
-            named_array_iterator_subclass("RecursiveArrayIterator", string_value())
+            Value::Object(ArrayIterator::recursive(string_value()).into_ref())
         }
         "TemplateArrayObjectSubclass" => template_array_object_subclass(string_value()),
         "TemplateArrayIteratorSubclass" => template_array_iterator_subclass(string_value()),

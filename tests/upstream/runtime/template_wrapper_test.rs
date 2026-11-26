@@ -1,11 +1,4 @@
 //! Port of TWIG/tests/TemplateWrapperTest.php.
-//!
-//! Not ported:
-//! - `testUnwrapCanBeCalledWithoutArguments`: the deprecation of calling `unwrap()` without arguments is PHP API;
-//!   twig-rs has no public `TemplateWrapper::unwrap()`.
-//!
-//! `testUnwrapChecksTheEnvironment` runs the check through a template: twig-rs has no public `unwrap($env)`, and
-//! `Template::load()` unwraps a wrapper given to `{% include %}` with the same check.
 
 use twig::ErrorKind;
 use twig::escaper::DefaultStrategy;
@@ -18,16 +11,35 @@ use crate::support::*;
 
 #[test]
 fn test_unwrap_checks_the_environment() {
+    let twig = env(&[("index", "content")]);
+    let wrapper = twig.load("index").unwrap();
+    assert_eq!(wrapper.unwrap(Some(&twig)).unwrap().name(), "index");
+
+    let error = expect_error(wrapper.unwrap(Some(&env(&[]))), ErrorKind::Runtime);
+    assert!(
+        error
+            .to_string()
+            .contains(r#"can only be used with the "Twig\Environment" that created it"#),
+        "{error}"
+    );
+    // the oracle's whole message
+    assert_eq!(
+        error.to_string(),
+        r#"A "Twig\TemplateWrapper" can only be used with the "Twig\Environment" that created it."#
+    );
+}
+
+/// The check of `testUnwrapChecksTheEnvironment` through a template: `Template::load()` unwraps a wrapper given to
+/// `{% include %}` with the environment of the including template.
+#[test]
+fn unwrap_checks_the_environment_through_a_template() {
     let twig = env(&[("index", "content"), ("include", "{% include tpl %}")]);
     let wrapper = twig.load("index").unwrap();
-    // `$wrapper->unwrap($twig)` succeeds: the wrapper is usable in its own environment
     assert_eq!(
         twig.render("include", ctx(&[("tpl", wrapper.to_value())]))
             .unwrap(),
         "content"
     );
-
-    // `$wrapper->unwrap(new Environment(new ArrayLoader()))` throws
     let other = env(&[("include", "{% include tpl %}")]);
     let error = expect_error(
         other.render("include", ctx(&[("tpl", wrapper.to_value())])),
@@ -36,8 +48,22 @@ fn test_unwrap_checks_the_environment() {
     assert!(
         error
             .to_string()
-            .contains("can only be used with the \"Twig\\Environment\" that created it"),
+            .contains(r#"can only be used with the "Twig\Environment" that created it"#),
         "{error}"
+    );
+}
+
+#[test]
+fn test_unwrap_can_be_called_without_arguments() {
+    let twig = env(&[("index", "content")]);
+    let wrapper = twig.load("index").unwrap();
+    let (template, deprecations) = collect_deprecations(&twig, || wrapper.unwrap(None).unwrap());
+    assert_eq!(template.name(), "index");
+    assert_eq!(
+        deprecations,
+        [
+            r#"Since twig/twig 3.30: Calling "Twig\TemplateWrapper::unwrap()" without arguments is deprecated, pass the Twig environment instead."#
+        ]
     );
 }
 
