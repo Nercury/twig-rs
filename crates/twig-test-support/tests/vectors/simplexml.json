@@ -1,0 +1,6799 @@
+[
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [],
+        "results": [
+            {
+                "final": "string",
+                "ok": "tail",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 3,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "a",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<?xml version=\"1.0\"?>\n<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>\n",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "b",
+                                        "1"
+                                    ],
+                                    [
+                                        "c",
+                                        ""
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "c",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "t"
+                                    ],
+                                    [
+                                        1,
+                                        "u"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "d",
+                            [
+                                "sxe",
+                                "d",
+                                "",
+                                2,
+                                "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "b",
+                                        "1"
+                                    ],
+                                    [
+                                        "c",
+                                        ""
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "c",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "t"
+                                    ],
+                                    [
+                                        1,
+                                        "u"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "d",
+                            [
+                                "sxe",
+                                "d",
+                                "",
+                                2,
+                                "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"@attributes\":{\"b\":\"1\",\"c\":\"\"},\"c\":[\"t\",\"u\"],\"d\":{\"@attributes\":{\"x\":\"0\",\"y\":\"2\"},\"e\":[\"v\",{}]}}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "t",
+                            0,
+                            "<c>t</c>"
+                        ]
+                    ],
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "u",
+                            0,
+                            "<c>u</c>"
+                        ]
+                    ],
+                    [
+                        "d",
+                        [
+                            "sxe",
+                            "d",
+                            "",
+                            2,
+                            "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "t",
+                            0,
+                            "<c>t</c>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "c",
+                            "t",
+                            0,
+                            "<c>t</c>"
+                        ]
+                    ],
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "u",
+                            0,
+                            "<c>u</c>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "c",
+                            "u",
+                            0,
+                            "<c>u</c>"
+                        ]
+                    ],
+                    [
+                        "d",
+                        [
+                            "sxe",
+                            "d",
+                            "",
+                            2,
+                            "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                        ],
+                        true,
+                        [
+                            "sxe",
+                            "d",
+                            "",
+                            2,
+                            "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                        ]
+                    ],
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "c"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "nope"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "b"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "0"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_p",
+                    "c"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_p",
+                    "d"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "exists_p",
+                    "c"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "exists_p",
+                    "nope"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    "b"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    "c"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    "nope"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    "b"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    "c"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    0
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    1
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    0
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    1.5
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "eq",
+                    [
+                        [
+                            "p",
+                            "c"
+                        ]
+                    ]
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "eq",
+                    [
+                        [
+                            "m",
+                            "children"
+                        ]
+                    ]
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "eq",
+                    [
+                        [
+                            "d",
+                            "b"
+                        ]
+                    ]
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "eq",
+                    [
+                        [
+                            "p",
+                            "c"
+                        ],
+                        [
+                            "d",
+                            0
+                        ]
+                    ]
+                ],
+                "ok": false,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "c"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "t",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 2,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "c",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<c>t</c>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "t"
+                        ],
+                        [
+                            1,
+                            "u"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "t"
+                        ],
+                        [
+                            1,
+                            "u"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"t\",\"1\":\"u\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "t",
+                            0,
+                            "<c>t</c>"
+                        ]
+                    ],
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "u",
+                            0,
+                            "<c>u</c>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "t",
+                            0,
+                            "<c>t</c>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "c",
+                            "t",
+                            0,
+                            "<c>t</c>"
+                        ]
+                    ],
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "u",
+                            0,
+                            "<c>u</c>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "c",
+                            "u",
+                            0,
+                            "<c>u</c>"
+                        ]
+                    ],
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    0
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    1
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    2
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    -1
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    0
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "nope"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "c"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    "b"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "eq",
+                    [
+                        [
+                            "p",
+                            "c"
+                        ],
+                        [
+                            "d",
+                            0
+                        ]
+                    ]
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "eq",
+                    [
+                        [
+                            "p",
+                            "d"
+                        ]
+                    ]
+                ],
+                "ok": true,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "c"
+            ],
+            [
+                "d",
+                1
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "u",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "c",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<c>u</c>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "u"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "u"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"u\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "c"
+            ],
+            [
+                "d",
+                0
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "t",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "c",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<c>t</c>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "t"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "t"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"t\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            },
+            {
+                "final": [
+                    "eq",
+                    [
+                        [
+                            "m",
+                            "children"
+                        ],
+                        [
+                            "d",
+                            0
+                        ]
+                    ]
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    0
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    1
+                ],
+                "ok": false,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "c"
+            ],
+            [
+                "d",
+                2
+            ]
+        ],
+        "results": [
+            {
+                "final": "describe",
+                "ok": null,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "c"
+            ],
+            [
+                "d",
+                -1
+            ]
+        ],
+        "results": [
+            {
+                "final": "describe",
+                "ok": null,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "c"
+            ],
+            [
+                "d",
+                "1"
+            ]
+        ],
+        "results": [
+            {
+                "final": "describe",
+                "ok": null,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "d"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "d",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<d x=\"0\" y=\"2\"><e>v</e><e/></d>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "x",
+                                        "0"
+                                    ],
+                                    [
+                                        "y",
+                                        "2"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "e",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "v"
+                                    ],
+                                    [
+                                        1,
+                                        [
+                                            "sxe",
+                                            "e",
+                                            "",
+                                            0,
+                                            "<e/>"
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "x",
+                                        "0"
+                                    ],
+                                    [
+                                        "y",
+                                        "2"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "e",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "v"
+                                    ],
+                                    [
+                                        1,
+                                        [
+                                            "sxe",
+                                            "e",
+                                            "",
+                                            0,
+                                            "<e/>"
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"@attributes\":{\"x\":\"0\",\"y\":\"2\"},\"e\":[\"v\",{}]}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "d",
+                        [
+                            "sxe",
+                            "d",
+                            "",
+                            2,
+                            "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        "d",
+                        [
+                            "sxe",
+                            "d",
+                            "",
+                            2,
+                            "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                        ],
+                        true,
+                        [
+                            "sxe",
+                            "d",
+                            "",
+                            2,
+                            "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                        ]
+                    ],
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    "x"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    "x"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    "y"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "e"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_p",
+                    "e"
+                ],
+                "ok": false,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "d"
+            ],
+            [
+                "p",
+                "e"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "v",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 2,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "e",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<e>v</e>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "v"
+                        ],
+                        [
+                            1,
+                            [
+                                "sxe",
+                                "e",
+                                "",
+                                0,
+                                "<e/>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "v"
+                        ],
+                        [
+                            1,
+                            [
+                                "sxe",
+                                "e",
+                                "",
+                                0,
+                                "<e/>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"v\",\"1\":{}}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "e",
+                        [
+                            "sxe",
+                            "e",
+                            "v",
+                            0,
+                            "<e>v</e>"
+                        ]
+                    ],
+                    [
+                        "e",
+                        [
+                            "sxe",
+                            "e",
+                            "",
+                            0,
+                            "<e/>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        "e",
+                        [
+                            "sxe",
+                            "e",
+                            "v",
+                            0,
+                            "<e>v</e>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "e",
+                            "v",
+                            0,
+                            "<e>v</e>"
+                        ]
+                    ],
+                    [
+                        "e",
+                        [
+                            "sxe",
+                            "e",
+                            "",
+                            0,
+                            "<e/>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "e",
+                            "",
+                            0,
+                            "<e/>"
+                        ]
+                    ],
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    0
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    1
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    1
+                ],
+                "ok": true,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "d"
+            ],
+            [
+                "p",
+                "e"
+            ],
+            [
+                "d",
+                1
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "e",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<e/>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "d"
+            ],
+            [
+                "d",
+                "x"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "0",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "x",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": " x=\"0\"",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "0"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "0"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"0\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    0
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    0
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "x"
+                ],
+                "ok": false,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "nope"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    0
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "x"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "eq",
+                    []
+                ],
+                "ok": true,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "pi",
+                "nope"
+            ]
+        ],
+        "results": [
+            {
+                "final": "describe",
+                "ok": null,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "pi",
+                "c"
+            ]
+        ],
+        "results": [
+            {
+                "final": "describe",
+                "ok": [
+                    "sxe",
+                    "c",
+                    "t",
+                    2,
+                    "<c>t</c>"
+                ],
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 2,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "d",
+                "b"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "1",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 1.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "b",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": " b=\"1\"",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "1"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "1"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"1\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    0
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    0
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    1
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "x"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "eq",
+                    [
+                        [
+                            "m",
+                            "attributes"
+                        ],
+                        [
+                            "d",
+                            0
+                        ]
+                    ]
+                ],
+                "ok": true,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "d",
+                "c"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "c",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": " c=\"\"",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            ""
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            ""
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    0
+                ],
+                "ok": true,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "d",
+                "nope"
+            ]
+        ],
+        "results": [
+            {
+                "final": "describe",
+                "ok": null,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "d",
+                0
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "tail",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 3,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "a",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<?xml version=\"1.0\"?>\n<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>\n",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "b",
+                                        "1"
+                                    ],
+                                    [
+                                        "c",
+                                        ""
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "c",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "t"
+                                    ],
+                                    [
+                                        1,
+                                        "u"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "d",
+                            [
+                                "sxe",
+                                "d",
+                                "",
+                                2,
+                                "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "b",
+                                        "1"
+                                    ],
+                                    [
+                                        "c",
+                                        ""
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "c",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "t"
+                                    ],
+                                    [
+                                        1,
+                                        "u"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "d",
+                            [
+                                "sxe",
+                                "d",
+                                "",
+                                2,
+                                "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"@attributes\":{\"b\":\"1\",\"c\":\"\"},\"c\":[\"t\",\"u\"],\"d\":{\"@attributes\":{\"x\":\"0\",\"y\":\"2\"},\"e\":[\"v\",{}]}}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "t",
+                            0,
+                            "<c>t</c>"
+                        ]
+                    ],
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "u",
+                            0,
+                            "<c>u</c>"
+                        ]
+                    ],
+                    [
+                        "d",
+                        [
+                            "sxe",
+                            "d",
+                            "",
+                            2,
+                            "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": [
+                    "eq",
+                    []
+                ],
+                "ok": true,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "d",
+                1
+            ]
+        ],
+        "results": [
+            {
+                "final": "describe",
+                "ok": null,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "d",
+                true
+            ]
+        ],
+        "results": [
+            {
+                "final": "describe",
+                "ok": null,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "m",
+                "children"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "t",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 3,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "c",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<c>t</c>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "c",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "t"
+                                    ],
+                                    [
+                                        1,
+                                        "u"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "d",
+                            [
+                                "sxe",
+                                "d",
+                                "",
+                                2,
+                                "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "b",
+                                        "1"
+                                    ],
+                                    [
+                                        "c",
+                                        ""
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "c",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "t"
+                                    ],
+                                    [
+                                        1,
+                                        "u"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "d",
+                            [
+                                "sxe",
+                                "d",
+                                "",
+                                2,
+                                "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"c\":[\"t\",\"u\"],\"d\":{\"@attributes\":{\"x\":\"0\",\"y\":\"2\"},\"e\":[\"v\",{}]}}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "t",
+                            0,
+                            "<c>t</c>"
+                        ]
+                    ],
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "u",
+                            0,
+                            "<c>u</c>"
+                        ]
+                    ],
+                    [
+                        "d",
+                        [
+                            "sxe",
+                            "d",
+                            "",
+                            2,
+                            "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "t",
+                            0,
+                            "<c>t</c>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "c",
+                            "t",
+                            0,
+                            "<c>t</c>"
+                        ]
+                    ],
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "u",
+                            0,
+                            "<c>u</c>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "c",
+                            "u",
+                            0,
+                            "<c>u</c>"
+                        ]
+                    ],
+                    [
+                        "d",
+                        [
+                            "sxe",
+                            "d",
+                            "",
+                            2,
+                            "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                        ],
+                        true,
+                        [
+                            "sxe",
+                            "d",
+                            "",
+                            2,
+                            "<d x=\"0\" y=\"2\"><e>v</e><e/></d>"
+                        ]
+                    ],
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    0
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    2
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    3
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "c"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "d"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_p",
+                    "c"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    "b"
+                ],
+                "ok": false,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "m",
+                "children"
+            ],
+            [
+                "p",
+                "c"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "t",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 2,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "c",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<c>t</c>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "t"
+                        ],
+                        [
+                            1,
+                            "u"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "t"
+                        ],
+                        [
+                            1,
+                            "u"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"t\",\"1\":\"u\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "t",
+                            0,
+                            "<c>t</c>"
+                        ]
+                    ],
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "u",
+                            0,
+                            "<c>u</c>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "m",
+                "children"
+            ],
+            [
+                "d",
+                1
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "u",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "c",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<c>u</c>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "u"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "u"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"u\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "m",
+                "children"
+            ],
+            [
+                "d",
+                2
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 2,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "d",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<d x=\"0\" y=\"2\"><e>v</e><e/></d>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "x",
+                                        "0"
+                                    ],
+                                    [
+                                        "y",
+                                        "2"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "e",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "v"
+                                    ],
+                                    [
+                                        1,
+                                        [
+                                            "sxe",
+                                            "e",
+                                            "",
+                                            0,
+                                            "<e/>"
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "x",
+                                        "0"
+                                    ],
+                                    [
+                                        "y",
+                                        "2"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "e",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "v"
+                                    ],
+                                    [
+                                        1,
+                                        [
+                                            "sxe",
+                                            "e",
+                                            "",
+                                            0,
+                                            "<e/>"
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"@attributes\":{\"x\":\"0\",\"y\":\"2\"},\"e\":[\"v\",{}]}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "e",
+                        [
+                            "sxe",
+                            "e",
+                            "v",
+                            0,
+                            "<e>v</e>"
+                        ]
+                    ],
+                    [
+                        "e",
+                        [
+                            "sxe",
+                            "e",
+                            "",
+                            0,
+                            "<e/>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "m",
+                "children"
+            ],
+            [
+                "d",
+                "b"
+            ]
+        ],
+        "results": [
+            {
+                "final": "describe",
+                "ok": null,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "m",
+                "attributes"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "1",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 1.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 2,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "b",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": " b=\"1\"",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "b",
+                                        "1"
+                                    ],
+                                    [
+                                        "c",
+                                        ""
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "b",
+                                        "1"
+                                    ],
+                                    [
+                                        "c",
+                                        ""
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"@attributes\":{\"b\":\"1\",\"c\":\"\"}}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "b",
+                        [
+                            "sxe",
+                            "b",
+                            "1",
+                            0,
+                            " b=\"1\""
+                        ]
+                    ],
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "",
+                            0,
+                            " c=\"\""
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        "b",
+                        [
+                            "sxe",
+                            "b",
+                            "1",
+                            0,
+                            " b=\"1\""
+                        ],
+                        false,
+                        null
+                    ],
+                    [
+                        "c",
+                        [
+                            "sxe",
+                            "c",
+                            "",
+                            0,
+                            " c=\"\""
+                        ],
+                        false,
+                        null
+                    ],
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "b"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "c"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "x"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_p",
+                    "b"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_p",
+                    "c"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    0
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    1
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    2
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    1
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    "b"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    "c"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "exists_p",
+                    "b"
+                ],
+                "ok": true,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "m",
+                "attributes"
+            ],
+            [
+                "p",
+                "b"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "1",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 1.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "b",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": " b=\"1\"",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "1"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "1"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"1\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "m",
+                "attributes"
+            ],
+            [
+                "p",
+                "c"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "c",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": " c=\"\"",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            ""
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            ""
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "m",
+                "attributes"
+            ],
+            [
+                "p",
+                "x"
+            ]
+        ],
+        "results": [
+            {
+                "final": "describe",
+                "ok": null,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "m",
+                "attributes"
+            ],
+            [
+                "d",
+                1
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "c",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": " c=\"\"",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            ""
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            ""
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "m",
+                "attributes"
+            ],
+            [
+                "d",
+                "b"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "1",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 1.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "b",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": " b=\"1\"",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "1"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "1"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"1\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "m",
+                "attributes"
+            ],
+            [
+                "m",
+                "children"
+            ]
+        ],
+        "results": [
+            {
+                "final": "describe",
+                "ok": null,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "m",
+                "attributes"
+            ],
+            [
+                "m",
+                "attributes"
+            ]
+        ],
+        "results": [
+            {
+                "final": "describe",
+                "ok": null,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "c"
+            ],
+            [
+                "m",
+                "children"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "c"
+            ],
+            [
+                "m",
+                "attributes"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "d"
+            ],
+            [
+                "m",
+                "attributes"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "0",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 2,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "x",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": " x=\"0\"",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "x",
+                                        "0"
+                                    ],
+                                    [
+                                        "y",
+                                        "2"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "x",
+                                        "0"
+                                    ],
+                                    [
+                                        "y",
+                                        "2"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"@attributes\":{\"x\":\"0\",\"y\":\"2\"}}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "x",
+                        [
+                            "sxe",
+                            "x",
+                            "0",
+                            0,
+                            " x=\"0\""
+                        ]
+                    ],
+                    [
+                        "y",
+                        [
+                            "sxe",
+                            "y",
+                            "2",
+                            0,
+                            " y=\"2\""
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        "x",
+                        [
+                            "sxe",
+                            "x",
+                            "0",
+                            0,
+                            " x=\"0\""
+                        ],
+                        false,
+                        null
+                    ],
+                    [
+                        "y",
+                        [
+                            "sxe",
+                            "y",
+                            "2",
+                            0,
+                            " y=\"2\""
+                        ],
+                        false,
+                        null
+                    ],
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "d"
+            ],
+            [
+                "m",
+                "attributes"
+            ],
+            [
+                "p",
+                "y"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "2",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 2,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 2.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "y",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": " y=\"2\"",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "2"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "2"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"2\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "d"
+            ],
+            [
+                "m",
+                "children"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "v",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 2,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "e",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<e>v</e>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "e",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "v"
+                                    ],
+                                    [
+                                        1,
+                                        [
+                                            "sxe",
+                                            "e",
+                                            "",
+                                            0,
+                                            "<e/>"
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "x",
+                                        "0"
+                                    ],
+                                    [
+                                        "y",
+                                        "2"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "e",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "v"
+                                    ],
+                                    [
+                                        1,
+                                        [
+                                            "sxe",
+                                            "e",
+                                            "",
+                                            0,
+                                            "<e/>"
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"e\":[\"v\",{}]}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "e",
+                        [
+                            "sxe",
+                            "e",
+                            "v",
+                            0,
+                            "<e>v</e>"
+                        ]
+                    ],
+                    [
+                        "e",
+                        [
+                            "sxe",
+                            "e",
+                            "",
+                            0,
+                            "<e/>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        "e",
+                        [
+                            "sxe",
+                            "e",
+                            "v",
+                            0,
+                            "<e>v</e>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "e",
+                            "v",
+                            0,
+                            "<e>v</e>"
+                        ]
+                    ],
+                    [
+                        "e",
+                        [
+                            "sxe",
+                            "e",
+                            "",
+                            0,
+                            "<e/>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "e",
+                            "",
+                            0,
+                            "<e/>"
+                        ]
+                    ],
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "d",
+                "b"
+            ],
+            [
+                "m",
+                "children"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "d",
+                "b"
+            ],
+            [
+                "m",
+                "attributes"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<a b=\"1\" c=\"\"><c>t</c><c>u</c><d x=\"0\" y=\"2\"><e>v</e><e/></d>tail</a>",
+        "steps": [
+            [
+                "p",
+                "c"
+            ],
+            [
+                "p",
+                "nope"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<n><m>0</m><m></m><p/><q> </q><s>x<t/>y</s></n>",
+        "steps": [],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 5,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "n",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<?xml version=\"1.0\"?>\n<n><m>0</m><m/><p/><q> </q><s>x<t/>y</s></n>\n",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "m",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "0"
+                                    ],
+                                    [
+                                        1,
+                                        [
+                                            "sxe",
+                                            "m",
+                                            "",
+                                            0,
+                                            "<m/>"
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "p",
+                            [
+                                "sxe",
+                                "p",
+                                "",
+                                0,
+                                "<p/>"
+                            ]
+                        ],
+                        [
+                            "q",
+                            [
+                                "sxe",
+                                "q",
+                                " ",
+                                0,
+                                "<q> </q>"
+                            ]
+                        ],
+                        [
+                            "s",
+                            "xy"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "m",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "0"
+                                    ],
+                                    [
+                                        1,
+                                        [
+                                            "sxe",
+                                            "m",
+                                            "",
+                                            0,
+                                            "<m/>"
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "p",
+                            [
+                                "sxe",
+                                "p",
+                                "",
+                                0,
+                                "<p/>"
+                            ]
+                        ],
+                        [
+                            "q",
+                            [
+                                "sxe",
+                                "q",
+                                " ",
+                                0,
+                                "<q> </q>"
+                            ]
+                        ],
+                        [
+                            "s",
+                            "xy"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"m\":[\"0\",{}],\"p\":{},\"q\":{},\"s\":\"xy\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "m",
+                        [
+                            "sxe",
+                            "m",
+                            "0",
+                            0,
+                            "<m>0</m>"
+                        ]
+                    ],
+                    [
+                        "m",
+                        [
+                            "sxe",
+                            "m",
+                            "",
+                            0,
+                            "<m/>"
+                        ]
+                    ],
+                    [
+                        "p",
+                        [
+                            "sxe",
+                            "p",
+                            "",
+                            0,
+                            "<p/>"
+                        ]
+                    ],
+                    [
+                        "q",
+                        [
+                            "sxe",
+                            "q",
+                            " ",
+                            0,
+                            "<q> </q>"
+                        ]
+                    ],
+                    [
+                        "s",
+                        [
+                            "sxe",
+                            "s",
+                            "xy",
+                            1,
+                            "<s>x<t/>y</s>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_p",
+                    "m"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_p",
+                    "p"
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_p",
+                    "q"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_p",
+                    "s"
+                ],
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_p",
+                    "p"
+                ],
+                "ok": true,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<n><m>0</m><m></m><p/><q> </q><s>x<t/>y</s></n>",
+        "steps": [
+            [
+                "p",
+                "m"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "0",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 2,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "m",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<m>0</m>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "0"
+                        ],
+                        [
+                            1,
+                            [
+                                "sxe",
+                                "m",
+                                "",
+                                0,
+                                "<m/>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "0"
+                        ],
+                        [
+                            1,
+                            [
+                                "sxe",
+                                "m",
+                                "",
+                                0,
+                                "<m/>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"0\",\"1\":{}}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "m",
+                        [
+                            "sxe",
+                            "m",
+                            "0",
+                            0,
+                            "<m>0</m>"
+                        ]
+                    ],
+                    [
+                        "m",
+                        [
+                            "sxe",
+                            "m",
+                            "",
+                            0,
+                            "<m/>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        "m",
+                        [
+                            "sxe",
+                            "m",
+                            "0",
+                            0,
+                            "<m>0</m>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "m",
+                            "0",
+                            0,
+                            "<m>0</m>"
+                        ]
+                    ],
+                    [
+                        "m",
+                        [
+                            "sxe",
+                            "m",
+                            "",
+                            0,
+                            "<m/>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "m",
+                            "",
+                            0,
+                            "<m/>"
+                        ]
+                    ],
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    0
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "empty_d",
+                    1
+                ],
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": [
+                    "isset_d",
+                    1
+                ],
+                "ok": true,
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<n><m>0</m><m></m><p/><q> </q><s>x<t/>y</s></n>",
+        "steps": [
+            [
+                "p",
+                "m"
+            ],
+            [
+                "d",
+                1
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "m",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<m/>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<n><m>0</m><m></m><p/><q> </q><s>x<t/>y</s></n>",
+        "steps": [
+            [
+                "p",
+                "p"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "p",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<p/>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "p",
+                        [
+                            "sxe",
+                            "p",
+                            "",
+                            0,
+                            "<p/>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<n><m>0</m><m></m><p/><q> </q><s>x<t/>y</s></n>",
+        "steps": [
+            [
+                "p",
+                "q"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": " ",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "q",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<q> </q>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            [
+                                "sxe",
+                                "q",
+                                " ",
+                                0,
+                                "<q> </q>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            [
+                                "sxe",
+                                "q",
+                                " ",
+                                0,
+                                "<q> </q>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":{}}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "q",
+                        [
+                            "sxe",
+                            "q",
+                            " ",
+                            0,
+                            "<q> </q>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<n><m>0</m><m></m><p/><q> </q><s>x<t/>y</s></n>",
+        "steps": [
+            [
+                "p",
+                "s"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "xy",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "s",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<s>x<t/>y</s>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "t",
+                            [
+                                "sxe",
+                                "t",
+                                "",
+                                0,
+                                "<t/>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "t",
+                            [
+                                "sxe",
+                                "t",
+                                "",
+                                0,
+                                "<t/>"
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"t\":{}}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "s",
+                        [
+                            "sxe",
+                            "s",
+                            "xy",
+                            1,
+                            "<s>x<t/>y</s>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<n><m>0</m><m></m><p/><q> </q><s>x<t/>y</s></n>",
+        "steps": [
+            [
+                "m",
+                "children"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "0",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 5,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "m",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<m>0</m>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "m",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "0"
+                                    ],
+                                    [
+                                        1,
+                                        [
+                                            "sxe",
+                                            "m",
+                                            "",
+                                            0,
+                                            "<m/>"
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "p",
+                            [
+                                "sxe",
+                                "p",
+                                "",
+                                0,
+                                "<p/>"
+                            ]
+                        ],
+                        [
+                            "q",
+                            [
+                                "sxe",
+                                "q",
+                                " ",
+                                0,
+                                "<q> </q>"
+                            ]
+                        ],
+                        [
+                            "s",
+                            "xy"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "m",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "0"
+                                    ],
+                                    [
+                                        1,
+                                        [
+                                            "sxe",
+                                            "m",
+                                            "",
+                                            0,
+                                            "<m/>"
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "p",
+                            [
+                                "sxe",
+                                "p",
+                                "",
+                                0,
+                                "<p/>"
+                            ]
+                        ],
+                        [
+                            "q",
+                            [
+                                "sxe",
+                                "q",
+                                " ",
+                                0,
+                                "<q> </q>"
+                            ]
+                        ],
+                        [
+                            "s",
+                            "xy"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"m\":[\"0\",{}],\"p\":{},\"q\":{},\"s\":\"xy\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "m",
+                        [
+                            "sxe",
+                            "m",
+                            "0",
+                            0,
+                            "<m>0</m>"
+                        ]
+                    ],
+                    [
+                        "m",
+                        [
+                            "sxe",
+                            "m",
+                            "",
+                            0,
+                            "<m/>"
+                        ]
+                    ],
+                    [
+                        "p",
+                        [
+                            "sxe",
+                            "p",
+                            "",
+                            0,
+                            "<p/>"
+                        ]
+                    ],
+                    [
+                        "q",
+                        [
+                            "sxe",
+                            "q",
+                            " ",
+                            0,
+                            "<q> </q>"
+                        ]
+                    ],
+                    [
+                        "s",
+                        [
+                            "sxe",
+                            "s",
+                            "xy",
+                            1,
+                            "<s>x<t/>y</s>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        "m",
+                        [
+                            "sxe",
+                            "m",
+                            "0",
+                            0,
+                            "<m>0</m>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "m",
+                            "0",
+                            0,
+                            "<m>0</m>"
+                        ]
+                    ],
+                    [
+                        "m",
+                        [
+                            "sxe",
+                            "m",
+                            "",
+                            0,
+                            "<m/>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "m",
+                            "",
+                            0,
+                            "<m/>"
+                        ]
+                    ],
+                    [
+                        "p",
+                        [
+                            "sxe",
+                            "p",
+                            "",
+                            0,
+                            "<p/>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "p",
+                            "",
+                            0,
+                            "<p/>"
+                        ]
+                    ],
+                    [
+                        "q",
+                        [
+                            "sxe",
+                            "q",
+                            " ",
+                            0,
+                            "<q> </q>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "q",
+                            " ",
+                            0,
+                            "<q> </q>"
+                        ]
+                    ],
+                    [
+                        "s",
+                        [
+                            "sxe",
+                            "s",
+                            "xy",
+                            1,
+                            "<s>x<t/>y</s>"
+                        ],
+                        true,
+                        [
+                            "sxe",
+                            "s",
+                            "xy",
+                            1,
+                            "<s>x<t/>y</s>"
+                        ]
+                    ],
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<w>\n  <i k=\"1\">1</i>\n  <i>2</i>\n</w>",
+        "steps": [],
+        "results": [
+            {
+                "final": "string",
+                "ok": "\n  \n  \n",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 2,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "w",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<?xml version=\"1.0\"?>\n<w>\n  <i k=\"1\">1</i>\n  <i>2</i>\n</w>\n",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "i",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "1"
+                                    ],
+                                    [
+                                        1,
+                                        "2"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "i",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "1"
+                                    ],
+                                    [
+                                        1,
+                                        "2"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"i\":[\"1\",\"2\"]}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "i",
+                        [
+                            "sxe",
+                            "i",
+                            "1",
+                            0,
+                            "<i k=\"1\">1</i>"
+                        ]
+                    ],
+                    [
+                        "i",
+                        [
+                            "sxe",
+                            "i",
+                            "2",
+                            0,
+                            "<i>2</i>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        "i",
+                        [
+                            "sxe",
+                            "i",
+                            "1",
+                            0,
+                            "<i k=\"1\">1</i>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "i",
+                            "1",
+                            0,
+                            "<i k=\"1\">1</i>"
+                        ]
+                    ],
+                    [
+                        "i",
+                        [
+                            "sxe",
+                            "i",
+                            "2",
+                            0,
+                            "<i>2</i>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "i",
+                            "2",
+                            0,
+                            "<i>2</i>"
+                        ]
+                    ],
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<w>\n  <i k=\"1\">1</i>\n  <i>2</i>\n</w>",
+        "steps": [
+            [
+                "p",
+                "i"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "1",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 1.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 2,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "i",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<i k=\"1\">1</i>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "k",
+                                        "1"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            0,
+                            "1"
+                        ],
+                        [
+                            1,
+                            "2"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "k",
+                                        "1"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            0,
+                            "1"
+                        ],
+                        [
+                            1,
+                            "2"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"@attributes\":{\"k\":\"1\"},\"0\":\"1\",\"1\":\"2\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "i",
+                        [
+                            "sxe",
+                            "i",
+                            "1",
+                            0,
+                            "<i k=\"1\">1</i>"
+                        ]
+                    ],
+                    [
+                        "i",
+                        [
+                            "sxe",
+                            "i",
+                            "2",
+                            0,
+                            "<i>2</i>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        "i",
+                        [
+                            "sxe",
+                            "i",
+                            "1",
+                            0,
+                            "<i k=\"1\">1</i>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "i",
+                            "1",
+                            0,
+                            "<i k=\"1\">1</i>"
+                        ]
+                    ],
+                    [
+                        "i",
+                        [
+                            "sxe",
+                            "i",
+                            "2",
+                            0,
+                            "<i>2</i>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "i",
+                            "2",
+                            0,
+                            "<i>2</i>"
+                        ]
+                    ],
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<w>\n  <i k=\"1\">1</i>\n  <i>2</i>\n</w>",
+        "steps": [
+            [
+                "m",
+                "children"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "1",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 1.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 2,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "i",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<i k=\"1\">1</i>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "i",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "1"
+                                    ],
+                                    [
+                                        1,
+                                        "2"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "i",
+                            [
+                                "array",
+                                [
+                                    [
+                                        0,
+                                        "1"
+                                    ],
+                                    [
+                                        1,
+                                        "2"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"i\":[\"1\",\"2\"]}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "i",
+                        [
+                            "sxe",
+                            "i",
+                            "1",
+                            0,
+                            "<i k=\"1\">1</i>"
+                        ]
+                    ],
+                    [
+                        "i",
+                        [
+                            "sxe",
+                            "i",
+                            "2",
+                            0,
+                            "<i>2</i>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        "i",
+                        [
+                            "sxe",
+                            "i",
+                            "1",
+                            0,
+                            "<i k=\"1\">1</i>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "i",
+                            "1",
+                            0,
+                            "<i k=\"1\">1</i>"
+                        ]
+                    ],
+                    [
+                        "i",
+                        [
+                            "sxe",
+                            "i",
+                            "2",
+                            0,
+                            "<i>2</i>"
+                        ],
+                        false,
+                        [
+                            "sxe",
+                            "i",
+                            "2",
+                            0,
+                            "<i>2</i>"
+                        ]
+                    ],
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<r>text</r>",
+        "steps": [],
+        "results": [
+            {
+                "final": "string",
+                "ok": "text",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "r",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<?xml version=\"1.0\"?>\n<r>text</r>\n",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "text"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            0,
+                            "text"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"0\":\"text\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<r>text</r>",
+        "steps": [
+            [
+                "m",
+                "children"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<r>text</r>",
+        "steps": [
+            [
+                "m",
+                "attributes"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<e/>",
+        "steps": [],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "e",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<?xml version=\"1.0\"?>\n<e/>\n",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            },
+            {
+                "final": "walk",
+                "ok": [
+                    [
+                        false,
+                        null
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<e/>",
+        "steps": [
+            [
+                "m",
+                "children"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": false,
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    []
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><x><y z=\"w\">1</y></x>",
+        "steps": [],
+        "results": [
+            {
+                "final": "string",
+                "ok": "",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "x",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<x><y z=\"w\">1</y></x>\n",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "y",
+                            "1"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "y",
+                            "1"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"y\":\"1\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "y",
+                        [
+                            "sxe",
+                            "y",
+                            "1",
+                            0,
+                            "<y z=\"w\">1</y>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><x><y z=\"w\">1</y></x>",
+        "steps": [
+            [
+                "p",
+                "y"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "1",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 1.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "y",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": "<y z=\"w\">1</y>",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "z",
+                                        "w"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            0,
+                            "1"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "z",
+                                        "w"
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            0,
+                            "1"
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"@attributes\":{\"z\":\"w\"},\"0\":\"1\"}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "y",
+                        [
+                            "sxe",
+                            "y",
+                            "1",
+                            0,
+                            "<y z=\"w\">1</y>"
+                        ]
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    },
+    {
+        "doc": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><x><y z=\"w\">1</y></x>",
+        "steps": [
+            [
+                "p",
+                "y"
+            ],
+            [
+                "m",
+                "attributes"
+            ]
+        ],
+        "results": [
+            {
+                "final": "string",
+                "ok": "w",
+                "diags": []
+            },
+            {
+                "final": "int",
+                "ok": 0,
+                "diags": []
+            },
+            {
+                "final": "float",
+                "ok": 0.0,
+                "diags": []
+            },
+            {
+                "final": "bool",
+                "ok": true,
+                "diags": []
+            },
+            {
+                "final": "count",
+                "ok": 1,
+                "diags": []
+            },
+            {
+                "final": "name",
+                "ok": "z",
+                "diags": []
+            },
+            {
+                "final": "xml",
+                "ok": " z=\"w\"",
+                "diags": []
+            },
+            {
+                "final": "array",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "z",
+                                        "w"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "debug",
+                "ok": [
+                    "array",
+                    [
+                        [
+                            "@attributes",
+                            [
+                                "array",
+                                [
+                                    [
+                                        "z",
+                                        "w"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "diags": []
+            },
+            {
+                "final": "json",
+                "ok": "{\"@attributes\":{\"z\":\"w\"}}",
+                "diags": []
+            },
+            {
+                "final": "iter",
+                "ok": [
+                    [
+                        "z",
+                        [
+                            "sxe",
+                            "z",
+                            "w",
+                            0,
+                            " z=\"w\""
+                        ]
+                    ]
+                ],
+                "diags": []
+            }
+        ],
+        "step_diags": []
+    }
+]

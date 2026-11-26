@@ -1,20 +1,27 @@
-//! `SimpleXMLElement` (PHPSRC/ext/simplexml/simplexml.c), as far as the fixtures use it.
+//! `SimpleXMLElement` (PHPSRC/ext/simplexml/simplexml.c) over a small immutable XML tree.
 //!
-//! The fixtures create element objects with `new \SimpleXMLElement($xml)` and iterate them
-//! (`filter`, `find`, `slice`, `length`); every object involved is an element node with
-//! `iter.type == SXE_ITER_NONE` (the document root and the children iteration yields). This module
-//! models exactly those: a small immutable XML tree and element objects over it, with PHP's
-//! iteration (`php_sxe_reset_iterator()` / `php_sxe_move_forward_iterator()`), `count()`
-//! (`php_sxe_count_elements_helper()`), casts (`sxe_object_cast_ex()`, `sxe_prop_is_empty()`),
-//! the property table of `var_dump()`/`var_export()`/`(array)` (`sxe_get_prop_hash()`),
-//! `getName()` and `asXML()` (libxml2's `xmlSaveDoc()` / `xmlNodeDumpOutput()` without
-//! formatting).
+//! An object is a node of a document (an element or an attribute) plus `iter.type` and `iter.name`,
+//! which select the nodes it stands for, like `php_sxe_object`: the node itself (`SXE_ITER_NONE`:
+//! the document root, an element yielded by an iteration, an attribute), its element children
+//! (`SXE_ITER_CHILD`, `children()`), its element children of one name (`SXE_ITER_ELEMENT`,
+//! `$sxe->name`) or its attributes (`SXE_ITER_ATTRLIST`, `attributes()`). Ported: property reads
+//! (`sxe_prop_dim_read()` of the elements, `$sxe->child`, `$sxe->child[1]`, also on attribute lists,
+//! where they read attributes), dimension reads (the same function on the attributes,
+//! `$sxe['attr']`, `$sxe->child[0]`), `isset()` / `empty()` / `property_exists()` of both
+//! (`sxe_prop_dim_exists()`), `children()` and `attributes()` without a namespace, the iteration
+//! (`php_sxe_reset_iterator()`, `php_sxe_iterator_fetch()`, `php_sxe_move_forward_iterator()`, the
+//! `RecursiveIterator` methods), `count()` (`php_sxe_count_elements_helper()`), casts
+//! (`sxe_object_cast_ex()`, `sxe_prop_is_empty()`), the property table of `var_dump()`, `(array)`
+//! and `json_encode()` (`sxe_get_prop_hash()`), comparisons (`sxe_objects_compare()`: equal over
+//! the same node), `getName()` and `asXML()` (libxml2's `xmlSaveDoc()` / `xmlNodeDumpOutput()`
+//! without formatting).
 //!
 //! Supported XML: an optional `<?xml version="1.0" ...?>` declaration, one root element, nested
 //! elements with plain attributes, text with the predefined entities and character references,
 //! ASCII only, no namespaces, comments, CDATA, processing instructions or DTDs. Anything else is
-//! rejected by [`parse_document`]. Property access (`$sxe->child`), `children()`, `attributes()`,
-//! `xpath()` and the other list-object features are not modelled (they throw `Error`).
+//! rejected by [`parse_document`]. Writes (`$sxe->child = ...`, `unset()`), `xpath()`,
+//! `addChild()`, `addAttribute()`, namespace filters and the namespace methods are not modelled
+//! (they throw `Error`).
 
 use std::sync::{Arc, LazyLock, Mutex, MutexGuard};
 
@@ -23,6 +30,7 @@ use twig_value::object::{
     ObjectIterator, ObjectRef, Param, PropertyCheck, PropertyEntry, PropertyPurpose, PropertyStore,
     builtin,
 };
+use twig_value::param::{self, Arg};
 use twig_value::{Array, ArrayKey, Diagnostics, PhpError, PhpResult, PhpString, Value, convert};
 
 /// An XML element.
@@ -430,35 +438,151 @@ pub fn simple_xml_element_class() -> ClassRef {
     SIMPLE_XML_ELEMENT.clone()
 }
 
-/// The iteration state (`sxe->iter.data`): the current child element object and its position.
-type IterData = Option<(usize, ObjectRef)>;
+/// `sxe->iter.type`: which nodes an object stands for.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum IterType {
+    /// `SXE_ITER_NONE`: the node itself (the document root, an element or attribute the object was
+    /// created for).
+    None,
+    /// `SXE_ITER_CHILD`: the element children of the node (`children()`).
+    Child,
+    /// `SXE_ITER_ELEMENT`: the element children named `iter.name` (`$sxe->name`).
+    Element,
+    /// `SXE_ITER_ATTRLIST`: the attributes of the node (`attributes()`).
+    AttrList,
+}
 
-/// A `SimpleXMLElement` over an element node (`SXE_ITER_NONE`).
+/// An `xmlNodePtr` an object can hold: an element or an attribute (text nodes are only walked).
+#[derive(Clone, Debug, PartialEq, Eq)]
+enum NodeId {
+    /// An element, by the indexes of `children` that lead to it from the root element (empty: the
+    /// root, whose parent is the document node).
+    Element(Vec<usize>),
+    /// The attribute at an index of an element's `attributes`.
+    Attribute(Vec<usize>, usize),
+}
+
+/// Where a `node->next` walk starts: a position in the children or in the attributes of an element.
+enum Cursor {
+    /// Nothing (`NULL`).
+    End,
+    /// The children of the element at `parent`, from index `from`.
+    Children { parent: Vec<usize>, from: usize },
+    /// The attributes of the element at `element`, from index `from`.
+    Attributes { element: Vec<usize>, from: usize },
+}
+
+/// `node->next` of a node: the root element is the only child of the document node.
+fn next_sibling(node: &NodeId) -> Cursor {
+    match node {
+        NodeId::Element(path) => match path.split_last() {
+            None => Cursor::End,
+            Some((last, parent)) => Cursor::Children {
+                parent: parent.to_vec(),
+                from: last + 1,
+            },
+        },
+        NodeId::Attribute(element, index) => Cursor::Attributes {
+            element: element.clone(),
+            from: index + 1,
+        },
+    }
+}
+
+impl XmlDocument {
+    /// The element at `path` (indexes of `children` from the root element).
+    fn element_at(&self, path: &[usize]) -> &Arc<XmlElement> {
+        let mut element = &self.root;
+        for &i in path {
+            match &element.children[i] {
+                XmlNode::Element(child) => element = child,
+                XmlNode::Text(_) => unreachable!("an element path leads through elements"),
+            }
+        }
+        element
+    }
+
+    /// `node->name`.
+    fn node_name(&self, node: &NodeId) -> &str {
+        match node {
+            NodeId::Element(path) => &self.element_at(path).name,
+            NodeId::Attribute(element, index) => &self.element_at(element).attributes[*index].0,
+        }
+    }
+
+    /// `xmlNodeListGetString(doc, node->children, 1)`: the text of an element's children, the value
+    /// of an attribute.
+    fn node_text(&self, node: &NodeId) -> String {
+        match node {
+            NodeId::Element(path) => list_text(&self.element_at(path).children),
+            NodeId::Attribute(element, index) => {
+                self.element_at(element).attributes[*index].1.clone()
+            }
+        }
+    }
+
+    /// `node->parent->children == node->parent->last`: the parent has a single child (the document
+    /// node holds nothing but the root element).
+    fn parent_has_one_child(&self, path: &[usize]) -> bool {
+        match path.split_last() {
+            None => true,
+            Some((_, parent)) => self.element_at(parent).children.len() == 1,
+        }
+    }
+
+    /// `node->next != NULL` for an element.
+    fn has_next_sibling(&self, path: &[usize]) -> bool {
+        match path.split_last() {
+            None => false,
+            Some((last, parent)) => last + 1 < self.element_at(parent).children.len(),
+        }
+    }
+}
+
+/// `node->children->children`: the first child of an element is an element with children.
+fn first_child_has_children(element: &XmlElement) -> bool {
+    matches!(element.children.first(), Some(XmlNode::Element(e)) if !e.children.is_empty())
+}
+
+/// `ZEND_UNCOMPARABLE`.
+const UNCOMPARABLE: i32 = 1;
+
+/// A `SimpleXMLElement` object (`php_sxe_object`): a node of a document and `iter.type` /
+/// `iter.name`, which select the nodes it stands for, plus the iteration state `iter.data`.
 pub struct SimpleXmlElement {
     class: ClassRef,
     props: PropertyStore,
     doc: Arc<XmlDocument>,
-    element: Arc<XmlElement>,
-    is_root: bool,
-    iter: Mutex<IterData>,
+    /// `sxe->node->node`.
+    node: NodeId,
+    iter_type: IterType,
+    /// `sxe->iter.name`.
+    iter_name: Option<String>,
+    /// `sxe->iter.data`: the current node and the object standing for it.
+    iter: Mutex<Option<(NodeId, ObjectRef)>>,
 }
 
 impl SimpleXmlElement {
     /// The object for the document's root element (`new SimpleXMLElement($xml)`).
     pub fn root(doc: Arc<XmlDocument>) -> SimpleXmlElement {
-        let element = doc.root.clone();
-        SimpleXmlElement::over(doc, element, true)
+        SimpleXmlElement::over(doc, NodeId::Element(Vec::new()), IterType::None, None)
     }
 
-    fn over(doc: Arc<XmlDocument>, element: Arc<XmlElement>, is_root: bool) -> SimpleXmlElement {
+    fn over(
+        doc: Arc<XmlDocument>,
+        node: NodeId,
+        iter_type: IterType,
+        iter_name: Option<String>,
+    ) -> SimpleXmlElement {
         let class = simple_xml_element_class();
         let props = PropertyStore::new(&class);
         SimpleXmlElement {
             class,
             props,
             doc,
-            element,
-            is_root,
+            node,
+            iter_type,
+            iter_name,
             iter: Mutex::new(None),
         }
     }
@@ -468,123 +592,313 @@ impl SimpleXmlElement {
         ObjectRef::new(self)
     }
 
-    /// The element.
-    pub fn element(&self) -> &Arc<XmlElement> {
-        &self.element
-    }
-
-    fn iter(&self) -> MutexGuard<'_, IterData> {
+    fn iter(&self) -> MutexGuard<'_, Option<(NodeId, ObjectRef)>> {
         self.iter.lock().unwrap_or_else(|e| e.into_inner())
     }
 
-    fn child_object(&self, e: &Arc<XmlElement>) -> ObjectRef {
-        SimpleXmlElement::over(self.doc.clone(), e.clone(), false).into_ref()
+    /// `node_as_zval()`: a new object of the same document.
+    fn node_as_zval(&self, node: NodeId, iter_type: IterType, name: Option<&str>) -> Value {
+        Value::Object(
+            SimpleXmlElement::over(
+                Arc::clone(&self.doc),
+                node,
+                iter_type,
+                name.map(str::to_owned),
+            )
+            .into_ref(),
+        )
     }
 
-    /// `php_sxe_iterator_fetch()` from child position `from`: the next element child.
-    fn fetch(&self, from: usize) -> IterData {
-        self.element.children[from.min(self.element.children.len())..]
-            .iter()
-            .enumerate()
-            .find_map(|(i, n)| match n {
-                XmlNode::Element(e) => Some((from + i, self.child_object(e))),
-                XmlNode::Text(_) => None,
-            })
+    /// The start of `php_sxe_reset_iterator_no_clear_iter_data()`: `node->children`, or
+    /// `node->properties` for an attribute list. An attribute has no element children, and its
+    /// `properties` (the `psvi` of an `xmlAttr`) is `NULL`.
+    fn first_cursor(&self) -> Cursor {
+        match (&self.node, self.iter_type) {
+            (NodeId::Element(path), IterType::AttrList) => Cursor::Attributes {
+                element: path.clone(),
+                from: 0,
+            },
+            (NodeId::Element(path), _) => Cursor::Children {
+                parent: path.clone(),
+                from: 0,
+            },
+            (NodeId::Attribute(..), _) => Cursor::End,
+        }
+    }
+
+    /// `php_sxe_iterator_fetch()` without `use_data`: the first node from `cursor` on that the
+    /// object stands for (no namespaces: `match_ns()` always holds).
+    fn fetch(&self, cursor: Cursor) -> Option<NodeId> {
+        match cursor {
+            Cursor::End => None,
+            // only an attribute list looks for attribute nodes
+            Cursor::Attributes { element, from } if self.iter_type == IterType::AttrList => self
+                .doc
+                .element_at(&element)
+                .attributes
+                .iter()
+                .enumerate()
+                .skip(from)
+                .find(|(_, (name, _))| self.iter_name.as_ref().is_none_or(|n| n == name))
+                .map(|(i, _)| NodeId::Attribute(element.clone(), i)),
+            Cursor::Attributes { .. } => None,
+            Cursor::Children { .. } if self.iter_type == IterType::AttrList => None,
+            Cursor::Children { parent, from } => self
+                .doc
+                .element_at(&parent)
+                .children
+                .iter()
+                .enumerate()
+                .skip(from)
+                .find(|(_, node)| match node {
+                    XmlNode::Element(e) => match (self.iter_type, &self.iter_name) {
+                        (IterType::Element, Some(name)) => e.name == *name,
+                        _ => true,
+                    },
+                    XmlNode::Text(_) => false,
+                })
+                .map(|(i, _)| {
+                    let mut path = parent.clone();
+                    path.push(i);
+                    NodeId::Element(path)
+                }),
+        }
+    }
+
+    /// `php_sxe_reset_iterator_no_clear_iter_data(sxe, 0)`.
+    fn reset_no_clear(&self) -> Option<NodeId> {
+        self.fetch(self.first_cursor())
+    }
+
+    /// `php_sxe_get_first_node_non_destructive()`: the first node of the iteration, the node itself
+    /// for `SXE_ITER_NONE`.
+    fn first_node(&self) -> Option<NodeId> {
+        if self.iter_type == IterType::None {
+            Some(self.node.clone())
+        } else {
+            self.reset_no_clear()
+        }
     }
 
     /// `php_sxe_reset_iterator()`.
     fn reset_iterator(&self) {
-        let data = self.fetch(0);
+        let data = self.reset_no_clear().map(|node| self.iter_data(node));
         *self.iter() = data;
+    }
+
+    /// `php_sxe_iterator_fetch(sxe, node, 1)`'s `iter.data` for `node`.
+    fn iter_data(&self, node: NodeId) -> (NodeId, ObjectRef) {
+        let Value::Object(object) = self.node_as_zval(node.clone(), IterType::None, None) else {
+            unreachable!("node_as_zval() makes an object");
+        };
+        (node, object)
     }
 
     /// `php_sxe_move_forward_iterator()`.
     fn move_forward(&self) {
-        let pos = self.iter().as_ref().map(|(i, _)| *i);
-        let data = match pos {
-            Some(i) => self.fetch(i + 1),
-            None => None,
-        };
+        let current = self.iter().take().map(|(node, _)| node);
+        let data = current
+            .and_then(|node| self.fetch(next_sibling(&node)))
+            .map(|node| self.iter_data(node));
         *self.iter() = data;
     }
 
     /// `php_sxe_count_elements_helper()`.
     fn count_children(&self) -> i64 {
-        self.element
-            .children
-            .iter()
-            .filter(|n| matches!(n, XmlNode::Element(_)))
-            .count() as i64
+        let mut count = 0;
+        let mut node = self.reset_no_clear();
+        while let Some(current) = node {
+            count += 1;
+            node = self.fetch(next_sibling(&current));
+        }
+        count
     }
 
-    /// `sxe_object_cast_ex(IS_STRING)` for an element node.
+    /// The contents `sxe_object_cast_ex()` converts: the text of the first node (`NULL`, converted
+    /// like an empty string, when there is none).
     fn contents(&self) -> String {
-        list_text(&self.element.children)
+        self.first_node()
+            .map(|node| self.doc.node_text(&node))
+            .unwrap_or_default()
     }
 
-    /// `sxe_prop_is_empty()` for an element node.
+    /// The attributes `sxe_get_prop_hash()` and `sxe_prop_is_empty()` look at: those of the first
+    /// node for `SXE_ITER_ELEMENT`, of the node otherwise, only the named one of a named attribute
+    /// list.
+    fn listed_attributes(&self) -> Vec<(String, String)> {
+        let node = if self.iter_type == IterType::Element {
+            self.first_node()
+        } else {
+            Some(self.node.clone())
+        };
+        let Some(NodeId::Element(path)) = node else {
+            return Vec::new();
+        };
+        let test = self.iter_type == IterType::AttrList && self.iter_name.is_some();
+        self.doc
+            .element_at(&path)
+            .attributes
+            .iter()
+            .filter(|(name, _)| !test || self.iter_name.as_ref() == Some(name))
+            .cloned()
+            .collect()
+    }
+
+    /// The first child the loops of `sxe_get_prop_hash()` and `sxe_prop_is_empty()` look at, and
+    /// whether they walk with the iterator (`use_iter`); `extra_next` adds the `!node->next` test of
+    /// `sxe_get_prop_hash()`.
+    fn child_walk(&self, path: &[usize], extra_next: bool) -> (Option<(Vec<usize>, usize)>, bool) {
+        let element = self.doc.element_at(path);
+        if self.iter_type == IterType::Child {
+            // the loop starts at the first child element itself
+            let (index, parent) = path.split_last().expect("a child element has a parent");
+            return (Some((parent.to_vec(), *index)), false);
+        }
+        let plain = self.iter_type == IterType::None
+            || element.children.is_empty()
+            || (extra_next && !self.doc.has_next_sibling(path))
+            || element.children.len() > 1
+            || first_child_has_children(element)
+            || self.doc.parent_has_one_child(path);
+        if plain {
+            let start = (!element.children.is_empty()).then(|| (path.to_vec(), 0));
+            (start, false)
+        } else {
+            let start = self.reset_no_clear().map(|node| match node {
+                NodeId::Element(p) => {
+                    let (last, parent) = p.split_last().expect("an iterated element has a parent");
+                    (parent.to_vec(), *last)
+                }
+                NodeId::Attribute(..) => unreachable!("only attribute lists iterate attributes"),
+            });
+            (start, true)
+        }
+    }
+
+    /// The next position of the loops of `sxe_get_prop_hash()` and `sxe_prop_is_empty()`.
+    fn walk_next(
+        &self,
+        parent: Vec<usize>,
+        index: usize,
+        use_iter: bool,
+    ) -> Option<(Vec<usize>, usize)> {
+        if use_iter {
+            let mut path = parent.clone();
+            path.push(index);
+            match self.fetch(next_sibling(&NodeId::Element(path))) {
+                Some(NodeId::Element(p)) => {
+                    let (last, parent) = p.split_last().expect("an iterated element has a parent");
+                    Some((parent.to_vec(), *last))
+                }
+                _ => None,
+            }
+        } else if index + 1 < self.doc.element_at(&parent).children.len() {
+            Some((parent, index + 1))
+        } else {
+            None
+        }
+    }
+
+    /// Port of `sxe_prop_is_empty()`.
     fn prop_is_empty(&self) -> bool {
-        if !self.element.attributes.is_empty() {
+        if !self.listed_attributes().is_empty() {
             return false;
         }
-        let children = &self.element.children;
-        for n in children {
-            let has_children = matches!(n, XmlNode::Element(e) if !e.children.is_empty());
-            if has_children || children.len() > 1 {
-                if let XmlNode::Text(_) = n {
-                    continue;
+        let node = self.first_node();
+        let Some(node) = node.filter(|_| self.iter_type != IterType::AttrList) else {
+            return true;
+        };
+        let path = match node {
+            NodeId::Attribute(..) => return false,
+            NodeId::Element(path) => path,
+        };
+        let (mut at, use_iter) = self.child_walk(&path, false);
+        while let Some((parent, index)) = at {
+            let siblings = &self.doc.element_at(&parent).children;
+            let child = &siblings[index];
+            let has_children = matches!(child, XmlNode::Element(e) if !e.children.is_empty());
+            let skip_text = has_children || index > 0 || index + 1 < siblings.len();
+            match child {
+                XmlNode::Text(_) if skip_text => {}
+                XmlNode::Text(t) => {
+                    if !t.is_empty() {
+                        return false;
+                    }
                 }
-            } else if let XmlNode::Text(t) = n {
-                if !t.is_empty() {
-                    return false;
-                }
-                continue;
+                XmlNode::Element(_) => return false,
             }
-            return false;
+            at = self.walk_next(parent, index, use_iter);
         }
         true
     }
 
-    /// `sxe_get_prop_hash()` for an element node.
-    fn prop_hash(&self) -> Array {
+    /// Port of `sxe_get_prop_hash()` (`is_debug` for `__debugInfo()`).
+    fn prop_hash(&self, is_debug: bool) -> Array {
         let mut rv = Array::new();
-        if !self.element.attributes.is_empty() {
-            let mut attrs = Array::new();
-            for (k, v) in &self.element.attributes {
-                attrs.insert(k.as_str(), Value::from(v.as_str()));
+        if is_debug || self.iter_type != IterType::Child {
+            let attributes = self.listed_attributes();
+            if !attributes.is_empty() {
+                let mut zattr = Array::new();
+                for (name, value) in attributes {
+                    zattr.insert(name.as_str(), Value::from(value));
+                }
+                properties_add(&mut rv, "@attributes", Value::Array(zattr));
             }
-            properties_add(&mut rv, "@attributes", Value::Array(attrs));
         }
-        let children = &self.element.children;
-        for n in children {
-            let has_children = matches!(n, XmlNode::Element(e) if !e.children.is_empty());
-            let blank = matches!(n, XmlNode::Text(t) if is_blank_text(t));
-            if has_children || children.len() > 1 || blank {
-                if let XmlNode::Text(_) = n {
-                    continue;
-                }
-            } else if let XmlNode::Text(t) = n {
-                if !t.is_empty() {
-                    let _ = rv.push(Value::from(t.as_str()));
-                }
-                continue;
+        let node = self.first_node();
+        let Some(node) = node.filter(|_| self.iter_type != IterType::AttrList) else {
+            return rv;
+        };
+        let path = match node {
+            NodeId::Attribute(..) => {
+                let _ = rv.push(Value::from(self.doc.node_text(&node)));
+                return rv;
             }
-            if let XmlNode::Element(e) = n {
-                // get_base_node_value()
-                let value = match e.children.first() {
-                    Some(XmlNode::Text(t)) if !is_blank_text(t) => {
-                        Value::from(list_text(&e.children))
+            NodeId::Element(path) => path,
+        };
+        let (mut at, use_iter) = self.child_walk(&path, true);
+        while let Some((parent, index)) = at {
+            let siblings = &self.doc.element_at(&parent).children;
+            let child = &siblings[index];
+            let has_children = matches!(child, XmlNode::Element(e) if !e.children.is_empty());
+            let blank = matches!(child, XmlNode::Text(t) if is_blank_text(t));
+            let skip_text = has_children || index > 0 || index + 1 < siblings.len() || blank;
+            match child {
+                XmlNode::Text(_) if skip_text => {}
+                XmlNode::Text(t) => {
+                    if !t.is_empty() {
+                        let _ = rv.push(Value::from(t.as_str()));
                     }
-                    _ => Value::Object(self.child_object(e)),
-                };
-                properties_add(&mut rv, &e.name, value);
+                }
+                XmlNode::Element(e) => {
+                    let mut child_path = parent.clone();
+                    child_path.push(index);
+                    let value = self.base_node_value(e, child_path);
+                    if use_iter {
+                        let _ = rv.push(value);
+                    } else {
+                        properties_add(&mut rv, &e.name, value);
+                    }
+                }
             }
+            at = self.walk_next(parent, index, use_iter);
         }
         rv
     }
 
-    fn prop_entries(&self) -> Vec<PropertyEntry> {
-        self.prop_hash()
+    /// Port of `get_base_node_value()`: the text of an element whose first child is text that is
+    /// not blank, an object for the element otherwise.
+    fn base_node_value(&self, element: &XmlElement, path: Vec<usize>) -> Value {
+        match element.children.first() {
+            Some(XmlNode::Text(t)) if !is_blank_text(t) => {
+                Value::from(list_text(&element.children))
+            }
+            _ => self.node_as_zval(NodeId::Element(path), IterType::None, None),
+        }
+    }
+
+    fn prop_entries(&self, is_debug: bool) -> Vec<PropertyEntry> {
+        self.prop_hash(is_debug)
             .into_iter()
             .map(|(key, value)| PropertyEntry {
                 key,
@@ -594,15 +908,302 @@ impl SimpleXmlElement {
             .collect()
     }
 
-    /// `asXML()`: the whole document for the root element, the element alone otherwise.
-    pub fn as_xml(&self) -> String {
-        if self.is_root {
-            self.doc.dump()
-        } else {
-            let mut out = String::new();
-            dump_element(&self.element, &mut out);
-            out
+    /// The member of `sxe_prop_dim_read()` / `sxe_prop_dim_exists()`: an int offset, else a name
+    /// (`zval_try_get_string_func()` of anything that is not a string).
+    fn member(offset: &Value, diag: &mut dyn Diagnostics) -> PhpResult<Member> {
+        Ok(match offset {
+            Value::Int(i) => Member::Long(*i),
+            Value::String(s) => Member::Name(s.to_string_lossy().into_owned()),
+            other => Member::Name(
+                convert::to_string(other, diag)?
+                    .to_string_lossy()
+                    .into_owned(),
+            ),
+        })
+    }
+
+    /// The attributes `sxe_prop_dim_read()` and `sxe_prop_dim_exists()` walk (`attr`, then
+    /// `attr->next`): from the first node of an attribute list, the attributes of the first node
+    /// otherwise; none for `SXE_ITER_CHILD` (`attr` stays `NULL`). With `test`, only those named
+    /// `iter.name` count.
+    fn dim_attributes(&self, node: Option<&NodeId>) -> (Vec<(usize, String, String)>, bool) {
+        let all = |path: &[usize], from: usize| -> Vec<(usize, String, String)> {
+            self.doc.element_at(path).attributes[from..]
+                .iter()
+                .enumerate()
+                .map(|(i, (n, v))| (from + i, n.clone(), v.clone()))
+                .collect()
+        };
+        match (self.iter_type, node) {
+            (IterType::AttrList, Some(NodeId::Attribute(element, index))) => {
+                (all(element, *index), self.iter_name.is_some())
+            }
+            (IterType::AttrList | IterType::Child, _) => (Vec::new(), false),
+            (_, Some(NodeId::Element(path))) => (all(path, 0), false),
+            (_, _) => (Vec::new(), false),
         }
+    }
+
+    /// Port of `sxe_prop_dim_read()` (reads only: `BP_VAR_R` and `BP_VAR_IS`; no namespaces).
+    fn prop_dim_read(
+        &self,
+        offset: &Value,
+        mut access: Access,
+        mode: FetchMode,
+        diag: &mut dyn Diagnostics,
+    ) -> PhpResult<Value> {
+        let member = SimpleXmlElement::member(offset, diag)?;
+        if matches!(member, Member::Long(_)) && self.iter_type != IterType::AttrList {
+            access = Access::Elements;
+        }
+        let node = match self.iter_type {
+            IterType::AttrList => {
+                access = Access::Attributes;
+                self.first_node()
+            }
+            IterType::Child => Some(self.node.clone()),
+            _ => self.first_node(),
+        };
+        let (attributes, test) = self.dim_attributes(node.as_ref());
+        let Some(node) = node else {
+            return Ok(Value::Null);
+        };
+        let named = |name: &str| !test || self.iter_name.as_deref() == Some(name);
+        match access {
+            Access::Attributes => {
+                let owner = match &node {
+                    NodeId::Attribute(element, _) | NodeId::Element(element) => element.clone(),
+                };
+                let found = match &member {
+                    // a long offset of an attribute list: the n-th listed attribute
+                    Member::Long(n) => attributes
+                        .iter()
+                        .filter(|(_, name, _)| named(name))
+                        .nth(usize::try_from(*n).unwrap_or(usize::MAX))
+                        .map(|(i, _, _)| *i),
+                    Member::Name(wanted) => attributes
+                        .iter()
+                        .find(|(_, name, _)| named(name) && name == wanted)
+                        .map(|(i, _, _)| *i),
+                };
+                Ok(match found {
+                    Some(index) => {
+                        self.node_as_zval(NodeId::Attribute(owner, index), IterType::None, None)
+                    }
+                    None => Value::Null,
+                })
+            }
+            Access::Elements => match member {
+                Member::Long(n) => {
+                    let start = if self.iter_type == IterType::Child {
+                        self.first_node()
+                    } else {
+                        Some(node)
+                    };
+                    let found = match self.iter_type {
+                        IterType::None => start.filter(|_| n == 0),
+                        _ => start.and_then(|start| self.element_by_offset(n, start)),
+                    };
+                    Ok(match found {
+                        Some(node) => self.node_as_zval(node, IterType::None, None),
+                        None => Value::Null,
+                    })
+                }
+                Member::Name(name) => {
+                    // in BP_VAR_IS mode only return a proper node if it actually exists
+                    if mode == FetchMode::Isset && self.find_element_by_name(&node, &name).is_none()
+                    {
+                        return Ok(Value::Null);
+                    }
+                    Ok(self.node_as_zval(node, IterType::Element, Some(&name)))
+                }
+            },
+        }
+    }
+
+    /// Port of `sxe_get_element_by_offset()` from `node` on (`SXE_ITER_NONE` is handled by the
+    /// callers): the element at `offset` among the nodes the object stands for, counting from
+    /// `node` and walking its next siblings.
+    fn element_by_offset(&self, offset: i64, node: NodeId) -> Option<NodeId> {
+        let NodeId::Element(path) = node else {
+            return None;
+        };
+        let (last, parent) = path.split_last()?;
+        let mut count = 0;
+        for (i, child) in self
+            .doc
+            .element_at(parent)
+            .children
+            .iter()
+            .enumerate()
+            .skip(*last)
+        {
+            let XmlNode::Element(e) = child else {
+                continue;
+            };
+            let counted = match self.iter_type {
+                IterType::Child => true,
+                IterType::Element => self.iter_name.as_deref() == Some(e.name.as_str()),
+                _ => false,
+            };
+            if counted {
+                if count == offset {
+                    let mut found = parent.to_vec();
+                    found.push(i);
+                    return Some(NodeId::Element(found));
+                }
+                count += 1;
+            }
+        }
+        None
+    }
+
+    /// Port of `sxe_find_element_by_name()` over the children of `node`.
+    fn find_element_by_name(&self, node: &NodeId, name: &str) -> Option<NodeId> {
+        let NodeId::Element(path) = node else {
+            return None;
+        };
+        self.doc
+            .element_at(path)
+            .children
+            .iter()
+            .position(|child| matches!(child, XmlNode::Element(e) if e.name == name))
+            .map(|i| {
+                let mut found = path.clone();
+                found.push(i);
+                NodeId::Element(found)
+            })
+    }
+
+    /// Port of `sxe_prop_dim_exists()` (`check_empty`: 0 for `isset`, 1 for `empty`, 2 for
+    /// `property_exists()`).
+    fn prop_dim_exists(
+        &self,
+        offset: &Value,
+        check_empty: u8,
+        mut access: Access,
+        diag: &mut dyn Diagnostics,
+    ) -> PhpResult<bool> {
+        let member = SimpleXmlElement::member(offset, diag)?;
+        let mut node = Some(self.node.clone());
+        if matches!(member, Member::Long(_)) && self.iter_type != IterType::AttrList {
+            access = Access::Elements;
+            if self.iter_type == IterType::Child {
+                node = self.first_node();
+            }
+        }
+        match self.iter_type {
+            IterType::AttrList => {
+                access = Access::Attributes;
+                node = self.first_node();
+            }
+            IterType::Child => {}
+            _ => node = self.first_node(),
+        }
+        let (attributes, test) = self.dim_attributes(node.as_ref());
+        let Some(node) = node else {
+            return Ok(false);
+        };
+        let named = |name: &str| !test || self.iter_name.as_deref() == Some(name);
+        // empty(): an attribute or element without content, or with the content "0"
+        let empty_text = |text: &str| text.is_empty() || text == "0";
+        match access {
+            Access::Attributes => {
+                let found = match &member {
+                    Member::Long(n) => attributes
+                        .iter()
+                        .filter(|(_, name, _)| named(name))
+                        .nth(usize::try_from(*n).unwrap_or(usize::MAX)),
+                    Member::Name(wanted) => attributes
+                        .iter()
+                        .find(|(_, name, _)| named(name) && name == wanted),
+                };
+                Ok(match found {
+                    None => false,
+                    Some((_, _, value)) => !(check_empty == 1 && empty_text(value)),
+                })
+            }
+            Access::Elements => {
+                let found = match member {
+                    Member::Long(n) => {
+                        let start = if self.iter_type == IterType::Child {
+                            self.first_node()
+                        } else {
+                            Some(node)
+                        };
+                        match self.iter_type {
+                            IterType::None => start.filter(|_| n == 0),
+                            _ => start.and_then(|start| self.element_by_offset(n, start)),
+                        }
+                    }
+                    Member::Name(name) => self.find_element_by_name(&node, &name),
+                };
+                let Some(found) = found else {
+                    return Ok(false);
+                };
+                if check_empty == 1 {
+                    let empty = match &found {
+                        NodeId::Element(path) => {
+                            match self.doc.element_at(path).children.as_slice() {
+                                [] => true,
+                                [XmlNode::Text(t)] => empty_text(t),
+                                _ => false,
+                            }
+                        }
+                        // `node->children` of an attribute is its text
+                        NodeId::Attribute(..) => empty_text(&self.doc.node_text(&found)),
+                    };
+                    return Ok(!empty);
+                }
+                Ok(true)
+            }
+        }
+    }
+
+    /// `asXML()`: the whole document for the root element, the first node alone otherwise (an
+    /// attribute as ` name="value"`); `None` (PHP's `false`) without a first node.
+    pub fn as_xml(&self) -> Option<String> {
+        let node = self.first_node()?;
+        Some(match &node {
+            NodeId::Element(path) if path.is_empty() => self.doc.dump(),
+            NodeId::Element(path) => {
+                let mut out = String::new();
+                dump_element(self.doc.element_at(path), &mut out);
+                out
+            }
+            NodeId::Attribute(element, index) => {
+                let (name, value) = &self.doc.element_at(element).attributes[*index];
+                format!(" {name}=\"{value}\"")
+            }
+        })
+    }
+
+    /// `children()` and `attributes()`: `?string $namespaceOrPrefix = null, bool $isPrefix = false`.
+    fn namespace_args(
+        &self,
+        method: &str,
+        args: &CallArgs,
+        diag: &mut dyn Diagnostics,
+    ) -> PhpResult<()> {
+        let function = format!("SimpleXMLElement::{method}");
+        let values = args.bind(
+            &function,
+            &[
+                Param::optional("namespaceOrPrefix", Value::Null),
+                Param::optional("isPrefix", false),
+            ],
+            FunctionKind::Internal,
+        )?;
+        let prefix = param::parse_str_or_null(
+            &values[0],
+            &Arg::new(&function, 1, "namespaceOrPrefix").declared("?string"),
+            diag,
+        )?;
+        param::parse_bool(&values[1], &Arg::new(&function, 2, "isPrefix"), diag)?;
+        if prefix.is_some_and(|p| !p.is_empty()) {
+            return Err(self.unsupported("namespace filtering"));
+        }
+        Ok(())
     }
 
     fn unsupported(&self, what: &str) -> PhpError {
@@ -610,6 +1211,21 @@ impl SimpleXmlElement {
             "SimpleXMLElement {what} is not supported by twig-test-support"
         ))
     }
+}
+
+/// The member of a property or dimension access.
+enum Member {
+    Long(i64),
+    Name(String),
+}
+
+/// `sxe_access_mode`.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Access {
+    /// `SXE_ACCESS_ELEMENTS` (properties).
+    Elements,
+    /// `SXE_ACCESS_ATTRIBS` (dimensions).
+    Attributes,
 }
 
 /// `sxe_properties_add()`: a repeated name becomes a list.
@@ -635,8 +1251,13 @@ fn simple_xml_element_params(method: &str) -> Option<Vec<Param>> {
     Some(match method {
         // asXML(?string $filename = null), saveXML(?string $filename = null)
         "asxml" | "savexml" => vec![Param::optional("filename", Value::Null)],
+        // children(?string $namespaceOrPrefix = null, bool $isPrefix = false), attributes(...)
+        "children" | "attributes" => vec![
+            Param::optional("namespaceOrPrefix", Value::Null),
+            Param::optional("isPrefix", false),
+        ],
         "count" | "rewind" | "valid" | "current" | "key" | "next" | "getname" | "__tostring"
-        | "__debuginfo" => Vec::new(),
+        | "__debuginfo" | "haschildren" | "getchildren" => Vec::new(),
         _ => return None,
     })
 }
@@ -659,7 +1280,7 @@ impl Object for SimpleXmlElement {
         _this: &ObjectRef,
         method: &str,
         args: CallArgs,
-        _diag: &mut dyn Diagnostics,
+        diag: &mut dyn Diagnostics,
     ) -> PhpResult<Value> {
         let none = |m: &str| {
             args.bind(
@@ -688,27 +1309,76 @@ impl Object for SimpleXmlElement {
             "key" => {
                 none("key")?;
                 let iter = self.iter();
-                let (_, o) = iter.as_ref().ok_or_else(not_initialized)?;
-                let name = o
-                    .downcast_ref::<SimpleXmlElement>()
-                    .map(|c| c.element.name.clone())
-                    .unwrap_or_default();
-                Ok(Value::from(name))
+                let (node, _) = iter.as_ref().ok_or_else(not_initialized)?;
+                Ok(Value::from(self.doc.node_name(node)))
             }
             "next" => {
                 none("next")?;
                 self.move_forward();
                 Ok(Value::Null)
             }
-            "getname" => none("getName").map(|_| Value::from(self.element.name.as_str())),
+            // hasChildren(): whether the current element has element children
+            "haschildren" => {
+                none("hasChildren")?;
+                if self.iter_type == IterType::AttrList {
+                    return Ok(Value::Bool(false));
+                }
+                Ok(Value::Bool(match self.iter().as_ref() {
+                    Some((NodeId::Element(path), _)) => self
+                        .doc
+                        .element_at(path)
+                        .children
+                        .iter()
+                        .any(|child| matches!(child, XmlNode::Element(_))),
+                    _ => false,
+                }))
+            }
+            "getchildren" => {
+                none("getChildren")?;
+                if self.iter_type == IterType::AttrList {
+                    return Ok(Value::Null);
+                }
+                Ok(self
+                    .iter()
+                    .as_ref()
+                    .map_or(Value::Null, |(_, o)| Value::Object(o.clone())))
+            }
+            "getname" => none("getName").map(|_| {
+                Value::from(
+                    self.first_node()
+                        .map(|node| self.doc.node_name(&node).to_owned())
+                        .unwrap_or_default(),
+                )
+            }),
             "__tostring" => none("__toString").map(|_| Value::from(self.contents())),
             "asxml" | "savexml" => {
                 if !args.is_empty() {
                     return Err(self.unsupported("asXML() with a file name"));
                 }
-                Ok(Value::from(self.as_xml()))
+                Ok(self.as_xml().map_or(Value::Bool(false), Value::from))
             }
-            "__debuginfo" => none("__debugInfo").map(|_| Value::Array(self.prop_hash())),
+            "children" => {
+                self.namespace_args("children", &args, diag)?;
+                if self.iter_type == IterType::AttrList {
+                    // attributes don't have attributes
+                    return Ok(Value::Null);
+                }
+                Ok(match self.first_node() {
+                    Some(node) => self.node_as_zval(node, IterType::Child, None),
+                    None => Value::Null,
+                })
+            }
+            "attributes" => {
+                self.namespace_args("attributes", &args, diag)?;
+                let Some(node) = self.first_node() else {
+                    return Ok(Value::Null);
+                };
+                if self.iter_type == IterType::AttrList {
+                    return Ok(Value::Null);
+                }
+                Ok(self.node_as_zval(node, IterType::AttrList, None))
+            }
+            "__debuginfo" => none("__debugInfo").map(|_| Value::Array(self.prop_hash(true))),
             m if self.class.method(m).is_some() => {
                 let name = self
                     .class
@@ -721,54 +1391,74 @@ impl Object for SimpleXmlElement {
         }
     }
 
+    /// `sxe_property_read()`: `sxe_prop_dim_read()` of the elements.
     fn read_property(
         &self,
         _this: &ObjectRef,
-        _name: &[u8],
-        _mode: FetchMode,
-        _diag: &mut dyn Diagnostics,
+        name: &[u8],
+        mode: FetchMode,
+        diag: &mut dyn Diagnostics,
     ) -> PhpResult<Value> {
-        Err(self.unsupported("property access"))
+        self.prop_dim_read(
+            &Value::String(PhpString::from(name)),
+            Access::Elements,
+            mode,
+            diag,
+        )
     }
 
+    /// `sxe_property_exists()`: `sxe_prop_dim_exists()` of the elements.
     fn has_property(
         &self,
         _this: &ObjectRef,
-        _name: &[u8],
-        _check: PropertyCheck,
-        _diag: &mut dyn Diagnostics,
+        name: &[u8],
+        check: PropertyCheck,
+        diag: &mut dyn Diagnostics,
     ) -> PhpResult<bool> {
-        Err(self.unsupported("property access"))
+        let check_empty = match check {
+            PropertyCheck::Isset => 0,
+            PropertyCheck::NotEmpty => 1,
+            PropertyCheck::Exists => 2,
+        };
+        self.prop_dim_exists(
+            &Value::String(PhpString::from(name)),
+            check_empty,
+            Access::Elements,
+            diag,
+        )
     }
 
+    /// `sxe_dimension_read()`: `sxe_prop_dim_read()` of the attributes.
     fn read_dimension(
         &self,
         _this: &ObjectRef,
-        _offset: &Value,
-        _mode: FetchMode,
-        _diag: &mut dyn Diagnostics,
+        offset: &Value,
+        mode: FetchMode,
+        diag: &mut dyn Diagnostics,
     ) -> PhpResult<Value> {
-        Err(self.unsupported("array access"))
+        self.prop_dim_read(offset, Access::Attributes, mode, diag)
     }
 
+    /// `sxe_dimension_exists()`: `sxe_prop_dim_exists()` of the attributes.
     fn has_dimension(
         &self,
         _this: &ObjectRef,
-        _offset: &Value,
-        _check_empty: bool,
-        _diag: &mut dyn Diagnostics,
+        offset: &Value,
+        check_empty: bool,
+        diag: &mut dyn Diagnostics,
     ) -> PhpResult<bool> {
-        Err(self.unsupported("array access"))
+        self.prop_dim_exists(offset, u8::from(check_empty), Access::Attributes, diag)
     }
 
-    /// `sxe_get_prop_hash()` for every purpose (`get_properties` and `__debugInfo`).
+    /// `sxe_get_prop_hash()`: `__debugInfo()` for `var_dump()` (`is_debug`), `get_properties`
+    /// otherwise.
     fn properties_for(
         &self,
         _this: &ObjectRef,
-        _purpose: PropertyPurpose,
+        purpose: PropertyPurpose,
         _diag: &mut dyn Diagnostics,
     ) -> PhpResult<Vec<PropertyEntry>> {
-        Ok(self.prop_entries())
+        Ok(self.prop_entries(purpose == PropertyPurpose::Debug))
     }
 
     /// `sxe_count_elements()`.
@@ -791,19 +1481,45 @@ impl Object for SimpleXmlElement {
         })))
     }
 
-    /// `sxe_object_cast_ex()` + `cast_object()`: string contents, `!sxe_prop_is_empty()` for
-    /// bool, `convert_to_long()` / `convert_to_double()` / `convert_scalar_to_number()` of the
-    /// contents for numbers.
+    /// Port of `sxe_objects_compare()`: two objects over the same node are equal, any other pair
+    /// of `SimpleXMLElement`s is uncomparable; other operands compare as objects do
+    /// (`ZEND_COMPARE_OBJECTS_FALLBACK`).
+    fn compare(
+        &self,
+        _this: &ObjectRef,
+        other: &Value,
+        _this_is_left: bool,
+        _compare_values: &mut dyn FnMut(&Value, &Value) -> PhpResult<i32>,
+    ) -> Option<PhpResult<i32>> {
+        let Value::Object(other) = other else {
+            return None;
+        };
+        let other = other.downcast_ref::<SimpleXmlElement>()?;
+        let same = Arc::ptr_eq(&self.doc, &other.doc) && self.node == other.node;
+        Some(Ok(if same { 0 } else { UNCOMPARABLE }))
+    }
+
+    /// `sxe_object_cast_ex()` + `cast_object()`: bool is whether there is a first node to iterate
+    /// (never for `SXE_ITER_NONE`, which passes no node) or `!sxe_prop_is_empty()`; the string
+    /// contents for the other types, `convert_to_long()` / `convert_to_double()` /
+    /// `convert_scalar_to_number()` of them for numbers.
     fn cast(
         &self,
         _this: &ObjectRef,
         target: CastTarget,
         diag: &mut dyn Diagnostics,
     ) -> PhpResult<Option<Value>> {
+        if target == CastTarget::Bool {
+            let node = if self.iter_type == IterType::None {
+                None
+            } else {
+                self.reset_no_clear()
+            };
+            return Ok(Some(Value::Bool(node.is_some() || !self.prop_is_empty())));
+        }
         let contents = Value::from(self.contents());
         Ok(Some(match target {
-            CastTarget::Bool => Value::Bool(!self.prop_is_empty()),
-            CastTarget::String => contents,
+            CastTarget::Bool | CastTarget::String => contents,
             CastTarget::Long => Value::Int(convert::to_long(&contents, diag)?),
             CastTarget::Double => Value::Float(convert::to_double(&contents, diag)?),
             // convert_scalar_to_number(): numeric strings (trailing data allowed), else 0.
@@ -847,14 +1563,12 @@ impl ObjectIterator for SxeIterator {
             .unwrap_or(Value::Null))
     }
 
+    /// `php_sxe_iterator_current_key()`: the name of the current node.
     fn key(&mut self, _diag: &mut dyn Diagnostics) -> PhpResult<Value> {
         let sxe = self.sxe()?;
         let iter = sxe.iter();
         Ok(match iter.as_ref() {
-            Some((_, o)) => o
-                .downcast_ref::<SimpleXmlElement>()
-                .map(|c| Value::from(c.element.name.as_str()))
-                .unwrap_or(Value::Null),
+            Some((node, _)) => Value::from(sxe.doc.node_name(node)),
             None => Value::Null,
         })
     }

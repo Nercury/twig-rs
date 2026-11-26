@@ -140,7 +140,7 @@ impl<'h> Encoder<'h> {
         } else if let Some(ai) = o.downcast_ref::<ArrayIterator>() {
             n.entries = Some(TypedNode::Array(self.items(&ai.array(), depth + 1)));
         } else if let Some(sxe) = o.downcast_ref::<SimpleXmlElement>() {
-            n.xml = Some(Some(sxe.as_xml()));
+            n.xml = Some(sxe.as_xml());
         } else if known_class {
             let mut ifaces: Vec<String> = o
                 .class()
