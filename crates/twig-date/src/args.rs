@@ -22,17 +22,17 @@ pub(crate) fn method_params(table: ParamTable, method: &str) -> Option<MethodPar
 pub(crate) struct Bound<'a> {
     /// `Class::method` (the declaring class, as `get_active_function_or_method_name()` prints it).
     pub func: &'a str,
-    names: Vec<&'static str>,
+    params: Vec<Param>,
     pub values: Vec<Value>,
 }
 
 impl<'a> Bound<'a> {
     /// Binds `args` to `params` with the arity and named-argument errors of an internal function.
-    pub fn new(func: &'a str, args: &CallArgs, params: &[Param]) -> PhpResult<Bound<'a>> {
-        let values = args.bind(func, params, FunctionKind::Internal)?;
+    pub fn new(func: &'a str, args: &CallArgs, params: Vec<Param>) -> PhpResult<Bound<'a>> {
+        let values = args.bind(func, &params, FunctionKind::Internal)?;
         Ok(Bound {
             func,
-            names: params.iter().map(|p| p.name).collect(),
+            params,
             values,
         })
     }
@@ -47,11 +47,11 @@ impl<'a> Bound<'a> {
     ) -> PhpResult<Bound<'a>> {
         let params = table(method);
         debug_assert!(params.is_some(), "no parameters declared for {func}");
-        Bound::new(func, args, &params.unwrap_or_default())
+        Bound::new(func, args, params.unwrap_or_default())
     }
 
     fn arg(&self, i: usize) -> Arg<'_> {
-        Arg::new(self.func, i as u32 + 1, self.names[i])
+        Arg::new(self.func, i as u32 + 1, self.params[i].name)
     }
 
     /// `Z_PARAM_LONG`.
