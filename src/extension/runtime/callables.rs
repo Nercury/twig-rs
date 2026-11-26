@@ -73,6 +73,12 @@ pub(crate) fn invoke(
     callable: &Value,
     args: Vec<Value>,
 ) -> Result<Value, Exception> {
+    // a closure or invokable object resolves to itself, without the environment
+    if let Value::Object(object) = callable
+        && object.is_callable()
+    {
+        return Ok(call_callee(&Callee::Object(object.clone()), args, state)?);
+    }
     let env = state.env.clone();
     let callee = init_dynamic_call(&env, callable, state)?;
     Ok(call_callee(&callee, args, state)?)

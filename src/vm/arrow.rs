@@ -63,6 +63,14 @@ fn not_rendering() -> PhpError {
 /// `$context["name"] = $__name__` for each parameter.
 fn call_arrow(state: &mut VmState, data: &ArrowData, args: CallArgs) -> Result<Value, Exception> {
     let params = arrow_params(&data.program, data.unit);
+    if args.named.is_empty() && args.positional.len() >= params.len() {
+        // every parameter has its positional argument
+        let mut context = data.context.clone();
+        for (param, value) in params.iter().zip(args.positional) {
+            context.insert_sym(param, value);
+        }
+        return run_arrow(state, data, context);
+    }
     let mut values: Vec<Option<Value>> = vec![None; params.len()];
     for (i, value) in args.positional.into_iter().enumerate() {
         if let Some(slot) = values.get_mut(i) {
@@ -120,6 +128,11 @@ fn call_arrow(state: &mut VmState, data: &ArrowData, args: CallArgs) -> Result<V
             value.unwrap_or_default(),
         );
     }
+    run_arrow(state, data, context)
+}
+
+/// Runs the body of an arrow function on its context (the captured one with the parameters assigned).
+fn run_arrow(state: &mut VmState, data: &ArrowData, context: Array) -> Result<Value, Exception> {
     let mut frame = Frame::arrow(context, Arc::clone(&data.template), data.macros.clone());
     let mut out = Output::detached();
     run_unit(state, &mut out, &mut frame, &data.program, data.unit)
