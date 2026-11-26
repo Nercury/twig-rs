@@ -49,6 +49,10 @@ static CLASS: LazyLock<ClassRef> = LazyLock::new(|| {
         .build()
 });
 
+/// The default `$safeStrategies`, `['all']` (one array shared by every markup: arrays are values).
+static ALL_STRATEGIES: LazyLock<Array> =
+    LazyLock::new(|| [Value::from("all")].into_iter().collect::<Array>());
+
 /// `Twig\Markup` (TWIG/src/Markup.php): content that is safe for the listed escaping strategies (`['all']` by
 /// default). Captures (`{% set %}...{% endset %}`, `{% apply %}`), macros and `include()` produce markup; the escaper
 /// leaves markup that is safe for the active strategy alone, and the internal `true` test converts it to its string.
@@ -71,11 +75,11 @@ impl Markup {
         let markup = Markup {
             properties: PropertyStore::new(&CLASS),
         };
-        markup.init(
-            content,
-            charset,
-            safe_strategies.unwrap_or_else(|| vec![PhpString::from("all")]),
-        );
+        let safe = match safe_strategies {
+            Some(safe) => Value::Array(safe.into_iter().map(Value::String).collect::<Array>()),
+            None => Value::Array(ALL_STRATEGIES.clone()),
+        };
+        markup.init(content, charset, safe);
         ObjectRef::new(markup)
     }
 
@@ -84,14 +88,11 @@ impl Markup {
         Value::Object(Markup::create(content, Some(charset.into()), None))
     }
 
-    fn init(&self, content: PhpString, charset: Option<PhpString>, safe: Vec<PhpString>) {
+    fn init(&self, content: PhpString, charset: Option<PhpString>, safe: Value) {
         self.properties.set(b"content", Value::String(content));
         self.properties
             .set(b"charset", charset.map_or(Value::Null, Value::String));
-        self.properties.set(
-            b"safeStrategies",
-            Value::Array(safe.into_iter().map(Value::String).collect::<Array>()),
-        );
+        self.properties.set(b"safeStrategies", safe);
     }
 
     /// Whether the object is a `Twig\Markup` (`$x instanceof Markup`).

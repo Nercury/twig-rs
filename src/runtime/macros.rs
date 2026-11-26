@@ -26,6 +26,9 @@ static CLASS: LazyLock<ClassRef> = LazyLock::new(|| {
         .build()
 });
 
+/// The name of the variadic bucket of a macro without a declared one.
+static VARARGS: LazyLock<PhpString> = LazyLock::new(|| PhpString::from(VARARGS_NAME));
+
 /// `Twig\MacroNamespace`: the macros of a template, as `{% import %}`, `{% from %}` and `_self` bind them in
 /// `$macros`. A namespace refers to its template weakly (templates import each other and themselves; the
 /// environment keeps the templates alive), so `$this->macros` never forms a reference cycle.
@@ -590,7 +593,7 @@ fn invoke(
     }
     let bucket_name = match &def.variadic {
         Some(name) => PhpString::from(name.as_slice()),
-        None => PhpString::from(VARARGS_NAME),
+        None => PhpString::clone(&VARARGS),
     };
     context.insert(ArrayKey::from_string(bucket_name), Value::Array(bucket));
     let context = twig_value::ops::array_union(&context, &state.env.globals());

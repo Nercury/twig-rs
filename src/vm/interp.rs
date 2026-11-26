@@ -405,7 +405,7 @@ fn step_output(
                 frame.macros = macros;
             }
             if *markup && !captured.is_empty() {
-                frame.push(Markup::new_value(captured, state.env.charset()));
+                frame.push(Markup::new_value(captured, state.env.charset_value()));
             } else {
                 frame.push(Value::String(captured));
             }
@@ -471,7 +471,7 @@ fn step_context(
             let context = frame.context.clone();
             frame.push(Value::Array(context));
         }
-        Instr::LoadCharset => frame.push(Value::from(state.env.charset())),
+        Instr::LoadCharset => frame.push(Value::String(state.env.charset_value())),
         Instr::StoreName(name) => {
             let value = frame.pop();
             store_constant_key(&mut frame.context, program, *name, value);
@@ -984,7 +984,7 @@ fn step_markup(
         Instr::MakeMarkup => {
             let value = frame.pop();
             let content = convert::to_string(&value, state)?;
-            frame.push(Markup::new_value(content, state.env.charset()));
+            frame.push(Markup::new_value(content, state.env.charset_value()));
         }
         Instr::MarkupUnlessEmpty => {
             let value = frame.pop();
@@ -992,7 +992,7 @@ fn step_markup(
                 frame.push(Value::String(PhpString::empty()));
             } else {
                 let content = convert::to_string(&value, state)?;
-                frame.push(Markup::new_value(content, state.env.charset()));
+                frame.push(Markup::new_value(content, state.env.charset_value()));
             }
         }
 
