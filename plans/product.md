@@ -23,15 +23,23 @@ the README.
 The default build is permissively licensed. glibc's exact `iconv()` (code that follows glibc's LGPL sources) is the
 opt-in crate `twig-iconv` (LGPL-2.1-or-later), which twig's `glibc-iconv` feature makes the default iconv backend of
 environments (`EnvironmentOptions::iconv_backend` sets one explicitly). Without it, environments use twig-value's
-clean-room converter (`charset_basic`: the Unicode charsets, ASCII and ISO-8859-1; other charsets throw twig-rs's
-"not supported" error, a deviation of the default build). Done; open:
+clean-room converter (`charset_basic`: the Unicode charsets, ASCII, ISO-8859-1 and the codepages ISO-8859-2 to -16,
+CP1250 to CP1258, KOI8-R/-U/-RU, CP437, CP850, CP852, CP866 and MACINTOSH, all learned black-box from the oracle and
+compared with the Unicode Consortium's mapping files; other charsets throw twig-rs's "not supported" error, a
+deviation of the default build). Done; open:
 
 - a legal review of the combination inside `twig-iconv`: its port of PHP's ext/iconv layer is PHP-3.01 code in an
   LGPL crate, and the FSF regards the PHP License as incompatible with the GPL family;
 - whether `twig-iconv` is published: its vector tests compile twig-value's test support with `#[path]`, so they only
   run in the workspace;
-- the clean-room converter could grow (the ISO-8859 family and the Windows codepages are the likely next charsets),
-  shrinking the default build's deviation.
+- the clean-room converter could grow further, shrinking the default build's deviation: the other single-byte
+  charsets of glibc (the rest of the IBM, Mac and Windows codepages, ISO-8859-9E, TIS-620, KOI8-T) are the likely
+  next ones (`codepage.gen.php` measures any charset whose bytes below 0x80 are ASCII; the EBCDIC codepages would
+  need tables for the whole byte range); the multi-byte and stateful charsets (EUC-JP, Shift_JIS, GBK, BIG5,
+  ISO-2022-JP, ...) would need models of their own;
+- NOTICE (entry 12) names `translit_table.rs` as the Unicode-derived data of `charset_basic`; the codepage tables
+  (`codepage_table.rs`) are measured in the oracle and agree with the Unicode Consortium's mapping files, which
+  their generator fetches for the comparison: whether NOTICE should name them too.
 
 ## Release
 

@@ -111,15 +111,17 @@ in [`CHANGELOG.md`](CHANGELOG.md).
 
 Building needs Rust 1.88 or newer and a C compiler (PCRE2 is compiled from the sources PHP bundles).
 
-### Charsets other than Unicode, ASCII and ISO-8859-1: the `glibc-iconv` feature
+### Multi-byte and other charsets: the `glibc-iconv` feature
 
 Templates convert charsets with PHP's `iconv()`: the `convert_encoding` filter, escaping with a `charset` option other
 than UTF-8, and `reverse`, `shuffle` and `random` under such a charset. By default twig-rs converts UTF-8, UTF-16,
-UTF-32, UCS-2, UCS-4 (with their byte-order variants), ASCII and ISO-8859-1 exactly like PHP on glibc, and any other
-charset glibc knows fails with `iconv(): conversion of charset "X" is not supported by twig-rs`.
+UTF-32, UCS-2, UCS-4 (with their byte-order variants), ASCII, ISO-8859-1 and the common single-byte codepages
+(ISO-8859-2 to ISO-8859-16, Windows-1250 to Windows-1258, KOI8-R, KOI8-U, KOI8-RU, CP437, CP850, CP852, CP866 and
+MACINTOSH) exactly like PHP on glibc, under all of glibc's names for them, and any other charset glibc knows fails
+with `iconv(): conversion of charset "X" is not supported by twig-rs`.
 
-The `glibc-iconv` feature adds the other charsets (the ISO-8859 family, Windows and DOS codepages, KOI8, EUC-JP,
-Shift_JIS, ISO-2022-JP, GB2312, GBK, GB18030, BIG5, EUC-KR, ...) through the `twig-iconv` crate:
+The `glibc-iconv` feature adds the other charsets (EUC-JP, Shift_JIS, ISO-2022-JP, GB2312, GBK, GB18030, BIG5,
+EUC-KR, the remaining single-byte codepages, ...) through the `twig-iconv` crate:
 
 ```toml
 twig = { git = "https://github.com/Nercury/twig-rs", branch = "revive", features = ["glibc-iconv"] }
@@ -140,7 +142,7 @@ the program's own.
 | PCRE2 (`matches`) | 10.44, as bundled with PHP |
 | timelib, timezonedb (dates) | 2022.17, 2026.6 |
 | Unicode (mbstring case mapping) | 17.0 |
-| iconv (`convert_encoding`, escaping charsets) | glibc 2.41: the Unicode charsets, ASCII and ISO-8859-1 by default; with the `glibc-iconv` feature nearly every charset glibc converts |
+| iconv (`convert_encoding`, escaping charsets) | glibc 2.41: the Unicode charsets, ASCII, ISO-8859-1 and the common single-byte codepages by default; with the `glibc-iconv` feature nearly every charset glibc converts |
 
 "The same" covers output bytes, error classes and messages with template names and lines, PHP warnings and
 deprecations. What cannot or deliberately does not match (PHP-internal file names in messages, object handle numbers,
