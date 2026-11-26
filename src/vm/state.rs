@@ -7,6 +7,7 @@ use std::sync::Arc;
 use twig_value::{Diagnostic, Diagnostics, PhpError, ThrowableClass, Value};
 
 use super::exception::{Exception, Trace, TraceFrame};
+use super::frame::FrameVecs;
 use crate::extension::runtime::EscaperRuntime;
 use crate::lltl::{Program, UnitId};
 use crate::runtime::Environment;
@@ -29,6 +30,8 @@ pub(crate) struct VmState {
     max_depth: usize,
     /// Emptied argument vectors of finished calls, reused by the next calls.
     arg_pool: Vec<Vec<Value>>,
+    /// The emptied vectors of the frames of finished units, reused by the next units.
+    frame_pool: Vec<FrameVecs>,
     /// The environment's escaper runtime once a call needed it (`Environment::escaper_runtime()` never changes once
     /// created).
     escaper: Option<Arc<EscaperRuntime>>,
@@ -37,6 +40,9 @@ pub(crate) struct VmState {
 /// How many argument vectors a render keeps for reuse, and the largest capacity it keeps.
 const ARG_POOL_SIZE: usize = 16;
 const ARG_POOL_CAPACITY: usize = 16;
+/// How many sets of frame vectors a render keeps for reuse, and the largest operand stack it keeps.
+const FRAME_POOL_SIZE: usize = 16;
+const FRAME_POOL_CAPACITY: usize = 64;
 
 impl VmState {
     pub(crate) fn new(env: Environment) -> Self {
@@ -46,7 +52,30 @@ impl VmState {
             frames: Vec::new(),
             max_depth,
             arg_pool: Vec::new(),
+            frame_pool: Vec::new(),
             escaper: None,
+        }
+    }
+
+    /// Empty vectors for the frame of a unit.
+    pub(crate) fn frame_vecs(&mut self) -> FrameVecs {
+        self.frame_pool.pop().unwrap_or_else(|| FrameVecs {
+            stack: Vec::with_capacity(8),
+            ..FrameVecs::default()
+        })
+    }
+
+    /// Takes back the vectors of the frame of a finished unit (their values are dropped).
+    pub(crate) fn recycle_frame_vecs(&mut self, mut vecs: FrameVecs) {
+        if vecs.stack.capacity() <= FRAME_POOL_CAPACITY
+            && vecs.args.capacity() <= FRAME_POOL_CAPACITY
+            && vecs.saved_macros.capacity() <= FRAME_POOL_CAPACITY
+            && self.frame_pool.len() < FRAME_POOL_SIZE
+        {
+            vecs.stack.clear();
+            vecs.args.clear();
+            vecs.saved_macros.clear();
+            self.frame_pool.push(vecs);
         }
     }
 

@@ -28,6 +28,15 @@ pub(crate) struct Frame {
     pub(crate) handlers: Vec<Handler>,
 }
 
+/// The vectors of a frame that its unit fills while it runs: the operand stack, the argument lists and the saved
+/// `$macros` (a render keeps them for the next frames).
+#[derive(Default)]
+pub(crate) struct FrameVecs {
+    pub(crate) stack: Vec<Value>,
+    pub(crate) args: Vec<ArgList>,
+    pub(crate) saved_macros: Vec<Array>,
+}
+
 /// An open `try` region of a unit (innermost last).
 pub(crate) enum Handler {
     /// `try { ... } catch (LoaderError $e) { $v = null; }`: the frame's state when the region opened, and where to
@@ -57,7 +66,8 @@ impl Frame {
             macros,
             blocks: Some(blocks),
             template,
-            stack: Vec::with_capacity(8),
+            // given by `run_unit()` from the render's pool
+            stack: Vec::new(),
             locals: Vec::new(),
             iterators: Vec::new(),
             args: Vec::new(),

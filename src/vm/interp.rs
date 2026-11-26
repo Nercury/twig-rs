@@ -10,7 +10,7 @@ use twig_value::{
 };
 
 use super::exception::Exception;
-use super::frame::{ArgList, Frame, Handler, LoopIter, array_unpack};
+use super::frame::{ArgList, Frame, FrameVecs, Handler, LoopIter, array_unpack};
 use super::output::Output;
 use super::state::VmState;
 use crate::error::Error;
@@ -45,9 +45,26 @@ pub(crate) fn run_unit(
     if frame.locals.len() < locals {
         frame.locals.resize(locals, None);
     }
+    // a new frame takes its vectors from the render's pool while the unit runs
+    let pooled = frame.stack.capacity() == 0
+        && frame.args.capacity() == 0
+        && frame.saved_macros.capacity() == 0;
+    if pooled {
+        let vecs = state.frame_vecs();
+        frame.stack = vecs.stack;
+        frame.args = vecs.args;
+        frame.saved_macros = vecs.saved_macros;
+    }
     let result = execute(state, out, frame, program, unit);
     if result.is_err() {
         out.truncate_captures(depth);
+    }
+    if pooled {
+        state.recycle_frame_vecs(FrameVecs {
+            stack: std::mem::take(&mut frame.stack),
+            args: std::mem::take(&mut frame.args),
+            saved_macros: std::mem::take(&mut frame.saved_macros),
+        });
     }
     state.leave();
     result
