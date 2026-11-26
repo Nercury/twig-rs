@@ -101,7 +101,8 @@ Part 1: Third-party sources
     Licence K (MIT). Copyright 2001 Computing Research Labs, New Mexico State University.
     - twig-unicode (the case mapping and property lookups ported from php_unicode.c).
 
-12. Unicode Character Database 17.0 (https://www.unicode.org/ucd/)
+12. Unicode Character Database 17.0 (https://www.unicode.org/ucd/) and the Unicode Consortium's mapping files
+    (https://www.unicode.org/Public/MAPPINGS/)
     Licence L (Unicode License v3). Copyright (c) 1991-2025 Unicode, Inc.
     - twig-unicode (src/tables.rs, converted from php-src's ext/mbstring/unicode_data.h, which php-src generates
       from the UCD). The Unicode tables of PCRE2 (pcre2_ucd.c) are part of entry 15.
@@ -109,6 +110,9 @@ Part 1: Third-party sources
       UCD (translit_combining, see entry 18).
     - twig-value (src/builtins/string/charset_basic/translit_table.rs): the //TRANSLIT replacements of the
       clean-room iconv, measured black-box in the oracle; most of them are UCD decompositions.
+    - twig-value (src/builtins/string/charset_basic/codepage_table.rs): the codepage mappings of the clean-room
+      iconv, measured black-box in the oracle; they agree with the mapping files except where the table's
+      documentation records glibc's difference.
 
 13. timelib 2022.17 (https://github.com/derickr/timelib, as bundled in php-src ext/date/lib)
     Licence M (MIT). Copyright (c) 2015-2021 Derick Rethans; Copyright (c) 2017-2019,2021 MongoDB, Inc.

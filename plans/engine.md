@@ -236,7 +236,7 @@ Environment::load(name)
 1. Non-UTF-8 charsets beyond the single-byte ones in the mbstring functions (`upper`, `length`, `slice`, ...: tables
    for multi-byte and table-based encodings). iconv covers every charset only with the `glibc-iconv` feature.
 2. Compiled-template caching across processes (optional, roadmap phase 6).
-3. Public API review, `NOTICE` file and publishing (roadmap phase 6).
+3. Public API review and publishing (roadmap phase 6).
 
 ## Tests
 

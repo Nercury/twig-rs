@@ -36,10 +36,7 @@ deviation of the default build). Done; open:
   charsets of glibc (the rest of the IBM, Mac and Windows codepages, ISO-8859-9E, TIS-620, KOI8-T) are the likely
   next ones (`codepage.gen.php` measures any charset whose bytes below 0x80 are ASCII; the EBCDIC codepages would
   need tables for the whole byte range); the multi-byte and stateful charsets (EUC-JP, Shift_JIS, GBK, BIG5,
-  ISO-2022-JP, ...) would need models of their own;
-- NOTICE (entry 12) names `translit_table.rs` as the Unicode-derived data of `charset_basic`; the codepage tables
-  (`codepage_table.rs`) are measured in the oracle and agree with the Unicode Consortium's mapping files, which
-  their generator fetches for the comparison: whether NOTICE should name them too.
+  ISO-2022-JP, ...) would need models of their own.
 
 ## Release
 

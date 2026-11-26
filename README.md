@@ -77,8 +77,9 @@ fn main() {
 ```
 
 The crate documentation (`cargo doc --open`) is the guide: data and the `context!` macro, serde, Rust types as PHP
-objects (`Object`, `ObjectBuilder`), autoescaping, filters, functions, tests, extensions and tags, loaders, the
-sandbox, errors and PHP diagnostics, threads.
+objects (`Object`, `ObjectBuilder`), autoescaping, filters, functions, tests, extensions, tags and node classes,
+loaders, the sandbox, templates from Rust (wrappers, blocks, macro namespaces, `BlockChain`), errors and PHP
+diagnostics, threads.
 
 ## Status
 

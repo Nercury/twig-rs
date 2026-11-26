@@ -1,8 +1,9 @@
-//! Parity fixes of the callables group (`plans/parity-fixes.md`, G3) against Twig 3.31.1 on PHP 8.5.13: oracle cases
-//! with the result the oracle recorded, in the vector format of the fuzz regressions (`tests/vectors/fuzz/README.md`),
-//! replayed through the twig-fuzz runner and compared field by field (output bytes, error class, message, template
-//! name and line, previous errors, deprecations, diagnostics), allowing only the deviations twig-fuzz knows from
-//! `reference/deviations.md` (here: static methods PHP would run, `not supported by twig-rs`).
+//! Parity fixes of the callables group (`research/fuzzing.md`, G3; item history: `git log -- plans/parity-fixes.md`)
+//! against Twig 3.31.1 on PHP 8.5.13: oracle cases with the result the oracle recorded, in the vector format of the
+//! fuzz regressions (`tests/vectors/fuzz/README.md`), replayed through the twig-fuzz runner and compared field by field
+//! (output bytes, error class, message, template name and line, previous errors, deprecations, diagnostics), allowing
+//! only the deviations twig-fuzz knows from `reference/deviations.md` (here: static methods PHP would run,
+//! `not supported by twig-rs`).
 //!
 //! | file | covers |
 //! |---|---|

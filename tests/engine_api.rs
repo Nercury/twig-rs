@@ -1223,7 +1223,7 @@ fn literal_enum_names_are_checked_when_compiling() {
     );
 }
 
-// ---- compiled sources, class keys, runtimes (plans/parity-fixes.md P24, P25, P26) ------------------------------
+// ---- compiled sources, class keys, runtimes (P24, P25, P26: research/fuzzing.md) ------------------------------
 
 /// The source a failed render reports: kind, template name, code and line.
 fn failure(env: &Environment, name: &str) -> (ErrorKind, String, String, i64) {

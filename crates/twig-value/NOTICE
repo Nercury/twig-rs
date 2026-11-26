@@ -66,8 +66,12 @@ Part 1: Third-party sources
     Licence J (Apache License 1.0). Copyright (c) 1995-1998 The Apache Group.
     - src/builtins/format/conv.rs: php_conv_fp() and the %F conversion of format_converter().
 
-12. Unicode Character Database 17.0 (https://www.unicode.org/ucd/)
+12. Unicode Character Database 17.0 (https://www.unicode.org/ucd/) and the Unicode Consortium's mapping files
+    (https://www.unicode.org/Public/MAPPINGS/)
     Licence L (Unicode License v3). Copyright (c) 1991-2025 Unicode, Inc.
+    - src/builtins/string/charset_basic/codepage_table.rs: the codepage mappings of the clean-room iconv, measured
+      black-box in the oracle; they agree with the mapping files except where the table's documentation records
+      glibc's difference.
     - src/builtins/string/charset_basic/translit_table.rs: the //TRANSLIT replacements of the clean-room iconv,
       measured black-box in the oracle; most of them are UCD decompositions.
 

@@ -47,9 +47,13 @@ bug.
   (`Environment::add_runtime_loader()`, `FactoryRuntimeLoader`), `Environment::reset_globals()` and
   `is_template_fresh()`, `SecurityChecker::new()` and its checks, `Sandbox::stream()`/`stream_block()`; in
   twig-value, `RecursiveArrayIterator` and objects of host classes extending `ArrayObject` or `ArrayIterator`.
+- Node classes of extensions: token parsers can produce nodes and expressions of their own classes
+  (`Node::custom()`, `Expr::custom()`) that compile themselves with `lltl::Compiler`, the counterpart of Twig's
+  `Compiler` (children, output, context and locals, jumps, callables and Rust closures through `NodeRuntime`), and
+  that the escaper, sandbox and optimizer treat as the core class they declare (filter, function, test, operator).
 - The crate documentation is a guide (data and the `context!` macro, serde, autoescaping, filters, functions, tests,
-  extensions and tags, loaders, the sandbox, templates from Rust, errors and PHP diagnostics, threads), with runnable
-  examples in `examples/`.
+  extensions, tags and node classes, loaders, the sandbox, templates from Rust, errors and PHP diagnostics, threads),
+  with runnable examples in `examples/`.
 - `NOTICE` files listing the third-party code and data each crate contains and their licences.
 
 ### Changed

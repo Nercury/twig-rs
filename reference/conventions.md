@@ -22,7 +22,7 @@
 ## Crates and dependency direction
 
 ```
-twig ──► twig-date ──► twig-value ──► twig-unicode
+twig ──► twig-date ──► twig-value
   │          └───────► twig-timelib
   ├────► twig-value
   ├────► twig-pcre
@@ -33,8 +33,8 @@ twig-test-support (dev only) ──► twig-value
 twig-fuzz (dev only)         ──► twig, twig-value, twig-date, twig-test-support
 ```
 
-- Nothing depends on `twig`. Low-level crates (`twig-unicode`, `twig-timelib`, `twig-pcre`) depend on nothing in the
-  workspace. `twig-test-support` is a dev-dependency only (fixture DATA conversion, PHP test classes).
+- Nothing depends on `twig`. `twig-value` and the low-level crates (`twig-unicode`, `twig-timelib`, `twig-pcre`) depend
+  on nothing in the workspace. `twig-test-support` is a dev-dependency only (fixture DATA conversion, PHP test classes).
 - The default build stays permissively licensed: code derived from LGPL sources (glibc's iconv) lives only in the
   optional `twig-iconv` crate. Never port LGPL code (glibc, libmbfl) into other crates; derive behaviour from
   specifications, PHP-licensed sources and black-box oracle observations instead.

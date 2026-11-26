@@ -1,7 +1,8 @@
-//! Oracle vectors of the runtime parity fixes of `plans/parity-fixes.md` (group G2): templates whose results Twig
-//! 3.31.1 on PHP 8.5.13 produced (`twig-oracle:3.31.1`), replayed through the twig-fuzz runner and diff like
-//! `tests/fuzz_regressions.rs` (output bytes, error class, message, line, previous errors, deprecations and
-//! diagnostics; only the deviations of `reference/deviations.md` that twig-fuzz knows are accepted).
+//! Oracle vectors of the runtime parity fixes of `research/fuzzing.md` (group G2; item history:
+//! `git log -- plans/parity-fixes.md`): templates whose results Twig 3.31.1 on PHP 8.5.13 produced
+//! (`twig-oracle:3.31.1`), replayed through the twig-fuzz runner and diff like `tests/fuzz_regressions.rs` (output
+//! bytes, error class, message, line, previous errors, deprecations and diagnostics; only the deviations of
+//! `reference/deviations.md` that twig-fuzz knows are accepted).
 //!
 //! - `p17-*`: `{% deprecated %}` passes `package` and `version` to `trigger_deprecation(string $package, string
 //!   $version, ...)` (coercive `string` parameters, checked after the message conversion).

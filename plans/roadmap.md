@@ -115,8 +115,8 @@ and the PHPUnit parts of the parser and escaper tests; none is ignored. Six roun
 360,000 generated cases across 12 construct families in round 6 (an accepted deviation the callables generator
 reaches, T19). They produced 43 parity fixes (P1–P43), four rows of `reference/deviations.md` (D1–D4) and 4,795
 oracle-recorded regression vectors (`tests/vectors/fuzz` and twig-fuzz's round-0 file; the 9 still marked are D2's, by
-design). `cargo +stable test --workspace --all-features` runs 1,988 tests and ignores 9 besides the two skipped fixture
-cases: 5 need Docker, 3 an external vector file and one is a doctest.
+design). `cargo +stable test --workspace --all-features` ignores 11 tests: the two fixture cases skipped by their
+`--CONDITION--`, 5 that need Docker, 3 that need an external vector file and one doctest.
 
 ### 6. Product
 Plan: [product.md](product.md). Remaining:
