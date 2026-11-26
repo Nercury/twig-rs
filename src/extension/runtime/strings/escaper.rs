@@ -121,6 +121,43 @@ impl Default for EscaperRuntime {
     }
 }
 
+/// Whether a built-in strategy returns `string` unchanged, so that the string itself can be returned: with the
+/// `UTF-8` charset (no conversion), `html` keeps valid UTF-8 without `&<>"'` (`htmlspecialchars()` with
+/// `ENT_QUOTES | ENT_SUBSTITUTE` replaces only those and invalid sequences, and PHP's decoder accepts exactly the
+/// well-formed UTF-8 that Rust's does), `js`, `css` and `html_attr(_relaxed)` keep their ASCII character sets; `url`
+/// (`rawurlencode()`, whatever the charset) keeps `A-Za-z0-9-._~`.
+fn escapes_to_itself(strategy: Strategy, charset: &[u8], string: &[u8]) -> bool {
+    let utf8 = charset == b"UTF-8";
+    match strategy {
+        Strategy::Html => {
+            utf8 && !string
+                .iter()
+                .any(|b| matches!(b, b'&' | b'<' | b'>' | b'"' | b'\''))
+                && std::str::from_utf8(string).is_ok()
+        }
+        Strategy::Js => {
+            utf8 && string
+                .iter()
+                .all(|b| b.is_ascii_alphanumeric() || matches!(b, b',' | b'.' | b'_'))
+        }
+        Strategy::Css => utf8 && string.iter().all(u8::is_ascii_alphanumeric),
+        Strategy::HtmlAttr => {
+            utf8 && string
+                .iter()
+                .all(|b| b.is_ascii_alphanumeric() || matches!(b, b',' | b'.' | b'-' | b'_'))
+        }
+        Strategy::HtmlAttrRelaxed => {
+            utf8 && string.iter().all(|b| {
+                b.is_ascii_alphanumeric()
+                    || matches!(b, b',' | b'.' | b'-' | b'_' | b':' | b'@' | b'[' | b']')
+            })
+        }
+        Strategy::Url => string
+            .iter()
+            .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'-' | b'.' | b'_' | b'~')),
+    }
+}
+
 /// `in_array($strategy, ['html', 'js', 'css', 'html_attr', 'html_attr_relaxed', 'url'], true)`.
 fn is_builtin(strategy: &[u8]) -> bool {
     BUILTIN_STRATEGIES
@@ -351,6 +388,9 @@ impl EscaperRuntime {
                 // non-strings returned above
                 return Ok(value);
             };
+            if escapes_to_itself(builtin, charset, string) {
+                return Ok(value);
+            }
             return match escaper::escape(string, builtin, charset, &*self.iconv, diag) {
                 Ok(Some(escaped)) => Ok(Value::String(escaped)),
                 // a failed `iconv()` returned `false` (after its warning or notice)
