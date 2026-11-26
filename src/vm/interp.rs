@@ -1705,13 +1705,45 @@ fn for_restore(
         frame.context.remove_ref(KeyRef::Str(b"loop"));
     }
     let context = std::mem::take(&mut frame.context);
+    frame.context = restore_parent_context(context, parent)?;
+    Ok(())
+}
+
+/// `array_intersect_key($context, $_parent) + $_parent`, the context after a `for` loop.
+///
+/// That builds a new array. When neither array has ever had an int key (no `nNextFreeElement`) and the parent is not
+/// empty, the new array is a hash table without a next free element holding the context's entries whose keys the
+/// parent has, in order, then the parent's entries whose keys the context lacks: an unshared context becomes exactly
+/// that in place.
+fn restore_parent_context(mut context: Array, parent: Value) -> Result<Array, Exception> {
+    if let Value::Array(parent) = &parent
+        && !parent.is_empty()
+        && parent.next_free().is_none()
+        && context.next_free().is_none()
+        && parent.keys().all(|key| matches!(key, ArrayKey::Str(_)))
+        && context.keys().all(|key| matches!(key, ArrayKey::Str(_)))
+    {
+        if context.keys().any(|key| !parent.contains_key(key)) {
+            context.retain(|key, _| parent.contains_key(key));
+        }
+        for (key, value) in parent {
+            if !context.contains_key(key) {
+                context.insert(key.clone(), value.clone());
+            }
+        }
+        return Ok(context);
+    }
+    rebuild_parent_context(context, parent)
+}
+
+/// `array_intersect_key($context, $_parent) + $_parent`, computed as written.
+fn rebuild_parent_context(context: Array, parent: Value) -> Result<Array, Exception> {
     let intersected =
         twig_value::builtins::array::array_intersect_key(&[Value::Array(context), parent.clone()])?;
     let Value::Array(parent) = parent else {
         unreachable!("array_intersect_key() rejected a non-array");
     };
-    frame.context = ops::array_union(&intersected, &parent);
-    Ok(())
+    Ok(ops::array_union(&intersected, &parent))
 }
 
 /// The names constant of a destructuring instruction.
@@ -1797,5 +1829,75 @@ pub(crate) fn arrow_params(program: &Program, unit: UnitId) -> &[PhpString] {
     match program.unit(unit).kind() {
         UnitKind::Arrow(params) => params,
         _ => &[],
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// The keys and values of an array, then the keys that appends, an int key and a removal give it (which depend on
+    /// its next free element and its packed or hash layout).
+    fn behaviour(array: &Array) -> (Vec<(ArrayKey, Value)>, Vec<ArrayKey>) {
+        let entries = array.iter().map(|(k, v)| (k.clone(), v.clone())).collect();
+        let mut copy = array.clone();
+        let _ = copy.push("a");
+        copy.insert(1, "b");
+        copy.remove(&ArrayKey::Int(1));
+        copy.insert(1, "c");
+        let _ = copy.push("d");
+        (entries, copy.keys().cloned().collect())
+    }
+
+    /// The in-place restore of a loop's context gives what `array_intersect_key() + $_parent` gives.
+    #[test]
+    fn restoring_the_parent_context_in_place_matches_the_rebuilt_array() {
+        let names = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"];
+        let mut seed: u64 = 0x9e37_79b9_7f4a_7c15;
+        let mut next = move |n: u64| {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            seed % n
+        };
+        for round in 0..2000 {
+            let mut parent = Array::new();
+            for name in names {
+                if next(3) > 0 {
+                    parent.insert(name, round);
+                }
+            }
+            // the loop's context: a copy of the parent, changed, extended and emptied in places
+            let mut context = parent.clone();
+            for name in names {
+                match next(5) {
+                    0 => {
+                        context.remove(&ArrayKey::from(name));
+                    }
+                    1 => {
+                        context.insert(name, -round);
+                    }
+                    2 => {
+                        context.insert(format!("{name}{round}"), 0);
+                    }
+                    _ => {}
+                }
+            }
+            if next(8) == 0 {
+                context.insert(next(3) as i64, "int key");
+            }
+            if next(8) == 0 {
+                parent.insert(next(3) as i64, "int key");
+            }
+            if next(16) == 0 {
+                context = Array::new();
+            }
+            let in_place = restore_parent_context(context.clone(), Value::Array(parent.clone()));
+            let rebuilt = rebuild_parent_context(context, Value::Array(parent));
+            let (Ok(in_place), Ok(rebuilt)) = (in_place, rebuilt) else {
+                panic!("both restores succeed");
+            };
+            assert_eq!(behaviour(&in_place), behaviour(&rebuilt), "round {round}");
+        }
     }
 }
