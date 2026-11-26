@@ -3,8 +3,13 @@
 # sides of the comparison run on the same kernel and CPU. Criterion's estimates end up in results/criterion/.
 #
 #   research/benchmarks/run-rust.sh [<source dir, default: the repository>] [criterion arguments]
+#
+# The target directory is the Docker volume TWIG_BENCH_TARGET (default twig-bench-target). Cargo tells changed sources
+# by their file times, so a source tree older than the last build in the volume (an earlier commit extracted with
+# `git archive`) needs a volume of its own.
 set -euo pipefail
 IMAGE="${TWIG_RUST_IMAGE:-rust:1.100-slim-trixie}"
+TARGET="${TWIG_BENCH_TARGET:-twig-bench-target}"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SRC="$(cd "${1:-$HERE/../..}" && pwd)"
 [ $# -gt 0 ] && shift
@@ -16,7 +21,7 @@ mkdir -p "$HERE/results"
 docker run --rm \
     -v "$(host "$SRC"):/src:ro" \
     -v "$(host "$HERE/results"):/out" \
-    -v twig-bench-target:/target \
+    -v "$TARGET:/target" \
     -v twig-bench-cargo:/usr/local/cargo/registry \
     -e CARGO_TARGET_DIR=/target \
     -w /src \
