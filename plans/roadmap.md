@@ -137,13 +137,7 @@ Plan: [product.md](product.md). Remaining:
 - Engine gaps ([engine.md](engine.md), "Remaining work"): multi-byte and table-based encodings in the mbstring
   functions, a code generation hook for node classes of extensions, compiled-template caching across processes
   (optional).
-- Left from phase 5: D1's two ignored `CallableArgumentsExtractor` tests could assert twig-rs's documented text (`...
-  in "test.twig".`); engine.md does not describe yet `Environment::runtime()`'s fallback to a registered extension
-  (P26), the lazily resolved source path of a program outside `debug` (P24), `Object::method_params()` and the method
-  binding of `getAttribute()` (P33; twig-date's `args::method_params()`, P34), `extension::runtime::callables` and
-  `misc/twig_classes.rs` (P15, P27), the line rules of P35–P37 (`DeferredLine`, `LineTable::replace_from()`,
-  `leaf()`), the `Twig\Source` objects (P38) and `runtime::typed_property` (P39); the fuzz harness's open gaps are in
-  [fuzzing.md](../research/fuzzing.md).
+- Fuzzing: the harness's open gaps are in [fuzzing.md](../research/fuzzing.md).
 
 ## Open questions
 
