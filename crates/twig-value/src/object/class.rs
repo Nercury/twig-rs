@@ -231,11 +231,29 @@ impl ClassEntry {
 
     /// Looks up a method (case-insensitive), including inherited ones.
     pub fn method(&self, name: &str) -> Option<&MethodInfo> {
-        if let Some(m) = self.methods.get(name) {
-            return Some(m);
+        self.method_entry(name).map(|(_, m)| m)
+    }
+
+    /// [`ClassEntry::method`] with the lowercase name of the method (the key of the method table).
+    pub(crate) fn method_entry(&self, name: &str) -> Option<(&str, &MethodInfo)> {
+        if let Some((key, m)) = self.methods.get_key_value(name) {
+            return Some((key, m));
         }
-        let lc = name.to_ascii_lowercase();
-        self.methods.get(lc.as_str())
+        // the lowercase name, without allocating for the usual lengths
+        let mut buf = [0u8; 64];
+        let owned;
+        let lc = match buf.get_mut(..name.len()) {
+            Some(bytes) => {
+                bytes.copy_from_slice(name.as_bytes());
+                bytes.make_ascii_lowercase();
+                std::str::from_utf8(bytes).expect("ASCII lowercasing keeps UTF-8")
+            }
+            None => {
+                owned = name.to_ascii_lowercase();
+                owned.as_str()
+            }
+        };
+        self.methods.get_key_value(lc).map(|(key, m)| (&**key, m))
     }
 
     /// All methods in function-table order (own first, then inherited).

@@ -466,12 +466,12 @@ impl ObjectRef {
             return closure.invoke(args, diag);
         }
         let class = self.class();
-        match class.method(name) {
-            Some(m) if m.visibility == Visibility::Public => {
-                let lc = m.name.to_ascii_lowercase();
-                self.invoke_method(&lc, args, diag)
+        match class.method_entry(name) {
+            Some((lc, m)) if m.visibility == Visibility::Public => {
+                self.invoke_method(lc, args, diag)
             }
             found => {
+                let found = found.map(|(_, m)| m);
                 if class.method("__call").is_some() {
                     let call_args =
                         CallArgs::from(vec![Value::from(name), Value::Array(args.to_array())]);
@@ -500,10 +500,8 @@ impl ObjectRef {
             return self.0.obj.method_params("__invoke");
         }
         let class = self.class();
-        match class.method(name) {
-            Some(m) if m.visibility == Visibility::Public => {
-                self.0.obj.method_params(&m.name.to_ascii_lowercase())
-            }
+        match class.method_entry(name) {
+            Some((lc, m)) if m.visibility == Visibility::Public => self.0.obj.method_params(lc),
             _ if class.method("__call").is_some() => Some(MethodParams::call_trampoline()),
             _ => None,
         }
