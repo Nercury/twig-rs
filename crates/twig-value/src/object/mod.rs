@@ -15,7 +15,8 @@
 //!   methods, string conversion calls `__toString`, missing properties fall back to
 //!   `__get`/`__isset`/`__set`/`__unset`. A host type implements [`Object::class`] and
 //!   [`Object::call`] (a `match` on the lowercase method name) and overrides handlers only where an
-//!   internal PHP class has custom handlers (like `ArrayObject`).
+//!   internal PHP class has custom handlers (like `ArrayObject`). [`ObjectBuilder`] makes objects of
+//!   a class of public properties and closure methods without a hand-written implementation.
 //! * [`ObjectRef`] is the handle stored in [`Value::Object`](crate::Value): cheap to clone, shared,
 //!   with an identity ([`ObjectRef::id`], [`ObjectRef::ptr_eq`]). Its inherent methods are the
 //!   engine-level operations (`$obj->m()`, `$obj->p`, `isset($obj->p)`, `$obj[$k]`, `(string)
@@ -28,6 +29,7 @@
 
 mod args;
 mod array_object;
+mod builder;
 pub mod builtin;
 mod class;
 mod closure;
@@ -38,6 +40,7 @@ mod std_class;
 
 pub use args::{CallArgs, CalleeParams, FunctionKind, MethodParams, Param};
 pub use array_object::{ArrayIterator, ArrayObject};
+pub use builder::ObjectBuilder;
 pub use class::{
     ClassBuilder, ClassEntry, ClassKind, ClassRef, ConstantInfo, EnumBacking, MethodInfo,
     PropertyInfo, Visibility,

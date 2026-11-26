@@ -13,7 +13,7 @@
 //! | [`PhpString`] | immutable, reference-counted byte strings (not necessarily UTF-8) |
 //! | [`Array`], [`ArrayKey`], [`KeyRef`], [`KeyContext`] | ordered hash maps with PHP key normalisation, `nNextFreeElement`, copy-on-write |
 //! | [`dim`] | `$c[$k]`, `$c[$k] ?? …`, `isset()`/`empty()` on offsets for every container type, string offsets, `count()` |
-//! | [`object`] | the [`Object`](object::Object) protocol, [`ObjectRef`] handles, class entries, `stdClass`, `Closure`, enums, `ArrayObject`, `ArrayIterator` |
+//! | [`object`] | the [`Object`](object::Object) protocol, [`ObjectRef`] handles, class entries, [`ObjectBuilder`](object::ObjectBuilder), `stdClass`, `Closure`, enums, `ArrayObject`, `ArrayIterator` |
 //! | [`PhpError`], [`ThrowableClass`] | thrown PHP exceptions (class + verbatim message) |
 //! | [`Diagnostics`], [`Diagnostic`], [`Level`] | the sink for warnings, notices and deprecations; [`Collect`], [`Ignore`], [`Throw`] |
 //! | [`convert`] | truthiness and the `(int)`, `(float)`, `(string)`, `(array)`, `(object)` casts, operand conversions, float→int rules |
@@ -45,8 +45,8 @@
 //!   storage with `zend_array_dup()` rules). [`Array::ptr_eq`] exposes PHP's "same HashTable"
 //!   shortcut used by `==`/`===` on arrays.
 //! * **Objects.** Operations on [`ObjectRef`] behave as if called from outside the object's class
-//!   (Twig's `CoreExtension` scope). New host classes implement [`object::Object`]; see the module
-//!   documentation of [`object`].
+//!   (Twig's `CoreExtension` scope). New host classes implement [`object::Object`] (see the module
+//!   documentation of [`object`]), or are assembled with [`object::ObjectBuilder`].
 //! * **Thread safety.** All value types are `Send + Sync`.
 //!
 //! # Building on this crate
