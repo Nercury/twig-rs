@@ -1,24 +1,36 @@
-//! `iconv()` for the common charsets, written without glibc code: UTF-8, UTF-16, UTF-16BE, UTF-16LE, UTF-32,
-//! UTF-32BE, UTF-32LE, UCS-2, UCS-2BE, UCS-2LE, UCS-4, UCS-4BE, UCS-4LE, ANSI_X3.4-1968 (ASCII) and ISO-8859-1, under
-//! every name glibc gives them. Any other charset glibc knows raises
-//! `Error: iconv(): conversion of charset "X" is not supported by twig-rs`; a name glibc does not know behaves as in
-//! PHP.
+//! `iconv()` for the common charsets, written without glibc code, under every name glibc gives them:
+//!
+//! - the Unicode charsets: UTF-8, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32BE, UTF-32LE, UCS-2, UCS-2BE, UCS-2LE,
+//!   UCS-4, UCS-4BE, UCS-4LE;
+//! - ANSI_X3.4-1968 (ASCII) and ISO-8859-1;
+//! - the codepages: ISO-8859-2 to ISO-8859-16 (glibc has no ISO-8859-12), CP1250 to CP1258 (with the letters and
+//!   marks that CP1255 and CP1258 combine), KOI8-R, KOI8-U, KOI8-RU, CP437, CP850, CP852, CP866 and MACINTOSH.
+//!
+//! Any other charset glibc knows raises `Error: iconv(): conversion of charset "X" is not supported by twig-rs`; a
+//! name glibc does not know behaves as in PHP.
 //!
 //! Clean room: the PHP layer ports `PHP_FUNCTION(iconv)` and `php_iconv_string()` (PHPSRC/ext/iconv/iconv.c), the
-//! charsets follow their published specifications (RFC 3629, RFC 2781, ISO/IEC 10646, ISO/IEC 8859-1), and
-//! everything glibc 2.41 decides on its own — which values each charset rejects, byte order marks, charset names and
-//! their aliases, the //TRANSLIT and //IGNORE suffixes, the transliteration tables, how a call reports errors and
-//! where it stops — was learned black-box from the oracle (`twig-oracle:3.31.1`, PHP 8.5.13 on glibc 2.41,
-//! `LC_CTYPE=C.UTF-8`). No glibc source was read. The vectors in tests/vectors/string/charset_basic and their
-//! generators show the observations.
+//! Unicode charsets follow their published specifications (RFC 3629, RFC 2781, ISO/IEC 10646, ISO/IEC 8859-1), and
+//! everything glibc 2.41 decides on its own — which values each charset rejects, byte order marks, the codepage
+//! tables (compared with the Unicode Consortium's mapping files, whose differences they record), which characters
+//! CP1255 and CP1258 combine, charset names and their aliases, the //TRANSLIT and //IGNORE suffixes, the
+//! transliteration tables, how a call reports errors and where it stops — was learned black-box from the oracle
+//! (`twig-oracle:3.31.1`, PHP 8.5.13 on glibc 2.41, `LC_CTYPE=C.UTF-8`) through PHP and through the public
+//! `iconv_open()`/`iconv()` interface. No glibc source was read. The vectors in tests/vectors/string/charset_basic
+//! and their generators show the observations.
 //!
 //! - `names`: how glibc parses a charset name, and the names it knows (`name_table.rs`, from `iconv -l`);
 //! - `codec`: decoding and encoding each charset;
-//! - `engine`: one `iconv(3)` call (rounds of 8160 characters, errors, `E2BIG`, //TRANSLIT and //IGNORE);
+//! - `codepage`: the tables of the codepages (`codepage_table.rs`);
+//! - `engine`: one `iconv(3)` call (rounds of 8160 characters, errors, `E2BIG`, //TRANSLIT and //IGNORE, the
+//!   characters CP1255 and CP1258 hold back) and the flush;
 //! - `translit`: the //TRANSLIT replacements (`translit_table.rs`);
 //! - this module: PHP's loop around `iconv(3)`, its notices and its `false`.
 
 mod codec;
+mod codepage;
+#[rustfmt::skip]
+mod codepage_table;
 mod engine;
 #[rustfmt::skip]
 mod name_table;
@@ -137,9 +149,9 @@ pub fn iconv_bytes(
 
 /// Port of the conversion loop of `php_iconv_string()` (PHPSRC/ext/iconv/iconv.c): an output buffer of the input
 /// length plus 32 bytes that grows by the input length on `E2BIG`, and, with `ignore_ilseq`, glibc's `EILSEQ` taken
-/// as success when at most one input byte is left, else skipping one input byte and calling again. The final flush
-/// (`iconv(cd, NULL, NULL, ...)`) writes nothing for these charsets. `Err` is the status that makes PHP return
-/// `false`.
+/// as success when at most one input byte is left, else skipping one input byte and calling again. Then the flush
+/// (`iconv(cd, NULL, NULL, ...)`, the buffer growing by 16 bytes on `E2BIG`), which writes the character CP1255 and
+/// CP1258 may still hold back. `Err` is the status that makes PHP return `false`.
 fn php_iconv_string(
     input: &[u8],
     converter: &mut Converter,
@@ -165,7 +177,15 @@ fn php_iconv_string(
             other => return Err(other),
         }
     }
-    Ok(out)
+    // the flush, growing the buffer by 16 bytes on E2BIG
+    loop {
+        let space = buffer_size - out.len();
+        match converter.flush(&mut out, space) {
+            Status::Done => return Ok(out),
+            Status::TooBig => buffer_size += 16,
+            other => return Err(other),
+        }
+    }
 }
 
 /// `_php_check_ignore()` (PHPSRC/ext/iconv/iconv.c, compiled in because glibc's //IGNORE makes `iconv()` fail):
@@ -262,6 +282,48 @@ mod tests {
         assert_eq!(
             conv("UTF-8", "ISO-8859-1//ignore", &input).0.unwrap().len(),
             9000
+        );
+    }
+
+    #[test]
+    fn codepages() {
+        assert_eq!(
+            conv("UTF-8", "CP1252", "\u{20ac}".as_bytes()).0.unwrap(),
+            b"\x80"
+        );
+        assert_eq!(
+            conv("koi8r", "UTF-8", b"\xc1").0.unwrap(),
+            "\u{430}".as_bytes()
+        );
+        // the Cyrillic alternative of U+20BD where the target has Cyrillic letters
+        assert_eq!(
+            conv("UTF-8", "KOI8-R//TRANSLIT", "\u{20bd}".as_bytes())
+                .0
+                .unwrap(),
+            b"\xd2\xd5\xc2"
+        );
+        // CP1258 combines a letter and a mark, and writes a character it has no byte for as both
+        assert_eq!(
+            conv("CP1258", "UTF-8", b"A\xcc").0.unwrap(),
+            "\u{c0}".as_bytes()
+        );
+        assert_eq!(
+            conv("UTF-8", "CP1258", "\u{c3}".as_bytes()).0.unwrap(),
+            b"A\xde"
+        );
+        // the flush writes the held last character, which //IGNORE cannot skip without failing
+        assert_eq!(
+            conv("CP1258", "ISO-8859-1//IGNORE", b"\xd5a").0.unwrap(),
+            b"a"
+        );
+        let (r, d) = conv("CP1258", "ISO-8859-1//IGNORE", b"a\xd5");
+        assert_eq!(r, None);
+        assert_eq!(
+            d,
+            [Diagnostic::new(
+                Level::Notice,
+                "iconv(): Detected an illegal character in input string"
+            )]
         );
     }
 

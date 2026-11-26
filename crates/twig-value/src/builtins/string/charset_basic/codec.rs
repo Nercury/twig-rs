@@ -3,9 +3,12 @@
 //! UCS-4 allow it.
 //!
 //! The encodings themselves follow RFC 3629 (UTF-8, here with the original five- and six-byte forms of ISO/IEC
-//! 10646), RFC 2781 (UTF-16) and ISO/IEC 10646 (UCS-2, UCS-4, UTF-32); which values each decoder and encoder rejects,
-//! the byte order of the unmarked forms and the byte-order-mark handling are what the oracle shows (see the vectors
-//! in tests/vectors/string/charset_basic).
+//! 10646), RFC 2781 (UTF-16), ISO/IEC 10646 (UCS-2, UCS-4, UTF-32) and ISO/IEC 8859-1; which values each decoder and
+//! encoder rejects, the byte order of the unmarked forms and the byte-order-mark handling are what the oracle shows
+//! (see the vectors in tests/vectors/string/charset_basic). The other single-byte charsets are tables measured in the
+//! oracle (`codepage`).
+
+use super::codepage::Codepage;
 
 /// A charset this module converts. Every name glibc maps to the same behaviour shares one variant (`UCS-2LE` is
 /// `UCS-2`, `UCS-4BE` is `UCS-4`; see `name_table.rs`).
@@ -38,6 +41,8 @@ pub(crate) enum Charset {
     Ascii,
     /// ISO-8859-1.
     Latin1,
+    /// A single-byte charset converted with tables.
+    Codepage(Codepage),
 }
 
 /// One step of decoding.
@@ -53,13 +58,15 @@ pub(crate) enum Decoded {
 }
 
 /// The decoder state that lives as long as the conversion descriptor: whether the byte order mark of UTF-16 and
-/// UTF-32 has been looked for, and which byte order it selected.
+/// UTF-32 has been looked for, which byte order it selected, and the character a combining decoder holds back.
 #[derive(Clone, Copy, Debug, Default)]
 pub(crate) struct DecodeState {
     /// The byte order mark has been looked for (UTF-16, UTF-32).
     started: bool,
     /// The marked form turned out to be big endian.
     big_endian: bool,
+    /// The character CP1255 or CP1258 holds back (see [`Charset::composing`]).
+    pub(crate) held: Option<u32>,
 }
 
 /// What a character looks like in the target charset.
@@ -122,6 +129,13 @@ impl Charset {
                 },
             },
             Charset::Latin1 => Decoded::Char(u32::from(input[0]), 1),
+            Charset::Codepage(cp) => match cp.decode(input[0]) {
+                Some(c) => Decoded::Char(c, 1),
+                None => Decoded::Invalid {
+                    len: 1,
+                    silent: false,
+                },
+            },
         }
     }
 
@@ -178,13 +192,17 @@ impl Charset {
             Charset::Ucs4Le => unit32(c, false),
             Charset::Ascii => byte_if(c, 0x80),
             Charset::Latin1 => byte_if(c, 0x100),
+            Charset::Codepage(cp) => match cp.encode(c) {
+                Some((b, len)) => Encoded::Bytes([b[0], b[1], b[2], 0, 0, 0], len),
+                None => Encoded::Unmappable,
+            },
         }
     }
 
     /// The output space glibc wants to have left before it converts the next character (even one it then skips).
     pub(crate) fn unit(self) -> usize {
         match self {
-            Charset::Utf8 | Charset::Ascii | Charset::Latin1 => 1,
+            Charset::Utf8 | Charset::Ascii | Charset::Latin1 | Charset::Codepage(_) => 1,
             Charset::Utf16
             | Charset::Utf16Be
             | Charset::Utf16Le
@@ -195,6 +213,15 @@ impl Charset {
             | Charset::Utf32Le
             | Charset::Ucs4
             | Charset::Ucs4Le => 4,
+        }
+    }
+
+    /// A charset whose decoder combines characters (CP1255, CP1258): it holds a character back until it knows whether
+    /// the next one combines with it.
+    pub(crate) fn composing(self) -> Option<Codepage> {
+        match self {
+            Charset::Codepage(cp) if cp.composes() => Some(cp),
+            _ => None,
         }
     }
 

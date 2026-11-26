@@ -22,9 +22,17 @@
 //! - UTF-16 and UTF-32 write their byte order mark when the encoder runs for the first time (a run that finds less
 //!   room than the mark does not count), and during that first run again before every //TRANSLIT replacement (glibc
 //!   converts the replacement as if it were the start of a stream); that second mark stays in the output even when
-//!   the replacement then does not fit.
+//!   the replacement then does not fit;
+//! - the decoders of CP1255 and CP1258 hold characters back (see `codepage.rs`). A round needs room for a character
+//!   before each byte it reads, and a held character only takes room once written: a byte that makes the decoder
+//!   write the held character and then its own ends the round in between when only the first fits (the next round
+//!   reads the byte again, with nothing held). When the encoder stops a call, the call ends after the last character
+//!   written, with what the decoder held at that point. What the decoder holds at the end of the input stays in the
+//!   descriptor until the next call or the flush (`iconv(cd, NULL, NULL, ...)`), which encodes it as a round of its
+//!   own: `E2BIG` keeps it for the next try, and //IGNORE skipping it makes the flush fail with `EILSEQ`.
 
 use super::codec::{Charset, DecodeState, Decoded, Encoded};
+use super::codepage::Codepage;
 use super::translit;
 
 /// Characters per round: the size of glibc's buffer between the two steps.
@@ -52,6 +60,18 @@ struct Skipped {
     output: bool,
 }
 
+/// A character of the current round.
+#[derive(Clone, Copy, Debug)]
+struct RoundChar {
+    /// The code point.
+    c: u32,
+    /// Where the call ends when the encoder stops right after this character: the input offset after the byte that
+    /// gave it (before that byte when the byte gives a second character, which does not fit then) ...
+    resume: usize,
+    /// ... and what a combining decoder holds back at that point.
+    held: Option<u32>,
+}
+
 /// A conversion descriptor (`iconv_t`): the two charsets, the target's //TRANSLIT and //IGNORE flags and the state
 /// that lives across calls.
 #[derive(Debug)]
@@ -63,8 +83,8 @@ pub(crate) struct Converter {
     decode_state: DecodeState,
     /// The encoder has run (once a round reached it with room for the byte order mark).
     encoder_started: bool,
-    /// The characters of the current round with the input offset after each.
-    chars: Vec<(u32, usize)>,
+    /// The characters of the current round.
+    chars: Vec<RoundChar>,
 }
 
 impl Converter {
@@ -100,7 +120,7 @@ impl Converter {
         input: &[u8],
         out: &mut Vec<u8>,
         space: &mut usize,
-        chars: &mut Vec<(u32, usize)>,
+        chars: &mut Vec<RoundChar>,
     ) -> (usize, Status) {
         let mut round_start = 0;
         loop {
@@ -116,12 +136,20 @@ impl Converter {
                 }
                 None => stop = Some(Status::Incomplete),
             }
+            let held_at_start = self.decode_state.held;
             while stop.is_none() && chars.len() < CHUNK && p < input.len() {
                 match self.from.decode(&input[p..], &self.decode_state) {
-                    Decoded::Char(c, len) => {
-                        p += len;
-                        chars.push((c, p));
-                    }
+                    Decoded::Char(c, len) => match self.from.composing() {
+                        Some(cp) => p = self.compose(cp, c, p, p + len, chars),
+                        None => {
+                            p += len;
+                            chars.push(RoundChar {
+                                c,
+                                resume: p,
+                                held: None,
+                            });
+                        }
+                    },
                     Decoded::Invalid { len, silent } if self.ignore => {
                         p += len;
                         skipped.input |= !silent;
@@ -137,6 +165,7 @@ impl Converter {
                 let bom = self.to.bom();
                 if first_run && !bom.is_empty() {
                     if *space < bom.len() {
+                        self.decode_state.held = held_at_start;
                         return (round_start, Status::TooBig);
                     }
                     out.extend_from_slice(bom);
@@ -144,11 +173,16 @@ impl Converter {
                 }
                 self.encoder_started = true;
                 for i in 0..chars.len() {
-                    let before = if i == 0 { round_start } else { chars[i - 1].1 };
                     if let Err(status) =
-                        self.encode(chars[i].0, first_run, out, space, &mut skipped)
+                        self.encode(chars[i].c, first_run, out, space, &mut skipped)
                     {
-                        return (before, status);
+                        // the call stops after the last character written
+                        let (resume, held) = match i {
+                            0 => (round_start, held_at_start),
+                            _ => (chars[i - 1].resume, chars[i - 1].held),
+                        };
+                        self.decode_state.held = held;
+                        return (resume, status);
                     }
                 }
             }
@@ -171,6 +205,75 @@ impl Converter {
                 return (p, Status::Illegal);
             }
             round_start = p;
+        }
+    }
+
+    /// Step 1 of a combining decoder for the character `c` of the byte at `start..end` (see `codepage.rs`). Returns
+    /// where decoding goes on: before the byte when the round only had room for the character held before it.
+    fn compose(
+        &mut self,
+        cp: Codepage,
+        c: u32,
+        start: usize,
+        end: usize,
+        chars: &mut Vec<RoundChar>,
+    ) -> usize {
+        let at = |c, resume, held| RoundChar { c, resume, held };
+        let Some(held) = self.decode_state.held.take() else {
+            if cp.holds(c) {
+                self.decode_state.held = Some(c);
+            } else {
+                chars.push(at(c, end, None));
+            }
+            return end;
+        };
+        if let Some((combined, hold)) = cp.compose(held, c) {
+            if hold {
+                self.decode_state.held = Some(combined);
+            } else {
+                chars.push(at(combined, end, None));
+            }
+            return end;
+        }
+        if cp.holds(c) {
+            self.decode_state.held = Some(c);
+            chars.push(at(held, end, Some(c)));
+            return end;
+        }
+        chars.push(at(held, start, None));
+        if chars.len() == CHUNK {
+            // no room left for `c`: the next round reads the byte again
+            return start;
+        }
+        chars.push(at(c, end, None));
+        end
+    }
+
+    /// `iconv(cd, NULL, NULL, ...)`, which PHP calls after converting: writes the character a combining decoder still
+    /// holds, as a round of its own (`TooBig` keeps it for the next try).
+    pub(crate) fn flush(&mut self, out: &mut Vec<u8>, mut space: usize) -> Status {
+        let Some(held) = self.decode_state.held else {
+            return Status::Done;
+        };
+        let first_run = !self.encoder_started;
+        let bom = self.to.bom();
+        if first_run && !bom.is_empty() {
+            if space < bom.len() {
+                return Status::TooBig;
+            }
+            out.extend_from_slice(bom);
+            space -= bom.len();
+        }
+        self.encoder_started = true;
+        let mut skipped = Skipped::default();
+        if let Err(status) = self.encode(held, first_run, out, &mut space, &mut skipped) {
+            return status;
+        }
+        self.decode_state.held = None;
+        if skipped.output {
+            Status::Illegal
+        } else {
+            Status::Done
         }
     }
 
@@ -205,8 +308,8 @@ impl Converter {
                 }
                 let mut replacement = [0u8; 24];
                 let mut len = 0;
-                for r in translit::replacement(self.to, c).chars() {
-                    let Encoded::Bytes(bytes, n) = self.to.encode(r) else {
+                for &r in translit::replacement(self.to, c) {
+                    let Encoded::Bytes(bytes, n) = self.to.encode(u32::from(r)) else {
                         unreachable!("transliterations are representable in their target")
                     };
                     replacement[len..len + n].copy_from_slice(&bytes[..n]);
@@ -309,6 +412,31 @@ mod tests {
         assert_eq!(conv.call(&input, &mut out, 4), (4, Status::TooBig));
         assert_eq!(conv.call(&input[4..], &mut out, 100), (8, Status::Done));
         assert_eq!(out, [0xFF, 0xFE, 0x61, 0, 0x3F, 0, 0x62, 0]);
+    }
+
+    #[test]
+    fn held_characters() {
+        let cp1258 = Charset::Codepage(Codepage::Cp1258);
+        // CP1258 holds A, B and C back: E2BIG after A ends the call after B, which stays held
+        let mut conv = Converter::new(cp1258, Charset::Ucs4, false, false);
+        let mut out = Vec::new();
+        assert_eq!(conv.call(b"ABC", &mut out, 4), (2, Status::TooBig));
+        assert_eq!(conv.call(b"C", &mut out, 100), (1, Status::Done));
+        assert_eq!(conv.flush(&mut out, 3), Status::TooBig);
+        assert_eq!(conv.flush(&mut out, 4), Status::Done);
+        assert_eq!(out, [0, 0, 0, 0x41, 0, 0, 0, 0x42, 0, 0, 0, 0x43]);
+        // the mark after B does not combine with it: B is written, the mark does not fit and is read again
+        let mut conv = Converter::new(cp1258, Charset::Ucs4, false, false);
+        out.clear();
+        assert_eq!(conv.call(b"AB\xcc", &mut out, 8), (2, Status::TooBig));
+        assert_eq!(conv.call(b"\xcc", &mut out, 100), (1, Status::Done));
+        assert_eq!(out, [0, 0, 0, 0x41, 0, 0, 0, 0x42, 0, 0, 3, 0]);
+        // a held character is written by the flush, with the byte order mark if it is the first
+        let mut conv = Converter::new(cp1258, Charset::Utf16, false, false);
+        out.clear();
+        assert_eq!(conv.call(b"A", &mut out, 100), (1, Status::Done));
+        assert_eq!(conv.flush(&mut out, 100), Status::Done);
+        assert_eq!(out, [0xFF, 0xFE, 0x41, 0]);
     }
 
     #[test]

@@ -1,107 +1,102 @@
-//! What //TRANSLIT writes for a character the target charset cannot represent. The tables (`translit_table.rs`) are
+//! What //TRANSLIT writes for a character the target charset cannot represent. The table (`translit_table.rs`) is
 //! measured in the oracle by `translit.gen.php`: glibc 2.41 under `LC_CTYPE=C.UTF-8`, one character at a time (the
-//! locale has no multi-character rules, also checked there). Everything not in a table becomes `?`.
+//! locale has no multi-character rules, also checked there), for every target with a smaller repertoire than
+//! Unicode. A character may have several alternatives (U+339F SQUARE MM SQUARED is "mm²", or "mm^2" where the target
+//! has no "²"): the target gets the first one it can represent. Everything else becomes `?`.
 
-use super::codec::Charset;
-use super::translit_table::{
-    ASCII_DATA, ASCII_KEYS, ASCII_SPANS, LATIN1_DATA, LATIN1_KEYS, LATIN1_SPANS, UCS2_DATA,
-    UCS2_KEYS, UCS2_SPANS,
-};
+use super::codec::{Charset, Encoded};
+use super::translit_table::{DATA, KEYS, SPANS};
 
-/// A replacement: code points, all representable in the target.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub(crate) enum Replacement {
-    /// Code points below U+0100.
-    Narrow(&'static [u8]),
-    /// BMP code points.
-    Wide(&'static [u16]),
+/// glibc's replacement when it knows no transliteration the target can represent.
+const QUESTION_MARK: &[u16] = &[0x3F];
+
+/// The alternatives of `c`, in the order glibc tries them.
+fn alternatives(c: u32) -> impl Iterator<Item = &'static [u16]> {
+    let first = KEYS.partition_point(|&k| k < c);
+    KEYS[first..]
+        .iter()
+        .take_while(move |&&k| k == c)
+        .zip(&SPANS[first..])
+        .map(|(_, &(offset, len))| {
+            let offset = usize::from(offset);
+            &DATA[offset..offset + usize::from(len)]
+        })
 }
 
-impl Replacement {
-    /// The code points.
-    pub(crate) fn chars(self) -> impl Iterator<Item = u32> {
-        let (narrow, wide) = match self {
-            Replacement::Narrow(s) => (s, &[][..]),
-            Replacement::Wide(s) => (&[][..], s),
-        };
-        narrow
-            .iter()
-            .map(|&b| u32::from(b))
-            .chain(wide.iter().map(|&u| u32::from(u)))
+/// The //TRANSLIT replacement of `c` for `target`, which cannot represent it: code points `target` can represent.
+pub(crate) fn replacement(target: Charset, c: u32) -> &'static [u16] {
+    if c > KEYS[KEYS.len() - 1] {
+        // most of the code space
+        return QUESTION_MARK;
     }
-}
-
-/// glibc's replacement when it knows no transliteration.
-const QUESTION_MARK: Replacement = Replacement::Narrow(b"?");
-
-fn find<T>(keys: &[u32], spans: &[(u16, u8)], data: &'static [T], c: u32) -> Option<&'static [T]> {
-    let i = keys.binary_search(&c).ok()?;
-    let (offset, len) = spans[i];
-    Some(&data[usize::from(offset)..usize::from(offset) + usize::from(len)])
-}
-
-/// The //TRANSLIT replacement of `c` for `target`, which cannot represent it.
-pub(crate) fn replacement(target: Charset, c: u32) -> Replacement {
-    match target {
-        Charset::Ascii => find(&ASCII_KEYS, &ASCII_SPANS, &ASCII_DATA, c)
-            .map_or(QUESTION_MARK, Replacement::Narrow),
-        Charset::Latin1 => find(&LATIN1_KEYS, &LATIN1_SPANS, &LATIN1_DATA, c)
-            .or_else(|| find(&ASCII_KEYS, &ASCII_SPANS, &ASCII_DATA, c))
-            .map_or(QUESTION_MARK, Replacement::Narrow),
-        Charset::Ucs2 | Charset::Ucs2Be => {
-            find(&UCS2_KEYS, &UCS2_SPANS, &UCS2_DATA, c).map_or(QUESTION_MARK, Replacement::Wide)
-        }
-        // UTF-8 (surrogates), UTF-16 and UTF-32 (beyond U+10FFFF): glibc has no rule for these
-        _ => QUESTION_MARK,
-    }
+    alternatives(c)
+        .find(|alternative| {
+            alternative
+                .iter()
+                .all(|&u| matches!(target.encode(u32::from(u)), Encoded::Bytes(..)))
+        })
+        .unwrap_or(QUESTION_MARK)
 }
 
 #[cfg(test)]
 mod tests {
+    use super::super::codepage::Codepage;
+    use super::super::codepage_table::ALL;
     use super::*;
 
-    fn text(r: Replacement) -> String {
-        r.chars().map(|c| char::from_u32(c).unwrap()).collect()
+    fn text(target: Charset, c: u32) -> String {
+        replacement(target, c)
+            .iter()
+            .map(|&u| char::from_u32(u32::from(u)).unwrap())
+            .collect()
     }
 
     #[test]
     fn samples() {
-        assert_eq!(text(replacement(Charset::Ascii, 0xE9)), "e");
-        assert_eq!(text(replacement(Charset::Ascii, 0x20AC)), "EUR");
-        assert_eq!(text(replacement(Charset::Ascii, 0x200B)), "");
-        assert_eq!(text(replacement(Charset::Ascii, 0x4E00)), "?");
-        assert_eq!(text(replacement(Charset::Ascii, 0xD800)), "?");
-        assert_eq!(text(replacement(Charset::Latin1, 0x339F)), "mm\u{b2}");
-        assert_eq!(text(replacement(Charset::Ascii, 0x339F)), "mm^2");
-        assert_eq!(text(replacement(Charset::Latin1, 0x20AC)), "EUR");
-        assert_eq!(text(replacement(Charset::Ucs2, 0x1F600)), ":-D");
-        assert_eq!(text(replacement(Charset::Ucs2Be, 0x2F800)), "\u{4e3d}");
-        assert_eq!(text(replacement(Charset::Utf16, 0x11_0000)), "?");
+        assert_eq!(text(Charset::Ascii, 0xE9), "e");
+        assert_eq!(text(Charset::Ascii, 0x20AC), "EUR");
+        assert_eq!(text(Charset::Ascii, 0x200B), "");
+        assert_eq!(text(Charset::Ascii, 0x4E00), "?");
+        assert_eq!(text(Charset::Ascii, 0xD800), "?");
+        assert_eq!(text(Charset::Latin1, 0x339F), "mm\u{b2}");
+        assert_eq!(text(Charset::Ascii, 0x339F), "mm^2");
+        assert_eq!(text(Charset::Latin1, 0x20AC), "EUR");
+        assert_eq!(text(Charset::Ucs2, 0x1F600), ":-D");
+        assert_eq!(text(Charset::Ucs2Be, 0x2F800), "\u{4e3d}");
+        assert_eq!(text(Charset::Utf16, 0x11_0000), "?");
+        assert_eq!(text(Charset::Codepage(Codepage::Koi8R), 0x20BD), "руб");
+        assert_eq!(text(Charset::Latin1, 0x20BD), "RUB");
+        assert_eq!(text(Charset::Codepage(Codepage::Iso8859_7), 0x1F00), "α");
+        assert_eq!(text(Charset::Ascii, 0x1F00), "?");
     }
 
     #[test]
-    fn tables_are_sorted() {
-        for keys in [&ASCII_KEYS[..], &LATIN1_KEYS[..], &UCS2_KEYS[..]] {
-            assert!(keys.windows(2).all(|w| w[0] < w[1]));
-        }
+    fn table_is_sorted() {
+        assert!(KEYS.windows(2).all(|w| w[0] <= w[1]));
+        assert_eq!(KEYS.len(), SPANS.len());
     }
 
     #[test]
     fn replacements_fit_the_encoder_buffer() {
-        // engine.rs encodes a replacement into 24 bytes: at most 6 bytes per character in UTF-8 would not fit, but
-        // replacements only exist for ASCII, ISO-8859-1 (one byte each) and UCS-2 (two bytes each)
-        let narrow = ASCII_SPANS
-            .iter()
-            .chain(&LATIN1_SPANS)
-            .map(|&(_, n)| usize::from(n));
-        assert!(narrow.max().unwrap() <= 24);
-        assert!(
-            UCS2_SPANS
-                .iter()
-                .map(|&(_, n)| 2 * usize::from(n))
-                .max()
-                .unwrap()
-                <= 24
-        );
+        // engine.rs encodes a replacement into 24 bytes: the longest alternative in its longest form (three bytes per
+        // character in CP1255 and CP1258, two in UCS-2) must fit
+        let targets = ALL.iter().map(|&cp| Charset::Codepage(cp)).chain([
+            Charset::Ascii,
+            Charset::Latin1,
+            Charset::Ucs2,
+        ]);
+        for target in targets {
+            for &(offset, len) in &SPANS {
+                let offset = usize::from(offset);
+                let bytes: Option<usize> = DATA[offset..offset + usize::from(len)]
+                    .iter()
+                    .map(|&u| match target.encode(u32::from(u)) {
+                        Encoded::Bytes(_, n) => Some(n),
+                        _ => None,
+                    })
+                    .sum();
+                assert!(bytes.unwrap_or(0) <= 24, "{target:?}");
+            }
+        }
     }
 }

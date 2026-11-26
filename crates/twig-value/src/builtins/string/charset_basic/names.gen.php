@@ -3,9 +3,12 @@
 // behaves exactly like it, or marked as not supported by twig-rs.
 //
 // Black-box only: the names come from `iconv -l` and each name is classified by a behavioural fingerprint (PHP
-// iconv() calls in both directions, flags, invalid input, long inputs) compared with the fingerprints of the canonical
-// names of the charsets charset_basic implements. A name whose fingerprint matches no canonical name (for example
-// WCHAR_T, which differs from UCS-4LE in what it lets through) is "not supported".
+// iconv() calls in both directions, flags, invalid input, long inputs, every BMP code point encoded with //TRANSLIT,
+// the compositions of CP1255 and CP1258) compared with the fingerprints of the canonical names of the charsets
+// charset_basic implements. A name that matches a single-byte charset of codepages.inc.php must also match it on a
+// deeper print: the astral planes, every two-byte input and every byte after each composing pair. A name whose
+// fingerprint matches no canonical name (for example WCHAR_T, which differs from UCS-4LE in what it lets through, or
+// TIS-620, which lacks the no-break space of ISO-8859-11) is "not supported".
 //
 // Regenerate (from crates/twig-value/src/builtins/string/charset_basic, Git Bash):
 //   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
@@ -13,7 +16,10 @@
 
 declare(strict_types=1);
 
-const CANONICAL = [
+require __DIR__ . '/codepages.inc.php';
+ini_set('memory_limit', '-1');
+
+const BASIC = [
     'Utf8' => 'UTF-8', 'Utf16' => 'UTF-16', 'Utf16Be' => 'UTF-16BE', 'Utf16Le' => 'UTF-16LE',
     'Utf32' => 'UTF-32', 'Utf32Be' => 'UTF-32BE', 'Utf32Le' => 'UTF-32LE',
     'Ucs2' => 'UCS-2', 'Ucs2Be' => 'UCS-2BE', 'Ucs4' => 'UCS-4', 'Ucs4Le' => 'UCS-4LE',
@@ -39,6 +45,26 @@ function probe(string $from, string $to, string $s): string
 function u4(int ...$cps): string
 {
     return implode('', array_map(static fn (int $c): string => pack('N', $c), $cps));
+}
+
+/** The byte sequences that CP1255 and CP1258 decode to one character (their compositions). */
+function composing_inputs(): array
+{
+    static $inputs = null;
+    if ($inputs === null) {
+        $inputs = [];
+        foreach (['CP1255', 'CP1258'] as $cs) {
+            for ($a = 0; $a < 256; $a++) {
+                for ($b = 0; $b < 256; $b++) {
+                    $r = iconv($cs, 'UCS-4BE', chr($a) . chr($b));
+                    if ($r !== false && strlen($r) === 4) {
+                        $inputs[] = chr($a) . chr($b);
+                    }
+                }
+            }
+        }
+    }
+    return $inputs;
 }
 
 function fingerprint(string $name): string
@@ -74,10 +100,23 @@ function fingerprint(string $name): string
         $r[] = probe($name, 'UCS-4LE//IGNORE', $s);
         $r[] = probe($name, 'UTF-16BE//ignore', $s);
     }
+    foreach (composing_inputs() as $s) {
+        $r[] = probe($name, 'UCS-4BE', $s);
+    }
     foreach ([0xD800, 0x110000, 0x7FFFFFFF, 0x10000, 0x20AC, 0xE9] as $cp) {
         foreach (['', '//TRANSLIT', '//IGNORE', '//TRANSLIT//IGNORE', '//ignore'] as $suffix) {
             $r[] = probe('UCS-4', $name . $suffix, u4(0x61, $cp, 0x62));
         }
+    }
+    // every BMP code point, each followed by a line feed
+    for ($start = 0; $start < 0x10000; $start += 4000) {
+        $in = '';
+        for ($cp = $start; $cp < min($start + 4000, 0x10000); $cp++) {
+            if ($cp < 0xD800 || $cp > 0xDFFF) {
+                $in .= pack('N', $cp) . "\x00\x00\x00\x0a";
+            }
+        }
+        $r[] = probe('UCS-4BE', $name . '//TRANSLIT', $in);
     }
     // long inputs: glibc converts in chunks, and PHP's //IGNORE handling depends on where a call stops
     $long = str_repeat('a', 9000);
@@ -95,11 +134,51 @@ function fingerprint(string $name): string
     return md5(implode(',', $r));
 }
 
-$canonicalPrints = [];
-foreach (CANONICAL as $variant => $name) {
-    $canonicalPrints[fingerprint($name)] = $variant;
+/** The deeper print of a single-byte charset: the astral planes, every two-byte input, every byte after a pair that
+ * gave one character. */
+function deep_fingerprint(string $name): string
+{
+    $r = [];
+    for ($start = 0x10000; $start < 0x110000; $start += 4096) {
+        $in = '';
+        for ($cp = $start; $cp < $start + 4096; $cp++) {
+            $in .= pack('N', $cp);
+        }
+        $r[] = probe('UCS-4BE', $name . '//IGNORE', $in);
+    }
+    for ($a = 0; $a < 256; $a++) {
+        $row = '';
+        for ($b = 0; $b < 256; $b++) {
+            $s = chr($a) . chr($b);
+            $out = probe($name, 'UCS-4BE', $s);
+            $row .= $out . ',';
+            if (strlen($out) === 8) {
+                for ($c = 0; $c < 256; $c++) {
+                    $row .= probe($name, 'UCS-4BE', $s . chr($c)) . ';';
+                }
+            }
+        }
+        $r[] = md5($row);
+    }
+    return md5(implode(',', $r));
 }
-if (count($canonicalPrints) !== count(CANONICAL)) {
+
+$canonical = [];
+foreach (BASIC as $variant => $name) {
+    $canonical[$variant] = $name;
+}
+foreach (CODEPAGES as $variant => [$name]) {
+    $canonical["Codepage(Codepage::$variant)"] = $name;
+}
+$canonicalPrints = [];
+$deepPrints = [];
+foreach ($canonical as $variant => $name) {
+    $canonicalPrints[fingerprint($name)] = $variant;
+    if (str_starts_with($variant, 'Codepage')) {
+        $deepPrints[$variant] = deep_fingerprint($name);
+    }
+}
+if (count($canonicalPrints) !== count($canonical)) {
     fwrite(STDERR, "two canonical charsets have the same fingerprint\n");
     exit(1);
 }
@@ -109,6 +188,10 @@ foreach (preg_split('/\s+/', trim((string) shell_exec('iconv -l'))) as $listed) 
     // `iconv -l` prints NAME// or, for names with a slash inside, A/B/
     $key = str_ends_with($listed, '//') ? substr($listed, 0, -2) : rtrim($listed, '/');
     $variant = $canonicalPrints[fingerprint($key)] ?? null;
+    if ($variant !== null && isset($deepPrints[$variant]) && deep_fingerprint($key) !== $deepPrints[$variant]) {
+        fwrite(STDERR, "$key: only the deeper print differs from $canonical[$variant]\n");
+        $variant = null;
+    }
     $entries[$key] = $variant;
 }
 ksort($entries, SORT_STRING);
@@ -118,7 +201,8 @@ echo "//!\n";
 echo "//! Every charset name glibc 2.41's iconv knows in the oracle image, as `iconv -l` lists it without the trailing\n";
 echo "//! slashes, sorted bytewise, with the charset_basic converter it behaves exactly like (`None`: a charset twig-rs\n";
 echo "//! does not convert).\n\n";
-echo "use super::codec::Charset;\n\n";
+echo "use super::codec::Charset;\n";
+echo "use super::codepage::Codepage;\n\n";
 echo "/// The known charset names (upper case, `A` or `A/B`) and their converters.\n";
 printf("pub(super) static NAMES: [(&str, Option<Charset>); %d] = [\n", count($entries));
 foreach ($entries as $key => $variant) {
