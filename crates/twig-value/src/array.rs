@@ -68,6 +68,16 @@ impl Clone for ArrayData {
                 },
             };
         }
+        if self.entries.len() == self.len {
+            // No tombstones: the positions stay valid, so the index is copied instead of rebuilt.
+            return ArrayData {
+                entries: self.entries.clone(),
+                index: self.index.clone(),
+                len: self.len,
+                next_free: self.next_free,
+                layout: self.layout,
+            };
+        }
         let entries: Vec<Option<(ArrayKey, Value)>> = self
             .entries
             .iter()
