@@ -187,6 +187,11 @@ impl<'a> Call<'a> {
         std::mem::take(&mut self.args)
     }
 
+    /// The positional arguments, to move them out of the call.
+    pub(crate) fn args_mut(&mut self) -> &mut [Value] {
+        &mut self.args.positional
+    }
+
     /// Binds the arguments to PHP parameters with PHP's rules (named arguments, defaults, a trailing variadic;
     /// internal functions reject extra positional arguments, userland functions ignore them), with PHP's messages
     /// for `function`.
@@ -272,8 +277,7 @@ pub(crate) fn call_callable(
     callable: &TwigCallable,
     list: crate::vm::ArgList,
 ) -> CallResult {
-    let runtime = callable.callable().and_then(CallableRuntime::of).cloned();
-    let Some(runtime) = runtime else {
+    let Some(runtime) = callable.callable().and_then(CallableRuntime::of) else {
         return Err(PhpError::new(
             ThrowableClass::LogicException,
             format!(
@@ -292,7 +296,10 @@ pub(crate) fn call_callable(
         context: list.context,
         unpacked: list.unpacked,
     };
-    runtime.call(&mut call)
+    let result = runtime.call(&mut call);
+    let positional = std::mem::take(&mut call.args.positional);
+    call.state.recycle_arg_vec(positional);
+    result
 }
 
 /// The runtimes of the core callables by the reflection name of their PHP callable (`Class::method` or the

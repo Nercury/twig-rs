@@ -4,9 +4,10 @@
 use std::any::Any;
 use std::sync::Arc;
 
-use twig_value::{Diagnostic, Diagnostics, PhpError, ThrowableClass};
+use twig_value::{Diagnostic, Diagnostics, PhpError, ThrowableClass, Value};
 
 use super::exception::{Exception, Trace, TraceFrame};
+use crate::extension::runtime::EscaperRuntime;
 use crate::lltl::{Program, UnitId};
 use crate::runtime::Environment;
 
@@ -26,7 +27,16 @@ pub(crate) struct VmState {
     pub(crate) env: Environment,
     frames: Vec<ActiveFrame>,
     max_depth: usize,
+    /// Emptied argument vectors of finished calls, reused by the next calls.
+    arg_pool: Vec<Vec<Value>>,
+    /// The environment's escaper runtime once a call needed it (`Environment::escaper_runtime()` never changes once
+    /// created).
+    escaper: Option<Arc<EscaperRuntime>>,
 }
+
+/// How many argument vectors a render keeps for reuse, and the largest capacity it keeps.
+const ARG_POOL_SIZE: usize = 16;
+const ARG_POOL_CAPACITY: usize = 16;
 
 impl VmState {
     pub(crate) fn new(env: Environment) -> Self {
@@ -35,6 +45,40 @@ impl VmState {
             env,
             frames: Vec::new(),
             max_depth,
+            arg_pool: Vec::new(),
+            escaper: None,
+        }
+    }
+
+    /// An empty vector for the positional arguments of a call.
+    pub(crate) fn arg_vec(&mut self) -> Vec<Value> {
+        self.arg_pool.pop().unwrap_or_default()
+    }
+
+    /// Takes back the argument vector of a finished call (its values are dropped).
+    pub(crate) fn recycle_arg_vec(&mut self, mut args: Vec<Value>) {
+        if args.capacity() != 0
+            && args.capacity() <= ARG_POOL_CAPACITY
+            && self.arg_pool.len() < ARG_POOL_SIZE
+        {
+            args.clear();
+            self.arg_pool.push(args);
+        }
+    }
+
+    /// The environment's escaper runtime (Twig's `getRuntime(EscaperRuntime::class)`), taken out of the render's
+    /// cache: give it back with [`restore_escaper_runtime`](Self::restore_escaper_runtime).
+    pub(crate) fn take_escaper_runtime(&mut self) -> Arc<EscaperRuntime> {
+        match self.escaper.take() {
+            Some(runtime) => runtime,
+            None => self.env.escaper_runtime(),
+        }
+    }
+
+    /// Puts the escaper runtime back into the render's cache.
+    pub(crate) fn restore_escaper_runtime(&mut self, runtime: Arc<EscaperRuntime>) {
+        if self.escaper.is_none() {
+            self.escaper = Some(runtime);
         }
     }
 

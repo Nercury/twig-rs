@@ -124,8 +124,16 @@ pub(crate) struct ArgList {
 
 impl ArgList {
     pub(crate) fn new(context: Option<Array>) -> Self {
+        Self::with_positional(Vec::new(), context)
+    }
+
+    /// An argument list collecting its positional arguments into `positional` (an empty vector).
+    pub(crate) fn with_positional(positional: Vec<Value>, context: Option<Array>) -> Self {
         ArgList {
-            args: CallArgs::new(),
+            args: CallArgs {
+                positional,
+                named: Vec::new(),
+            },
             context,
             unpacked: false,
         }

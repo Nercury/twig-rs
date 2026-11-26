@@ -802,7 +802,9 @@ fn step_calls(
     match instr {
         Instr::ArgsStart { with_context } => {
             let context = with_context.then(|| frame.context.clone());
-            frame.args.push(ArgList::new(context));
+            frame
+                .args
+                .push(ArgList::with_positional(state.arg_vec(), context));
         }
         Instr::Arg => {
             let value = frame.pop();

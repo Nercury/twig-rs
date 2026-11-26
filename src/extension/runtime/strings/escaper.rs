@@ -3,7 +3,7 @@
 
 use std::collections::{HashMap, HashSet};
 use std::fmt;
-use std::sync::{Arc, PoisonError, RwLock};
+use std::sync::{Arc, LazyLock, PoisonError, RwLock};
 
 use twig_value::builtins::string::IconvBackend;
 use twig_value::object::{CallArgs, FunctionKind, ObjectRef, Param};
@@ -384,34 +384,61 @@ mod tests;
 /// The PHP name of the escape runtime method, used in its argument errors.
 const ESCAPE: &str = "Twig\\Runtime\\EscaperRuntime::escape";
 
-/// The escaper runtime of the environment running the call: Twig's `$this->env->getRuntime(EscaperRuntime::class)`,
-/// created with the charset of the environment when a template first escapes.
-fn environment_runtime(call: &Call<'_>) -> Arc<EscaperRuntime> {
-    call.env().escaper_runtime()
-}
-
 /// The runtime of the `escape` and `e` filters: Twig's `EscaperRuntime::escape()` called on the environment's
-/// runtime.
+/// runtime (`$this->env->getRuntime(EscaperRuntime::class)`, created with the charset of the environment when a
+/// template first escapes).
 pub(super) fn escape(call: &mut Call<'_>) -> CallResult {
     // the runtime (and its charset) exists before the arguments are checked
-    let runtime = environment_runtime(call);
-    escape_with(&runtime, call)
+    let runtime = call.state().take_escaper_runtime();
+    let result = escape_with(&runtime, call);
+    call.state().restore_escaper_runtime(runtime);
+    result
+}
+
+/// The parameters of `EscaperRuntime::escape()`.
+static ESCAPE_PARAMS: LazyLock<[Param; 4]> = LazyLock::new(|| {
+    [
+        Param::required("string"),
+        Param::optional("strategy", "html"),
+        Param::optional("charset", Value::Null),
+        Param::optional("autoescape", false),
+    ]
+});
+
+/// Whether positional arguments bind to `escape($string, string $strategy = 'html', ?string $charset = null, bool
+/// $autoescape = false)` as they are: the value, then a string strategy, a string or `null` charset and a boolean
+/// flag where given (extra arguments are ignored). PHP's binding and type checks then neither fail nor convert
+/// anything; this is how compiled templates call the filter.
+fn binds_unchanged(args: &[Value]) -> bool {
+    !args.is_empty()
+        && args.get(1).is_none_or(|v| matches!(v, Value::String(_)))
+        && args
+            .get(2)
+            .is_none_or(|v| matches!(v, Value::String(_) | Value::Null))
+        && args.get(3).is_none_or(|v| matches!(v, Value::Bool(_)))
 }
 
 /// `$runtime->escape(...)` with the arguments of a call: the typed parameters (`string $strategy = 'html'`,
 /// `?string $charset = null`, `bool $autoescape = false`) are checked in order like PHP does for a userland method
 /// (extra arguments are ignored).
 fn escape_with(runtime: &EscaperRuntime, call: &mut Call<'_>) -> CallResult {
-    let args = call.bind(
-        ESCAPE,
-        &[
-            Param::required("string"),
-            Param::optional("strategy", "html"),
-            Param::optional("charset", Value::Null),
-            Param::optional("autoescape", false),
-        ],
-        FunctionKind::User,
-    )?;
+    if call.named_args().is_empty() && binds_unchanged(call.args()) {
+        let mut args = call.args_mut().iter_mut().map(std::mem::take);
+        let value = args.next().unwrap_or_default();
+        let strategy = args.next();
+        let charset = args.next();
+        let autoescape = matches!(args.next(), Some(Value::Bool(true)));
+        let strategy = match &strategy {
+            Some(Value::String(strategy)) => strategy.as_bytes(),
+            _ => b"html",
+        };
+        let charset = match &charset {
+            Some(Value::String(charset)) => Some(charset.as_bytes()),
+            _ => None,
+        };
+        return runtime.escape(value, strategy, charset, autoescape, call.diagnostics());
+    }
+    let args = call.bind(ESCAPE, &*ESCAPE_PARAMS, FunctionKind::User)?;
     let mut args = args.into_iter();
     let value = args.next().unwrap_or_default();
     let diag = call.diagnostics();
