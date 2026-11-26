@@ -4,12 +4,14 @@ use std::sync::{Arc, LazyLock, Mutex, MutexGuard};
 
 use twig_value::object::{
     CallArgs, ClassBuilder, ClassRef, FunctionKind, MethodParams, Object, ObjectRef, Param,
+    PropertyInfo, PropertyStore, Visibility,
 };
-use twig_value::param::{DeclaredType, TypeMask, UserArg, verify_user_arg};
-use twig_value::{Array, ArrayKey, Diagnostics, PhpError, PhpResult, PhpString, Value};
+use twig_value::param::{DeclaredType, TypeMask, UserArg, verify_user_arg, verify_user_return};
+use twig_value::{Array, ArrayKey, Diagnostics, PhpError, PhpResult, PhpString, Value, convert};
 
 use super::composition;
 use super::environment::Environment;
+use super::typed_property::verify_property_type;
 use crate::error::{Error, Result};
 use crate::lltl::{Program, UnitId};
 use crate::source::Source;
@@ -615,42 +617,219 @@ struct WrapperObject {
     wrapper: TemplateWrapper,
 }
 
+/// The class name of `Twig\Source`.
+const SOURCE_CLASS_NAME: &str = "Twig\\Source";
+
+/// `private string|\Closure $path`.
+const SOURCE_PATH_TYPE: DeclaredType<'static> = DeclaredType::new(&["Closure"], TypeMask::STRING);
+
 static SOURCE_CLASS: LazyLock<ClassRef> = LazyLock::new(|| {
-    // TWIG/src/Source.php: `final class Source` with private `$code`, `$name` and `$path`
-    ClassBuilder::class("Twig\\Source")
+    // TWIG/src/Source.php: `final class Source` with `private string $code; private string $name; private
+    // string|\Closure $path;`
+    let private = |name: &str, type_name: &str| PropertyInfo {
+        name: PhpString::from(name),
+        visibility: Visibility::Private,
+        is_static: false,
+        is_readonly: false,
+        type_name: Some(type_name.into()),
+        default: None,
+        declaring_class: SOURCE_CLASS_NAME.into(),
+    };
+    ClassBuilder::class(SOURCE_CLASS_NAME)
         .final_class()
+        .property_info(private("code", "string"))
+        .property_info(private("name", "string"))
+        .property_info(private("path", "Closure|string"))
         .method("__construct")
+        .method_with("createWithLazyPath", Visibility::Public, true)
         .method("getCode")
         .method("getName")
         .method("getPath")
+        .method("__serialize")
+        .method("getColumn")
         .build()
 });
 
-/// `Twig\Source` as a PHP object: what a compiled template's `getSourceContext()` returns to templates.
+/// `Twig\Source` (TWIG/src/Source.php) as a PHP object: what a compiled template's `getSourceContext()` returns to
+/// templates. Its three typed properties live in a property store, so dumps and casts see them as PHP does.
 struct SourceObject {
-    code: PhpString,
-    name: PhpString,
-    /// The template's source, for its path: a lazily resolved path is resolved by `getPath()`.
-    source: Source,
+    properties: PropertyStore,
+}
+
+/// The parameters of `Twig\Source`'s methods (by lowercase name), TWIG/src/Source.php, with their declared types.
+fn source_params(method: &str) -> Option<Vec<(Param, DeclaredType<'static>)>> {
+    let string = |name| {
+        (
+            Param::required(name),
+            DeclaredType::builtin(TypeMask::STRING),
+        )
+    };
+    Some(match method {
+        // __construct(string $code, string $name, string $path = '')
+        "__construct" => vec![
+            string("code"),
+            string("name"),
+            (
+                Param::optional("path", ""),
+                DeclaredType::builtin(TypeMask::STRING),
+            ),
+        ],
+        // static createWithLazyPath(string $code, string $name, \Closure $path)
+        "createwithlazypath" => vec![
+            string("code"),
+            string("name"),
+            (
+                Param::required("path"),
+                DeclaredType::new(&["Closure"], TypeMask::NONE),
+            ),
+        ],
+        // getColumn(int $offset)
+        "getcolumn" => vec![(
+            Param::required("offset"),
+            DeclaredType::builtin(TypeMask::INT),
+        )],
+        "getcode" | "getname" | "getpath" | "__serialize" => Vec::new(),
+        _ => return None,
+    })
 }
 
 impl SourceObject {
+    /// `new Source($code, $name)` with `$path` assigned (`createWithLazyPath()` assigns a `Closure`).
+    fn create(code: PhpString, name: PhpString, path: Value) -> ObjectRef {
+        let source = SourceObject {
+            properties: PropertyStore::new(&SOURCE_CLASS),
+        };
+        source.properties.set(b"code", Value::String(code));
+        source.properties.set(b"name", Value::String(name));
+        source.properties.set(b"path", path);
+        ObjectRef::new(source)
+    }
+
     /// The compiled `getSourceContext()` of a template (Twig: `ModuleNode::compileGetSourceContext()`): `new
-    /// Source(<code if the template was compiled with debug on, else ''>, <name>, <path>)`, or
-    /// `Source::createWithLazyPath('', <name>, ...)` (see [`Template::source`]).
-    fn of(template: &Template) -> Value {
+    /// Source(<code if the template was compiled with debug on, else ''>, <name>, <path>)`, or, for a template with
+    /// a path compiled without debug, `Source::createWithLazyPath('', <name>, $this->getSourcePath(...))` (see
+    /// [`Template::source`]): the [`SourcePathClosure`] resolves the template's path when `getPath()` first needs
+    /// it.
+    fn of(template: &Arc<Template>) -> Value {
         let source = template.source();
         let code = if template.program().is_debug() {
             PhpString::from(source.code())
         } else {
             PhpString::empty()
         };
-        Value::Object(ObjectRef::new(SourceObject {
+        let path = if super::environment::has_lazy_path(source) {
+            Value::Object(ObjectRef::new(SourcePathClosure {
+                class: twig_value::object::builtin::closure(),
+                template: Arc::clone(template),
+            }))
+        } else {
+            Value::from(source.path())
+        };
+        Value::Object(SourceObject::create(
             code,
-            name: PhpString::from(source.name()),
-            source: source.clone(),
+            PhpString::from(source.name()),
+            path,
+        ))
+    }
+
+    /// `$this->code` (`private string $code`).
+    fn code(&self) -> PhpString {
+        match self.properties.get(b"code") {
+            Some(Value::String(code)) => code,
+            _ => PhpString::empty(),
+        }
+    }
+
+    /// Twig: `Source::getPath()`: a lazy path is resolved once, `$this->path = ($this->path)()` (checked against
+    /// `string|\Closure`), then `return $this->path;` checked against the return type `string`.
+    fn path(&self, diag: &mut dyn Diagnostics) -> PhpResult<Value> {
+        if let Some(Value::Object(closure)) = self.properties.get(b"path")
+            && closure.instance_of("Closure")
+        {
+            let path = match closure.downcast_ref::<SourcePathClosure>() {
+                Some(get_source_path) => Value::from(get_source_path.template.source().path()),
+                None => closure.invoke(CallArgs::new(), diag)?,
+            };
+            let path =
+                verify_property_type(SOURCE_CLASS_NAME, "path", &SOURCE_PATH_TYPE, path, diag)?;
+            self.properties.set(b"path", path);
+        }
+        verify_user_return(
+            self.properties.get(b"path").unwrap_or_default(),
+            &DeclaredType::builtin(TypeMask::STRING),
+            "Twig\\Source::getPath",
+            diag,
+        )
+    }
+}
+
+/// `$this->getSourcePath(...)` (TWIG/src/Template.php): the first-class callable that the compiled
+/// `getSourceContext()` of a template with a path, compiled without debug, gives `Source::createWithLazyPath()`. A
+/// `Closure` that resolves the template's path (`Template::getSourcePath()`, through [`Template::source`]).
+///
+/// Unlike other closures, two first-class callables of the same method and `$this` compare equal
+/// (`zend_closure_compare()` for `ZEND_ACC_FAKE_CLOSURE` functions, PHPSRC/Zend/zend_closures.c), so the `Source`
+/// objects of two `getSourceContext()` calls of one template are equal until one of them resolves its path.
+struct SourcePathClosure {
+    class: ClassRef,
+    /// `$this`.
+    template: Arc<Template>,
+}
+
+impl Object for SourcePathClosure {
+    fn class(&self) -> &ClassRef {
+        &self.class
+    }
+
+    fn clone_object(&self, _this: &ObjectRef, _diag: &mut dyn Diagnostics) -> PhpResult<ObjectRef> {
+        Ok(ObjectRef::new(SourcePathClosure {
+            class: self.class.clone(),
+            template: Arc::clone(&self.template),
         }))
     }
+
+    /// Port of `zend_closure_compare()`: equal to a callable of the same template instance, uncomparable with any
+    /// other closure; other values compare as objects do.
+    fn compare(
+        &self,
+        _this: &ObjectRef,
+        other: &Value,
+        _this_is_left: bool,
+        _compare_values: &mut dyn FnMut(&Value, &Value) -> PhpResult<i32>,
+    ) -> Option<PhpResult<i32>> {
+        let Value::Object(other) = other else {
+            return None;
+        };
+        if let Some(other) = other.downcast_ref::<SourcePathClosure>() {
+            return Some(Ok(i32::from(!Arc::ptr_eq(&self.template, &other.template))));
+        }
+        // ZEND_UNCOMPARABLE
+        other.instance_of("Closure").then_some(Ok(1))
+    }
+}
+
+/// Port of `Source::getColumn()` (TWIG/src/Source.php): `null` for a negative offset, else the 1-based column of
+/// the byte offset in `code`: `$before = str_replace(["\r\n", "\r"], "\n", substr($this->code, 0, $offset))`, then
+/// `strlen($before) + 1` without a line break in `$before`, else `strlen($before) - strrpos($before, "\n")`.
+fn source_column(code: &[u8], offset: i64) -> Option<i64> {
+    let offset = usize::try_from(offset).ok()?;
+    let mut before = Vec::with_capacity(offset.min(code.len()));
+    let mut rest = &code[..offset.min(code.len())];
+    while let Some((&byte, tail)) = rest.split_first() {
+        rest = tail;
+        if byte == b'\r' {
+            // "\r\n" is replaced first, then a lone "\r"
+            rest = rest.strip_prefix(b"\n").unwrap_or(rest);
+            before.push(b'\n');
+        } else {
+            before.push(byte);
+        }
+    }
+    let length = before.len() as i64;
+    Some(match before.iter().rposition(|&byte| byte == b'\n') {
+        None => length + 1,
+        Some(line_start) => length - line_start as i64,
+    })
 }
 
 impl Object for SourceObject {
@@ -658,36 +837,85 @@ impl Object for SourceObject {
         &SOURCE_CLASS
     }
 
-    /// TWIG/src/Source.php: `__construct(string $code, string $name, string $path = '')`; the getters take nothing.
-    fn method_params(&self, method: &str) -> Option<MethodParams> {
-        let params = match method {
-            "__construct" => vec![
-                Param::required("code"),
-                Param::required("name"),
-                Param::optional("path", ""),
-            ],
-            "getcode" | "getname" | "getpath" => Vec::new(),
-            _ => return None,
-        };
-        Some(MethodParams::user(params))
+    fn property_store(&self) -> Option<&PropertyStore> {
+        Some(&self.properties)
     }
 
-    /// Twig: `Source::getCode()`, `getName()`, `getPath()` (extra arguments are ignored, as for any userland method).
+    fn clone_object(&self, _this: &ObjectRef, _diag: &mut dyn Diagnostics) -> PhpResult<ObjectRef> {
+        Ok(ObjectRef::new(SourceObject {
+            properties: self.properties.clone(),
+        }))
+    }
+
+    /// The parameters of `Twig\Source`'s methods ([`source_params`]).
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        let params = source_params(method)?;
+        Some(MethodParams::user(
+            params.into_iter().map(|(param, _)| param).collect(),
+        ))
+    }
+
+    /// The methods of TWIG/src/Source.php, each called like a userland method: the arguments are bound to the
+    /// declared parameters ([`source_params`]: named arguments, the count; extra arguments are ignored), then the
+    /// typed parameters are received in coercive typing mode.
     fn call(
         &self,
-        _this: &ObjectRef,
+        this: &ObjectRef,
         method: &str,
-        _args: CallArgs,
-        _diag: &mut dyn Diagnostics,
+        args: CallArgs,
+        diag: &mut dyn Diagnostics,
     ) -> PhpResult<Value> {
+        let Some(params) = source_params(method) else {
+            return Err(twig_value::object::undefined_method(&SOURCE_CLASS, method));
+        };
+        let declared = SOURCE_CLASS
+            .method(method)
+            .map_or(method, |m| m.name.as_ref());
+        let function = format!("{SOURCE_CLASS_NAME}::{declared}");
+        let names: Vec<Param> = params.iter().map(|(param, _)| param.clone()).collect();
+        let mut values = Vec::with_capacity(params.len());
+        for (i, (value, (param, ty))) in args
+            .bind(&function, &names, FunctionKind::User)?
+            .into_iter()
+            .zip(&params)
+            .enumerate()
+        {
+            let arg = UserArg::new(&function, i as u32 + 1, param.name);
+            values.push(verify_user_arg(value, ty, &arg, diag)?);
+        }
+        let mut values = values.into_iter();
+        let mut next = || values.next().unwrap_or_default();
         match method {
-            "getcode" => Ok(Value::String(self.code.clone())),
-            "getname" => Ok(Value::String(self.name.clone())),
-            "getpath" => Ok(Value::String(PhpString::from(self.source.path()))),
-            "__construct" => Err(PhpError::new(
-                twig_value::ThrowableClass::LogicException,
-                "Calling Twig\\Source::__construct() from a template is not supported by twig-rs.",
-            )),
+            "getcode" => Ok(Value::String(self.code())),
+            "getname" => Ok(self.properties.get(b"name").unwrap_or_default()),
+            "getpath" => self.path(diag),
+            "getcolumn" => {
+                let Value::Int(offset) = next() else {
+                    unreachable!("`int $offset` is received as an int")
+                };
+                Ok(source_column(self.code().as_bytes(), offset).map_or(Value::Null, Value::Int))
+            }
+            // `$this->getPath(); return (array) $this;`
+            "__serialize" => {
+                self.path(diag)?;
+                Ok(Value::Array(convert::to_array(
+                    &Value::Object(this.clone()),
+                    diag,
+                )?))
+            }
+            "__construct" => {
+                self.properties.set(b"code", next());
+                self.properties.set(b"name", next());
+                self.properties.set(b"path", next());
+                Ok(Value::Null)
+            }
+            // `$source = new self($code, $name); $source->path = $path; return $source;`
+            "createwithlazypath" => {
+                let (Value::String(code), Value::String(name)) = (next(), next()) else {
+                    unreachable!("`string $code` and `string $name` are received as strings")
+                };
+                Ok(Value::Object(SourceObject::create(code, name, next())))
+            }
             _ => Err(twig_value::object::undefined_method(&SOURCE_CLASS, method)),
         }
     }
@@ -888,5 +1116,25 @@ impl Object for WrapperObject {
             )),
             _ => Err(twig_value::object::undefined_method(&WRAPPER_CLASS, method)),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// `Source::getColumn()` (oracle: tests/vectors/fuzz/dynamic/p38-source-methods.json, `p38-col-*`).
+    #[test]
+    fn source_column_counts_bytes_after_the_last_line_break() {
+        assert_eq!(source_column(b"a\nbc", 3), Some(2));
+        assert_eq!(source_column(b"a\nbc", 2), Some(1));
+        assert_eq!(source_column(b"a\nbc", 0), Some(1));
+        assert_eq!(source_column(b"a\nbc", 30), Some(3));
+        assert_eq!(source_column(b"a\r\nbc", 4), Some(2));
+        assert_eq!(source_column(b"a\r\nbc", 2), Some(1));
+        assert_eq!(source_column(b"a\rbc", 3), Some(2));
+        assert_eq!(source_column(b"\r\r\nx", 4), Some(2));
+        assert_eq!(source_column(b"", 3), Some(1));
+        assert_eq!(source_column(b"abc", -1), None);
     }
 }

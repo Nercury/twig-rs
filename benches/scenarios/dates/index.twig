@@ -1,0 +1,5 @@
+<ul>
+{% for ts in timestamps %}
+  <li>{{ ts|date('Y-m-d H:i:s') }} | {{ ts|date('D, d M Y H:i T', 'Europe/Vilnius') }} | {{ ts|date('c', 'America/New_York') }} | {{ ts|date_modify('+1 month')|date('Y-m-d l') }} | {{ ts|date('N jS F Y, g:i a', 'Asia/Tokyo') }}</li>
+{% endfor %}
+</ul>

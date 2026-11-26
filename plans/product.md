@@ -5,31 +5,19 @@ template behaviour.
 
 ## API ergonomics
 
-- **Top-level re-exports**: `twig::{Environment, EnvironmentOptions, Error, Result, Source, Value, Array}` and the
-  loaders (`twig::loader::{ArrayLoader, FilesystemLoader, ChainLoader}`), so a first program needs one `use`.
-- **Context building**: `From` conversions into `Value` for Rust scalars, strings, `Option`, slices/`Vec`,
-  `HashMap`/`BTreeMap`/`IndexMap` with string or integer keys (PHP key normalisation applies), and a `context!`
-  macro (`context! { name => "World", items => vec![1, 2] }` → `Array`). `u64`/`u128` above `i64::MAX` become floats,
-  like PHP's `json_decode`.
-- **serde** (optional feature `serde` on `twig-value`, re-exported by `twig`): `to_value(&impl Serialize)` producing PHP
-  arrays (structs and maps → string-keyed arrays, sequences → lists, unit/`None` → null, enums like serde_json's
-  external tagging). `render` accepts anything convertible into a context `Array`.
-- **Simple callables**: `TwigFilter::from_fn` / `TwigFunction::from_fn` / `TwigTest::from_fn` taking a closure and a
-  parameter list, building the `PhpCallable` + runtime pair; options via a builder (`is_safe`, `needs_context`, …).
-  The full `Call` API stays for advanced cases.
+Each item also updates the guide in the crate documentation (`src/lib.rs`), the examples that use the old form and
+the README.
+
+- **Contexts from any data**: the render methods (`Environment::{render, render_bytes, display}`,
+  `TemplateWrapper::{render, render_bytes, display, render_block, render_block_bytes, display_block}` and `Sandbox`'s)
+  take `context: impl Into<Array>` instead of `Array`, so that a `BTreeMap`, a `HashMap` or a `[(K, V); N]` is a
+  context without `Array::from`.
 - **Rendering conveniences**: `Environment::render_string(source, context)` (a `template_from_string` equivalent
-  without registering a name), and `display` into any `std::io::Write`.
+  without registering a name), and `display` into any `std::io::Write` (today it takes a `vm::Sink`, so a writer is
+  wrapped in `vm::IoSink`).
 - **Host objects**: documented `Object` implementation guide with a worked example; an `ObjectBuilder` for simple
-  property/method bags. A derive macro is out of scope until someone needs it.
-
-## Documentation and examples
-
-- Crate docs: overview, compatibility statement (target versions, link to deviations), quick start, data passing,
-  autoescaping, extending (filters/functions/tests, extensions, token parsers), loaders, sandbox, errors and
-  diagnostics policy, thread safety.
-- `examples/`: `hello` (ArrayLoader), `filesystem` (FilesystemLoader with namespaces), `custom_filter`,
-  `extension` (filters + a token parser), `sandbox`, `serde_context`. Each compiled in CI.
-- README: status, install, quick start, compatibility, layout, contributing pointer (oracle + fuzzing workflow).
+  property/method bags. A derive macro is out of scope until someone needs it. (`examples/sandbox.rs` implements
+  `Object` by hand for a class with two methods.)
 
 ## Quality
 
@@ -46,4 +34,6 @@ template behaviour.
   (BSD-3-Clause) and sljit (BSD-2-Clause), Unicode data (Unicode License v3), the IANA time zone database (public
   domain), musl/ARM optimized-routines (MIT), glibc-measured iconv tables (data), xxHash via `xxhash-rust`.
 - Per-crate licence expressions reviewed against what each crate contains.
-- CHANGELOG, versions (0.2.0 for every crate), crates.io metadata, docs.rs settings. Publishing needs the owner's go.
+- CHANGELOG, versions (0.2.0 for every crate), crates.io metadata, docs.rs settings (with the `serde` feature, so
+  that `to_context` and `to_value` are documented). The README's installation section then names the crates.io
+  version. Publishing needs the owner's go.

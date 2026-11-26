@@ -1,0 +1,5 @@
+<article id="item-{{ item.id }}" data-position="{{ position }}">
+  <h2>{{ item.title }}</h2>
+  <p>{{ item.body }}</p>
+  {% if item.tags is not empty %}<p class="tags">{{ item.tags|join(', ') }}</p>{% endif %}
+</article>

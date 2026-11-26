@@ -1,0 +1,843 @@
+{
+ "cases": [
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(''?'')])}}"
+   },
+   "id": "fold_lines-001"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?'x':'')])}}"
+   },
+   "id": "fold_lines-002"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(''?:'')])}}"
+   },
+   "id": "fold_lines-003"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(null??'')])}}"
+   },
+   "id": "fold_lines-004"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(''?'':'a'~'b')])}}"
+   },
+   "id": "fold_lines-005"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?'a'~1:'')])}}"
+   },
+   "id": "fold_lines-006"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*('a'~'b')])}}"
+   },
+   "id": "fold_lines-007"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*('a'~1)])}}"
+   },
+   "id": "fold_lines-008"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*('a'~'b'~'c')])}}"
+   },
+   "id": "fold_lines-009"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?(0?'a':'b'):'c')])}}"
+   },
+   "id": "fold_lines-010"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?('a'|raw):'')])}}"
+   },
+   "id": "fold_lines-011"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?1.5:'')])}}"
+   },
+   "id": "fold_lines-012"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?0:'')])}}"
+   },
+   "id": "fold_lines-013"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?1E25:'')])}}"
+   },
+   "id": "fold_lines-014"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?0.0:'')])}}"
+   },
+   "id": "fold_lines-015"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?1~2:'')])}}"
+   },
+   "id": "fold_lines-016"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?1.5~'a':'')])}}"
+   },
+   "id": "fold_lines-017"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?('a'~'b')|raw:'')])}}"
+   },
+   "id": "fold_lines-018"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(true?'a':'')])}}"
+   },
+   "id": "fold_lines-019"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*('a'?:'')])}}"
+   },
+   "id": "fold_lines-020"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*('a'??'')])}}"
+   },
+   "id": "fold_lines-021"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(('a'~'b')?:'')])}}"
+   },
+   "id": "fold_lines-022"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?'':'a')])}}"
+   },
+   "id": "fold_lines-023"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(('a'|raw))])}}"
+   },
+   "id": "fold_lines-024"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*('a'~'b'|raw)])}}"
+   },
+   "id": "fold_lines-025"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?'a':\nzz)])}}"
+   },
+   "id": "fold_lines-026"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(\n_self is defined?'a':'')])}}"
+   },
+   "id": "fold_lines-027"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?(\n_self is defined?'a':''):'')])}}"
+   },
+   "id": "fold_lines-028"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*('a'|raw|raw)])}}"
+   },
+   "id": "fold_lines-029"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*('a' ~ 'b' ~ 1.5 ~ 0)])}}"
+   },
+   "id": "fold_lines-030"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1 ? (0 ?: 'x') : '')])}}"
+   },
+   "id": "fold_lines-031"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1 ? (null ?? 'x') : '')])}}"
+   },
+   "id": "fold_lines-032"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1 ? ('x' ?? 'y') : '')])}}"
+   },
+   "id": "fold_lines-033"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(('a' ~ 'b') ?: ('c' ~ 'd'))])}}"
+   },
+   "id": "fold_lines-034"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*((0 ~ '') ?: 'x')])}}"
+   },
+   "id": "fold_lines-035"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*((1 ? 'a' : '')|raw)])}}"
+   },
+   "id": "fold_lines-036"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*('a' ~ ('b'|raw))])}}"
+   },
+   "id": "fold_lines-037"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1 ? ('a' ~ 'b')|raw ~ 'c' : '')])}}"
+   },
+   "id": "fold_lines-038"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1 ? 12345678901234567890 : '')])}}"
+   },
+   "id": "fold_lines-039"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1 ? 1.0E+25 ~ '' : '')])}}"
+   },
+   "id": "fold_lines-040"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1 ? (1 ? (1 ? 'a' : 0) : 1) : 2)])}}"
+   },
+   "id": "fold_lines-041"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1 ? ''|default('x') : 0)])}}"
+   },
+   "id": "fold_lines-042"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*('')])}}"
+   },
+   "id": "fold_lines-043"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?null:'')])}}"
+   },
+   "id": "fold_lines-044"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?false:'')])}}"
+   },
+   "id": "fold_lines-045"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?true:'')])}}"
+   },
+   "id": "fold_lines-046"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?[]:'')])}}"
+   },
+   "id": "fold_lines-047"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?-1:'')])}}"
+   },
+   "id": "fold_lines-048"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?-'1':'')])}}"
+   },
+   "id": "fold_lines-049"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?+1:'')])}}"
+   },
+   "id": "fold_lines-050"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(-1~'b')])}}"
+   },
+   "id": "fold_lines-051"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?'a'~-1:'')])}}"
+   },
+   "id": "fold_lines-052"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*((0?'':'a')~'b')])}}"
+   },
+   "id": "fold_lines-053"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1?'a'~(1?'b':''):'')])}}"
+   },
+   "id": "fold_lines-054"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[...{},\nr]*(1 ? (1 ? -1 : '') : '')])}}"
+   },
+   "id": "fold_lines-055"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{([[1,\nr]*(''?'')])}}"
+   },
+   "id": "fold_lines-056"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{[[r,\nr]*(0?'':'k')]}}"
+   },
+   "id": "fold_lines-057"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{[...{},\nr]*(1?'a':'')}}"
+   },
+   "id": "fold_lines-058"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{[r\n*(''?'')]}}"
+   },
+   "id": "fold_lines-059"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{r\n*(1?'a':'')}}"
+   },
+   "id": "fold_lines-060"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{({(('')\n~s):([])+e})}}"
+   },
+   "id": "fold_lines-061"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{({(('')\n~s):([])+e})}}"
+   },
+   "data_json": {
+    "s": "a",
+    "e": 1
+   },
+   "id": "fold_lines-062"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{({(\ns):([])+e})}}"
+   },
+   "id": "fold_lines-063"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {('' ~\ns):\n\n\n1}|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-064"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {('' ~\ns):\n\n\ne}|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-065"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [{('' ~\ns): 1}]|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-066"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [[{('' ~\ns): 1}]]|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-067"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% set a, b = {('' ~\ns): 1}, 2 %}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-068"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {(s\n~ t): [] + e} }}"
+   },
+   "id": "fold_lines-069"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [{(s\n~ t): 1} + e] }}"
+   },
+   "id": "fold_lines-070"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {('' ~\ns): 1, ('' ~ \n\nt): 2}|length }}"
+   },
+   "data_json": {
+    "s": 1,
+    "t": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-071"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {('' ~\ns ~ ''): 1}|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-072"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [...{('' ~\ns): 1}]|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-073"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [({('' ~\ns): 1}) ?: 2]|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-074"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [{('' ~\ns): 1}|raw]|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-075"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [{(('' ~\ns) ~ ''): 1} ~ '']|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-076"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {(\ns ~ t ~\n''): 1}|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ],
+    "t": 1
+   },
+   "errors": "throw",
+   "id": "fold_lines-077"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {('' ~ s|length ~\nt): 1}|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ],
+    "t": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-078"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {(\n'' ~ s): [1] ~ (1\n~ '')}|length }}"
+   },
+   "data_json": {
+    "s": 1
+   },
+   "errors": "throw",
+   "id": "fold_lines-079"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {('' ~ max([1,\ns], 1)):\n2}|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-080"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {(('' ~ max({('' ~\nt): 1}|length, 0)) ~\n\n s): 1}|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ],
+    "t": "a"
+   },
+   "errors": "throw",
+   "id": "fold_lines-081"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {(('' ~ max({('' ~\nt): 1}|length, 0)) ~\n\n s): 1}|length }}"
+   },
+   "data_json": {
+    "s": "b",
+    "t": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-082"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {(('' ~ max([1,\n\nt]|length, 0)) ~\n s): 1}|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ],
+    "t": "a"
+   },
+   "errors": "throw",
+   "id": "fold_lines-083"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1]|map(v => {('' ~\ns): 1})|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-084"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1]|map(v => {('' ~\ns):\n\n1, (''\n~ s): 2})|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-085"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% set a, b = {('' ~\ns):\n\nx}, 2 %}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ],
+    "x": 1
+   },
+   "errors": "throw",
+   "id": "fold_lines-086"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {(\n('' ~ s) ~ (\n\nt ~ '')): 1}|length }}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ],
+    "t": "a"
+   },
+   "errors": "throw",
+   "id": "fold_lines-087"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {(\n('' ~ s) ~ (\n\nt ~ '')): 1}|length }}"
+   },
+   "data_json": {
+    "s": "a",
+    "t": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-088"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {(\ns ~ ''):\n\nr * (1 ? 'a' : '')} }}"
+   },
+   "data_json": {
+    "s": 1
+   },
+   "id": "fold_lines-089"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% with {(\n'' ~ s): 1} %}{% endwith %}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-090"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in {('' ~\ns): 1} %}{% endfor %}"
+   },
+   "data_json": {
+    "s": [
+     1
+    ]
+   },
+   "errors": "throw",
+   "id": "fold_lines-091"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {(s ~\n''): [] + e} }}"
+   },
+   "id": "fold_lines-092"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {a: 1, ('' ~\ns): [] + e} }}"
+   },
+   "id": "fold_lines-093"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {a: 1, (\ns): ([])+e} }}"
+   },
+   "id": "fold_lines-094"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {(s~''):([])+\ne} }}"
+   },
+   "id": "fold_lines-095"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ {('a'\n~'b'):([])+e} }}"
+   },
+   "id": "fold_lines-096"
+  }
+ ],
+ "isolation": "process"
+}

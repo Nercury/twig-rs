@@ -3,14 +3,23 @@
 //!
 //! A callable is the metadata the parser and the compiler need (name, options, node class, the PHP parameter list
 //! used to bind named arguments) plus a runtime slot ([`PhpCallable::runtime`]) that the runtime phase fills.
+//!
+//! [`TwigFilter::from_fn`], [`TwigFunction::from_fn`] and [`TwigTest::from_fn`] build both from a Rust closure and the
+//! list of its template parameters, with the options as builder methods ([`FilterBuilder`], [`FunctionBuilder`],
+//! [`TestBuilder`]).
 
 use std::any::Any;
+use std::collections::HashSet;
 use std::fmt;
-use std::sync::{Arc, OnceLock};
+use std::sync::{Arc, LazyLock, Mutex, OnceLock, PoisonError};
 
-use crate::ast::{Arguments, ConstantValue, Expr};
+use twig_value::object::{FunctionKind, Param};
+use twig_value::{Array, ArrayKey, PhpString, Value};
+
+use crate::ast::{Arguments, ArrayKey as ConstantKey, ConstantValue, Expr};
 use crate::deprecation::{Deprecation, DeprecationSink};
 use crate::error::Result;
+use crate::extension::runtime::{Call, CallResult, CallableRuntime};
 use crate::parser::Parser;
 
 /// The callable behind a Twig filter, function or test, described the way PHP reflection sees it.
@@ -89,7 +98,7 @@ impl CallableParameter {
         }
     }
 
-    /// A parameter with a default value.
+    /// A parameter with a default value (`ConstantValue::Null`, or `"text".into()`, `1.into()`, `true.into()`).
     pub fn optional(name: &str, default: ConstantValue) -> Self {
         CallableParameter {
             name: name.to_owned(),
@@ -139,6 +148,13 @@ impl CallableParameter {
             ParameterDefault::Value(value) => Some(value),
             _ => None,
         }
+    }
+}
+
+impl From<&str> for CallableParameter {
+    /// A required parameter of this name ([`CallableParameter::required`]).
+    fn from(name: &str) -> Self {
+        CallableParameter::required(name)
     }
 }
 
@@ -971,6 +987,520 @@ impl fmt::Display for TwigCallable {
             TwigCallable::Test(c) => c.fmt(f),
         }
     }
+}
+
+// ---- callables made of Rust closures ------------------------------------------------------------------------------
+
+impl TwigFilter {
+    /// A filter made of a Rust closure: `parameters` are the template arguments the filter takes after its input,
+    /// `function` the implementation. Twig's options are methods of the returned [`FilterBuilder`], whose
+    /// [`build`](FilterBuilder::build) makes the filter.
+    ///
+    /// The parameters are PHP parameters (see [`CallableParameter`]): Twig binds named template arguments to them by
+    /// name, fills skipped optional ones with their defaults and reports missing ones (`Value for argument "x" is
+    /// required for filter "f".`); a trailing [variadic](CallableParameter::variadic) one collects the extra arguments
+    /// of an [`is_variadic`](FilterBuilder::is_variadic) filter.
+    ///
+    /// `function` receives the [`Call`] and the arguments: the input, then one value per parameter, as PHP binds the
+    /// arguments of a closure `function ($value, $a, $b = 1)`: the argument given, else the parameter's default; a
+    /// variadic parameter gets an array of the remaining arguments (named ones under their names). Arguments unpacked with
+    /// `...` are bound the same way, with PHP's errors (`ArgumentCountError: Too few arguments to function
+    /// {closure}(), 1 passed and exactly 2 expected`, `Error: Unknown named parameter $x`). The values Twig injects
+    /// with `needs_context`, `needs_environment`, `needs_charset` and `needs_is_sandboxed`, and the parts of a
+    /// dynamic name (`*`), come from the [`Call`] ([`Call::context`], [`Call::env`], [`Call::charset`],
+    /// [`Call::is_sandboxed`], [`Call::dynamic_arguments`]). The result is anything that converts into a [`Value`],
+    /// or the exception the filter throws (`?` converts [`Error`](crate::Error)s and
+    /// [`PhpError`](twig_value::PhpError)s).
+    ///
+    /// ```
+    /// use twig::extension::{CallableParameter, TwigFilter};
+    /// use twig::value::convert;
+    /// use twig::{Environment, context, loader::ArrayLoader};
+    ///
+    /// let env = Environment::new(ArrayLoader::new([("index", "{{ text|wrap('em') }}")]));
+    /// let mut wrap = TwigFilter::from_fn("wrap", [CallableParameter::required("tag")], |call, args| {
+    ///     let [text, tag] = args else { unreachable!() };
+    ///     let text = convert::to_string(text, call.diagnostics())?;
+    ///     let tag = convert::to_string(tag, call.diagnostics())?;
+    ///     Ok(format!("<{tag}>{text}</{tag}>"))
+    /// });
+    /// // the output is HTML; the input gets escaped first
+    /// wrap.is_safe(["html"]).pre_escape("html");
+    /// env.add_filter(wrap.build())?;
+    /// assert_eq!(env.render("index", context! { text => "<b>" })?, "<em>&lt;b&gt;</em>");
+    /// # Ok::<(), twig::Error>(())
+    /// ```
+    pub fn from_fn<R, F>(
+        name: impl Into<Vec<u8>>,
+        parameters: impl IntoIterator<Item = CallableParameter>,
+        function: F,
+    ) -> FilterBuilder
+    where
+        R: Into<Value>,
+        F: Fn(&mut Call<'_>, &[Value]) -> CallResult<R> + Send + Sync + 'static,
+    {
+        let parameters: Vec<CallableParameter> = parameters.into_iter().collect();
+        let input = input_parameter_name(&parameters);
+        let runtime = closure_runtime(Some(input.as_str()), &parameters, function);
+        FilterBuilder {
+            name: name.into(),
+            parameters,
+            input,
+            runtime,
+            options: FilterOptions::default(),
+        }
+    }
+}
+
+impl TwigFunction {
+    /// A function made of a Rust closure: `parameters` are its template arguments, `function` the implementation.
+    /// Twig's options are methods of the returned [`FunctionBuilder`], whose [`build`](FunctionBuilder::build) makes
+    /// the function.
+    ///
+    /// `function` receives the [`Call`] and one value per parameter (the argument given, else the default); see
+    /// [`TwigFilter::from_fn`] for the parameters, the binding of the arguments and the result.
+    ///
+    /// ```
+    /// use twig::extension::{CallableParameter, ConstantValue, TwigFunction};
+    /// use twig::value::convert;
+    /// use twig::{Environment, Value, context, loader::ArrayLoader};
+    ///
+    /// let env = Environment::new(ArrayLoader::new([("index", "{{ greet() }}, {{ greet('Bob') }}")]));
+    /// let mut greet = TwigFunction::from_fn(
+    ///     "greet",
+    ///     [CallableParameter::optional("name", ConstantValue::Null)],
+    ///     |call, args| {
+    ///         // without a name, the `user` of the template's context
+    ///         let name = match &args[0] {
+    ///             Value::Null => call.context().get_str(b"user").cloned().unwrap_or_default(),
+    ///             name => name.clone(),
+    ///         };
+    ///         Ok(format!("Hello {}", convert::to_string(&name, call.diagnostics())?))
+    ///     },
+    /// );
+    /// greet.needs_context();
+    /// env.add_function(greet.build())?;
+    /// assert_eq!(env.render("index", context! { user => "Alice" })?, "Hello Alice, Hello Bob");
+    /// # Ok::<(), twig::Error>(())
+    /// ```
+    pub fn from_fn<R, F>(
+        name: impl Into<Vec<u8>>,
+        parameters: impl IntoIterator<Item = CallableParameter>,
+        function: F,
+    ) -> FunctionBuilder
+    where
+        R: Into<Value>,
+        F: Fn(&mut Call<'_>, &[Value]) -> CallResult<R> + Send + Sync + 'static,
+    {
+        let parameters: Vec<CallableParameter> = parameters.into_iter().collect();
+        let runtime = closure_runtime(None, &parameters, function);
+        FunctionBuilder {
+            name: name.into(),
+            parameters,
+            runtime,
+            options: FunctionOptions::default(),
+        }
+    }
+}
+
+impl TwigTest {
+    /// A test made of a Rust closure: `parameters` are the template arguments the test takes after the tested value,
+    /// `function` the implementation, which typically returns a `bool`. Twig's options are methods of the returned
+    /// [`TestBuilder`], whose [`build`](TestBuilder::build) makes the test.
+    ///
+    /// `function` receives the [`Call`] and the arguments: the tested value, then one value per parameter (the
+    /// argument given, else the default); see [`TwigFilter::from_fn`] for the parameters, the binding of the
+    /// arguments and the result.
+    ///
+    /// ```
+    /// use twig::extension::TwigTest;
+    /// use twig::value::convert;
+    /// use twig::{Environment, context, loader::ArrayLoader};
+    ///
+    /// let env = Environment::new(ArrayLoader::new([(
+    ///     "index",
+    ///     "{% for word in words %}{{ word is palindrome ? 'y' : 'n' }}{% endfor %}",
+    /// )]));
+    /// let palindrome = TwigTest::from_fn("palindrome", [], |call, args| {
+    ///     let text = convert::to_string(&args[0], call.diagnostics())?;
+    ///     Ok(text.iter().eq(text.iter().rev()))
+    /// });
+    /// env.add_test(palindrome.build())?;
+    /// assert_eq!(env.render("index", context! { words => ["level", "twig"] })?, "yn");
+    /// # Ok::<(), twig::Error>(())
+    /// ```
+    pub fn from_fn<R, F>(
+        name: impl Into<Vec<u8>>,
+        parameters: impl IntoIterator<Item = CallableParameter>,
+        function: F,
+    ) -> TestBuilder
+    where
+        R: Into<Value>,
+        F: Fn(&mut Call<'_>, &[Value]) -> CallResult<R> + Send + Sync + 'static,
+    {
+        let parameters: Vec<CallableParameter> = parameters.into_iter().collect();
+        let input = input_parameter_name(&parameters);
+        let runtime = closure_runtime(Some(input.as_str()), &parameters, function);
+        TestBuilder {
+            name: name.into(),
+            parameters,
+            input,
+            runtime,
+            options: TestOptions::default(),
+        }
+    }
+}
+
+/// Builder methods that switch a boolean option on.
+macro_rules! flag_setters {
+    ($($(#[$doc:meta])* $flag:ident;)*) => {$(
+        $(#[$doc])*
+        pub fn $flag(&mut self) -> &mut Self {
+            self.options.$flag = true;
+            self
+        }
+    )*};
+}
+
+/// The builder methods of every callable type's common options.
+macro_rules! common_setters {
+    ($node_class:ty) => {
+        flag_setters! {
+            /// Twig's `needs_is_sandboxed` option: Twig passes whether the calling template runs sandboxed, which
+            /// the implementation reads with [`Call::is_sandboxed`].
+            needs_is_sandboxed;
+            /// Twig's `is_variadic` option: the arguments beyond the parameters go to the last parameter, which must
+            /// be a [variadic](CallableParameter::variadic) one (or an `array` parameter with the default `[]`).
+            is_variadic;
+            /// Twig's `always_allowed_in_sandbox` option: allowed in sandboxed templates whatever the security
+            /// policy.
+            always_allowed_in_sandbox;
+        }
+
+        /// Twig's `deprecation_info` option: using the callable reports this deprecation.
+        pub fn deprecation_info(&mut self, info: DeprecatedCallableInfo) -> &mut Self {
+            self.options.deprecation_info = Some(info);
+            self
+        }
+
+        /// Twig's `node_class` option: the node class of the calls, for callables that compile differently.
+        pub fn node_class(&mut self, node_class: $node_class) -> &mut Self {
+            self.options.node_class = node_class;
+            self
+        }
+    };
+}
+
+/// The builder methods of the options filters and functions share.
+macro_rules! call_setters {
+    () => {
+        flag_setters! {
+            /// Twig's `needs_charset` option: Twig passes the environment's charset, which the implementation reads
+            /// with [`Call::charset`].
+            needs_charset;
+            /// Twig's `needs_environment` option: Twig passes the environment, which the implementation reads with
+            /// [`Call::env`].
+            needs_environment;
+            /// Twig's `needs_context` option: Twig passes the template's context, which the implementation reads
+            /// with [`Call::context`] (an empty array without this option).
+            needs_context;
+        }
+
+        /// Twig's `is_safe` option: the escaping strategies the output is safe for (`["html"]`, or `["all"]`), so
+        /// that auto-escaping does not escape it.
+        pub fn is_safe<I>(&mut self, strategies: I) -> &mut Self
+        where
+            I: IntoIterator,
+            I::Item: Into<ConstantValue>,
+        {
+            self.options.is_safe = Some(strategies.into_iter().map(Into::into).collect());
+            self
+        }
+
+        /// Twig's `is_safe_callback` option: computes the strategies the output is safe for from the arguments of
+        /// a call (used when `is_safe` is not set).
+        pub fn is_safe_callback(
+            &mut self,
+            callback: impl Fn(&Arguments) -> Vec<ConstantValue> + Send + Sync + 'static,
+        ) -> &mut Self {
+            self.options.is_safe_callback = Some(Arc::new(callback));
+            self
+        }
+    };
+}
+
+/// Builds a [`TwigFilter`] made of a Rust closure; made by [`TwigFilter::from_fn`].
+///
+/// The methods set Twig's filter options and return the builder, so that they chain;
+/// [`build`](FilterBuilder::build) makes the filter (and can be called again for another one).
+#[derive(Clone)]
+pub struct FilterBuilder {
+    name: Vec<u8>,
+    parameters: Vec<CallableParameter>,
+    input: String,
+    runtime: CallableRuntime,
+    options: FilterOptions,
+}
+
+impl FilterBuilder {
+    common_setters!(FilterNodeClass);
+    call_setters!();
+
+    /// Twig's `pre_escape` option: the input is escaped with this strategy (e.g. `html`) before the filter runs,
+    /// unless it is already safe for it.
+    pub fn pre_escape(&mut self, strategy: impl Into<String>) -> &mut Self {
+        self.options.pre_escape = Some(strategy.into());
+        self
+    }
+
+    /// Twig's `preserves_safety` option: the strategies for which the output is safe when the input is.
+    pub fn preserves_safety<I>(&mut self, strategies: I) -> &mut Self
+    where
+        I: IntoIterator,
+        I::Item: Into<ConstantValue>,
+    {
+        self.options.preserves_safety = Some(strategies.into_iter().map(Into::into).collect());
+        self
+    }
+
+    /// The options set so far.
+    pub fn options(&self) -> &FilterOptions {
+        &self.options
+    }
+
+    /// The filter.
+    pub fn build(&self) -> TwigFilter {
+        let o = &self.options;
+        let injected = [
+            o.needs_charset,
+            o.needs_environment,
+            o.needs_context,
+            o.needs_is_sandboxed,
+        ];
+        let callable = closure_callable(
+            &self.name,
+            injected,
+            Some(self.input.as_str()),
+            &self.parameters,
+            &self.runtime,
+        );
+        TwigFilter::new(self.name.clone(), Some(callable), self.options.clone())
+    }
+}
+
+/// Builds a [`TwigFunction`] made of a Rust closure; made by [`TwigFunction::from_fn`].
+///
+/// The methods set Twig's function options and return the builder, so that they chain;
+/// [`build`](FunctionBuilder::build) makes the function (and can be called again for another one).
+#[derive(Clone)]
+pub struct FunctionBuilder {
+    name: Vec<u8>,
+    parameters: Vec<CallableParameter>,
+    runtime: CallableRuntime,
+    options: FunctionOptions,
+}
+
+impl FunctionBuilder {
+    common_setters!(FunctionNodeClass);
+    call_setters!();
+
+    /// Twig's `parser_callable` option: builds the node of a call at parse time instead of the node class.
+    pub fn parser_callable(
+        &mut self,
+        parser_callable: impl Fn(&mut Parser<'_>, Arguments, i64) -> Result<Expr>
+        + Send
+        + Sync
+        + 'static,
+    ) -> &mut Self {
+        self.options.parser_callable = Some(Arc::new(parser_callable));
+        self
+    }
+
+    /// The options set so far.
+    pub fn options(&self) -> &FunctionOptions {
+        &self.options
+    }
+
+    /// The function.
+    pub fn build(&self) -> TwigFunction {
+        let o = &self.options;
+        let injected = [
+            o.needs_charset,
+            o.needs_environment,
+            o.needs_context,
+            o.needs_is_sandboxed,
+        ];
+        let callable =
+            closure_callable(&self.name, injected, None, &self.parameters, &self.runtime);
+        TwigFunction::new(self.name.clone(), Some(callable), self.options.clone())
+    }
+}
+
+/// Builds a [`TwigTest`] made of a Rust closure; made by [`TwigTest::from_fn`].
+///
+/// The methods set Twig's test options and return the builder, so that they chain;
+/// [`build`](TestBuilder::build) makes the test (and can be called again for another one). Tests never receive the
+/// charset, the environment or the context (Twig's `TwigTest` ignores those options).
+#[derive(Clone)]
+pub struct TestBuilder {
+    name: Vec<u8>,
+    parameters: Vec<CallableParameter>,
+    input: String,
+    runtime: CallableRuntime,
+    options: TestOptions,
+}
+
+impl TestBuilder {
+    common_setters!(TestNodeClass);
+
+    flag_setters! {
+        /// Twig's `one_mandatory_argument` option: the test takes exactly one argument, which may be written
+        /// without parentheses (like `same as`).
+        one_mandatory_argument;
+    }
+
+    /// The options set so far.
+    pub fn options(&self) -> &TestOptions {
+        &self.options
+    }
+
+    /// The test.
+    pub fn build(&self) -> TwigTest {
+        let injected = [false, false, false, self.options.needs_is_sandboxed];
+        let callable = closure_callable(
+            &self.name,
+            injected,
+            Some(self.input.as_str()),
+            &self.parameters,
+            &self.runtime,
+        );
+        TwigTest::new(self.name.clone(), Some(callable), self.options.clone())
+    }
+}
+
+macro_rules! debug_builder {
+    ($($ty:ident),*) => {$(
+        impl fmt::Debug for $ty {
+            fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+                f.debug_struct(stringify!($ty))
+                    .field("name", &String::from_utf8_lossy(&self.name))
+                    .field("parameters", &self.parameters)
+                    .finish_non_exhaustive()
+            }
+        }
+    )*};
+}
+
+debug_builder!(FilterBuilder, FunctionBuilder, TestBuilder);
+
+/// The name of the PHP parameter that receives the input of a filter or test made by `from_fn`: `value`, with `_`
+/// appended until no declared parameter has the name, so that a named argument only ever reaches a declared parameter.
+fn input_parameter_name(declared: &[CallableParameter]) -> String {
+    let mut name = String::from("value");
+    while declared.iter().any(|parameter| parameter.name == name) {
+        name.push('_');
+    }
+    name
+}
+
+/// The runtime of a callable made by `from_fn`: binds the arguments of a call to the input parameter (filters and
+/// tests) and the declared parameters as PHP binds the arguments of a closure (`FunctionKind::User`: defaults for
+/// omitted optional parameters, extra positional arguments ignored, a variadic parameter collecting the rest), then
+/// calls `function` with the bound values.
+fn closure_runtime<R, F>(
+    input: Option<&str>,
+    declared: &[CallableParameter],
+    function: F,
+) -> CallableRuntime
+where
+    R: Into<Value>,
+    F: Fn(&mut Call<'_>, &[Value]) -> CallResult<R> + Send + Sync + 'static,
+{
+    let mut parameters: Vec<Param> = Vec::with_capacity(declared.len() + 1);
+    parameters.extend(input.map(|name| Param::required(intern(name))));
+    parameters.extend(declared.iter().map(binding_parameter));
+    CallableRuntime::new(move |call| {
+        let arguments = call.bind("{closure}", &parameters, FunctionKind::User)?;
+        function(call, &arguments).map(Into::into)
+    })
+}
+
+/// The PHP callable Twig reflects for a callable made by `from_fn`, with `runtime` attached: a closure whose
+/// parameters are, in `CallExpression::compileArguments()`'s order, one for each value Twig injects (`injected`: the
+/// charset, the environment, the context, the sandbox state), one for each `*` of a dynamic `name`, the input of a
+/// filter or test, then the declared parameters.
+fn closure_callable(
+    name: &[u8],
+    injected: [bool; 4],
+    input: Option<&str>,
+    declared: &[CallableParameter],
+    runtime: &CallableRuntime,
+) -> PhpCallable {
+    const INJECTED: [&str; 4] = ["charset", "env", "context", "isSandboxed"];
+    let mut parameters: Vec<CallableParameter> = INJECTED
+        .into_iter()
+        .zip(injected)
+        .filter(|&(_, needed)| needed)
+        .map(|(name, _)| CallableParameter::required(name))
+        .collect();
+    let dynamic = name.iter().filter(|&&byte| byte == b'*').count();
+    parameters.extend((1..=dynamic).map(|i| CallableParameter::required(&format!("arg{i}"))));
+    parameters.extend(input.map(CallableParameter::required));
+    parameters.extend_from_slice(declared);
+    let callable = PhpCallable::closure(parameters);
+    runtime.attach(&callable);
+    callable
+}
+
+/// A declared parameter as `CallArgs::bind()` takes it: the default as a value, none for a required or variadic
+/// parameter.
+fn binding_parameter(parameter: &CallableParameter) -> Param {
+    let default = match &parameter.default {
+        ParameterDefault::Required => None,
+        ParameterDefault::Value(value) => Some(constant_to_value(value)),
+        // optional without a default PHP can reflect: only internal functions have such parameters
+        ParameterDefault::Optional => (!parameter.variadic).then_some(Value::Null),
+    };
+    Param {
+        name: intern(&parameter.name),
+        default,
+        variadic: parameter.variadic,
+    }
+}
+
+/// The PHP value of a constant (a parameter default).
+fn constant_to_value(value: &ConstantValue) -> Value {
+    match value {
+        ConstantValue::Null => Value::Null,
+        ConstantValue::Bool(b) => Value::Bool(*b),
+        ConstantValue::Int(i) => Value::Int(*i),
+        ConstantValue::Float(f) => Value::Float(*f),
+        ConstantValue::String(s) => Value::String(PhpString::from(s.as_slice())),
+        ConstantValue::Array(items) => {
+            let mut array = Array::new();
+            for (key, item) in items {
+                let key = match key {
+                    ConstantKey::Int(i) => ArrayKey::Int(*i),
+                    ConstantKey::String(s) => ArrayKey::from_string(PhpString::from(s.as_slice())),
+                };
+                array.insert(key, constant_to_value(item));
+            }
+            Value::Array(array)
+        }
+    }
+}
+
+/// A parameter name as the `&'static str` that `CallArgs::bind()` takes: each distinct name of a `from_fn` parameter
+/// is allocated once and shared by every callable using it.
+fn intern(name: &str) -> &'static str {
+    static NAMES: LazyLock<Mutex<HashSet<&'static str>>> = LazyLock::new(Mutex::default);
+    let mut names = NAMES.lock().unwrap_or_else(PoisonError::into_inner);
+    if let Some(&interned) = names.get(name) {
+        return interned;
+    }
+    let interned: &'static str = Box::leak(name.into());
+    names.insert(interned);
+    interned
 }
 
 /// The tests node constructors create for themselves (`new TwigTest('true', null, ['always_allowed_in_sandbox' =>

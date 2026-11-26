@@ -1,0 +1,231 @@
+{
+ "cases": [
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{%if\nnan%}{%endif%}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-001"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{%if 0%}{%elseif\nnan%}{%endif%}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-002"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ not\nnan }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-003"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (\nnan) ? 1 : 2 }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-004"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (\nnan) ?: 2 }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-005"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 xor (\nnan) }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-006"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (\nnan) and 1 }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-007"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{%if 1 and\n('' or nan)%}{%endif%}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-008"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [\n1, (\nnan) ? 1 : 2]|length }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-009"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [(\nnan) and 1]|length }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-010"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ 1 and (\nnan) }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-011"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% if (\nnan) or 1 %}{% endif %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-012"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (\nnan) ?: (\nnan) }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-013"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ [1, (\nnan) ?: 2]|length }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-014"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% if 0 %}{% elseif 0 %}{% elseif\nnan %}{% endif %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-015"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ not not\nnan }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-016"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% set a = (\nnan) ? 1 : 2 %}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-017"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ ((\nnan) ? 1 : 2) ? 3 : 4 }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-018"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{%if nan%}{%endif%}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-019"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{%if(3)\nand(nan)!=x%}{%endif%}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "errors": "throw",
+   "id": "true_test-020"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{%if (''or\nnan)%}{%endif%}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "true_test-021"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{%if\nnan%}{%endif%}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "true_test-022"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ (\nnan) ?: 2 }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "true_test-023"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ not\nnan }}"
+   },
+   "data_php": "return ['o' => new \\stdClass(), 'n' => 5, 'zero' => 0, 's' => 'x', 'nan' => NAN, 'ao' => new \\ArrayObject([1])];",
+   "id": "true_test-024"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% set m %}x{% endset %}{{ m ? 'y' : 'n' }}|{{ m ?: 'n' }}|{{ not m ? 'y' : 'n' }}"
+   },
+   "id": "true_test-025"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% set m %}{% endset %}{{ m ? 'y' : 'n' }}|{{ m ?: 'n' }}|{{ m and 1 ? 'y' : 'n' }}"
+   },
+   "id": "true_test-026"
+  }
+ ],
+ "isolation": "process"
+}

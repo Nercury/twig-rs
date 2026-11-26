@@ -7,8 +7,8 @@ use twig_timelib::parse_date::strtotime;
 use twig_timelib::parse_iso_intervals::strtointerval;
 use twig_timelib::{RelTime, TzDb, UNSET, interval};
 use twig_value::object::{
-    CallArgs, ClassRef, FetchMode, Object, ObjectRef, Param, PropertyCheck, PropertyEntry,
-    PropertyPurpose, PropertyStore,
+    CallArgs, ClassRef, FetchMode, MethodParams, Object, ObjectRef, Param, PropertyCheck,
+    PropertyEntry, PropertyPurpose, PropertyStore,
 };
 use twig_value::{Array, Diagnostics, PhpError, PhpResult, PhpString, Value, convert};
 
@@ -389,6 +389,25 @@ pub fn date_interval_create_from_date_string(
     }
 }
 
+/// The parameters of the methods of `DateInterval` (by lowercase name), as PHPSRC/ext/date/php_date.stub.php
+/// declares them: what [`IntervalObject`] reports and binds its arguments to (`args::ParamTable`).
+fn interval_params(method: &str) -> Option<Vec<Param>> {
+    Some(match method {
+        // __construct(string $duration)
+        "__construct" => vec![Param::required("duration")],
+        // static createFromDateString(string $datetime)
+        "createfromdatestring" => vec![Param::required("datetime")],
+        // format(string $format)
+        "format" => vec![Param::required("format")],
+        // __unserialize(array $data)
+        "__unserialize" => vec![Param::required("data")],
+        // static __set_state(array $array)
+        "__set_state" => vec![Param::required("array")],
+        "__serialize" | "__wakeup" => Vec::new(),
+        _ => return None,
+    })
+}
+
 impl Object for IntervalObject {
     fn class(&self) -> &ClassRef {
         &self.class
@@ -396,6 +415,11 @@ impl Object for IntervalObject {
 
     fn property_store(&self) -> Option<&PropertyStore> {
         Some(&self.props)
+    }
+
+    /// The parameters of the method as php_date.stub.php declares them (`interval_params`).
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        args::method_params(interval_params, method)
     }
 
     fn call(
@@ -407,11 +431,7 @@ impl Object for IntervalObject {
     ) -> PhpResult<Value> {
         match method {
             "__construct" => {
-                let a = Bound::new(
-                    "DateInterval::__construct",
-                    &args,
-                    &[Param::required("duration")],
-                )?;
+                let a = Bound::method("DateInterval::__construct", method, interval_params, &args)?;
                 let s = a.string(0, diag)?;
                 let rt = date_interval_initialize(s.as_bytes())?;
                 let mut st = self.lock();
@@ -421,10 +441,11 @@ impl Object for IntervalObject {
                 Ok(Value::Null)
             }
             "createfromdatestring" => {
-                let a = Bound::new(
+                let a = Bound::method(
                     "DateInterval::createFromDateString",
+                    method,
+                    interval_params,
                     &args,
-                    &[Param::required("datetime")],
                 )?;
                 let s = a.string(0, diag)?;
                 Ok(Value::Object(IntervalObject::create_from_date_string(
@@ -433,12 +454,12 @@ impl Object for IntervalObject {
                 )?))
             }
             "format" => {
-                let a = Bound::new("DateInterval::format", &args, &[Param::required("format")])?;
+                let a = Bound::method("DateInterval::format", method, interval_params, &args)?;
                 let f = a.string(0, diag)?;
                 Ok(Value::String(self.format(f.as_bytes())?))
             }
             "__serialize" => {
-                args::none("DateInterval::__serialize", &args)?;
+                Bound::method("DateInterval::__serialize", method, interval_params, &args)?;
                 let st = self.state();
                 if !st.initialized {
                     return Err(errors::uninitialized(&self.class));
@@ -448,10 +469,11 @@ impl Object for IntervalObject {
                 Ok(Value::Array(out))
             }
             "__unserialize" => {
-                let a = Bound::new(
+                let a = Bound::method(
                     "DateInterval::__unserialize",
+                    method,
+                    interval_params,
                     &args,
-                    &[Param::required("data")],
                 )?;
                 let data = a.array(0)?;
                 self.initialize_from_hash(&data, diag)?;
@@ -460,7 +482,7 @@ impl Object for IntervalObject {
             }
             "__wakeup" => {
                 util::wakeup_deprecated("DateInterval", diag)?;
-                args::none("DateInterval::__wakeup", &args)?;
+                Bound::method("DateInterval::__wakeup", method, interval_params, &args)?;
                 // Z_OBJPROP_P() goes through the get_properties handler, which writes the fields first.
                 let table = util::assoc(
                     self.properties_for(this, PropertyPurpose::GetObjectVars, diag)?
@@ -471,11 +493,7 @@ impl Object for IntervalObject {
                 Ok(Value::Null)
             }
             "__set_state" => {
-                let a = Bound::new(
-                    "DateInterval::__set_state",
-                    &args,
-                    &[Param::required("array")],
-                )?;
+                let a = Bound::method("DateInterval::__set_state", method, interval_params, &args)?;
                 let data = a.array(0)?;
                 Ok(Value::Object(IntervalObject::set_state(
                     &self.ctx, &data, diag,

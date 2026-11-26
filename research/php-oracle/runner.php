@@ -43,8 +43,12 @@
  *       "clock": true,                   // also return "clock": [sec, usec] (gettimeofday() right before
  *                                        //   rendering), so that a runner with a settable clock can use the
  *                                        //   same "now"
+ *       "lexer": {"tag_block": ["<%", "%>"], "whitespace_trim": "="},  // Lexer options:
+ *                                        //   $twig->setLexer(new \Twig\Lexer($twig, $lexer)) right after the
+ *                                        //   environment is built (Twig's defaults for the keys left out)
  *       // and in "sandbox": "policy": {"tests": [...], "strict": true}: SecurityPolicy's allowed tests and
- *       // setStrict(), applied when the environment is built
+ *       // setStrict(), applied when the environment is built; "source_policy": ["a.twig"]: a SourcePolicyInterface
+ *       // whose enableSandbox() is true for the templates of these names (the third SandboxExtension argument)
  *     }
  *     -> {"id","kind":"twig","ok":true,"output":"...","deprecations":[...],"diagnostics":[...]}
  *     -> {"id","kind":"twig","ok":false,"phase":"load"|"data"|"render","error":{class,message,formatted,rawMessage,
@@ -614,6 +618,10 @@ function run_twig(array $case): array
         $twig = ('plain' === ($case['env'] ?? 'integration'))
             ? plain_environment($templates, $config, $case['extensions'] ?? [], $case['globals'] ?? [], $case['sandbox'] ?? null)
             : integration_environment($templates, $config);
+        if (isset($case['lexer'])) {
+            // (data_php runs after the templates are loaded: too late for the lexer)
+            $twig->setLexer(new \Twig\Lexer($twig, (array) $case['lexer']));
+        }
 
         $phase = 'load';
         $loaded = $diag->run(static function () use ($twig, $templates, $main, $case) {

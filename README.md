@@ -1,36 +1,14 @@
 # Twig template engine for Rust
 
-twig-rs renders [Twig](https://twig.symfony.com/) templates in Rust, aiming for exact compatibility with
-**Twig 3.31.1 on PHP 8.5.13**: identical output and identical error messages, so that templates work copy-pasted from
-PHP projects. Host integration (passing data, registering filters, functions and extensions) is Rust-native.
-
-## Status
-
-The whole engine is in place and checked against PHP Twig (a Docker oracle running the pinned versions):
-
-- the lexer, the parser with the complete expression grammar and every core tag;
-- the node visitors: correctness checks, auto-escaping (`html`, `js`, `css`, `html_attr`, `url`, custom strategies),
-  the optimizer and the sandbox;
-- a code generator and a virtual machine with PHP's value semantics (the `twig-value` crate): template inheritance,
-  blocks, macros, `include`, `embed`, `use`, `with`, `apply`, `set`, `for` with `loop`, `guard`, `types`, ...;
-- every core filter, function and test, dates (`date`, `date_modify`, DateTime objects; the `twig-date` crate) and the
-  `matches` operator on PCRE2 10.44 as bundled by PHP;
-- the sandbox (security policies, `{% sandbox %}`, `Sandbox`, `render_sandboxed()`), the debug and string-loader
-  extensions;
-- the `ArrayLoader`, `FilesystemLoader` and `ChainLoader`.
-
-All 500 runnable cases of Twig 3.31.1's integration fixtures pass (two more are skipped by their `--CONDITION--`, as
-in PHPUnit). Behaviour that cannot or deliberately does not match PHP is listed in
-[`reference/deviations.md`](reference/deviations.md).
-
-## Usage
+twig-rs renders [Twig](https://twig.symfony.com/) templates exactly like **Twig 3.31.1 on PHP 8.5.13** renders them:
+the same output bytes and the same error messages, so that templates work copy-pasted from PHP projects. Data,
+filters, functions, extensions, loaders and security policies are Rust; there is no PHP interpreter involved.
 
 ```rust
 use twig::loader::ArrayLoader;
-use twig::runtime::Environment;
-use twig::value::{Array, Value};
+use twig::{Environment, context};
 
-fn main() -> Result<(), twig::Error> {
+fn main() -> twig::Result<()> {
     let env = Environment::new(ArrayLoader::new([
         (
             "base.html",
@@ -44,18 +22,9 @@ fn main() -> Result<(), twig::Error> {
         ),
     ]));
 
-    let mut context = Array::new();
-    context.insert("name", Value::from("<world>"));
-    context.insert(
-        "items",
-        Value::Array(Array::from_values([Value::from("a"), Value::from("b")])),
-    );
-
     // auto-escaping is on by default (`html`), as in Twig
-    assert_eq!(
-        env.render("index.html", context)?,
-        "<h1>Hello &lt;world&gt;!</h1><ul><li>A</li><li>B</li></ul>"
-    );
+    let html = env.render("index.html", context! { name => "<world>", items => ["a", "b"] })?;
+    assert_eq!(html, "<h1>Hello &lt;world&gt;!</h1><ul><li>A</li><li>B</li></ul>");
     Ok(())
 }
 ```
@@ -64,8 +33,7 @@ Errors carry Twig's messages, template names and lines:
 
 ```rust
 use twig::loader::ArrayLoader;
-use twig::runtime::{Environment, EnvironmentOptions};
-use twig::value::Array;
+use twig::{Array, Environment, EnvironmentOptions};
 
 fn main() {
     let env = Environment::with_options(
@@ -83,31 +51,111 @@ fn main() {
 }
 ```
 
-Custom filters, functions and tests attach a Rust implementation to the PHP-like signature Twig binds arguments to
-(see `twig::extension::runtime`); `Environment::escaper_runtime()` registers custom escaping strategies and
-`Environment::core_settings()` the default date and number formats.
+The crate documentation (`cargo doc --open`) is the guide: data and the `context!` macro, serde, autoescaping,
+filters, functions, tests, extensions and tags, loaders, the sandbox, errors and PHP diagnostics, threads.
 
-## Build requirements
+## Status
 
-- Rust 1.88+
-- a C compiler (PCRE2 is built from the sources PHP bundles)
+- The engine is complete: the lexer, the parser with the whole expression grammar and every core tag, the node
+  visitors (correctness checks, auto-escaping with every strategy, the optimizer, the sandbox), a compiler to a
+  low-level instruction set and a virtual machine with PHP's value semantics, every core filter, function and test,
+  dates (a port of PHP's timelib), the `matches` operator (PCRE2 as PHP bundles it), the sandbox, the debug and
+  string-loader extensions, and the array, filesystem and chain loaders.
+- All 500 runnable cases of Twig 3.31.1's integration fixtures pass (two more are skipped by their `--CONDITION--`,
+  as in PHPUnit), and Twig's behaviour-level PHPUnit tests are ported.
+- Differential fuzzing against PHP finds a handful of edge cases per round of 240,000 generated templates; they are
+  tracked in [`plans/parity-fixes.md`](plans/parity-fixes.md) until fixed. Deliberate differences are listed in
+  [`reference/deviations.md`](reference/deviations.md).
+- The API is being prepared for a first release ([`plans/product.md`](plans/product.md)); nothing is published on
+  crates.io yet.
+
+## Installation
+
+Until the first release, depend on the repository:
+
+```toml
+[dependencies]
+twig = { git = "https://github.com/Nercury/twig-rs" }
+# or, with `twig::to_context` and `twig::to_value` for data that implements serde's `Serialize`:
+# twig = { git = "https://github.com/Nercury/twig-rs", features = ["serde"] }
+```
+
+Building needs Rust 1.88 or newer and a C compiler (PCRE2 is compiled from the sources PHP bundles).
+
+## Compatibility
+
+| Component | Version |
+|---|---|
+| Twig | 3.31.1 |
+| PHP | 8.5.13, 64-bit, PHP's built-in ini defaults (`precision=14`, `serialize_precision=-1`, `date.timezone=UTC`) |
+| PCRE2 (`matches`) | 10.44, as bundled with PHP |
+| timelib, timezonedb (dates) | 2022.17, 2026.6 |
+| Unicode (mbstring case mapping) | 17.0 |
+
+"The same" covers output bytes, error classes and messages with template names and lines, PHP warnings and
+deprecations. What cannot or deliberately does not match (PHP-internal file names in messages, object handle numbers,
+unseeded randomness, recursion limits, charsets not converted yet, host APIs without a PHP equivalent) is listed in
+[`reference/deviations.md`](reference/deviations.md); anything else that differs is a bug. The pinned versions and
+the oracle image are in [`reference/target.md`](reference/target.md).
 
 ## Examples
 
 ```bash
-cargo run --example lex_tokens                  # print the tokens of templates/fos_login.html.twig
-cargo run --example lex_tokens -- page.twig     # ... or of another template
+cargo run --example hello                            # ArrayLoader, inheritance, a loop, auto-escaping
+cargo run --example filesystem                       # FilesystemLoader with a namespace (examples/templates/)
+cargo run --example custom_filter                    # filters made of Rust closures
+cargo run --example extension                        # an Extension with filters, a global and a tag
+cargo run --example sandbox                          # untrusted templates under a strict security policy
+cargo run --example serde_context --features serde   # template data from serde
+cargo run --example lex_tokens                       # the tokens of templates/fos_login.html.twig
 cargo run --example parse_nodes -- '{% for user in users %}{{ user.name|upper }}{% endfor %}'
-cargo run --example parse_nodes -- --file page.twig   # print the node tree, the error and the deprecations
 ```
+
+## Performance
+
+[`research/benchmarks/README.md`](research/benchmarks/README.md) compares twig-rs with PHP Twig over the scenarios
+of the criterion benchmarks in [`benches/`](benches/README.md) (measured on 2026-11-26, both engines producing
+identical output): twig-rs compiles templates 11 to 13.5 times faster than PHP Twig, and renders them 1.7 to 2.6
+times slower with warm caches (on par for the escaping-heavy scenario). Profiling the render path is planned.
 
 ## Layout
 
-| Crate | Contents |
+| Path | Contents |
 |---|---|
-| `twig` (this directory) | lexer, parser, node visitors, code generator, VM, runtime, extensions, loaders |
+| `src/` (crate `twig`) | lexer, parser, node visitors, code generator, VM, runtime, extensions, loaders |
 | `crates/twig-value` | PHP 8.5 value model, operators, comparison, conversions and the PHP builtins Twig calls |
 | `crates/twig-unicode` | Unicode 17.0 tables and mbstring-compatible case mapping |
 | `crates/twig-pcre` | PCRE2 10.44 with PHP's `preg_match()` semantics |
 | `crates/twig-timelib`, `crates/twig-date` | timelib port with timezonedb 2026.6, PHP's `DateTime` family |
-| `crates/twig-test-support` | (dev only) Twig's integration fixtures as values |
+| `crates/twig-test-support` | (development only) Twig's integration fixtures as values, PHP test classes |
+| `crates/twig-fuzz` | (development only) differential testing against the PHP oracle |
+| `tests/` | Twig's fixture suite, ported PHPUnit tests, oracle-generated vectors, fuzz regression vectors |
+| `benches/` | criterion benchmarks |
+| `plans/`, `reference/`, `research/` | open work, facts about the target, investigations (including the PHP oracle) |
+
+## Contributing
+
+PHP decides what is correct. [`research/php-oracle`](research/php-oracle/README.md) runs Twig 3.31.1 on PHP 8.5.13
+in Docker and answers JSON batches: render templates, evaluate PHP, run an upstream fixture. A change to template
+behaviour goes like this:
+
+1. Reproduce the difference with [`twig-fuzz`](crates/twig-fuzz/src/lib.rs) (`cargo run -p twig-fuzz -- help`):
+   `twig-fuzz oracle` runs a batch of cases through PHP, `twig-fuzz diff` compares the results with twig-rs, and
+   `twig-fuzz drive` does both, then clusters and minimises the mismatches (`twig-fuzz generate` writes random
+   batches).
+2. Port the fix from the upstream sources (Twig 3.31.1, php-src 8.5.13), keeping their algorithm and verbatim
+   messages, and cite them in the doc comments ([`reference/conventions.md`](reference/conventions.md)).
+3. Pin the behaviour with oracle-generated vectors: regression vectors in `tests/vectors/fuzz/` (rules in its
+   [README](tests/vectors/fuzz/README.md); `twig-fuzz replay --update` removes the marker of a fixed vector) or
+   vector files next to the tests.
+4. `cargo fmt`, `cargo clippy --workspace --all-targets -- -D warnings` and `cargo test --workspace` must pass; the
+   tests need no Docker.
+
+Open work is listed in [`plans/`](plans/roadmap.md): the roadmap, the known mismatches and the first release.
+
+## Licence
+
+twig-rs is distributed under the BSD 3-Clause licence ([`LICENSE`](LICENSE)). It contains code ported from Twig
+(BSD-3-Clause), PHP (PHP License 3.01), the Zend Engine (Zend Engine License 2.00) and other third-party sources and
+data, listed in [`NOTICE`](NOTICE); the `license` field of each crate combines the licences of what that crate
+contains.

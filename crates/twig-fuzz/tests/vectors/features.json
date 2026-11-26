@@ -110,6 +110,56 @@
       "id": "binary-output",
       "case": {"id":"binary-output","env":"plain","config":{"autoescape":false},"templates":{"index.twig":"[{{ s }}]"},"data_php":"return ['s' => \"\\xfe\\xff\"]","typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
       "oracle": {"id":"binary-output","kind":"twig","ok":true,"output":"[??]","output_b64":"W/7/XQ==","deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["s",{"t":"string","v":"??","v_b64":"/v8="}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795654810,104396]}
+    },
+    {
+      "id": "lexer-delimiters",
+      "case": {"id":"lexer-delimiters","env":"plain","templates":{"index.twig":"<% if true %>${ 1 + 1 }<% endif %><# c #>|{{ x }}|{% y %}|<% include 'inc.twig' %>","inc.twig":"[${ x }<# i #>]"},"data_json":{"x":1},"lexer":{"tag_block":["<%","%>"],"tag_variable":["${","}"],"tag_comment":["<#","#>"]},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"lexer-delimiters","kind":"twig","ok":true,"output":"2|{{ x }}|{% y %}|[1]","deprecations":[],"diagnostics":[],"clock":[1795683535,505093]}
+    },
+    {
+      "id": "lexer-trims",
+      "case": {"id":"lexer-trims","env":"plain","templates":{"index.twig":"a  {{= 1 =}}  b {{! 2 !}}\n c {%= if true =%}\n  x  {%! endif !%}  y"},"lexer":{"whitespace_trim":"=","whitespace_line_trim":"!"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"lexer-trims","kind":"twig","ok":true,"output":"a1b2\n cxy","deprecations":[],"diagnostics":[],"clock":[1795683535,505996]}
+    },
+    {
+      "id": "lexer-line-chars",
+      "case": {"id":"lexer-line-chars","env":"plain","templates":{"index.twig":"a\t {{~ 1 ~}}\t b\n{{~ 2 ~}} \tc"},"lexer":{"whitespace_line_chars":" "},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"lexer-line-chars","kind":"twig","ok":true,"output":"a1\t b\n2\tc","deprecations":[],"diagnostics":[],"clock":[1795683535,506877]}
+    },
+    {
+      "id": "lexer-interpolation",
+      "case": {"id":"lexer-interpolation","env":"plain","templates":{"index.twig":"{{ \"${ 1 + 2 } a\" }}|{{ \"a ${1}\" }}|{{ \"${ 'x' ~ \"${ 4 }\" }\" }}"},"lexer":{"interpolation":["${","}"]},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"lexer-interpolation","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected character \"$\" in \"index.twig\" at line 1 column 51.","formatted":"Twig\\Error\\SyntaxError: Unexpected character \"$\" in \"index.twig\" at line 1 column 51.","rawMessage":"Unexpected character \"$\".","templateName":"index.twig","templateLine":1,"templateColumn":51},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "lexer-interpolation-error",
+      "case": {"id":"lexer-interpolation-error","env":"plain","templates":{"index.twig":"{{ \"#{ 3 }\" }}"},"lexer":{"interpolation":["${","}"]},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"lexer-interpolation-error","kind":"twig","ok":false,"phase":"load","error":{"class":"Twig\\Error\\SyntaxError","message":"Unexpected character \"#\" in \"index.twig\" at line 1 column 5.","formatted":"Twig\\Error\\SyntaxError: Unexpected character \"#\" in \"index.twig\" at line 1 column 5.","rawMessage":"Unexpected character \"#\".","templateName":"index.twig","templateLine":1,"templateColumn":5},"deprecations":[],"diagnostics":[]}
+    },
+    {
+      "id": "lexer-verbatim-line",
+      "case": {"id":"lexer-verbatim-line","env":"plain","templates":{"index.twig":"<% verbatim %>{{ x }}<%= endverbatim =%>  |\n<% line 5 %>\n<%= if undefined_x =%><% endif %>"},"config":{"strict_variables":true},"lexer":{"tag_block":["<%","%>"],"whitespace_trim":"="},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"lexer-verbatim-line","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"Variable \"undefined_x\" does not exist in \"index.twig\" at line 6.","formatted":"Twig\\Error\\RuntimeError: Variable \"undefined_x\" does not exist in \"index.twig\" at line 6.","rawMessage":"Variable \"undefined_x\" does not exist.","templateName":"index.twig","templateLine":6,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795683535,509252]}
+    },
+    {
+      "id": "lexer-comments",
+      "case": {"id":"lexer-comments","env":"plain","templates":{"index.twig":"<## doc ##>{% set x = 1 %}{{ x }}<##><###><# a #>|{ % if true % }t{ % endif % }|{% if true %}T{% endif %}"},"lexer":{"tag_block":["{ %","% }"],"tag_comment":["<#","#>"]},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"lexer-comments","kind":"twig","ok":true,"output":"{% set x = 1 %}|{ % if true % }t{ % endif % }|{% if true %}T{% endif %}","deprecations":[],"diagnostics":[],"clock":[1795683535,510203]}
+    },
+    {
+      "id": "source-policy-main",
+      "case": {"id":"source-policy-main","env":"plain","templates":{"index.twig":"{{ 'a'|upper }}"},"sandbox":{"global":false,"policy":{},"source_policy":["index.twig"]},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"source-policy-main","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Sandbox\\SecurityNotAllowedFilterError","message":"Filter \"escape\" is not allowed in \"index.twig\" at line 1.","formatted":"Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"escape\" is not allowed in \"index.twig\" at line 1.","rawMessage":"Filter \"escape\" is not allowed.","templateName":"index.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795684602,289222]}
+    },
+    {
+      "id": "source-policy-include",
+      "case": {"id":"source-policy-include","env":"plain","templates":{"index.twig":"[{{ 'a'|upper }}{% include 'inc.twig' %}]","inc.twig":"{{ 'b'|lower }}"},"sandbox":{"global":false,"policy":{"filters":["upper"],"tags":["include"]},"source_policy":["inc.twig"]},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"source-policy-include","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Sandbox\\SecurityNotAllowedFilterError","message":"Filter \"escape\" is not allowed in \"inc.twig\" at line 1.","formatted":"Twig\\Sandbox\\SecurityNotAllowedFilterError: Filter \"escape\" is not allowed in \"inc.twig\" at line 1.","rawMessage":"Filter \"escape\" is not allowed.","templateName":"inc.twig","templateLine":1,"templateColumn":null},"deprecations":[],"diagnostics":[],"clock":[1795684602,291582]}
+    },
+    {
+      "id": "source-policy-other",
+      "case": {"id":"source-policy-other","env":"plain","templates":{"index.twig":"{{ 'a'|upper }}"},"sandbox":{"global":false,"policy":{},"source_policy":["missing.twig"]},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"source-policy-other","kind":"twig","ok":true,"output":"A","deprecations":[],"diagnostics":[],"clock":[1795684602,291971]}
     }
   ]
 }

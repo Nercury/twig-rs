@@ -211,8 +211,9 @@ impl ParseContext {
 /// runtime, sandbox) gets the source of the compiled template (`catch (Error $e)`: `setSourceContext($source)`); an
 /// `\Exception` (a `LogicException`, an `InvalidArgumentException`, ...) becomes `An exception has been thrown during
 /// the compilation of a template ("%s").` without a line, with the error as its previous error (`catch (\Exception
-/// $e)`). A PHP `\Error` is not caught and comes out unchanged: the `ParseError` and `CompileError` of the generated
-/// PHP, which PHP raises when `Environment::loadTemplate()` evaluates the code `compileSource()` returned.
+/// $e)`). A PHP `\Error` is not caught and comes out unchanged: the `TypeError` of `EscaperNodeVisitor::needEscaping()`
+/// (`{% autoescape null %}`), and the `ParseError` and `CompileError` of the generated PHP, which PHP raises when
+/// `Environment::loadTemplate()` evaluates the code `compileSource()` returned.
 pub fn compile_source_error(error: Error, source: &Source) -> Error {
     match error.kind() {
         ErrorKind::Php

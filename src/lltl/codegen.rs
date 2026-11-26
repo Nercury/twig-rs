@@ -104,6 +104,7 @@ pub fn compile(
         php_marker: None,
         fold_marker: None,
         own_fold: None,
+        deferred_lines: Vec::new(),
         in_folded: false,
         dead: false,
         php_fatal: None,
@@ -129,6 +130,38 @@ pub fn compile(
         return Err(compile_fatal(fatal));
     }
     Ok(program)
+}
+
+/// The line of an outermost array literal that is known only once part of its code is compiled: its first value
+/// comes after the dynamic key of an element ([`php::FirstLine::AfterKey`]), and the constants PHP folds in that key
+/// already take the line. Until the key is compiled, the code carries a placeholder line ([`placeholder_line()`]),
+/// which [`Codegen::key_compiled`] replaces in the line table and [`Codegen::emit_at`] maps from then on.
+#[derive(Debug, Clone, Copy)]
+struct DeferredLine {
+    /// The identity of the key (see [`expr_key()`]).
+    key: usize,
+    /// The unit being compiled (an index of [`Codegen::units`]) and its first instruction that may carry the
+    /// placeholder.
+    unit: usize,
+    from: Label,
+    /// The line, once the key is compiled.
+    line: Option<Option<i64>>,
+}
+
+/// The first placeholder line: placeholders lie between [`LineTable::NO_MARKER`] and every real line (lines are
+/// never negative).
+const FIRST_PLACEHOLDER: i64 = LineTable::NO_MARKER + 1;
+
+/// The placeholder line of the deferred line `i` (see [`DeferredLine`]).
+fn placeholder_line(i: usize) -> i64 {
+    FIRST_PLACEHOLDER + i as i64
+}
+
+/// What [`Codegen::begin_fold`] changed, for [`Codegen::end_fold`].
+struct FoldScope {
+    fold_marker: Option<Option<i64>>,
+    /// The deferred line the literal's line is (an index of [`Codegen::deferred_lines`]).
+    deferred: Option<usize>,
 }
 
 /// The short-circuit state of a null-safe `GetAttrExpression` (its `is_short_circuited` and `var_name` attributes).
@@ -210,6 +243,8 @@ struct Codegen<'d> {
     /// The fold marker of the tokens of the expression being compiled itself: the enclosing literal's, also for an
     /// expression whose children are compiled outside it (the `null` that ends `x['k']`'s inline access).
     own_fold: Option<Option<i64>>,
+    /// The lines of array literals that come after a key, in the order they were found (see [`DeferredLine`]).
+    deferred_lines: Vec<DeferredLine>,
     /// The expression being compiled is part of one PHP folded into a constant.
     in_folded: bool,
     /// The code being compiled is code PHP's compiler never reaches: the right operand of `&&`/`||` when a constant
@@ -293,6 +328,82 @@ impl Codegen<'_> {
         self.php_marker = self.own_fold.unwrap_or(self.marker);
     }
 
+    /// Starts the folding of the elements of an outermost array literal (`zend_try_ct_eval_array()`): the constants
+    /// it folds take the line of the literal, the line of the PHP node of its first value, which `first` locates. A
+    /// line that comes after a key is a placeholder until the key is compiled ([`DeferredLine`]).
+    fn begin_fold(&mut self, first: php::FirstLine<'_>) -> FoldScope {
+        let mut deferred = None;
+        let line = match first {
+            php::FirstLine::Marker(line) => self.marker_after(Some(line)),
+            php::FirstLine::Start => self.marker,
+            php::FirstLine::AfterKey(key) => {
+                deferred = Some(self.deferred_lines.len());
+                let from = self.here();
+                self.deferred_lines.push(DeferredLine {
+                    key: expr_key(key),
+                    unit: self.units.len() - 1,
+                    from,
+                    line: None,
+                });
+                Some(placeholder_line(self.deferred_lines.len() - 1))
+            }
+        };
+        FoldScope {
+            fold_marker: self.fold_marker.replace(line),
+            deferred,
+        }
+    }
+
+    /// Ends the folding [`begin_fold`](Self::begin_fold) started.
+    fn end_fold(&mut self, scope: FoldScope) {
+        // the key was not compiled only when the compilation failed before it: the placeholder gets the marker in
+        // effect then
+        if let Some(i) = scope.deferred
+            && self.deferred_lines[i].line.is_none()
+        {
+            self.resolve_line(i);
+        }
+        self.fold_marker = scope.fold_marker;
+    }
+
+    /// The dynamic key `key` of an array literal was compiled (its `(string)` cast included): the line of a literal
+    /// whose first value comes next is the marker now in effect.
+    fn key_compiled(&mut self, key: &Expr) {
+        let key = expr_key(key);
+        if let Some(i) = self
+            .deferred_lines
+            .iter()
+            .rposition(|deferred| deferred.key == key && deferred.line.is_none())
+        {
+            self.resolve_line(i);
+        }
+    }
+
+    /// Gives the deferred line `i` the marker in effect, also in the code compiled so far.
+    fn resolve_line(&mut self, i: usize) {
+        let line = self.marker;
+        let deferred = &mut self.deferred_lines[i];
+        deferred.line = Some(line);
+        let (unit, from) = (deferred.unit, deferred.from);
+        let placeholder = placeholder_line(i);
+        let unit = &mut self.units[unit];
+        unit.lines
+            .replace_from(from, placeholder, line.unwrap_or(LineTable::NO_MARKER));
+        if unit.current == Some(placeholder) {
+            unit.current = line;
+        }
+    }
+
+    /// `line`, or the line a placeholder stands for once it is known (see [`DeferredLine`]).
+    fn known_line(&self, line: Option<i64>) -> Option<i64> {
+        let deferred = line
+            .filter(|&line| {
+                line >= FIRST_PLACEHOLDER && line < placeholder_line(self.deferred_lines.len())
+            })
+            .and_then(|line| self.deferred_lines[(line - FIRST_PLACEHOLDER) as usize].line);
+        deferred.unwrap_or(line)
+    }
+
     /// Compiles `f` outside the array literal being folded: the operands of calls, assignments, `isset()` and
     /// `instanceof`, which `zend_eval_const_expr()` does not descend into.
     fn without_fold<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
@@ -353,6 +464,7 @@ impl Codegen<'_> {
     /// Emits an instruction attributed to `line` (the marker in effect where the PHP construct starts: calls report
     /// the line of their beginning).
     fn emit_at(&mut self, instr: Instr, line: Option<i64>) -> Label {
+        let line = self.known_line(line);
         let unit = self.unit();
         let ip = unit.code.len() as Label;
         if line != unit.current {
@@ -879,6 +991,9 @@ impl Codegen<'_> {
                     self.twig_var();
                     self.expr(variables)?;
                     self.emit(Instr::StoreLocal(local));
+                    // `if (!is_iterable($_vN)) { throw ... }`, `$_vN = CoreExtension::toArray($_vN);`, `$context =
+                    // $_vN + $context + ...;`: statements written after the markers of the variables
+                    self.leaf();
                     self.emit(Instr::WithVars {
                         local,
                         only: with.only,
@@ -886,6 +1001,8 @@ impl Codegen<'_> {
                     });
                 }
                 self.statement(&with.body)?;
+                // `$context = $_vN;`
+                self.leaf();
                 self.emit(Instr::LoadLocal(saved));
                 self.emit(Instr::SetContext);
                 Ok(())
@@ -1066,6 +1183,10 @@ impl Codegen<'_> {
         self.emit_at(Instr::EnsureTraversable, start);
         let seq = self.name_constant(b"_seq");
         self.emit(Instr::StoreName(seq));
+        // the statements after `$context['_seq'] = ...;` (`count($context['_seq'])` of a Countable, the `foreach`
+        // with its iterator calls) are compiled at the line they are written on (zend_compile_stmt()), after the
+        // markers of the sequence
+        self.leaf();
         if has_else {
             let iterated = self.name_constant(b"_iterated");
             self.emit_const(Value::Bool(false));
@@ -1110,6 +1231,9 @@ impl Codegen<'_> {
             }
             self.patch_here(skip);
         }
+        // `$_parent = $context['_parent']; unset(...); $context = array_intersect_key($context, $_parent); ...`:
+        // statements of their own, after the last marker of the body (and of the else branch)
+        self.leaf();
         self.emit(Instr::ForRestore {
             key,
             value,
@@ -1119,8 +1243,12 @@ impl Codegen<'_> {
         Ok(())
     }
 
-    /// Twig: `ForLoopNode::compile()` with the attributes `ForNode::compile()` copies to it.
+    /// Twig: `ForLoopNode::compile()` with the attributes `ForNode::compile()` copies to it: statements of their own
+    /// (`$context['_iterated'] = true;`, `++$context['loop']['index0'];`, ...), which PHP compiles at the line they
+    /// are written on (zend_compile_stmt(), PHPSRC/Zend/zend_compile.c): after the last marker of the body, also one
+    /// in code PHP skips or replaces by a constant.
     fn for_loop_end(&mut self, has_else: bool, with_loop: bool) {
+        self.leaf();
         if has_else {
             let iterated = self.name_constant(b"_iterated");
             self.emit_const(Value::Bool(true));
@@ -1148,11 +1276,6 @@ impl Codegen<'_> {
                     NodeKind::Nodes(nodes) | NodeKind::Body(nodes) => nodes.nodes().collect(),
                     _ => vec![&set.values],
                 };
-                // the array literal of the values folds its elements at its line
-                let first = values
-                    .first()
-                    .and_then(|value| value.as_expr())
-                    .and_then(php::first_debug_line);
                 // zend_compile_array() of `[v0, v1, ...]`: zend_try_ct_eval_array() folds the values first
                 if self.php_compiles()
                     && let Some(fatal) = self
@@ -1161,7 +1284,12 @@ impl Codegen<'_> {
                 {
                     self.php_fatal(fatal);
                 }
-                let saved = self.fold_marker.replace(self.marker_after(first));
+                // the array literal of the values folds its elements at its line, the line of its first value
+                let first = values
+                    .first()
+                    .and_then(|value| value.as_expr())
+                    .map_or(php::FirstLine::Start, php::first_line);
+                let fold = self.begin_fold(first);
                 let mut result = Ok(());
                 for value in values {
                     result = self.statement_value(value);
@@ -1170,7 +1298,7 @@ impl Codegen<'_> {
                     }
                     self.emit(Instr::ArrayAppend);
                 }
-                self.fold_marker = saved;
+                self.end_fold(fold);
                 result?;
             }
             let mut targets = Array::new();
@@ -1282,8 +1410,10 @@ impl Codegen<'_> {
     /// Compiles an expression.
     ///
     /// Besides the code, this tracks PHP's line state: `zend_compile_expr_inner()` sets `CG(zend_lineno)` to the
-    /// line of every expression it starts compiling, an expression PHP folds into a constant inside an array literal
-    /// takes the literal's line, and the operands of calls and assignments are not part of the literal's folding.
+    /// line of every expression it starts compiling (PHPSRC/Zend/zend_compile.c), an expression PHP folds into a
+    /// constant inside an array literal takes the literal's line unless the constant is a value of the parser, which
+    /// keeps its own ([`PhpModel::keeps_parsed_line`]), and the operands of calls and assignments are not part of the
+    /// literal's folding.
     fn expr(&mut self, expr: &Expr) -> Result<()> {
         self.php_marker = self.marker;
         let saved_fold = self.fold_marker;
@@ -1303,7 +1433,8 @@ impl Codegen<'_> {
         let result = self.expr_kind(expr);
         self.fold_marker = saved_fold;
         self.in_folded = saved_in_folded;
-        if folded {
+        // a value of the parser (a chosen branch included) is where its compilation left the line state
+        if folded && !self.php.keeps_parsed_line(expr) {
             self.folded();
         }
         self.own_fold = saved_own;
@@ -1510,7 +1641,8 @@ impl Codegen<'_> {
     /// passes its `$left` to the `NullTest`).
     ///
     /// Inside an array literal, `zend_eval_const_expr()` replaces a conditional whose test folds by the branch the
-    /// test selects, so PHP's line state is the one that branch leaves, and PHP never compiles the other branch.
+    /// test selects, so PHP's line state is the one that branch leaves (also when the branch is a constant: a value
+    /// of the parser keeps its own line), and PHP never compiles the other branch.
     fn conditional(
         &mut self,
         test: &Expr,
@@ -1518,7 +1650,7 @@ impl Codegen<'_> {
         right: &Expr,
         share: Option<(&Expr, &Expr)>,
     ) -> Result<()> {
-        let choice = if self.folding() && !self.in_folded {
+        let choice = if self.folding() {
             self.php.eval_const(test).map(|t| php::truthy(&t))
         } else {
             None
@@ -1601,8 +1733,8 @@ impl Codegen<'_> {
         }
         // zend_compile_array() folds the elements of an outermost literal at the literal's line, the line of its first
         // element's value; nested literals are folded with it
-        let outermost = self.fold_marker.is_none();
-        if outermost {
+        let mut fold = None;
+        if self.fold_marker.is_none() {
             // zend_try_ct_eval_array() fails the compilation of a constant literal unpacking a constant that is not an
             // array: the nested literals it builds while folding the elements, then this one
             if self.php_compiles()
@@ -1610,11 +1742,11 @@ impl Codegen<'_> {
             {
                 self.php_fatal(fatal);
             }
-            self.fold_marker = Some(self.marker_after(php::first_debug_line(expr)));
+            fold = Some(self.begin_fold(php::first_line(expr)));
         }
         let result = self.array_elements(array);
-        if outermost {
-            self.fold_marker = None;
+        if let Some(fold) = fold {
+            self.end_fold(fold);
         }
         result
     }
@@ -1661,6 +1793,7 @@ impl Codegen<'_> {
                     // a dynamic key: StringCastUnary
                     self.expr(key)?;
                     self.emit(Instr::StringCast);
+                    self.key_compiled(key);
                 }
             }
             self.expr(value)?;
@@ -2389,8 +2522,15 @@ impl Codegen<'_> {
                 Ok(())
             }
             TestKind::True => {
+                // TrueTest::compile(): `(($tmp = node) && $tmp instanceof Markup ? (string) $tmp : $tmp)`.
+                // zend_compile_assign() sets `CG(zend_lineno)` back to the line of `$tmp` after compiling the value
+                // (PHPSRC/Zend/zend_compile.c), so the `JMPZ_EX` of `&&`, which converts the value to bool (PHP 8.5's
+                // NAN warning), reports the line `$tmp` is written on: the marker in effect before the node's own
+                let start = self.marker;
                 self.expr(&test.node)?;
-                self.emit(Instr::TrueTest);
+                self.emit_at(Instr::TrueTest, start);
+                // `: $tmp)`
+                self.leaf();
                 Ok(())
             }
         }

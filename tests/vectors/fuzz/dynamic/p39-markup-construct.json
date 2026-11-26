@@ -1,0 +1,180 @@
+{
+  "description": "P39 (plans/parity-fixes.md, G2): Twig\\Markup::__construct($content, $charset, private array $safeStrategies = ['all']) (TWIG/src/Markup.php): the promoted array kept as given, (string) $content, then $charset checked against the typed property private ?string $charset (coercions, TypeError of zend_verify_property_type_error()); Markup::isSafeFor() over declared strategies that are not strings (EscaperRuntime::IMPLIED_STRATEGIES[$declared] ?? []: offset deprecations and TypeErrors). Recorded with \"isolation\": \"process\".",
+  "vectors": [
+    {
+      "id": "p39-charset-stringable",
+      "case": {"id":"p39-charset-stringable","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('y', m) }}{{ m.getCharset() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-charset-stringable"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-charset-stringable","kind":"twig","ok":true,"output":"y","deprecations":[],"diagnostics":[],"clock":[1795682631,97319]}
+    },
+    {
+      "id": "p39-charset-closure",
+      "case": {"id":"p39-charset-closure","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('y', x => x) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-charset-closure"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-charset-closure","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Cannot assign Closure to property Twig\\Markup::$charset of type ?string\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot assign Closure to property Twig\\Markup::$charset of type ?string\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Cannot assign Closure to property Twig\\Markup::$charset of type ?string\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Cannot assign Closure to property Twig\\Markup::$charset of type ?string","formatted":"TypeError: Cannot assign Closure to property Twig\\Markup::$charset of type ?string","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682631,101912]}
+    },
+    {
+      "id": "p39-charset-object",
+      "case": {"id":"p39-charset-object","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('y', o) }}"},"data_php":"return ['o' => new \\stdClass, 'n' => NAN];","config":{"cache":"/tmp/twig-fuzz-cache/p39-charset-object"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-charset-object","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Cannot assign stdClass to property Twig\\Markup::$charset of type ?string\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot assign stdClass to property Twig\\Markup::$charset of type ?string\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Cannot assign stdClass to property Twig\\Markup::$charset of type ?string\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Cannot assign stdClass to property Twig\\Markup::$charset of type ?string","formatted":"TypeError: Cannot assign stdClass to property Twig\\Markup::$charset of type ?string","code":0}},"deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["o",{"t":"object","class":"stdClass","id":213,"interfaces":[],"props":[],"methods":[],"parents":[],"interfaces_raw":[]}],["n",{"t":"float","v":"NAN","bits":"7ff8000000000000"}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795682631,95847]}
+    },
+    {
+      "id": "p39-charset-nan",
+      "case": {"id":"p39-charset-nan","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('y', n) }}{{ m.getCharset() }}"},"data_php":"return ['o' => new \\stdClass, 'n' => NAN];","config":{"cache":"/tmp/twig-fuzz-cache/p39-charset-nan"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-charset-nan","kind":"twig","ok":true,"output":"NAN","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"unexpected NAN value was coerced to string"}],"data":{"t":"array","v":[["o",{"t":"object","class":"stdClass","id":225,"interfaces":[],"props":[],"methods":[],"parents":[],"interfaces_raw":[]}],["n",{"t":"float","v":"NAN","bits":"7ff8000000000000"}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795682631,94949]}
+    },
+    {
+      "id": "p39-charset-array-content-array",
+      "case": {"id":"p39-charset-array-content-array","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct([1], [1]) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-charset-array-content-array"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-charset-array-content-array","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Cannot assign array to property Twig\\Markup::$charset of type ?string\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot assign array to property Twig\\Markup::$charset of type ?string\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Cannot assign array to property Twig\\Markup::$charset of type ?string\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Cannot assign array to property Twig\\Markup::$charset of type ?string","formatted":"TypeError: Cannot assign array to property Twig\\Markup::$charset of type ?string","code":0}},"deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"Array to string conversion"}],"clock":[1795682631,94916]}
+    },
+    {
+      "id": "p39-charset-false",
+      "case": {"id":"p39-charset-false","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('y', false) }}{{ m.getCharset() is same as('') ? 'empty' : 'other' }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-charset-false"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-charset-false","kind":"twig","ok":true,"output":"empty","deprecations":[],"diagnostics":[],"clock":[1795682631,96269]}
+    },
+    {
+      "id": "p39-charset-int-count",
+      "case": {"id":"p39-charset-int-count","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('y', 5) }}{{ m|length }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-charset-int-count"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-charset-int-count","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"5\" given\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"5\" given\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"5\" given\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ValueError","message":"mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"5\" given","formatted":"ValueError: mb_strlen(): Argument #2 ($encoding) must be a valid encoding, \"5\" given","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682631,94818]}
+    },
+    {
+      "id": "p39-charset-array-named",
+      "case": {"id":"p39-charset-array-named","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct(charset: [1], content: 'y') }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-charset-array-named"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-charset-array-named","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Cannot assign array to property Twig\\Markup::$charset of type ?string\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot assign array to property Twig\\Markup::$charset of type ?string\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Cannot assign array to property Twig\\Markup::$charset of type ?string\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Cannot assign array to property Twig\\Markup::$charset of type ?string","formatted":"TypeError: Cannot assign array to property Twig\\Markup::$charset of type ?string","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682631,101847]}
+    },
+    {
+      "id": "p39-charset-markup-other",
+      "case": {"id":"p39-charset-markup-other","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{% set c %}UTF-8{% endset %}{{ m.__construct('y', c) }}{{ m.getCharset() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-charset-markup-other"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-charset-markup-other","kind":"twig","ok":true,"output":"UTF-8","deprecations":[],"diagnostics":[],"clock":[1795682631,137999]}
+    },
+    {
+      "id": "p39-strategies-float",
+      "case": {"id":"p39-strategies-float","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', [1.5]) }}{{ m }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-float"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-float","kind":"twig","ok":true,"output":"&lt;b&gt;","deprecations":[],"diagnostics":[{"type":"E_DEPRECATED","message":"Implicit conversion from float 1.5 to int loses precision"}],"clock":[1795682631,133742]}
+    },
+    {
+      "id": "p39-strategies-nested-array",
+      "case": {"id":"p39-strategies-nested-array","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', [[1]]) }}{{ m }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-nested-array"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-nested-array","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Cannot access offset of type array on array","formatted":"TypeError: Cannot access offset of type array on array","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682631,134659]}
+    },
+    {
+      "id": "p39-strategies-null",
+      "case": {"id":"p39-strategies-null","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', [null]) }}{{ m }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-null"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-null","kind":"twig","ok":true,"output":"&lt;b&gt;","deprecations":[],"diagnostics":[{"type":"E_DEPRECATED","message":"Using null as an array offset is deprecated, use an empty string instead"}],"clock":[1795682631,133693]}
+    },
+    {
+      "id": "p39-strategies-int",
+      "case": {"id":"p39-strategies-int","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', [1]) }}{{ m }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-int"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-int","kind":"twig","ok":true,"output":"&lt;b&gt;","deprecations":[],"diagnostics":[],"clock":[1795682631,129523]}
+    },
+    {
+      "id": "p39-strategies-true",
+      "case": {"id":"p39-strategies-true","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', [true]) }}{{ m }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-true"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-true","kind":"twig","ok":true,"output":"&lt;b&gt;","deprecations":[],"diagnostics":[],"clock":[1795682631,125360]}
+    },
+    {
+      "id": "p39-strategies-assoc",
+      "case": {"id":"p39-strategies-assoc","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', {'a': 'html'}) }}{{ m }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-assoc"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-assoc","kind":"twig","ok":true,"output":"<b>","deprecations":[],"diagnostics":[],"clock":[1795682631,132076]}
+    },
+    {
+      "id": "p39-strategies-object",
+      "case": {"id":"p39-strategies-object","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', [o]) }}{{ m }}"},"data_php":"return ['o' => new \\stdClass, 'n' => NAN];","config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-object"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-object","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Cannot access offset of type stdClass on array\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot access offset of type stdClass on array\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Cannot access offset of type stdClass on array\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Cannot access offset of type stdClass on array","formatted":"TypeError: Cannot access offset of type stdClass on array","code":0}},"deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["o",{"t":"object","class":"stdClass","id":226,"interfaces":[],"props":[],"methods":[],"parents":[],"interfaces_raw":[]}],["n",{"t":"float","v":"NAN","bits":"7ff8000000000000"}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795682631,136147]}
+    },
+    {
+      "id": "p39-strategies-html-attr",
+      "case": {"id":"p39-strategies-html-attr","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', ['html_attr']) }}{{ m }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-html-attr"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-html-attr","kind":"twig","ok":true,"output":"<b>","deprecations":[],"diagnostics":[],"clock":[1795682631,161610]}
+    },
+    {
+      "id": "p39-strategies-html-attr-relaxed-js",
+      "case": {"id":"p39-strategies-html-attr-relaxed-js","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', ['html_attr_relaxed']) }}{{ m|escape('js') }}{{ m }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-html-attr-relaxed-js"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-html-attr-relaxed-js","kind":"twig","ok":true,"output":"\\u003Cb\\u003E<b>","deprecations":[],"diagnostics":[],"clock":[1795682631,165076]}
+    },
+    {
+      "id": "p39-strategies-int-then-html",
+      "case": {"id":"p39-strategies-int-then-html","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', [1, 'html']) }}{{ m }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-int-then-html"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-int-then-html","kind":"twig","ok":true,"output":"<b>","deprecations":[],"diagnostics":[],"clock":[1795682631,163775]}
+    },
+    {
+      "id": "p39-strategies-float-then-all",
+      "case": {"id":"p39-strategies-float-then-all","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', ['all', 1.5]) }}{{ m }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-float-then-all"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-float-then-all","kind":"twig","ok":true,"output":"<b>","deprecations":[],"diagnostics":[],"clock":[1795682631,175320]}
+    },
+    {
+      "id": "p39-strategies-numeric-string",
+      "case": {"id":"p39-strategies-numeric-string","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', ['1']) }}{{ m }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-numeric-string"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-numeric-string","kind":"twig","ok":true,"output":"&lt;b&gt;","deprecations":[],"diagnostics":[],"clock":[1795682631,162022]}
+    },
+    {
+      "id": "p39-issafefor-float",
+      "case": {"id":"p39-issafefor-float","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', null, [1.5]) }}{{ m.isSafeFor('html') ? 'y' : 'n' }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-issafefor-float"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-issafefor-float","kind":"twig","ok":true,"output":"n","deprecations":[],"diagnostics":[{"type":"E_DEPRECATED","message":"Implicit conversion from float 1.5 to int loses precision"}],"clock":[1795682631,173483]}
+    },
+    {
+      "id": "p39-issafefor-nested",
+      "case": {"id":"p39-issafefor-nested","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', null, [[1]]) }}{{ m.isSafeFor('js') ? 'y' : 'n' }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-issafefor-nested"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-issafefor-nested","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Cannot access offset of type array on array\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Cannot access offset of type array on array","formatted":"TypeError: Cannot access offset of type array on array","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682631,183083]}
+    },
+    {
+      "id": "p39-content-object",
+      "case": {"id":"p39-content-object","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct(o, 'UTF-8') }}"},"data_php":"return ['o' => new \\stdClass, 'n' => NAN];","config":{"cache":"/tmp/twig-fuzz-cache/p39-content-object"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-content-object","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Object of class stdClass could not be converted to string\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class stdClass could not be converted to string\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Object of class stdClass could not be converted to string\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Object of class stdClass could not be converted to string","formatted":"Error: Object of class stdClass could not be converted to string","code":0}},"deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["o",{"t":"object","class":"stdClass","id":213,"interfaces":[],"props":[],"methods":[],"parents":[],"interfaces_raw":[]}],["n",{"t":"float","v":"NAN","bits":"7ff8000000000000"}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795682631,182134]}
+    },
+    {
+      "id": "p39-content-object-charset-array",
+      "case": {"id":"p39-content-object-charset-array","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct(o, [1]) }}"},"data_php":"return ['o' => new \\stdClass, 'n' => NAN];","config":{"cache":"/tmp/twig-fuzz-cache/p39-content-object-charset-array"},"typed_data":true,"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-content-object-charset-array","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Object of class stdClass could not be converted to string\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Object of class stdClass could not be converted to string\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Object of class stdClass could not be converted to string\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Object of class stdClass could not be converted to string","formatted":"Error: Object of class stdClass could not be converted to string","code":0}},"deprecations":[],"diagnostics":[],"data":{"t":"array","v":[["o",{"t":"object","class":"stdClass","id":217,"interfaces":[],"props":[],"methods":[],"parents":[],"interfaces_raw":[]}],["n",{"t":"float","v":"NAN","bits":"7ff8000000000000"}]]},"state":{"php_default_timezone":"UTC","core_timezone":"UTC","core_date_format":["F j, Y H:i","%d days"],"core_number_format":[0,".",","]},"data_diagnostics":[],"data_deprecations":[],"clock":[1795682631,201551]}
+    },
+    {
+      "id": "p39-strategies-string-charset-array",
+      "case": {"id":"p39-strategies-string-charset-array","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('y', [1], 'html') }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-string-charset-array"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-string-charset-array","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Twig\\Markup::__construct(): Argument #3 ($safeStrategies) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Markup::__construct(): Argument #3 ($safeStrategies) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Twig\\Markup::__construct(): Argument #3 ($safeStrategies) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Twig\\Markup::__construct(): Argument #3 ($safeStrategies) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","formatted":"TypeError: Twig\\Markup::__construct(): Argument #3 ($safeStrategies) must be of type array, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682631,197839]}
+    },
+    {
+      "id": "p39-construct-named",
+      "case": {"id":"p39-construct-named","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct(content: 'y', charset: 5) }}{{ m.getCharset() }}{{ m }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-construct-named"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-construct-named","kind":"twig","ok":true,"output":"5y","deprecations":[],"diagnostics":[],"clock":[1795682631,197842]}
+    },
+    {
+      "id": "p39-construct-too-few",
+      "case": {"id":"p39-construct-too-few","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('y') }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-construct-too-few"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-construct-too-few","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Markup::__construct(), 1 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and at least 2 expected\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Markup::__construct(), 1 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and at least 2 expected\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Markup::__construct(), 1 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and at least 2 expected\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ArgumentCountError","message":"Too few arguments to function Twig\\Markup::__construct(), 1 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and at least 2 expected","formatted":"ArgumentCountError: Too few arguments to function Twig\\Markup::__construct(), 1 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and at least 2 expected","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682631,201471]}
+    },
+    {
+      "id": "p39-construct-unknown-named-then-spread",
+      "case": {"id":"p39-construct-unknown-named-then-spread","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct(zz: 1, ...['y', 'z']) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-construct-unknown-named-then-spread"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-construct-unknown-named-then-spread","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $zz\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $zz\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $zz\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Unknown named parameter $zz","formatted":"Error: Unknown named parameter $zz","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682631,209905]}
+    },
+    {
+      "id": "p39-construct-json",
+      "case": {"id":"p39-construct-json","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('y', 5, [1, 'a']) }}{{ m|json_encode }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-construct-json"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-construct-json","kind":"twig","ok":true,"output":"&quot;y&quot;","deprecations":[],"diagnostics":[],"clock":[1795682631,217417]}
+    },
+    {
+      "id": "p39-construct-dump",
+      "case": {"id":"p39-construct-dump","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('y', 5, [1, 'a']) }}{{ dump(m) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p39-construct-dump"},"extensions":["debug"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-construct-dump","kind":"twig","ok":true,"output":"object(Twig\\Markup)#242 (3) {\n  [\"content\":\"Twig\\Markup\":private]=>\n  string(1) \"y\"\n  [\"charset\":\"Twig\\Markup\":private]=>\n  string(1) \"5\"\n  [\"safeStrategies\":\"Twig\\Markup\":private]=>\n  array(2) {\n    [0]=>\n    int(1)\n    [1]=>\n    string(1) \"a\"\n  }\n}\n","deprecations":[],"diagnostics":[],"clock":[1795682631,228226]}
+    },
+    {
+      "id": "p39-withcontent-keeps-strategies",
+      "case": {"id":"p39-withcontent-keeps-strategies","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', [1.5]) }}{{ m.withContent('<i>') }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-withcontent-keeps-strategies"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-withcontent-keeps-strategies","kind":"twig","ok":true,"output":"&lt;i&gt;","deprecations":[],"diagnostics":[{"type":"E_DEPRECATED","message":"Implicit conversion from float 1.5 to int loses precision"}],"clock":[1795682631,223800]}
+    },
+    {
+      "id": "p39-strategies-empty",
+      "case": {"id":"p39-strategies-empty","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('<b>', 'UTF-8', []) }}{{ m }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-strategies-empty"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-strategies-empty","kind":"twig","ok":true,"output":"&lt;b&gt;","deprecations":[],"diagnostics":[],"clock":[1795682631,233905]}
+    },
+    {
+      "id": "p39-charset-null-count",
+      "case": {"id":"p39-charset-null-count","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('ab', null) }}{{ m|length }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-charset-null-count"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-charset-null-count","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795682631,236866]}
+    },
+    {
+      "id": "p39-charset-float-integral",
+      "case": {"id":"p39-charset-float-integral","env":"plain","templates":{"index.twig":"{% set m %}x{% endset %}{{ m.__construct('y', 2.0) }}{{ m.getCharset() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p39-charset-float-integral"},"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p39-charset-float-integral","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795682631,235083]}
+    }
+  ]
+}

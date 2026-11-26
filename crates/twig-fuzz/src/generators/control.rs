@@ -36,7 +36,10 @@
 //! goes for errors.
 //!
 //! The generator avoids what cannot match by design (no `random()`, dates or `dump()` of objects;
-//! `dump()` without arguments only with JSON data) and the operand-type errors of `+ * b-and b-or
+//! `dump()` without arguments only with JSON data and outside capture bodies: the context may hold
+//! the `Markup` of an earlier capture, and the handle digits of its dump would change the `length`,
+//! the `replace()` result or the `string(N)` dump of the capture's value, where the diff cannot
+//! tell them from other text) and the operand-type errors of `+ * b-and b-or
 //! b-xor` and `is not ... **` already known from `crates/twig-fuzz/vectors/round0-mismatches.json`.
 //! It also avoids cases that would not end: inside loops an assigned value reads earlier
 //! assignments at most once and never embeds the context (`loop.parent`, `_parent`, `_context`,
@@ -731,6 +734,10 @@ struct Gen {
     loops_total: usize,
     blocks: usize,
     dump: bool,
+    /// Nesting depth of capture bodies (`{% set %}` captures, `apply`): their output becomes a
+    /// value that the template measures, rewrites or dumps again, so `dump()` of the context, whose
+    /// text holds object handles, stays out of them.
+    captures: usize,
     probe_template: bool,
     /// Calls of the macro `m` (defined at the end of the template when used).
     macro_calls: usize,
@@ -793,6 +800,7 @@ impl Gen {
             loops_total: 0,
             blocks: 0,
             dump: false,
+            captures: 0,
             probe_template: false,
             macro_calls: 0,
             theme,
@@ -1850,7 +1858,8 @@ impl Gen {
             65..=74 if unbounded => {
                 "[{% for k, v in _context %}{{ k }}={{ v|json_encode }};{% endfor %}]".to_owned()
             }
-            75..=81 if unbounded && !self.php => {
+            // (the context may hold the `Markup` of a capture: object handles)
+            75..=81 if unbounded && !self.php && self.captures == 0 => {
                 self.dump = true;
                 "{{ dump() }}".to_owned()
             }
@@ -1930,7 +1939,9 @@ impl Gen {
                 .to_owned(),
             _ => {
                 self.depth += 1;
+                self.captures += 1;
                 let b = self.body(1, 3);
+                self.captures -= 1;
                 self.depth -= 1;
                 b
             }
@@ -2227,8 +2238,10 @@ impl Gen {
             self.written_reads = Some(saved.map_or(1, |n| n.min(1)));
         }
         self.depth += 1;
+        self.captures += 1;
         let open = self.tag(&format!("apply {}", filters.join("|")));
         let body = self.body(1, 3);
+        self.captures -= 1;
         self.depth -= 1;
         self.written_reads = saved;
         let close = self.tag("endapply");
@@ -2685,5 +2698,54 @@ mod tests {
         ] {
             assert!(text.contains(needle), "no case contains {needle:?}");
         }
+    }
+
+    /// The text of `dump()` of the context never becomes a captured value (`ctl-9003-794` of round
+    /// 3 measured it with `length`).
+    #[test]
+    fn context_dumps_stay_out_of_capture_bodies() {
+        let mut dumps = 0;
+        for case in generate(5, 6000) {
+            let source = case
+                .get("templates")
+                .and_then(|t| t.get("index.twig"))
+                .and_then(Json::as_str)
+                .unwrap_or_default()
+                .to_owned();
+            // (a syntax error inserted anywhere may leave a capture open: the template never runs)
+            if BROKEN.iter().any(|broken| source.contains(broken)) {
+                continue;
+            }
+            let mut depth = 0usize;
+            let mut rest = source.as_str();
+            loop {
+                let tag = rest.find("{%");
+                let dump = rest.find("{{ dump() }}");
+                match (tag, dump) {
+                    (Some(t), d) if d.is_none_or(|d| t < d) => {
+                        let Some(end) = rest[t..].find("%}") else {
+                            break;
+                        };
+                        let inner = rest[t + 2..t + end]
+                            .trim_matches(|c: char| c.is_whitespace() || c == '-' || c == '~');
+                        let words: Vec<&str> = inner.split_whitespace().collect();
+                        match words.first().copied() {
+                            Some("set") if !inner.contains('=') => depth += 1,
+                            Some("apply") => depth += 1,
+                            Some("endset" | "endapply") => depth = depth.saturating_sub(1),
+                            _ => {}
+                        }
+                        rest = &rest[t + end + 2..];
+                    }
+                    (_, Some(d)) => {
+                        assert_eq!(depth, 0, "{source}");
+                        dumps += 1;
+                        rest = &rest[d + 12..];
+                    }
+                    _ => break,
+                }
+            }
+        }
+        assert!(dumps > 20, "{dumps} context dumps");
     }
 }

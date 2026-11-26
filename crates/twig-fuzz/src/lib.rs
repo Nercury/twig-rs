@@ -16,8 +16,12 @@
 //!  "extensions": ["debug", "string_loader", "sandbox"],
 //!  "sandbox": {"global": true, "policy": {"tags": ["if"], "filters": ["round"], "methods": {},
 //!              "properties": {}, "functions": [], "tests": [], "strict": true}},
-//!  "globals": {"g": 1}, "timezone": "Europe/Paris", "load_all": true, "errors": "collect"}
+//!  "globals": {"g": 1}, "timezone": "Europe/Paris", "load_all": true, "errors": "collect",
+//!  "lexer": {"tag_block": ["<%", "%>"], "whitespace_trim": "="}}
 //! ```
+//!
+//! `lexer` holds Lexer options (`$twig->setLexer(new \Twig\Lexer($twig, $lexer))` before any
+//! template is loaded; twig-rs's `EnvironmentOptions::lexer`).
 //!
 //! Data comes as `data_json` (decoded like PHP's `json_decode($json, true)`) or as `data_php` (PHP
 //! code, the way a fixture's `--DATA--` is written). twig-rs cannot run PHP: for `data_php` the oracle
@@ -30,8 +34,14 @@
 //! returns the time it started rendering and twig-rs renders with that "now", so `date()` and
 //! `null|date` agree unless the render crosses a second or prints microseconds.
 //!
-//! Generators must avoid what cannot match by design: unseeded randomness (`random()`, `shuffle`),
-//! microsecond-resolution "now", `var_dump()` object handles (`dump()` of objects), closures in data.
+//! Generators must avoid what cannot match by design: unseeded randomness (`random()`, `shuffle`,
+//! also a multi-byte character under another charset), microsecond-resolution "now", `var_dump()`
+//! object handles (`dump()` of objects) where the template measures or rewrites the dumped text
+//! (`length`, `replace()`, `reverse` of a captured dump: the diff accepts handles where they stand,
+//! also escaped, case-changed or inside the `string(N)` dump of a captured dump, nothing more),
+//! closures in data. They also leave out the inputs of accepted deviations unless asked
+//! ([`generators::Options`]: `twig-fuzz generate --d2` for D2's CR escapes and lone CRs with
+//! `debug`).
 //!
 //! Not supported (reported as "unsupported", never as mismatches): the `integration` environment
 //! (the oracle's default: always set `"env": "plain"`), `config_php`, callable `autoescape`
@@ -63,6 +73,7 @@
 //! twig-fuzz selftest-fixtures --out dir              # fixture corpus as plain-env batches
 //! twig-fuzz selftest-engine --out dir                # engine vector batches + recorded results
 //! twig-fuzz generate escaping --seed 7 --count 2000 --out esc.json   # a random batch of a family
+//! twig-fuzz generate escaping --seed 7 --count 2000 --d2 --out esc.json   # ... with D2 inputs
 //! ```
 //!
 //! twig-rs runs in a child process (`twig-fuzz worker`) restarted after a timeout (`--timeout-ms`,
@@ -94,8 +105,10 @@
 //! message, raw message, template name, line, column, previous errors), the deprecations and the
 //! diagnostics. Differences that `reference/deviations.md` accepts (the `, called in <file>` suffix
 //! of userland `TypeError`s, closure names with file and line or template class scope,
-//! `var_dump()` object handles also through escaping strategies and case filters, lossy non-UTF-8
-//! messages) make a [`Verdict::Deviation`](kit::diff::Verdict::Deviation), not a mismatch.
+//! `var_dump()` object handles also through escaping strategies and case filters and in the
+//! `string(N)` lengths of dumped dumps, lossy non-UTF-8 messages, the compile-time warnings a
+//! filesystem cache silences in PHP and twig-rs raises when the expression runs) make a
+//! [`Verdict::Deviation`](kit::diff::Verdict::Deviation), not a mismatch.
 //! Each mismatch has a signature ([`kit::diff::Mismatch::signature`]) built from the differing fields
 //! with quoted strings and numbers blanked out: the minimiser keeps a candidate only while its
 //! signature stays the same, and the driver clusters by it.

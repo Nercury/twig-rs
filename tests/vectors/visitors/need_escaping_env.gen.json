@@ -1,0 +1,739 @@
+{
+ "cases": [
+  {
+   "id": "nesc-print",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-print"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-print-env-false",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "config": {
+    "autoescape": false,
+    "cache": "/tmp/twig-fuzz-cache/nesc-print-env-false"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-print-env-js",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "config": {
+    "autoescape": "js",
+    "cache": "/tmp/twig-fuzz-cache/nesc-print-env-js"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-print-line",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{% autoescape null %}\n\n{{ v }}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-print-line"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-block",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{% block b %}x{% endblock %}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-block"
+   }
+  },
+  {
+   "id": "nesc-block-nested",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% block outer %}{% autoescape null %}{% block inner %}x{% endblock %}{% endautoescape %}{% endblock %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-block-nested"
+   }
+  },
+  {
+   "id": "nesc-block-shorthand",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{% block b 'x' %}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-block-shorthand"
+   }
+  },
+  {
+   "id": "nesc-inner-null",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape 'html' %}{% autoescape null %}{{ v }}{% endautoescape %}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-inner-null"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-nl2br",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{{ v|nl2br }}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-nl2br"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-conditional",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{{ v ?: 'x' }}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-conditional"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-set-capture",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{% set x %}{{ v }}{% endset %}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-set-capture"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-apply",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{% apply upper %}{{ v }}{% endapply %}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-apply"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-for",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{% for i in [1] %}{{ i }}{% endfor %}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-for"
+   }
+  },
+  {
+   "id": "nesc-if-false",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{% if false %}{{ v }}{% endif %}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-if-false"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-macro-inside",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{% macro m() %}{{ v }}{% endmacro %}{% endautoescape %}{{ _self.m() }}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-macro-inside"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-deprecation-first",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{{ v|spaceless }}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-deprecation-first"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-syntax-error-first",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{{ v }}{% endautoescape %}{{ 1 + }}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-syntax-error-first"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-unknown-filter-first",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{{ v }}{% endautoescape %}{{ v|nope }}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-unknown-filter-first"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-child-block",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% extends 'base.twig' %}{% autoescape null %}{% block b %}x{% endblock %}{% endautoescape %}",
+    "base.twig": "{% block b %}{% endblock %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-child-block"
+   }
+  },
+  {
+   "id": "nesc-embed-body",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% embed 'base.twig' %}{% block b %}{% autoescape null %}{{ v }}{% endautoescape %}{% endblock %}{% endembed %}",
+    "base.twig": "{% block b %}{% endblock %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-embed-body"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-embed-body-then-syntax-error",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% embed 'base.twig' %}{% block b %}{% autoescape null %}{{ v }}{% endautoescape %}{% endblock %}{% endembed %}{{ 1 + }}",
+    "base.twig": "{% block b %}{% endblock %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-embed-body-then-syntax-error"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-ctl-text",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}text{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-ctl-text"
+   }
+  },
+  {
+   "id": "nesc-ctl-inner-false",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{% autoescape false %}{{ v }}{% endautoescape %}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-ctl-inner-false"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-ctl-verbatim",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{% verbatim %}{{ v }}{% endverbatim %}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-ctl-verbatim"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-ctl-do",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{% do v %}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-ctl-do"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-ctl-after",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{% endautoescape %}{% block b %}{{ v }}{% endblock %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-ctl-after"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-ctl-include-inside",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{% include 'ok.twig' %}{% endautoescape %}",
+    "ok.twig": "{{ v }}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-ctl-include-inside"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-ctl-embed-inside",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape null %}{% embed 'base.twig' %}{% block b %}{{ v }}{% endblock %}{% endembed %}{% endautoescape %}",
+    "base.twig": "{% block b %}{% endblock %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-ctl-embed-inside"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-ctl-int",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape 1 %}{{ v }}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-ctl-int"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-ctl-true",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape true %}{{ v }}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-ctl-true"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-ctl-float",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% autoescape 1.5 %}{{ v }}{% endautoescape %}"
+   },
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-ctl-float"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-ctl-source",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ source('broken.twig') }}",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-ctl-source"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-ctl-next-template",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ v }}",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "main": "index.twig",
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-ctl-next-template"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-load-direct",
+   "env": "plain",
+   "templates": {
+    "index.twig": "x",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "main": "broken.twig",
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-load-direct"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-include",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{% include 'broken.twig' %}b",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-include"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-include-ignore-missing",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{% include 'broken.twig' ignore missing %}b",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-include-ignore-missing"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-include-array",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{% include ['broken.twig', 'ok.twig'] %}b",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}",
+    "ok.twig": "ok"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-include-array"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-include-function",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{{ include('broken.twig') }}b",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-include-function"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-include-function-ignore-missing",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{{ include('broken.twig', ignore_missing = true) }}b",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-include-function-ignore-missing"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-include-in-block",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{% block b %}\n{% include 'broken.twig' %}{% endblock %}",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-include-in-block"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-include-in-macro",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% macro m() %}\n\n{% include 'broken.twig' %}{% endmacro %}a\n{{ _self.m() }}",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-include-in-macro"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-embed",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{% embed 'broken.twig' %}{% endembed %}b",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-embed"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-embed-then-print",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{% embed 'broken.twig' %}{% endembed %}\n{{ 'x' }}\n{{ 'y' }}",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-embed-then-print"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-extends",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% extends 'broken.twig' %}",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-extends"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-extends-line",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{# a #}\n\n{% extends 'broken.twig' %}",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-extends-line"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-extends-dynamic",
+   "env": "plain",
+   "templates": {
+    "index.twig": "\n{% extends name %}",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-extends-dynamic"
+   },
+   "data_json": {
+    "name": "broken.twig",
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-extends-conditional",
+   "env": "plain",
+   "templates": {
+    "index.twig": "\n{% extends v ? 'broken.twig' : 'ok.twig' %}",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}",
+    "ok.twig": "ok"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-extends-conditional"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-use",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% use 'broken.twig' %}",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-use"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-import",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{% import 'broken.twig' as m %}b",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-import"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-from",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{% from 'broken.twig' import x %}b",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-from"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-block-function",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{{ block('b', 'broken.twig') }}b",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-block-function"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  },
+  {
+   "id": "nesc-template-from-string",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{{ include(template_from_string('{% autoescape null %}{{ 1 }}{% endautoescape %}')) }}b",
+    "broken.twig": "{% autoescape null %}{{ v }}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-template-from-string"
+   },
+   "data_json": {
+    "v": "<b>"
+   },
+   "extensions": [
+    "string_loader"
+   ]
+  },
+  {
+   "id": "nesc-include-broken-block",
+   "env": "plain",
+   "templates": {
+    "index.twig": "a\n{% include 'broken.twig' %}",
+    "broken.twig": "{% autoescape null %}{% block b %}x{% endblock %}{% endautoescape %}"
+   },
+   "load_all": false,
+   "config": {
+    "cache": "/tmp/twig-fuzz-cache/nesc-include-broken-block"
+   },
+   "data_json": {
+    "v": "<b>"
+   }
+  }
+ ],
+ "isolation": "process"
+}

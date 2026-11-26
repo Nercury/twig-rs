@@ -1,0 +1,10 @@
+{% macro input(name, value, type = "text", attrs = {}) %}
+  <input type="{{ type }}" name="{{ name }}" value="{{ value }}"{% for key, attr in attrs %} {{ key }}="{{ attr }}"{% endfor %}>
+{% endmacro %}
+
+{% macro field(label, name, value, required = false) %}
+  <div class="field{{ required ? ' required' }}">
+    <label for="{{ name }}">{{ label }}</label>
+    {{ _self.input(name, value, "text", {id: name}) }}
+  </div>
+{% endmacro %}

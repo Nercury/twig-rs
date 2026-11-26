@@ -7,9 +7,15 @@ keywords = ["twig", "template", "templating", "html"]
 categories = ["template-engine"]
 edition.workspace = true
 rust-version.workspace = true
-license.workspace = true
+# BSD-3-Clause: twig-rs, the ported Twig 3.31.1 and its vendored fixtures (with the Zend Framework escaper code Twig
+# adapted). PHP-3.01, Zend-2.0: ported php-src code. MIT: templates/fos_login.html.twig (FOSUserBundle). See NOTICE.
+license = "BSD-3-Clause AND PHP-3.01 AND Zend-2.0 AND MIT"
 repository.workspace = true
 authors.workspace = true
+
+[features]
+# `twig::to_value` / `twig::to_context`: template data from anything that implements serde's `Serialize`.
+serde = ["twig-value/serde"]
 
 [dependencies]
 regex.workspace = true
@@ -26,11 +32,22 @@ serde.workspace = true
 serde_json = { workspace = true, features = ["float_roundtrip"] }
 # The fixture harness: the oracle corpus, its DATA trees as values, the PHP test classes.
 twig-test-support.workspace = true
+# The benchmarks in benches/ (see benches/README.md).
+criterion.workspace = true
 
 # The Twig 3.31.1 fixture suite (libtest-mimic runner, see the header of tests/fixtures.rs).
 [[test]]
 name = "fixtures"
 path = "tests/fixtures.rs"
+harness = false
+
+# Criterion benchmarks over the scenarios in benches/scenarios/: lexing, parsing and compiling them, and rendering them.
+[[bench]]
+name = "compile"
+harness = false
+
+[[bench]]
+name = "render"
 harness = false
 
 [lints]
@@ -43,7 +60,6 @@ resolver = "3"
 [workspace.package]
 edition = "2024"
 rust-version = "1.88"
-license = "BSD-3-Clause"
 repository = "https://github.com/Nercury/twig-rs"
 authors = ["Nerijus Arlauskas <nercury@gmail.com>"]
 
@@ -62,6 +78,8 @@ cc = "1"
 libtest-mimic = "0.8"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+# Without the default rayon and plotters features: fewer dependencies; HTML reports then need gnuplot installed.
+criterion = { version = "0.8", default-features = false }
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

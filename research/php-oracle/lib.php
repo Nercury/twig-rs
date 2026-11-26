@@ -243,6 +243,8 @@ function typed($v, array &$seen = [], int $depth = 0): array
  *                           into the table plus the dynamic properties the data code added, in table order
  *                           (twig-fuzz recreates the dynamic ones in their places, and createFromDateString()
  *                           intervals from their date_string)
+ *          "wall"           DateInterval: true when add() and sub() use wall-clock time for its time part
+ *                           (interval_is_wall(); twig-fuzz rebuilds the interval with that mode)
  * Like typed(), it calls __toString() and iterates CallbackFilterIterators and SplObjectStorages.
  */
 final class RichEncoder
@@ -344,6 +346,9 @@ final class RichEncoder
         } elseif ($v instanceof \DateInterval) {
             $o['spec'] = ['y' => $v->y, 'm' => $v->m, 'd' => $v->d, 'h' => $v->h, 'i' => $v->i, 's' => $v->s, 'f' => $v->f, 'invert' => $v->invert, 'days' => $v->days];
             $o['props'] = $this->props($v, $depth);
+            if (interval_is_wall($v)) {
+                $o['wall'] = true;
+            }
         } elseif ($v instanceof \Twig\TemplateWrapper) {
             $o['template'] = $v->getTemplateName();
             $userland = false; // its private properties are the whole Environment
@@ -412,6 +417,35 @@ final class RichEncoder
 
         return $o;
     }
+}
+
+/**
+ * Whether add() and sub() of the interval take its time part in wall-clock time: php_interval_obj's civil_or_wall
+ * is PHP_DATE_WALL, which only `new DateInterval()` sets (diff(), createFromDateString(), __set_state() and
+ * unserialize() give PHP_DATE_CIVIL), and PHP shows it nowhere (PHPSRC/ext/date/php_date.c: php_date_add(),
+ * php_date_sub()). The modes differ only for an interval with a time part, where the arithmetic crosses a change of
+ * the UTC offset: the interval is added to and subtracted from instants around the end of DST in New York
+ * (2021-11-07 06:00 UTC) and compared with an unserialize()d copy, which has the civil mode.
+ */
+function interval_is_wall(\DateInterval $interval): bool
+{
+    try {
+        if (0 === $interval->h && 0 === $interval->i && 0 === $interval->s && 0.0 === (float) $interval->f) {
+            return false;
+        }
+        $civil = unserialize(serialize($interval));
+        $zone = new \DateTimeZone('America/New_York');
+        foreach ([-3599, -1800, -1, 1, 1800, 3599] as $offset) {
+            $probe = (new \DateTimeImmutable('@'.(1636264800 + $offset)))->setTimezone($zone);
+            if ($probe->add($interval) != $probe->add($civil) || $probe->sub($interval) != $probe->sub($civil)) {
+                return true;
+            }
+        }
+    } catch (\Throwable) {
+        // an interval that is not initialised: nothing to rebuild either
+    }
+
+    return false;
 }
 
 /** RichEncoder::encode() of a value, with every diagnostic it raises swallowed. */
@@ -506,7 +540,22 @@ function plain_environment(array $templates, array $config, array $extensions, a
         if (isset($p['strict'])) {
             $policy->setStrict((bool) $p['strict']);
         }
-        $twig->addExtension(new \Twig\Extension\SandboxExtension($policy, (bool) ($sandbox['global'] ?? false)));
+        $sourcePolicy = null;
+        if (isset($sandbox['source_policy'])) {
+            // the templates of these names run sandboxed (SourcePolicyInterface, deprecated since Twig 3.27)
+            $sourcePolicy = new class((array) $sandbox['source_policy']) implements \Twig\Sandbox\SourcePolicyInterface {
+                public function __construct(private array $names)
+                {
+                }
+
+                public function enableSandbox(\Twig\Source $source): bool
+                {
+                    return \in_array($source->getName(), $this->names, true);
+                }
+            };
+        }
+        // (the deprecation a source policy triggers comes before the oracle records anything, like other setup notices)
+        $twig->addExtension(new \Twig\Extension\SandboxExtension($policy, (bool) ($sandbox['global'] ?? false), $sourcePolicy));
     }
 
     return $twig;

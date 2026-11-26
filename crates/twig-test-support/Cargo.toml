@@ -4,7 +4,9 @@ version = "0.1.0"
 description = "Fixture-harness support for twig-rs: Twig's integration fixtures (oracle corpus) as twig-value values."
 edition.workspace = true
 rust-version.workspace = true
-license = "BSD-3-Clause"
+# BSD-3-Clause: twig-rs and Twig's test classes. PHP-3.01, Zend-2.0: ported SPL, SimpleXML, Generator and
+# increment code. See NOTICE.
+license = "BSD-3-Clause AND PHP-3.01 AND Zend-2.0"
 repository.workspace = true
 authors.workspace = true
 publish = false

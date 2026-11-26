@@ -1,7 +1,9 @@
 //! Generator of the `sandbox` family: random security policies and templates that exercise them.
 //!
 //! Every case renders in a plain environment with the `SandboxExtension` (sandboxed globally most of the time,
-//! otherwise through `{% sandbox %}` and `include(..., sandboxed = true)`) and a random `SecurityPolicy`:
+//! otherwise through `{% sandbox %}`, `include(..., sandboxed = true)` and, in a quarter of those cases, a source policy
+//! that sandboxes the templates it names: the case's `"sandbox": {"source_policy": [...]}`) and a random
+//! `SecurityPolicy`:
 //!
 //! - allowed tags, filters, functions and tests: built from the names the generated templates use, with some left
 //!   out (the first one not allowed fails, at the line of its first use), case variants (never equal) and decoys;
@@ -2930,6 +2932,7 @@ impl<'r> Gen<'r> {
         }
 
         let policy = self.policy();
+        let names: Vec<String> = templates.iter().map(|(name, _)| name.clone()).collect();
         let mut fields = vec![
             ("id".to_owned(), Json::str(id)),
             ("env".to_owned(), Json::str("plain")),
@@ -2963,6 +2966,23 @@ impl<'r> Gen<'r> {
         }
         if self.rng.chance(0.08) {
             fields.push(("errors".to_owned(), Json::str("throw")));
+        }
+        // now and then a source policy that sandboxes some templates of a case that is not sandboxed
+        // globally (`SourcePolicyInterface`, deprecated since Twig 3.27)
+        if !self.global && self.rng.chance(0.25) {
+            let mut sandboxed: Vec<Json> = names
+                .iter()
+                .filter(|_| self.rng.chance(0.5))
+                .map(|name| Json::str(name.clone()))
+                .collect();
+            if self.rng.chance(0.2) {
+                sandboxed.push(Json::str("missing.twig"));
+            }
+            if let Some((_, Json::Object(sandbox))) =
+                fields.iter_mut().find(|(k, _)| k == "sandbox")
+            {
+                sandbox.push(("source_policy".to_owned(), Json::Array(sandboxed)));
+            }
         }
         Json::Object(fields)
     }

@@ -9,13 +9,15 @@
 //!   constant array (`zend_try_ct_eval_array()`). Inside an array literal, `zend_try_ct_eval_array()` first runs
 //!   `zend_eval_const_expr()` over every key and value, which also folds conditionals, `??` and casts with constant
 //!   operands ([`PhpModel::eval_const`]), and stamps every value it creates with the line of the array
-//!   (`zend_ast_create_zval()`), which an opcode emitted after such a value then reports.
+//!   (`zend_ast_create_zval()`), which an opcode emitted after such a value then reports. A value the parser made
+//!   (a literal, a concatenation of literals) keeps its own line, also as the branch a folded conditional chooses
+//!   ([`PhpModel::keeps_parsed_line`]).
 //! - **Operand kinds.** Each compiled operand is a constant, a temporary, a variable (function call results) or a
 //!   compiled variable (`znode` op types `IS_CONST < IS_TMP_VAR < IS_VAR < IS_CV`). The commutative opcodes swap
 //!   their operands when op1's kind is lower than op2's (`zend_vm_set_opcode_handler_ex()`, PHPSRC/Zend/zend_vm_execute.h),
 //!   which decides which operand is converted (and reported) first ([`PhpModel::operand_kind`]).
 //! - **Lines.** The line of an AST node is the line of its first token (`zend_ast_create_*()` take the line of their
-//!   first child), which is where a debug marker of Twig's compiler may sit ([`first_debug_line`]).
+//!   first child), which is where a debug marker of Twig's compiler may sit ([`first_line`]).
 //! - **Errors.** PHP refuses some of the code Twig generates: a `ParseError` for a spread outside an argument list or
 //!   array literal ([`generated_parse_error`]), an `E_COMPILE_ERROR` for positional arguments after a spread or for a
 //!   constant literal that unpacks a constant that is not an array ([`PhpModel::array_eval_fatal`]). It parses the
@@ -119,6 +121,28 @@ impl PhpModel {
         };
         let test = self.eval_const(test)?;
         Some(if truthy(&test) { left } else { right })
+    }
+
+    /// Whether the value `zend_eval_const_expr()` leaves in place of `expr` (which folds inside an array literal) is
+    /// one PHP's parser made ([`is_parsed_value`]), which keeps the line it is written on, rather than one
+    /// `zend_eval_const_expr()` creates (`zend_ast_create_zval()`), which gets the line of the array literal. A
+    /// conditional whose test folds is replaced by the branch it chooses itself (`ZEND_AST_CONDITIONAL`,
+    /// PHPSRC/Zend/zend_compile.c), so it keeps the line of a chosen parsed value; `RawFilter` and `DefaultFilter`
+    /// compile as their node.
+    pub(crate) fn keeps_parsed_line(&self, expr: &Expr) -> bool {
+        if is_parsed_value(expr) {
+            return true;
+        }
+        match &expr.kind {
+            ExprKind::Filter(filter)
+                if matches!(filter.kind, FilterKind::Default | FilterKind::Raw) =>
+            {
+                self.keeps_parsed_line(&filter.node)
+            }
+            _ => self
+                .chosen_branch(expr)
+                .is_some_and(|chosen| self.keeps_parsed_line(chosen)),
+        }
     }
 
     /// The `E_COMPILE_ERROR` PHP raises while folding the array literal `array` (a constant array literal that
@@ -783,31 +807,55 @@ fn get_long(op: &Value) -> i64 {
     convert::to_long(op, &mut Ignore).unwrap_or(0)
 }
 
-/// The line of the debug marker the PHP of `expr` begins with, when it begins with one: `NameExpression::compile()`
-/// and `ArrowFunctionExpression::compile()` call `addDebugInfo()` before writing anything, so a PHP construct whose
-/// first token comes from one of them starts after that marker. `None` when the first token is written before any
-/// marker of `expr` (at the marker already in effect).
-///
-/// PHP gives an AST node the line of its first child (`zend_ast_create_*()`, PHPSRC/Zend/zend_ast.c), so the line of
-/// a binary operator is the line of its left operand, the line of an array literal the line of its first element's
-/// value (`ZEND_AST_ARRAY_ELEM` is created as `(value, key)`), and the line of a call the line of its name.
-pub(crate) fn first_debug_line(expr: &Expr) -> Option<i64> {
+/// Where the line of the PHP node of an expression comes from (see [`first_line`]).
+#[derive(Debug, Clone, Copy)]
+pub(crate) enum FirstLine<'e> {
+    /// A marker for this line is written right before the token that gives the node its line.
+    Marker(i64),
+    /// No marker of the expression comes before that token: it is written at the marker in effect where the
+    /// expression starts.
+    Start,
+    /// That token follows the dynamic key `key` of an array literal, which `ArrayExpression::compile()` writes
+    /// before the value (` (string) key => value`, TWIG/src/Node/Expression/ArrayExpression.php), and no marker comes
+    /// between them: it is written at the marker in effect once the key is compiled.
+    AfterKey(&'e Expr),
+}
+
+/// Where the line of the PHP node of `expr` comes from: PHP gives an AST node the line of its first child
+/// (`zend_ast_create_*()`, PHPSRC/Zend/zend_ast.c), down to a token, so the line of a binary operator is the line of
+/// its left operand, the line of an array literal the line of its first element (`zend_ast_create_list()`), whose
+/// line is its value's (`ZEND_AST_ARRAY_ELEM` is created as `(value, key)`, PHPSRC/Zend/zend_language_parser.y), and
+/// the line of a call the line of its name. `NameExpression::compile()` and `ArrowFunctionExpression::compile()`
+/// call `addDebugInfo()` before writing anything, so a node whose first token comes from one of them gets that
+/// marker's line ([`FirstLine::Marker`]).
+pub(crate) fn first_line(expr: &Expr) -> FirstLine<'_> {
     match &expr.kind {
         // AssignNameExpression::compile() writes `$context["name"]` without a marker
-        ExprKind::ContextVariable(_) | ExprKind::ArrowFunction(_) => Some(expr.line),
+        ExprKind::ContextVariable(_) | ExprKind::ArrowFunction(_) => FirstLine::Marker(expr.line),
         ExprKind::Array(array) => {
-            if array.defined_test {
-                return None;
-            }
-            let (_, value) = array.elements.first()?;
+            let Some((key, value)) = array.elements.first().filter(|_| !array.defined_test) else {
+                return FirstLine::Start;
+            };
             match &value.kind {
-                ExprKind::Unary(unary) if unary.op == UnaryOp::Spread => {
-                    first_debug_line(&unary.node)
-                }
-                _ => first_debug_line(value),
+                // `...value`: no key is written
+                ExprKind::Unary(unary) if unary.op == UnaryOp::Spread => first_line(&unary.node),
+                _ => match first_line(value) {
+                    // a constant or temporary-name key is written as a literal (`ArrayExpression::compile()`)
+                    FirstLine::Start
+                        if !matches!(
+                            key.kind,
+                            ExprKind::Constant(_)
+                                | ExprKind::LocalVariable(_)
+                                | ExprKind::MacroVariable(_)
+                        ) =>
+                    {
+                        FirstLine::AfterKey(key)
+                    }
+                    line => line,
+                },
             }
         }
-        ExprKind::Unary(unary) => first_debug_line(&unary.node),
+        ExprKind::Unary(unary) => first_line(&unary.node),
         ExprKind::Binary(binary) => match binary.op {
             // `(left OP right)` and the operators written like it
             BinaryOp::Add
@@ -831,29 +879,29 @@ pub(crate) fn first_debug_line(expr: &Expr) -> Option<i64> {
             | BinaryOp::NotSameAs
             | BinaryOp::And
             | BinaryOp::Or
-            | BinaryOp::Xor => first_debug_line(&binary.left),
+            | BinaryOp::Xor => first_line(&binary.left),
             // `((test) ? (left) : (right))`
             BinaryOp::Elvis | BinaryOp::NullCoalesce => {
-                binary.test.as_ref().and_then(first_debug_line)
+                binary.test.as_ref().map_or(FirstLine::Start, first_line)
             }
             // calls (`CoreExtension::inFilter(`, `(int) floor(`, ...) and assignments
-            _ => None,
+            _ => FirstLine::Start,
         },
-        ExprKind::ConditionalTernary(ternary) => first_debug_line(&ternary.test),
+        ExprKind::ConditionalTernary(ternary) => first_line(&ternary.test),
         ExprKind::Filter(filter) => match filter.kind {
-            FilterKind::Default | FilterKind::Raw => first_debug_line(&filter.node),
-            _ => None,
+            FilterKind::Default | FilterKind::Raw => first_line(&filter.node),
+            _ => FirstLine::Start,
         },
         ExprKind::Test(test) => match test.kind {
             TestKind::SameAs
             | TestKind::Even
             | TestKind::Odd
             | TestKind::Constant
-            | TestKind::Defined => first_debug_line(&test.node),
+            | TestKind::Defined => first_line(&test.node),
             // `(null === `, `(0 == `, `(($tmp = `, calls
-            _ => None,
+            _ => FirstLine::Start,
         },
-        _ => None,
+        _ => FirstLine::Start,
     }
 }
 
@@ -870,6 +918,26 @@ pub(crate) fn is_php_literal(expr: &Expr) -> bool {
             _ => false,
         },
         _ => false,
+    }
+}
+
+/// Whether PHP's parser already turns the PHP of `expr` into a value (`ZEND_AST_ZVAL`) with the line it is written
+/// on: a literal ([`is_php_literal`]), the concatenation of two such values, which `zend_ast_create_concat_op()`
+/// (PHPSRC/Zend/zend_ast.c) folds while parsing `(a . b)` unless `zend_binary_op_produces_error()` (only arrays,
+/// which are never literals), with the line of the `)` that follows (`CG(zend_lineno)`, no marker comes between), and
+/// a `RawFilter` or `DefaultFilter`, which compile as their node. `-1 . "b"` is not folded by the parser (`-1` is a
+/// unary minus).
+pub(crate) fn is_parsed_value(expr: &Expr) -> bool {
+    match &expr.kind {
+        ExprKind::Binary(binary) if binary.op == BinaryOp::Concat => {
+            is_parsed_value(&binary.left) && is_parsed_value(&binary.right)
+        }
+        ExprKind::Filter(filter)
+            if matches!(filter.kind, FilterKind::Default | FilterKind::Raw) =>
+        {
+            is_parsed_value(&filter.node)
+        }
+        _ => is_php_literal(expr),
     }
 }
 

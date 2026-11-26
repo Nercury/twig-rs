@@ -55,6 +55,7 @@
 //! [`generate`] is deterministic: case `i` of seed `s` depends only on `(s, i)` ([`case`]). Ids are
 //! `errors-<seed>-<i>-<labels>`, the labels naming the hops and the kind of fault.
 
+use super::Options;
 use crate::kit::json::Json;
 
 /// The family name.
@@ -62,12 +63,26 @@ pub const FAMILY: &str = "errors";
 
 /// `count` cases of seed `seed`.
 pub fn generate(seed: u64, count: usize) -> Vec<Json> {
-    (0..count).map(|index| case(seed, index)).collect()
+    generate_with(seed, count, &Options::default())
+}
+
+/// `count` cases of seed `seed` with `options`.
+pub fn generate_with(seed: u64, count: usize, options: &Options) -> Vec<Json> {
+    (0..count)
+        .map(|index| case_with(seed, index, options))
+        .collect()
 }
 
 /// Case `index` of seed `seed`.
 pub fn case(seed: u64, index: usize) -> Json {
-    Gen::new(seed, index).case()
+    case_with(seed, index, &Options::default())
+}
+
+/// Case `index` of seed `seed` with `options`.
+pub fn case_with(seed: u64, index: usize, options: &Options) -> Json {
+    let mut generator = Gen::new(seed, index);
+    generator.d2 = options.d2;
+    generator.case()
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -325,6 +340,8 @@ struct Gen {
     fancy: bool,
     /// Globals `g`, `gl` and `n` (shadowed by the data) are registered.
     globals: bool,
+    /// [`Options::d2`]: templates compiled with `debug` may have lone CR line endings.
+    d2: bool,
 }
 
 impl Gen {
@@ -346,6 +363,7 @@ impl Gen {
             deprecation_rate: 7,
             fancy: false,
             globals: false,
+            d2: false,
         }
     }
 
@@ -445,6 +463,18 @@ impl Gen {
             self.rng.shuffle(&mut templates);
         }
         let ending = self.rng.weighted(&[(90, "\n"), (6, "\r\n"), (4, "\r")]);
+        // the settings decide about lone CRs (the labels they add never were part of the id)
+        let labels = self.labels.len();
+        let mut config = self.config();
+        self.labels.truncate(labels);
+        // with `debug`, a lone CR of the source that `getSourceContext()` embeds moves the lines
+        // PHP reports for the code after it (accepted deviation D2): CRLF instead, unless asked
+        let debug = config.get("debug").is_some_and(Json::truthy);
+        let ending = if ending == "\r" && debug && !self.d2 {
+            "\r\n"
+        } else {
+            ending
+        };
         if ending != "\n" {
             self.label(if ending == "\r" { "cr" } else { "crlf" });
             for (_, source) in &mut templates {
@@ -473,7 +503,6 @@ impl Gen {
             ),
         ));
         let id = format!("{FAMILY}-{}-{}{labels}", self.seed, self.index);
-        let mut config = self.config();
         // a filesystem cache tells the compiled templates apart in `Error::guess()`, as twig-rs
         // does (reference/deviations.md, "Line guessing with `cache => false`")
         config.set("cache", Json::str(format!("/tmp/twig-fuzz-errors/{id}")));
@@ -3773,6 +3802,47 @@ fn data_php() -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Lone CR line endings and `debug` meet only with [`Options::d2`] (accepted deviation D2,
+    /// `errors-9006-1784-emb.div.cr` of round 3); every other case is the same either way.
+    #[test]
+    fn lone_crs_with_debug_only_with_the_d2_option() {
+        let lone_cr_with_debug = |case: &Json| {
+            let debug = case
+                .get("config")
+                .and_then(|c| c.get("debug"))
+                .is_some_and(Json::truthy);
+            let lone_cr = case
+                .get("templates")
+                .map(Json::entries)
+                .unwrap_or_default()
+                .iter()
+                .any(|(_, source)| {
+                    let bytes = source.as_str().unwrap_or_default().as_bytes();
+                    bytes
+                        .iter()
+                        .enumerate()
+                        .any(|(i, &b)| b == b'\r' && bytes.get(i + 1) != Some(&b'\n'))
+                });
+            debug && lone_cr
+        };
+        let plain = generate(3, 6000);
+        let d2 = generate_with(3, 6000, &Options { d2: true });
+        assert!(!plain.iter().any(lone_cr_with_debug));
+        let changed: Vec<&Json> = d2.iter().filter(|case| lone_cr_with_debug(case)).collect();
+        assert!(!changed.is_empty());
+        for (a, b) in plain.iter().zip(&d2) {
+            if a != b {
+                assert!(lone_cr_with_debug(b), "{}", b.to_compact());
+                assert_eq!(
+                    a.get("id")
+                        .and_then(Json::as_str)
+                        .map(|id| id.replace("crlf", "cr")),
+                    b.get("id").and_then(Json::as_str).map(str::to_owned)
+                );
+            }
+        }
+    }
 
     #[test]
     fn deterministic_and_well_formed() {

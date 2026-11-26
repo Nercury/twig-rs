@@ -1,0 +1,188 @@
+{
+ "cases": [
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{%for _parent in map%}{%set\nr,v=(5),y%}{%endfor%}"
+   },
+   "data_json": {
+    "map": {
+     "x": 1
+    }
+   },
+   "id": "statement_lines-001"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{%for _parent in map%}{%set r = [1,\ny]%}{%endfor%}"
+   },
+   "data_json": {
+    "map": {
+     "x": 1
+    }
+   },
+   "id": "statement_lines-002"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{%for loop in items%}{%if {'':''} or\nc%}{%endif%}{%endfor%}"
+   },
+   "data_json": {
+    "items": [
+     1
+    ]
+   },
+   "id": "statement_lines-003"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{%for _parent in map%}{%set r = \ny%}{%endfor%}"
+   },
+   "data_json": {
+    "map": {
+     "x": 1
+    }
+   },
+   "id": "statement_lines-004"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{%for _parent in map%}{%set r,v=(5),y%}{%endfor%}"
+   },
+   "data_json": {
+    "map": {
+     "x": 1
+    }
+   },
+   "id": "statement_lines-005"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = [1,\ny] %}{% endfor %}"
+   },
+   "errors": "throw",
+   "id": "statement_lines-006"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = [1,\ny] %}{% endfor %}"
+   },
+   "id": "statement_lines-007"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for _parent in map %}{% else %}{% set a = [1,\ny] %}{% endfor %}"
+   },
+   "data_json": {
+    "map": {
+     "x": 1
+    }
+   },
+   "id": "statement_lines-008"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for _parent in map %}{% set a = [1,\ny] %}{% else %}e{% endfor %}"
+   },
+   "data_json": {
+    "map": {
+     "x": 1
+    }
+   },
+   "id": "statement_lines-009"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1] %}{% set _parent = [1,\ny] %}{% set _parent = 5 %}{% endfor %}"
+   },
+   "id": "statement_lines-010"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1] %}{% for _parent in [1] %}{% set a = [1,\ny] %}{% endfor %}{% endfor %}"
+   },
+   "id": "statement_lines-011"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = 5 %}{% do [1,\ny] %}{% endfor %}"
+   },
+   "id": "statement_lines-012"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = 5 %}{{ [1,\ny]|length }}{% endfor %}"
+   },
+   "id": "statement_lines-013"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = 5 %}{% if 1 or\nc %}{% endif %}{% endfor %}"
+   },
+   "id": "statement_lines-014"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = 5 %}{% if 0 and\nc %}{% endif %}{% endfor %}"
+   },
+   "id": "statement_lines-015"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = 5 %}{% set a = (1 ? 2 :\nc) %}{% endfor %}"
+   },
+   "id": "statement_lines-016"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = 5 %}{% set a = [1 ? 2 :\nc] %}{% endfor %}"
+   },
+   "id": "statement_lines-017"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = 5 %}{% set a %}{{ [1,\ny]|length }}{% endset %}{% endfor %}"
+   },
+   "id": "statement_lines-018"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = 5 %}{% with {a: [1,\ny]} %}{% endwith %}{% endfor %}"
+   },
+   "id": "statement_lines-019"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = 5 %}{% with {a: 1} %}{% set b = [1,\ny] %}{% endwith %}{% endfor %}"
+   },
+   "id": "statement_lines-020"
+  },
+  {
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for x in [1, 2] %}{% set loop = 5 %}{% set a = {(\nk): 1,\n\nb: y} %}{% endfor %}"
+   },
+   "id": "statement_lines-021"
+  }
+ ],
+ "isolation": "process"
+}

@@ -1,0 +1,23 @@
+{% extends "base.twig" %}
+
+{% block head %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ site.css }}">
+{% endblock %}
+
+{% block nav %}
+  <ul>
+  {% for link in menu %}
+    <li{% if link.active %} class="active"{% endif %}><a href="{{ link.href }}">{{ link.label }}</a></li>
+  {% endfor %}
+  </ul>
+{% endblock %}
+
+{% block content %}
+  <div class="wrap">{% block body %}{% endblock %}</div>
+{% endblock %}
+
+{% block sidebar %}
+  {{ parent() }}
+  <ul class="recent">{% for item in page.items|slice(0, 5) %}<li>{{ item.title }}</li>{% endfor %}</ul>
+{% endblock %}

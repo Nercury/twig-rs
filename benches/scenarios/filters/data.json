@@ -1,0 +1,904 @@
+{
+ "products": [
+  {
+   "attrs": {
+    "color": "green",
+    "size": "M",
+    "weight": 10
+   },
+   "desc": "<p>Description of <em>product 1</em>.\nSecond line with zeta.</p>",
+   "id": 1,
+   "name": "product beta number 1",
+   "price": 4.36,
+   "qty": 2,
+   "sku": "SKU-0001-BE",
+   "tags": [
+    "beta",
+    "gamma"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "L",
+    "weight": 20
+   },
+   "desc": "<p>Description of <em>product 2</em>.\nSecond line with lambda.</p>",
+   "id": 2,
+   "name": "product gamma number 2",
+   "price": 7.73,
+   "qty": 1,
+   "sku": "SKU-0002-GA",
+   "tags": [
+    "gamma",
+    "delta",
+    "epsilon"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "XL",
+    "weight": 30
+   },
+   "desc": "<p>Description of <em>product 3</em>.\nSecond line with delta.</p>",
+   "id": 3,
+   "name": "product delta number 3",
+   "price": 11.1,
+   "qty": 0,
+   "sku": "SKU-0003-DE",
+   "tags": [
+    "delta",
+    "epsilon",
+    "zeta",
+    "eta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "S",
+    "weight": 40
+   },
+   "desc": "<p>Description of <em>product 4</em>.\nSecond line with iota.</p>",
+   "id": 4,
+   "name": "product epsilon number 4",
+   "price": 14.47,
+   "qty": -1,
+   "sku": "SKU-0004-EP",
+   "tags": [
+    "epsilon",
+    "zeta",
+    "eta",
+    "theta",
+    "iota"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "M",
+    "weight": 50
+   },
+   "desc": "<p>Description of <em>product 5</em>.\nSecond line with beta.</p>",
+   "id": 5,
+   "name": "product zeta number 5",
+   "price": 17.84,
+   "qty": -2,
+   "sku": "SKU-0005-ZE",
+   "tags": [
+    "zeta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "L",
+    "weight": 60
+   },
+   "desc": "<p>Description of <em>product 6</em>.\nSecond line with eta.</p>",
+   "id": 6,
+   "name": "product eta number 6",
+   "price": 21.21,
+   "qty": -3,
+   "sku": "SKU-0006-ET",
+   "tags": [
+    "eta",
+    "theta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "XL",
+    "weight": 70
+   },
+   "desc": "<p>Description of <em>product 7</em>.\nSecond line with mu.</p>",
+   "id": 7,
+   "name": "product theta number 7",
+   "price": 24.58,
+   "qty": 3,
+   "sku": "SKU-0007-TH",
+   "tags": [
+    "theta",
+    "iota",
+    "kappa"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "S",
+    "weight": 80
+   },
+   "desc": "<p>Description of <em>product 8</em>.\nSecond line with epsilon.</p>",
+   "id": 8,
+   "name": "product iota number 8",
+   "price": 27.95,
+   "qty": 2,
+   "sku": "SKU-0008-IO",
+   "tags": [
+    "iota",
+    "kappa",
+    "lambda",
+    "mu"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "M",
+    "weight": 90
+   },
+   "desc": "<p>Description of <em>product 9</em>.\nSecond line with kappa.</p>",
+   "id": 9,
+   "name": "product kappa number 9",
+   "price": 31.32,
+   "qty": 1,
+   "sku": "SKU-0009-KA",
+   "tags": [
+    "kappa",
+    "lambda",
+    "mu",
+    "alpha",
+    "beta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "L",
+    "weight": 100
+   },
+   "desc": "<p>Description of <em>product 10</em>.\nSecond line with gamma.</p>",
+   "id": 10,
+   "name": "product lambda number 10",
+   "price": 34.69,
+   "qty": 0,
+   "sku": "SKU-0010-LA",
+   "tags": [
+    "lambda"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "XL",
+    "weight": 110
+   },
+   "desc": "<p>Description of <em>product 11</em>.\nSecond line with theta.</p>",
+   "id": 11,
+   "name": "product mu number 11",
+   "price": 38.06,
+   "qty": -1,
+   "sku": "SKU-0011-MU",
+   "tags": [
+    "mu",
+    "alpha"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "S",
+    "weight": 120
+   },
+   "desc": "<p>Description of <em>product 12</em>.\nSecond line with alpha.</p>",
+   "id": 12,
+   "name": "product alpha number 12",
+   "price": 41.43,
+   "qty": -2,
+   "sku": "SKU-0012-AL",
+   "tags": [
+    "alpha",
+    "beta",
+    "gamma"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "M",
+    "weight": 130
+   },
+   "desc": "<p>Description of <em>product 13</em>.\nSecond line with zeta.</p>",
+   "id": 13,
+   "name": "product beta number 13",
+   "price": 44.8,
+   "qty": -3,
+   "sku": "SKU-0013-BE",
+   "tags": [
+    "beta",
+    "gamma",
+    "delta",
+    "epsilon"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "L",
+    "weight": 140
+   },
+   "desc": "<p>Description of <em>product 14</em>.\nSecond line with lambda.</p>",
+   "id": 14,
+   "name": "product gamma number 14",
+   "price": 48.17,
+   "qty": 3,
+   "sku": "SKU-0014-GA",
+   "tags": [
+    "gamma",
+    "delta",
+    "epsilon",
+    "zeta",
+    "eta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "XL",
+    "weight": 150
+   },
+   "desc": "<p>Description of <em>product 15</em>.\nSecond line with delta.</p>",
+   "id": 15,
+   "name": "product delta number 15",
+   "price": 51.54,
+   "qty": 2,
+   "sku": "SKU-0015-DE",
+   "tags": [
+    "delta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "S",
+    "weight": 160
+   },
+   "desc": "<p>Description of <em>product 16</em>.\nSecond line with iota.</p>",
+   "id": 16,
+   "name": "product epsilon number 16",
+   "price": 54.91,
+   "qty": 1,
+   "sku": "SKU-0016-EP",
+   "tags": [
+    "epsilon",
+    "zeta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "M",
+    "weight": 170
+   },
+   "desc": "<p>Description of <em>product 17</em>.\nSecond line with beta.</p>",
+   "id": 17,
+   "name": "product zeta number 17",
+   "price": 58.28,
+   "qty": 0,
+   "sku": "SKU-0017-ZE",
+   "tags": [
+    "zeta",
+    "eta",
+    "theta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "L",
+    "weight": 180
+   },
+   "desc": "<p>Description of <em>product 18</em>.\nSecond line with eta.</p>",
+   "id": 18,
+   "name": "product eta number 18",
+   "price": 61.65,
+   "qty": -1,
+   "sku": "SKU-0018-ET",
+   "tags": [
+    "eta",
+    "theta",
+    "iota",
+    "kappa"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "XL",
+    "weight": 190
+   },
+   "desc": "<p>Description of <em>product 19</em>.\nSecond line with mu.</p>",
+   "id": 19,
+   "name": "product theta number 19",
+   "price": 65.02,
+   "qty": -2,
+   "sku": "SKU-0019-TH",
+   "tags": [
+    "theta",
+    "iota",
+    "kappa",
+    "lambda",
+    "mu"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "S",
+    "weight": 200
+   },
+   "desc": "<p>Description of <em>product 20</em>.\nSecond line with epsilon.</p>",
+   "id": 20,
+   "name": "product iota number 20",
+   "price": 68.39,
+   "qty": -3,
+   "sku": "SKU-0020-IO",
+   "tags": [
+    "iota"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "M",
+    "weight": 210
+   },
+   "desc": "<p>Description of <em>product 21</em>.\nSecond line with kappa.</p>",
+   "id": 21,
+   "name": "product kappa number 21",
+   "price": 71.76,
+   "qty": 3,
+   "sku": "SKU-0021-KA",
+   "tags": [
+    "kappa",
+    "lambda"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "L",
+    "weight": 220
+   },
+   "desc": "<p>Description of <em>product 22</em>.\nSecond line with gamma.</p>",
+   "id": 22,
+   "name": "product lambda number 22",
+   "price": 75.13,
+   "qty": 2,
+   "sku": "SKU-0022-LA",
+   "tags": [
+    "lambda",
+    "mu",
+    "alpha"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "XL",
+    "weight": 230
+   },
+   "desc": "<p>Description of <em>product 23</em>.\nSecond line with theta.</p>",
+   "id": 23,
+   "name": "product mu number 23",
+   "price": 78.5,
+   "qty": 1,
+   "sku": "SKU-0023-MU",
+   "tags": [
+    "mu",
+    "alpha",
+    "beta",
+    "gamma"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "S",
+    "weight": 240
+   },
+   "desc": "<p>Description of <em>product 24</em>.\nSecond line with alpha.</p>",
+   "id": 24,
+   "name": "product alpha number 24",
+   "price": 81.87,
+   "qty": 0,
+   "sku": "SKU-0024-AL",
+   "tags": [
+    "alpha",
+    "beta",
+    "gamma",
+    "delta",
+    "epsilon"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "M",
+    "weight": 250
+   },
+   "desc": "<p>Description of <em>product 25</em>.\nSecond line with zeta.</p>",
+   "id": 25,
+   "name": "product beta number 25",
+   "price": 85.24,
+   "qty": -1,
+   "sku": "SKU-0025-BE",
+   "tags": [
+    "beta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "L",
+    "weight": 260
+   },
+   "desc": "<p>Description of <em>product 26</em>.\nSecond line with lambda.</p>",
+   "id": 26,
+   "name": "product gamma number 26",
+   "price": 88.61,
+   "qty": -2,
+   "sku": "SKU-0026-GA",
+   "tags": [
+    "gamma",
+    "delta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "XL",
+    "weight": 270
+   },
+   "desc": "<p>Description of <em>product 27</em>.\nSecond line with delta.</p>",
+   "id": 27,
+   "name": "product delta number 27",
+   "price": 91.98,
+   "qty": -3,
+   "sku": "SKU-0027-DE",
+   "tags": [
+    "delta",
+    "epsilon",
+    "zeta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "S",
+    "weight": 280
+   },
+   "desc": "<p>Description of <em>product 28</em>.\nSecond line with iota.</p>",
+   "id": 28,
+   "name": "product epsilon number 28",
+   "price": 95.35,
+   "qty": 3,
+   "sku": "SKU-0028-EP",
+   "tags": [
+    "epsilon",
+    "zeta",
+    "eta",
+    "theta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "M",
+    "weight": 290
+   },
+   "desc": "<p>Description of <em>product 29</em>.\nSecond line with beta.</p>",
+   "id": 29,
+   "name": "product zeta number 29",
+   "price": 98.72,
+   "qty": 2,
+   "sku": "SKU-0029-ZE",
+   "tags": [
+    "zeta",
+    "eta",
+    "theta",
+    "iota",
+    "kappa"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "L",
+    "weight": 300
+   },
+   "desc": "<p>Description of <em>product 30</em>.\nSecond line with eta.</p>",
+   "id": 30,
+   "name": "product eta number 30",
+   "price": 102.09,
+   "qty": 1,
+   "sku": "SKU-0030-ET",
+   "tags": [
+    "eta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "XL",
+    "weight": 310
+   },
+   "desc": "<p>Description of <em>product 31</em>.\nSecond line with mu.</p>",
+   "id": 31,
+   "name": "product theta number 31",
+   "price": 105.46,
+   "qty": 0,
+   "sku": "SKU-0031-TH",
+   "tags": [
+    "theta",
+    "iota"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "S",
+    "weight": 320
+   },
+   "desc": "<p>Description of <em>product 32</em>.\nSecond line with epsilon.</p>",
+   "id": 32,
+   "name": "product iota number 32",
+   "price": 108.83,
+   "qty": -1,
+   "sku": "SKU-0032-IO",
+   "tags": [
+    "iota",
+    "kappa",
+    "lambda"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "M",
+    "weight": 330
+   },
+   "desc": "<p>Description of <em>product 33</em>.\nSecond line with kappa.</p>",
+   "id": 33,
+   "name": "product kappa number 33",
+   "price": 112.2,
+   "qty": -2,
+   "sku": "SKU-0033-KA",
+   "tags": [
+    "kappa",
+    "lambda",
+    "mu",
+    "alpha"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "L",
+    "weight": 340
+   },
+   "desc": "<p>Description of <em>product 34</em>.\nSecond line with gamma.</p>",
+   "id": 34,
+   "name": "product lambda number 34",
+   "price": 115.57,
+   "qty": -3,
+   "sku": "SKU-0034-LA",
+   "tags": [
+    "lambda",
+    "mu",
+    "alpha",
+    "beta",
+    "gamma"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "XL",
+    "weight": 350
+   },
+   "desc": "<p>Description of <em>product 35</em>.\nSecond line with theta.</p>",
+   "id": 35,
+   "name": "product mu number 35",
+   "price": 118.94,
+   "qty": 3,
+   "sku": "SKU-0035-MU",
+   "tags": [
+    "mu"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "S",
+    "weight": 360
+   },
+   "desc": "<p>Description of <em>product 36</em>.\nSecond line with alpha.</p>",
+   "id": 36,
+   "name": "product alpha number 36",
+   "price": 122.31,
+   "qty": 2,
+   "sku": "SKU-0036-AL",
+   "tags": [
+    "alpha",
+    "beta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "M",
+    "weight": 370
+   },
+   "desc": "<p>Description of <em>product 37</em>.\nSecond line with zeta.</p>",
+   "id": 37,
+   "name": "product beta number 37",
+   "price": 125.68,
+   "qty": 1,
+   "sku": "SKU-0037-BE",
+   "tags": [
+    "beta",
+    "gamma",
+    "delta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "L",
+    "weight": 380
+   },
+   "desc": "<p>Description of <em>product 38</em>.\nSecond line with lambda.</p>",
+   "id": 38,
+   "name": "product gamma number 38",
+   "price": 129.05,
+   "qty": 0,
+   "sku": "SKU-0038-GA",
+   "tags": [
+    "gamma",
+    "delta",
+    "epsilon",
+    "zeta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "XL",
+    "weight": 390
+   },
+   "desc": "<p>Description of <em>product 39</em>.\nSecond line with delta.</p>",
+   "id": 39,
+   "name": "product delta number 39",
+   "price": 132.42,
+   "qty": -1,
+   "sku": "SKU-0039-DE",
+   "tags": [
+    "delta",
+    "epsilon",
+    "zeta",
+    "eta",
+    "theta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "S",
+    "weight": 400
+   },
+   "desc": "<p>Description of <em>product 40</em>.\nSecond line with iota.</p>",
+   "id": 40,
+   "name": "product epsilon number 40",
+   "price": 135.79,
+   "qty": -2,
+   "sku": "SKU-0040-EP",
+   "tags": [
+    "epsilon"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "M",
+    "weight": 410
+   },
+   "desc": "<p>Description of <em>product 41</em>.\nSecond line with beta.</p>",
+   "id": 41,
+   "name": "product zeta number 41",
+   "price": 139.16,
+   "qty": -3,
+   "sku": "SKU-0041-ZE",
+   "tags": [
+    "zeta",
+    "eta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "L",
+    "weight": 420
+   },
+   "desc": "<p>Description of <em>product 42</em>.\nSecond line with eta.</p>",
+   "id": 42,
+   "name": "product eta number 42",
+   "price": 142.53,
+   "qty": 3,
+   "sku": "SKU-0042-ET",
+   "tags": [
+    "eta",
+    "theta",
+    "iota"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "XL",
+    "weight": 430
+   },
+   "desc": "<p>Description of <em>product 43</em>.\nSecond line with mu.</p>",
+   "id": 43,
+   "name": "product theta number 43",
+   "price": 145.9,
+   "qty": 2,
+   "sku": "SKU-0043-TH",
+   "tags": [
+    "theta",
+    "iota",
+    "kappa",
+    "lambda"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "S",
+    "weight": 440
+   },
+   "desc": "<p>Description of <em>product 44</em>.\nSecond line with epsilon.</p>",
+   "id": 44,
+   "name": "product iota number 44",
+   "price": 149.27,
+   "qty": 1,
+   "sku": "SKU-0044-IO",
+   "tags": [
+    "iota",
+    "kappa",
+    "lambda",
+    "mu",
+    "alpha"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "M",
+    "weight": 450
+   },
+   "desc": "<p>Description of <em>product 45</em>.\nSecond line with kappa.</p>",
+   "id": 45,
+   "name": "product kappa number 45",
+   "price": 152.64,
+   "qty": 0,
+   "sku": "SKU-0045-KA",
+   "tags": [
+    "kappa"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "L",
+    "weight": 460
+   },
+   "desc": "<p>Description of <em>product 46</em>.\nSecond line with gamma.</p>",
+   "id": 46,
+   "name": "product lambda number 46",
+   "price": 156.01,
+   "qty": -1,
+   "sku": "SKU-0046-LA",
+   "tags": [
+    "lambda",
+    "mu"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "XL",
+    "weight": 470
+   },
+   "desc": "<p>Description of <em>product 47</em>.\nSecond line with theta.</p>",
+   "id": 47,
+   "name": "product mu number 47",
+   "price": 159.38,
+   "qty": -2,
+   "sku": "SKU-0047-MU",
+   "tags": [
+    "mu",
+    "alpha",
+    "beta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "red",
+    "size": "S",
+    "weight": 480
+   },
+   "desc": "<p>Description of <em>product 48</em>.\nSecond line with alpha.</p>",
+   "id": 48,
+   "name": "product alpha number 48",
+   "price": 162.75,
+   "qty": -3,
+   "sku": "SKU-0048-AL",
+   "tags": [
+    "alpha",
+    "beta",
+    "gamma",
+    "delta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "green",
+    "size": "M",
+    "weight": 490
+   },
+   "desc": "<p>Description of <em>product 49</em>.\nSecond line with zeta.</p>",
+   "id": 49,
+   "name": "product beta number 49",
+   "price": 166.12,
+   "qty": 3,
+   "sku": "SKU-0049-BE",
+   "tags": [
+    "beta",
+    "gamma",
+    "delta",
+    "epsilon",
+    "zeta"
+   ]
+  },
+  {
+   "attrs": {
+    "color": "blue",
+    "size": "L",
+    "weight": 500
+   },
+   "desc": "<p>Description of <em>product 50</em>.\nSecond line with lambda.</p>",
+   "id": 50,
+   "name": "product gamma number 50",
+   "price": 169.49,
+   "qty": 2,
+   "sku": "SKU-0050-GA",
+   "tags": [
+    "gamma"
+   ]
+  }
+ ]
+}

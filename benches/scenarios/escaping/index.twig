@@ -1,0 +1,7 @@
+{% for s in strings %}
+<p title="{{ s }}">{{ s }}</p>
+<script>var v{{ loop.index }} = "{{ s|e('js') }}";</script>
+<a href="/search?q={{ s|e('url') }}" data-value={{ s|e('html_attr') }}>{{ s|upper }}</a>
+<style>.c{{ loop.index }}::after { content: "{{ s|e('css') }}"; }</style>
+{% autoescape false %}<pre>{{ s }}</pre>{% endautoescape %}
+{% endfor %}

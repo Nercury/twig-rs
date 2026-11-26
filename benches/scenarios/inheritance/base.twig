@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{% block title %}{{ site.name }}{% endblock %}</title>
+  {% block head %}<meta charset="utf-8">{% endblock %}
+</head>
+<body>
+  <nav>{% block nav %}{% endblock %}</nav>
+  <main>{% block content %}{% endblock %}</main>
+  <aside>{% block sidebar %}<p>{{ site.tagline }}</p>{% endblock %}</aside>
+  <footer>{% block footer %}&copy; {{ year }} {{ site.name }}{% endblock %}</footer>
+</body>
+</html>

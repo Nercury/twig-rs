@@ -3,8 +3,10 @@
 the code Twig generates (constant folding and the lines of folded constants in array literals, operand order of
 commutative opcodes, casts of constant arrays in `~`, prefix operators before `**`), the compile-time state of
 null-safe chains, macro defaults evaluated when the macro is called, the lines of a few runtime errors, the `loop`
-bookkeeping writes, named arguments while unpacking, callable values, spreads in special node classes, and the
-operands the folding of array literals makes constant (plans/parity-fixes.md, items P1 to P16 and P31).
+bookkeeping writes, named arguments while unpacking, callable values, spreads in special node classes, the
+operands the folding of array literals makes constant, the lines of the constants that folding leaves, of the
+statements Twig writes after an expression and of TrueTest's bool conversion (plans/parity-fixes.md, items P1 to P16,
+P31 and P35 to P37).
 
 Regenerate from the repository root (Git Bash on Windows needs MSYS_NO_PATHCONV=1):
 
@@ -288,8 +290,131 @@ def folding():
     return c
 
 
+def fold_lines():
+    """P35: the lines of the constants zend_try_ct_eval_array() leaves inside array literals. A conditional whose test
+    folds is replaced by the branch it chooses; a value of the parser (a literal, a concatenation the parser folds)
+    keeps the line it is written on, a value zend_eval_const_expr() creates takes the literal's line. The literal's
+    line is its first value's, which comes after the dynamic key of its first element."""
+    c = []
+    # the operand of `*` after the marker of `r` (line 2): its own line, or the literal's (line 1)
+    for y in ["''?''", "1?'x':''", "''?:''", "null??''", "''?'':'a'~'b'", "1?'a'~1:''", "'a'~'b'", "'a'~1",
+              "'a'~'b'~'c'", "1?(0?'a':'b'):'c'", "1?('a'|raw):''", "1?1.5:''", "1?0:''", "1?1E25:''", "1?0.0:''",
+              "1?1~2:''", "1?1.5~'a':''", "1?('a'~'b')|raw:''", "true?'a':''", "'a'?:''", "'a'??''",
+              "('a'~'b')?:''", "1?'':'a'", "('a'|raw)", "'a'~'b'|raw", "1?'a':\nzz", "\n_self is defined?'a':''",
+              "1?(\n_self is defined?'a':''):''", "'a'|raw|raw", "'a' ~ 'b' ~ 1.5 ~ 0", "1 ? (0 ?: 'x') : ''",
+              "1 ? (null ?? 'x') : ''", "1 ? ('x' ?? 'y') : ''", "('a' ~ 'b') ?: ('c' ~ 'd')", "(0 ~ '') ?: 'x'",
+              "(1 ? 'a' : '')|raw", "'a' ~ ('b'|raw)", "1 ? ('a' ~ 'b')|raw ~ 'c' : ''", "1 ? 12345678901234567890 : ''",
+              "1 ? 1.0E+25 ~ '' : ''", "1 ? (1 ? (1 ? 'a' : 0) : 1) : 2", "1 ? ''|default('x') : 0",
+              # values zend_eval_const_expr() creates
+              "''", "1?null:''", "1?false:''", "1?true:''", "1?[]:''", "1?-1:''", "1?-'1':''", "1?+1:''",
+              "-1~'b'", "1?'a'~-1:''", "(0?'':'a')~'b'", "1?'a'~(1?'b':''):''", "1 ? (1 ? -1 : '') : ''"]:
+        c.append(case("{{([[...{},\nr]*(%s)])}}" % y))
+    c += [
+        case("{{([[1,\nr]*(''?'')])}}"),
+        case("{{[[r,\nr]*(0?'':'k')]}}"),
+        # outside array literals PHP folds no conditional
+        case("{{[...{},\nr]*(1?'a':'')}}"),
+        case("{{[r\n*(''?'')]}}"),
+        case("{{r\n*(1?'a':'')}}"),
+    ]
+    # the first element's dynamic key: the marker after it decides the literal's line
+    s = {"s": [1]}
+    for t, kw in [
+        ("{{({(('')\n~s):([])+e})}}", {}),
+        ("{{({(('')\n~s):([])+e})}}", {"data_json": {"s": "a", "e": 1}}),
+        ("{{({(\ns):([])+e})}}", {}),
+        ("{{ {('' ~\ns):\n\n\n1}|length }}", {"data_json": s, "errors": "throw"}),
+        ("{{ {('' ~\ns):\n\n\ne}|length }}", {"data_json": s, "errors": "throw"}),
+        ("{{ [{('' ~\ns): 1}]|length }}", {"data_json": s, "errors": "throw"}),
+        ("{{ [[{('' ~\ns): 1}]]|length }}", {"data_json": s, "errors": "throw"}),
+        ("{% set a, b = {('' ~\ns): 1}, 2 %}", {"data_json": s, "errors": "throw"}),
+        ("{{ {(s\n~ t): [] + e} }}", {}),
+        ("{{ [{(s\n~ t): 1} + e] }}", {}),
+        ("{{ {('' ~\ns): 1, ('' ~ \n\nt): 2}|length }}", {"data_json": {"s": 1, "t": [1]}, "errors": "throw"}),
+        ("{{ {('' ~\ns ~ ''): 1}|length }}", {"data_json": s, "errors": "throw"}),
+        ("{{ [...{('' ~\ns): 1}]|length }}", {"data_json": s, "errors": "throw"}),
+        ("{{ [({('' ~\ns): 1}) ?: 2]|length }}", {"data_json": s, "errors": "throw"}),
+        ("{{ [{('' ~\ns): 1}|raw]|length }}", {"data_json": s, "errors": "throw"}),
+        ("{{ [{(('' ~\ns) ~ ''): 1} ~ '']|length }}", {"data_json": s, "errors": "throw"}),
+        ("{{ {(\ns ~ t ~\n''): 1}|length }}", {"data_json": {"s": [1], "t": 1}, "errors": "throw"}),
+        ("{{ {('' ~ s|length ~\nt): 1}|length }}", {"data_json": {"s": [1], "t": [1]}, "errors": "throw"}),
+        ("{{ {(\n'' ~ s): [1] ~ (1\n~ '')}|length }}", {"data_json": {"s": 1}, "errors": "throw"}),
+        ("{{ {('' ~ max([1,\ns], 1)):\n2}|length }}", {"data_json": {"s": [1]}, "errors": "throw"}),
+        # literals of their own inside the key (call arguments, arrow functions), with their own lines
+        ("{{ {(('' ~ max({('' ~\nt): 1}|length, 0)) ~\n\n s): 1}|length }}", {"data_json": {"s": [1], "t": "a"},
+                                                                          "errors": "throw"}),
+        ("{{ {(('' ~ max({('' ~\nt): 1}|length, 0)) ~\n\n s): 1}|length }}", {"data_json": {"s": "b", "t": [1]},
+                                                                          "errors": "throw"}),
+        ("{{ {(('' ~ max([1,\n\nt]|length, 0)) ~\n s): 1}|length }}", {"data_json": {"s": [1], "t": "a"},
+                                                                    "errors": "throw"}),
+        ("{{ [1]|map(v => {('' ~\ns): 1})|length }}", {"data_json": s, "errors": "throw"}),
+        ("{{ [1]|map(v => {('' ~\ns):\n\n1, (''\n~ s): 2})|length }}", {"data_json": s, "errors": "throw"}),
+        ("{% set a, b = {('' ~\ns):\n\nx}, 2 %}", {"data_json": {"s": [1], "x": 1}, "errors": "throw"}),
+        ("{{ {(\n('' ~ s) ~ (\n\nt ~ '')): 1}|length }}", {"data_json": {"s": [1], "t": "a"}, "errors": "throw"}),
+        ("{{ {(\n('' ~ s) ~ (\n\nt ~ '')): 1}|length }}", {"data_json": {"s": "a", "t": [1]}, "errors": "throw"}),
+        ("{{ {(\ns ~ ''):\n\nr * (1 ? 'a' : '')} }}", {"data_json": {"s": 1}}),
+        ("{% with {(\n'' ~ s): 1} %}{% endwith %}", {"data_json": s, "errors": "throw"}),
+        ("{% for x in {('' ~\ns): 1} %}{% endfor %}", {"data_json": s, "errors": "throw"}),
+        # the literal's line comes from its first value
+        ("{{ {(s ~\n''): [] + e} }}", {}),
+        ("{{ {a: 1, ('' ~\ns): [] + e} }}", {}),
+        ("{{ {a: 1, (\ns): ([])+e} }}", {}),
+        ("{{ {(s~''):([])+\ne} }}", {}),
+        ("{{ {('a'\n~'b'):([])+e} }}", {}),
+    ]:
+        c.append(case(t, **kw))
+    return c
+
+
+def statement_lines():
+    """P36: the statements Twig writes after an expression without a marker of their own (the bookkeeping of
+    ForLoopNode and ForNode, the end of `with`) are compiled at the line they are written on: after the last marker,
+    also one in code PHP skips (a decided `or`) or replaces by a constant (the folding of an array literal)."""
+    m = {"map": {"x": 1}}
+    c = [
+        case("{%for _parent in map%}{%set\nr,v=(5),y%}{%endfor%}", data_json=m),
+        case("{%for _parent in map%}{%set r = [1,\ny]%}{%endfor%}", data_json=m),
+        case("{%for loop in items%}{%if {'':''} or\nc%}{%endif%}{%endfor%}", data_json={"items": [1]}),
+        case("{%for _parent in map%}{%set r = \ny%}{%endfor%}", data_json=m),
+        case("{%for _parent in map%}{%set r,v=(5),y%}{%endfor%}", data_json=m),
+        case("{% for x in [1, 2] %}{% set loop = [1,\ny] %}{% endfor %}", errors="throw"),
+        case("{% for x in [1, 2] %}{% set loop = [1,\ny] %}{% endfor %}"),
+        case("{% for _parent in map %}{% else %}{% set a = [1,\ny] %}{% endfor %}", data_json=m),
+        case("{% for _parent in map %}{% set a = [1,\ny] %}{% else %}e{% endfor %}", data_json=m),
+        case("{% for x in [1] %}{% set _parent = [1,\ny] %}{% set _parent = 5 %}{% endfor %}"),
+        case("{% for x in [1] %}{% for _parent in [1] %}{% set a = [1,\ny] %}{% endfor %}{% endfor %}"),
+    ]
+    for body in ["{% do [1,\ny] %}", "{{ [1,\ny]|length }}", "{% if 1 or\nc %}{% endif %}", "{% if 0 and\nc %}{% endif %}",
+                 "{% set a = (1 ? 2 :\nc) %}", "{% set a = [1 ? 2 :\nc] %}",
+                 "{% set a %}{{ [1,\ny]|length }}{% endset %}", "{% with {a: [1,\ny]} %}{% endwith %}",
+                 "{% with {a: 1} %}{% set b = [1,\ny] %}{% endwith %}", "{% set a = {(\nk): 1,\n\nb: y} %}"]:
+        c.append(case("{% for x in [1, 2] %}{% set loop = 5 %}" + body + "{% endfor %}"))
+    return c
+
+
+def true_test():
+    """P37: TrueTest converts its operand to bool (`(($tmp = x) && ...)`) at the line of `$tmp`, written before the
+    operand's markers (zend_compile_assign() restores CG(zend_lineno)); PHP 8.5 warns for NAN."""
+    c = []
+    for t in ["{%if\nnan%}{%endif%}", "{%if 0%}{%elseif\nnan%}{%endif%}", "{{ not\nnan }}", "{{ (\nnan) ? 1 : 2 }}",
+              "{{ (\nnan) ?: 2 }}", "{{ 1 xor (\nnan) }}", "{{ (\nnan) and 1 }}", "{%if 1 and\n('' or nan)%}{%endif%}",
+              "{{ [\n1, (\nnan) ? 1 : 2]|length }}", "{{ [(\nnan) and 1]|length }}", "{{ 1 and (\nnan) }}",
+              "{% if (\nnan) or 1 %}{% endif %}", "{{ (\nnan) ?: (\nnan) }}", "{{ [1, (\nnan) ?: 2]|length }}",
+              "{% if 0 %}{% elseif 0 %}{% elseif\nnan %}{% endif %}", "{{ not not\nnan }}",
+              "{% set a = (\nnan) ? 1 : 2 %}", "{{ ((\nnan) ? 1 : 2) ? 3 : 4 }}", "{%if nan%}{%endif%}",
+              "{%if(3)\nand(nan)!=x%}{%endif%}"]:
+        c.append(case(t, data_php=STD, errors="throw"))
+    for t in ["{%if (''or\nnan)%}{%endif%}", "{%if\nnan%}{%endif%}", "{{ (\nnan) ?: 2 }}", "{{ not\nnan }}"]:
+        c.append(case(t, data_php=STD))
+    for t in ["{% set m %}x{% endset %}{{ m ? 'y' : 'n' }}|{{ m ?: 'n' }}|{{ not m ? 'y' : 'n' }}",
+              "{% set m %}{% endset %}{{ m ? 'y' : 'n' }}|{{ m ?: 'n' }}|{{ m and 1 ? 'y' : 'n' }}"]:
+        c.append(case(t))
+    return c
+
+
 TOPICS = {"lines": lines, "operands": operands, "null_safe": null_safe, "macro_defaults": macro_defaults,
-          "loops": loops, "calls": calls, "folding": folding}
+          "loops": loops, "calls": calls, "folding": folding, "fold_lines": fold_lines,
+          "statement_lines": statement_lines, "true_test": true_test}
 
 DESCRIPTIONS = {
     "lines": "Lines of runtime errors: constants PHP folds inside array literals take the literal's line (P1), the "
@@ -304,6 +429,12 @@ DESCRIPTIONS = {
     "calls": "Named arguments while unpacking (P14), callable values (P15), spreads in special node classes (P16).",
     "folding": "Operands of `*`, `b-and`, `b-or`, `b-xor` and `~` inside array literals, which zend_try_ct_eval_array() "
                "folds before compiling them: conditionals with a constant test become the branch they choose (P31).",
+    "fold_lines": "Lines of the constants zend_try_ct_eval_array() leaves inside array literals: a chosen branch or a "
+                  "concatenation the parser folded keeps its own line, other folded values take the literal's line, "
+                  "which comes after the dynamic key of its first element (P35).",
+    "statement_lines": "Lines of the statements Twig writes after an expression: the loop bookkeeping of ForLoopNode "
+                       "and ForNode, the end of `with` (P36).",
+    "true_test": "Line of the bool conversion of TrueTest: the line of `$tmp`, before the operand's markers (P37).",
 }
 
 

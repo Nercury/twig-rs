@@ -8,8 +8,8 @@ use twig_timelib::parse_iso_intervals::strtointerval;
 use twig_timelib::{RelTime, Time};
 use twig_value::object::builtin::iterator;
 use twig_value::object::{
-    CallArgs, ClassBuilder, ClassRef, FetchMode, Object, ObjectIterator, ObjectRef, Param,
-    PropertyCheck, PropertyEntry, PropertyPurpose, PropertyStore, Visibility,
+    CallArgs, ClassBuilder, ClassRef, FetchMode, MethodParams, Object, ObjectIterator, ObjectRef,
+    Param, PropertyCheck, PropertyEntry, PropertyPurpose, PropertyStore, Visibility,
 };
 use twig_value::param::{self, Arg};
 use twig_value::{Array, Diagnostics, PhpError, PhpResult, PhpString, Value, convert};
@@ -432,10 +432,12 @@ impl DatePeriodObject {
     /// Resolves the `__construct()` overloads (`zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET, …)` with
     /// `"OOl|l"`, `"OOO|l"`, `"s|l"`).
     fn construct_call(&self, args: &CallArgs, diag: &mut dyn Diagnostics) -> PhpResult<()> {
-        const NAMES: [&str; 4] = ["start", "interval", "end", "options"];
         let mut vals: Vec<Option<Value>> = args.positional.iter().cloned().map(Some).collect();
         for (name, v) in &args.named {
-            let Some(pos) = NAMES.iter().position(|n| n.as_bytes() == name.as_bytes()) else {
+            let Some(pos) = CONSTRUCT_PARAMS
+                .iter()
+                .position(|n| n.as_bytes() == name.as_bytes())
+            else {
                 return Err(PhpError::error(PhpString::concat(&[
                     b"Unknown named parameter $",
                     name.as_bytes(),
@@ -457,14 +459,18 @@ impl DatePeriodObject {
             return Err(PhpError::argument_count_error(format!(
                 "DatePeriod::__construct(): Argument #{} (${}) must be passed explicitly, because the default value is not known",
                 i + 1,
-                NAMES[i]
+                CONSTRUCT_PARAMS[i]
             )));
         }
         let vals: Vec<Value> = vals.into_iter().flatten().collect();
         let func = "DatePeriod::__construct";
         let quiet_long = |v: &Value, i: u32, diag: &mut dyn Diagnostics| {
             let mut sink: Vec<twig_value::Diagnostic> = Vec::new();
-            match param::parse_long(v, &Arg::new(func, i, NAMES[i as usize - 1]), &mut sink) {
+            match param::parse_long(
+                v,
+                &Arg::new(func, i, CONSTRUCT_PARAMS[i as usize - 1]),
+                &mut sink,
+            ) {
                 Ok(l) => {
                     for d in sink {
                         diag.report(d)?;
@@ -633,6 +639,33 @@ impl ObjectIterator for PeriodIterator {
     }
 }
 
+/// The parameters of `DatePeriod::__construct($start, $interval = UNKNOWN, $end = UNKNOWN, $options = UNKNOWN)`.
+const CONSTRUCT_PARAMS: [&str; 4] = ["start", "interval", "end", "options"];
+
+/// The parameters of the methods of `DatePeriod` (by lowercase name), as PHPSRC/ext/date/php_date.stub.php declares
+/// them: what [`DatePeriodObject`] reports and binds its arguments to (`args::ParamTable`).
+///
+/// The constructor's `$interval`, `$end` and `$options` are optional without a known default (`UNKNOWN`), which a
+/// [`Param`] cannot express, so they are listed without a default: the engine only uses the names (it checks named
+/// arguments against them as they are sent), and `construct_call()` binds the constructor's arguments itself.
+fn period_params(method: &str) -> Option<Vec<Param>> {
+    Some(match method {
+        // static createFromISO8601String(string $specification, int $options = 0)
+        "createfromiso8601string" => vec![
+            Param::required("specification"),
+            Param::optional("options", 0),
+        ],
+        "__construct" => CONSTRUCT_PARAMS.into_iter().map(Param::required).collect(),
+        // __unserialize(array $data)
+        "__unserialize" => vec![Param::required("data")],
+        // static __set_state(array $array)
+        "__set_state" => vec![Param::required("array")],
+        "getstartdate" | "getenddate" | "getdateinterval" | "getrecurrences" | "__serialize"
+        | "__wakeup" | "getiterator" => Vec::new(),
+        _ => return None,
+    })
+}
+
 impl Object for DatePeriodObject {
     fn class(&self) -> &ClassRef {
         &self.class
@@ -640,6 +673,11 @@ impl Object for DatePeriodObject {
 
     fn property_store(&self) -> Option<&PropertyStore> {
         Some(&self.props)
+    }
+
+    /// The parameters of the method as php_date.stub.php declares them (`period_params`).
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        args::method_params(period_params, method)
     }
 
     fn call(
@@ -652,14 +690,7 @@ impl Object for DatePeriodObject {
         match method {
             "createfromiso8601string" => {
                 let func = "DatePeriod::createFromISO8601String";
-                let a = Bound::new(
-                    func,
-                    &args,
-                    &[
-                        Param::required("specification"),
-                        Param::optional("options", 0),
-                    ],
-                )?;
+                let a = Bound::method(func, method, period_params, &args)?;
                 let spec = a.string(0, diag)?;
                 let options = a.long(1, diag)?;
                 // object_init_ex(return_value, execute_data->This.value.ce): the called class.
@@ -674,7 +705,7 @@ impl Object for DatePeriodObject {
                 Ok(Value::Null)
             }
             "getstartdate" => {
-                args::none("DatePeriod::getStartDate", &args)?;
+                Bound::method("DatePeriod::getStartDate", method, period_params, &args)?;
                 let st = self.state();
                 let Some(start) = st.start else {
                     return Err(errors::uninitialized(&self.class));
@@ -683,7 +714,7 @@ impl Object for DatePeriodObject {
                 Ok(Value::Object(DateObject::from_time(&self.ctx, ce, start)))
             }
             "getenddate" => {
-                args::none("DatePeriod::getEndDate", &args)?;
+                Bound::method("DatePeriod::getEndDate", method, period_params, &args)?;
                 let st = self.state();
                 Ok(match st.end {
                     Some(end) => {
@@ -694,7 +725,7 @@ impl Object for DatePeriodObject {
                 })
             }
             "getdateinterval" => {
-                args::none("DatePeriod::getDateInterval", &args)?;
+                Bound::method("DatePeriod::getDateInterval", method, period_params, &args)?;
                 match self.state().interval {
                     Some(rt) => Ok(Value::Object(IntervalObject::from_reltime(
                         &self.ctx, rt, 0,
@@ -703,17 +734,17 @@ impl Object for DatePeriodObject {
                 }
             }
             "getrecurrences" => {
-                args::none("DatePeriod::getRecurrences", &args)?;
+                Bound::method("DatePeriod::getRecurrences", method, period_params, &args)?;
                 Ok(self.recurrences().map_or(Value::Null, Value::Int))
             }
             "getiterator" => {
-                args::none("DatePeriod::getIterator", &args)?;
+                Bound::method("DatePeriod::getIterator", method, period_params, &args)?;
                 Ok(Value::Object(InternalIterator::wrap(Box::new(
                     DatePeriodObject::iterator(this),
                 ))))
             }
             "__serialize" => {
-                args::none("DatePeriod::__serialize", &args)?;
+                Bound::method("DatePeriod::__serialize", method, period_params, &args)?;
                 let st = self.state();
                 if st.start.is_none() {
                     return Err(errors::uninitialized(&self.class));
@@ -729,11 +760,7 @@ impl Object for DatePeriodObject {
                 Ok(Value::Array(out))
             }
             "__unserialize" => {
-                let a = Bound::new(
-                    "DatePeriod::__unserialize",
-                    &args,
-                    &[Param::required("data")],
-                )?;
+                let a = Bound::method("DatePeriod::__unserialize", method, period_params, &args)?;
                 let data = a.array(0)?;
                 if !self.initialize_from_hash(&data) {
                     return Err(errors::invalid_serialization("DatePeriod"));
@@ -743,7 +770,7 @@ impl Object for DatePeriodObject {
             }
             "__wakeup" => {
                 util::wakeup_deprecated("DatePeriod", diag)?;
-                args::none("DatePeriod::__wakeup", &args)?;
+                Bound::method("DatePeriod::__wakeup", method, period_params, &args)?;
                 let table = util::assoc(
                     util::std_properties(this, diag)?
                         .into_iter()
@@ -756,11 +783,7 @@ impl Object for DatePeriodObject {
                 Ok(Value::Null)
             }
             "__set_state" => {
-                let a = Bound::new(
-                    "DatePeriod::__set_state",
-                    &args,
-                    &[Param::required("array")],
-                )?;
+                let a = Bound::method("DatePeriod::__set_state", method, period_params, &args)?;
                 let data = a.array(0)?;
                 Ok(Value::Object(DatePeriodObject::set_state(
                     &self.ctx, &data,
@@ -948,9 +971,20 @@ fn ensure_rewound(st: &mut InternalState, diag: &mut dyn Diagnostics) -> PhpResu
     Ok(())
 }
 
+/// The parameters of the public methods of `InternalIterator` (PHPSRC/Zend/zend_interfaces.stub.php), by lowercase
+/// name: `current()`, `key()`, `next()`, `valid()` and `rewind()` take none.
+fn internal_iterator_params(method: &str) -> Option<Vec<Param>> {
+    matches!(method, "current" | "key" | "next" | "valid" | "rewind").then(Vec::new)
+}
+
 impl Object for InternalIterator {
     fn class(&self) -> &ClassRef {
         &self.class
+    }
+
+    /// The parameters of the method (`internal_iterator_params`).
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        args::method_params(internal_iterator_params, method)
     }
 
     fn call(
@@ -971,7 +1005,7 @@ impl Object for InternalIterator {
                 _ => return Err(twig_value::object::undefined_method(&self.class, method)),
             }
         );
-        args::none(&name, &args)?;
+        Bound::method(&name, method, internal_iterator_params, &args)?;
         let mut st = self.lock();
         match method {
             "current" => {

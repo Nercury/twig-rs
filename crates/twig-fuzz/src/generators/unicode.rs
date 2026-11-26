@@ -349,7 +349,7 @@ impl Gen {
 
     fn unit(&mut self, out: &mut Vec<u8>) {
         if self.invalid && self.rng.chance(15) {
-            out.extend_from_slice(self.rng.pick(INVALID));
+            out.extend_from_slice(self.rng.pick_bytes(INVALID));
             return;
         }
         if self.rng.chance(10) {

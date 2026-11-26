@@ -13,7 +13,7 @@ MOUNT="$HERE"
 if command -v cygpath >/dev/null 2>&1; then MOUNT="$(cygpath -m "$HERE")"; fi
 topics=("$@")
 if [ ${#topics[@]} -eq 0 ]; then
-    topics=(format construct modify diff interval timezone dumps methods functions period)
+    topics=(format construct modify diff interval timezone dumps methods functions period method_params)
 fi
 for t in "${topics[@]}"; do
     MSYS_NO_PATHCONV=1 docker run --rm -v "$MOUNT:/v:ro" "$IMAGE" sh -c \

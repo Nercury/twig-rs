@@ -24,7 +24,8 @@ the command line.
 ```
 
 - `case` is an oracle "twig" case (protocol at the top of `research/php-oracle/runner.php`) and must use
-  `"env": "plain"`. Data is `data_json`, or `data_php` together with the typed tree the oracle returned for it.
+  `"env": "plain"`. Data is `data_json`, or `data_php` together with the typed tree the oracle returned for it. It may
+  set Lexer options (`"lexer"`).
 - `oracle` is the oracle's result for that case, unchanged. For `data_php` cases it must contain the fields
   `"typed_data": true` makes the oracle add (`data`, `state`, `data_diagnostics`, `data_deprecations`): twig-rs
   rebuilds the data from them. A `clock` field (`"clock": true`, which twig-fuzz sets) makes twig-rs render with the
@@ -38,7 +39,9 @@ the command line.
 - A vector without `known_mismatch` must replay identically: output bytes, error class and message, template name,
   line and column, previous errors, deprecations and diagnostics. Only the deviations twig-fuzz knows from
   `reference/deviations.md` are accepted (`, called in <file> on line N` suffixes, closure names with file and line,
-  `var_dump()` object handles, lossy non-UTF-8 messages).
+  `var_dump()` object handles, also in the `string(N)` length of a dumped string that holds a dump, lossy non-UTF-8
+  messages, and a warning PHP raised while compiling the template class under a filesystem cache, which silences it,
+  where twig-rs raises it when the expression runs).
 - A vector with `known_mismatch` must still mismatch. A fix makes the test fail until the marker is removed, which
   turns the vector into a plain regression test (a ratchet, like `tests/twig/known-failures.txt`).
 - `twig-fuzz replay --update <files or dirs> [--id ID]...` removes the marker of every marked vector that now

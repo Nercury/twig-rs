@@ -1,0 +1,58 @@
+# cargo-deny configuration (https://embarkstudios.github.io/cargo-deny/). CI runs it with
+# EmbarkStudios/cargo-deny-action (cargo-deny 0.22.1): `cargo deny --all-features check <checks>`.
+# Locally: `cargo install cargo-deny --locked`, then `cargo deny --all-features check`.
+
+[graph]
+all-features = true
+
+[advisories]
+# RustSec vulnerabilities fail by default; unmaintained and unsound crates do too, anywhere in the graph.
+unmaintained = "all"
+unsound = "all"
+yanked = "deny"
+ignore = []
+
+[licenses]
+confidence-threshold = 0.93
+# The licences of the workspace's own crates (NOTICE lists what each covers) and of the dependencies. Only what some
+# crate needs is listed: cargo-deny warns about entries nothing uses.
+allow = [
+    "Apache-1.0",
+    "Apache-2.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "BSL-1.0",
+    "ISC",
+    "MIT",
+    "PHP-3.01",
+    "Unicode-3.0",
+    "Zend-2.0",
+    "Zlib",
+    "dtoa",
+]
+# glibc-derived code (twig-value's iconv modules, see NOTICE) is accepted there and nowhere else.
+exceptions = [
+    { crate = "twig-value", allow = ["LGPL-2.1-or-later"] },
+]
+
+[licenses.private]
+# The unpublished crates (twig-fuzz, twig-test-support) are checked too.
+ignore = false
+
+[bans]
+multiple-versions = "warn"
+# Path dependencies without a version are wildcards (and block `cargo publish`). The workspace's own path
+# dependencies get versions with the first release; switch this to "deny" then. Unpublished crates and
+# dev-dependencies may keep version-less path dependencies (allow-wildcard-paths).
+wildcards = "warn"
+allow-wildcard-paths = true
+highlight = "all"
+
+[bans.std-replacements]
+scope = "workspace"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []

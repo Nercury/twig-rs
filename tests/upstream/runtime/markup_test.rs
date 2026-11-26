@@ -16,7 +16,8 @@ fn is_safe_for(markup: &ObjectRef, strategy: &str) -> bool {
     markup
         .downcast_ref::<Markup>()
         .expect("a Twig\\Markup")
-        .is_safe_for(strategy.as_bytes())
+        .is_safe_for(strategy.as_bytes(), &mut Ignore)
+        .expect("string strategies never fail")
 }
 
 #[test]

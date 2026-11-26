@@ -131,6 +131,61 @@
     "autoescape": false
    },
    "data_json": {"x": 1e400, "y": -1e400}
+  },
+  {
+   "id": "interval-wall-add",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{{ d.add(i)|date('c') }}|{{ d.sub(i)|date('c') }}|{{ e.add(i)|date('c') }}|{{ d.add(c)|date('c') }}"
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2021-11-07 01:59:59', new \\DateTimeZone('America/New_York')), 'e' => new \\DateTimeImmutable('2021-11-07 01:00:01 EST', new \\DateTimeZone('America/New_York')), 'i' => new \\DateInterval('PT1H'), 'c' => (new \\DateTime('2021-11-06 00:00'))->diff(new \\DateTime('2021-11-06 01:00'))]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "interval-wall-nested",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for i in xs %}{{ d.add(i)|date('H:i:s T') }};{% endfor %}"
+   },
+   "data_php": "return ['d' => new \\DateTimeImmutable('2021-11-07 01:30:00', new \\DateTimeZone('America/New_York')), 'xs' => [new \\DateInterval('PT30M'), new \\DateInterval('P1D'), \\DateInterval::createFromDateString('30 minutes'), new \\DateInterval('PT0S')]]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "date-period-recurrences",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for k, d in p %}{{ k }}={{ d|date('Y-m-d H:i T') }};{% endfor %}|{{ p.recurrences }}|{{ p.getRecurrences() }}|{{ p.getStartDate()|date('c') }}|{{ p.include_start_date ? 'y' : 'n' }}|{{ p|length }}"
+   },
+   "data_php": "return ['p' => new \\DatePeriod(new \\DateTime('2020-01-31 10:00', new \\DateTimeZone('Europe/Paris')), new \\DateInterval('P1M'), 3)]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "date-period-end-immutable",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for k, d in p %}{{ k }}={{ d|date('m-d H:i T') }};{% endfor %}|{{ p.getEndDate()|date('c') }}|{{ p.getStartDate().format('c e') }}|{{ p.end is null ? 'none' : 'end' }}"
+   },
+   "data_php": "return ['p' => new \\DatePeriod(new \\DateTimeImmutable('2021-03-27 00:00', new \\DateTimeZone('Europe/Vilnius')), new \\DateInterval('PT12H'), new \\DateTimeImmutable('2021-03-29', new \\DateTimeZone('Europe/Vilnius')), \\DatePeriod::EXCLUDE_START_DATE | \\DatePeriod::INCLUDE_END_DATE)]",
+   "config": {
+    "autoescape": false
+   }
+  },
+  {
+   "id": "date-period-iso-iterated",
+   "env": "plain",
+   "templates": {
+    "index.twig": "{% for d in p %}{{ d|date('Y-m-d') }};{% endfor %}|{{ p.current is null ? 'null' : p.current|date('Y-m-d') }}|{{ q|json_encode|raw }}"
+   },
+   "data_php": "return ['p' => \\DatePeriod::createFromISO8601String('R2/2012-07-01T00:00:00Z/P7D'), 'q' => (function () { $q = new \\DatePeriod(new \\DateTime('2020-02-28'), new \\DateInterval('P1D'), 2); foreach ($q as $d) {} return $q; })()]",
+   "config": {
+    "autoescape": false
+   }
   }
  ],
  "isolation": "process"

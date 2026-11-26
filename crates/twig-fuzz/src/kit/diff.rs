@@ -2,9 +2,10 @@
 //!
 //! Compared: `ok`; the output bytes; the failing `phase`; the error's class, message, raw message,
 //! template name, line and column and its `previous` chain; the deprecations; the diagnostics
-//! (type and message, in order; `silenced` ones are skipped: only Twig's filesystem cache raises
-//! them). Not compared: `formatted` (class + message), `code` (twig-rs does not model exception
-//! codes, `reference/deviations.md`), the typed-data extras.
+//! (type and message, in order; the oracle's `silenced` ones are skipped: PHP raised them under
+//! `@`, which only Twig's filesystem cache uses). Not compared: `formatted` (class + message),
+//! `code` (twig-rs does not model exception codes, `reference/deviations.md`), the typed-data
+//! extras.
 //!
 //! Messages are compared the way twig-rs produces them: invalid UTF-8 in a PHP message is decoded
 //! lossily (`reference/deviations.md`, "Non-UTF-8 bytes in error and deprecation messages").
@@ -12,12 +13,13 @@
 //! When fields differ, the [deviation rules](DEVIATION_RULES) (known, accepted differences listed
 //! in `reference/deviations.md`) are applied to both sides; a difference that disappears is a
 //! [`Verdict::Deviation`], not a mismatch. Outputs go through the rules byte for byte (each byte
-//! read as one character), so outputs that are not valid UTF-8 get them too. Two more deviations are recognised by twig-rs's own
-//! error texts: `memory-limit` (twig-rs's stand-in for PHP's 128M limit, `Allowed memory size of
-//! ...`, while the oracle runs with another limit) and `unsupported-by-twig-rs` (`... not supported
-//! by twig-rs`: charsets, `TemplateWrapper` methods). An error of a PHP class port of
-//! `twig-test-support` (`... is not supported by twig-test-support`) makes the case
-//! [not comparable](Verdict::Skip).
+//! read as one character), so outputs that are not valid UTF-8 get them too. The rule
+//! [`SILENCED_COMPILE_WARNING`] works on the diagnostics lists instead of texts. Two more
+//! deviations are recognised by twig-rs's own error texts: `memory-limit` (twig-rs's stand-in for
+//! PHP's 128M limit, `Allowed memory size of ...`, while the oracle runs with another limit) and
+//! `unsupported-by-twig-rs` (`... not supported by twig-rs`: charsets, `TemplateWrapper` methods).
+//! An error of a PHP class port of `twig-test-support` (`... is not supported by
+//! twig-test-support`) makes the case [not comparable](Verdict::Skip).
 //!
 //! Every mismatch gets a [signature](Mismatch::signature): the differing fields with their values
 //! reduced to a stable form (error classes kept, quoted strings and numbers replaced by `_` and
@@ -119,12 +121,52 @@ pub const DEVIATION_RULES: &[DeviationRule] = &[
         rewrite: plain_closure_names,
     },
     DeviationRule {
+        // "Object handles": the length of a dumped string that holds a dumped handle (before
+        // `object-handle` rewrites the handle digits it checks the length against)
+        name: "dump-string-length",
+        applies_to: &["output"],
+        rewrite: dump_string_lengths,
+    },
+    DeviationRule {
         // "Object handles": var_dump() handle numbers
         name: "object-handle",
         applies_to: &["message", "output"],
         rewrite: object_handles,
     },
 ];
+
+/// The rule for "Warnings of compiled PHP code" (`reference/deviations.md`, Engine) under a
+/// filesystem cache. PHP raises a warning while it compiles the generated class, where it folds
+/// constants (`unexpected NAN value was coerced to string` of a folded concatenation, an undefined
+/// key of a constant array literal), and `FilesystemCache::load()` includes the class with
+/// `@include_once`, so the oracle records the warning as `silenced` and nothing raises it again;
+/// twig-rs raises it whenever the expression runs (zero, one or several times, during the render).
+///
+/// The rule drops the twig-rs diagnostics whose type and message equal a silenced diagnostic of the
+/// oracle, wherever they come, except those that pair up, in order, with the oracle's own
+/// diagnostics (a warning PHP raised at runtime with the same text still has to match one of
+/// twig-rs's). With `"errors": "throw"` twig-rs stops at such a warning (an `ErrorException`, as a
+/// render error or as its previous one) where PHP went on: when PHP rendered to the end with a
+/// silenced diagnostic of that message, and what twig-rs raised before it stopped is what PHP
+/// raised up to there, the case is this deviation too.
+pub const SILENCED_COMPILE_WARNING: &str = "silenced-compile-warning";
+
+/// The deviation rules one comparison applies.
+#[derive(Clone, Copy)]
+struct Rules<'a> {
+    /// Text rewrites ([`DEVIATION_RULES`]).
+    text: &'a [&'a DeviationRule],
+    /// Whether [`SILENCED_COMPILE_WARNING`] applies.
+    silenced: bool,
+}
+
+impl Rules<'_> {
+    /// No rule at all.
+    const NONE: Rules<'static> = Rules {
+        text: &[],
+        silenced: false,
+    };
+}
 
 /// Compares the oracle's result with twig-rs's.
 pub fn compare(expected: &CaseResult, actual: &CaseResult) -> Verdict {
@@ -145,7 +187,7 @@ pub fn compare(expected: &CaseResult, actual: &CaseResult) -> Verdict {
     {
         return Verdict::Skip(String::from_utf8_lossy(&error.message).into_owned());
     }
-    let raw = fields(expected, actual, &[]);
+    let raw = fields(expected, actual, Rules::NONE);
     if raw.is_empty() {
         return Verdict::Same;
     }
@@ -184,24 +226,50 @@ pub fn compare(expected: &CaseResult, actual: &CaseResult) -> Verdict {
     if says(actual, "not supported by twig-rs") && !says(expected, "not supported by twig-rs") {
         return Verdict::Deviation(vec!["unsupported-by-twig-rs"]);
     }
-    let all: Vec<&DeviationRule> = DEVIATION_RULES.iter().collect();
-    let normalised = fields(expected, actual, &all);
+    if threw_silenced_warning(expected, actual) {
+        return Verdict::Deviation(vec![SILENCED_COMPILE_WARNING]);
+    }
+    let text: Vec<&DeviationRule> = DEVIATION_RULES.iter().collect();
+    let all = Rules {
+        text: &text,
+        silenced: true,
+    };
+    let normalised = fields(expected, actual, all);
     if normalised.is_empty() {
         // name the rules that were needed
-        let needed: Vec<&'static str> = DEVIATION_RULES
+        let mut needed: Vec<&'static str> = DEVIATION_RULES
             .iter()
             .filter(|rule| {
-                let without: Vec<&DeviationRule> = all
+                let without: Vec<&DeviationRule> = text
                     .iter()
                     .copied()
                     .filter(|r| r.name != rule.name)
                     .collect();
-                !fields(expected, actual, &without).is_empty()
+                !fields(
+                    expected,
+                    actual,
+                    Rules {
+                        text: &without,
+                        silenced: true,
+                    },
+                )
+                .is_empty()
             })
             .map(|rule| rule.name)
             .collect();
+        let without_silenced = Rules {
+            text: &text,
+            silenced: false,
+        };
+        if !fields(expected, actual, without_silenced).is_empty() {
+            needed.push(SILENCED_COMPILE_WARNING);
+        }
         return Verdict::Deviation(if needed.is_empty() {
-            DEVIATION_RULES.iter().map(|r| r.name).collect()
+            DEVIATION_RULES
+                .iter()
+                .map(|r| r.name)
+                .chain([SILENCED_COMPILE_WARNING])
+                .collect()
         } else {
             needed
         });
@@ -209,11 +277,65 @@ pub fn compare(expected: &CaseResult, actual: &CaseResult) -> Verdict {
     Verdict::Mismatch(Mismatch { fields: normalised })
 }
 
-fn apply(rules: &[&DeviationRule], kind: &str, text: &str) -> String {
+/// [`SILENCED_COMPILE_WARNING`] with `"errors": "throw"`: PHP rendered to the end, and twig-rs
+/// stopped at an `ErrorException` (the render error or one of its previous errors) whose message is
+/// that of a silenced diagnostic of the oracle. What twig-rs raised before it stopped must be what
+/// PHP raised up to there: its deprecations a prefix of the oracle's, its diagnostics a prefix of
+/// the oracle's unsilenced ones followed by the warning itself (recorded, then thrown).
+fn threw_silenced_warning(expected: &CaseResult, actual: &CaseResult) -> bool {
+    if !expected.ok || actual.ok {
+        return false;
+    }
+    let mut error = actual.error.as_ref();
+    let message = loop {
+        match error {
+            Some(e) if e.class == "ErrorException" => break lossy(&e.message),
+            Some(e) => error = e.previous.as_deref(),
+            None => return false,
+        }
+    };
+    let is_silenced = |d: &&Diag| d.silenced && d.message == message;
+    let Some(silenced) = expected.diagnostics.iter().find(is_silenced) else {
+        return false;
+    };
+    let want: Vec<&Diag> = expected
+        .diagnostics
+        .iter()
+        .filter(|d| !d.silenced)
+        .collect();
+    let Some((last, before)) = actual.diagnostics.split_last() else {
+        return false;
+    };
+    let same = |a: &Diag, b: &Diag| a.kind == b.kind && a.message == b.message;
+    same(last, silenced)
+        && before.len() <= want.len()
+        && before.iter().zip(&want).all(|(a, b)| same(a, b))
+        && expected.deprecations.starts_with(&actual.deprecations)
+}
+
+fn apply(rules: Rules<'_>, kind: &str, text: &str) -> String {
     let mut out = text.to_owned();
-    for rule in rules {
+    for rule in rules.text {
         if rule.applies_to.contains(&kind) {
             out = (rule.rewrite)(&out);
+        }
+    }
+    out
+}
+
+/// The twig-rs diagnostics `got` without those [`SILENCED_COMPILE_WARNING`] accepts: an entry
+/// equal to one of `silenced` is dropped unless it is the next one of the oracle's own diagnostics
+/// (`want`, in order). Pairing an entry with `want` as early as possible is never worse than
+/// dropping it: a later equal entry can be dropped instead.
+fn without_silenced(want: &[String], silenced: &[String], got: Vec<String>) -> Vec<String> {
+    let mut next = 0;
+    let mut out = Vec::with_capacity(got.len());
+    for entry in got {
+        if want.get(next) == Some(&entry) {
+            next += 1;
+            out.push(entry);
+        } else if !silenced.contains(&entry) {
+            out.push(entry);
         }
     }
     out
@@ -244,7 +366,7 @@ pub fn escape_bytes(bytes: &[u8]) -> String {
     out
 }
 
-fn fields(expected: &CaseResult, actual: &CaseResult, rules: &[&DeviationRule]) -> Vec<FieldDiff> {
+fn fields(expected: &CaseResult, actual: &CaseResult, rules: Rules<'_>) -> Vec<FieldDiff> {
     let mut out = Vec::new();
     if expected.ok != actual.ok {
         let side = |r: &CaseResult| -> (String, String) {
@@ -290,7 +412,7 @@ fn fields(expected: &CaseResult, actual: &CaseResult, rules: &[&DeviationRule]) 
         if want != got {
             // the rules rewrite ASCII text: each byte is one character, so outputs that are not
             // valid UTF-8 get them too and the comparison stays exact
-            let equal_after_rules = !rules.is_empty()
+            let equal_after_rules = !rules.text.is_empty()
                 && apply(rules, "output", &latin1(&want)) == apply(rules, "output", &latin1(&got));
             if !equal_after_rules {
                 out.push(FieldDiff {
@@ -343,12 +465,21 @@ fn fields(expected: &CaseResult, actual: &CaseResult, rules: &[&DeviationRule]) 
         .filter(|d| !d.silenced)
         .map(diag_text)
         .collect();
-    let got: Vec<String> = actual
+    let mut got: Vec<String> = actual
         .diagnostics
         .iter()
         .filter(|d| !d.silenced)
         .map(diag_text)
         .collect();
+    if rules.silenced && want != got {
+        let silenced: Vec<String> = expected
+            .diagnostics
+            .iter()
+            .filter(|d| d.silenced)
+            .map(diag_text)
+            .collect();
+        got = without_silenced(&want, &silenced, got);
+    }
     if want != got {
         out.push(FieldDiff {
             field: "diagnostics".to_owned(),
@@ -364,7 +495,7 @@ fn error_fields(
     path: &str,
     want: &ErrorDesc,
     got: &ErrorDesc,
-    rules: &[&DeviationRule],
+    rules: Rules<'_>,
     out: &mut Vec<FieldDiff>,
 ) {
     let want_message = apply(rules, "message", &lossy(&want.message));
@@ -780,6 +911,58 @@ const DUMP_PUNCTUATION: &[(&str, &str, &str)] = &[
     ("%28", "%29", "%23"),
 ];
 
+/// "Object handles" inside a derived value: `var_dump()` prints a string as
+/// `string(<byte length>) "<bytes>"` (`php_var_dump()`, PHPSRC/ext/standard/var.c), so the dump of
+/// a string that holds the dump of an object (the `Markup` of a `{% set %}` capture of `dump()`)
+/// has a length that depends on the number of digits of the inner handles. A length that equals
+/// the length of the quoted bytes after it, when those bytes hold an object handle (text that
+/// [`object_handles`] changes), becomes `N`, and the strings nested in them get the same treatment.
+/// A length that does not fit its content stays, so a wrong length still shows. For outputs, whose
+/// characters are bytes (not for messages, whose characters are UTF-8).
+fn dump_string_lengths(text: &str) -> String {
+    let chars: Vec<char> = text.chars().collect();
+    let mut out = String::with_capacity(text.len());
+    rewrite_dump_strings(&chars, &mut out);
+    out
+}
+
+fn rewrite_dump_strings(chars: &[char], out: &mut String) {
+    const OPEN: &[char] = &['s', 't', 'r', 'i', 'n', 'g', '('];
+    let mut i = 0;
+    while i < chars.len() {
+        if chars[i..].starts_with(OPEN) {
+            let digits_start = i + OPEN.len();
+            let digits = chars[digits_start..]
+                .iter()
+                .take_while(|c| c.is_ascii_digit())
+                .count();
+            let after = digits_start + digits;
+            let length: Option<usize> = chars[digits_start..after]
+                .iter()
+                .collect::<String>()
+                .parse()
+                .ok();
+            if let Some(length) = length
+                && chars[after..].starts_with(&[')', ' ', '"'])
+                && let Some(end) = (after + 3).checked_add(length)
+                && chars.get(end) == Some(&'"')
+            {
+                let start = after + 3;
+                let content: String = chars[start..end].iter().collect();
+                if object_handles(&content) != content {
+                    out.push_str("string(N) \"");
+                    rewrite_dump_strings(&chars[start..end], out);
+                    out.push('"');
+                    i = end + 1;
+                    continue;
+                }
+            }
+        }
+        out.push(chars[i]);
+        i += 1;
+    }
+}
+
 /// "Object handles": the `#<handle>` after `object(<class>)` in `var_dump()` output
 /// (`php_var_dump()`, PHPSRC/ext/standard/var.c) becomes `#N`, also when an escaping strategy
 /// rewrote the punctuation ([`DUMP_PUNCTUATION`]) and after case filters (`|upper`, `|title`:
@@ -987,5 +1170,138 @@ mod tests {
         // the bytes themselves still count
         let other = CaseResult::success(Json::Null, b"object(stdClass)#21 (0) {\n}\n\xfe".to_vec());
         assert!(matches!(compare(&php, &other), Verdict::Mismatch(_)));
+    }
+
+    #[test]
+    fn lengths_of_dumped_strings_that_hold_handles() {
+        let markup = |handle: &str| {
+            let inner = format!("object(stdClass){handle} (0) {{\n}}\n");
+            format!(
+                "object(Twig\\Markup)#3 (2) {{\n  [\"content\":protected]=>\n  string({}) \"{inner}\"\n  [\"charset\":protected]=>\n  string(5) \"UTF-8\"\n}}\n",
+                inner.len()
+            )
+        };
+        let php = CaseResult::success(Json::Null, markup("#1210").into_bytes());
+        let rs = CaseResult::success(Json::Null, markup("#7").into_bytes());
+        assert_eq!(
+            compare(&php, &rs),
+            Verdict::Deviation(vec!["dump-string-length", "object-handle"])
+        );
+        // nested: the dump of a string holding the dump of a Markup holding a dump
+        let nested = |handle: &str| {
+            let inner = markup(handle);
+            format!("string({}) \"{inner}\"\n", inner.len())
+        };
+        let rewritten = dump_string_lengths(&nested("#1210"));
+        assert_eq!(rewritten.matches("string(N) \"").count(), 2, "{rewritten}");
+        assert!(rewritten.contains("string(5) \"UTF-8\""), "{rewritten}");
+        assert_eq!(
+            object_handles(&rewritten),
+            object_handles(&dump_string_lengths(&nested("#7")))
+        );
+        // a length that does not fit its bytes, or bytes without a handle, stay as they are
+        let wrong = "string(99) \"object(stdClass)#1 (0) {}\"";
+        assert_eq!(dump_string_lengths(wrong), wrong);
+        let plain = "string(3) \"abc\" string(1) \"#\"";
+        assert_eq!(dump_string_lengths(plain), plain);
+        let fitting = markup("#7");
+        let length = "object(stdClass)#7 (0) {\n}\n".len();
+        let bad = CaseResult::success(
+            Json::Null,
+            fitting
+                .replace(
+                    &format!("string({length})"),
+                    &format!("string({})", length - 1),
+                )
+                .into_bytes(),
+        );
+        assert!(matches!(compare(&php, &bad), Verdict::Mismatch(_)));
+    }
+
+    #[test]
+    fn warnings_a_filesystem_cache_silences() {
+        // tests/vectors/fuzz/expressions/round3-compile-warning.json
+        let php = result(
+            r#"{"ok":true,"output":"NAN]","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"unexpected NAN value was coerced to string","silenced":true}]}"#,
+        );
+        let once = result(
+            r#"{"ok":true,"output":"NAN]","deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"unexpected NAN value was coerced to string"}]}"#,
+        );
+        assert_eq!(
+            compare(&php, &once),
+            Verdict::Deviation(vec![SILENCED_COMPILE_WARNING])
+        );
+        // raised in a loop, or never (a branch that does not run)
+        let mut twice = once.clone();
+        twice.diagnostics.push(twice.diagnostics[0].clone());
+        assert_eq!(
+            compare(&php, &twice),
+            Verdict::Deviation(vec![SILENCED_COMPILE_WARNING])
+        );
+        let mut never = once.clone();
+        never.diagnostics.clear();
+        assert_eq!(compare(&php, &never), Verdict::Same);
+        // another message, or another type, is no deviation
+        let mut other = once.clone();
+        other.diagnostics[0].message = "Undefined array key 1".to_owned();
+        assert!(matches!(compare(&php, &other), Verdict::Mismatch(_)));
+        let mut notice = once.clone();
+        notice.diagnostics[0].kind = "E_NOTICE".to_owned();
+        assert!(matches!(compare(&php, &notice), Verdict::Mismatch(_)));
+        // a warning PHP raised at runtime with the same text still has to be there
+        let mut both = php.clone();
+        both.diagnostics.push(Diag {
+            kind: "E_WARNING".to_owned(),
+            message: "unexpected NAN value was coerced to string".to_owned(),
+            silenced: false,
+        });
+        assert_eq!(
+            compare(&both, &twice),
+            Verdict::Deviation(vec![SILENCED_COMPILE_WARNING])
+        );
+        assert_eq!(compare(&both, &once), Verdict::Same);
+        assert!(matches!(compare(&both, &never), Verdict::Mismatch(_)));
+        assert_eq!(
+            without_silenced(
+                &["b".into(), "a".into()],
+                &["a".into()],
+                vec!["a".into(), "b".into(), "a".into()]
+            ),
+            ["b", "a"]
+        );
+        // "errors": "throw": twig-rs stops at the warning where PHP went on
+        let thrown = result(
+            r#"{"ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"unexpected NAN value was coerced to string\") in \"index.twig\" at line 1.","rawMessage":"x","templateName":"index.twig","templateLine":1,"previous":{"class":"ErrorException","message":"unexpected NAN value was coerced to string"}},"deprecations":[],"diagnostics":[{"type":"E_WARNING","message":"unexpected NAN value was coerced to string"}]}"#,
+        );
+        assert_eq!(
+            compare(&php, &thrown),
+            Verdict::Deviation(vec![SILENCED_COMPILE_WARNING])
+        );
+        assert!(matches!(compare(&once, &thrown), Verdict::Mismatch(_)));
+        assert_eq!(compare(&thrown, &thrown), Verdict::Same);
+        // ... but only when PHP rendered to the end and twig-rs raised nothing else before
+        let mut php_failed = php.clone();
+        php_failed.ok = false;
+        php_failed.phase = Some("render".to_owned());
+        php_failed.error = thrown
+            .error
+            .as_ref()
+            .and_then(|e| e.previous.as_deref())
+            .cloned();
+        php_failed.output = None;
+        assert!(matches!(
+            compare(&php_failed, &thrown),
+            Verdict::Mismatch(_)
+        ));
+        let mut more = thrown.clone();
+        more.diagnostics.insert(
+            0,
+            Diag {
+                kind: "E_DEPRECATED".to_owned(),
+                message: "x".to_owned(),
+                silenced: false,
+            },
+        );
+        assert!(matches!(compare(&php, &more), Verdict::Mismatch(_)));
     }
 }

@@ -7,7 +7,12 @@ use twig_value::object::{
     PropertyInfo, PropertyStore, Visibility, builtin,
 };
 use twig_value::param::{DeclaredType, TypeMask, UserArg, verify_user_arg};
-use twig_value::{Array, Diagnostics, PhpError, PhpResult, PhpString, Value, convert};
+use twig_value::{
+    Array, ArrayKey, Diagnostics, KeyContext, PhpError, PhpResult, PhpString, Value, convert,
+};
+
+use super::typed_property::verify_property_type;
+use crate::escaper::implied_strategies;
 
 /// The class name.
 pub const MARKUP_CLASS: &str = "Twig\\Markup";
@@ -110,31 +115,52 @@ impl Markup {
         }
     }
 
-    /// The declared strategies.
-    pub fn safe_strategies(&self) -> Vec<PhpString> {
+    /// `$this->safeStrategies`: the declared strategies, as given (only `__construct()` called from a template can
+    /// declare values that are not strings).
+    fn declared_strategies(&self) -> Array {
         match self.properties.get(b"safeStrategies") {
-            Some(Value::Array(strategies)) => strategies
-                .values()
-                .filter_map(|v| v.as_str().cloned())
-                .collect(),
-            _ => Vec::new(),
+            Some(Value::Array(strategies)) => strategies,
+            _ => Array::new(),
         }
     }
 
-    /// Twig: `Markup::isSafeFor()`: a declared strategy is `all`, the strategy itself, or implies it
-    /// (`EscaperRuntime::IMPLIED_STRATEGIES`: `html_attr` implies `html_attr_relaxed` and `html`, `html_attr_relaxed`
-    /// implies `html`).
-    pub fn is_safe_for(&self, strategy: &[u8]) -> bool {
-        self.safe_strategies().iter().any(|declared| {
-            let declared = declared.as_bytes();
-            declared == b"all"
-                || declared == strategy
-                || match declared {
-                    b"html_attr" => strategy == b"html_attr_relaxed" || strategy == b"html",
-                    b"html_attr_relaxed" => strategy == b"html",
-                    _ => false,
-                }
-        })
+    /// The declared strategies that are strings (other values never match a strategy, see
+    /// [`is_safe_for`](Self::is_safe_for)).
+    pub fn safe_strategies(&self) -> Vec<PhpString> {
+        self.declared_strategies()
+            .values()
+            .filter_map(|v| v.as_str().cloned())
+            .collect()
+    }
+
+    /// Twig: `Markup::isSafeFor()` (TWIG/src/Markup.php): whether a declared strategy, in declaration order, is
+    /// `all`, the strategy itself, or implies it (`\in_array($strategy, EscaperRuntime::IMPLIED_STRATEGIES[$declared]
+    /// ?? [], true)`: `html_attr` implies `html_attr_relaxed` and `html`, `html_attr_relaxed` implies `html`).
+    ///
+    /// # Errors
+    ///
+    /// A declared strategy that is not a string (only `__construct()` called from a template can declare one) is used
+    /// as a key of `IMPLIED_STRATEGIES`: an array or an object throws the `TypeError` `Cannot access offset of type %s
+    /// on array`, and `null` or a fractional float report their deprecations to `diag` (`Using null as an array
+    /// offset is deprecated, use an empty string instead`, `Implicit conversion from float %s to int loses
+    /// precision`), which may turn them into errors.
+    pub fn is_safe_for(&self, strategy: &[u8], diag: &mut dyn Diagnostics) -> PhpResult<bool> {
+        for declared in self.declared_strategies().values() {
+            if let Value::String(name) = declared
+                && (name == "all" || name.as_bytes() == strategy)
+            {
+                return Ok(true);
+            }
+            // the `?? []` fetch converts the offset like any array read (`slow_index_convert()`)
+            if let ArrayKey::Str(name) = ArrayKey::from_value(declared, KeyContext::Read, diag)?
+                && implied_strategies(name.as_bytes())
+                    .iter()
+                    .any(|implied| implied.as_bytes() == strategy)
+            {
+                return Ok(true);
+            }
+        }
+        Ok(false)
     }
 
     /// Twig: `Markup::count()` (TWIG/src/Markup.php): `mb_strlen($this->content, $this->charset)`, with mbstring's
@@ -235,7 +261,7 @@ impl Object for Markup {
         match method {
             "issafefor" => {
                 let strategy = string_arg(&function, 1, "strategy", &bound[0], diag)?;
-                Ok(Value::Bool(self.is_safe_for(&strategy)))
+                Ok(Value::Bool(self.is_safe_for(strategy.as_bytes(), diag)?))
             }
             "withcontent" => {
                 let content = string_arg(&function, 1, "content", &bound[0], diag)?;
@@ -246,21 +272,27 @@ impl Object for Markup {
                 Ok(Value::Object(ObjectRef::new(copy)))
             }
             "__construct" => {
+                let [content, charset, strategies] = <[Value; 3]>::try_from(bound)
+                    .unwrap_or_else(|_| unreachable!("three parameters are bound"));
                 // `array $safeStrategies` is received before the body runs
-                let Value::Array(strategies) = &bound[2] else {
+                if !matches!(strategies, Value::Array(_)) {
                     return Err(UserArg::new(&function, 3, "safeStrategies")
-                        .type_error(&DeclaredType::builtin(TypeMask::ARRAY), &bound[2]));
-                };
-                let content = convert::to_string(&bound[0], diag)?;
-                let charset = match &bound[1] {
-                    Value::Null => None,
-                    charset => Some(convert::to_string(charset, diag)?),
-                };
-                let safe = strategies
-                    .values()
-                    .map(|v| convert::to_string(v, diag))
-                    .collect::<PhpResult<Vec<_>>>()?;
-                self.init(content, charset, safe);
+                        .type_error(&DeclaredType::builtin(TypeMask::ARRAY), &strategies));
+                }
+                // The promoted property is assigned first, as it is received (an array passes `array`), then the body
+                // runs: `$this->content = (string) $content; $this->charset = $charset;`, the latter checked against
+                // `private ?string $charset`. What a failing statement leaves is kept.
+                self.properties.set(b"safeStrategies", strategies);
+                let content = convert::to_string(&content, diag)?;
+                self.properties.set(b"content", Value::String(content));
+                let charset = verify_property_type(
+                    MARKUP_CLASS,
+                    "charset",
+                    &DeclaredType::builtin(TypeMask::STRING | TypeMask::NULL),
+                    charset,
+                    diag,
+                )?;
+                self.properties.set(b"charset", charset);
                 Ok(Value::Null)
             }
             "getcharset" => match self.charset() {
@@ -295,16 +327,16 @@ mod tests {
         assert_eq!(markup.to_php_string(&mut diag).unwrap(), "<b>é</b>");
         assert_eq!(markup.count(&mut diag).unwrap(), Some(8));
         let inner = markup.downcast_ref::<Markup>().unwrap();
-        assert!(inner.is_safe_for(b"js"));
+        assert!(inner.is_safe_for(b"js", &mut diag).unwrap());
         let only_attr = Markup::create(
             PhpString::from("x"),
             None,
             Some(vec![PhpString::from("html_attr")]),
         );
         let inner = only_attr.downcast_ref::<Markup>().unwrap();
-        assert!(inner.is_safe_for(b"html"));
-        assert!(inner.is_safe_for(b"html_attr_relaxed"));
-        assert!(!inner.is_safe_for(b"js"));
+        assert!(inner.is_safe_for(b"html", &mut diag).unwrap());
+        assert!(inner.is_safe_for(b"html_attr_relaxed", &mut diag).unwrap());
+        assert!(!inner.is_safe_for(b"js", &mut diag).unwrap());
         let dump = twig_value::dump::var_dump(&Value::Object(markup.clone()), &mut diag).unwrap();
         let dump = String::from_utf8_lossy(&dump).into_owned();
         assert!(
@@ -314,6 +346,67 @@ mod tests {
         assert!(
             dump.contains("[\"safeStrategies\":\"Twig\\Markup\":private]=>"),
             "{dump}"
+        );
+        assert!(diag.is_empty(), "{diag:?}");
+    }
+
+    /// `__construct()` keeps the strategies as given and checks `$charset` against `private ?string $charset`
+    /// (oracle: tests/vectors/fuzz/dynamic/p39-markup-construct.json).
+    #[test]
+    fn construct_assigns_like_php() {
+        let markup = Markup::create(PhpString::from("x"), Some("UTF-8".into()), None);
+        let mut diag = Vec::new();
+        let construct = |args: CallArgs, diag: &mut Vec<twig_value::Diagnostic>| {
+            markup.call_method("__construct", args, diag)
+        };
+        let args = CallArgs::new()
+            .arg("y")
+            .arg(5)
+            .arg(Value::Array(Array::from_values([Value::Int(1)])));
+        construct(args, &mut diag).unwrap();
+        let inner = markup.downcast_ref::<Markup>().unwrap();
+        assert_eq!(inner.charset().unwrap(), "5");
+        assert!(inner.safe_strategies().is_empty());
+        assert!(!inner.is_safe_for(b"html", &mut diag).unwrap());
+        assert!(diag.is_empty(), "{diag:?}");
+
+        // the charset is assigned last: the content is already replaced when it fails
+        let args = CallArgs::new()
+            .arg("z")
+            .arg(Value::Array(Array::new()))
+            .arg(Value::Array(Array::from_values([Value::from("html")])));
+        let error = construct(args, &mut diag).unwrap_err();
+        assert_eq!(
+            error.message(),
+            "Cannot assign array to property Twig\\Markup::$charset of type ?string"
+        );
+        assert_eq!(inner.content(), "z");
+        assert_eq!(inner.charset().unwrap(), "5");
+        assert!(inner.is_safe_for(b"html", &mut diag).unwrap());
+
+        // a strategy that is not a string is an offset of IMPLIED_STRATEGIES
+        let args = CallArgs::new()
+            .arg("y")
+            .arg(Value::Null)
+            .arg(Value::Array(Array::from_values([Value::Float(1.5)])));
+        construct(args, &mut diag).unwrap();
+        assert!(!inner.is_safe_for(b"html", &mut diag).unwrap());
+        assert_eq!(diag.len(), 1, "{diag:?}");
+        assert_eq!(
+            diag[0].message,
+            "Implicit conversion from float 1.5 to int loses precision"
+        );
+        let args = CallArgs::new()
+            .arg("y")
+            .arg(Value::Null)
+            .arg(Value::Array(Array::from_values([Value::Array(
+                Array::new(),
+            )])));
+        construct(args, &mut diag).unwrap();
+        let error = inner.is_safe_for(b"js", &mut diag).unwrap_err();
+        assert_eq!(
+            error.message(),
+            "Cannot access offset of type array on array"
         );
     }
 }

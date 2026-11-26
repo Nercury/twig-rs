@@ -1,9 +1,11 @@
 //! The engine against Twig 3.31.1 on PHP 8.5.13 where the outcome depends on what PHP's compiler does with the code
-//! Twig generates and on the state Twig keeps on node objects while compiling (plans/parity-fixes.md, P1 to P16 and
-//! P31): constant folding and the lines of folded constants inside array literals, the operand order of commutative
-//! opcodes, casts of constant arrays in `~` (also of operands that the folding of an array literal makes constant),
-//! prefix operators before `**`, null-safe chains, macro defaults evaluated at call time, the lines of a few runtime
-//! errors, the `loop` bookkeeping writes, named arguments while unpacking, callable values and spreads in special node
+//! Twig generates and on the state Twig keeps on node objects while compiling (plans/parity-fixes.md, P1 to P16, P31
+//! and P35 to P37): constant folding and the lines of folded constants inside array literals (chosen branches and
+//! values of the parser keep their own line, the literal's line comes after the dynamic key of its first element),
+//! the operand order of commutative opcodes, casts of constant arrays in `~` (also of operands that the folding of an
+//! array literal makes constant), prefix operators before `**`, null-safe chains, macro defaults evaluated at call
+//! time, the lines of a few runtime errors (the statements written after an expression, TrueTest's bool conversion),
+//! the `loop` bookkeeping writes, named arguments while unpacking, callable values and spreads in special node
 //! classes. The compile-time errors of the generated PHP are the `compile_errors` topic of `tests/engine.rs`.
 //!
 //! The cases are the oracle-recorded vectors of `tests/vectors/engine/parity/<topic>.json` (the format of

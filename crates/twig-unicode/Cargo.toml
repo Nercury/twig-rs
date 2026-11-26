@@ -4,7 +4,9 @@ version = "0.1.0"
 description = "Unicode tables and mbstring-compatible text functions for the twig template engine."
 edition.workspace = true
 rust-version.workspace = true
-license = "BSD-3-Clause AND PHP-3.01 AND Unicode-3.0"
+# BSD-3-Clause: twig-rs. PHP-3.01: ported mbstring code and table layout. Unicode-3.0: the Unicode Character
+# Database tables. MIT: php_unicode.c's ucdata-2.5 heritage (Computing Research Labs). See NOTICE.
+license = "BSD-3-Clause AND PHP-3.01 AND Unicode-3.0 AND MIT"
 repository.workspace = true
 authors.workspace = true
 

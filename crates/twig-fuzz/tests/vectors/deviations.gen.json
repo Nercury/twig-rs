@@ -192,5 +192,65 @@
    "debug"
   ],
   "data_php": "return ['o' => new \\stdClass(), 'a' => new \\ArrayObject([1]), 'bad' => \"\\xff\"]"
+ },
+ {
+  "id": "dump-length-markup",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% set c %}{{ dump(o) }}{% endset %}{{ dump(c) }}"
+  },
+  "config": {
+   "debug": true
+  },
+  "extensions": [
+   "debug"
+  ],
+  "data_php": "return ['o' => new \\stdClass(), 'a' => new \\ArrayObject([1])]"
+ },
+ {
+  "id": "dump-length-nested",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% set c %}{{ dump([o, a]) }}{% endset %}{% set d %}{{ dump(c) }}{% endset %}{{ dump([d, 'x']) }}"
+  },
+  "config": {
+   "debug": true,
+   "autoescape": false
+  },
+  "extensions": [
+   "debug"
+  ],
+  "data_php": "return ['o' => new \\stdClass(), 'a' => new \\ArrayObject([1])]"
+ },
+ {
+  "id": "silenced-compile-warning",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{{\"#{(10**(1e5))/('5'*(1e308))}]\"}}"
+  },
+  "config": {
+   "cache": "/tmp/twig-fuzz-cache/silenced-compile-warning"
+  }
+ },
+ {
+  "id": "silenced-compile-warning-loop",
+  "env": "plain",
+  "templates": {
+   "index.twig": "{% for i in 1..3 %}{{\"#{(10**(1e5))/('5'*(1e308))}]\"}}{% endfor %}{{ [1][2] ?? 'u' }}"
+  },
+  "config": {
+   "cache": "/tmp/twig-fuzz-cache/silenced-compile-warning-loop"
+  }
+ },
+ {
+  "id": "silenced-compile-warning-throw",
+  "env": "plain",
+  "templates": {
+   "index.twig": "a{{\"#{(10**(1e5))/('5'*(1e308))}]\"}}b"
+  },
+  "config": {
+   "cache": "/tmp/twig-fuzz-cache/silenced-compile-warning-throw"
+  },
+  "errors": "throw"
  }
 ]

@@ -1723,6 +1723,50 @@ fn template_wrappers_in_templates_resolve_the_lazy_path_in_get_path() {
             "/path/to/index.twig|1",
             "/path/to/index.twig",
         ),
+        // the path is resolved once per template instance (`$this->sourcePath`)
+        (
+            "{{ t.getSourceContext().getPath() }}{{ t.getSourceContext().getPath() }}|{{ foo }}",
+            "/path/to/index.twig/path/to/index.twig|1",
+            "/path/to/index.twig",
+        ),
+        // P38: `__serialize()` resolves the path first, `getColumn()` reads the code only
+        (
+            "{{ t.getSourceContext().__serialize()|json_encode }}|{{ foo }}",
+            r#"{"\u0000Twig\\Source\u0000code":"","\u0000Twig\\Source\u0000name":"index.twig","\u0000Twig\\Source\u0000path":"\/path\/to\/index.twig"}|1"#,
+            "/path/to/index.twig",
+        ),
+        (
+            "{{ t.getSourceContext().getColumn(5) }}|{{ foo }}",
+            "1|1",
+            "",
+        ),
+        // `__construct()` replaces the unresolved path
+        (
+            "{% set s = t.getSourceContext() %}{{ s.__construct('c', 'n') }}{{ s.getPath() }}|{{ foo }}",
+            "|1",
+            "",
+        ),
+        // the `$this->getSourcePath(...)` callables of one template are equal; a resolved path is not
+        (
+            "{% set s = t.getSourceContext() %}{{ s == t.getSourceContext() ? 'eq' : 'ne' }}|{{ foo }}",
+            "eq|1",
+            "",
+        ),
+        (
+            "{% set s = t.getSourceContext() %}{{ s.getPath() }}{{ s == t.getSourceContext() ? 'eq' : 'ne' }}|{{ foo }}",
+            "/path/to/index.twigne|1",
+            "/path/to/index.twig",
+        ),
+        (
+            "{% set s = t.getSourceContext() %}{% set u = t.getSourceContext() %}{{ s.getPath() }}{{ u.getPath() }}{{ s == u ? 'eq' : 'ne' }}|{{ foo }}",
+            "/path/to/index.twig/path/to/index.twigeq|1",
+            "/path/to/index.twig",
+        ),
+        (
+            "{{ t.getSourceContext().createWithLazyPath('c', 'n', x => 'p').getName() }}|{{ foo }}",
+            "n|1",
+            "",
+        ),
     ] {
         let loader = RecordingLoader::new(&[("index.twig", code)], "/path/to/");
         let twig = Environment::with_options(loader.clone(), strict());

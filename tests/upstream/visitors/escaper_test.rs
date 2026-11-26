@@ -122,7 +122,8 @@ fn templates_fetch_the_escaper_only_when_they_escape() {
 
 /// `testCompilationErrorInsideAnAutoescapeTagDoesNotAffectTheNextTemplate()`, with the compilation error twig-rs
 /// can raise from the escaper visitor inside an `autoescape` tag (Twig's test uses an `is_safe_callback` that
-/// throws, which twig-rs callbacks cannot): `{% autoescape null %}` makes `needEscaping()` fail. The templates
+/// throws, which twig-rs callbacks cannot): `{% autoescape null %}` makes `needEscaping()` fail with the `TypeError`
+/// of its `string|bool` return type, which `compileSource()` does not wrap (it is a PHP `\Error`). The templates
 /// compiled next are escaped with their own strategy.
 #[test]
 fn compilation_error_inside_an_autoescape_tag_does_not_affect_the_next_template() {
@@ -138,18 +139,26 @@ fn compilation_error_inside_an_autoescape_tag_does_not_affect_the_next_template(
         autoescape(Some("name")),
     );
     let error = env.load("broken.html").unwrap_err();
-    // PHP throws the TypeError itself; twig-rs wraps it (reference/deviations.md, `needEscaping()`'s `TypeError`)
-    assert_eq!(error.kind(), ErrorKind::Syntax);
     let expected = oracle().value(
         "compilation_error_inside_an_autoescape_tag_does_not_affect_the_next_template/null_strategy",
     );
-    let php_message = expected.field("error").field("message").as_str().unwrap();
+    let php_error = expected.field("error");
+    assert_eq!(error.kind(), ErrorKind::Php);
+    assert_eq!(error.class_name(), "TypeError");
+    assert_eq!(
+        error.class_name(),
+        php_error.field("class").as_str().unwrap()
+    );
     assert_eq!(
         error.to_string(),
-        format!(
-            "An exception has been thrown during the compilation of a template (\"{php_message}\") in \"broken.html\"."
-        )
+        "Twig\\NodeVisitor\\EscaperNodeVisitor::needEscaping(): Return value must be of type string|bool, null returned"
     );
+    assert_eq!(
+        error.to_string(),
+        php_error.field("message").as_str().unwrap()
+    );
+    assert!(error.previous().is_none());
+    assert!(php_error.get("previous").is_none());
 
     assert_eq!(
         env.render("index.txt", ctx(vec![("foo", s("<br>"))]))

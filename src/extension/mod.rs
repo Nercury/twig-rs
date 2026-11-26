@@ -22,16 +22,19 @@ mod optional;
 pub mod runtime;
 
 pub use self::core::{CoreExtension, EscaperExtension};
+pub use crate::ast::ConstantValue;
 pub use crate::runtime::sandbox::SandboxExtension;
 pub use crate::visitor::OptimizerExtension;
 pub use callable::{
-    CallableKind, CallableParameter, CallableType, DeprecatedCallableInfo, FilterNodeClass,
-    FilterNodeFactory, FilterOptions, FunctionNodeClass, FunctionNodeFactory, FunctionOptions,
-    ParameterDefault, ParserCallable, PhpCallable, SafeCallback, TestNodeClass, TestNodeFactory,
-    TestOptions, TwigCallable, TwigFilter, TwigFunction, TwigTest,
+    CallableKind, CallableParameter, CallableType, DeprecatedCallableInfo, FilterBuilder,
+    FilterNodeClass, FilterNodeFactory, FilterOptions, FunctionBuilder, FunctionNodeClass,
+    FunctionNodeFactory, FunctionOptions, ParameterDefault, ParserCallable, PhpCallable,
+    SafeCallback, TestBuilder, TestNodeClass, TestNodeFactory, TestOptions, TwigCallable,
+    TwigFilter, TwigFunction, TwigTest,
 };
 pub use optional::{DebugExtension, SandboxBridgeExtension, StringLoaderExtension};
 pub use runtime::misc::settings::CoreSettings;
+pub use runtime::{Call, CallResult, CallableRuntime};
 
 use std::any::Any;
 use std::fmt;

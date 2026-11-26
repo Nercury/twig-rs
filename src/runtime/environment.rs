@@ -282,6 +282,12 @@ fn without_code(program: &mut Arc<Program>, loader: &Arc<dyn Loader>) {
     }
 }
 
+/// Whether `source` is the source [`without_code`] gave a program: its path is resolved when it is first needed
+/// (`Source::createWithLazyPath('', $name, $this->getSourcePath(...))`), whether or not it is resolved yet.
+pub(crate) fn has_lazy_path(source: &Source) -> bool {
+    source.path_resolver::<TemplatePath>().is_some()
+}
+
 /// The lazily resolved path of a template compiled without `debug`: `$this->getSourcePath(...)`.
 ///
 /// The resolved path is kept per program (by its [`Source`]); Twig keeps it per template instance

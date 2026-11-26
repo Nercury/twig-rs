@@ -4,15 +4,26 @@ version = "0.1.0"
 description = "PHP-exact value model and builtin functions used by the twig template engine."
 edition.workspace = true
 rust-version.workspace = true
-license = "BSD-3-Clause AND PHP-3.01 AND Zend-2.0 AND MIT"
+# BSD-3-Clause: twig-rs; PHP's MT19937 (Matsumoto, Nishimura, Wagner). PHP-3.01, Zend-2.0: ported php-src code.
+# MIT: musl and Arm optimized-routines math, libc++'s std::sort (zend_sort). ISC: snprintf's __cvt (Todd C. Miller).
+# Zlib: strnatcmp (Martin Pool). Apache-1.0: snprintf's php_conv_fp (Apache Group). dtoa: zend_strtod (David M.
+# Gay). LGPL-2.1-or-later: the iconv modules follow glibc's iconv and iconvdata sources. Unicode-3.0: iconv's
+# transliteration table (glibc derives it from the Unicode Character Database). See NOTICE.
+license = "BSD-3-Clause AND PHP-3.01 AND Zend-2.0 AND MIT AND ISC AND Zlib AND Apache-1.0 AND dtoa AND LGPL-2.1-or-later AND Unicode-3.0"
 repository.workspace = true
 authors.workspace = true
+
+[features]
+# `serde::to_value` / `serde::to_array`: Rust data into PHP values through serde.
+serde = ["dep:serde"]
 
 [dependencies]
 indexmap.workspace = true
 foldhash.workspace = true
 memchr.workspace = true
 xxhash-rust = { version = "0.8", features = ["xxh3"] }
+# Optional (feature `serde`). Not the workspace entry, which adds `derive`: the library only needs the traits.
+serde = { version = "1", optional = true }
 
 [dev-dependencies]
 serde.workspace = true

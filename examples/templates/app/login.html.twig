@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+{% import "@ui/forms.html.twig" as forms %}
+
+{% block title %}Sign in | {{ parent() }}{% endblock %}
+
+{% block body %}
+{% if error %}
+    {% include "@ui/alert.html.twig" with {type: "error", message: error} %}
+{% endif %}
+    <form method="post" action="/login">
+      {{ forms.input("username", username) }}
+      {{ forms.input("password", null, "password") }}
+      <button>Sign in</button>
+    </form>
+{% endblock %}

@@ -9,8 +9,8 @@ use twig_timelib::types::{ZONETYPE_ABBR, ZONETYPE_ID, ZONETYPE_OFFSET};
 use twig_timelib::unixtime2tm::unixtime2date;
 use twig_timelib::{AbbrInfo, Time, TzDb, TzInfo};
 use twig_value::object::{
-    CallArgs, ClassRef, FetchMode, Object, ObjectRef, Param, PropertyCheck, PropertyEntry,
-    PropertyPurpose, PropertyStore,
+    CallArgs, ClassRef, FetchMode, MethodParams, Object, ObjectRef, Param, PropertyCheck,
+    PropertyEntry, PropertyPurpose, PropertyStore,
 };
 use twig_value::param::Arg;
 use twig_value::{Array, Diagnostics, PhpError, PhpResult, PhpString, Value};
@@ -245,6 +245,33 @@ fn is_internal_property(name: &[u8]) -> bool {
     name == b"timezone_type" || name == b"timezone"
 }
 
+/// The parameters of the methods of `DateTimeZone` (by lowercase name), as PHPSRC/ext/date/php_date.stub.php
+/// declares them: what [`TimeZoneObject`] reports and binds its arguments to (`args::ParamTable`).
+fn timezone_params(method: &str) -> Option<Vec<Param>> {
+    Some(match method {
+        // __construct(string $timezone)
+        "__construct" => vec![Param::required("timezone")],
+        // getOffset(DateTimeInterface $datetime)
+        "getoffset" => vec![Param::required("datetime")],
+        // getTransitions(int $timestampBegin = PHP_INT_MIN, int $timestampEnd = 2147483647)
+        "gettransitions" => vec![
+            Param::optional("timestampBegin", i64::MIN),
+            Param::optional("timestampEnd", i64::from(i32::MAX)),
+        ],
+        // static listIdentifiers(int $timezoneGroup = DateTimeZone::ALL, ?string $countryCode = null)
+        "listidentifiers" => vec![
+            Param::optional("timezoneGroup", TIMEZONE_GROUP_ALL),
+            Param::optional("countryCode", Value::Null),
+        ],
+        // __unserialize(array $data)
+        "__unserialize" => vec![Param::required("data")],
+        // static __set_state(array $array)
+        "__set_state" => vec![Param::required("array")],
+        "getname" | "getlocation" | "listabbreviations" | "__serialize" | "__wakeup" => Vec::new(),
+        _ => return None,
+    })
+}
+
 /// The `DateTimeZone` methods (`Class::method` for messages is the declaring class).
 impl Object for TimeZoneObject {
     fn class(&self) -> &ClassRef {
@@ -253,6 +280,11 @@ impl Object for TimeZoneObject {
 
     fn property_store(&self) -> Option<&PropertyStore> {
         Some(&self.props)
+    }
+
+    /// The parameters of the method as php_date.stub.php declares them (`timezone_params`).
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        args::method_params(timezone_params, method)
     }
 
     fn call(
@@ -264,25 +296,17 @@ impl Object for TimeZoneObject {
     ) -> PhpResult<Value> {
         match method {
             "__construct" => {
-                let a = Bound::new(
-                    "DateTimeZone::__construct",
-                    &args,
-                    &[Param::required("timezone")],
-                )?;
+                let a = Bound::method("DateTimeZone::__construct", method, timezone_params, &args)?;
                 let tz = a.path(0, diag)?;
                 self.construct_in_place(tz.as_bytes())?;
                 Ok(Value::Null)
             }
             "getname" => {
-                args::none("DateTimeZone::getName", &args)?;
+                Bound::method("DateTimeZone::getName", method, timezone_params, &args)?;
                 Ok(Value::String(self.name()?))
             }
             "getoffset" => {
-                let a = Bound::new(
-                    "DateTimeZone::getOffset",
-                    &args,
-                    &[Param::required("datetime")],
-                )?;
+                let a = Bound::method("DateTimeZone::getOffset", method, timezone_params, &args)?;
                 let d = a.object_of(0, "DateTimeInterface")?;
                 self.initialized()?;
                 let date = d
@@ -291,13 +315,11 @@ impl Object for TimeZoneObject {
                 Ok(Value::Int(self.offset_at(date)?))
             }
             "gettransitions" => {
-                let a = Bound::new(
+                let a = Bound::method(
                     "DateTimeZone::getTransitions",
+                    method,
+                    timezone_params,
                     &args,
-                    &[
-                        Param::optional("timestampBegin", i64::MIN),
-                        Param::optional("timestampEnd", i64::from(i32::MAX)),
-                    ],
                 )?;
                 let begin = a.long(0, diag)?;
                 let end = a.long(1, diag)?;
@@ -307,24 +329,27 @@ impl Object for TimeZoneObject {
                 })
             }
             "getlocation" => {
-                args::none("DateTimeZone::getLocation", &args)?;
+                Bound::method("DateTimeZone::getLocation", method, timezone_params, &args)?;
                 Ok(match self.initialized()? {
                     TzValue::Id(tz) => Value::Array(location(&tz)),
                     _ => Value::Bool(false),
                 })
             }
             "listabbreviations" => {
-                args::none("DateTimeZone::listAbbreviations", &args)?;
+                Bound::method(
+                    "DateTimeZone::listAbbreviations",
+                    method,
+                    timezone_params,
+                    &args,
+                )?;
                 Ok(Value::Array(timezone_abbreviations_list()))
             }
             "listidentifiers" => {
-                let a = Bound::new(
+                let a = Bound::method(
                     "DateTimeZone::listIdentifiers",
+                    method,
+                    timezone_params,
                     &args,
-                    &[
-                        Param::optional("timezoneGroup", TIMEZONE_GROUP_ALL),
-                        Param::optional("countryCode", Value::Null),
-                    ],
                 )?;
                 let what = a.long(0, diag)?;
                 let country = a.string_or_null(1, diag)?;
@@ -337,7 +362,7 @@ impl Object for TimeZoneObject {
                 .map(Value::Array)
             }
             "__serialize" => {
-                args::none("DateTimeZone::__serialize", &args)?;
+                Bound::method("DateTimeZone::__serialize", method, timezone_params, &args)?;
                 let tz = self.initialized()?;
                 let mut props = Vec::new();
                 timezone_object_to_hash(&tz, &mut props);
@@ -350,10 +375,11 @@ impl Object for TimeZoneObject {
                 Ok(Value::Array(out))
             }
             "__unserialize" => {
-                let a = Bound::new(
+                let a = Bound::method(
                     "DateTimeZone::__unserialize",
+                    method,
+                    timezone_params,
                     &args,
-                    &[Param::required("data")],
                 )?;
                 let data = a.array(0)?;
                 match initialize_from_hash(&self.ctx, &data) {
@@ -365,7 +391,7 @@ impl Object for TimeZoneObject {
             }
             "__wakeup" => {
                 util::wakeup_deprecated("DateTimeZone", diag)?;
-                args::none("DateTimeZone::__wakeup", &args)?;
+                Bound::method("DateTimeZone::__wakeup", method, timezone_params, &args)?;
                 let table = util::assoc(
                     util::std_properties(this, diag)?
                         .into_iter()
@@ -378,11 +404,7 @@ impl Object for TimeZoneObject {
                 Ok(Value::Null)
             }
             "__set_state" => {
-                let a = Bound::new(
-                    "DateTimeZone::__set_state",
-                    &args,
-                    &[Param::required("array")],
-                )?;
+                let a = Bound::method("DateTimeZone::__set_state", method, timezone_params, &args)?;
                 let data = a.array(0)?;
                 Ok(Value::Object(TimeZoneObject::set_state(&self.ctx, &data)?))
             }

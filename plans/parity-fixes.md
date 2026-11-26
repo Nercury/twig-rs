@@ -11,47 +11,59 @@ is a newline). "PHP" is the oracle's result (`twig-oracle:3.31.1`), "twig-rs" th
 
 ## Status
 
-- **Rounds 1 and 2** (2026-11-26) produced P1 to P33, the deviation candidates D1 to D5 and the tooling items T1 to
-  T9. Every P item up to P33 is fixed and removed (P16, P24, P31, P32 and P33 in the round-2 fixes, which removed 25
-  `known_mismatch` markers). D1 to D4 are rows of `reference/deviations.md`; D5 was not needed. T8 is partly done.
-- **Round 3** (2026-11-26, the tree after the round-2 fixes, with the four new families whitespace, unicode, dynamic
-  and structure): 20,000 generated cases per family through `twig-fuzz drive` with minimisation, seeds 9001 to 9010
-  (2,000 cases each).
-  - Before it, `cargo +stable test --workspace` passed: 1806 tests, none failed. The 13 ignored ones are the 2
+- **Rounds 1 to 3** (2026-11-26) produced P1 to P39, the deviation candidates D1 to D5 and the tooling items T1 to
+  T14. Every P item up to P39 is fixed and removed; the round-3 fixes also turned the accepted deviation
+  "`needEscaping()`'s `TypeError`" into PHP's own unwrapped `TypeError` and resolved T10 to T14. D1 to D4 are rows of
+  `reference/deviations.md`; D5 was not needed. T8 is partly done. Round 3 found 17 raw mismatches in 10 clusters in
+  240,000 cases (20,000 per family, seeds 9001 to 9010).
+- **Round 4** (2026-11-26, the tree after the round-3 fixes): 30,000 generated cases per family through `twig-fuzz
+  drive` with minimisation, seeds 9201 to 9215 (2,000 cases each), without `--d2`, twig-rs runs bounded at 15 s.
+  - Before it, `cargo +stable test --workspace` passed: 1863 tests, none failed. The 13 ignored ones are the 2
     fixture cases their CONDITION skips, the 3 tests that need an external vector file, D1's 2 tests, the 5 Docker
     tests of twig-fuzz and 1 doctest.
-  - `twig-fuzz replay --update tests/vectors/fuzz` removed no marker (the round-2 fixers had removed theirs); the
-    4475 vectors there and the 11 round-0 vectors replay with no failure.
+  - `twig-fuzz replay --update tests/vectors/fuzz` removed no marker (the round-3 fixers had removed theirs); the
+    4690 vectors there and the 11 round-0 vectors replay with no failure.
 
   | family | cases | identical | deviations | mismatches | clusters | not comparable | causes (raw) |
   |---|---|---|---|---|---|---|---|
-  | expressions | 20000 | 19869 | 125 | 6 | 3 | 0 | P35 (4), P37 (1), compiled-code warning (1) |
-  | callables | 20000 | 19266 | 730 | 2 | 2 | 2 | T11 (2) |
-  | control | 20000 | 19893 | 105 | 2 | 2 | 0 | P36 (1), T10 (1) |
-  | composition | 20000 | 19146 | 711 | 0 | 0 | 143 | – |
-  | escaping | 20000 | 19603 | 394 | 3 | 2 | 0 | D2 (3) |
-  | errors | 20000 | 19654 | 342 | 4 | 1 | 0 | D2 (4) |
-  | formats | 20000 | 19826 | 169 | 0 | 0 | 5 | – |
-  | sandbox | 20000 | 19048 | 915 | 0 | 0 | 37 | – |
-  | whitespace | 20000 | 20000 | 0 | 0 | 0 | 0 | – |
-  | unicode | 20000 | 18772 | 1228 | 0 | 0 | 0 | – |
-  | dynamic | 20000 | 18580 | 1420 | 0 | 0 | 0 | – |
-  | structure | 20000 | 18558 | 1442 | 0 | 0 | 0 | – |
-  | total | 240000 | 232215 | 7581 | 17 | 10 | 187 | |
+  | expressions | 30000 | 29824 | 175 | 1 | 1 | 0 | P40 (1) |
+  | callables | 30000 | 28919 | 1071 | 4 | 1 | 6 | T15 (4) |
+  | control | 30000 | 29860 | 140 | 0 | 0 | 0 | – |
+  | composition | 30000 | 28767 | 1041 | 0 | 0 | 192 | – |
+  | escaping | 30000 | 29440 | 560 | 0 | 0 | 0 | – |
+  | errors | 30000 | 29469 | 531 | 0 | 0 | 0 | – |
+  | formats | 30000 | 29778 | 220 | 0 | 0 | 2 | – |
+  | sandbox | 30000 | 28590 | 1379 | 0 | 0 | 31 | – |
+  | whitespace | 30000 | 30000 | 0 | 0 | 0 | 0 | – |
+  | unicode | 30000 | 28085 | 1915 | 0 | 0 | 0 | – |
+  | dynamic | 30000 | 27923 | 2077 | 0 | 0 | 0 | – |
+  | structure | 30000 | 27912 | 2088 | 0 | 0 | 0 | – |
+  | total | 360000 | 348567 | 11197 | 5 | 2 | 231 | |
 
-  - The deviations are the accepted ones the diff knows: `called in` and `passed in` suffixes, closure names, object
-    handles, and the `not supported by twig-rs` errors (all 1228 of unicode: mbstring encodings).
-  - Three clusters are parity bugs, all wrong error lines of the generated-PHP line model (G1): P35 part b and P37
-    are new; P36 is the loop-bookkeeping bug the round-2 fix of P31/P32 reported. Six raw cases in 240,000.
-  - The other seven clusters are not bugs: D2 three times (CR escapes, and lone CR bytes with `debug`), the accepted
-    deviation "Warnings of compiled PHP code" once (now in `reference/deviations.md` with the filesystem cache's
-    silencing), and harness noise three times (T10, T11).
-  - Items reported by the round-2 fixers and reproduced in round 3: P34 (G5), P35 part a and P36's decided-`or` form
-    (G1), P38 and P39 (G2).
-  - Vectors: `tests/vectors/fuzz/<family>/round3-*.json`, 8 files with 81 oracle-recorded vectors (process isolation):
-    43 marked `known_mismatch`, 38 controls that match and must keep matching. The noise clusters of T10 and T11 have
-    no vectors: their results depend on object ids and unseeded randomness.
-  - The not-comparable cases are harness limits (see the round-3 notes of G6).
+  - The deviations are the accepted ones the diff knows: `called in` suffixes (7436), `passed in` locations (614, 479
+    of them with a closure name), closure names (13 more), object handles (961), and the `not supported by twig-rs`
+    errors of mbstring encodings (2173: unicode 1915, escaping 233, callables 25). The rules `dump-string-length` and
+    `silenced-compile-warning` never fired, and no mismatch came from D2, whose inputs the generators leave out
+    without `--d2`.
+  - One cluster is a parity bug: P40, the line of a sequence destructuring after an array literal whose last element
+    ends with a constant PHP folds (G1, the generated-PHP line model). The other is harness noise: T15, template names
+    that are not valid UTF-8 in the oracle's `templateName`. 5 raw cases in 360,000.
+  - The not-comparable cases are harness limits: 192 composition cases whose `data_php` loads a template that fails
+    (T17), 31 sandbox cases that access `SimpleXMLElement` properties (T8), 2 formats cases whose data throws (`new
+    \DateTimeZone("Etc/Unknown")`), and 6 callables cases where PHP stops at a compile-time fatal error (D3: `Cannot use
+    positional argument after argument unpacking`).
+  - The harness features of the round-3 fixes ran without a mismatch: custom lexer syntax in 4543 whitespace cases
+    (T13), source policies in 1875 sandbox cases and wall-clock intervals in 235 formats cases (T8). No generator puts
+    a `DatePeriod` into the data yet; `callables/round4-date-period.json` covers it instead.
+  - Vectors: three `tests/vectors/fuzz/<family>/round4-*.json` files with 30 oracle-recorded vectors (process
+    isolation): 10 marked `known_mismatch` (P40: 7, T15: 3) and 20 controls that match and must keep matching, 8 of
+    them in `callables/round4-date-period.json` (the `DatePeriod` data of T8 and the method parameters of P34, which
+    the fuzz data could not hold when P34 was fixed).
+  - Items reported by the round-3 fixers: P41 (G2's report on P38), P42 and T16 (G4's reports); G1's remark that the
+    loop and `with` bookkeeping of P36 has no vector for a host object whose `count()` or iteration throws stays a
+    known coverage gap (the typed data cannot hold such an object).
+  - A whole 30,000-case `drive` took 77 s (formats) to 520 s (dynamic, process isolation), with three drives running
+    at once.
 
 ## Working rules
 
@@ -61,8 +73,8 @@ is a newline). "PHP" is the oracle's result (`twig-oracle:3.31.1`), "twig-rs" th
   exactly those vector ids (`cargo test --test fuzz_regressions` fails while a fixed vector is still marked) and the
   `#[ignore]` of its tests. `twig-fuzz replay --update <files> [--id ID]...` removes the markers of the vectors that
   match now. Never edit an `oracle` field: re-run the case with `twig-fuzz refresh` or `twig-fuzz oracle` instead.
-- Vector files hold items of several groups. Edit only the markers of your item's ids. The controls in the `round2-*`
-  and `round3-*` files are unmarked on purpose: a fix must not break them.
+- Vector files hold items of several groups. Edit only the markers of your item's ids. The controls in the `round2-*`,
+  `round3-*` and `round4-*` files are unmarked on purpose: a fix must not break them.
 - Check fixes with `twig-fuzz replay <file>`, and probe variants with `twig-fuzz oracle <batch> --out <o.json>`
   followed by `twig-fuzz diff <batch> --oracle <o.json>`. Add oracle-backed vectors for the "also check" cases.
 - `tests/fuzz_regressions.rs` also replays `crates/twig-fuzz/vectors/round0-mismatches.json`.
@@ -75,189 +87,175 @@ needs changes in several groups, the first group listed leads.
 
 ## Summary
 
-"Raw" counts the generated cases attributed to the cause; "report" marks an item a round-2 fixer reported and round 3
-reproduced with probes. Priority: **high** = wrong output, or more than 100 raw cases; **medium** = a wrong error or
-diagnostic that real templates can hit; **low** = obscure error paths.
+"Raw" counts the generated cases attributed to the cause; "report" marks an item a round-3 fixer reported. Priority:
+**high** = wrong output, or more than 100 raw cases; **medium** = a wrong error or diagnostic that real templates can
+hit; **low** = obscure error paths, API-only behaviour, or harness work that hides little.
 
 | id | root cause | groups | raw | vectors | tests | priority |
 |---|---|---|---|---|---|---|
-| P34 | Date objects report no method parameters: an unknown named argument before a spread fails late | G5 | report | 3 +9 controls | – | low |
-| P35 | Lines of the constants PHP folds inside array literals: chosen branches, parse-time concatenations, dynamic keys | G1 | 4 + report | 15 +9 controls | – | low |
-| P36 | The for-loop bookkeeping takes a stale PHP marker after a folded literal or skipped code | G1 | 1 + report | 5 +5 controls | – | low |
-| P37 | TrueTest converts its operand to bool at the operand's last marker instead of `$tmp`'s line | G1 | 1 | 12 +5 controls | – | low |
-| P38 | `Twig\Source` objects in templates lack `getColumn()` and `__serialize()` | G2 | report | 4 +1 control | – | low |
-| P39 | `Twig\Markup::__construct()` assigns `$charset` without the `?string` property type check | G2 | report | 1 +4 controls | – | low |
+| P40 | A sequence destructuring reports its right operand's folded line instead of the marker after it | G1 | 1 | 7 +9 controls | – | low |
+| P41 | A template closure compares equal to the lazy path of a template's `Twig\Source` | G5 | report | – | – | low |
+| P42 | PHP `\Error`s of API misuse are LogicException-kind errors that `compile_source()` wraps | G4 | report | – | – | low |
+| T8 | Typed data and environments the fuzz harness cannot express yet (partly done) | G6, G5 | 31 not comparable | – | – | low |
+| T15 | The oracle's `templateName` substitutes invalid UTF-8 differently from twig-rs's lossy name | G6 | 4 | 3 +3 controls | – | low |
+| T16 | The escaping generator never writes `{% autoescape null %}` | G6 | – | – | – | low |
+| T17 | Composition cases whose `data_php` loads a failing template are not compared | G6 | 192 not comparable | – | – | low |
 
 ---
 
 ## G1: codegen and VM
 
-### P35. Lines of the constants PHP folds inside array literals
-
-- **Groups**: G1 (`src/lltl/php.rs`, `src/lltl/codegen.rs`).
-- **Covers** (round 3: 4 raw of 20,000 expressions cases for part b; part a reported by the round-2 fix of P31/P32,
-  fuzz seed 8101), all in `tests/vectors/fuzz/expressions/round3-fold-lines.json`:
-  - part b: `round3-fold-branch-line`, minimised from `x9004-00465-arrays` (raw: `x9004-00465-arrays`,
-    `x9005-00433-arrays`, `x9007-00933-arrays`, `x9010-01217-arrays`); `round3-fold-branch-line-literal-then`,
-    `-elvis`, `-coalesce`, `-packed`, `-names`; `round3-fold-concat-line-else`, `-then`, `-number`, `-operand`,
-    `-operand-number`, `-operand-three`;
-  - part a: `round3-fold-key-line`, `-int`, `-name-key`;
-  - controls, which must keep matching: `round3-fold-branch-ctl-literal`, `-not-in-literal`, `-negative-number`,
-    `-true`, `round3-fold-concat-ctl-negative-operand`, `round3-fold-key-ctl-second-element`, `-value-marker`,
-    `-one-line`, `-constant-key`.
-- **Repro (b)**: `"{{([[...{},\nr]*(''?'')])}}"`. PHP: `Unsupported operand types: array * string` at line 2;
-  twig-rs: line 1.
-  - The same with the chosen branches `1?'x':''`, `null??''`, `''?:''`, and with a concatenation of literals, as the
-    chosen branch (`''?'':'a'~'b'`, `1?'a'~1:''`) or as the operand itself (`'a'~'b'`).
-  - With `-1` or `true` as the chosen branch, or `-1~'b'` as the operand, both give line 1.
-- **Repro (a)**: `"{{({(('')\n~s):([])+e})}}"`. PHP: `Unsupported operand types: array + null` at line 2; twig-rs:
-  line 1. When the marker comes from the value, or the dynamic key is not the first element, both agree.
-- **Upstream**:
-  - (b) Twig writes `[([ ...[], // line 2\n($context["r"] ?? null)] * (("") ? ("") : ("")))]`.
-    `zend_compile_array()` first runs `zend_try_ct_eval_array()` on the outer literal (PHPSRC/Zend/zend_compile.c:10095),
-    whose `zend_eval_const_expr()` replaces a conditional with a constant test by its chosen child itself
-    (`ZEND_AST_CONDITIONAL` :12198; `??`: `ZEND_AST_COALESCE` :12174). A child that is already a `ZEND_AST_ZVAL`
-    keeps the line it was parsed on, here the line after `// line 2`. A value that `zend_eval_const_expr()` creates
-    (`zend_ast_create_zval()`: a folded `-1`, `true`, an operator) gets `CG(zend_lineno)`, the line of the outer
-    literal. `zend_compile_expr_inner()` then sets `CG(zend_lineno)` to the operand's line (:11817), and the `*`
-    emitted after it reports that line.
-  - PHP's parser folds the concatenation of two values while it builds the AST (`zend_ast_create_concat_op()`,
-    PHPSRC/Zend/zend_ast.c:484), so `("a" . "b")` and `("a" . 1)` are values with the line they are written on, as
-    operands and as chosen branches. `(-1 . "b")` is not folded by the parser (`-1` is a unary minus).
-  - (a) Twig writes `[ (string)("" . // line 2\n($context["s"] ?? null)) => ([] + ($context["e"] ?? null))]`:
-    `ArrayExpression::compile()` writes a dynamic key's `(string) key =>` before the value
-    (TWIG/src/Node/Expression/ArrayExpression.php:146-160). The literal's line is its first element's
-    (`zend_ast_create_list()`), and the element's line is its value's (`ZEND_AST_ARRAY_ELEM` is created as
-    `(value, key)`), so the key's marker comes first. The `null` of `?? null` is a constant the literal's folding
-    stamps with that line, and the `+` after it reports it.
-- **twig-rs**: `Codegen::expr()` treats every expression that `eval_const()` folds and `is_php_literal()` rejects as
-  stamped with the fold marker, the outermost literal's line from `php::first_debug_line()`. Chosen branches and
-  parse-time concatenations are such expressions, and `first_debug_line()` looks only at the first element's value.
-- **Fix notes**:
-  - Give a folded conditional (and `??`, `?:`) the line of its chosen branch when that branch is a PHP literal,
-    recursively through nested conditionals.
-  - Count a concatenation of PHP literals (`zend_ast_create_concat_op()`'s rule: both operands values, no array) as
-    a literal written where it stands.
-  - In `first_debug_line()`, look at the first element's dynamic key before its value.
-  - Keep `round2-array-literal-folding.json` and `tests/vectors/engine/parity/folding.json` passing (P31's operand
-    kinds use the same chosen-branch logic).
-
-### P36. The for-loop bookkeeping takes a stale PHP marker after a folded literal or skipped code
+### P40. A sequence destructuring reports its right operand's folded line instead of the marker after it
 
 - **Groups**: G1 (`src/lltl/codegen.rs`).
-- **Covers** (round 3: 1 raw of 20,000 control cases; the decided-`or` form was reported by the round-2 fix of
-  P31/P32), all in `tests/vectors/fuzz/control/round3-loop-bookkeeping-line.json`:
-  - `round3-loop-bookkeeping-line`, minimised from `ctl-9008-1397`; `round3-loop-bookkeeping-line-set-multi`,
-    `-set-literal`, `-decided-or`, `-decided-or-simple`;
-  - controls, which must keep matching: `round3-loop-bookkeeping-ctl-set-single`, `-print-name`,
-    `-print-name-loop`, `-one-line`, `-name-next-line`.
-- **Repro**: `"{%for _parent in map%}{%set\nr,v=(5),y%}{%endfor%}"`, data `{"map": {"x": 1}}`. PHP:
-  `array_intersect_key(): Argument #2 must be of type array, int given` at line 2; twig-rs: line 1.
-  - `"{%for loop in items%}{%if {'':''} or\nc%}{%endif%}{%endfor%}"`, data `{"items": [1]}`: `Cannot use a scalar
-    value as an array` at line 2 in PHP, line 1 in twig-rs.
-  - A single-target `{% set r = \ny %}` or a print as the last statement of the body agree.
+- **Covers** (round 4: 1 raw of 30,000 expressions cases), all in
+  `tests/vectors/fuzz/expressions/round4-seq-destructure-line.json` (warnings thrown as exceptions with `"errors":
+  "throw"` unless noted):
+  - `round4-seq-destructure-line`, minimised from `x9213-00802-assign`; `round4-seq-destructure-line-print`, `-do`,
+    `-two-targets`, `-explicit-keys`, `-skip`, `-array-pad-type`;
+  - controls, which must keep matching: `round4-seq-destructure-ctl-one-line`, `-marker-before`, `-constant-tail`,
+    `-call-tail`, `-sequence`, `-key-present`, `-object`, `-object-strict`, `-collected-warning` (warnings collected:
+    no line to see).
+- **Repro**: `"{{ [b] = {f,\nj} }}"`. PHP: `Undefined array key 0` at line 2; twig-rs: line 1.
+  - The same through `{% do %}`, with two targets, with a skipped target (`[, b]`: key 1), with explicit keys, and for
+    `array_pad()`'s `TypeError` when the right operand is null (`{f,\nj}|first`: `array_pad(): Argument #1 ($array)
+    must be of type array, null given`).
+  - Both agree when everything is on one line, when the literal starts after the marker, when its last element writes
+    no marker (`{f,\nj: 1}`), when the right operand ends with a call (`{f,\nj}|merge({})`), when key 0 exists, and for
+    object destructuring (`{a: b} = ...`).
 - **Upstream**:
-  - `ForLoopNode` and `ForNode::compile()` write the bookkeeping as statements of their own
-    (`++$context['loop']['index0'];` inside the loop, TWIG/src/Node/ForLoopNode.php:38; `$_parent =
-    $context['_parent']; ... $context = array_intersect_key($context, $_parent);` after it,
-    TWIG/src/Node/ForNode.php:105-119).
-  - `zend_compile_stmt()` (PHPSRC/Zend/zend_compile.c:11695) compiles each statement at the line it is written on:
-    after the last `// line N` of the body. A marker in code PHP skips (the right operand of `or` that a constant left
-    operand decides, `zend_compile_short_circuiting()`) still counts: it is in the PHP source and in
-    `getDebugInfo()`.
-- **twig-rs**: `for_loop_end()` emits the bookkeeping at `php_marker`, which a folded literal (`Codegen::folded()`) or
-  skipped code left behind, instead of the current marker.
-- **Fix notes**: start the bookkeeping at the current marker (the round-2 fixer suggested `self.leaf()` first). Also
-  check the other statement-level writes that follow an expression without a marker of their own: the ends of
-  `with` (`$context = $context['_parent']`), of captures (`set`, `apply`), of macros and of blocks.
+  - `SequenceDestructuringSetBinary::compile()` (TWIG/src/Node/Expression/Binary/SequenceDestructuringSetBinary.php)
+    writes `[(($_v0 = RIGHT) instanceof \Traversable ? CoreExtension::destructureSequence($context, ["b"], $_v0) :
+    ([$context["b"]] = array_pad($_v0, 1, null))), $_v0 = null][0]`.
+  - The `destructureSequence()` call and the list assignment are AST nodes of their own, written after RIGHT;
+    `zend_compile_expr_inner()` sets `CG(zend_lineno)` to their line when it compiles them
+    (PHPSRC/Zend/zend_compile.c:11817). `zend_compile_list_assign()` (:3307) emits `ZEND_FETCH_LIST_R` (:3366) after
+    compiling `array_pad(...)`, so the undefined key, like `array_pad()`'s `TypeError`, reports the marker in effect
+    after RIGHT's text.
+- **twig-rs**: `B::SequenceDestructuringSet` in `Codegen::expr()` emits `Instr::SeqDestructure` with `self.emit()`
+  right after RIGHT, at `php_marker`. When RIGHT is an array literal whose last element ends with a constant PHP folds
+  (the `null` of `($context["j"] ?? null)`, which `zend_try_ct_eval_array()` stamps with the literal's line, P35's
+  model), `php_marker` is the literal's line instead of the current marker.
+- **Fix notes**: `self.leaf()` before emitting `SeqDestructure`: the tokens after RIGHT are Twig's, so both paths
+  (`destructureSequence()` for a `Traversable`, the list assignment and `array_pad()` otherwise) take the current
+  marker. Tried in a scratch copy of the round-4 tree: with that line the 7 marked vectors match, and the other 4724
+  vectors of `tests/vectors/fuzz` and `crates/twig-fuzz/vectors` replay as before (the test suite was not run). A
+  `Traversable` whose iteration throws would show the `destructureSequence()` path; the typed data cannot hold one.
+  Also look for other instructions emitted with `self.emit()` right after an operand whose PHP code Twig writes after
+  more tokens of its own (an audit like P36's for statements).
 
-### P37. TrueTest converts its operand to bool at the operand's last marker instead of `$tmp`'s line
+## G4: syntax
 
-- **Groups**: G1 (`src/lltl/codegen.rs`).
-- **Covers** (round 3: 1 raw of 20,000 expressions cases), all in
-  `tests/vectors/fuzz/expressions/round3-true-test-lines.json` (data `['nan' => NAN]`, warnings thrown as exceptions
-  with `"errors": "throw"`):
-  - `round3-true-test-line`, minimised from `x9001-01440-logic`; `round3-true-test-line-or-right`, `-or-left`,
-    `-and-right`, `-and-left`, `-xor`, `-print`, `-if`, `-elseif`, `-not`, `-ternary`, `-elvis`;
-  - controls, which must keep matching: `round3-true-test-ctl-one-line`, `-if-one-line`, `-comparison`,
-    `-name-first`, `-collected-warnings`.
-- **Repro**: `"{%if\nnan%}{%endif%}"`. PHP: `unexpected NAN value was coerced to bool` at line 1; twig-rs: line 2.
-  The same for every operand TrueTest wraps: `and`, `or`, `xor`, `not`, the tests of `if`, `elseif` and `? :`, the
-  left operand of `?:`.
-- **Upstream**:
-  - `TrueTest::compile()` (TWIG/src/Node/Expression/Test/TrueTest.php:38) writes `(($tmp = // line 2\n
-    ($context["nan"] ?? null)) && $tmp instanceof Markup ? (string) $tmp : $tmp)`. `AndBinary`, `OrBinary`,
-    `XorBinary`, `NotUnary`, `ConditionalTernary`, `ElvisBinary` and `IfNode` wrap their operands in it.
-  - `zend_compile_assign()` sets `CG(zend_lineno)` back to the line of `$tmp` after compiling the value
-    (PHPSRC/Zend/zend_compile.c:3483). So the `JMPZ_EX` of `&&`, which converts the value to bool and raises PHP 8.5's
-    NAN warning (`i_zend_is_true()`, PHPSRC/Zend/zend_operators.h:425), reports the line where `(($tmp = ` is
-    written: the marker in effect before the operand's own markers.
-- **twig-rs**: `TestKind::True` emits `Instr::TrueTest` with `self.emit()` after the operand, at the marker the
-  operand left.
-- **Fix notes**: emit the conversion at the marker in effect where the TrueTest starts (`emit_at(start)`, as calls do).
-  The `(string)` cast of a `Markup` comes later in PHP but cannot fail. Only a conversion that raises (NAN, PHP 8.5)
-  shows the line, and only when warnings become exceptions.
+### P42. PHP `\Error`s of API misuse are LogicException-kind errors that `compile_source()` wraps
 
-## G2: runtime
-
-### P38. `Twig\Source` objects in templates lack `getColumn()` and `__serialize()`
-
-- **Groups**: G2 (`src/runtime/template.rs`, the `Twig\Source` class entry).
-- **Covers** (reported by the round-2 fix of P24/P33), all in
-  `tests/vectors/fuzz/dynamic/round3-twig-object-methods.json`: `round3-source-get-column`,
-  `-get-column-past-end`, `-get-column-strict`, `-serialize`; control `round3-source-ctl-get-name`.
-- **Repro**: `"{{ template_from_string('a\nbc').getSourceContext().getColumn(3) }}"` (extension `string_loader`).
-  PHP: `1` (without `debug` the code is `''`); twig-rs: nothing (null). With `strict_variables` twig-rs raises
-  `Neither the property "getColumn" nor one of the methods ... exist`. `getSourceContext().__serialize()|json_encode`
-  gives the three private properties in PHP, `null` in twig-rs.
-- **Upstream**: TWIG/src/Source.php: `getColumn(int $offset): ?int` (null for a negative offset; the 1-based column of
-  the byte offset, with `\r\n` and `\r` read as `\n`) and `__serialize(): array` (resolves the lazy path, then
-  `(array) $this`: the keys `"\0Twig\Source\0code"`, `...name`, `...path`).
-- **twig-rs**: the class entry implements `getCode()`, `getName()` and `getPath()` only.
-- **Fix notes**: port both methods; `__serialize()` resolves the lazy path as `getPath()` does (P24).
-
-### P39. `Twig\Markup::__construct()` assigns `$charset` without the `?string` property type check
-
-- **Groups**: G2 (`src/runtime/markup.rs`).
-- **Covers** (reported by the round-2 fix of P24/P33), in `tests/vectors/fuzz/dynamic/round3-twig-object-methods.json`:
-  `round3-markup-construct-array-charset`; controls `round3-markup-construct-ctl-int-charset`, `-null-charset`,
-  `-float-charset`, `-bool-charset`.
-- **Repro**: `"{% set m %}x{% endset %}{{ m.__construct('y', [1]) }}{{ m }}"`. PHP: `Cannot assign array to property
-  Twig\Markup::$charset of type ?string` (a `TypeError`, wrapped in a `RuntimeError`); twig-rs: the warning `Array to
-  string conversion` and the output `y`.
-- **Upstream**: `Markup::__construct($content, $charset, private array $safeStrategies = ['all'])` assigns
-  `$this->charset = $charset` to `private ?string $charset` (TWIG/src/Markup.php). Markup.php does not declare strict
-  types, so scalars are coerced and an array fails the property type check (`zend_verify_property_type_error()`,
-  PHPSRC/Zend/zend_execute.c:849).
-- **twig-rs**: the constructor converts `$charset` with `to_string`.
-- **Fix notes**: apply the coercion of a `?string` typed property in non-strict mode (null kept; int, float, bool and
-  Stringable objects converted; arrays and other objects rejected with PHP's message). Check `$safeStrategies`, the
-  promoted `array` parameter, the same way. The "Property model" row of `reference/deviations.md` leaves typed
-  properties to each class's implementation, so the `Markup` port has to do this itself.
+- **Groups**: G4 (`src/visitor/escaper.rs`, `src/parser/mod.rs`, `src/token_parser/apply.rs`).
+- **Covers**: reported by the round-3 fix of `needEscaping()`'s `TypeError`. No vector: none of them is reachable from
+  templates in an environment with the standard extensions, so the oracle's plain environment cannot show them.
+- **What**: three method calls on `null` that PHP reports as an `Error` (`Call to a member function %s() on %s`,
+  `zend_invalid_method_call()`, PHPSRC/Zend/zend_execute.c:2560) are `Error::logic(..)` in twig-rs:
+  - `EscaperNodeVisitor::getEscaperFilter()`, `$env->getFilter('escape')->getNodeClass()` without an `escape`
+    filter: `Call to a member function getNodeClass() on null` (`src/visitor/escaper.rs:244`);
+  - `ImportedSymbol::macro_variable()` of a symbol without an import node: `Call to a member function getNode() on
+    null` (`src/parser/mod.rs:71`);
+  - `ApplyTokenParser::parse()` without a `FilterExpressionParser`: `Call to a member function parse() on null (no
+    FilterExpressionParser is registered)` (`src/token_parser/apply.rs:35`), which also adds a twig-rs suffix to PHP's
+    text.
+- **Upstream**: `Environment::compileSource()` (TWIG/src/Environment.php:614) wraps only `\Exception`s in a
+  `SyntaxError`; a PHP `Error` leaves it unwrapped.
+- **Fix notes**: return `Error::php(PhpError::error(..))` with PHP's verbatim message, as the round-3 fix did for
+  `needEscaping()`'s `TypeError`, and check each case with an API test against a PHP script.
 
 ## G5: library crates
 
-### P34. Date objects report no method parameters: an unknown named argument before a spread fails late
+### P41. A template closure compares equal to the lazy path of a template's `Twig\Source`
 
-- **Groups**: G5 (`crates/twig-date`: the `Object` implementations of the date classes), using P33's
-  `Object::method_params()` of twig-value.
-- **Covers** (found while fixing P33): `tests/vectors/fuzz/callables/round2-method-call-params.json`:
-  `method-params-date-format-unknown-then-spread`; `tests/vectors/fuzz/callables/round3-date-method-params.json`:
-  `round3-date-settime-unknown-then-spread`, `round3-date-interval-format-unknown-then-spread`, and 9 controls
-  `round3-date-ctl-*` (named arguments without a spread, which twig-date already binds like PHP).
-- **Repro**: `"{{ d.format(zz: 1, ...[2]) }}"`, data `d = new \DateTime('2020-01-02 03:04:05')`. PHP: `Unknown named
-  parameter $zz`; twig-rs: `Cannot use positional argument after named argument during unpacking`.
-- **Upstream**: `CoreExtension::getAttribute()` calls `$object->$method(...$arguments)`. `ZEND_SEND_UNPACK` sends the
-  elements in order and checks each string key against the method's arginfo as it sends it
-  (`zend_handle_named_arg()`, PHPSRC/Zend/zend_execute.c:5538), so the unknown name fails before the positional
-  element after it is reached.
-- **twig-rs**: `method_params()` returns `None` for `DateTime`, `DateTimeImmutable`, `DateTimeZone`, `DateInterval`
-  and `DatePeriod`, so `get_attribute()` unpacks with `CallArgs::from_spread()`, which rejects the positional element
-  after a named one first.
-- **Fix notes**: implement `method_params()` from the stubs (PHPSRC/ext/date/php_date.stub.php), as P33 did for the
-  SPL classes, and bind the methods from the same tables.
+- **Groups**: G5 (`crates/twig-value/src/object/closure.rs`).
+- **Covers**: reported by the round-3 fix of P38. No vector: only a template loaded from a file has a lazy path
+  (`ModuleNode::compileGetSourceContext()` without `debug` and with a non-empty path), and the oracle's plain
+  environment uses an `ArrayLoader`. Check it with a `tests/engine_api.rs` scenario run against PHP, like P38's
+  lazy-path cases.
+- **Repro**: `s.createWithLazyPath(s.getCode(), s.getName(), (x) => x) == s`, with `s` the `getSourceContext()` of a
+  template from a `FilesystemLoader` compiled without `debug`, before its path is resolved. PHP: false; twig-rs: true.
+  The other order is false in both.
+- **Upstream**: `zend_closure_compare()` (PHPSRC/Zend/zend_closures.c:446): two closures are equal only when both are
+  first-class callables (`ZEND_ACC_FAKE_CLOSURE`) of the same function, scope and `$this`; any other pair is
+  `ZEND_UNCOMPARABLE`.
+- **twig-rs**: twig-value's `Closure::compare()` answers only for another twig-value `Closure`. For the
+  `SourcePathClosure` of `src/runtime/template.rs` (class `Closure` too) it returns `None`, and
+  `std_compare_objects()` finds two objects of one class without properties equal. `SourcePathClosure::compare()`
+  already treats every other closure as uncomparable.
+- **Fix notes**: in `Closure::compare()`, treat any other object of class `Closure` (`instance_of("Closure")`) as
+  uncomparable.
 
----
+## G6: fuzz tooling
+
+- **T8. Typed data and environments the harness cannot express** (partly fixed). Done:
+  - the factory rebuilds exact `DateInterval` microseconds and `createFromDateString()` intervals;
+  - it places dynamic properties of date objects where PHP keeps them, from the `props` of the typed trees;
+  - dates at the second of two equal local times, and dates with five-digit years, are rebuilt from the timestamp;
+  - `SplObjectStorage::seek()` is ported (G5);
+  - `DatePeriod`s are rebuilt with `__set_state()` from their `props` (`get_object_vars()`;
+    `tests/vectors/fuzz/callables/round4-date-period.json`);
+  - the civil/wall mode of intervals: the oracle probes it (`interval_is_wall()` in `research/php-oracle/lib.php`:
+    `add()`/`sub()` across the end of DST in New York against an `unserialize()`d copy) and marks `new DateInterval()`
+    intervals `"wall": true`; the factory passes `civil_or_wall` to `__set_state()`
+    (`crates/twig-fuzz/tests/vectors/typed-data.json`);
+  - source policies: the case's `"sandbox": {"source_policy": [names]}` (an anonymous `SourcePolicyInterface` in the
+    oracle, `SandboxExtension::with_source_policy()` in the runner); the sandbox family sets one in a quarter of the
+    cases that are not sandboxed globally.
+
+  Remaining:
+  - closures and resources (not reproducible: PHP code, process state), and TemplateWrappers of another environment
+    (the typed tree records only the template name);
+  - no generator writes a `DatePeriod` into its data yet (the formats or callables family could);
+  - the full `SimpleXMLElement` port (G5, `crates/twig-test-support/src/classes/simplexml.rs`): property and
+    dimension access (`$sxe->child` lists, `$sxe['attr']`), `children()`, `attributes()`. 31 sandbox cases of round 4
+    (37 in round 3) are not comparable because of it (`SimpleXMLElement property access is not supported by
+    twig-test-support`): `sx.c`, `sx['b']`, and every `.name` access, which looks for a property first. They become
+    comparable without a generator change once the port exists;
+  - coverage the plain oracle environment cannot express yet:
+    - an ArrayAccess class outside `ARRAY_LIKE_CLASSES`, which needs a G5 class port first;
+    - `render_sandboxed()` and `Twig\Sandbox\Sandbox`: the second environment is easy to build on both sides, but
+      PHP's error handler records the diagnostics of both environments in one sequence, and twig-rs collects them
+      per environment (`Environment::take_notices()`), so their order across the two cannot be compared without an
+      API that shares one diagnostics sink between environments;
+    - custom policy classes (PHP code);
+    - `config_php`, a callable `autoescape`, a `FilesystemLoader` (lazy source paths, P41), and the integration
+      environment.
+- **T15. Template names that are not valid UTF-8 in the oracle's `templateName`.** Round 4: 4 raw of 30,000 callables
+  cases (`c9205-00691m`, `c9206-01172m`, `c9209-00884v`, `c9211-01749v`), all in
+  `tests/vectors/fuzz/callables/round4-template-name-bytes.json`: `round4-template-name-bytes-truncated-sequence`
+  (minimised from `c9205-00691m`), `-named-argument`, `-overlong-prefix`; controls `-ctl-valid-prefix`,
+  `-ctl-lone-byte`, `-ctl-utf8`.
+  - Repro: `"{{ block('x', template_from_string('', \"\\xed\\xa0\")) }}"` (extension `string_loader`). The error's
+    `templateName` is `"\u{fffd} (string template ...)"` in the oracle's result and `"\u{fffd}\u{fffd} (string template
+    ...)"` in twig-rs's; the messages, which embed the name, are identical.
+  - Cause (harness, not twig-rs): `describe_throwable()` (`research/php-oracle/lib.php`) writes `templateName` as it
+    is instead of with `put_string()`, so the runner's `json_encode(..., JSON_INVALID_UTF8_SUBSTITUTE)` puts one U+FFFD
+    for each sequence `php_next_utf8_char()` rejects (PHPSRC/ext/standard/html.c:139: `\xed\xa0` and `\xe0\x80` before
+    a space are one two-byte sequence). twig-rs's name is `to_string_lossy()` of the bytes (accepted deviation
+    "Non-UTF-8 template names given to `template_from_string()`"), which replaces maximal subparts: two U+FFFD.
+  - Fix: write `templateName` with `put_string()` (adding `templateName_b64`), read it with `get_bytes()` in
+    `ErrorDesc::from_json()` (`kit/result.rs`) and compare its lossy conversion with twig-rs's name, as `kit/diff.rs`
+    does for messages; rebuild the oracle image, then `twig-fuzz refresh` the three marked vectors and `replay
+    --update` flips them.
+- **T16. The escaping generator never writes `{% autoescape null %}`.** `autoescape_arg()` in
+  `crates/twig-fuzz/src/generators/escaping.rs` leaves `null` out, and the module docs ("What the cases avoid") still
+  call it "a listed deviation". Since the round-3 fixes `needEscaping()` raises PHP's own unwrapped `TypeError`
+  (`tests/vectors/visitors/need_escaping_env.json`, 53 oracle cases), so `null` can be one of the arguments again, in
+  a few percent of the cases.
+- **T17. Composition cases whose `data_php` loads a failing template.** 192 of 30,000 composition cases in round 4
+  (143 of 20,000 in round 3) call `$twig->load()` in their data on a template that fails to compile or load
+  (`A template that extends another one cannot include content outside Twig blocks`, `Calling the "parent" function on
+  a template that does not call "extends" or "use" is forbidden`, `Template "nope.twig" is not defined`, trait errors,
+  ...). The oracle stops in phase `data` without typed data, so twig-rs cannot rebuild the data and the template's
+  error is never compared. Fix in `crates/twig-fuzz/src/generators/composition.rs`: name the templates the data loads
+  in the case so the runner loads them first and reports their error in phase `data` (an oracle protocol field), or
+  load them from the templates instead (`include`, `template_from_string()`).
+- **Smaller notes** (unchanged):
+  - long output diffs share the coarse signature `output:changed`;
+  - `data_php` minimisation only drops top-level keys;
+  - triage batches full of variants of one cause with `--no-minimize` first, then minimise one case per cause.
 
 ## Accepted deviations: follow-ups
 
@@ -275,9 +273,12 @@ D1 to D4 are rows of `reference/deviations.md`. D5 was not needed.
     `errors/round3-d2-debug-cr-lines.json` (`debug` and an embed: 1 marked, minimised from
     `errors-9006-1784-emb.div.cr`, 2 controls), `errors/known-mismatches.json` (`cr-debug-embed-line`),
     `whitespace/d2-cr-escape-lines.json` (`ws-d2-line-after-raw-cr-and-cr-escape`).
-  - These vectors stay marked by design, with reasons pointing at the entry.
-  - Real templates can hit the escape form. Round 3 reached D2 in 3 of its 10 clusters (7 of 17 raw mismatches):
-    the escaping and errors generators still write CR escapes and lone CRs with `debug` (see T14).
+  - These 9 vectors stay marked by design, with reasons pointing at the entry; they are the only marked vectors
+    besides those of the items above.
+  - Real templates can hit the escape form. Round 3 reached D2 in 3 of its 10 clusters (7 of 17 raw mismatches);
+    since then the generators leave these inputs out unless `twig-fuzz generate --d2` asks for them (CR escapes in
+    the literals of the escaping, callables and formats families, lone CRs with `debug` in the errors family), and
+    round 4, run without `--d2`, had no D2 case.
   - The raw case `esc-7001-346` of round 2 gets its CR from `trim(" \t\n\r\0\x0B")` (PHP's default trim list), and
     its error line moves from 8 to 9. Emulating it would need the line layout of the generated PHP (how many LFs
     Twig writes between a call and the next `// line N`), which twig-rs does not model. Revisit if real reports come
@@ -286,87 +287,37 @@ D1 to D4 are rows of `reference/deviations.md`. D5 was not needed.
     `round2-cr-control-raw-*`).
 - **D3**, compile-time fatal errors of generated PHP (Engine table). The `CompileError` comes in PHP's order (after
   Twig's own errors and a `ParseError`) and leaves `compile_source()` unwrapped. The fuzz diff cannot compare a fatal
-  error (round 3: 1 callables case not comparable), so `tests/engine.rs`'s `compile_errors` topic checks the message
-  of each one.
+  error (round 4: 6 callables cases not comparable, `Cannot use positional argument after argument unpacking`), so
+  `tests/engine.rs`'s `compile_errors` topic checks the message of each one.
 - **D4**, the cache of macro defaults is per environment, not per process (Engine table).
-- **Warnings of compiled PHP code** (Engine table). Round 3 showed that with a filesystem cache PHP's compile-time
-  warnings never appear: `FilesystemCache::load()` includes the class with `@include_once`. The row now says so, and
-  `expressions/round3-compile-warning.json` holds the case (`unexpected NAN value was coerced to string` of a
-  concatenation PHP folds; marked by design, minimised from `x9003-00992-arith`) and a control without a cache. T12
-  would let the diff accept it.
-- **`needEscaping()`'s `TypeError`** (Engine table) can go: since P16, `compile_source()` lets PHP `\Error`s through,
-  so `src/visitor/escaper.rs` (G4) can raise a real `TypeError` as PHP does. Update
-  `tests/upstream/visitors/escaper_test.rs` (it asserts the wrapped form) and remove the row.
-- New rows from the round-2 fixes (documented, no action): "Named arguments to methods of host objects" (Value
-  model, P33's `method_params()`) and "Lazily resolved template paths" (Engine, P24).
-
-## G6: fuzz tooling
-
-- **T8. Typed-data gaps** (partly fixed). Done:
-  - the factory rebuilds exact `DateInterval` microseconds and `createFromDateString()` intervals;
-  - it places dynamic properties of date objects where PHP keeps them, from the `props` of the typed trees;
-  - dates at the second of two equal local times, and dates with five-digit years, are rebuilt from the timestamp;
-  - `SplObjectStorage::seek()` is ported (G5).
-
-  Remaining:
-  - `DatePeriod`;
-  - the civil/wall mode of rebuilt intervals, which PHP's API does not show;
-  - closures, resources, and TemplateWrappers of another environment;
-  - the full `SimpleXMLElement` port (G5). Round 3 had 37 sandbox cases that are not comparable because of it
-    (`SimpleXMLElement property access is not supported by twig-test-support`);
-  - coverage the plain oracle environment cannot express yet:
-    - an ArrayAccess class outside `ARRAY_LIKE_CLASSES`, which needs a G5 class port first;
-    - `render_sandboxed()` and `Twig\Sandbox\Sandbox`;
-    - source policies and custom policy classes;
-    - `config_php`, a callable `autoescape`, and the integration environment.
-- **T10. Object handles inside derived values.** The `object-handle` rule rewrites `#N` where it stands, but a
-  `dump()` of objects whose text a template measures or rewrites differs in other places: `length` of a captured
-  dump (`ctl-9003-794`: `9360` against `9372`, then `9348` in a fresh worker) and digits rewritten by
-  `replace({'1': 'one'})` (`#810` becomes `#8one0`; the round-2 fix check saw the `string(N)` length of a dump
-  captured into a `Markup`, `ctl-8101-1000`). twig-rs's ids are a process-wide counter (accepted deviation), so no
-  vector can hold these. Fix in the control generator: keep `dump()` of objects away from `length`, `replace` and
-  other filters that measure or rewrite text.
-- **T11. Unseeded randomness under a non-UTF-8 charset.** `SHUFFLE_INPUTS` and `RANDOM_ARGS` of
-  `crates/twig-fuzz/src/generators/callables.rs` treat `'é'` as one character, which it is only in UTF-8. Under a
-  non-UTF-8 `charset` (Windows-1252, ...) its two bytes are two characters, so `shuffle` and `random()` depend on
-  the unseeded generator (accepted deviation "Randomness"): `c9008-01741m` (`'é'|shuffle`) and `c9001-00769m`
-  (`random('é')`), both with `charset: Windows-1252`. Keep multi-byte inputs out when the case sets another charset.
-- **T12. Silenced compile-time warnings.** The oracle marks a warning PHP raises while including a cached class
-  `"silenced": true` and the diff skips it, while twig-rs raises it at runtime (accepted deviation "Warnings of
-  compiled PHP code"). A rule that accepts a twig-rs diagnostic equal to a silenced one of the oracle (type and
-  message, in order) would make `x9003-00992-arith` a deviation; flip `round3-compile-warning-nan-concat` then.
-- **T13. Lexer options cannot be fuzzed.** Custom delimiters, `whitespace_trim` and `whitespace_line_chars` need a
-  lexer-options field in `research/php-oracle/runner.php` and `crates/twig-fuzz/src/kit/run.rs` (`data_php` runs
-  after the load phase). It would let the whitespace family reach the lexer-option deviations of
-  `reference/deviations.md`.
-- **T14. Generators still produce D2.** The escaping generator writes `\xd`/`\r`/`\x0d` escapes and the errors
-  generator lone CR bytes with `debug`; round 3 spent 3 of its 10 clusters on them. The whitespace generator already
-  moved its CR bytes into the data. Optional: do the same here, now that D2's vectors pin the deviation.
-- **Round-3 notes**: the not-comparable cases are harness limits.
-  - 143 composition cases have `data_php` that calls `$twig->load()` on a template that fails to compile. The oracle
-    stops in phase `data` and returns no typed data, so twig-rs cannot rebuild the data. The template's error could
-    still be compared.
-  - 37 sandbox cases: `SimpleXMLElement` (T8).
-  - 5 formats cases throw in their data (`new \DateTimeZone("Etc/Unknown")`).
-  - 2 callables cases: one exhausted the oracle's 512M memory limit, one is a D3 compile fatal.
-- **Smaller notes** (unchanged):
-  - long output diffs share the coarse signature `output:changed`;
-  - `data_php` minimisation only drops top-level keys;
-  - triage batches full of variants of one cause with `--no-minimize` first, then minimise one case per cause. In
-    round 3 a whole 20,000-case `drive` took 72 s (callables) to 262 s (dynamic, process isolation), with three
-    drives running at once.
+- **Warnings of compiled PHP code** (Engine table): with a filesystem cache PHP's compile-time warnings never appear,
+  because `FilesystemCache::load()` includes the class with `@include_once`. `expressions/round3-compile-warning.json`
+  holds the case (`unexpected NAN value was coerced to string` of a concatenation PHP folds, minimised from
+  `x9003-00992-arith`) and a control without a cache; the diff accepts it with the rule `silenced-compile-warning`
+  (twig-fuzz `kit::diff::SILENCED_COMPILE_WARNING`), so neither vector is marked. Round 4 did not hit the rule.
+- Documented rows from earlier fixes (no action): "Named arguments to methods of host objects" (Value model, P33's
+  `method_params()`, which the date objects implement since P34) and "Lazily resolved template paths" (Engine, P24).
 
 ## Already accepted (no action)
 
 The diff accepts these deviations of `reference/deviations.md`, so they show up as "deviations", not mismatches:
 - `, called in` / `passed in` suffixes;
 - closure names with file and line;
-- `var_dump()` object handles, also escaped or case-changed;
+- `var_dump()` object handles, also escaped or case-changed, and the `string(N)` length of a dumped string that holds
+  a dump (rule `dump-string-length`, which checks the length against the bytes);
 - lossy non-UTF-8 bytes in messages;
-- the `not supported by twig-rs` errors of mbstring encodings and static method calls.
+- the `not supported by twig-rs` errors of mbstring encodings and static method calls;
+- compile-time warnings a filesystem cache silences in PHP ("Warnings of compiled PHP code", rule
+  `silenced-compile-warning`).
+
+The generators keep `dump()` of objects away from what measures or rewrites the dumped text (the control family has
+no context dump inside capture bodies), give `shuffle` and `random()` inputs of one character under the case's charset
+(a multi-byte one keeps the case in UTF-8), and leave out D2's inputs unless `twig-fuzz generate --d2`. The whitespace
+family gives one case in seven lexer options of its own (`"lexer"` in the oracle's case format,
+`EnvironmentOptions::lexer` in the runner), without the values the lexer rows of `reference/deviations.md` list.
 
 The generators avoid the line guessing of `cache => false` with a cache directory per case. The ported tests also
-cover template recursion limits and the wrapped `needEscaping()` `TypeError` of `{% autoescape null %}`.
+cover template recursion limits.
 
 ## Other follow-ups (documentation and checks)
 
@@ -374,11 +325,24 @@ cover template recursion limits and the wrapped `needEscaping()` `TypeError` of 
   - `Environment::runtime()` falls back to a registered extension (P26);
   - outside `debug`, a compiled program's source has no code, and its path is resolved lazily through the loader of
     the template instance (P24);
-  - `Object::method_params()` and the method-call binding of `getAttribute()` (P33);
-  - `extension::runtime::callables` and the generated class table `misc/twig_classes.rs` exist (P15, P27).
-- `RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps` fails (G1): the public documentation of `compile` links
-  to the private `php::generated_parse_error` (`src/lltl/codegen.rs:85`). `cargo clippy --workspace --all-targets --
-  -D warnings` and `cargo fmt --check` pass (round 3).
+  - `Object::method_params()` and the method-call binding of `getAttribute()` (P33), and the date objects' parameter
+    tables (`twig-date`'s `args::method_params()`, P34);
+  - `extension::runtime::callables` and the generated class table `misc/twig_classes.rs` exist (P15, P27);
+  - the line attribution rules of the round-3 fixes in the LineTable section: `TrueTest` at the marker where `$tmp`
+    is written (P37), statement-level bookkeeping at the marker in effect (`leaf()`, P36), the line of an array literal
+    that comes after a dynamic key (`DeferredLine`, `LineTable::replace_from()`, P35);
+  - the `Twig\Source` objects (typed private properties in a property store, `__construct()`, `createWithLazyPath()`,
+    `getColumn()`, `__serialize()`, the `SourcePathClosure` lazy path, P38) and `runtime::typed_property` (the typed
+    property check of `Markup::__construct()`, P39).
+- Checks on the tree of round 4: `RUSTDOCFLAGS="-D warnings" cargo doc --workspace --no-deps`, `cargo clippy
+  --workspace --all-targets -- -D warnings` and `cargo fmt --all --check` pass.
+- twig-fuzz does not build on the MSRV (G6): `cargo +1.88 check --workspace --all-targets` fails with 24 errors where
+  `self.rng.pick(X)` (`crates/twig-fuzz/src/generators/composition/rng.rs:48`, `X: &[&[u8]]`) stands where a `&[u8]`
+  is expected (`extend_from_slice()`, a `&[u8]` binding): 1.88 infers `T = [u8]` from it (E0308 ``expected
+  `&[[u8]]`, found `&[&[u8]]` ``, E0277 unsized `[u8]`), where newer compilers dereference the `&&[u8]`. Sites:
+  `generators/unicode.rs:352`; `generators/whitespace.rs:479`, `:484`, `:498`, `:500`, `:981`, `:987`, `:1021`,
+  `:1215`, `:1217`, `:1227`, `:1229`; `*self.rng.pick(X)` fixes each. CI's MSRV job runs `cargo test --workspace` on
+  1.88, so it fails until then.
 
 ## Not parity bugs (recorded for roadmap phase 6)
 

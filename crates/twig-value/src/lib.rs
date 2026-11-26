@@ -26,6 +26,10 @@
 //! | [`dump`] | `var_dump()`, `var_export()`, `print_r()` |
 //! | [`math`] | the C library math PHP exposes, bit-exact: `pow()` (glibc 2.41 FMA build), `floor`, `ceil`, `trunc`, `fmod`, `fma` |
 //! | [`builtins`] | the PHP builtin functions Twig calls (`format`, `string`, `array`) |
+//! | `serde` | (feature `serde`) Rust data into values through serde: `to_value`, `to_array` |
+//!
+//! Rust data converts into values with `From` ([`Value::from`], [`Array::from`]: scalars, strings, options,
+//! sequences and maps, see [`value`]), or through serde with the `serde` feature.
 //!
 //! # Conventions for code built on this crate
 //!
@@ -108,10 +112,14 @@ pub mod numeric;
 pub mod object;
 pub mod ops;
 pub mod param;
+#[cfg(feature = "serde")]
+pub mod serde;
 pub mod string;
 pub mod types;
 pub mod value;
 
+#[cfg(feature = "serde")]
+pub use self::serde::{to_array, to_value};
 pub use array::Array;
 pub use diag::{Collect, Diagnostic, Diagnostics, FnDiagnostics, Ignore, Level, Throw};
 pub use error::{PhpError, PhpResult, ThrowableClass};

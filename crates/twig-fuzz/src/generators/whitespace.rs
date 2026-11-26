@@ -25,14 +25,23 @@
 //! - child templates whose text outside blocks is blank or not for `TextNode::isBlank()`
 //!   (`ctype_space()` knows `\v` and `\f` but not NUL; a leading BOM is allowed);
 //! - whole templates converted to CRLF or CR line endings, a leading BOM, empty templates and
-//!   huge runs of text, comments and verbatim content.
+//!   huge runs of text, comments and verbatim content;
+//! - in about one case of seven, a syntax of its own (the case's `"lexer"` options, `new
+//!   \Twig\Lexer($twig, $options)`): other block, print and comment delimiters (also ones that
+//!   share a prefix, hold a space or a `#`), other whitespace-control characters (an empty one
+//!   trims on every tag), another set of `whitespace_line_chars` and another interpolation opener.
+//!   Every delimiter the case writes uses that syntax; the text and the string literals keep
+//!   Twig's delimiters, which are plain text then.
 //!
 //! The data is JSON; templates that are not valid UTF-8 go to `templates_b64`. Cases end with a
 //! probe now and then (an undefined variable under `strict_variables`, a syntax error) whose
 //! line shows how the lexer counted the lines before it. Left out (`reference/deviations.md`):
 //! `{% line 0 %}`, since a syntax error at line 0 makes PHP read past the token stream, and `\r`
 //! escapes in string literals, since a CR in the compiled PHP moves the lines PHP reports
-//! (accepted deviation D2; CR bytes reach the filters through the data instead).
+//! (accepted deviation D2; CR bytes reach the filters through the data instead), and the lexer
+//! options whose Twig patterns misbehave (`reference/deviations.md`: trim characters that are PCRE
+//! metacharacters, `whitespace_line_chars` with escapes or class syntax, empty interpolation
+//! delimiters, which make Twig loop forever).
 //!
 //! [`generate`] is deterministic: case `i` of seed `s` depends only on `(s, i)` ([`case`]). Ids
 //! are `ws-<seed>-<i>`. [`batch`] runs every case in a PHP process of its own.
@@ -55,10 +64,240 @@ pub fn generate(seed: u64, count: usize) -> Vec<Json> {
     (0..count as u64).map(|i| case(seed, i)).collect()
 }
 
+/// The salt of the syntax a case draws from a generator of its own, so that the cases with Twig's
+/// syntax are the same as before lexer options existed.
+const SYNTAX_SALT: u64 = 0x004C_4558_4552;
+
 /// Case `index` of `seed` (id `ws-<seed>-<index>`).
 pub fn case(seed: u64, index: u64) -> Json {
     let rng = Rng::new(casekit::case_seed(seed, index, SALT));
-    Gen::new(rng).build(format!("ws-{seed}-{index}"))
+    let syntax = Syntax::pick(&mut Rng::new(casekit::case_seed(
+        seed,
+        index,
+        SALT ^ SYNTAX_SALT,
+    )));
+    Gen::new(rng, syntax).build(format!("ws-{seed}-{index}"))
+}
+
+/// The template syntax of a case: Twig's, or one of its own given as lexer options.
+///
+/// The options avoid what `reference/deviations.md` lists for Twig's lexer: the trim characters
+/// are no PCRE metacharacters (Twig puts them into the `endverbatim` pattern unquoted), contain no
+/// `#` or whitespace (that pattern is in extended mode), `whitespace_line_chars` holds no escape,
+/// range or class syntax and is not empty, and the interpolation delimiters are not empty. The
+/// interpolation closer stays `}`.
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct Syntax {
+    block: [&'static str; 2],
+    var: [&'static str; 2],
+    comment: [&'static str; 2],
+    trim: &'static str,
+    line_trim: &'static str,
+    /// `None`: Twig's `' \t\0\x0B'` (not written into the options).
+    line_chars: Option<&'static str>,
+    interpolation: &'static str,
+}
+
+impl Syntax {
+    /// Twig's defaults (`Lexer::__construct()`).
+    const TWIG: Syntax = Syntax {
+        block: ["{%", "%}"],
+        var: ["{{", "}}"],
+        comment: ["{#", "#}"],
+        trim: "-",
+        line_trim: "~",
+        line_chars: None,
+        interpolation: "#{",
+    };
+
+    /// Twig's syntax in six cases of seven, otherwise one with some parts changed.
+    fn pick(rng: &mut Rng) -> Syntax {
+        let mut syntax = Syntax::TWIG;
+        if !rng.chance(15) {
+            return syntax;
+        }
+        while syntax == Syntax::TWIG {
+            if rng.chance(55) {
+                syntax.block = *rng.weighted(&[
+                    (6, &["<%", "%>"]),
+                    (4, &["[%", "%]"]),
+                    (3, &["{@", "@}"]),
+                    (2, &["<?", "?>"]),
+                    (2, &["{%%", "%%}"]),
+                    // a closer that starts like a comment closer, a space Twig's patterns ignore
+                    (1, &["{%", "#}"]),
+                    (1, &["{ %", "% }"]),
+                    (1, &["{%", "%}"]),
+                ]);
+            }
+            if rng.chance(55) {
+                syntax.var = *rng.weighted(&[
+                    (5, &["${", "}"]),
+                    (4, &["[[", "]]"]),
+                    (3, &["{=", "=}"]),
+                    (2, &["{{{", "}}}"]),
+                    // the block opener's prefix (`<%`, alternatives are tried in order)
+                    (2, &["<%=", "%>"]),
+                    (1, &["{{", "}}"]),
+                ]);
+            }
+            if rng.chance(45) {
+                syntax.comment = *rng.weighted(&[
+                    (5, &["<#", "#>"]),
+                    (4, &["[#", "#]"]),
+                    (3, &["{*", "*}"]),
+                    (2, &["/*", "*/"]),
+                    (2, &["<!--", "-->"]),
+                    (1, &["{#", "#}"]),
+                ]);
+            }
+            if rng.chance(40) {
+                syntax.trim = rng.weighted(&[(5, "="), (4, "!"), (3, ":"), (2, "@"), (1, "")]);
+            }
+            if rng.chance(35) {
+                syntax.line_trim = rng.weighted(&[(5, "!"), (4, ":"), (3, "@"), (2, "=")]);
+            }
+            if syntax.line_trim == syntax.trim {
+                syntax.line_trim = if syntax.trim == "~" { "!" } else { "~" };
+            }
+            if rng.chance(30) {
+                syntax.line_chars =
+                    Some(rng.pick_str(&[" ", "\t", " \t", " x", "\u{b}\u{c} ", "\t."]));
+            }
+            if rng.chance(25) {
+                syntax.interpolation = rng.pick_str(&["${", "%{", "@{"]);
+            }
+        }
+        syntax
+    }
+
+    /// The case's `"lexer"` field: the options that differ from Twig's.
+    fn options(&self) -> Option<Json> {
+        let pair = |p: [&str; 2]| Json::Array(vec![Json::str(p[0]), Json::str(p[1])]);
+        let twig = Syntax::TWIG;
+        let mut fields = Vec::new();
+        if self.block != twig.block {
+            fields.push(("tag_block".to_owned(), pair(self.block)));
+        }
+        if self.var != twig.var {
+            fields.push(("tag_variable".to_owned(), pair(self.var)));
+        }
+        if self.comment != twig.comment {
+            fields.push(("tag_comment".to_owned(), pair(self.comment)));
+        }
+        if self.trim != twig.trim {
+            fields.push(("whitespace_trim".to_owned(), Json::str(self.trim)));
+        }
+        if self.line_trim != twig.line_trim {
+            fields.push(("whitespace_line_trim".to_owned(), Json::str(self.line_trim)));
+        }
+        if let Some(chars) = self.line_chars {
+            fields.push(("whitespace_line_chars".to_owned(), Json::str(chars)));
+        }
+        if self.interpolation != twig.interpolation {
+            fields.push((
+                "interpolation".to_owned(),
+                Json::Array(vec![Json::str(self.interpolation), Json::str("}")]),
+            ));
+        }
+        (!fields.is_empty()).then_some(Json::Object(fields))
+    }
+
+    /// The whitespace control `ctl` (`""`, `-` or `~`, as [`Gen::ctl`] gives it) in this syntax.
+    fn control(&self, ctl: &str) -> &'static str {
+        match ctl {
+            "-" => self.trim,
+            "~" => self.line_trim,
+            _ => "",
+        }
+    }
+
+    /// `fragment`, written with Twig's delimiters, in this syntax: openers (`{{`, `{%`, `{#`),
+    /// closers (`}}`, `%}`, `#}`) and the `-` / `~` right after an opener or right before a closer
+    /// (also before the `#` of a documentation comment's `##}`). Everything else stays.
+    fn translate(&self, fragment: &[u8]) -> Vec<u8> {
+        if *self == Syntax::TWIG {
+            return fragment.to_vec();
+        }
+        let closer = |rest: &[u8]| -> Option<&'static str> {
+            if rest.starts_with(b"}}") {
+                Some(self.var[1])
+            } else if rest.starts_with(b"%}") {
+                Some(self.block[1])
+            } else if rest.starts_with(b"#}") {
+                Some(self.comment[1])
+            } else {
+                None
+            }
+        };
+        let mut out = Vec::with_capacity(fragment.len() + 8);
+        let mut i = 0;
+        while i < fragment.len() {
+            let rest = &fragment[i..];
+            let opener = if rest.starts_with(b"{{") {
+                Some(self.var[0])
+            } else if rest.starts_with(b"{%") {
+                Some(self.block[0])
+            } else if rest.starts_with(b"{#") {
+                Some(self.comment[0])
+            } else {
+                None
+            };
+            if let Some(opener) = opener {
+                out.extend_from_slice(opener.as_bytes());
+                i += 2;
+                if let Some(&c @ (b'-' | b'~')) = fragment.get(i) {
+                    out.extend_from_slice(
+                        self.control(if c == b'-' { "-" } else { "~" }).as_bytes(),
+                    );
+                    i += 1;
+                }
+                continue;
+            }
+            if let [c @ (b'-' | b'~'), after @ ..] = rest {
+                let after = after
+                    .strip_prefix(b"#")
+                    .filter(|a| a.starts_with(b"#}"))
+                    .unwrap_or(after);
+                if closer(after).is_some() {
+                    out.extend_from_slice(
+                        self.control(if *c == b'-' { "-" } else { "~" }).as_bytes(),
+                    );
+                    i += 1;
+                    continue;
+                }
+            }
+            if let Some(closer) = closer(rest) {
+                out.extend_from_slice(closer.as_bytes());
+                i += 2;
+                continue;
+            }
+            out.push(fragment[i]);
+            i += 1;
+        }
+        out
+    }
+
+    /// A string literal of [`Gen::expr`] with this syntax's interpolation opener in place of every
+    /// `#{` that is not escaped.
+    fn interpolate(&self, literal: &str) -> String {
+        if self.interpolation == "#{" {
+            return literal.to_owned();
+        }
+        let mut out = String::with_capacity(literal.len());
+        let mut rest = literal;
+        while let Some(at) = rest.find("#{") {
+            out.push_str(&rest[..at]);
+            if rest[..at].ends_with('\\') {
+                out.push_str("#{");
+            } else {
+                out.push_str(self.interpolation);
+            }
+            rest = &rest[at + 2..];
+        }
+        out.push_str(rest);
+        out
+    }
 }
 
 /// Whitespace bytes of every kind the lexer distinguishes.
@@ -107,6 +346,7 @@ const ODD_INNER: &[&str] = &["\u{a0}", "\u{3000}", "\0", "\u{85}"];
 
 struct Gen {
     rng: Rng,
+    syntax: Syntax,
     counter: usize,
     blocks: Vec<String>,
     captures: Vec<String>,
@@ -117,9 +357,10 @@ struct Gen {
 }
 
 impl Gen {
-    fn new(rng: Rng) -> Gen {
+    fn new(rng: Rng, syntax: Syntax) -> Gen {
         Gen {
             rng,
+            syntax,
             counter: 0,
             blocks: Vec::new(),
             captures: Vec::new(),
@@ -153,21 +394,24 @@ impl Gen {
             // huge text, comments or verbatim content
             2 => self.huge(),
             // an empty or nearly empty template
-            3 => self
-                .rng
-                .pick(&[
-                    &b""[..],
-                    b" ",
-                    b"\n",
-                    b"\r\n",
-                    b"\0",
-                    b"{##}",
-                    b"{#-#}",
-                    b"{{-''-}}",
-                    b"{%- if true -%}{%- endif -%}",
-                    b"\xef\xbb\xbf",
-                ])
-                .to_vec(),
+            3 => {
+                let empty = self
+                    .rng
+                    .pick(&[
+                        &b""[..],
+                        b" ",
+                        b"\n",
+                        b"\r\n",
+                        b"\0",
+                        b"{##}",
+                        b"{#-#}",
+                        b"{{-''-}}",
+                        b"{%- if true -%}{%- endif -%}",
+                        b"\xef\xbb\xbf",
+                    ])
+                    .to_vec();
+                self.syntax.translate(&empty)
+            }
             // a template made of one construct in many spellings
             4 => self.spellings(),
             _ => self.body(0),
@@ -222,6 +466,7 @@ impl Gen {
         if self.rng.chance(10) {
             b.option("use_yield", Json::Bool(true));
         }
+        b.lexer = self.syntax.options();
         b.build()
     }
 
@@ -231,9 +476,12 @@ impl Gen {
         let n = self.rng.range(1, 5);
         for _ in 0..n {
             match self.rng.below(100) {
-                0..=54 => out.extend_from_slice(self.rng.pick(SPACES)),
-                55..=91 => out.extend_from_slice(self.rng.pick_str(WORDS).as_bytes()),
-                _ => out.extend_from_slice(self.rng.pick(ODD_SPACES)),
+                0..=54 => out.extend_from_slice(self.rng.pick_bytes(SPACES)),
+                55..=91 => {
+                    let word = self.rng.pick_str(WORDS);
+                    out.extend_from_slice(&self.syntax.translate(word.as_bytes()));
+                }
+                _ => out.extend_from_slice(self.rng.pick_bytes(ODD_SPACES)),
             }
         }
     }
@@ -247,9 +495,9 @@ impl Gen {
         let n = self.rng.range(0, 4);
         for _ in 0..n {
             match self.rng.below(100) {
-                0..=96 => out.extend_from_slice(self.rng.pick(SPACES)),
+                0..=96 => out.extend_from_slice(self.rng.pick_bytes(SPACES)),
                 97 => out.extend_from_slice(b"\xef\xbb\xbf"),
-                _ => out.extend_from_slice(self.rng.pick(ODD_SPACES)),
+                _ => out.extend_from_slice(self.rng.pick_bytes(ODD_SPACES)),
             }
         }
     }
@@ -267,10 +515,12 @@ impl Gen {
         self.rng.weighted(INNER)
     }
 
-    /// `{%` + trim + space + `content` + space + trim + `%}`.
+    /// `{%` + trim + space + `content` + space + trim + `%}` (in the case's syntax).
     fn tag(&mut self, content: &str) -> String {
         let (l, sl, sr, r) = (self.ctl(), self.inner(), self.inner(), self.ctl());
-        format!("{{%{l}{sl}{content}{sr}{r}%}}")
+        let [open, close] = self.syntax.block;
+        let (l, r) = (self.syntax.control(l), self.syntax.control(r));
+        format!("{open}{l}{sl}{content}{sr}{r}{close}")
     }
 
     /// `{{` + trim + space + `expr` + space + trim + `}}`.
@@ -287,7 +537,9 @@ impl Gen {
         } else {
             sr
         };
-        format!("{{{{{l}{sl}{expr}{sr}{r}}}}}")
+        let [open, close] = self.syntax.var;
+        let (l, r) = (self.syntax.control(l), self.syntax.control(r));
+        format!("{open}{l}{sl}{expr}{sr}{r}{close}")
     }
 
     // ---- bodies ---------------------------------------------------------------------------
@@ -416,9 +668,8 @@ impl Gen {
     fn expr(&mut self) -> String {
         let var = self.var();
         match self.rng.below(12) {
-            0 | 1 => self
-                .rng
-                .pick_str(&[
+            0 | 1 => {
+                let literal = self.rng.pick_str(&[
                     "'  a  '",
                     "' '",
                     "''",
@@ -450,8 +701,9 @@ impl Gen {
                     "\"\\101\\x41\\7\"",
                     "\"#{ n ~ \"#{ s|trim }\" }\"",
                     "\"#{ (n) }#{ n|abs }\"",
-                ])
-                .to_owned(),
+                ]);
+                self.syntax.interpolate(literal)
+            }
             2 | 3 => var,
             4 | 5 => {
                 let filter = self.rng.pick_str(&[
@@ -711,41 +963,44 @@ impl Gen {
                 "{#{% if %}#}",
                 "{#-\n\n-#}",
             ]);
-            out.extend_from_slice(raw.as_bytes());
+            out.extend_from_slice(&self.syntax.translate(raw.as_bytes()));
             return;
         }
         let l = self.ctl();
         let r = self.ctl();
-        out.extend_from_slice(format!("{{#{l}").as_bytes());
+        let [open, close] = self.syntax.comment;
+        out.extend_from_slice(format!("{open}{}", self.syntax.control(l)).as_bytes());
         self.comment_body(out);
-        out.extend_from_slice(format!("{r}#}}").as_bytes());
+        out.extend_from_slice(format!("{}{close}", self.syntax.control(r)).as_bytes());
     }
 
     fn comment_body(&mut self, out: &mut Vec<u8>) {
         let n = self.rng.range(0, 4);
         for _ in 0..n {
             let atom: &[u8] = match self.rng.below(10) {
-                0..=3 => self.rng.pick(SPACES),
+                0..=3 => self.rng.pick_bytes(SPACES),
                 4..=6 => self.rng.pick_str(&["c", "note", "a b"]).as_bytes(),
                 7 => self
                     .rng
                     .pick_str(&["{{ n }}", "{% if true %}", "{#", "#", "}", "{", "%}", "-"])
                     .as_bytes(),
-                8 => self.rng.pick(ODD_SPACES),
+                8 => self.rng.pick_bytes(ODD_SPACES),
                 _ => b"\r",
             };
-            out.extend_from_slice(atom);
+            let atom = self.syntax.translate(atom);
+            out.extend_from_slice(&atom);
         }
     }
 
     fn doc_comment(&mut self, out: &mut Vec<u8>) {
         let l = self.ctl();
-        out.extend_from_slice(format!("{{##{l}").as_bytes());
+        let open = self.syntax.comment[0];
+        out.extend_from_slice(format!("{open}#{}", self.syntax.control(l)).as_bytes());
         self.comment_body(out);
         let close = self
             .rng
             .pick_str(&["##}", "#}", "-##}", "~##}", "-#}", "~#}", " ##}", "###}"]);
-        out.extend_from_slice(close.as_bytes());
+        out.extend_from_slice(&self.syntax.translate(close.as_bytes()));
         // documentation attaches to the next tag or print
         if self.rng.chance(50) {
             let expr = self.expr();
@@ -763,21 +1018,20 @@ impl Gen {
         let n = self.rng.range(0, 5);
         for _ in 0..n {
             match self.rng.below(10) {
-                0..=3 => out.extend_from_slice(self.rng.pick(SPACES)),
-                4..=6 => out.extend_from_slice(
-                    self.rng
-                        .pick_str(&[
-                            "{{ n }}",
-                            "{%- if x -%}",
-                            "{# c #}",
-                            "{{",
-                            "%}",
-                            "{% endverbatim x %}",
-                            "{%endverbatim",
-                            "{% verbatim %}",
-                        ])
-                        .as_bytes(),
-                ),
+                0..=3 => out.extend_from_slice(self.rng.pick_bytes(SPACES)),
+                4..=6 => {
+                    let piece = self.rng.pick_str(&[
+                        "{{ n }}",
+                        "{%- if x -%}",
+                        "{# c #}",
+                        "{{",
+                        "%}",
+                        "{% endverbatim x %}",
+                        "{%endverbatim",
+                        "{% verbatim %}",
+                    ]);
+                    out.extend_from_slice(&self.syntax.translate(piece.as_bytes()));
+                }
                 _ => self.text(out),
             }
         }
@@ -795,7 +1049,9 @@ impl Gen {
         let mid = self.rng.pick_str(&[" ", "  ", "\n", "\t", "\r\n"]);
         let sr = self.rng.pick_str(&[" ", "", "\n", "  "]);
         let r = if self.rng.chance(3) { self.ctl() } else { "" };
-        out.extend_from_slice(format!("{{%{l}{sl}line{mid}{n}{sr}{r}%}}").as_bytes());
+        let [open, close] = self.syntax.block;
+        let (l, r) = (self.syntax.control(l), self.syntax.control(r));
+        out.extend_from_slice(format!("{open}{l}{sl}line{mid}{n}{sr}{r}{close}").as_bytes());
     }
 
     fn include(&mut self, out: &mut Vec<u8>) {
@@ -912,10 +1168,10 @@ impl Gen {
                 out.extend_from_slice(&run);
             }
             1 => {
-                out.extend_from_slice(b"a{#");
+                out.extend_from_slice(&self.syntax.translate(b"a{#"));
                 out.extend_from_slice(&run);
                 let close = self.rng.pick_str(&["#}", "-#}", "~#}"]);
-                out.extend_from_slice(close.as_bytes());
+                out.extend_from_slice(&self.syntax.translate(close.as_bytes()));
                 out.extend_from_slice(b"b");
             }
             2 => {
@@ -928,17 +1184,21 @@ impl Gen {
             }
             3 => {
                 // whitespace inside a tag
-                out.extend_from_slice(b"x{{");
+                let [open, close] = self.syntax.var;
+                out.extend_from_slice(format!("x{open}").as_bytes());
                 out.extend_from_slice(&b" \n".repeat(times));
                 out.extend_from_slice(b"n");
                 out.extend_from_slice(&b"\t ".repeat(times / 2));
-                out.extend_from_slice(self.ctl().as_bytes());
-                out.extend_from_slice(b"}}y");
+                let ctl = self.ctl();
+                out.extend_from_slice(self.syntax.control(ctl).as_bytes());
+                out.extend_from_slice(format!("{close}y").as_bytes());
             }
             _ => {
                 out.extend_from_slice(&run);
                 let ctl = self.ctl();
-                out.extend_from_slice(format!("{{{{{ctl} s {ctl}}}}}").as_bytes());
+                let ctl = self.syntax.control(ctl);
+                let [open, close] = self.syntax.var;
+                out.extend_from_slice(format!("{open}{ctl} s {ctl}{close}").as_bytes());
                 out.extend_from_slice(&run);
                 self.probe(&mut out);
             }
@@ -952,9 +1212,9 @@ impl Gen {
         let n = self.rng.range(4, 10);
         let kind = self.rng.below(4);
         for _ in 0..n {
-            out.extend_from_slice(self.rng.pick(SPACES));
+            out.extend_from_slice(self.rng.pick_bytes(SPACES));
             out.extend_from_slice(b"|");
-            out.extend_from_slice(self.rng.pick(SPACES));
+            out.extend_from_slice(self.rng.pick_bytes(SPACES));
             match kind {
                 0 => {
                     let print = self.print_of("n");
@@ -964,9 +1224,9 @@ impl Gen {
                     let open = self.tag("if true");
                     let close = self.tag("endif");
                     out.extend_from_slice(open.as_bytes());
-                    out.extend_from_slice(self.rng.pick(SPACES));
+                    out.extend_from_slice(self.rng.pick_bytes(SPACES));
                     out.extend_from_slice(b"i");
-                    out.extend_from_slice(self.rng.pick(SPACES));
+                    out.extend_from_slice(self.rng.pick_bytes(SPACES));
                     out.extend_from_slice(close.as_bytes());
                 }
                 2 => self.comment(&mut out),
@@ -992,7 +1252,7 @@ impl Gen {
             "{{ [1][5] }}",
             "{{ n.x.y }}",
         ]);
-        out.extend_from_slice(probe.as_bytes());
+        out.extend_from_slice(&self.syntax.translate(probe.as_bytes()));
         if self.rng.chance(40) {
             self.text(out);
         }
@@ -1046,5 +1306,67 @@ mod tests {
             batch.get("isolation").and_then(Json::as_str),
             Some("process")
         );
+    }
+
+    #[test]
+    fn fragments_in_another_syntax() {
+        let custom = Syntax {
+            block: ["<%", "%>"],
+            var: ["${", "}"],
+            comment: ["<#", "#>"],
+            trim: "=",
+            line_trim: "!",
+            line_chars: Some(" "),
+            interpolation: "%{",
+        };
+        let t = |s: &str| String::from_utf8(custom.translate(s.as_bytes())).unwrap();
+        assert_eq!(t("{{ n }}"), "${ n }");
+        assert_eq!(t("{%- if x -%}"), "<%= if x =%>");
+        assert_eq!(t("{#~~#}"), "<#!!#>");
+        assert_eq!(t("{##-##}"), "<##=##>");
+        assert_eq!(t("-##}"), "=##>");
+        assert_eq!(t("{#}#}"), "<#}#>");
+        assert_eq!(t("a - b } { {x {-y"), "a - b } { {x {-y");
+        assert_eq!(t("-}}"), "=}");
+        assert_eq!(Syntax::TWIG.translate(b"{%- x -%}"), b"{%- x -%}");
+        assert_eq!(
+            custom.interpolate(r##""#{ n }|\#{n}|#{ '#{' }""##),
+            r##""%{ n }|\#{n}|%{ '%{' }""##
+        );
+        assert_eq!(Syntax::TWIG.options(), None);
+        let options = custom.options().unwrap();
+        assert_eq!(
+            options
+                .get("interpolation")
+                .map(Json::to_compact)
+                .as_deref(),
+            Some(r#"["%{","}"]"#)
+        );
+    }
+
+    /// One case in seven gets lexer options, none of the values `reference/deviations.md` lists
+    /// for Twig's lexer.
+    #[test]
+    fn lexer_options_avoid_the_deviations() {
+        let cases = generate(9001, 2000);
+        let custom: Vec<&Json> = cases.iter().filter(|c| c.get("lexer").is_some()).collect();
+        assert!((200..400).contains(&custom.len()), "{}", custom.len());
+        for case in custom {
+            let lexer = case.get("lexer").unwrap();
+            for key in ["whitespace_trim", "whitespace_line_trim"] {
+                if let Some(trim) = lexer.get(key).and_then(Json::as_str) {
+                    assert!(
+                        !trim.contains(|c: char| "\\^$.[]|()?*+{}#".contains(c) || c.is_whitespace()),
+                        "{trim:?}"
+                    );
+                }
+            }
+            if let Some(chars) = lexer.get("whitespace_line_chars").and_then(Json::as_str) {
+                assert!(!chars.is_empty() && !chars.contains(['\\', ']', '[', '^', '-']));
+            }
+            if let Some(interpolation) = lexer.get("interpolation") {
+                assert!(interpolation.items().iter().all(|d| d.as_str() != Some("")));
+            }
+        }
     }
 }

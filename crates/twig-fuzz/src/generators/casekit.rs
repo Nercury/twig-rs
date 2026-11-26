@@ -93,6 +93,8 @@ pub struct Builder {
     pub load_all: Option<bool>,
     /// The PHP default timezone of the case.
     pub timezone: Option<String>,
+    /// The `lexer` options (`new \Twig\Lexer($twig, $options)`).
+    pub lexer: Option<Json>,
 }
 
 impl Builder {
@@ -170,6 +172,9 @@ impl Builder {
         }
         if let Some(timezone) = &self.timezone {
             fields.push(("timezone".to_owned(), Json::str(timezone.clone())));
+        }
+        if let Some(lexer) = &self.lexer {
+            fields.push(("lexer".to_owned(), lexer.clone()));
         }
         if let Some(load_all) = self.load_all {
             fields.push(("load_all".to_owned(), Json::Bool(load_all)));

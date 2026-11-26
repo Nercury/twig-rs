@@ -25,6 +25,21 @@ pub mod whitespace;
 
 use crate::kit::json::Json;
 
+/// What a generator may produce besides what is expected to match (`twig-fuzz generate --d2`).
+///
+/// The generators avoid the inputs of accepted deviations by default, so that a round spends its
+/// cases on what can still be a bug; the regression vectors of a deviation pin it.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct Options {
+    /// Inputs of the accepted deviation D2 (`reference/deviations.md`, Engine: "Lone CR bytes in
+    /// the generated PHP"): string escapes that put a CR byte into a compiled string literal
+    /// (`\r`, `\x0d`: the escaping, callables and formats families) and lone CR line endings in
+    /// templates compiled with `debug` (the errors family). Without it the families write CR
+    /// bytes through the data instead, or drop them from literals, and give `debug` templates CRLF
+    /// line endings.
+    pub d2: bool,
+}
+
 /// The parent of the cache directories [`with_case_cache`] gives (in the oracle's container).
 pub const CACHE_DIR: &str = "/tmp/twig-fuzz-cache";
 
@@ -60,9 +75,52 @@ pub fn with_case_cache(mut case: Json) -> Json {
     case
 }
 
+/// Whether `text` holds a Twig escape of a CR byte (`\r`, `\x0d`, `\xd`): the D2 inputs the
+/// families avoid unless [`Options::d2`].
+#[cfg(test)]
+pub(crate) fn has_cr_escape(text: &str) -> bool {
+    let bytes = text.as_bytes();
+    let mut i = 0;
+    while i + 1 < bytes.len() {
+        if bytes[i] == b'\\' {
+            let rest = &bytes[i + 1..];
+            let is_d = |b: Option<&u8>| b.is_some_and(|b| (b | 0x20) == b'd');
+            let is_hex = |b: Option<&u8>| b.is_some_and(u8::is_ascii_hexdigit);
+            let x = rest[0] == b'x';
+            if rest[0] == b'r'
+                || (x && rest.get(1) == Some(&b'0') && is_d(rest.get(2)))
+                || (x && is_d(rest.get(1)) && !is_hex(rest.get(2)))
+            {
+                return true;
+            }
+            i += 2;
+        } else {
+            i += 1;
+        }
+    }
+    false
+}
+
+/// The templates of a case that hold [`has_cr_escape`].
+#[cfg(test)]
+pub(crate) fn templates_with_cr_escapes(case: &Json) -> usize {
+    case.get("templates")
+        .map(Json::entries)
+        .unwrap_or_default()
+        .iter()
+        .filter(|(_, source)| has_cr_escape(source.as_str().unwrap_or_default()))
+        .count()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn cr_escapes() {
+        assert!(has_cr_escape("'a\\x0Db'") && has_cr_escape("\"\\r\"") && has_cr_escape("'\\xd'"));
+        assert!(!has_cr_escape("'\\\\r' '\\x0a' '\\xdf' 'r'"));
+    }
 
     #[test]
     fn every_family_gives_each_case_a_cache_directory() {

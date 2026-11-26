@@ -6,7 +6,9 @@
 //! 1. `setup`: `new Environment(new ArrayLoader($templates), array_merge(['cache' => false],
 //!    $config))` (Twig's option handling as ported by `twig-test-support`), the globals, the
 //!    `debug` / `string_loader` extensions, the `SandboxExtension` with the case's policy and
-//!    global flag. Diagnostics raised here are dropped: the oracle records only the phases below.
+//!    global flag (and source policy), and the case's `lexer` options
+//!    (`$twig->setLexer(new Lexer($twig, $lexer))`; [`EnvironmentOptions::lexer`] here).
+//!    Diagnostics raised here are dropped: the oracle records only the phases below.
 //! 2. `load`: every template in order (`load_all`, default true), then the main template.
 //! 3. `data`: `data_json` decoded like `json_decode($json, true)`, or for `data_php` the typed tree
 //!    the oracle recorded (`typed_data`), rebuilt by `twig-test-support` with the objects of
@@ -30,12 +32,16 @@ use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::sync::Arc;
 use std::time::Duration;
 
+use twig::deprecation::IgnoreDeprecations;
 use twig::escaper::DefaultStrategy;
 use twig::extension::{DebugExtension, StringLoaderExtension};
+use twig::lexer::LexerOptions;
 use twig::loader::ArrayLoader;
 use twig::runtime::{
     DiagnosticsPolicy, Environment, EnvironmentOptions, Notice, SandboxExtension, SecurityPolicy,
+    SourcePolicyInterface,
 };
+use twig::source::Source;
 use twig::value::{Array, ArrayKey, Collect, Level, PhpError, PhpString, Value};
 use twig_date::FixedClock;
 use twig_test_support::{Autoescape, PhpState, TypedNode};
@@ -347,12 +353,57 @@ fn options(case: &Case) -> Result<Result<EnvironmentOptions, PhpError>, Stop> {
         auto_reload: Some(resolved.auto_reload),
         optimizations: resolved.optimizations,
         use_yield: resolved.use_yield,
+        lexer: lexer_options(case)?,
         diagnostics: match case.errors {
             ErrorsMode::Collect => DiagnosticsPolicy::Collect,
             ErrorsMode::Throw => DiagnosticsPolicy::Error,
         },
         ..EnvironmentOptions::default()
     }))
+}
+
+/// The case's `lexer` options: `new \Twig\Lexer($twig, $lexer)` merges them over Twig's defaults
+/// with `array_merge()`, so a key left out keeps its default and a key the lexer does not know is
+/// ignored. Values must be strings, the delimiters (`tag_comment`, `tag_block`, `tag_variable`,
+/// `interpolation`) pairs of strings. `whitespace_line_chars` is the literal set of characters
+/// twig-rs takes (Twig's is the body of a PCRE character class: the same unless it uses escapes
+/// or class syntax, `reference/deviations.md`).
+fn lexer_options(case: &Case) -> Result<LexerOptions, Stop> {
+    let mut options = LexerOptions::default();
+    let Some(json) = case.field("lexer") else {
+        return Ok(options);
+    };
+    let Json::Object(fields) = json else {
+        return unsupported(format!("lexer options are not an object: {json:?}"));
+    };
+    let string = |key: &str, value: &Json| -> Result<Vec<u8>, Stop> {
+        match value {
+            Json::String(s) => Ok(s.as_bytes().to_vec()),
+            other => unsupported(format!("lexer option {key} is not a string: {other:?}")),
+        }
+    };
+    let pair = |key: &str, value: &Json| -> Result<[Vec<u8>; 2], Stop> {
+        match (value, value.items()) {
+            (Json::Array(_), [open, close]) => Ok([string(key, open)?, string(key, close)?]),
+            _ => unsupported(format!(
+                "lexer option {key} is not a pair of strings: {value:?}"
+            )),
+        }
+    };
+    // (a key given twice: json_decode() keeps the last one)
+    for (key, value) in fields {
+        match key.as_str() {
+            "tag_comment" => options.tag_comment = pair(key, value)?,
+            "tag_block" => options.tag_block = pair(key, value)?,
+            "tag_variable" => options.tag_variable = pair(key, value)?,
+            "interpolation" => options.interpolation = pair(key, value)?,
+            "whitespace_trim" => options.whitespace_trim = string(key, value)?,
+            "whitespace_line_trim" => options.whitespace_line_trim = string(key, value)?,
+            "whitespace_line_chars" => options.whitespace_line_chars = string(key, value)?,
+            _ => {}
+        }
+    }
+    Ok(options)
 }
 
 /// Registers the classes PHP has in the plain environment (see the module documentation).
@@ -425,12 +476,42 @@ fn setup(case: &Case, env: &Environment) -> Result<Result<(), ErrorDesc>, Stop> 
         }
         let policy = policy(sandbox.get_non_null("policy").unwrap_or(&empty))?;
         let global = sandbox.get_non_null("global").is_some_and(Json::truthy);
-        let extension = SandboxExtension::new(Arc::new(policy), global);
+        let extension = match sandbox.get_non_null("source_policy") {
+            None => SandboxExtension::new(Arc::new(policy), global),
+            Some(Json::Array(items)) => {
+                let mut names = Vec::new();
+                for item in items {
+                    match item {
+                        Json::String(name) => names.push(name.clone()),
+                        other => return unsupported(format!("source_policy name {other:?}")),
+                    }
+                }
+                // (a setup notice: the oracle does not record it)
+                SandboxExtension::with_source_policy(
+                    Arc::new(policy),
+                    global,
+                    Arc::new(NamedSources(names)),
+                    &mut IgnoreDeprecations,
+                )
+            }
+            Some(other) => return unsupported(format!("source_policy is not a list: {other:?}")),
+        };
         if let Err(error) = env.add_extension(Arc::new(extension)) {
             return Ok(Err(describe(&error, 0)));
         }
     }
     Ok(Ok(()))
+}
+
+/// The case's source policy (`"sandbox": {"source_policy": [names]}`): the templates of these names
+/// run sandboxed, like the anonymous `SourcePolicyInterface` of research/php-oracle lib.php
+/// (`in_array($source->getName(), $names, true)`).
+struct NamedSources(Vec<String>);
+
+impl SourcePolicyInterface for NamedSources {
+    fn enable_sandbox(&self, source: &Source) -> bool {
+        self.0.iter().any(|name| name == source.name())
+    }
 }
 
 fn unknown_extension(name: &str) -> ErrorDesc {
@@ -516,7 +597,7 @@ fn php_data(
         Ok(node) => node,
         Err(error) => return unsupported(error),
     };
-    let conversion = match twig_test_support::convert(&node, &Factory::new(env)) {
+    let conversion = match twig_test_support::convert(&node, &Factory::with_tree(env, tree)) {
         Ok(conversion) => conversion,
         Err(error) => return unsupported(format!("the data cannot be rebuilt: {error}")),
     };

@@ -52,10 +52,11 @@ USAGE:
   twig-fuzz record <batch.json> --out <vectors.json> [--description TEXT] [--oracle <results.json>]
       records every case of the batch as a regression vector with the oracle's result; cases that
       mismatch are marked known_mismatch (with their signature), unsupported ones are left out
-  twig-fuzz generate <family> [--seed N] [--count N] [--out <batch.json>]
+  twig-fuzz generate <family> [--seed N] [--count N] [--out <batch.json>] [--d2]
       writes a random batch of one construct family: expressions, callables, control, composition,
       escaping, errors, formats, sandbox, whitespace, unicode, dynamic, structure (default seed 1,
-      count 1000)
+      count 1000); --d2 lets the escaping, callables, formats and errors families write the inputs
+      of the accepted deviation D2 (CR escapes in string literals, lone CRs with debug)
   twig-fuzz selftest-fixtures --out <dir>
       writes the plain-environment equivalents of the fixture corpus (fixtures.json,
       fixtures-isolated.json)
@@ -761,18 +762,21 @@ fn cmd_generate(args: &Args) -> Result<ExitCode, String> {
     let seed = number("--seed", 1)?;
     let count =
         usize::try_from(number("--count", 1000)?).map_err(|e| format!("bad --count: {e}"))?;
+    let options = g::Options {
+        d2: args.has("--d2"),
+    };
     let batch = match family.as_str() {
         "expressions" => Json::Array(g::expressions::generate(seed, count)),
-        "callables" => Json::Array(g::callables::generate(seed, count)),
+        "callables" => Json::Array(g::callables::generate_with(seed, count, &options)),
         "control" => Json::Array(g::control::generate(seed, count)),
         "composition" => g::composition::batch(&g::composition::Settings {
             seed,
             count,
             ..Default::default()
         }),
-        "escaping" => Json::Array(g::escaping::generate(seed, count)),
-        "errors" => Json::Array(g::errors::generate(seed, count)),
-        "formats" => Json::Array(g::formats::generate(seed, count)),
+        "escaping" => Json::Array(g::escaping::generate_with(seed, count, &options)),
+        "errors" => Json::Array(g::errors::generate_with(seed, count, &options)),
+        "formats" => Json::Array(g::formats::generate_with(seed, count, &options)),
         "sandbox" => g::sandbox::batch(seed, count),
         "whitespace" => g::whitespace::batch(seed, count),
         "unicode" => g::unicode::batch(seed, count),

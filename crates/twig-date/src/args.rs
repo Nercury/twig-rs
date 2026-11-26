@@ -1,9 +1,22 @@
 //! Parameter parsing for the date methods (`ZEND_PARSE_PARAMETERS_*` / `zend_parse_method_parameters()` in
 //! coercive mode), on top of `twig_value::param`.
 
-use twig_value::object::{CallArgs, FunctionKind, ObjectRef, Param};
+use twig_value::object::{CallArgs, FunctionKind, MethodParams, ObjectRef, Param};
 use twig_value::param::{self, Arg};
 use twig_value::{Diagnostics, PhpResult, PhpString, Value};
+
+/// The parameters of the methods of one date class, by lowercase method name, as its stub declares them
+/// (PHPSRC/ext/date/php_date.stub.php, the arginfo of each method). The class reports them through
+/// `Object::method_params()`, so that the engine checks named arguments against them as PHP sends them
+/// (`zend_handle_named_arg()`), and its methods bind their arguments to them ([`Bound::method`]): one table for
+/// both. `None` for a name the class does not declare.
+pub(crate) type ParamTable = fn(&str) -> Option<Vec<Param>>;
+
+/// What `Object::method_params()` reports for the lowercase `method` of a class whose methods are internal
+/// functions: the parameters `table` declares.
+pub(crate) fn method_params(table: ParamTable, method: &str) -> Option<MethodParams> {
+    table(method).map(MethodParams::internal)
+}
 
 /// The arguments of one internal method call, bound to its parameters.
 pub(crate) struct Bound<'a> {
@@ -22,6 +35,19 @@ impl<'a> Bound<'a> {
             names: params.iter().map(|p| p.name).collect(),
             values,
         })
+    }
+
+    /// Binds `args` to the parameters `table` declares for the lowercase `method` ([`Bound::new`]); `func` is the
+    /// method's name in messages (`DateTime::setTime`).
+    pub fn method(
+        func: &'a str,
+        method: &str,
+        table: ParamTable,
+        args: &CallArgs,
+    ) -> PhpResult<Bound<'a>> {
+        let params = table(method);
+        debug_assert!(params.is_some(), "no parameters declared for {func}");
+        Bound::new(func, args, &params.unwrap_or_default())
     }
 
     fn arg(&self, i: usize) -> Arg<'_> {
@@ -88,9 +114,4 @@ impl<'a> Bound<'a> {
             other => Err(self.arg(i).type_error(&format!("of type ?{class}"), other)),
         }
     }
-}
-
-/// `ZEND_PARSE_PARAMETERS_NONE()`: `%s() expects exactly 0 arguments, %d given`.
-pub(crate) fn none(func: &str, args: &CallArgs) -> PhpResult<()> {
-    args.bind(func, &[], FunctionKind::Internal).map(|_| ())
 }

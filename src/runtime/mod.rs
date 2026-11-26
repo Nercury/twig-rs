@@ -17,6 +17,7 @@ mod markup;
 mod regex;
 pub mod sandbox;
 mod template;
+mod typed_property;
 
 pub use attribute::ARRAY_LIKE_CLASSES;
 pub use constants::Constants;

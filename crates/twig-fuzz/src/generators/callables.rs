@@ -32,7 +32,8 @@
 //! `"errors": "throw"`, the PHP default timezone and, rarely, a global sandbox.
 //!
 //! What cannot match by design is left out (`reference/deviations.md`): unseeded randomness
-//! (`random()` and `shuffle` only get inputs whose result does not depend on the generator),
+//! (`random()` and `shuffle` only get inputs whose result does not depend on the generator under
+//! the case's charset: no element or one, no character or one),
 //! microsecond formats of the current time, string callables that name PHP functions, sizes that
 //! reach a memory limit (`number_format()` with a huge `decimals` allocates past PHP's hard memory
 //! limit and kills the oracle process with its whole batch), `dump()` of `TemplateWrapper`s and
@@ -44,6 +45,7 @@
 
 use std::collections::BTreeSet;
 
+use super::Options;
 use crate::kit::json::Json;
 
 /// The family name (case ids, `tests/vectors/fuzz/callables/`).
@@ -51,13 +53,27 @@ pub const FAMILY: &str = "callables";
 
 /// The cases `0..count` of `seed`.
 pub fn generate(seed: u64, count: usize) -> Vec<Json> {
-    (0..count).map(|index| generate_case(seed, index)).collect()
+    generate_with(seed, count, &Options::default())
+}
+
+/// The cases `0..count` of `seed` with `options`.
+pub fn generate_with(seed: u64, count: usize, options: &Options) -> Vec<Json> {
+    (0..count)
+        .map(|index| generate_case_with(seed, index, options))
+        .collect()
 }
 
 /// Case `index` of `seed`.
 pub fn generate_case(seed: u64, index: usize) -> Json {
+    generate_case_with(seed, index, &Options::default())
+}
+
+/// Case `index` of `seed` with `options`.
+pub fn generate_case_with(seed: u64, index: usize, options: &Options) -> Json {
     let mut rng = Rng::new(seed.wrapping_mul(0x9E37_79B9_7F4A_7C15) ^ (index as u64));
-    super::with_case_cache(Generator::new(&mut rng).case(&format!("c{seed}-{index:05}")))
+    let mut generator = Generator::new(&mut rng);
+    generator.d2 = options.d2;
+    super::with_case_cache(generator.case(&format!("c{seed}-{index:05}")))
 }
 
 // ---- random numbers ----------------------------------------------------------------------------
@@ -1408,7 +1424,13 @@ const SPRINTF_SPECS: &[&str] = &[
 
 const SPRINTF_TEXT: &[&str] = &["a", " ", "|", "-", "é", "x=", "[", "]"];
 
-/// Inputs of `shuffle` whose result does not depend on the random generator.
+/// Inputs of `shuffle` whose result does not depend on the random generator: no element or one,
+/// no character or one. A string of one multi-byte UTF-8 character (`'é'`) is one character only
+/// in UTF-8: `shuffle` and `random()` convert a string from the environment's charset to UTF-8
+/// first (`CoreExtension::shuffle()`, `random()`), so its two bytes are two characters under
+/// `ISO-8859-1` or `Windows-1252`. A case that uses such an input gets a UTF-8 charset
+/// ([`Generator::utf8_inputs`]); the ASCII ones are one character under every charset the cases
+/// set (`"\xff"` is one byte, and malformed UTF-8 fails the same way every time).
 const SHUFFLE_INPUTS: &[&str] = &[
     "[]",
     "[1]",
@@ -1424,7 +1446,8 @@ const SHUFFLE_INPUTS: &[&str] = &[
     "{'k': [1, 2]}",
 ];
 
-/// `random()` arguments whose result does not depend on the random generator.
+/// `random()` arguments whose result does not depend on the random generator (see
+/// [`SHUFFLE_INPUTS`] for the strings).
 const RANDOM_ARGS: &[&str] = &[
     "0",
     "5, 5",
@@ -2309,6 +2332,11 @@ struct Generator<'r> {
     fixed_date: bool,
     /// `dump()` may be used (see [`Generator::case`]).
     dump_allowed: bool,
+    /// A `shuffle` or `random()` input is one character only in UTF-8 ([`SHUFFLE_INPUTS`]): the
+    /// case keeps a UTF-8 charset.
+    utf8_inputs: bool,
+    /// [`Options::d2`]: the `\r` escapes of the literal pools stay (see [`Generator::pool`]).
+    d2: bool,
     profile: Profile,
     focus: Option<Focus>,
 }
@@ -2324,6 +2352,8 @@ impl<'r> Generator<'r> {
             debug: false,
             fixed_date: false,
             dump_allowed: true,
+            utf8_inputs: false,
+            d2: false,
             profile: Profile::Mixed,
             focus: None,
         }
@@ -2467,6 +2497,12 @@ impl<'r> Generator<'r> {
                 "UTF8",
                 "Windows-1252",
             ]);
+            // `setCharset()` makes `utf-8` and `UTF8` the charset `UTF-8`
+            let charset = if self.utf8_inputs && !matches!(charset, "utf-8" | "UTF8") {
+                "utf-8"
+            } else {
+                charset
+            };
             config.push(("charset".to_owned(), Json::str(charset)));
         }
         if self.rng.chance(2) {
@@ -2794,6 +2830,7 @@ impl<'r> Generator<'r> {
             .collect();
         if spec.name == "shuffle" {
             let input = *self.rng.pick(SHUFFLE_INPUTS);
+            self.utf8_inputs |= !input.is_ascii();
             return format!("{input}|shuffle");
         }
         if spec.name == "invoke" && self.rng.chance(85) {
@@ -2843,6 +2880,7 @@ impl<'r> Generator<'r> {
         match spec.name {
             "random" => {
                 let args = *self.rng.pick(RANDOM_ARGS);
+                self.utf8_inputs |= !args.is_ascii();
                 format!("random({args})")
             }
             "range" => self.range(),
@@ -3367,8 +3405,28 @@ impl<'r> Generator<'r> {
         }
     }
 
+    /// An entry of a pool. A double-quoted string literal of a pool gets its `\r` escapes written
+    /// as `\n` unless [`Options::d2`]: `Compiler::string()` would put the CR byte into the
+    /// compiled PHP, which moves the error lines PHP reports (accepted deviation D2). CR bytes
+    /// still come through the data (`snl`, `sspace`).
     fn pool(&mut self, pool: &[&str]) -> String {
-        (*self.rng.pick(pool)).to_owned()
+        let entry = *self.rng.pick(pool);
+        if self.d2 || !(entry.len() >= 2 && entry.starts_with('"') && entry.ends_with('"')) {
+            return entry.to_owned();
+        }
+        let mut out = String::with_capacity(entry.len());
+        let mut chars = entry.chars();
+        while let Some(c) = chars.next() {
+            out.push(c);
+            if c == '\\' {
+                match chars.next() {
+                    Some('r') => out.push('n'),
+                    Some(next) => out.push(next),
+                    None => {}
+                }
+            }
+        }
+        out
     }
 
     fn use_var(&mut self, name: &str) {
@@ -3903,6 +3961,56 @@ mod tests {
         assert_eq!(php_string(b"a\"$\\\xff"), r#""a\"\$\\\xff""#);
         assert_eq!(twig_string("it's\\\n"), r"'it\'s\\\x0a'");
         assert_eq!(camel_case("preserve_keys"), "preserveKeys");
+    }
+
+    /// `'é'|shuffle` and `random('é')` are deterministic only when `'é'` is one character: in
+    /// UTF-8 (`c9008-01741m`, `c9001-00769m` of round 3 had `Windows-1252`).
+    #[test]
+    fn multi_byte_shuffle_and_random_inputs_keep_utf8() {
+        let mut seen = 0;
+        for seed in 1..=4 {
+            for json in generate(seed, 3000) {
+                let index = json
+                    .get("templates")
+                    .and_then(|t| t.get("index.twig"))
+                    .and_then(Json::as_str)
+                    .unwrap_or_default()
+                    .to_owned();
+                if !(index.contains("'é'|shuffle") || index.contains("random('é')")) {
+                    continue;
+                }
+                seen += 1;
+                let charset = json
+                    .get("config")
+                    .and_then(|c| c.get("charset"))
+                    .and_then(Json::as_str);
+                assert!(
+                    matches!(charset, None | Some("utf-8" | "UTF8")),
+                    "{}",
+                    json.to_compact()
+                );
+            }
+        }
+        assert!(seen >= 5, "{seen} cases");
+        assert!(
+            SHUFFLE_INPUTS
+                .iter()
+                .chain(RANDOM_ARGS)
+                .any(|s| !s.is_ascii())
+        );
+    }
+
+    /// No `\r` escape of the literal pools unless asked for (accepted deviation D2).
+    #[test]
+    fn cr_escapes_only_with_the_d2_option() {
+        let with_cr = |options: &Options| -> usize {
+            generate_with(5, 4000, options)
+                .iter()
+                .map(super::super::templates_with_cr_escapes)
+                .sum()
+        };
+        assert_eq!(with_cr(&Options::default()), 0);
+        assert!(with_cr(&Options { d2: true }) > 10);
     }
 
     #[test]

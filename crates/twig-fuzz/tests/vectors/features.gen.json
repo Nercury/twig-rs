@@ -31,5 +31,15 @@
  {"id":"composition","env":"plain","config":{"strict_variables":true},
   "templates":{"index.twig":"{% extends 'layout.twig' %}{% block content %}{{ parent() }}+{{ include('part.twig') }}{% endblock %}","layout.twig":"<{% block content %}L{% endblock %}>","part.twig":"\n\n{{ missing }}"}},
  {"id":"runtime-line","env":"plain","templates":{"index.twig":"a\nb\n{{ [1]|join(',')|slice(1)|f }}"}},
- {"id":"binary-output","env":"plain","config":{"autoescape":false},"templates":{"index.twig":"[{{ s }}]"},"data_php":"return ['s' => \"\\xfe\\xff\"]"}
+ {"id":"binary-output","env":"plain","config":{"autoescape":false},"templates":{"index.twig":"[{{ s }}]"},"data_php":"return ['s' => \"\\xfe\\xff\"]"},
+ {"id":"lexer-delimiters","env":"plain","templates":{"index.twig":"<% if true %>${ 1 + 1 }<% endif %><# c #>|{{ x }}|{% y %}|<% include 'inc.twig' %>","inc.twig":"[${ x }<# i #>]"},"data_json":{"x":1},"lexer":{"tag_block":["<%","%>"],"tag_variable":["${","}"],"tag_comment":["<#","#>"]}},
+ {"id":"lexer-trims","env":"plain","templates":{"index.twig":"a  {{= 1 =}}  b {{! 2 !}}\n c {%= if true =%}\n  x  {%! endif !%}  y"},"lexer":{"whitespace_trim":"=","whitespace_line_trim":"!"}},
+ {"id":"lexer-line-chars","env":"plain","templates":{"index.twig":"a\t {{~ 1 ~}}\t b\n{{~ 2 ~}} \tc"},"lexer":{"whitespace_line_chars":" "}},
+ {"id":"lexer-interpolation","env":"plain","templates":{"index.twig":"{{ \"${ 1 + 2 } a\" }}|{{ \"a ${1}\" }}|{{ \"${ 'x' ~ \"${ 4 }\" }\" }}"},"lexer":{"interpolation":["${","}"]}},
+ {"id":"lexer-interpolation-error","env":"plain","templates":{"index.twig":"{{ \"#{ 3 }\" }}"},"lexer":{"interpolation":["${","}"]}},
+ {"id":"lexer-verbatim-line","env":"plain","templates":{"index.twig":"<% verbatim %>{{ x }}<%= endverbatim =%>  |\n<% line 5 %>\n<%= if undefined_x =%><% endif %>"},"config":{"strict_variables":true},"lexer":{"tag_block":["<%","%>"],"whitespace_trim":"="}},
+ {"id":"lexer-comments","env":"plain","templates":{"index.twig":"<## doc ##>{% set x = 1 %}{{ x }}<##><###><# a #>|{ % if true % }t{ % endif % }|{% if true %}T{% endif %}"},"lexer":{"tag_block":["{ %","% }"],"tag_comment":["<#","#>"]}},
+ {"id":"source-policy-main","env":"plain","templates":{"index.twig":"{{ 'a'|upper }}"},"sandbox":{"global":false,"policy":{},"source_policy":["index.twig"]}},
+ {"id":"source-policy-include","env":"plain","templates":{"index.twig":"[{{ 'a'|upper }}{% include 'inc.twig' %}]","inc.twig":"{{ 'b'|lower }}"},"sandbox":{"global":false,"policy":{"filters":["upper"],"tags":["include"]},"source_policy":["inc.twig"]}},
+ {"id":"source-policy-other","env":"plain","templates":{"index.twig":"{{ 'a'|upper }}"},"sandbox":{"global":false,"policy":{},"source_policy":["missing.twig"]}}
 ]

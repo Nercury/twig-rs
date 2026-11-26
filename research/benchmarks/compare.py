@@ -1,0 +1,66 @@
+"""Prints the comparison table of research/benchmarks/README.md from the results of run-rust.sh and run-php.sh.
+
+    python research/benchmarks/compare.py [results dir, default: research/benchmarks/results]
+
+Inputs: <results>/criterion/<group>/<scenario>/new/estimates.json (criterion's median, run-rust.sh) and
+<results>/php.jsonl, <results>/php-jit.jsonl (bench.php's median, run-php.sh). Both are medians of per-iteration
+sample means.
+"""
+
+import json
+import pathlib
+import sys
+
+HERE = pathlib.Path(__file__).resolve().parent
+
+
+def php_results(path):
+    results = {}
+    if path.exists():
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                row = json.loads(line)
+                results[(row["group"], row["name"])] = row["median_ns"]
+    return results
+
+
+def rust_results(root):
+    results = {}
+    for estimates in sorted(root.glob("*/*/new/estimates.json")):
+        group, name = estimates.parts[-4], estimates.parts[-3]
+        data = json.loads(estimates.read_text(encoding="utf-8"))
+        results[(group, name)] = data["median"]["point_estimate"]
+    return results
+
+
+def fmt(ns):
+    if ns is None:
+        return "-"
+    if ns >= 1e6:
+        return f"{ns / 1e6:.2f} ms"
+    return f"{ns / 1e3:.1f} µs"
+
+
+def ratio(php, rust):
+    if php is None or rust is None:
+        return "-"
+    if php >= rust:
+        return f"{php / rust:.1f}x faster"
+    return f"{rust / php:.1f}x slower"
+
+
+def main():
+    sys.stdout.reconfigure(encoding="utf-8")
+    results = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / "results"
+    rust = rust_results(results / "criterion")
+    php = php_results(results / "php.jsonl")
+    jit = php_results(results / "php-jit.jsonl")
+    print("| benchmark | twig-rs | PHP Twig | PHP Twig, OPcache + JIT | twig-rs vs PHP Twig | twig-rs vs OPcache + JIT |")
+    print("|---|---:|---:|---:|---:|---:|")
+    for key in sorted(set(rust) | set(php) | set(jit)):
+        r, p, j = rust.get(key), php.get(key), jit.get(key)
+        print(f"| {key[0]}/{key[1]} | {fmt(r)} | {fmt(p)} | {fmt(j)} | {ratio(p, r)} | {ratio(j, r)} |")
+
+
+if __name__ == "__main__":
+    main()

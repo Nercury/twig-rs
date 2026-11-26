@@ -2,6 +2,8 @@
 
 use std::collections::HashMap;
 
+use twig_value::PhpError;
+
 use super::safe_analysis::{is_operator_escape, is_safe_for};
 use super::{NodeVisitor, Visit, VisitContext, VisitResult, priority};
 use crate::ast::{
@@ -28,12 +30,12 @@ use crate::extension::{EscaperExtension, ExtensionSet};
 ///
 /// # Errors
 ///
-/// A strategy that is neither a string nor a boolean nor a number (`{% autoescape null %}`) makes Twig's
-/// `needEscaping(): string|bool` throw a PHP `TypeError` when a print, a block or a block reference needs it; twig-rs
-/// reports a `LogicException`-kind [`Error`] with PHP's message instead (`Twig\NodeVisitor\EscaperNodeVisitor::
-/// needEscaping(): Return value must be of type string|bool, null returned`), which `compileSource()` wraps. Numbers
-/// are coerced to strings as PHP does (`{% autoescape 1 %}` escapes with the strategy `"1"`), and `true` becomes
-/// the strategy `"1"`.
+/// A strategy that is neither a string nor a boolean nor a number (`{% autoescape null %}`, a default strategy
+/// callback returning an array) makes Twig's `needEscaping(): string|bool` throw a PHP `TypeError` when a print, a
+/// block or a block reference needs it: an [`ErrorKind::Php`](crate::error::ErrorKind::Php) error standing for that
+/// `TypeError` (`Twig\NodeVisitor\EscaperNodeVisitor::needEscaping(): Return value must be of type string|bool, null
+/// returned`). It is a PHP `\Error`, so `compileSource()` lets it through unwrapped. Numbers are coerced to strings as
+/// PHP does (`{% autoescape 1 %}` escapes with the strategy `"1"`), and `true` becomes the strategy `"1"`.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct EscaperNodeVisitor;
 
@@ -282,8 +284,13 @@ fn strategy_of(value: ConstantValue) -> Option<Vec<u8>> {
     }
 }
 
-/// The return value of `needEscaping(): string|bool` in coercive typing mode: strings and booleans are kept, ints
-/// and floats become strings (the first type of the union they coerce to), `null` and arrays are a `TypeError`.
+/// The return value of `needEscaping(): string|bool` in coercive typing mode (EscaperNodeVisitor.php declares no
+/// `strict_types`): strings and booleans are kept, ints and floats become strings (the first type of the union they
+/// coerce to), `null` and arrays are a `TypeError`.
+///
+/// Port of the return type check of a user function: `zend_verify_scalar_type_hint()` (PHPSRC/Zend/zend_execute.c:818;
+/// `null` passes only a nullable type) and `zend_verify_weak_scalar_type_hint()` (:733; the first of int, float, string
+/// and bool that the union has and that accepts the value).
 fn coerce_need_escaping_return(value: ConstantValue) -> Result<ConstantValue> {
     match value {
         ConstantValue::String(_) | ConstantValue::Bool(_) => Ok(value),
@@ -295,9 +302,12 @@ fn coerce_need_escaping_return(value: ConstantValue) -> Result<ConstantValue> {
     }
 }
 
-/// The stand-in for PHP's `TypeError` of `needEscaping()` (see [`EscaperNodeVisitor`]).
+/// PHP's `TypeError` of a `needEscaping()` return value that does not coerce to `string|bool`; `given` is the
+/// `zend_zval_value_name()` of the value.
+///
+/// Port of `zend_verify_return_error()` (PHPSRC/Zend/zend_execute.c:1421).
 fn need_escaping_type_error(given: &str) -> Error {
-    Error::logic(format!(
+    Error::php(PhpError::type_error(format!(
         "Twig\\NodeVisitor\\EscaperNodeVisitor::needEscaping(): Return value must be of type string|bool, {given} returned"
-    ))
+    )))
 }

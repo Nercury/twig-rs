@@ -1,0 +1,10 @@
+{% for p in products %}
+<div class="product">
+  {{ p.name|title }} | {{ p.name|upper }} | {{ p.name|lower|capitalize }} | {{ p.desc|striptags|trim|slice(0, 40) }}...
+  {{ p.price|number_format(2, '.', ',') }} | {{ (p.price * 1.21)|round(2) }} | {{ p.qty|abs }} | {{ '%05d'|format(p.id) }}
+  {{ p.tags|join(', ') }} | {{ p.tags|length }} | {{ p.tags|sort|first }} | {{ p.tags|reverse|last }}
+  {{ p.sku|replace({'-': '_'}) }} | {{ p.desc|nl2br }} | {{ p.attrs|keys|join(',') }} | {{ p.attrs|json_encode }}
+  {{ p.missing|default('n/a') }} | {{ p.tags|map(t => t|upper)|filter(t => t starts with 'A')|join('/') }}
+  {{ p.tags|batch(2)|length }} | {{ p.tags|reduce((carry, t) => carry + t|length, 0) }} | {{ p.name|split(' ')|last }}
+</div>
+{% endfor %}

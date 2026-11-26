@@ -8,7 +8,8 @@ use twig_timelib::types::{NO_CLONE, OVERRIDE_TIME, ZONETYPE_ABBR, ZONETYPE_ID, Z
 use twig_timelib::{RelTime, Time, TzDb, UNSET, dow, interval};
 use twig_value::float::zend_gcvt;
 use twig_value::object::{
-    CallArgs, ClassRef, Object, ObjectRef, Param, PropertyEntry, PropertyPurpose, PropertyStore,
+    CallArgs, ClassRef, MethodParams, Object, ObjectRef, Param, PropertyEntry, PropertyPurpose,
+    PropertyStore,
 };
 use twig_value::param::Arg;
 use twig_value::{
@@ -786,6 +787,76 @@ fn interval_arg(o: &ObjectRef) -> PhpResult<&IntervalObject> {
         .ok_or_else(|| errors::uninitialized(o.class()))
 }
 
+/// The parameters of the methods of `DateTime` and `DateTimeImmutable` (by lowercase name), as
+/// PHPSRC/ext/date/php_date.stub.php declares them: what [`DateObject`] reports and binds its arguments to
+/// (`args::ParamTable`). The two classes declare the same parameters, except that only `DateTime` has
+/// `createFromImmutable()` and only `DateTimeImmutable` has `createFromMutable()`.
+fn date_params(method: &str) -> Option<Vec<Param>> {
+    Some(match method {
+        // __construct(string $datetime = "now", ?DateTimeZone $timezone = null)
+        "__construct" => vec![
+            Param::optional("datetime", "now"),
+            Param::optional("timezone", Value::Null),
+        ],
+        // __unserialize(array $data)
+        "__unserialize" => vec![Param::required("data")],
+        // static __set_state(array $array)
+        "__set_state" => vec![Param::required("array")],
+        // static createFromImmutable(DateTimeImmutable $object), createFromMutable(DateTime $object),
+        // createFromInterface(DateTimeInterface $object)
+        "createfromimmutable" | "createfrommutable" | "createfrominterface" => {
+            vec![Param::required("object")]
+        }
+        // static createFromFormat(string $format, string $datetime, ?DateTimeZone $timezone = null)
+        "createfromformat" => vec![
+            Param::required("format"),
+            Param::required("datetime"),
+            Param::optional("timezone", Value::Null),
+        ],
+        // static createFromTimestamp(int|float $timestamp)
+        "createfromtimestamp" => vec![Param::required("timestamp")],
+        // format(string $format)
+        "format" => vec![Param::required("format")],
+        // modify(string $modifier)
+        "modify" => vec![Param::required("modifier")],
+        // add(DateInterval $interval), sub(DateInterval $interval)
+        "add" | "sub" => vec![Param::required("interval")],
+        // setTimezone(DateTimeZone $timezone)
+        "settimezone" => vec![Param::required("timezone")],
+        // setTime(int $hour, int $minute, int $second = 0, int $microsecond = 0)
+        "settime" => vec![
+            Param::required("hour"),
+            Param::required("minute"),
+            Param::optional("second", 0),
+            Param::optional("microsecond", 0),
+        ],
+        // setDate(int $year, int $month, int $day)
+        "setdate" => vec![
+            Param::required("year"),
+            Param::required("month"),
+            Param::required("day"),
+        ],
+        // setISODate(int $year, int $week, int $dayOfWeek = 1)
+        "setisodate" => vec![
+            Param::required("year"),
+            Param::required("week"),
+            Param::optional("dayOfWeek", 1),
+        ],
+        // setTimestamp(int $timestamp)
+        "settimestamp" => vec![Param::required("timestamp")],
+        // setMicrosecond(int $microsecond)
+        "setmicrosecond" => vec![Param::required("microsecond")],
+        // diff(DateTimeInterface $targetObject, bool $absolute = false)
+        "diff" => vec![
+            Param::required("targetObject"),
+            Param::optional("absolute", false),
+        ],
+        "__serialize" | "__wakeup" | "getlasterrors" | "gettimezone" | "getoffset"
+        | "getmicrosecond" | "gettimestamp" => Vec::new(),
+        _ => return None,
+    })
+}
+
 impl Object for DateObject {
     fn class(&self) -> &ClassRef {
         &self.class
@@ -793,6 +864,11 @@ impl Object for DateObject {
 
     fn property_store(&self) -> Option<&PropertyStore> {
         Some(&self.props)
+    }
+
+    /// The parameters of the method as php_date.stub.php declares them (`date_params`).
+    fn method_params(&self, method: &str) -> Option<MethodParams> {
+        args::method_params(date_params, method)
     }
 
     fn call(
@@ -808,14 +884,7 @@ impl Object for DateObject {
         match method {
             "__construct" => {
                 let f = name("__construct");
-                let a = Bound::new(
-                    &f,
-                    &args,
-                    &[
-                        Param::optional("datetime", "now"),
-                        Param::optional("timezone", Value::Null),
-                    ],
-                )?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let time_str = a.string(0, diag)?;
                 let tz = a.object_of_or_null(1, "DateTimeZone")?;
                 let tz = tz.as_ref().and_then(|o| o.downcast_ref::<TimeZoneObject>());
@@ -823,12 +892,12 @@ impl Object for DateObject {
                 Ok(Value::Null)
             }
             "__serialize" => {
-                args::none(&name("__serialize"), &args)?;
+                Bound::method(&name("__serialize"), method, date_params, &args)?;
                 Ok(Value::Array(self.serialize(this, diag)?))
             }
             "__unserialize" => {
                 let f = name("__unserialize");
-                let a = Bound::new(&f, &args, &[Param::required("data")])?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let data = a.array(0)?;
                 if !self.initialize_from_hash(&data)? {
                     return Err(errors::invalid_serialization(base));
@@ -838,7 +907,7 @@ impl Object for DateObject {
             }
             "__wakeup" => {
                 util::wakeup_deprecated(base, diag)?;
-                args::none(&name("__wakeup"), &args)?;
+                Bound::method(&name("__wakeup"), method, date_params, &args)?;
                 let table = util::assoc(
                     util::std_properties(this, diag)?
                         .into_iter()
@@ -851,7 +920,7 @@ impl Object for DateObject {
             }
             "__set_state" => {
                 let f = name("__set_state");
-                let a = Bound::new(&f, &args, &[Param::required("array")])?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let data = a.array(0)?;
                 Ok(Value::Object(DateObject::set_state(
                     &self.ctx,
@@ -860,13 +929,13 @@ impl Object for DateObject {
                 )?))
             }
             "createfromimmutable" | "createfrommutable" | "createfrominterface" => {
-                let (m, param, class) = match method {
-                    "createfromimmutable" => ("createFromImmutable", "object", "DateTimeImmutable"),
-                    "createfrommutable" => ("createFromMutable", "object", "DateTime"),
-                    _ => ("createFromInterface", "object", "DateTimeInterface"),
+                let (m, class) = match method {
+                    "createfromimmutable" => ("createFromImmutable", "DateTimeImmutable"),
+                    "createfrommutable" => ("createFromMutable", "DateTime"),
+                    _ => ("createFromInterface", "DateTimeInterface"),
                 };
                 let f = name(m);
-                let a = Bound::new(&f, &args, &[Param::required(param)])?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let src = a.object_of(0, class)?;
                 let old = date_arg(&src)?;
                 let t = old.initialized_time()?;
@@ -879,15 +948,7 @@ impl Object for DateObject {
             }
             "createfromformat" => {
                 let f = name("createFromFormat");
-                let a = Bound::new(
-                    &f,
-                    &args,
-                    &[
-                        Param::required("format"),
-                        Param::required("datetime"),
-                        Param::optional("timezone", Value::Null),
-                    ],
-                )?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let format = a.string(0, diag)?;
                 let datetime = a.path(1, diag)?;
                 let tz = a.object_of_or_null(2, "DateTimeZone")?;
@@ -906,7 +967,7 @@ impl Object for DateObject {
             }
             "createfromtimestamp" => {
                 let f = name("createFromTimestamp");
-                let a = Bound::new(&f, &args, &[Param::required("timestamp")])?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let ts = a.number(0, diag)?;
                 let time = match ts {
                     Number::Int(sec) => initialize_from_ts_long(sec, 0),
@@ -919,18 +980,18 @@ impl Object for DateObject {
                 )))
             }
             "getlasterrors" => {
-                args::none(&name("getLastErrors"), &args)?;
+                Bound::method(&name("getLastErrors"), method, date_params, &args)?;
                 Ok(last_errors_value(&self.ctx))
             }
             "format" => {
                 let f = name("format");
-                let a = Bound::new(&f, &args, &[Param::required("format")])?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let format = a.string(0, diag)?;
                 Ok(Value::String(self.format(format.as_bytes())?))
             }
             "modify" => {
                 let f = name("modify");
-                let a = Bound::new(&f, &args, &[Param::required("modifier")])?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let modify = a.string(0, diag)?;
                 let target = self.target(this);
                 let obj = date_arg(&target)?;
@@ -943,7 +1004,7 @@ impl Object for DateObject {
             }
             "add" => {
                 let f = name("add");
-                let a = Bound::new(&f, &args, &[Param::required("interval")])?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let iv = a.object_of(0, "DateInterval")?;
                 let target = self.target(this);
                 date_arg(&target)?.add(interval_arg(&iv)?)?;
@@ -951,7 +1012,7 @@ impl Object for DateObject {
             }
             "sub" => {
                 let f = name("sub");
-                let a = Bound::new(&f, &args, &[Param::required("interval")])?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let iv = a.object_of(0, "DateInterval")?;
                 let target = self.target(this);
                 date_arg(&target)?.sub(
@@ -962,7 +1023,7 @@ impl Object for DateObject {
                 ret_this(target)
             }
             "gettimezone" => {
-                args::none(&name("getTimezone"), &args)?;
+                Bound::method(&name("getTimezone"), method, date_params, &args)?;
                 Ok(match self.timezone()? {
                     Some(tz) => Value::Object(tz),
                     None => Value::Bool(false),
@@ -970,7 +1031,7 @@ impl Object for DateObject {
             }
             "settimezone" => {
                 let f = name("setTimezone");
-                let a = Bound::new(&f, &args, &[Param::required("timezone")])?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let tz = a.object_of(0, "DateTimeZone")?;
                 let target = self.target(this);
                 let value = tz.downcast_ref::<TimeZoneObject>().and_then(|t| t.value());
@@ -978,25 +1039,16 @@ impl Object for DateObject {
                 ret_this(target)
             }
             "getoffset" => {
-                args::none(&name("getOffset"), &args)?;
+                Bound::method(&name("getOffset"), method, date_params, &args)?;
                 self.offset()
             }
             "getmicrosecond" => {
-                args::none(&name("getMicrosecond"), &args)?;
+                Bound::method(&name("getMicrosecond"), method, date_params, &args)?;
                 Ok(Value::Int(self.microsecond()?))
             }
             "settime" => {
                 let f = name("setTime");
-                let a = Bound::new(
-                    &f,
-                    &args,
-                    &[
-                        Param::required("hour"),
-                        Param::required("minute"),
-                        Param::optional("second", 0),
-                        Param::optional("microsecond", 0),
-                    ],
-                )?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let h = a.long(0, diag)?;
                 let i = a.long(1, diag)?;
                 let s = a.long(2, diag)?;
@@ -1007,15 +1059,7 @@ impl Object for DateObject {
             }
             "setdate" => {
                 let f = name("setDate");
-                let a = Bound::new(
-                    &f,
-                    &args,
-                    &[
-                        Param::required("year"),
-                        Param::required("month"),
-                        Param::required("day"),
-                    ],
-                )?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let y = a.long(0, diag)?;
                 let m = a.long(1, diag)?;
                 let d = a.long(2, diag)?;
@@ -1025,15 +1069,7 @@ impl Object for DateObject {
             }
             "setisodate" => {
                 let f = name("setISODate");
-                let a = Bound::new(
-                    &f,
-                    &args,
-                    &[
-                        Param::required("year"),
-                        Param::required("week"),
-                        Param::optional("dayOfWeek", 1),
-                    ],
-                )?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let y = a.long(0, diag)?;
                 let w = a.long(1, diag)?;
                 let d = a.long(2, diag)?;
@@ -1043,7 +1079,7 @@ impl Object for DateObject {
             }
             "settimestamp" => {
                 let f = name("setTimestamp");
-                let a = Bound::new(&f, &args, &[Param::required("timestamp")])?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let ts = a.long(0, diag)?;
                 let target = self.target(this);
                 date_arg(&target)?.set_timestamp(ts)?;
@@ -1051,7 +1087,7 @@ impl Object for DateObject {
             }
             "setmicrosecond" => {
                 let f = name("setMicrosecond");
-                let a = Bound::new(&f, &args, &[Param::required("microsecond")])?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let us = a.long(0, diag)?;
                 if !(0..=999_999).contains(&us) {
                     return Err(PhpError::new(
@@ -1067,19 +1103,12 @@ impl Object for DateObject {
                 ret_this(target)
             }
             "gettimestamp" => {
-                args::none(&name("getTimestamp"), &args)?;
+                Bound::method(&name("getTimestamp"), method, date_params, &args)?;
                 Ok(Value::Int(self.timestamp()?))
             }
             "diff" => {
                 let f = name("diff");
-                let a = Bound::new(
-                    &f,
-                    &args,
-                    &[
-                        Param::required("targetObject"),
-                        Param::optional("absolute", false),
-                    ],
-                )?;
+                let a = Bound::method(&f, method, date_params, &args)?;
                 let other = a.object_of(0, "DateTimeInterface")?;
                 let absolute = a.bool(1, diag)?;
                 let other = date_arg(&other)?;

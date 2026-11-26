@@ -34,13 +34,17 @@
 //! What cannot match by design, or what the twig-rs runner cannot rebuild: `{% autoescape null %}`
 //! around a print (a listed deviation), callable `autoescape` options, Markup objects with a `null`
 //! charset (twig-test-support cannot rebuild them), `dump()` of objects (handles), dates and
-//! randomness. Every case has a filesystem cache of its own ([`super::with_case_cache`]): with
+//! randomness. CR bytes reach the filters through the data, not through string literals: a `\x0d`
+//! escape puts a CR byte into the compiled PHP, which moves the error lines PHP reports (accepted
+//! deviation D2, `reference/deviations.md`; [`super::Options::d2`] lets them through). Every case
+//! has a filesystem cache of its own ([`super::with_case_cache`]): with
 //! `cache => false` an error raised inside a macro imported from another template would get the
 //! line Twig guesses from the frames of the wrong template (reference/deviations.md, "Line guessing
 //! with `cache => false`").
 
 use std::fmt::Write as _;
 
+use super::Options;
 use crate::kit::json::{Json, base64_encode};
 
 /// The family name (also the prefix of the case ids).
@@ -48,16 +52,30 @@ pub const FAMILY: &str = "escaping";
 
 /// `count` cases generated from `seed`.
 pub fn generate(seed: u64, count: usize) -> Vec<Json> {
-    (0..count as u64).map(|index| case(seed, index)).collect()
+    generate_with(seed, count, &Options::default())
+}
+
+/// `count` cases generated from `seed` with `options`.
+pub fn generate_with(seed: u64, count: usize, options: &Options) -> Vec<Json> {
+    (0..count as u64)
+        .map(|index| case_with(seed, index, options))
+        .collect()
 }
 
 /// Case `index` of the cases of `seed` (id `esc-<seed>-<index>`).
 pub fn case(seed: u64, index: u64) -> Json {
+    case_with(seed, index, &Options::default())
+}
+
+/// Case `index` of the cases of `seed` with `options`.
+pub fn case_with(seed: u64, index: u64, options: &Options) -> Json {
     let mut rng = Rng(seed.wrapping_mul(0x9E37_79B9_7F4A_7C15)
         ^ index.wrapping_mul(0xD1B5_4A32_D192_ED03)
         ^ 0x00E5_CA9E);
     rng.next();
-    super::with_case_cache(Gen::new(rng, format!("esc-{seed}-{index}")).build())
+    let mut generator = Gen::new(rng, format!("esc-{seed}-{index}"));
+    generator.d2 = options.d2;
+    super::with_case_cache(generator.build())
 }
 
 /// `count` cases of a charset sweep: every case prints three strings of random bytes (biased towards
@@ -1026,6 +1044,8 @@ struct Gen {
     in_macro: bool,
     in_aux: bool,
     block_ok: bool,
+    /// [`Options::d2`]: string literals may hold CR bytes.
+    d2: bool,
 }
 
 impl Gen {
@@ -1076,6 +1096,7 @@ impl Gen {
             in_macro: false,
             in_aux: false,
             block_ok: true,
+            d2: false,
         }
     }
 
@@ -2476,9 +2497,14 @@ impl Gen {
         })
     }
 
-    /// A string literal of an interesting string.
+    /// A string literal of an interesting string. Its CR bytes are dropped unless [`Options::d2`]:
+    /// [`Self::literal`] writes them as `\x0d`, and `Compiler::string()` puts the CR byte into the
+    /// compiled PHP (accepted deviation D2). The data still has them.
     fn constant(&mut self) -> String {
-        let bytes = self.string();
+        let mut bytes = self.string();
+        if !self.d2 {
+            bytes.retain(|&b| b != b'\r');
+        }
         self.literal(&bytes)
     }
 
@@ -2531,17 +2557,24 @@ impl Gen {
             38..=43 => "nl2br".to_owned(),
             44..=46 => "spaceless".to_owned(),
             47..=52 => (*self.rng.pick(&["upper", "lower", "title", "capitalize"])).to_owned(),
-            53..=59 => (*self.rng.pick(&[
-                "trim",
-                "trim",
-                "trim('<>')",
-                "trim(side='left')",
-                "trim(null, 'right')",
-                "trim(\" \\t\\n\\r\\0\\x0B\")",
-                "trim(' ')",
-                "trim(character_mask=null)",
-            ]))
-            .to_owned(),
+            53..=59 => {
+                let trim = *self.rng.pick(&[
+                    "trim",
+                    "trim",
+                    "trim('<>')",
+                    "trim(side='left')",
+                    "trim(null, 'right')",
+                    "trim(\" \\t\\n\\r\\0\\x0B\")",
+                    "trim(' ')",
+                    "trim(character_mask=null)",
+                ]);
+                if self.d2 {
+                    trim.to_owned()
+                } else {
+                    // PHP's default list without the CR of the `\r` escape (D2): the data has CRs
+                    trim.replace("\\r", "")
+                }
+            }
             60..=62 => (*self
                 .rng
                 .pick(&["striptags", "striptags('<b>')", "striptags('<b><i>')"]))
@@ -2849,6 +2882,19 @@ mod tests {
             assert!(case.unsupported_reason().is_none(), "{json:?}");
         }
         assert_ne!(generate(8, 5), generate(7, 5));
+    }
+
+    /// No CR byte reaches a compiled string literal unless asked for (accepted deviation D2).
+    #[test]
+    fn cr_escapes_only_with_the_d2_option() {
+        let with_cr = |options: &Options| -> usize {
+            generate_with(3, 3000, options)
+                .iter()
+                .map(super::super::templates_with_cr_escapes)
+                .sum()
+        };
+        assert_eq!(with_cr(&Options::default()), 0);
+        assert!(with_cr(&Options { d2: true }) > 20);
     }
 
     #[test]

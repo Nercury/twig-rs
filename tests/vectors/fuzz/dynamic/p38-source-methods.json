@@ -1,0 +1,385 @@
+{
+  "description": "P38 (plans/parity-fixes.md, G2): the methods of the Twig\\Source objects templates reach through getSourceContext() (TWIG/src/Source.php): getColumn(int $offset) with its coercions and line breaks, __serialize() ((array) $this after resolving the path), __construct() and createWithLazyPath() with their typed parameters, the named-argument checks of every method, var_dump() of the three private properties. Recorded with \"isolation\": \"process\".",
+  "vectors": [
+    {
+      "id": "p38-col-debug",
+      "case": {"id":"p38-col-debug","env":"plain","templates":{"index.twig":"{{ template_from_string('a\\nbc').getSourceContext().getColumn(3) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-debug"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-debug","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795682629,714669]}
+    },
+    {
+      "id": "p38-col-debug-crlf",
+      "case": {"id":"p38-col-debug-crlf","env":"plain","templates":{"index.twig":"{{ template_from_string(\"a\\r\\nbc\").getSourceContext().getColumn(4) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-debug-crlf"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-debug-crlf","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795682629,712407]}
+    },
+    {
+      "id": "p38-col-debug-crlf-mid",
+      "case": {"id":"p38-col-debug-crlf-mid","env":"plain","templates":{"index.twig":"{{ template_from_string(\"a\\r\\nbc\").getSourceContext().getColumn(2) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-debug-crlf-mid"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-debug-crlf-mid","kind":"twig","ok":true,"output":"1","deprecations":[],"diagnostics":[],"clock":[1795682629,719030]}
+    },
+    {
+      "id": "p38-col-debug-cr",
+      "case": {"id":"p38-col-debug-cr","env":"plain","templates":{"index.twig":"{{ template_from_string(\"a\\rbc\").getSourceContext().getColumn(3) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-debug-cr"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-debug-cr","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795682629,718653]}
+    },
+    {
+      "id": "p38-col-debug-past-end",
+      "case": {"id":"p38-col-debug-past-end","env":"plain","templates":{"index.twig":"{{ template_from_string('a\\nbc').getSourceContext().getColumn(30) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-debug-past-end"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-debug-past-end","kind":"twig","ok":true,"output":"3","deprecations":[],"diagnostics":[],"clock":[1795682629,719610]}
+    },
+    {
+      "id": "p38-col-debug-zero",
+      "case": {"id":"p38-col-debug-zero","env":"plain","templates":{"index.twig":"{{ template_from_string('a\\nbc').getSourceContext().getColumn(0) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-debug-zero"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-debug-zero","kind":"twig","ok":true,"output":"1","deprecations":[],"diagnostics":[],"clock":[1795682629,717181]}
+    },
+    {
+      "id": "p38-col-debug-last-newline",
+      "case": {"id":"p38-col-debug-last-newline","env":"plain","templates":{"index.twig":"{{ template_from_string('a\\nbc').getSourceContext().getColumn(2) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-debug-last-newline"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-debug-last-newline","kind":"twig","ok":true,"output":"1","deprecations":[],"diagnostics":[],"clock":[1795682629,727184]}
+    },
+    {
+      "id": "p38-col-negative",
+      "case": {"id":"p38-col-negative","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn(-1) is null ? 'null' : 'int' }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-col-negative"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-negative","kind":"twig","ok":true,"output":"null","deprecations":[],"diagnostics":[],"clock":[1795682629,713369]}
+    },
+    {
+      "id": "p38-col-negative-debug",
+      "case": {"id":"p38-col-negative-debug","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn(-5) is null ? 'null' : 'int' }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-negative-debug"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-negative-debug","kind":"twig","ok":true,"output":"null","deprecations":[],"diagnostics":[],"clock":[1795682629,763221]}
+    },
+    {
+      "id": "p38-col-numeric-string",
+      "case": {"id":"p38-col-numeric-string","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn('2') }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-numeric-string"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-numeric-string","kind":"twig","ok":true,"output":"3","deprecations":[],"diagnostics":[],"clock":[1795682629,766931]}
+    },
+    {
+      "id": "p38-col-leading-numeric",
+      "case": {"id":"p38-col-leading-numeric","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn('2x') }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-leading-numeric"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-leading-numeric","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","formatted":"TypeError: Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682629,772577]}
+    },
+    {
+      "id": "p38-col-bad-string",
+      "case": {"id":"p38-col-bad-string","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn('x') }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-col-bad-string"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-bad-string","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","formatted":"TypeError: Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682629,761479]}
+    },
+    {
+      "id": "p38-col-float",
+      "case": {"id":"p38-col-float","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn(1.5) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-float"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-float","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[{"type":"E_DEPRECATED","message":"Implicit conversion from float 1.5 to int loses precision"}],"clock":[1795682629,767228]}
+    },
+    {
+      "id": "p38-col-float-integral",
+      "case": {"id":"p38-col-float-integral","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn(2.0) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-float-integral"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-float-integral","kind":"twig","ok":true,"output":"3","deprecations":[],"diagnostics":[],"clock":[1795682629,760515]}
+    },
+    {
+      "id": "p38-col-big-float",
+      "case": {"id":"p38-col-big-float","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn(1e20) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-col-big-float"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-big-float","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, float given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, float given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, float given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, float given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","formatted":"TypeError: Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, float given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682629,777796]}
+    },
+    {
+      "id": "p38-col-null",
+      "case": {"id":"p38-col-null","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn(null) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-col-null"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-null","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","formatted":"TypeError: Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682629,769561]}
+    },
+    {
+      "id": "p38-col-bool",
+      "case": {"id":"p38-col-bool","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn(true) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-bool"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-bool","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795682629,812805]}
+    },
+    {
+      "id": "p38-col-array",
+      "case": {"id":"p38-col-array","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn([1]) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-col-array"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-array","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","formatted":"TypeError: Twig\\Source::getColumn(): Argument #1 ($offset) must be of type int, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682629,817072]}
+    },
+    {
+      "id": "p38-col-none",
+      "case": {"id":"p38-col-none","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-col-none"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-none","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Source::getColumn(), 0 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 1 expected\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Source::getColumn(), 0 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 1 expected\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Source::getColumn(), 0 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 1 expected\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ArgumentCountError","message":"Too few arguments to function Twig\\Source::getColumn(), 0 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 1 expected","formatted":"ArgumentCountError: Too few arguments to function Twig\\Source::getColumn(), 0 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 1 expected","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682629,813759]}
+    },
+    {
+      "id": "p38-col-named",
+      "case": {"id":"p38-col-named","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn(offset: 2) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-named"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-named","kind":"twig","ok":true,"output":"3","deprecations":[],"diagnostics":[],"clock":[1795682629,814131]}
+    },
+    {
+      "id": "p38-col-unknown-named",
+      "case": {"id":"p38-col-unknown-named","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn(x: 2) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-col-unknown-named"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-unknown-named","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Unknown named parameter $x","formatted":"Error: Unknown named parameter $x","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682629,820848]}
+    },
+    {
+      "id": "p38-col-unknown-named-then-spread",
+      "case": {"id":"p38-col-unknown-named-then-spread","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn(x: 2, ...[1]) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-col-unknown-named-then-spread"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-unknown-named-then-spread","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Unknown named parameter $x","formatted":"Error: Unknown named parameter $x","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682629,815402]}
+    },
+    {
+      "id": "p38-col-extra",
+      "case": {"id":"p38-col-extra","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn(1, 5) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-extra"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-extra","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795682629,820589]}
+    },
+    {
+      "id": "p38-col-spread",
+      "case": {"id":"p38-col-spread","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn(...[1]) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-spread"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-spread","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795682629,833385]}
+    },
+    {
+      "id": "p38-col-attribute",
+      "case": {"id":"p38-col-attribute","env":"plain","templates":{"index.twig":"{{ attribute(template_from_string('abc', 'n.twig').getSourceContext(), 'getColumn', [2]) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-attribute"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-attribute","kind":"twig","ok":true,"output":"3","deprecations":[],"diagnostics":[],"clock":[1795682629,910799]}
+    },
+    {
+      "id": "p38-col-defined",
+      "case": {"id":"p38-col-defined","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getColumn is defined ? 'y' : 'n' }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-col-defined"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-defined","kind":"twig","ok":true,"output":"y","deprecations":[],"diagnostics":[],"clock":[1795682629,897919]}
+    },
+    {
+      "id": "p38-col-case",
+      "case": {"id":"p38-col-case","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().GETCOLUMN(2) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-col-case"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-case","kind":"twig","ok":true,"output":"3","deprecations":[],"diagnostics":[],"clock":[1795682629,913217]}
+    },
+    {
+      "id": "p38-col-property-name",
+      "case": {"id":"p38-col-property-name","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().column }}"},"data_json":{},"config":{"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/p38-col-property-name"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-col-property-name","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Source::getColumn(), 0 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 1 expected\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Source::getColumn(), 0 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 1 expected\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Source::getColumn(), 0 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 1 expected\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ArgumentCountError","message":"Too few arguments to function Twig\\Source::getColumn(), 0 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 1 expected","formatted":"ArgumentCountError: Too few arguments to function Twig\\Source::getColumn(), 0 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 1 expected","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682629,905689]}
+    },
+    {
+      "id": "p38-serialize-debug",
+      "case": {"id":"p38-serialize-debug","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().__serialize()|json_encode }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-serialize-debug"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-serialize-debug","kind":"twig","ok":true,"output":"{&quot;\\u0000Twig\\\\Source\\u0000code&quot;:&quot;abc&quot;,&quot;\\u0000Twig\\\\Source\\u0000name&quot;:&quot;n.twig (string template 06b05ab6733a618578af5f94892f3950)&quot;,&quot;\\u0000Twig\\\\Source\\u0000path&quot;:&quot;&quot;}","deprecations":[],"diagnostics":[],"clock":[1795682629,926851]}
+    },
+    {
+      "id": "p38-serialize-length",
+      "case": {"id":"p38-serialize-length","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().__serialize()|length }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-serialize-length"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-serialize-length","kind":"twig","ok":true,"output":"3","deprecations":[],"diagnostics":[],"clock":[1795682629,931058]}
+    },
+    {
+      "id": "p38-serialize-extra-arg",
+      "case": {"id":"p38-serialize-extra-arg","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().__serialize(1)|length }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-serialize-extra-arg"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-serialize-extra-arg","kind":"twig","ok":true,"output":"3","deprecations":[],"diagnostics":[],"clock":[1795682629,940981]}
+    },
+    {
+      "id": "p38-serialize-unknown-named",
+      "case": {"id":"p38-serialize-unknown-named","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().__serialize(x: 1)|length }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-serialize-unknown-named"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-serialize-unknown-named","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Unknown named parameter $x","formatted":"Error: Unknown named parameter $x","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682629,917394]}
+    },
+    {
+      "id": "p38-serialize-unknown-named-then-spread",
+      "case": {"id":"p38-serialize-unknown-named-then-spread","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().__serialize(x: 1, ...[1])|length }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-serialize-unknown-named-then-spread"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-serialize-unknown-named-then-spread","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Unknown named parameter $x","formatted":"Error: Unknown named parameter $x","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682629,967192]}
+    },
+    {
+      "id": "p38-serialize-defined",
+      "case": {"id":"p38-serialize-defined","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().__serialize is defined ? 'y' : 'n' }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-serialize-defined"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-serialize-defined","kind":"twig","ok":true,"output":"y","deprecations":[],"diagnostics":[],"clock":[1795682629,969774]}
+    },
+    {
+      "id": "p38-serialize-values",
+      "case": {"id":"p38-serialize-values","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().__serialize()|map(v => v|length)|join(',') }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-serialize-values"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-serialize-values","kind":"twig","ok":true,"output":"0,57,0","deprecations":[],"diagnostics":[],"clock":[1795682629,981991]}
+    },
+    {
+      "id": "p38-dump-debug",
+      "case": {"id":"p38-dump-debug","env":"plain","templates":{"index.twig":"{{ dump(template_from_string('abc', 'n.twig').getSourceContext()) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-dump-debug"},"extensions":["string_loader","debug"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-dump-debug","kind":"twig","ok":true,"output":"object(Twig\\Source)#173 (3) {\n  [\"code\":\"Twig\\Source\":private]=>\n  string(3) \"abc\"\n  [\"name\":\"Twig\\Source\":private]=>\n  string(57) \"n.twig (string template 06b05ab6733a618578af5f94892f3950)\"\n  [\"path\":\"Twig\\Source\":private]=>\n  string(0) \"\"\n}\n","deprecations":[],"diagnostics":[],"clock":[1795682629,986483]}
+    },
+    {
+      "id": "p38-attribute-mangled-defined",
+      "case": {"id":"p38-attribute-mangled-defined","env":"plain","templates":{"index.twig":"{{ attribute(template_from_string('abc', 'n.twig').getSourceContext(), \"\\x00Twig\\\\Source\\x00code\") is defined ? 'y' : 'n' }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-attribute-mangled-defined"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-attribute-mangled-defined","kind":"twig","ok":true,"output":"n","deprecations":[],"diagnostics":[],"clock":[1795682630,532]}
+    },
+    {
+      "id": "p38-attribute-mangled-read",
+      "case": {"id":"p38-attribute-mangled-read","env":"plain","templates":{"index.twig":"{{ attribute(template_from_string('abc', 'n.twig').getSourceContext(), \"\\x00Twig\\\\Source\\x00name\") }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-attribute-mangled-read"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-attribute-mangled-read","kind":"twig","ok":true,"output":"","deprecations":[],"diagnostics":[],"clock":[1795682629,998019]}
+    },
+    {
+      "id": "p38-json",
+      "case": {"id":"p38-json","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext()|json_encode }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-json"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-json","kind":"twig","ok":true,"output":"{}","deprecations":[],"diagnostics":[],"clock":[1795682630,8251]}
+    },
+    {
+      "id": "p38-getcode-debug",
+      "case": {"id":"p38-getcode-debug","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getCode() }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-getcode-debug"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-getcode-debug","kind":"twig","ok":true,"output":"abc","deprecations":[],"diagnostics":[],"clock":[1795682630,13204]}
+    },
+    {
+      "id": "p38-getpath",
+      "case": {"id":"p38-getpath","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getPath() is same as('') ? 'empty' : 'set' }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-getpath"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-getpath","kind":"twig","ok":true,"output":"empty","deprecations":[],"diagnostics":[],"clock":[1795682630,30412]}
+    },
+    {
+      "id": "p38-compare-same",
+      "case": {"id":"p38-compare-same","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext() == template_from_string('abc', 'n.twig').getSourceContext() ? 'eq' : 'ne' }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-compare-same"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-compare-same","kind":"twig","ok":true,"output":"eq","deprecations":[],"diagnostics":[],"clock":[1795682630,24642]}
+    },
+    {
+      "id": "p38-construct",
+      "case": {"id":"p38-construct","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().__construct('x', 'y') }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct","kind":"twig","ok":true,"output":"","deprecations":[],"diagnostics":[],"clock":[1795682630,40846]}
+    },
+    {
+      "id": "p38-lazy-defined",
+      "case": {"id":"p38-lazy-defined","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath is defined ? 'y' : 'n' }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-defined"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-defined","kind":"twig","ok":true,"output":"y","deprecations":[],"diagnostics":[],"clock":[1795682630,45295]}
+    },
+    {
+      "id": "p38-construct-values",
+      "case": {"id":"p38-construct-values","env":"plain","templates":{"index.twig":"{% set s = template_from_string('abc', 'n.twig').getSourceContext() %}{{ s.__construct('x', 'y', 'z') }}{{ s.getCode() }}|{{ s.getName() }}|{{ s.getPath() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct-values"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-values","kind":"twig","ok":true,"output":"x|y|z","deprecations":[],"diagnostics":[],"clock":[1795682630,56694]}
+    },
+    {
+      "id": "p38-construct-coerce",
+      "case": {"id":"p38-construct-coerce","env":"plain","templates":{"index.twig":"{% set s = template_from_string('abc', 'n.twig').getSourceContext() %}{{ s.__construct(1, 2.5) }}{{ s.getCode() }}|{{ s.getName() }}|{{ s.getPath() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct-coerce"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-coerce","kind":"twig","ok":true,"output":"1|2.5|","deprecations":[],"diagnostics":[],"clock":[1795682630,60402]}
+    },
+    {
+      "id": "p38-construct-bool",
+      "case": {"id":"p38-construct-bool","env":"plain","templates":{"index.twig":"{% set s = template_from_string('abc', 'n.twig').getSourceContext() %}{{ s.__construct(true, false) }}{{ s.getCode() }}|{{ s.getName() }}|"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct-bool"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-bool","kind":"twig","ok":true,"output":"1||","deprecations":[],"diagnostics":[],"clock":[1795682630,60526]}
+    },
+    {
+      "id": "p38-construct-array",
+      "case": {"id":"p38-construct-array","env":"plain","templates":{"index.twig":"{% set s = template_from_string('abc', 'n.twig').getSourceContext() %}{{ s.__construct([1], 'y') }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct-array"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-array","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Twig\\Source::__construct(): Argument #1 ($code) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Source::__construct(): Argument #1 ($code) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Twig\\Source::__construct(): Argument #1 ($code) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Twig\\Source::__construct(): Argument #1 ($code) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","formatted":"TypeError: Twig\\Source::__construct(): Argument #1 ($code) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682630,59440]}
+    },
+    {
+      "id": "p38-construct-null",
+      "case": {"id":"p38-construct-null","env":"plain","templates":{"index.twig":"{% set s = template_from_string('abc', 'n.twig').getSourceContext() %}{{ s.__construct('x', null) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct-null"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-null","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Twig\\Source::__construct(): Argument #2 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Source::__construct(): Argument #2 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Twig\\Source::__construct(): Argument #2 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Twig\\Source::__construct(): Argument #2 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","formatted":"TypeError: Twig\\Source::__construct(): Argument #2 ($name) must be of type string, null given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682630,79183]}
+    },
+    {
+      "id": "p38-construct-bad-path",
+      "case": {"id":"p38-construct-bad-path","env":"plain","templates":{"index.twig":"{% set s = template_from_string('abc', 'n.twig').getSourceContext() %}{{ s.__construct('x', 'y', []) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct-bad-path"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-bad-path","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Twig\\Source::__construct(): Argument #3 ($path) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Source::__construct(): Argument #3 ($path) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Twig\\Source::__construct(): Argument #3 ($path) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Twig\\Source::__construct(): Argument #3 ($path) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","formatted":"TypeError: Twig\\Source::__construct(): Argument #3 ($path) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682630,78885]}
+    },
+    {
+      "id": "p38-construct-too-few",
+      "case": {"id":"p38-construct-too-few","env":"plain","templates":{"index.twig":"{% set s = template_from_string('abc', 'n.twig').getSourceContext() %}{{ s.__construct('x') }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct-too-few"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-too-few","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Source::__construct(), 1 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and at least 2 expected\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Source::__construct(), 1 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and at least 2 expected\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Source::__construct(), 1 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and at least 2 expected\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ArgumentCountError","message":"Too few arguments to function Twig\\Source::__construct(), 1 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and at least 2 expected","formatted":"ArgumentCountError: Too few arguments to function Twig\\Source::__construct(), 1 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and at least 2 expected","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682630,102152]}
+    },
+    {
+      "id": "p38-construct-named",
+      "case": {"id":"p38-construct-named","env":"plain","templates":{"index.twig":"{% set s = template_from_string('abc', 'n.twig').getSourceContext() %}{{ s.__construct(name: 'n', code: 'c') }}{{ s.getCode() }}|{{ s.getName() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct-named"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-named","kind":"twig","ok":true,"output":"c|n","deprecations":[],"diagnostics":[],"clock":[1795682630,98080]}
+    },
+    {
+      "id": "p38-construct-unknown-named",
+      "case": {"id":"p38-construct-unknown-named","env":"plain","templates":{"index.twig":"{% set s = template_from_string('abc', 'n.twig').getSourceContext() %}{{ s.__construct('c', 'n', zz: 1) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct-unknown-named"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-unknown-named","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $zz\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $zz\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $zz\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Unknown named parameter $zz","formatted":"Error: Unknown named parameter $zz","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682630,129250]}
+    },
+    {
+      "id": "p38-construct-stringable",
+      "case": {"id":"p38-construct-stringable","env":"plain","templates":{"index.twig":"{% set m %}<b>{% endset %}{% set s = template_from_string('abc', 'n.twig').getSourceContext() %}{{ s.__construct(m, 'n') }}{{ s.getCode() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct-stringable"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-stringable","kind":"twig","ok":true,"output":"&lt;b&gt;","deprecations":[],"diagnostics":[],"clock":[1795682630,124645]}
+    },
+    {
+      "id": "p38-construct-then-column",
+      "case": {"id":"p38-construct-then-column","env":"plain","templates":{"index.twig":"{% set s = template_from_string('abc', 'n.twig').getSourceContext() %}{{ s.__construct('a\\nbc', 'n') }}{{ s.getColumn(3) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct-then-column"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-then-column","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795682630,124533]}
+    },
+    {
+      "id": "p38-construct-then-serialize",
+      "case": {"id":"p38-construct-then-serialize","env":"plain","templates":{"index.twig":"{% set s = template_from_string('abc', 'n.twig').getSourceContext() %}{{ s.__construct('c', 'n', 'p') }}{{ s.__serialize()|json_encode }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct-then-serialize"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-then-serialize","kind":"twig","ok":true,"output":"{&quot;\\u0000Twig\\\\Source\\u0000code&quot;:&quot;c&quot;,&quot;\\u0000Twig\\\\Source\\u0000name&quot;:&quot;n&quot;,&quot;\\u0000Twig\\\\Source\\u0000path&quot;:&quot;p&quot;}","deprecations":[],"diagnostics":[],"clock":[1795682630,128900]}
+    },
+    {
+      "id": "p38-construct-then-dump",
+      "case": {"id":"p38-construct-then-dump","env":"plain","templates":{"index.twig":"{% set s = template_from_string('abc', 'n.twig').getSourceContext() %}{{ s.__construct('c', 'n', 'p') }}{{ dump(s) }}"},"data_json":{},"config":{"debug":true,"cache":"/tmp/twig-fuzz-cache/p38-construct-then-dump"},"extensions":["string_loader","debug"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-then-dump","kind":"twig","ok":true,"output":"object(Twig\\Source)#192 (3) {\n  [\"code\":\"Twig\\Source\":private]=>\n  string(1) \"c\"\n  [\"name\":\"Twig\\Source\":private]=>\n  string(1) \"n\"\n  [\"path\":\"Twig\\Source\":private]=>\n  string(1) \"p\"\n}\n","deprecations":[],"diagnostics":[],"clock":[1795682630,151714]}
+    },
+    {
+      "id": "p38-construct-returns-null",
+      "case": {"id":"p38-construct-returns-null","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().__construct('c', 'n') is null ? 'null' : 'other' }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-construct-returns-null"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-construct-returns-null","kind":"twig","ok":true,"output":"null","deprecations":[],"diagnostics":[],"clock":[1795682630,145891]}
+    },
+    {
+      "id": "p38-lazy-get-code",
+      "case": {"id":"p38-lazy-get-code","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath('c', 'n', x => 'p').getCode() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-get-code"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-get-code","kind":"twig","ok":true,"output":"c","deprecations":[],"diagnostics":[],"clock":[1795682630,156007]}
+    },
+    {
+      "id": "p38-lazy-get-path",
+      "case": {"id":"p38-lazy-get-path","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath('c', 'n', x => 'p').getPath() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-get-path"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-get-path","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Too few arguments to function __TwigTemplate_451b9eee0353139668e4360e61cd08e0::{closure:__TwigTemplate_451b9eee0353139668e4360e61cd08e0::doDisplay():47}(), 0 passed in /oracle/vendor/twig/twig/src/Source.php on line 63 and exactly 1 expected\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function __TwigTemplate_451b9eee0353139668e4360e61cd08e0::{closure:__TwigTemplate_451b9eee0353139668e4360e61cd08e0::doDisplay():47}(), 0 passed in /oracle/vendor/twig/twig/src/Source.php on line 63 and exactly 1 expected\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Too few arguments to function __TwigTemplate_451b9eee0353139668e4360e61cd08e0::{closure:__TwigTemplate_451b9eee0353139668e4360e61cd08e0::doDisplay():47}(), 0 passed in /oracle/vendor/twig/twig/src/Source.php on line 63 and exactly 1 expected\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ArgumentCountError","message":"Too few arguments to function __TwigTemplate_451b9eee0353139668e4360e61cd08e0::{closure:__TwigTemplate_451b9eee0353139668e4360e61cd08e0::doDisplay():47}(), 0 passed in /oracle/vendor/twig/twig/src/Source.php on line 63 and exactly 1 expected","formatted":"ArgumentCountError: Too few arguments to function __TwigTemplate_451b9eee0353139668e4360e61cd08e0::{closure:__TwigTemplate_451b9eee0353139668e4360e61cd08e0::doDisplay():47}(), 0 passed in /oracle/vendor/twig/twig/src/Source.php on line 63 and exactly 1 expected","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682630,162325]}
+    },
+    {
+      "id": "p38-lazy-serialize",
+      "case": {"id":"p38-lazy-serialize","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath('c', 'n', x => 'p').__serialize()|length }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-serialize"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-serialize","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Too few arguments to function __TwigTemplate_5f51b5382a8513ea480b837bc1f9987c::{closure:__TwigTemplate_5f51b5382a8513ea480b837bc1f9987c::doDisplay():47}(), 0 passed in /oracle/vendor/twig/twig/src/Source.php on line 63 and exactly 1 expected\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function __TwigTemplate_5f51b5382a8513ea480b837bc1f9987c::{closure:__TwigTemplate_5f51b5382a8513ea480b837bc1f9987c::doDisplay():47}(), 0 passed in /oracle/vendor/twig/twig/src/Source.php on line 63 and exactly 1 expected\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Too few arguments to function __TwigTemplate_5f51b5382a8513ea480b837bc1f9987c::{closure:__TwigTemplate_5f51b5382a8513ea480b837bc1f9987c::doDisplay():47}(), 0 passed in /oracle/vendor/twig/twig/src/Source.php on line 63 and exactly 1 expected\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ArgumentCountError","message":"Too few arguments to function __TwigTemplate_5f51b5382a8513ea480b837bc1f9987c::{closure:__TwigTemplate_5f51b5382a8513ea480b837bc1f9987c::doDisplay():47}(), 0 passed in /oracle/vendor/twig/twig/src/Source.php on line 63 and exactly 1 expected","formatted":"ArgumentCountError: Too few arguments to function __TwigTemplate_5f51b5382a8513ea480b837bc1f9987c::{closure:__TwigTemplate_5f51b5382a8513ea480b837bc1f9987c::doDisplay():47}(), 0 passed in /oracle/vendor/twig/twig/src/Source.php on line 63 and exactly 1 expected","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682630,191522]}
+    },
+    {
+      "id": "p38-lazy-bad-closure",
+      "case": {"id":"p38-lazy-bad-closure","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath('c', 'n', 'p').getCode() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-bad-closure"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-bad-closure","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Twig\\Source::createWithLazyPath(): Argument #3 ($path) must be of type Closure, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Source::createWithLazyPath(): Argument #3 ($path) must be of type Closure, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Twig\\Source::createWithLazyPath(): Argument #3 ($path) must be of type Closure, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Twig\\Source::createWithLazyPath(): Argument #3 ($path) must be of type Closure, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","formatted":"TypeError: Twig\\Source::createWithLazyPath(): Argument #3 ($path) must be of type Closure, string given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682630,187713]}
+    },
+    {
+      "id": "p38-lazy-too-few",
+      "case": {"id":"p38-lazy-too-few","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath('c', 'n').getCode() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-too-few"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-too-few","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Source::createWithLazyPath(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 3 expected\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Source::createWithLazyPath(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 3 expected\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Too few arguments to function Twig\\Source::createWithLazyPath(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 3 expected\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"ArgumentCountError","message":"Too few arguments to function Twig\\Source::createWithLazyPath(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 3 expected","formatted":"ArgumentCountError: Too few arguments to function Twig\\Source::createWithLazyPath(), 2 passed in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001 and exactly 3 expected","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682630,191278]}
+    },
+    {
+      "id": "p38-lazy-bad-code",
+      "case": {"id":"p38-lazy-bad-code","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath([], 'n', x => 1).getCode() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-bad-code"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-bad-code","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Twig\\Source::createWithLazyPath(): Argument #1 ($code) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Twig\\Source::createWithLazyPath(): Argument #1 ($code) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Twig\\Source::createWithLazyPath(): Argument #1 ($code) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"TypeError","message":"Twig\\Source::createWithLazyPath(): Argument #1 ($code) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","formatted":"TypeError: Twig\\Source::createWithLazyPath(): Argument #1 ($code) must be of type string, array given, called in /oracle/vendor/twig/twig/src/Extension/CoreExtension.php on line 2001","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682630,201010]}
+    },
+    {
+      "id": "p38-lazy-coerce",
+      "case": {"id":"p38-lazy-coerce","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath(1, 2, x => 1).getName() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-coerce"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-coerce","kind":"twig","ok":true,"output":"2","deprecations":[],"diagnostics":[],"clock":[1795682630,209527]}
+    },
+    {
+      "id": "p38-lazy-column",
+      "case": {"id":"p38-lazy-column","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath('a\\nb', 'n', x => 'p').getColumn(2) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-column"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-column","kind":"twig","ok":true,"output":"1","deprecations":[],"diagnostics":[],"clock":[1795682630,224322]}
+    },
+    {
+      "id": "p38-lazy-compare",
+      "case": {"id":"p38-lazy-compare","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath('', 'n', x => 1) == template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath('', 'n', x => 1) ? 'eq' : 'ne' }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-compare"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-compare","kind":"twig","ok":true,"output":"ne","deprecations":[],"diagnostics":[],"clock":[1795682630,231321]}
+    },
+    {
+      "id": "p38-lazy-named",
+      "case": {"id":"p38-lazy-named","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath(path: x => 1, name: 'n', code: 'c').getName() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-named"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-named","kind":"twig","ok":true,"output":"n","deprecations":[],"diagnostics":[],"clock":[1795682630,225216]}
+    },
+    {
+      "id": "p38-lazy-unknown-named-then-spread",
+      "case": {"id":"p38-lazy-unknown-named-then-spread","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath(zz: 1, ...['c', 'n', x => 1]).getName() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-unknown-named-then-spread"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-unknown-named-then-spread","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $zz\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $zz\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $zz\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Unknown named parameter $zz","formatted":"Error: Unknown named parameter $zz","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682630,248115]}
+    },
+    {
+      "id": "p38-lazy-chained",
+      "case": {"id":"p38-lazy-chained","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath('c', 'n', x => 1).createWithLazyPath('d', 'm', x => 2).getCode() }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-chained"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-chained","kind":"twig","ok":true,"output":"d","deprecations":[],"diagnostics":[],"clock":[1795682630,254379]}
+    },
+    {
+      "id": "p38-lazy-construct",
+      "case": {"id":"p38-lazy-construct","env":"plain","templates":{"index.twig":"{% set s = template_from_string('abc', 'n.twig').getSourceContext().createWithLazyPath('c', 'n', x => 1) %}{{ s.__construct('d', 'm') }}{{ s.getPath() is same as('') ? 'empty' : 'set' }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-lazy-construct"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-lazy-construct","kind":"twig","ok":true,"output":"empty","deprecations":[],"diagnostics":[],"clock":[1795682630,252641]}
+    },
+    {
+      "id": "p38-getcode-unknown-named",
+      "case": {"id":"p38-getcode-unknown-named","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getCode(x: 1) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-getcode-unknown-named"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-getcode-unknown-named","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Unknown named parameter $x","formatted":"Error: Unknown named parameter $x","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682630,268493]}
+    },
+    {
+      "id": "p38-getcode-extra",
+      "case": {"id":"p38-getcode-extra","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getCode(1, 2) }}|"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-getcode-extra"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-getcode-extra","kind":"twig","ok":true,"output":"|","deprecations":[],"diagnostics":[],"clock":[1795682630,268541]}
+    },
+    {
+      "id": "p38-getpath-unknown-named-then-spread",
+      "case": {"id":"p38-getpath-unknown-named-then-spread","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().getPath(x: 1, ...[1]) }}"},"data_json":{},"config":{"cache":"/tmp/twig-fuzz-cache/p38-getpath-unknown-named-then-spread"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-getpath-unknown-named-then-spread","kind":"twig","ok":false,"phase":"render","error":{"class":"Twig\\Error\\RuntimeError","message":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.","formatted":"Twig\\Error\\RuntimeError: An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\") in \"index.twig\" at line 1.","rawMessage":"An exception has been thrown during the rendering of a template (\"Unknown named parameter $x\").","templateName":"index.twig","templateLine":1,"templateColumn":null,"previous":{"class":"Error","message":"Unknown named parameter $x","formatted":"Error: Unknown named parameter $x","code":0}},"deprecations":[],"diagnostics":[],"clock":[1795682630,271617]}
+    },
+    {
+      "id": "p38-getname-strict",
+      "case": {"id":"p38-getname-strict","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().name }}"},"data_json":{},"config":{"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/p38-getname-strict"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-getname-strict","kind":"twig","ok":true,"output":"n.twig (string template 06b05ab6733a618578af5f94892f3950)","deprecations":[],"diagnostics":[],"clock":[1795682630,278873]}
+    },
+    {
+      "id": "p38-code-property-strict",
+      "case": {"id":"p38-code-property-strict","env":"plain","templates":{"index.twig":"{{ template_from_string('abc', 'n.twig').getSourceContext().code is defined ? 'y' : 'n' }}"},"data_json":{},"config":{"strict_variables":true,"cache":"/tmp/twig-fuzz-cache/p38-code-property-strict"},"extensions":["string_loader"],"memory_limit":"512M","time_limit":30,"clock":true},
+      "oracle": {"id":"p38-code-property-strict","kind":"twig","ok":true,"output":"y","deprecations":[],"diagnostics":[],"clock":[1795682630,287366]}
+    }
+  ]
+}

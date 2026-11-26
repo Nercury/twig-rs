@@ -4,7 +4,8 @@ version = "0.1.0"
 description = "PHP-exact DateTime, DateTimeZone, DateInterval objects and date functions (ext/date) for the twig template engine."
 edition.workspace = true
 rust-version.workspace = true
-license = "BSD-3-Clause AND PHP-3.01"
+# BSD-3-Clause: twig-rs. PHP-3.01: ported ext/date code. Zend-2.0: InternalIterator (zend_interfaces.c). See NOTICE.
+license = "BSD-3-Clause AND PHP-3.01 AND Zend-2.0"
 repository.workspace = true
 authors.workspace = true
 

@@ -11,11 +11,15 @@
 //! `random.gen.py`):
 //!
 //!     MSYS_NO_PATHCONV=1 docker run --rm -i -v "$PWD/tests/vectors/visitors:/v" -e CASES_FILE=/v/optimizer_mode.gen.json twig-oracle:3.31.1 php < tests/vectors/visitors/visitors.gen.php > tests/vectors/visitors/optimizer_mode.json
+//!
+//! `optimizer_mode_env.json` and `need_escaping_env.json` are twig-fuzz vector files recorded from their `*.gen.json`
+//! batches (the description inside each file says how).
 
 mod common;
 
 /// twig-fuzz's replay core (runner, diff, vector files), compiled in as `tests/fuzz_regressions.rs` does, for the
-/// environment-level vectors of `optimizer_mode_vectors_through_an_environment`.
+/// environment-level vectors of `optimizer_mode_vectors_through_an_environment` and
+/// `need_escaping_vectors_through_an_environment`.
 #[allow(dead_code)]
 #[path = "../crates/twig-fuzz/src/kit/mod.rs"]
 mod kit;
@@ -345,16 +349,6 @@ fn expected_security(case: &Json) -> Vec<String> {
         .unwrap_or_default()
 }
 
-/// Whether `error` stands for the oracle's exception class: the same class name (Twig's errors, `LogicException`, the
-/// `InvalidArgumentException` of an invalid optimizer mode), except for the `TypeError` of `needEscaping()`, which has
-/// a `LogicException`-kind stand-in (reference/deviations.md).
-fn same_class(error: &twig::Error, class: &str) -> bool {
-    match class {
-        "TypeError" => error.kind() == ErrorKind::Logic,
-        _ => error.class_name() == class,
-    }
-}
-
 /// Runs one vector case; `Err` describes the mismatch.
 fn check_case(case: &Json) -> Result<(), String> {
     let code = match case.get("source") {
@@ -391,9 +385,11 @@ fn check_case(case: &Json) -> Result<(), String> {
         (Ok(_), Some(error)) => problems.push(format!("expected error {error:?}, parsed fine")),
         (Err(error), None) => problems.push(format!("unexpected error {error:?}")),
         (Err(error), Some(expected)) => {
+            // Twig's errors, `LogicException`, and the PHP throwables (the `InvalidArgumentException` of an invalid
+            // optimizer mode, the `TypeError` of `needEscaping()`), each by its own class
             let class = expected.field("class").as_str().unwrap();
             let message = expected.field("message").as_lossy_string();
-            if !same_class(&error, class) || error.to_string() != message {
+            if error.class_name() != class || error.to_string() != message {
                 problems.push(format!(
                     "error differs: expected {class}: {message}, got {}: {error}",
                     error.class_name()
@@ -448,10 +444,28 @@ fn optimizer_mode_vectors() {
 /// `tests/fuzz_regressions.rs`).
 #[test]
 fn optimizer_mode_vectors_through_an_environment() {
+    replay_environment_vectors("optimizer_mode_env.json", 29);
+}
+
+/// The `TypeError` of `EscaperNodeVisitor::needEscaping()` through an `Environment` (`need_escaping_env.json`,
+/// twig-fuzz vectors recorded from `need_escaping_env.gen.json` with one PHP process per case): `{% autoescape null %}`
+/// around a print, a block or a block reference. `compile_source()` does not wrap it (it is a PHP `\Error`), so
+/// loading the template fails with the `TypeError` itself, as does loading a template that uses it as a trait (its
+/// constructor loads the trait). A template that loads it while rendering (`include`, `embed`, `extends`, `import`,
+/// `from`, `block()`, `include()`, `template_from_string()`) wraps it in a `RuntimeError` at the line of the loading
+/// tag.
+#[test]
+fn need_escaping_vectors_through_an_environment() {
+    replay_environment_vectors("need_escaping_env.json", 53);
+}
+
+/// Replays a twig-fuzz vector file of `tests/vectors/visitors/` with at least `minimum` vectors.
+fn replay_environment_vectors(file: &str, minimum: usize) {
     let file = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("tests/vectors/visitors/optimizer_mode_env.json");
+        .join("tests/vectors/visitors")
+        .join(file);
     let replayed = kit::vectors::replay_files(&[file], Duration::from_secs(60));
-    assert!(replayed.len() >= 29, "only {} vectors", replayed.len());
+    assert!(replayed.len() >= minimum, "only {} vectors", replayed.len());
     let failures: Vec<String> = replayed
         .iter()
         .filter_map(|r| match &r.status {
@@ -905,6 +919,36 @@ fn callback_errors_stop_the_compilation() {
         error.to_string(),
         "An exception has been thrown during the compilation of a template (\"Unable to choose a strategy.\") in \"index\"."
     );
+}
+
+/// A default strategy that `needEscaping(): string|bool` cannot return (an array, vector `callable-strategy-array`)
+/// fails with PHP's `TypeError`, which the `catch` blocks of `compileSource()` let through: it is an `\Error`, not an
+/// `\Exception`.
+#[test]
+fn need_escaping_type_errors_are_not_wrapped() {
+    let mut set = ExtensionSet::new();
+    set.add_extension(Arc::new(CoreExtension::new())).unwrap();
+    set.add_extension(Arc::new(EscaperExtension::with_default_strategy(
+        DefaultStrategy::Callback(Arc::new(|_: &str| {
+            Ok(ConstantValue::Array(vec![(
+                twig::ast::ArrayKey::Int(0),
+                ConstantValue::from("html"),
+            )]))
+        })),
+    )))
+    .unwrap();
+    let mut deprecations: Vec<Deprecation> = Vec::new();
+    let error = ParseContext::new(set)
+        .parse_template(&Source::new("{{ a }}", "index"), &mut deprecations)
+        .unwrap_err();
+    assert_eq!(error.kind(), ErrorKind::Php);
+    assert_eq!(error.class_name(), "TypeError");
+    assert_eq!(
+        error.to_string(),
+        "Twig\\NodeVisitor\\EscaperNodeVisitor::needEscaping(): Return value must be of type string|bool, array returned"
+    );
+    assert!(error.previous().is_none());
+    assert!(error.source_context().is_none());
 }
 
 // ---- the sandbox visitor --------------------------------------------------------------------------------------------

@@ -27,10 +27,13 @@
 //! data code that throws (invalid zones and modifiers), and sizes that kill the oracle at its hard
 //! memory limit (huge `number_format` decimals, `*` widths up to `INT_MAX`). The known
 //! operand-order mismatch of commutative PHP opcodes (`+`, `*`, `b-or`, ...) is not provoked:
-//! arithmetic only gets operands that raise no diagnostics.
+//! arithmetic only gets operands that raise no diagnostics. A string with a CR byte goes into the
+//! data rather than into a literal: its `\x0d` escape would put the CR byte into the compiled PHP
+//! (accepted deviation D2; [`super::Options::d2`] lets it through).
 
 use std::fmt::Write as _;
 
+use super::Options;
 use crate::kit::json::Json;
 
 /// The family name (the prefix of case ids).
@@ -96,6 +99,13 @@ impl Kind {
 /// `count` cases of every kind for `seed`.
 pub fn generate(seed: u64, count: usize) -> Vec<Json> {
     generate_kinds(seed, count, &Kind::ALL)
+}
+
+/// `count` cases of every kind for `seed` with `options`.
+pub fn generate_with(seed: u64, count: usize, options: &Options) -> Vec<Json> {
+    (0..count as u64)
+        .map(|n| case_with(seed, n, &Kind::ALL, options))
+        .collect()
 }
 
 /// `count` cases for `seed` drawn from `kinds` (every kind when empty).
@@ -244,8 +254,14 @@ pub fn grid() -> Vec<Json> {
 
 /// Case `n` of `seed`: an oracle "twig" case in the plain environment.
 pub fn case(seed: u64, n: u64, kinds: &[Kind]) -> Json {
+    case_with(seed, n, kinds, &Options::default())
+}
+
+/// Case `n` of `seed` with `options`.
+pub fn case_with(seed: u64, n: u64, kinds: &[Kind], options: &Options) -> Json {
     let kinds: &[Kind] = if kinds.is_empty() { &Kind::ALL } else { kinds };
     let mut g = Gen::new(Rng::new(mix(seed) ^ mix(n ^ 0x6a09_e667_f3bc_c908)));
+    g.d2 = options.d2;
     let weights: Vec<u32> = kinds.iter().map(|k| k.weight()).collect();
     let main = kinds[g.rng.weighted(&weights)];
     if g.rng.chance(22) {
@@ -378,6 +394,18 @@ enum Key {
 }
 
 impl V {
+    /// Whether a string of the value holds a CR byte.
+    fn has_cr(&self) -> bool {
+        match self {
+            V::Str(bytes) => bytes.contains(&b'\r'),
+            V::List(items) => items.iter().any(V::has_cr),
+            V::Map(entries) => entries.iter().any(|(key, value)| {
+                matches!(key, Key::Str(s) if s.contains('\r')) || value.has_cr()
+            }),
+            _ => false,
+        }
+    }
+
     fn s(text: &str) -> V {
         V::Str(text.as_bytes().to_vec())
     }
@@ -1482,6 +1510,8 @@ struct Gen {
     debug: bool,
     /// The `autoescape` option (Twig's default `html` when `None`).
     autoescape: Option<Json>,
+    /// [`Options::d2`]: string literals may hold CR bytes.
+    d2: bool,
 }
 
 impl Gen {
@@ -1493,6 +1523,7 @@ impl Gen {
             timezone: None,
             debug: false,
             autoescape: None,
+            d2: false,
         }
     }
 
@@ -1555,10 +1586,11 @@ impl Gen {
         Json::Object(fields)
     }
 
-    /// The value inline (as a literal) or as a data variable.
+    /// The value inline (as a literal) or as a data variable; a value with a CR byte only as a
+    /// variable, unless [`Options::d2`] (see the module documentation).
     fn put(&mut self, value: V) -> String {
         match value.twig() {
-            Some(literal) if !self.rng.chance(35) => literal,
+            Some(literal) if !self.rng.chance(35) && (self.d2 || !value.has_cr()) => literal,
             _ => self.var(value),
         }
     }
@@ -4034,6 +4066,19 @@ mod tests {
         }
         // case n does not depend on the batch size
         assert_eq!(generate(7, 5)[3], a[3]);
+    }
+
+    /// A string with a CR byte is a literal only when asked for (accepted deviation D2).
+    #[test]
+    fn cr_escapes_only_with_the_d2_option() {
+        let with_cr = |options: &Options| -> usize {
+            (0..30_000)
+                .map(|n| case_with(4, n, &[Kind::Json], options))
+                .map(|case| super::super::templates_with_cr_escapes(&case))
+                .sum()
+        };
+        assert_eq!(with_cr(&Options::default()), 0);
+        assert!(with_cr(&Options { d2: true }) > 0);
     }
 
     #[test]

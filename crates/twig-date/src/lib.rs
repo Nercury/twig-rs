@@ -47,7 +47,10 @@
 //!
 //! The objects implement [`twig_value::object::Object`]: methods are dispatched by name through
 //! [`twig_value::ObjectRef::call_method`] with PHP's argument parsing and verbatim errors (`DateTime::setTime():
-//! Argument #1 ($hour) must be of type int, string given`), mutators of `DateTimeImmutable` return modified
+//! Argument #1 ($hour) must be of type int, string given`), each method binds its arguments to the parameters of
+//! PHPSRC/ext/date/php_date.stub.php and reports them through
+//! [`Object::method_params`](twig_value::object::Object::method_params) (so that a caller unpacking `...$args`
+//! checks named arguments as PHP sends them), mutators of `DateTimeImmutable` return modified
 //! clones, `clone` copies, and `==`/`<`/`<=>` between date objects compare instants. The synthetic properties
 //! follow `get_properties_for`: `var_dump()`, `(array)`, `var_export()` and `json_encode()` see `date`,
 //! `timezone_type` and `timezone` (`timezone_type`/`timezone` for `DateTimeZone`), while `get_object_vars()`,

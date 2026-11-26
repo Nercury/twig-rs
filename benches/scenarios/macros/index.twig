@@ -1,0 +1,8 @@
+{% import "forms.twig" as forms %}
+{% from "forms.twig" import input %}
+<form method="post">
+{% for field in fields %}
+  {{ forms.field(field.label, field.name, field.value, loop.index is divisible by(3)) }}
+  {{ input(field.name ~ "_confirm", field.value, "hidden", {"data-index": loop.index, class: "confirm"}) }}
+{% endfor %}
+</form>

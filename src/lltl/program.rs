@@ -79,6 +79,22 @@ impl LineTable {
         }
     }
 
+    /// Gives the runs that start at instruction `from` or later with the line `old` the line `new`
+    /// ([`Self::NO_MARKER`] for none), merging the runs that then repeat the line before them.
+    pub(crate) fn replace_from(&mut self, from: u32, old: i64, new: i64) {
+        for run in &mut self.runs {
+            if run.0 >= from && run.1 == old {
+                run.1 = new;
+            }
+        }
+        let mut previous = Self::NO_MARKER;
+        self.runs.retain(|&(_, line)| {
+            let distinct = line != previous;
+            previous = line;
+            distinct
+        });
+    }
+
     /// The runs as `(first instruction, line)` pairs ([`i64::MIN`] for "no marker").
     pub fn runs(&self) -> &[(u32, i64)] {
         &self.runs
@@ -470,5 +486,22 @@ mod tests {
         assert_eq!(table.line_at(9), None);
         table.push(10, 0);
         assert_eq!(table.line_at(10), Some(0));
+    }
+
+    #[test]
+    fn line_table_replace_from() {
+        let mut table = LineTable::default();
+        table.push(1, -7);
+        table.push(2, 1);
+        table.push(4, -7);
+        table.push(6, 2);
+        table.push(8, -7);
+        table.replace_from(2, -7, 1);
+        // the run before `from` keeps its line; the replaced runs merge with an equal predecessor
+        assert_eq!(table.runs(), &[(1, -7), (2, 1), (6, 2), (8, 1)]);
+        table.replace_from(0, -7, LineTable::NO_MARKER);
+        assert_eq!(table.runs(), &[(2, 1), (6, 2), (8, 1)]);
+        assert_eq!(table.line_at(1), None);
+        assert_eq!(table.line_at(5), Some(1));
     }
 }

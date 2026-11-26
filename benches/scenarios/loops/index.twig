@@ -1,0 +1,18 @@
+<table class="report">
+  <thead><tr><th>#</th>{% for i in 1..10 %}<th>c{{ i }}</th>{% endfor %}<th>name</th><th>total</th></tr></thead>
+  <tbody>
+  {% for row in rows %}
+    <tr class="{{ loop.index is odd ? 'odd' : 'even' }}{{ loop.first ? ' first' }}{{ loop.last ? ' last' }}">
+      <td>{{ loop.index }}/{{ loop.length }}</td>
+      {% for cell in row.cells %}
+        <td{% if cell > 500 %} class="high"{% endif %}>{{ cell }}</td>
+      {% endfor %}
+      <td>{{ row.name }}{% if row.active %} (active){% endif %}</td>
+      {% set total = 0 %}{% for cell in row.cells %}{% set total = total + cell %}{% endfor %}
+      <td>{{ total }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="13">no rows</td></tr>
+  {% endfor %}
+  </tbody>
+</table>

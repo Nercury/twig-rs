@@ -1,0 +1,10 @@
+{% extends "layout.twig" %}
+
+{% block title %}{{ page.title }} | {{ parent() }}{% endblock %}
+
+{% block body %}
+  <h1>{{ page.title }}</h1>
+  {% for item in page.items %}
+    {% include "item.twig" with {item: item, position: loop.index} only %}
+  {% endfor %}
+{% endblock %}

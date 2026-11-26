@@ -55,6 +55,12 @@ impl Rng {
         items[self.below(items.len())]
     }
 
+    /// One of `items` (which must not be empty), for byte-string literals; like [`Rng::pick_str`] it returns the
+    /// element itself, which keeps inference identical on every supported compiler.
+    pub fn pick_bytes(&mut self, items: &[&'static [u8]]) -> &'static [u8] {
+        items[self.below(items.len())]
+    }
+
     /// One of the values, chosen with the given weights (the last one when all weights are 0).
     pub fn weighted<T: Copy>(&mut self, items: &[(u32, T)]) -> T {
         let total: u64 = items.iter().map(|(w, _)| u64::from(*w)).sum();

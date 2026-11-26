@@ -3,8 +3,8 @@
 //! `tests/vectors/features.json` holds one case per runner feature (`data_json` decoding, typed
 //! `data_php` trees with objects, PHP state and data diagnostics, `templates_b64`, error modes,
 //! setup/load/data/render failures, the sandbox policy, globals, timezones, `load_all`, `dump()`,
-//! `template_from_string()`, composition) with the oracle's results; every case must replay
-//! identically. Regenerate it from its batch with
+//! `template_from_string()`, composition, `lexer` options, sandbox source policies) with the oracle's
+//! results; every case must replay identically. Regenerate it from its batch with
 //!
 //! ```text
 //! twig-fuzz record crates/twig-fuzz/tests/vectors/features.gen.json \
@@ -51,18 +51,24 @@ fn every_feature_vector_replays_identically() {
 
 /// `tests/vectors/deviations.json` (from `deviations.gen.json`): oracle results whose only
 /// differences are listed deviations: closure names of compiled templates (scoped, nested, in
-/// macros, blocks and embedded templates) and `var_dump()` object handles through every escaping
-/// strategy, case filters and output that is not valid UTF-8.
+/// macros, blocks and embedded templates), `var_dump()` object handles through every escaping
+/// strategy, case filters and output that is not valid UTF-8, the `string(N)` lengths of dumped
+/// strings that hold dumped handles, and the compile-time warnings a filesystem cache silences
+/// (raised once, in a loop, and thrown with `"errors": "throw"`).
 #[test]
 fn deviation_rule_vectors_need_exactly_their_rule() {
     let replayed = replay_files(&[vectors_dir().join("deviations.json")], TIMEOUT);
-    assert_eq!(replayed.len(), 17);
+    assert_eq!(replayed.len(), 22);
     for r in &replayed {
         let ReplayStatus::PassWithDeviation(rules) = &r.status else {
             panic!("{}: {:?}", r.id, r.status);
         };
+        // (`dump-length-*` need `dump-string-length` too unless twig-rs's handles, a counter of
+        // the test process, happen to have as many digits as PHP's)
         let rule = if r.id.starts_with("closure-") {
             "closure-name"
+        } else if r.id.starts_with("silenced-") {
+            twig_fuzz::kit::diff::SILENCED_COMPILE_WARNING
         } else {
             "object-handle"
         };
@@ -71,12 +77,13 @@ fn deviation_rule_vectors_need_exactly_their_rule() {
 }
 
 /// `tests/vectors/typed-data.json` (from `typed-data.gen.json`, a process-isolated batch): data the
-/// runner rebuilds from the oracle's typed trees (the `props` of date objects included) and INF in
+/// runner rebuilds from the oracle's typed trees (the `props` of date objects included, the
+/// wall-clock mode of `new DateInterval()` intervals across a DST end, `DatePeriod`s) and INF in
 /// `data_json`, which the oracle must pass to its child process as written.
 #[test]
 fn typed_data_vectors_replay_identically() {
     let replayed = replay_files(&[vectors_dir().join("typed-data.json")], TIMEOUT);
-    assert_eq!(replayed.len(), 12);
+    assert_eq!(replayed.len(), 17);
     for r in &replayed {
         assert_eq!(r.status, ReplayStatus::Pass, "{}", r.id);
     }
