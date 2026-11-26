@@ -15,15 +15,16 @@
 //! * copy-on-write: [`Array`] is an `Arc`; mutation separates a shared table first, with the
 //!   `zend_array_dup()` rules (an emptied array becomes a fresh uninitialised table).
 //!
-//! Storage is an entry vector with tombstones plus a key index built once the array grows past a
-//! few elements, so lookups, inserts and removals are O(1) and order is exact.
+//! Storage is an entry vector with tombstones plus, once the array grows past a few elements, the
+//! hash of every entry and an open-addressing table of entry positions, so lookups, inserts and
+//! removals are O(1), order is exact and a copy-on-write copy does not hash keys again.
 
-use std::collections::HashMap;
 use std::fmt;
+use std::hash::{BuildHasher, Hasher};
 use std::sync::{Arc, LazyLock};
 
 use crate::error::PhpError;
-use crate::key::{ArrayKey, KeyRef, KeyView};
+use crate::key::{ArrayKey, KeyRef};
 use crate::string::PhpString;
 use crate::value::Value;
 
@@ -32,7 +33,119 @@ const HT_MIN_SIZE: u64 = 8;
 /// Arrays up to this many entries are searched linearly; larger ones get a hash index.
 const INDEX_THRESHOLD: usize = 8;
 
-type Index = HashMap<ArrayKey, usize, foldhash::fast::RandomState>;
+/// The hasher of array keys: one random seed per process, so that a key has the same hash in every array.
+static KEY_HASHER: LazyLock<foldhash::fast::RandomState> = LazyLock::new(Default::default);
+
+/// The hash of a normalised key in the index of an array.
+fn key_hash(key: KeyRef<'_>) -> u32 {
+    let mut hasher = KEY_HASHER.build_hasher();
+    match key {
+        KeyRef::Int(h) => hasher.write_u64(h as u64),
+        KeyRef::Str(s) => hasher.write(s),
+    }
+    hasher.finish() as u32
+}
+
+/// A free slot of an [`Index`].
+const EMPTY_SLOT: u32 = u32::MAX;
+
+/// The hash index of an array of more than [`INDEX_THRESHOLD`] entries: the hash of each entry (parallel to the
+/// entries, stale for tombstones) and an open-addressing table (linear probing) of the positions of the live entries,
+/// at most 5/8 full. Copying an index copies two vectors of integers.
+#[derive(Clone)]
+struct Index {
+    hashes: Vec<u32>,
+    slots: Box<[u32]>,
+}
+
+impl Index {
+    /// An index of the live `entries`, whose hashes are `hashes`.
+    fn build(entries: &[Option<(ArrayKey, Value)>], hashes: Vec<u32>, len: usize) -> Index {
+        let mut index = Index {
+            hashes,
+            slots: vec![EMPTY_SLOT; (len * 2).next_power_of_two()].into_boxed_slice(),
+        };
+        for (pos, entry) in entries.iter().enumerate() {
+            if entry.is_some() {
+                index.insert_slot(pos);
+            }
+        }
+        index
+    }
+
+    fn mask(&self) -> usize {
+        self.slots.len() - 1
+    }
+
+    /// Whether `len` live entries fit at the maximum load.
+    fn fits(&self, len: usize) -> bool {
+        len * 8 <= self.slots.len() * 5
+    }
+
+    /// Records the entry at `pos` (its hash is already in `hashes`).
+    fn insert_slot(&mut self, pos: usize) {
+        let mask = self.mask();
+        let mut i = self.hashes[pos] as usize & mask;
+        while self.slots[i] != EMPTY_SLOT {
+            i = (i + 1) & mask;
+        }
+        self.slots[i] = pos as u32;
+    }
+
+    /// The position of `key`, whose hash is `hash`, among `entries`.
+    fn find(
+        &self,
+        entries: &[Option<(ArrayKey, Value)>],
+        key: KeyRef<'_>,
+        hash: u32,
+    ) -> Option<usize> {
+        let mask = self.mask();
+        let mut i = hash as usize & mask;
+        loop {
+            let pos = self.slots[i];
+            if pos == EMPTY_SLOT {
+                return None;
+            }
+            let pos = pos as usize;
+            if self.hashes[pos] == hash
+                && matches!(&entries[pos], Some((k, _)) if k.as_key_ref() == key)
+            {
+                return Some(pos);
+            }
+            i = (i + 1) & mask;
+        }
+    }
+
+    /// Forgets the entry at `pos`: its slot is freed and the following slots of the probe run move back where their
+    /// probe sequence allows (backward-shift deletion: no slot marks a deletion).
+    fn remove_slot(&mut self, pos: usize) {
+        let mask = self.mask();
+        let mut i = self.hashes[pos] as usize & mask;
+        while self.slots[i] != pos as u32 {
+            i = (i + 1) & mask;
+        }
+        let mut j = i;
+        loop {
+            j = (j + 1) & mask;
+            let moved = self.slots[j];
+            if moved == EMPTY_SLOT {
+                break;
+            }
+            let home = self.hashes[moved as usize] as usize & mask;
+            // the entry at `j` stays when its home slot lies cyclically in (i, j]
+            let stays = if i <= j {
+                i < home && home <= j
+            } else {
+                i < home || home <= j
+            };
+            if !stays {
+                self.slots[i] = moved;
+                i = j;
+            }
+        }
+        self.slots[i] = EMPTY_SLOT;
+    }
+}
 
 /// Layout state that influences `nNextFreeElement` (see the module docs).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -69,7 +182,7 @@ impl Clone for ArrayData {
             };
         }
         if self.entries.len() == self.len {
-            // No tombstones: the positions stay valid, so the index is copied instead of rebuilt.
+            // No tombstones: the positions stay valid, so the index is copied as it is.
             return ArrayData {
                 entries: self.entries.clone(),
                 index: self.index.clone(),
@@ -78,12 +191,17 @@ impl Clone for ArrayData {
                 layout: self.layout,
             };
         }
-        let entries: Vec<Option<(ArrayKey, Value)>> = self
-            .entries
-            .iter()
-            .filter(|e| e.is_some())
-            .cloned()
+        let live = |pos: &usize| self.entries[*pos].is_some();
+        let entries: Vec<Option<(ArrayKey, Value)>> = (0..self.entries.len())
+            .filter(live)
+            .map(|pos| self.entries[pos].clone())
             .collect();
+        let hashes = self.index.as_ref().map(|index| {
+            (0..self.entries.len())
+                .filter(live)
+                .map(|pos| index.hashes[pos])
+                .collect()
+        });
         let mut data = ArrayData {
             entries,
             index: None,
@@ -91,7 +209,7 @@ impl Clone for ArrayData {
             next_free: self.next_free,
             layout: self.layout,
         };
-        data.rebuild_index();
+        data.reindex(hashes);
         data
     }
 }
@@ -117,24 +235,26 @@ impl ArrayData {
         }
     }
 
-    fn rebuild_index(&mut self) {
-        if self.len > INDEX_THRESHOLD {
-            let mut index = Index::with_capacity_and_hasher(self.len, Default::default());
-            for (pos, e) in self.entries.iter().enumerate() {
-                if let Some((k, _)) = e {
-                    index.insert(k.clone(), pos);
-                }
-            }
-            self.index = Some(index);
-        } else {
+    /// Builds the index of a table without tombstones that has more than [`INDEX_THRESHOLD`] entries (and drops it
+    /// otherwise), from the hashes of the entries when they are known.
+    fn reindex(&mut self, hashes: Option<Vec<u32>>) {
+        if self.len <= INDEX_THRESHOLD {
             self.index = None;
+            return;
         }
+        let hashes = hashes.unwrap_or_else(|| {
+            self.entries
+                .iter()
+                .map(|e| e.as_ref().map_or(0, |(k, _)| key_hash(k.as_key_ref())))
+                .collect()
+        });
+        self.index = Some(Index::build(&self.entries, hashes, self.len));
     }
 
-    /// Position of a key, without allocating (the index is queried through `Borrow<dyn KeyView>`).
+    /// Position of a key, without allocating.
     fn find_ref(&self, key: KeyRef<'_>) -> Option<usize> {
         match &self.index {
-            Some(index) => index.get(&key as &dyn KeyView).copied(),
+            Some(index) => index.find(&self.entries, key, key_hash(key)),
             None => self
                 .entries
                 .iter()
@@ -152,22 +272,42 @@ impl ArrayData {
 
     fn push_entry(&mut self, key: ArrayKey, value: Value) {
         let pos = self.entries.len();
-        if let Some(index) = &mut self.index {
-            index.insert(key.clone(), pos);
-        }
+        let hash = self.index.as_ref().map(|_| key_hash(key.as_key_ref()));
         self.entries.push(Some((key, value)));
         self.len += 1;
-        if self.index.is_none() && self.len > INDEX_THRESHOLD {
-            self.compact();
+        match (&mut self.index, hash) {
+            (Some(index), Some(hash)) => {
+                index.hashes.push(hash);
+                if index.fits(self.len) {
+                    index.insert_slot(pos);
+                } else {
+                    // grow: the positions stay, the slots are laid out again
+                    let hashes = std::mem::take(&mut index.hashes);
+                    self.index = Some(Index::build(&self.entries, hashes, self.len));
+                }
+            }
+            _ => {
+                if self.len > INDEX_THRESHOLD {
+                    self.compact();
+                }
+            }
         }
     }
 
     /// Removes tombstones and rebuilds the index.
     fn compact(&mut self) {
+        let mut hashes = self.index.take().map(|index| index.hashes);
         if self.entries.len() != self.len {
+            if let Some(hashes) = &mut hashes {
+                let mut pos = 0;
+                hashes.retain(|_| {
+                    pos += 1;
+                    self.entries[pos - 1].is_some()
+                });
+            }
             self.entries.retain(Option::is_some);
         }
-        self.rebuild_index();
+        self.reindex(hashes);
     }
 
     /// Insert of a new int key `h` (the caller checked that it does not exist): the layout part of
@@ -239,12 +379,12 @@ impl ArrayData {
     }
 
     fn remove_at(&mut self, pos: usize) -> Value {
+        if let Some(index) = &mut self.index {
+            index.remove_slot(pos);
+        }
         let (key, value) = self.entries[pos]
             .take()
             .unwrap_or((ArrayKey::Int(0), Value::Null));
-        if let Some(index) = &mut self.index {
-            index.remove(&key);
-        }
         self.len -= 1;
         if let (
             Layout::Packed {
@@ -275,6 +415,9 @@ impl ArrayData {
         // Drop trailing tombstones eagerly; compact when tombstones dominate.
         while matches!(self.entries.last(), Some(None)) {
             self.entries.pop();
+            if let Some(index) = &mut self.index {
+                index.hashes.pop();
+            }
         }
         if self.entries.len() > 2 * self.len + INDEX_THRESHOLD {
             self.compact();
@@ -941,6 +1084,74 @@ mod tests {
                 Some(ArrayKey::Int(0))
             );
             assert_eq!(a.get_index(a.len()), None);
+        }
+    }
+
+    /// Random inserts, removals, appends and copies agree with a plain ordered list of entries, through the growth,
+    /// compaction and shrinking of the index.
+    #[test]
+    fn random_operations_match_an_ordered_list() {
+        let mut seed: u64 = 0x2545_f491_4f6c_dd1d;
+        let mut next = move |n: u64| {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            seed % n
+        };
+        let key = |n: u64| -> ArrayKey {
+            if n.is_multiple_of(2) {
+                ArrayKey::Int(n as i64 / 2 - 5)
+            } else {
+                ArrayKey::from(format!("k{}", n / 2))
+            }
+        };
+        let mut arrays: Vec<(Array, Vec<(ArrayKey, Value)>)> = vec![(Array::new(), Vec::new())];
+        for step in 0..20_000 {
+            let which = next(arrays.len() as u64) as usize;
+            let range = if step % 3000 < 1500 { 30 } else { 120 };
+            let (array, model) = &mut arrays[which];
+            match next(10) {
+                0..=3 => {
+                    let k = key(next(range));
+                    let v = Value::Int(step);
+                    array.insert(k.clone(), v.clone());
+                    match model.iter_mut().find(|(mk, _)| *mk == k) {
+                        Some(entry) => entry.1 = v,
+                        None => model.push((k, v)),
+                    }
+                }
+                4..=6 => {
+                    let k = key(next(range));
+                    let removed = array.remove(&k);
+                    let position = model.iter().position(|(mk, _)| *mk == k);
+                    assert_eq!(removed, position.map(|p| model.remove(p).1));
+                }
+                7 => {
+                    if let Ok(k) = array.push(Value::Int(-step)) {
+                        model.push((ArrayKey::Int(k), Value::Int(-step)));
+                    }
+                }
+                8 => {
+                    if arrays.len() < 8 {
+                        let copy = (arrays[which].0.clone(), arrays[which].1.clone());
+                        arrays.push(copy);
+                    }
+                }
+                _ => {
+                    if arrays.len() > 1 {
+                        arrays.swap_remove(which);
+                    }
+                }
+            }
+            let which = which.min(arrays.len() - 1);
+            let (array, model) = &arrays[which];
+            assert_eq!(array.len(), model.len());
+            assert!(array.iter().map(|(k, v)| (k.clone(), v.clone())).eq(model.iter().cloned()));
+            for n in 0..range {
+                let k = key(n);
+                let expected = model.iter().find(|(mk, _)| *mk == k).map(|(_, v)| v);
+                assert_eq!(array.get(&k), expected, "step {step}, key {k:?}");
+            }
         }
     }
 }

@@ -4,7 +4,6 @@
 //! `string`; canonical decimal integer strings are stored as ints (`"1"` → `1`, but `"01"`, `"-0"`,
 //! `" 1"`, `"+1"`, `"1.0"` stay strings).
 
-use std::borrow::Borrow;
 use std::fmt;
 use std::hash::{Hash, Hasher};
 
@@ -82,44 +81,6 @@ impl Hash for ArrayKey {
         self.as_key_ref().hash(state);
     }
 }
-
-/// The lookup view shared by [`ArrayKey`] and [`KeyRef`]: lets a `HashMap<ArrayKey, _>` be
-/// queried with a [`KeyRef`] (through `Borrow<dyn KeyView>`) without building an `ArrayKey`.
-pub(crate) trait KeyView {
-    fn view(&self) -> KeyRef<'_>;
-}
-
-impl KeyView for ArrayKey {
-    fn view(&self) -> KeyRef<'_> {
-        self.as_key_ref()
-    }
-}
-
-impl KeyView for KeyRef<'_> {
-    fn view(&self) -> KeyRef<'_> {
-        *self
-    }
-}
-
-impl<'a> Borrow<dyn KeyView + 'a> for ArrayKey {
-    fn borrow(&self) -> &(dyn KeyView + 'a) {
-        self
-    }
-}
-
-impl Hash for dyn KeyView + '_ {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.view().hash(state);
-    }
-}
-
-impl PartialEq for dyn KeyView + '_ {
-    fn eq(&self, other: &Self) -> bool {
-        self.view() == other.view()
-    }
-}
-
-impl Eq for dyn KeyView + '_ {}
 
 /// Port of `_zend_handle_numeric_str()` / `_zend_handle_numeric_str_ex()` (PHPSRC/Zend/zend_hash.h,
 /// PHPSRC/Zend/zend_hash.c): the integer a string key denotes, if it is a canonical decimal integer
