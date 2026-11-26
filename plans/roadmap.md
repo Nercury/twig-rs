@@ -102,22 +102,18 @@ escaper/optimizer/sandbox visitors, loaders, all core callables); `twig-test-sup
 runs every upstream fixture end to end (488 of 500 cases at the end of phase 4).
 
 ### 5. Full parity
-- **Integration** (in progress): visitor registration, CoreExtension settings, `enum()` compile-time checks, constant
-  table, duplicate registrations, escaper runtime hook, security error kinds, non-Twig throwable model, CJK charsets in
-  iconv. Exit: 500/500 fixture cases.
-- **Unit-test ports**: the behaviour-level PHPUnit tests classified A/B in `reference/twig/test-suite.md` §6
-  (getAttribute matrix and error table, Environment, errors and line attribution, sandbox matrix, extensions,
-  callables, loaders, template wrapper, runtime loaders).
-- **Differential fuzzing**: generators of random templates and data per construct family (expressions and operators,
-  filters/functions/tests, control flow and scoping, composition, escaping, sandbox, errors and lines, dates and
-  number formatting), rendered by the oracle and by twig-rs; mismatches are minimised into regression vectors and
-  fixed. Repeat until several rounds find nothing new.
-- **Deviations audit**: every entry in `reference/deviations.md` re-checked; anything fixable gets fixed.
-- Exit: all fixture cases pass, ported unit tests pass, fuzz rounds run dry.
+Working list: [parity-fixes.md](parity-fixes.md). Upstream fixtures 500/500; behaviour-level PHPUnit tests ported;
+differential fuzzing converged (round 1 ~1% of cases mismatched, round 4: 5 of 360,000 across 12 construct families,
+all fixed or classified). Remaining:
+- the low-priority items in parity-fixes.md (API-misuse error kinds, closure equality, harness gaps T8/T15–T17);
+- a final fuzz round after the performance work (exit: a round that finds nothing new).
 
 ### 6. Product
-Plan: [product.md](product.md) — API ergonomics (re-exports, context building, serde, simple callables), docs and
-examples, benchmarks and profiling, CI matrix and cargo-deny, `NOTICE`, licence review, release.
+Plan: [product.md](product.md). Done: re-exports, `From` conversions, `context!`, serde feature, `from_fn` callables,
+crate guide and examples, CI matrix with cargo-deny, `NOTICE`, criterion benchmarks with a PHP comparison. In progress:
+moving the glibc-derived iconv into an opt-in LGPL crate (`twig-iconv`) behind a clean-room default. Next: rendering
+conveniences, host-object guide, a performance pass (render is 1.7–2.6× slower than PHP Twig, compile 11–13× faster),
+release preparation.
 
 ## Open questions
 
