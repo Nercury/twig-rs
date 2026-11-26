@@ -556,6 +556,12 @@ const ENCODINGS: &[Encoding] = &[
 /// one encoding and an alias of another, so the order of those two does not show.
 fn name_to_encoding(name: &[u8]) -> Option<&'static Encoding> {
     let name = c_string(name);
+    if name == b"UTF-8" {
+        // the charset of most environments, found once like any name
+        static UTF8: std::sync::LazyLock<Option<&'static Encoding>> =
+            std::sync::LazyLock::new(|| name_to_encoding(b"utf-8"));
+        return *UTF8;
+    }
     let matches = |candidate: &str| candidate.as_bytes().eq_ignore_ascii_case(name);
     ENCODINGS
         .iter()
