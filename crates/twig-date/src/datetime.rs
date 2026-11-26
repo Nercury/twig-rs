@@ -880,11 +880,22 @@ impl Object for DateObject {
     ) -> PhpResult<Value> {
         let base = base_class_name(&self.class);
         let name = |m: &str| format!("{base}::{m}");
+        // the name of a method in messages, without formatting it for every call
+        let immutable = base == "DateTimeImmutable";
+        macro_rules! method_name {
+            ($m:literal) => {
+                if immutable {
+                    concat!("DateTimeImmutable::", $m)
+                } else {
+                    concat!("DateTime::", $m)
+                }
+            };
+        }
         let ret_this = |o: ObjectRef| Ok(Value::Object(o));
         match method {
             "__construct" => {
-                let f = name("__construct");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("__construct");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let time_str = a.string(0, diag)?;
                 let tz = a.object_of_or_null(1, "DateTimeZone")?;
                 let tz = tz.as_ref().and_then(|o| o.downcast_ref::<TimeZoneObject>());
@@ -892,12 +903,12 @@ impl Object for DateObject {
                 Ok(Value::Null)
             }
             "__serialize" => {
-                Bound::method(&name("__serialize"), method, date_params, &args)?;
+                Bound::method(method_name!("__serialize"), method, date_params, &args)?;
                 Ok(Value::Array(self.serialize(this, diag)?))
             }
             "__unserialize" => {
-                let f = name("__unserialize");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("__unserialize");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let data = a.array(0)?;
                 if !self.initialize_from_hash(&data)? {
                     return Err(errors::invalid_serialization(base));
@@ -907,7 +918,7 @@ impl Object for DateObject {
             }
             "__wakeup" => {
                 util::wakeup_deprecated(base, diag)?;
-                Bound::method(&name("__wakeup"), method, date_params, &args)?;
+                Bound::method(method_name!("__wakeup"), method, date_params, &args)?;
                 let table = util::assoc(
                     util::std_properties(this, diag)?
                         .into_iter()
@@ -919,8 +930,8 @@ impl Object for DateObject {
                 Ok(Value::Null)
             }
             "__set_state" => {
-                let f = name("__set_state");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("__set_state");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let data = a.array(0)?;
                 Ok(Value::Object(DateObject::set_state(
                     &self.ctx,
@@ -947,8 +958,8 @@ impl Object for DateObject {
                 )))
             }
             "createfromformat" => {
-                let f = name("createFromFormat");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("createFromFormat");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let format = a.string(0, diag)?;
                 let datetime = a.path(1, diag)?;
                 let tz = a.object_of_or_null(2, "DateTimeZone")?;
@@ -966,12 +977,12 @@ impl Object for DateObject {
                 }
             }
             "createfromtimestamp" => {
-                let f = name("createFromTimestamp");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("createFromTimestamp");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let ts = a.number(0, diag)?;
                 let time = match ts {
                     Number::Int(sec) => initialize_from_ts_long(sec, 0),
-                    Number::Float(d) => initialize_from_ts_double(d, &f)?,
+                    Number::Float(d) => initialize_from_ts_double(d, f)?,
                 };
                 Ok(Value::Object(DateObject::from_time(
                     &self.ctx,
@@ -980,58 +991,58 @@ impl Object for DateObject {
                 )))
             }
             "getlasterrors" => {
-                Bound::method(&name("getLastErrors"), method, date_params, &args)?;
+                Bound::method(method_name!("getLastErrors"), method, date_params, &args)?;
                 Ok(last_errors_value(&self.ctx))
             }
             "format" => {
-                let f = name("format");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("format");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let format = a.string(0, diag)?;
                 Ok(Value::String(self.format(format.as_bytes())?))
             }
             "modify" => {
-                let f = name("modify");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("modify");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let modify = a.string(0, diag)?;
                 let target = self.target(this);
                 let obj = date_arg(&target)?;
                 obj.modify(
                     modify.as_bytes(),
-                    WarningMode::Throw(&f, errors::date_malformed_string_exception),
+                    WarningMode::Throw(f, errors::date_malformed_string_exception),
                     diag,
                 )?;
                 ret_this(target)
             }
             "add" => {
-                let f = name("add");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("add");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let iv = a.object_of(0, "DateInterval")?;
                 let target = self.target(this);
                 date_arg(&target)?.add(interval_arg(&iv)?)?;
                 ret_this(target)
             }
             "sub" => {
-                let f = name("sub");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("sub");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let iv = a.object_of(0, "DateInterval")?;
                 let target = self.target(this);
                 date_arg(&target)?.sub(
                     interval_arg(&iv)?,
-                    WarningMode::Throw(&f, errors::date_invalid_operation_exception),
+                    WarningMode::Throw(f, errors::date_invalid_operation_exception),
                     diag,
                 )?;
                 ret_this(target)
             }
             "gettimezone" => {
-                Bound::method(&name("getTimezone"), method, date_params, &args)?;
+                Bound::method(method_name!("getTimezone"), method, date_params, &args)?;
                 Ok(match self.timezone()? {
                     Some(tz) => Value::Object(tz),
                     None => Value::Bool(false),
                 })
             }
             "settimezone" => {
-                let f = name("setTimezone");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("setTimezone");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let tz = a.object_of(0, "DateTimeZone")?;
                 let target = self.target(this);
                 let value = tz.downcast_ref::<TimeZoneObject>().and_then(|t| t.value());
@@ -1039,16 +1050,16 @@ impl Object for DateObject {
                 ret_this(target)
             }
             "getoffset" => {
-                Bound::method(&name("getOffset"), method, date_params, &args)?;
+                Bound::method(method_name!("getOffset"), method, date_params, &args)?;
                 self.offset()
             }
             "getmicrosecond" => {
-                Bound::method(&name("getMicrosecond"), method, date_params, &args)?;
+                Bound::method(method_name!("getMicrosecond"), method, date_params, &args)?;
                 Ok(Value::Int(self.microsecond()?))
             }
             "settime" => {
-                let f = name("setTime");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("setTime");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let h = a.long(0, diag)?;
                 let i = a.long(1, diag)?;
                 let s = a.long(2, diag)?;
@@ -1058,8 +1069,8 @@ impl Object for DateObject {
                 ret_this(target)
             }
             "setdate" => {
-                let f = name("setDate");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("setDate");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let y = a.long(0, diag)?;
                 let m = a.long(1, diag)?;
                 let d = a.long(2, diag)?;
@@ -1068,8 +1079,8 @@ impl Object for DateObject {
                 ret_this(target)
             }
             "setisodate" => {
-                let f = name("setISODate");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("setISODate");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let y = a.long(0, diag)?;
                 let w = a.long(1, diag)?;
                 let d = a.long(2, diag)?;
@@ -1078,16 +1089,16 @@ impl Object for DateObject {
                 ret_this(target)
             }
             "settimestamp" => {
-                let f = name("setTimestamp");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("setTimestamp");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let ts = a.long(0, diag)?;
                 let target = self.target(this);
                 date_arg(&target)?.set_timestamp(ts)?;
                 ret_this(target)
             }
             "setmicrosecond" => {
-                let f = name("setMicrosecond");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("setMicrosecond");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let us = a.long(0, diag)?;
                 if !(0..=999_999).contains(&us) {
                     return Err(PhpError::new(
@@ -1103,12 +1114,12 @@ impl Object for DateObject {
                 ret_this(target)
             }
             "gettimestamp" => {
-                Bound::method(&name("getTimestamp"), method, date_params, &args)?;
+                Bound::method(method_name!("getTimestamp"), method, date_params, &args)?;
                 Ok(Value::Int(self.timestamp()?))
             }
             "diff" => {
-                let f = name("diff");
-                let a = Bound::method(&f, method, date_params, &args)?;
+                let f = method_name!("diff");
+                let a = Bound::method(f, method, date_params, &args)?;
                 let other = a.object_of(0, "DateTimeInterface")?;
                 let absolute = a.bool(1, diag)?;
                 let other = date_arg(&other)?;
