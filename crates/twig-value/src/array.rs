@@ -46,6 +46,43 @@ fn key_hash(key: KeyRef<'_>) -> u32 {
     hasher.finish() as u32
 }
 
+/// Bytewise equality of two key strings. Variable names and other keys are short, and the comparisons of a linear
+/// search mostly fail on the length or the first bytes: keys up to 16 bytes are compared with a few word loads instead
+/// of a call of `memcmp`.
+#[inline]
+fn key_bytes_eq(a: &[u8], b: &[u8]) -> bool {
+    let n = a.len();
+    if n != b.len() {
+        return false;
+    }
+    if n >= 8 {
+        if n > 16 {
+            return a == b;
+        }
+        let word =
+            |s: &[u8], at: usize| u64::from_ne_bytes(s[at..at + 8].try_into().expect("8 bytes"));
+        word(a, 0) == word(b, 0) && word(a, n - 8) == word(b, n - 8)
+    } else if n >= 4 {
+        let word =
+            |s: &[u8], at: usize| u32::from_ne_bytes(s[at..at + 4].try_into().expect("4 bytes"));
+        word(a, 0) == word(b, 0) && word(a, n - 4) == word(b, n - 4)
+    } else if n > 0 {
+        a[0] == b[0] && a[n / 2] == b[n / 2] && a[n - 1] == b[n - 1]
+    } else {
+        true
+    }
+}
+
+/// Whether the stored key `stored` is `key` (see [`key_bytes_eq`]).
+#[inline]
+fn key_matches(stored: &ArrayKey, key: KeyRef<'_>) -> bool {
+    match (stored, key) {
+        (ArrayKey::Int(a), KeyRef::Int(b)) => *a == b,
+        (ArrayKey::Str(a), KeyRef::Str(b)) => key_bytes_eq(a, b),
+        _ => false,
+    }
+}
+
 /// A free slot of an [`Index`].
 const EMPTY_SLOT: u32 = u32::MAX;
 
@@ -108,7 +145,7 @@ impl Index {
             }
             let pos = pos as usize;
             if self.hashes[pos] == hash
-                && matches!(&entries[pos], Some((k, _)) if k.as_key_ref() == key)
+                && matches!(&entries[pos], Some((k, _)) if key_matches(k, key))
             {
                 return Some(pos);
             }
@@ -258,7 +295,7 @@ impl ArrayData {
             None => self
                 .entries
                 .iter()
-                .position(|e| matches!(e, Some((k, _)) if k.as_key_ref() == key)),
+                .position(|e| matches!(e, Some((k, _)) if key_matches(k, key))),
         }
     }
 
@@ -390,7 +427,9 @@ impl ArrayData {
     /// found without comparing bytes.
     fn find_prepared(&self, key: &PreparedKey) -> Option<usize> {
         let matches = |entry: &Option<(ArrayKey, Value)>| match (entry, &key.key) {
-            (Some((ArrayKey::Str(a), _)), ArrayKey::Str(b)) => PhpString::ptr_eq(a, b) || a == b,
+            (Some((ArrayKey::Str(a), _)), ArrayKey::Str(b)) => {
+                PhpString::ptr_eq(a, b) || key_bytes_eq(a, b)
+            }
             (Some((ArrayKey::Int(a), _)), ArrayKey::Int(b)) => a == b,
             _ => false,
         };
