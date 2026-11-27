@@ -321,6 +321,7 @@ fn step(
         | Instr::PhpConstant { .. }
         | Instr::BinaryConst { .. }
         | Instr::BinaryStore { .. }
+        | Instr::NameBinaryStore { .. }
         | Instr::JumpIfCompare { .. } => step_operators(state, out, frame, program, instr),
         Instr::NewArray | Instr::ArrayAppend | Instr::ArrayInsert | Instr::ArraySpread => {
             step_arrays(state, out, frame, program, instr)
@@ -660,6 +661,29 @@ fn step_operators(
                         binary(*op, &left, &right, state)?
                     }
                 }
+            };
+            store_name(frame, program, *name, result);
+        }
+        Instr::NameBinaryStore {
+            op,
+            commuted,
+            left,
+            value,
+            name,
+        } => {
+            let right = program.constant(*value);
+            let null;
+            let left = match load_name(frame, program, *left) {
+                Some(left) => left,
+                None => {
+                    null = Value::Null;
+                    &null
+                }
+            };
+            let result = if *commuted {
+                binary(*op, right, left, state)?
+            } else {
+                binary(*op, left, right, state)?
             };
             store_name(frame, program, *name, result);
         }

@@ -100,7 +100,8 @@ instructions (`instr.rs`, "fused instructions"; the code generator never emits t
   report anything (no `NAN`, which the same-array shortcut of the comparisons would make observable);
 - pairs: `LoadName` (lenient) or `Const` then `StoreName` → `CopyName`, `StoreConst`; `Const`, `NewArray`, `GetAttr`
   → `GetAttrConst`; `Const` then a binary operator → `BinaryConst`; a binary operator then `StoreName` →
-  `BinaryStore`; a comparison then a conditional jump → `JumpIfCompare`; a `Jump` to the next instruction is removed,
+  `BinaryStore`, and a lenient `LoadName` before a `BinaryStore` with a constant operand → `NameBinaryStore` (`{% set
+  x = a + 1 %}`); a comparison then a conditional jump → `JumpIfCompare`; a `Jump` to the next instruction is removed,
   and jumps to a `Jump` are threaded.
 
 The rewriting keeps every effect where it was: the instructions it removes can neither fail, report a diagnostic nor

@@ -60,7 +60,7 @@ bug.
 - `NOTICE` files listing the third-party code and data each crate contains and their licences.
 - Instruction fusion: when a unit is compiled, frequent instruction sequences become fused instructions
   (`lltl::Instr::CallStack`, `CallName`, `CopyName`, `StoreConst`, `GetAttrConst`, `BinaryConst`, `BinaryStore`,
-  `JumpIfCompare`) and constant array literals become constants; `Program::disassemble()` lists the fused code.
+  `NameBinaryStore`, `JumpIfCompare`) and constant array literals become constants; `Program::disassemble()` lists the fused code.
   `lltl::Instr` is `#[non_exhaustive]`.
 - twig-value: `Array::edit()` (`ArrayEdit`), several writes to an array that is separated once;
   `Array::get_prepared_hinted()` and `insert_prepared_hinted()`, lookups that try a remembered position first, and

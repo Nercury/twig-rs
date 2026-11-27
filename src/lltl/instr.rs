@@ -620,6 +620,21 @@ pub enum Instr {
         /// The constant holding the name assigned.
         name: ConstId,
     },
+    /// `$context[name] = ($context[left] ?? null) op value`: `LoadName { name: left, mode: Lenient }` and a
+    /// [`Instr::BinaryStore`] with a constant operand fused: `[] -> []`. The operator reads the variable where it is
+    /// in the context.
+    NameBinaryStore {
+        /// The operator.
+        op: BinaryOp,
+        /// `CommutedBinary`: the constant is the left operand.
+        commuted: bool,
+        /// The constant holding the name of the variable operand.
+        left: ConstId,
+        /// The constant operand.
+        value: ConstId,
+        /// The constant holding the name assigned.
+        name: ConstId,
+    },
     /// A comparison and the conditional jump on its result: `Binary(op)` (or a [`Instr::BinaryConst`] when `value` is
     /// the constant right operand) and `JumpIfTrue(target)` (`jump_if`) or `JumpIfFalse(target)` fused: `[a b] -> []`
     /// (`[a] -> []`). The comparisons give booleans, whose truthiness reports nothing.

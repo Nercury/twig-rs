@@ -10,7 +10,8 @@
 //! - `LoadName` (lenient) or `Const` followed by `StoreName` ([`Instr::CopyName`], [`Instr::StoreConst`]);
 //! - `Const`, `NewArray` and `GetAttr`: an attribute without arguments ([`Instr::GetAttrConst`]);
 //! - `Const` followed by a binary operator ([`Instr::BinaryConst`]), then a binary operator followed by `StoreName`
-//!   ([`Instr::BinaryStore`]) or a comparison followed by a conditional jump ([`Instr::JumpIfCompare`]);
+//!   ([`Instr::BinaryStore`]) or a comparison followed by a conditional jump ([`Instr::JumpIfCompare`]), then
+//!   `LoadName` (lenient) followed by a `BinaryStore` with a constant operand ([`Instr::NameBinaryStore`]);
 //! - a `Jump` to the next instruction is removed.
 //!
 //! The rewriting keeps every effect where it was, so that a fused unit behaves exactly like the code it replaces:
@@ -69,14 +70,18 @@ pub(super) fn fuse(code: &mut Vec<Instr>, lines: &mut LineTable, constants: &mut
     if code.len() < 2 {
         return;
     }
-    rewrite(code, lines, fuse_calls);
+    let mut flow = Flow::new(code, lines);
+    rewrite(code, lines, &mut flow, fuse_calls);
     // a nested literal is folded before the literal holding it
-    while rewrite(code, lines, |code, flow| fold_arrays(code, flow, constants)) {}
-    rewrite(code, lines, |code, flow| {
+    while rewrite(code, lines, &mut flow, |code, flow| {
+        fold_arrays(code, flow, constants)
+    }) {}
+    rewrite(code, lines, &mut flow, |code, flow| {
         fuse_call_constants(code, flow, constants)
     });
-    rewrite(code, lines, fuse_pairs);
-    rewrite(code, lines, fuse_operators);
+    rewrite(code, lines, &mut flow, fuse_pairs);
+    rewrite(code, lines, &mut flow, fuse_operators);
+    rewrite(code, lines, &mut flow, fuse_name_operands);
     thread_jumps(code);
 }
 
@@ -107,22 +112,18 @@ enum Edit {
     Replace(Instr),
 }
 
-/// The jumps of a unit.
+/// The lines and jumps of a unit.
 struct Flow {
     /// The lines of the instructions ([`LineTable::NO_MARKER`] for none).
     lines: Vec<i64>,
-    /// For every instruction, the instructions that jump to it.
-    sources: Vec<Vec<u32>>,
+    /// Whether a jump lands on each instruction (and on the end of the unit).
+    targets: Vec<bool>,
+    /// Every jump: the jumping instruction and its target.
+    jumps: Vec<(u32, u32)>,
 }
 
 impl Flow {
     fn new(code: &[Instr], table: &LineTable) -> Flow {
-        let mut sources = vec![Vec::new(); code.len() + 1];
-        for (ip, instr) in code.iter().enumerate() {
-            if let Some(list) = label(instr).and_then(|target| sources.get_mut(target as usize)) {
-                list.push(ip as u32);
-            }
-        }
         let mut lines = Vec::with_capacity(code.len());
         let mut runs = table.runs().iter().peekable();
         let mut line = LineTable::NO_MARKER;
@@ -136,12 +137,31 @@ impl Flow {
             }
             lines.push(line);
         }
-        Flow { lines, sources }
+        Flow::with_lines(code, lines)
+    }
+
+    /// The flow of `code`, whose instructions have the lines `lines`.
+    fn with_lines(code: &[Instr], lines: Vec<i64>) -> Flow {
+        let mut targets = vec![false; code.len() + 1];
+        let mut jumps = Vec::new();
+        for (ip, instr) in code.iter().enumerate() {
+            if let Some(target) = label(instr) {
+                if let Some(slot) = targets.get_mut(target as usize) {
+                    *slot = true;
+                }
+                jumps.push((ip as u32, target));
+            }
+        }
+        Flow {
+            lines,
+            targets,
+            jumps,
+        }
     }
 
     /// Whether a jump lands on instruction `ip`.
     fn is_target(&self, ip: usize) -> bool {
-        !self.sources[ip].is_empty()
+        self.targets[ip]
     }
 
     /// Whether the code strictly between `start` and `end` jumps only within `start + 1 ..= end`, and nothing outside
@@ -153,9 +173,10 @@ impl Flow {
             .filter_map(label)
             .any(|target| !inside(target as usize));
         let jumped_into = (start + 1..=end).any(|ip| {
-            self.sources[ip]
-                .iter()
-                .any(|&source| !(source as usize > start && (source as usize) < end))
+            self.targets[ip]
+                && self.jumps.iter().any(|&(source, target)| {
+                    target as usize == ip && !(source as usize > start && (source as usize) < end)
+                })
         });
         !jumps_out && !jumped_into
     }
@@ -190,15 +211,15 @@ fn label_mut(instr: &mut Instr) -> Option<&mut Label> {
 }
 
 /// Runs one fusion over the unit: `plan` returns an edit per instruction (or `None` when nothing changes), which is
-/// applied with the jumps remapped and the line table rebuilt from the lines of the remaining instructions. Returns
-/// whether the code changed.
+/// applied with the jumps remapped and the line table rebuilt from the lines of the remaining instructions; `flow` is
+/// the flow of the code before and after. Returns whether the code changed.
 fn rewrite(
     code: &mut Vec<Instr>,
     table: &mut LineTable,
+    flow: &mut Flow,
     plan: impl FnOnce(&[Instr], &Flow) -> Option<Vec<Edit>>,
 ) -> bool {
-    let flow = Flow::new(code, table);
-    let Some(edits) = plan(code, &flow) else {
+    let Some(edits) = plan(code, flow) else {
         return false;
     };
     debug_assert_eq!(edits.len(), code.len());
@@ -214,14 +235,16 @@ fn rewrite(
     }
     index.push(next);
     let mut fused = Vec::with_capacity(next as usize);
-    let mut lines = LineTable::default();
+    let mut table_lines = LineTable::default();
+    let mut lines = Vec::with_capacity(next as usize);
     for (ip, (instr, edit)) in code.drain(..).zip(edits).enumerate() {
         let instr = match edit {
             Edit::Keep => instr,
             Edit::Delete => continue,
             Edit::Replace(instr) => instr,
         };
-        lines.push(fused.len() as u32, flow.lines[ip]);
+        table_lines.push(fused.len() as u32, flow.lines[ip]);
+        lines.push(flow.lines[ip]);
         fused.push(instr);
     }
     for instr in &mut fused {
@@ -229,8 +252,9 @@ fn rewrite(
             *target = index[*target as usize];
         }
     }
+    *flow = Flow::with_lines(&fused, lines);
     *code = fused;
-    *table = lines;
+    *table = table_lines;
     true
 }
 
@@ -622,6 +646,44 @@ fn fuse_operators(code: &[Instr], flow: &Flow) -> Option<Vec<Edit>> {
     edits
 }
 
+/// `LoadName` (lenient) then a `BinaryStore` with a constant operand → `NameBinaryStore`, where the `BinaryStore`
+/// was (its line): a lenient read can neither fail nor report anything.
+fn fuse_name_operands(code: &[Instr], flow: &Flow) -> Option<Vec<Edit>> {
+    let mut edits: Option<Vec<Edit>> = None;
+    let mut ip = 0;
+    // the last instruction stays as it is
+    while ip + 2 < code.len() {
+        if let (
+            Instr::LoadName {
+                name: left,
+                mode: super::instr::NameMode::Lenient,
+            },
+            Instr::BinaryStore {
+                op,
+                commuted,
+                value: Some(value),
+                name,
+            },
+        ) = (&code[ip], &code[ip + 1])
+            && !flow.is_target(ip + 1)
+        {
+            let edits = edits.get_or_insert_with(|| keep_all(code.len()));
+            edits[ip] = Edit::Delete;
+            edits[ip + 1] = Edit::Replace(Instr::NameBinaryStore {
+                op: *op,
+                commuted: *commuted,
+                left: *left,
+                value: *value,
+                name: *name,
+            });
+            ip += 2;
+        } else {
+            ip += 1;
+        }
+    }
+    edits
+}
+
 fn keep_all(len: usize) -> Vec<Edit> {
     (0..len).map(|_| Edit::Keep).collect()
 }
@@ -629,7 +691,7 @@ fn keep_all(len: usize) -> Vec<Edit> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::lltl::instr::NameMode;
+    use crate::lltl::instr::{BinaryOp, NameMode};
 
     /// Constants of a test unit.
     struct Pool(Vec<Value>, ArrayConstants);
@@ -753,6 +815,55 @@ mod tests {
                 Instr::JumpIfTrue(5),
                 Instr::Const(4),
                 Instr::StoreName(0),
+                Instr::Return,
+            ]
+        ));
+        assert_eq!(lines.runs(), &[(0, 1), (1, 2)]);
+    }
+
+    /// `{% set x = a + 1 %}` becomes one instruction; a name read that can warn stays apart.
+    #[test]
+    fn operators_on_a_variable_and_a_constant_are_fused() {
+        let mut code = vec![
+            Instr::LoadName {
+                name: 0,
+                mode: NameMode::Lenient,
+            },
+            Instr::Const(4),
+            Instr::Binary(BinaryOp::Add),
+            Instr::StoreName(0),
+            Instr::LoadName {
+                name: 0,
+                mode: NameMode::AlwaysDefined,
+            },
+            Instr::Const(4),
+            Instr::Binary(BinaryOp::Sub),
+            Instr::StoreName(0),
+            Instr::Return,
+        ];
+        let mut lines = table(&[(0, 1), (4, 2)]);
+        let mut pool = pool();
+        fuse(&mut code, &mut lines, &mut pool);
+        assert!(matches!(
+            code.as_slice(),
+            [
+                Instr::NameBinaryStore {
+                    op: BinaryOp::Add,
+                    commuted: false,
+                    left: 0,
+                    value: 4,
+                    name: 0
+                },
+                Instr::LoadName {
+                    name: 0,
+                    mode: NameMode::AlwaysDefined
+                },
+                Instr::BinaryStore {
+                    op: BinaryOp::Sub,
+                    commuted: false,
+                    value: Some(4),
+                    name: 0
+                },
                 Instr::Return,
             ]
         ));

@@ -513,6 +513,25 @@ impl Program {
                 }
                 write!(out, " -> {}", constant(*name))
             }
+            Instr::NameBinaryStore {
+                op,
+                commuted,
+                left,
+                value,
+                name,
+            } => {
+                write!(out, "NameBinaryStore({op:?}")?;
+                if *commuted {
+                    out.push_str(", commuted");
+                }
+                write!(
+                    out,
+                    ") {} {} -> {}",
+                    constant(*left),
+                    constant(*value),
+                    constant(*name)
+                )
+            }
             Instr::JumpIfCompare {
                 op,
                 value,
