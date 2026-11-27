@@ -1,10 +1,10 @@
 # Differential fuzzing
 
 How twig-rs is checked against the PHP oracle with generated templates: how a round runs, how its clusters are
-triaged, what the six rounds of roadmap phase 5 found, what the harness fixed after them, and what it still cannot
-reach. The tool is documented in its crate (`crates/twig-fuzz`: `cargo doc -p twig-fuzz`, `twig-fuzz help`), the
-regression vectors in `tests/vectors/fuzz/README.md`, and the differences the diff accepts in
-`reference/deviations.md`.
+triaged, what the six rounds of roadmap phase 5 and the confirmation round of the second performance pass (round 7)
+found, what the harness fixed after them, and what it still cannot reach. The tool is documented in its crate
+(`crates/twig-fuzz`: `cargo doc -p twig-fuzz`, `twig-fuzz help`), the regression vectors in
+`tests/vectors/fuzz/README.md`, and the differences the diff accepts in `reference/deviations.md`.
 
 ## Running a round
 
@@ -14,12 +14,18 @@ regression vectors in `tests/vectors/fuzz/README.md`, and the differences the di
   <batch.json>`, then `twig-fuzz drive <batch.json> --out <dir> --timeout-ms 15000`, with minimisation on and without
   `--d2`, on a release build with `--features glibc-iconv` (the unicode family converts glibc's other charsets too).
 - Seeds used so far: 7001-7005 (round 2), 9001-9010 (round 3), 9201-9215 (round 4), 11001-14015 (round 5),
-  15001-18015 (round 6) and 25001-25013 (the smoke round of the harness fixes after round 6, below). Rounds 5 and 6
-  gave each group of three families a block of its own: 11001-11015 for expressions, callables and control,
-  12001-12015 for composition, escaping and errors, 13001-13015 for formats, sandbox and whitespace, 14001-14015 for
-  unicode, dynamic and structure, and the same layout 4000 higher in round 6. A new round takes seeds nobody used.
-- The four groups can run in parallel on one machine (round 6: up to 9 oracle containers at once). A drive of 2,000
-  cases takes 15 to 150 s.
+  15001-18015 (round 6), 19001-22015 (round 7) and 25001-25013 (the smoke round of the harness fixes after round 6,
+  below). Rounds 5 to 7 gave each group of three families a block of its own: 11001-11015 for expressions, callables
+  and control, 12001-12015 for composition, escaping and errors, 13001-13015 for formats, sandbox and whitespace,
+  14001-14015 for unicode, dynamic and structure, and the same layout 4000 higher in round 6 and 8000 higher in round
+  7. A new round takes seeds nobody used (the next block in this layout starts at 23001).
+- Drives run in parallel: round 7 ran 8 at a time with `--jobs 4` on a 24-core machine, the 180 drives in 16 minutes.
+  A drive of 2,000 cases took 13 to 115 s; the families whose batches run a PHP process per case (composition,
+  escaping, sandbox, whitespace, unicode, dynamic, structure) take the longest.
+- Docker Desktop can fail a `docker run` by itself (round 7: `502 Bad Gateway` from its engine, Docker's status 125):
+  the drive then stops with status 2 and "the oracle could not be started", and is simply run again. A container that
+  dies under a batch that runs a PHP process per case is replaced by two that run its halves, which the drive's log
+  reports as an oracle incident.
 - A twig-rs run that exceeds `--timeout-ms` where PHP finished the case runs once more with the case's PHP time
   limit (30 s unless the case sets one), so that a case that is only slow on a loaded machine is compared; the
   drive's log, `report.md` and `report.json` (`second_runs`) name such cases. Round 6's probe `ctl-15014-925-sbx`
@@ -34,6 +40,9 @@ regression vectors in `tests/vectors/fuzz/README.md`, and the differences the di
   comparable, unsupported. Record the tree (the commit, plus `git diff | sha256sum` while the change is not
   committed). Compare the deviations per family and rule with the last round (below): a change beyond about 5% means
   that a generator, the diff or the engine changed what the cases reach, unless the reach of the data explains it.
+  Fresh seeds alone can move a family by up to about 8% (round 7: composition 979 against 1,064); a batch of the last
+  round driven with the new tree tells the two apart, since it gives the last round's counts again unless something
+  changed.
 - To check an engine change in a setting the generators rarely vary, drive the counted batches again with that
   setting changed. Round 6 re-drove the 86,934 expressions, callables and control cases that registered no
   SandboxExtension with `"sandbox"` added to `extensions`: 182 cases had warnings only P43's array walk raises, and
@@ -61,7 +70,8 @@ regression vectors in `tests/vectors/fuzz/README.md`, and the differences the di
   owner group that leads: G1 codegen and VM (`src/lltl`, `src/vm`), G2 runtime (`src/runtime`, `src/escaper`), G3
   callables (`src/extension`), G4 syntax (`src/lexer`, `src/parser`, `src/token_parser`, `src/visitor`, `src/ast`),
   G5 library crates, G6 fuzz tooling (`crates/twig-fuzz`, `research/php-oracle`). Commit messages, test headers and
-  vector descriptions cite its item numbers, so a new list continues them at P44, D6 and T21.
+  vector descriptions cite its item numbers; round 7 continued them with P44, T21 and T22 (below), so the next item
+  numbers are P45, D6 and T23.
 - A fix ports the upstream code path and cites it (`reference/conventions.md`). It is done when its vectors replay
   identically; `twig-fuzz replay --update <files> --id ID...` then removes the markers of exactly those vectors.
 
@@ -75,41 +85,51 @@ regression vectors in `tests/vectors/fuzz/README.md`, and the differences the di
 | 4 | after the round-3 fixes | 360,000 | 5 | P40, T15 |
 | 5 | after the performance pass (`fdc54d8`) | 360,000 | 4 | P43, T18, T19 (2) |
 | 6 | P43 and T18 fixed (`4ad572c` and the fix) | 360,000 | 1 | T19 again: nothing new |
+| 7 | the second performance pass (`dc83b8b`) merged with the harness fixes after round 6 (`080d932`): `1cd373e` | 360,000 | 3 in 3 clusters | P44 (1, older than the pass), T21 (1), T22 (1): nothing from the performance pass |
 
 Items the table does not name came from the fixers' reports and from the rounds' cases that were not comparable.
-Every P item is fixed; D1-D4 are rows of `reference/deviations.md` (D5 was not needed); of the T items, the gaps below
-are left.
+Every P item up to P43 is fixed and P44 is open (below); D1-D4 are rows of `reference/deviations.md` (D5 was not
+needed); of the T items, the gaps below are left.
 
-Round 6, the exit round of phase 5 and the baseline for the next round:
+Round 7, the confirmation round of the second performance pass and the baseline for the next round, with the
+escaping and formats families as driven again after T21 and T22 (round 6, the exit round of phase 5: 348,747
+identical, 11,246 deviations, 1 mismatch of T19, 6 not comparable):
 
-| family | cases | identical | deviations | mismatches | not comparable |
-|---|---|---|---|---|---|
-| expressions | 30000 | 29829 | 171 | 0 | 0 |
-| callables | 30000 | 28931 | 1062 | 1 (T19) | 6 |
-| control | 30000 | 29859 | 141 | 0 | 0 |
-| composition | 30000 | 28936 | 1064 | 0 | 0 |
-| escaping | 30000 | 29434 | 566 | 0 | 0 |
-| errors | 30000 | 29454 | 546 | 0 | 0 |
-| formats | 30000 | 29719 | 281 | 0 | 0 |
-| sandbox | 30000 | 28658 | 1342 | 0 | 0 |
-| whitespace | 30000 | 30000 | 0 | 0 | 0 |
-| unicode | 30000 | 28121 | 1879 | 0 | 0 |
-| dynamic | 30000 | 27936 | 2064 | 0 | 0 |
-| structure | 30000 | 27870 | 2130 | 0 | 0 |
-| total | 360000 | 348747 | 11246 | 1 | 6 |
+| family | cases | identical | deviations | round 6 | mismatches | not comparable |
+|---|---|---|---|---|---|---|
+| expressions | 30000 | 29815 | 184 | 171 | 1 (P44) | 0 |
+| callables | 30000 | 28966 | 1027 | 1062 | 0 | 7 |
+| control | 30000 | 29866 | 134 | 141 | 0 | 0 |
+| composition | 30000 | 29021 | 979 | 1064 | 0 | 0 |
+| escaping | 30000 | 29454 | 546 | 566 | 0 | 0 |
+| errors | 30000 | 29462 | 538 | 546 | 0 | 0 |
+| formats | 30000 | 29729 | 271 | 281 | 0 | 0 |
+| sandbox | 30000 | 28686 | 1314 | 1342 | 0 | 0 |
+| whitespace | 30000 | 30000 | 0 | 0 | 0 | 0 |
+| unicode | 30000 | 28114 | 1886 | 1879 | 0 | 0 |
+| dynamic | 30000 | 27817 | 2183 | 2064 | 0 | 0 |
+| structure | 30000 | 27858 | 2142 | 2130 | 0 | 0 |
+| total | 360000 | 348788 | 11204 | 11246 | 1 | 7 |
 
-- Deviations by rule: `called in` suffixes 7,432, `passed in` locations 631 (527 of them with a closure name),
-  closure names 17 more, object handles 1,004 (expressions, callables, control, formats), and the `not supported by
-  twig-rs` errors of mbstring encodings 2,162 (unicode 1,879, escaping 243, callables 40; never an iconv charset or
-  a static method call). The rules `dump-string-length`, `silenced-compile-warning` and `memory-limit` never fired,
-  and no case was unsupported. Every family is within 5% of round 5 except formats (281 against 317, all object
-  handles; its data held a `DatePeriod` in 384 cases against 421).
-- Not comparable: 5 callables cases of D3 (`Cannot use positional argument after argument unpacking`) and
-  `c15010-00326m`, the endless self-include of T19.
-- Reach: every kind of sandbox security error (tag 4,080, filter 2,891, property 2,839, method 2,460, function 681,
-  test 9), lexer options of the case's own in 4,380 whitespace cases, a `DatePeriod` in 384 formats cases, 9,510
-  charset arguments of `convert_encoding` in the unicode family (glibc's included: BIG5-HKSCS 246, CP866 243,
-  Windows-1252 232).
+- Deviations by rule (round 6 in brackets): `called in` suffixes 7,411 (7,432), `passed in` locations 668 (631), 535
+  of them with a closure name (527), closure names 12 more (17), object handles 979 (1,004; expressions 144, callables
+  477, control 87, formats 271), and the `not supported by twig-rs` errors of mbstring encodings 2,134 (2,162;
+  unicode 1,886, escaping 218, callables 30). The rules `dump-string-length`, `silenced-compile-warning` and
+  `memory-limit` never fired, no case was unsupported, and no case ran a second time.
+- Beyond 5% of round 6: expressions (184 against 171), composition (979 against 1,064), dynamic (2,183 against
+  2,064), control at 5% (134 against 141). Their generators did not change, and three of round 6's batches, driven
+  with the round-7 tree, give round 6's counts again (composition 16001: 88 deviations; expressions 15001: 2 `called
+  in` and 14 object handles; control 15001: 3 and 8): the seeds explain the differences (round 6's composition seeds
+  gave 61 to 88 deviations a batch, round 7's 56 to 80). The sandbox family's generation changed (`NAN` elements,
+  below) and stays within 5%.
+- Not comparable: 7 callables cases of D3 (`Cannot use positional argument after argument unpacking`).
+- Reach: every kind of sandbox security error (tag 4,097, filter 2,990, property 2,688, method 2,506, function 621,
+  test 10); a `NAN` in the data of 2,896 sandbox cases, of which 290 raised the walk's `unexpected NAN value was
+  coerced to bool` (624 warnings, 192 of the cases under a global sandbox), all identical (P43); `enum_cases()` in 534
+  callables cases and 2,140 calls of `include()`/`include_only()` (T19); lexer options of the case's own in 4,413
+  whitespace cases; a `DatePeriod` in 381 formats cases. Of what the performance pass changed: `@` timestamps in 556
+  formats cases (its `@<int>` parse without the scanner) and `PHP_INT_MAX` in 3,149 expressions cases (the overflow
+  of its fused int arithmetic).
 
 ## Harness fixes after round 6
 
@@ -174,9 +194,55 @@ run, no container left, and `twig-fuzz replay` of the 4,795 vectors passed:
 - The sandbox seed 25008 had 58 cases with a NAN and 9 with the walk's warning (17 warnings); the callables seed
   25002 reached `enum_cases()` in 9 cases and `include()`/`include_only()` 32 times.
 
+## Round 7
+
+The confirmation round of the second performance pass ran on `1cd373e`: the pass (`dc83b8b`) merged with the harness
+fixes above (`080d932`). Seeds 19001-22015, 360,000 cases, 3 raw mismatches in 3 clusters. Every minimised case also
+ran against the tree before the pass (`a258816`, release build with `glibc-iconv`): none of them comes from the pass.
+
+- **P44. The `odd` and `even` tests inside array literals report an earlier line than PHP** (parity, G1; older than
+  the pass, whose base reports the same lines). Minimised from `x19005-00668-logic`: `{{dump(([]??\ns)is\nodd)}}`
+  makes PHP report `Unsupported operand types: array % int` at line 2, twig-rs at line 1.
+  - Twig compiles the tests inline (`OddTest`, `EvenTest`: `(node % 2 != 0)`, `(node % 2 == 0)`). PHP's `ZEND_MOD`
+    carries `CG(zend_lineno)` as its last compiled operand left it: the literal `2`, which Twig writes right after the
+    node, after the last debug marker inside it (the `// line 2` of the name `s`).
+  - twig-rs has the line right outside literals. Inside an array or hash literal (also the variadic arguments of
+    `dump()`, which Twig passes as `...[...]`) it reports the line of the literal or of the node's first token. The
+    `%` operator written out, `divisible by`, `same as` and `is null` in the same places match.
+  - Cause: `Codegen::test()` (`src/lltl/codegen.rs`, `TestKind::Even | TestKind::Odd`) emits the `2` without
+    `Codegen::leaf()`, so the `Mod` takes the `php_marker` the node's compilation left, which inside a literal need not
+    be the marker in effect. An uncommitted experiment with `self.leaf()` after `emit_const(Value::Int(2))` made every
+    P44 vector match and kept the other 4,795 vectors passing.
+  - Vectors: `tests/vectors/fuzz/expressions/round7-odd-even-literal-lines.json`: 12 marked (the minimised case,
+    `dump()` arguments, list and hash literals, `even`, a name two lines down, a constant conditional, a name or a
+    concatenation left of the name, a later element, `not`) and 9 controls.
+- **T21. A template that comes back in a batch sharing one PHP process loses its compile-time deprecations**
+  (harness). `esc-20003-1154`, `{{ v|spaceless }}`, came after `esc-20003-270` with the same template. Twig names
+  the template class after the template's name and source, the extensions, `debug`, `strict_variables`, `use_yield`,
+  the optimizations, the default escaping strategy and the sandbox policy, not after the cache directory, so PHP
+  reused the class of the earlier case and did not raise the deprecation of `spaceless` again; twig-rs raised it.
+  - The escaping family writes short templates that come back (`{{ v }}` 107 times within round 7's escaping
+    batches), so its batches now run a PHP process per case (`escaping::batch_with()`). Its 15 batches were driven
+    again: no mismatch, and of the 30,000 oracle results only `esc-20003-1154`'s changed (it has the deprecation now).
+  - The other families whose batches share a process (expressions, callables with its id comment, control, errors,
+    formats) repeated no template that raises a deprecation of its own when it is compiled.
+- **T22. Milliseconds and microseconds of "now" in the formats family** (harness). `formats-21006-512` printed
+  `{{ v1|first|date('yu\\PT-mw') }}` of a `DatePeriod` whose end is its start: the period is empty, so `first` and
+  `last` are `null`, and `null|date` is "now", whose microseconds cannot match (PHP reads the clock at each call,
+  twig-rs uses the time the oracle started rendering).
+  - `first` and `last` of a period now get a format without `u` and `v`. The formats of dates of "now" also no longer
+    name the `RFC3339_EXTENDED` constants (`v`, milliseconds), which become `RFC3339`: of 300 probe cases that printed
+    "now" with `DATE_RFC3339_EXTENDED`, 5 differed.
+  - 19 of the round's 30,000 formats cases changed; their 15 batches were driven again without a mismatch.
+- The run: the 180 drives in 16 minutes, the 30 batches of T21 and T22 again in 7. Docker Desktop's engine faltered
+  during the second run: one drive stopped with `502 Bad Gateway` and was run again, and five escaping drives needed
+  three containers each, which the drive's log now reports as oracle incidents. No container was left, and `twig-fuzz
+  replay` passed before and after the round (4,795 vectors, then 4,816).
+
 ## Vectors that stay marked
 
-The only marked vectors are D2's 9 (`reference/deviations.md`, "Lone CR bytes in the generated PHP"), marked by design
+P44's 12 vectors (`expressions/round7-odd-even-literal-lines.json`, above) stay marked until it is fixed. Besides them
+the only marked vectors are D2's 9 (`reference/deviations.md`, "Lone CR bytes in the generated PHP"), marked by design
 because the diff cannot accept a different line. Under `tests/vectors/fuzz/`: `escaping/round2-cr-escape-lines.json`
 (4, with 8 controls), `escaping/round3-d2-cr-escape-lines.json` (`\xd`: 2, minimised from `esc-9001-1578` and
 `esc-9007-1471`, 2 controls), `errors/round3-d2-debug-cr-lines.json` (`debug` and an embed: 1, from
@@ -184,7 +250,7 @@ because the diff cannot accept a different line. Under `tests/vectors/fuzz/`: `e
 `whitespace/d2-cr-escape-lines.json` (`ws-d2-line-after-raw-cr-and-cr-escape`).
 
 - The generators leave D2's inputs out unless `twig-fuzz generate --d2` asks for them (CR escapes in the literals of
-  the escaping, callables and formats families, lone CRs with `debug` in the errors family). Rounds 4 to 6, run
+  the escaping, callables and formats families, lone CRs with `debug` in the errors family). Rounds 4 to 7, run
   without it, had no D2 case.
 - Raw CR bytes of a template are normalized before compiling and shift nothing (controls `round2-cr-control-raw-*`).
 - Round 2's raw case `esc-7001-346` gets its CR from `trim(" \t\n\r\0\x0B")` (PHP's default trim list), and its
@@ -198,7 +264,7 @@ because the diff cannot accept a different line. Under `tests/vectors/fuzz/`: `e
   `random()`, which returns an unseeded number for `null`, writes the literal `[]` in such scopes since T18
   (`Scope::surely()`, `Scope::maybe_null` in `crates/twig-fuzz/src/generators/errors.rs`).
 - **Fatal errors of the generated PHP (D3)** cannot be compared: PHP stops, the oracle reports a `FatalError`, and
-  the case is not comparable (rounds 4 to 6: 6, 8 and 5 callables cases). `tests/engine.rs` (topic
+  the case is not comparable (rounds 4 to 7: 6, 8, 5 and 7 callables cases). `tests/engine.rs` (topic
   `compile_errors`) checks the message of each one.
 - **T8. Typed data and environments the harness cannot express.** What the generators leave out because the harness
   cannot rebuild or set it up. Checked again after round 6 (with the host API of `e55f314`): none of these is a gap
