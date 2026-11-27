@@ -142,6 +142,7 @@ fn object_not_convertible(
 /// `(bool)`). `""` and `"0"` are the only falsy strings; NaN is truthy and warns
 /// `unexpected NAN value was coerced to bool`; objects are true unless their `cast_object`
 /// handler says otherwise.
+#[inline]
 pub fn to_bool(v: &Value, diag: &mut dyn Diagnostics) -> PhpResult<bool> {
     Ok(match v {
         Value::Null => false,

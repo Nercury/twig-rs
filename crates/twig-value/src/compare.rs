@@ -115,6 +115,7 @@ pub fn compare(a: &Value, b: &Value, diag: &mut dyn Diagnostics) -> PhpResult<i3
 }
 
 /// Port of `fast_equal_check_function()` / `ZEND_IS_EQUAL`: `a == b`.
+#[inline]
 pub fn equals(a: &Value, b: &Value, diag: &mut dyn Diagnostics) -> PhpResult<bool> {
     match (a, b) {
         (Value::Int(x), Value::Int(y)) => Ok(x == y),
@@ -127,26 +128,37 @@ pub fn equals(a: &Value, b: &Value, diag: &mut dyn Diagnostics) -> PhpResult<boo
 }
 
 /// `a != b` (`ZEND_IS_NOT_EQUAL`).
+#[inline]
 pub fn not_equals(a: &Value, b: &Value, diag: &mut dyn Diagnostics) -> PhpResult<bool> {
     Ok(!equals(a, b, diag)?)
 }
 
 /// `a < b` (`ZEND_IS_SMALLER`: `zend_compare(a, b) < 0`).
+#[inline]
 pub fn less(a: &Value, b: &Value, diag: &mut dyn Diagnostics) -> PhpResult<bool> {
+    if let (Value::Int(x), Value::Int(y)) = (a, b) {
+        return Ok(x < y);
+    }
     Ok(compare(a, b, diag)? < 0)
 }
 
 /// `a <= b` (`ZEND_IS_SMALLER_OR_EQUAL`: `zend_compare(a, b) <= 0`).
+#[inline]
 pub fn less_or_equal(a: &Value, b: &Value, diag: &mut dyn Diagnostics) -> PhpResult<bool> {
+    if let (Value::Int(x), Value::Int(y)) = (a, b) {
+        return Ok(x <= y);
+    }
     Ok(compare(a, b, diag)? <= 0)
 }
 
 /// `a > b`, compiled by PHP as `b < a` (`zend_compare(b, a) < 0`).
+#[inline]
 pub fn greater(a: &Value, b: &Value, diag: &mut dyn Diagnostics) -> PhpResult<bool> {
     less(b, a, diag)
 }
 
 /// `a >= b`, compiled by PHP as `b <= a` (`zend_compare(b, a) <= 0`).
+#[inline]
 pub fn greater_or_equal(a: &Value, b: &Value, diag: &mut dyn Diagnostics) -> PhpResult<bool> {
     less_or_equal(b, a, diag)
 }
@@ -158,6 +170,7 @@ pub fn spaceship(a: &Value, b: &Value, diag: &mut dyn Diagnostics) -> PhpResult<
 
 /// Port of `zend_is_identical()`: `a === b` (same type and value; floats with `==`, arrays in
 /// order with identical keys and values, objects by handle).
+#[inline]
 pub fn identical(a: &Value, b: &Value) -> bool {
     a.identical(b)
 }

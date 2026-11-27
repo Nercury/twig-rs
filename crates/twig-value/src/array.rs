@@ -32,6 +32,8 @@ use crate::value::Value;
 const HT_MIN_SIZE: u64 = 8;
 /// Arrays up to this many entries are searched linearly; larger ones get a hash index.
 const INDEX_THRESHOLD: usize = 8;
+/// The spare entries a copy of a table gets (see `ArrayData::clone`).
+const COPY_HEADROOM: usize = 4;
 
 /// The hasher of array keys: one random seed per process, so that a key has the same hash in every array.
 static KEY_HASHER: LazyLock<foldhash::fast::RandomState> = LazyLock::new(Default::default);
@@ -89,10 +91,21 @@ const EMPTY_SLOT: u32 = u32::MAX;
 /// The hash index of an array of more than [`INDEX_THRESHOLD`] entries: the hash of each entry (parallel to the
 /// entries, stale for tombstones) and an open-addressing table (linear probing) of the positions of the live entries,
 /// at most 5/8 full. Copying an index copies two vectors of integers.
-#[derive(Clone)]
 struct Index {
     hashes: Vec<u32>,
     slots: Box<[u32]>,
+}
+
+impl Clone for Index {
+    /// A copy with room for a few more hashes, like the entries of a copied table (see `ArrayData::clone`).
+    fn clone(&self) -> Self {
+        let mut hashes = Vec::with_capacity(self.hashes.len() + COPY_HEADROOM);
+        hashes.extend_from_slice(&self.hashes);
+        Index {
+            hashes,
+            slots: self.slots.clone(),
+        }
+    }
 }
 
 impl Index {
@@ -219,9 +232,12 @@ impl Clone for ArrayData {
             };
         }
         if self.entries.len() == self.len {
-            // No tombstones: the positions stay valid, so the index is copied as it is.
+            // No tombstones: the positions stay valid, so the index is copied as it is. A copy is mostly made to be
+            // written (copy-on-write): room for a few more entries spares the first insert a reallocation.
+            let mut entries = Vec::with_capacity(self.len + COPY_HEADROOM);
+            entries.extend(self.entries.iter().cloned());
             return ArrayData {
-                entries: self.entries.clone(),
+                entries,
                 index: self.index.clone(),
                 len: self.len,
                 next_free: self.next_free,
@@ -289,6 +305,7 @@ impl ArrayData {
     }
 
     /// Position of a key, without allocating.
+    #[inline]
     fn find_ref(&self, key: KeyRef<'_>) -> Option<usize> {
         match &self.index {
             Some(index) => index.find(&self.entries, key, key_hash(key)),
@@ -299,10 +316,12 @@ impl ArrayData {
         }
     }
 
+    #[inline]
     fn find(&self, key: &ArrayKey) -> Option<usize> {
         self.find_ref(key.as_key_ref())
     }
 
+    #[inline]
     fn find_int(&self, h: i64) -> Option<usize> {
         self.find_ref(KeyRef::Int(h))
     }
@@ -425,14 +444,9 @@ impl ArrayData {
 
     /// Position of a prepared key: the stored hash is the key's, and a string key sharing the prepared string is
     /// found without comparing bytes.
+    #[inline]
     fn find_prepared(&self, key: &PreparedKey) -> Option<usize> {
-        let matches = |entry: &Option<(ArrayKey, Value)>| match (entry, &key.key) {
-            (Some((ArrayKey::Str(a), _)), ArrayKey::Str(b)) => {
-                PhpString::ptr_eq(a, b) || key_bytes_eq(a, b)
-            }
-            (Some((ArrayKey::Int(a), _)), ArrayKey::Int(b)) => a == b,
-            _ => false,
-        };
+        let matches = |entry: &Option<(ArrayKey, Value)>| prepared_matches(entry, key);
         match &self.index {
             Some(index) => {
                 let mask = index.mask();
@@ -451,6 +465,40 @@ impl ArrayData {
             }
             None => self.entries.iter().position(matches),
         }
+    }
+
+    /// [`find_prepared`](Self::find_prepared) looking at position `hint` first; `hint` becomes the position found.
+    #[inline]
+    fn find_prepared_hinted(&self, key: &PreparedKey, hint: &mut u32) -> Option<usize> {
+        let at = *hint as usize;
+        if self
+            .entries
+            .get(at)
+            .is_some_and(|entry| prepared_matches(entry, key))
+        {
+            return Some(at);
+        }
+        let pos = self.find_prepared(key)?;
+        *hint = pos as u32;
+        Some(pos)
+    }
+
+    /// [`insert_prepared`](Array::insert_prepared) on an unshared table, `hint` as in
+    /// [`find_prepared_hinted`](Self::find_prepared_hinted).
+    #[inline]
+    fn insert_prepared_hinted(
+        &mut self,
+        key: &PreparedKey,
+        value: Value,
+        hint: &mut u32,
+    ) -> Option<Value> {
+        if let Some(pos) = self.find_prepared_hinted(key, hint) {
+            let slot = self.entries[pos].as_mut().map(|(_, v)| v);
+            return slot.map(|v| std::mem::replace(v, value));
+        }
+        *hint = self.entries.len() as u32;
+        self.insert_new_hashed(key.key.clone(), value, Some(key.hash));
+        None
     }
 
     fn remove_at(&mut self, pos: usize) -> Value {
@@ -501,6 +549,18 @@ impl ArrayData {
     }
 }
 
+/// Whether the entry holds the prepared key: the same string (shared with the prepared key, or equal bytes) or int.
+#[inline]
+fn prepared_matches(entry: &Option<(ArrayKey, Value)>, key: &PreparedKey) -> bool {
+    match (entry, &key.key) {
+        (Some((ArrayKey::Str(a), _)), ArrayKey::Str(b)) => {
+            PhpString::ptr_eq(a, b) || key_bytes_eq(a, b)
+        }
+        (Some((ArrayKey::Int(a), _)), ArrayKey::Int(b)) => a == b,
+        _ => false,
+    }
+}
+
 /// An array key normalised and hashed once, for repeated lookups in any array: the variable names of a compiled
 /// template, for example ([`Array::get_prepared`], [`Array::insert_prepared`], [`Array::remove_prepared`]). The hash
 /// is only valid in the process that computed it (arrays hash their keys with a seed chosen at startup).
@@ -520,8 +580,66 @@ impl PreparedKey {
     }
 
     /// The key.
+    #[inline]
     pub fn key(&self) -> &ArrayKey {
         &self.key
+    }
+
+    /// The key's hash (valid in this process only), to spread prepared keys over the slots of a cache of positions
+    /// ([`Array::get_prepared_hinted`]).
+    #[inline]
+    pub fn hash(&self) -> u32 {
+        self.hash
+    }
+}
+
+/// Several writes to an array in a row ([`Array::edit`]): the array was separated when the edit started.
+pub struct ArrayEdit<'a>(&'a mut ArrayData);
+
+impl ArrayEdit<'_> {
+    /// [`Array::get_prepared`].
+    #[inline]
+    pub fn get_prepared(&self, key: &PreparedKey) -> Option<&Value> {
+        let pos = self.0.find_prepared(key)?;
+        self.0.entries[pos].as_ref().map(|(_, v)| v)
+    }
+
+    /// [`Array::get_mut_prepared`].
+    #[inline]
+    pub fn get_mut_prepared(&mut self, key: &PreparedKey) -> Option<&mut Value> {
+        let pos = self.0.find_prepared(key)?;
+        self.0.entries[pos].as_mut().map(|(_, v)| v)
+    }
+
+    /// [`Array::insert_prepared`].
+    #[inline]
+    pub fn insert_prepared(&mut self, key: &PreparedKey, value: impl Into<Value>) -> Option<Value> {
+        let value = value.into();
+        if let Some(pos) = self.0.find_prepared(key) {
+            let slot = self.0.entries[pos].as_mut().map(|(_, v)| v);
+            return slot.map(|v| std::mem::replace(v, value));
+        }
+        self.0
+            .insert_new_hashed(key.key.clone(), value, Some(key.hash));
+        None
+    }
+
+    /// [`Array::remove_prepared`].
+    #[inline]
+    pub fn remove_prepared(&mut self, key: &PreparedKey) -> Option<Value> {
+        let pos = self.0.find_prepared(key)?;
+        Some(self.0.remove_at(pos))
+    }
+
+    /// [`Array::insert_prepared_hinted`].
+    #[inline]
+    pub fn insert_prepared_hinted(
+        &mut self,
+        key: &PreparedKey,
+        value: impl Into<Value>,
+        hint: &mut u32,
+    ) -> Option<Value> {
+        self.0.insert_prepared_hinted(key, value.into(), hint)
     }
 }
 
@@ -544,6 +662,7 @@ impl Default for Array {
 impl Array {
     /// An empty array (`[]` / `array_init()`: uninitialised table of `HT_MIN_SIZE`). Empty arrays
     /// share one immutable table until written, like `zend_empty_array`.
+    #[inline]
     pub fn new() -> Array {
         EMPTY_ARRAY.clone()
     }
@@ -562,22 +681,26 @@ impl Array {
         Array(Arc::new(data))
     }
 
+    #[inline]
     fn data_mut(&mut self) -> &mut ArrayData {
         Arc::make_mut(&mut self.0)
     }
 
     /// Number of elements (`zend_hash_num_elements`, `count()`).
+    #[inline]
     pub fn len(&self) -> usize {
         self.0.len
     }
 
     /// Whether the array is empty.
+    #[inline]
     pub fn is_empty(&self) -> bool {
         self.0.len == 0
     }
 
     /// Whether both arrays share the same table. PHP's `zend_is_identical()` and
     /// `zend_compare_symbol_tables()` short-circuit on this (engine-semantics.md §2.2).
+    #[inline]
     pub fn ptr_eq(a: &Array, b: &Array) -> bool {
         Arc::ptr_eq(&a.0, &b.0)
     }
@@ -589,23 +712,27 @@ impl Array {
     }
 
     /// Looks up a normalised key.
+    #[inline]
     pub fn get(&self, key: &ArrayKey) -> Option<&Value> {
         self.get_ref(key.as_key_ref())
     }
 
     /// Looks up a borrowed, normalised key (no allocation).
+    #[inline]
     pub fn get_ref(&self, key: KeyRef<'_>) -> Option<&Value> {
         let pos = self.0.find_ref(key)?;
         self.0.entries[pos].as_ref().map(|(_, v)| v)
     }
 
     /// Looks up an int key (`zend_hash_index_find`).
+    #[inline]
     pub fn get_int(&self, h: i64) -> Option<&Value> {
         self.get_ref(KeyRef::Int(h))
     }
 
     /// Looks up a string key **without** numeric normalisation (`zend_hash_find`). Use
     /// [`Array::get_sym`] for PHP's `$a["..."]` semantics.
+    #[inline]
     pub fn get_str(&self, key: &[u8]) -> Option<&Value> {
         self.get_ref(KeyRef::Str(key))
     }
@@ -616,11 +743,13 @@ impl Array {
     }
 
     /// Whether the key exists (`zend_hash_exists`; `null` values exist).
+    #[inline]
     pub fn contains_key(&self, key: &ArrayKey) -> bool {
         self.0.find(key).is_some()
     }
 
     /// Whether the borrowed key exists.
+    #[inline]
     pub fn contains_ref(&self, key: KeyRef<'_>) -> bool {
         self.0.find_ref(key).is_some()
     }
@@ -639,12 +768,14 @@ impl Array {
     }
 
     /// Mutable access to an element (separates a shared array first, like PHP's write fetch).
+    #[inline]
     pub fn get_mut(&mut self, key: &ArrayKey) -> Option<&mut Value> {
         self.get_mut_ref(key.as_key_ref())
     }
 
     /// Mutable access to the element of a borrowed, normalised key (separates a shared array first, like
     /// [`Array::get_mut`]).
+    #[inline]
     pub fn get_mut_ref(&mut self, key: KeyRef<'_>) -> Option<&mut Value> {
         let data = self.data_mut();
         let pos = data.find_ref(key)?;
@@ -672,12 +803,35 @@ impl Array {
     }
 
     /// Looks up a prepared key ([`Array::get`] without normalising or hashing the key again).
+    #[inline]
     pub fn get_prepared(&self, key: &PreparedKey) -> Option<&Value> {
         let pos = self.0.find_prepared(key)?;
         self.0.entries[pos].as_ref().map(|(_, v)| v)
     }
 
+    /// [`Array::get_prepared`] looking at the position `hint` first, where the key was found before; `hint` becomes
+    /// the position of the key. A frame that keeps the positions of its variables in its context finds them without
+    /// searching (an array only grows at its end while nothing is removed). Any `u32` is a valid hint.
+    #[inline]
+    pub fn get_prepared_hinted(&self, key: &PreparedKey, hint: &mut u32) -> Option<&Value> {
+        let pos = self.0.find_prepared_hinted(key, hint)?;
+        self.0.entries[pos].as_ref().map(|(_, v)| v)
+    }
+
+    /// [`Array::insert_prepared`] with a position `hint` (see [`Array::get_prepared_hinted`]).
+    #[inline]
+    pub fn insert_prepared_hinted(
+        &mut self,
+        key: &PreparedKey,
+        value: impl Into<Value>,
+        hint: &mut u32,
+    ) -> Option<Value> {
+        self.data_mut()
+            .insert_prepared_hinted(key, value.into(), hint)
+    }
+
     /// Mutable access to the element of a prepared key (separates a shared array first, like [`Array::get_mut`]).
+    #[inline]
     pub fn get_mut_prepared(&mut self, key: &PreparedKey) -> Option<&mut Value> {
         let data = self.data_mut();
         let pos = data.find_prepared(key)?;
@@ -686,6 +840,7 @@ impl Array {
 
     /// Inserts or updates the element of a prepared key ([`Array::insert`]; an existing key keeps its position and
     /// its string, the prepared key is cloned into the table only when it is new). Returns the previous value.
+    #[inline]
     pub fn insert_prepared(&mut self, key: &PreparedKey, value: impl Into<Value>) -> Option<Value> {
         let value = value.into();
         let data = self.data_mut();
@@ -698,10 +853,19 @@ impl Array {
     }
 
     /// Removes a prepared key ([`Array::remove`]: a shared array is separated even when the key is absent).
+    #[inline]
     pub fn remove_prepared(&mut self, key: &PreparedKey) -> Option<Value> {
         let data = self.data_mut();
         let pos = data.find_prepared(key)?;
         Some(data.remove_at(pos))
+    }
+
+    /// Starts several writes in a row: a shared array is separated now, as the first write would separate it
+    /// (`SEPARATE_ARRAY`), and the writes of the [`ArrayEdit`] go to the table without checking again whether it is
+    /// shared.
+    #[inline]
+    pub fn edit(&mut self) -> ArrayEdit<'_> {
+        ArrayEdit(self.data_mut())
     }
 
     /// Inserts or updates (`zend_hash_update` / `zend_hash_index_update`, i.e. `$a[$k] = $v` and
@@ -779,6 +943,7 @@ impl Array {
 
     /// `nNextFreeElement`: the key the next [`Array::push`] would use, or `None` while no int key was
     /// ever inserted (`ZEND_LONG_MIN`; the next push uses `0`).
+    #[inline]
     pub fn next_free(&self) -> Option<i64> {
         let n = self.0.next_free;
         if n == i64::MIN { None } else { Some(n) }

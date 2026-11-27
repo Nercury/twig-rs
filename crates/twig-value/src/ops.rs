@@ -84,6 +84,7 @@ impl fmt::Display for BinaryOp {
 }
 
 /// Evaluates `a <op> b`.
+#[inline]
 pub fn binary_op(
     op: BinaryOp,
     a: &Value,
@@ -148,6 +149,7 @@ fn long_operand(
 }
 
 /// Port of `fast_long_add_function()`: overflow gives `(double) a + (double) b`.
+#[inline]
 fn long_add(a: i64, b: i64) -> Value {
     match a.checked_add(b) {
         Some(r) => Value::Int(r),
@@ -183,6 +185,7 @@ pub fn array_union(a: &Array, b: &Array) -> Array {
 }
 
 /// Port of `add_function_fast()`.
+#[inline]
 fn add_fast(a: &Value, b: &Value) -> Option<Value> {
     Some(match (a, b) {
         (Value::Int(x), Value::Int(y)) => long_add(*x, *y),
@@ -207,6 +210,7 @@ fn add_numbers(a: Number, b: Number) -> Value {
 /// go through `zendi_try_convert_scalar_to_number()` (leading-numeric strings warn `A non-numeric
 /// value encountered`; non-numeric strings, arrays and objects throw
 /// `Unsupported operand types: string + int`).
+#[inline]
 pub fn add(a: &Value, b: &Value, diag: &mut dyn Diagnostics) -> PhpResult<Value> {
     if let Some(r) = add_fast(a, b) {
         return Ok(r);
@@ -235,6 +239,7 @@ fn as_number(v: &Value) -> Option<Number> {
 }
 
 /// Port of `sub_function()`: `a - b`.
+#[inline]
 pub fn sub(a: &Value, b: &Value, diag: &mut dyn Diagnostics) -> PhpResult<Value> {
     if let (Some(x), Some(y)) = (as_number(a), as_number(b)) {
         return Ok(sub_numbers(x, y));
