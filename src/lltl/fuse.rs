@@ -625,3 +625,162 @@ fn fuse_operators(code: &[Instr], flow: &Flow) -> Option<Vec<Edit>> {
 fn keep_all(len: usize) -> Vec<Edit> {
     (0..len).map(|_| Edit::Keep).collect()
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::lltl::instr::NameMode;
+
+    /// Constants of a test unit.
+    struct Pool(Vec<Value>, ArrayConstants);
+
+    impl Constants for Pool {
+        fn constant(&self, id: ConstId) -> &Value {
+            &self.0[id as usize]
+        }
+
+        fn array_constant(&mut self, ids: &[ConstId]) -> ConstId {
+            self.1.get(&mut self.0, ids)
+        }
+
+        fn add_constant(&mut self, value: Value) -> ConstId {
+            self.0.push(value);
+            (self.0.len() - 1) as ConstId
+        }
+    }
+
+    fn pool() -> Pool {
+        Pool(
+            vec![
+                Value::from("name"),
+                Value::from("html"),
+                Value::Null,
+                Value::Bool(true),
+                Value::Int(1),
+            ],
+            ArrayConstants::default(),
+        )
+    }
+
+    fn table(lines: &[(u32, i64)]) -> LineTable {
+        let mut table = LineTable::default();
+        for &(ip, line) in lines {
+            table.push(ip, line);
+        }
+        table
+    }
+
+    /// An auto-escaped print of a variable becomes one instruction with the call's line; the instructions after it
+    /// keep theirs.
+    #[test]
+    fn escaped_prints_are_fused_with_the_line_of_the_call() {
+        let mut code = vec![
+            Instr::ArgsStart {
+                with_context: false,
+            },
+            Instr::LoadName {
+                name: 0,
+                mode: NameMode::Lenient,
+            },
+            Instr::Arg,
+            Instr::Const(1),
+            Instr::Arg,
+            Instr::Const(2),
+            Instr::Arg,
+            Instr::Const(3),
+            Instr::Arg,
+            Instr::Call(0),
+            Instr::Print,
+            Instr::Text(0),
+            Instr::Return,
+        ];
+        let mut lines = table(&[(0, 4), (11, 5)]);
+        let mut pool = pool();
+        fuse(&mut code, &mut lines, &mut pool);
+        assert!(matches!(
+            code.as_slice(),
+            [
+                Instr::CallName {
+                    name: 0,
+                    always_defined: false,
+                    callable: 0,
+                    consts: Some(_),
+                    print: true
+                },
+                Instr::Text(0),
+                Instr::Return,
+            ]
+        ));
+        assert_eq!(lines.runs(), &[(0, 4), (1, 5)]);
+    }
+
+    /// A call whose `Print` has another line keeps its `Print`; a jump into the middle of a sequence stops its fusion,
+    /// and jumps are remapped.
+    #[test]
+    fn lines_and_jump_targets_limit_fusion() {
+        let mut code = vec![
+            Instr::ArgsStart {
+                with_context: false,
+            },
+            Instr::LoadName {
+                name: 0,
+                mode: NameMode::AlwaysDefined,
+            },
+            Instr::Arg,
+            Instr::Call(0),
+            Instr::Print,
+            Instr::Const(4),
+            Instr::JumpIfTrue(8),
+            Instr::Const(4),
+            Instr::StoreName(0),
+            Instr::Return,
+        ];
+        let mut lines = table(&[(0, 1), (4, 2)]);
+        let mut pool = pool();
+        fuse(&mut code, &mut lines, &mut pool);
+        assert!(matches!(
+            code.as_slice(),
+            [
+                Instr::CallName {
+                    name: 0,
+                    always_defined: true,
+                    consts: None,
+                    print: false,
+                    ..
+                },
+                Instr::Print,
+                Instr::Const(4),
+                Instr::JumpIfTrue(5),
+                Instr::Const(4),
+                Instr::StoreName(0),
+                Instr::Return,
+            ]
+        ));
+        assert_eq!(lines.runs(), &[(0, 1), (1, 2)]);
+    }
+
+    /// The constant elements of an array literal are built once.
+    #[test]
+    fn constant_array_literals_become_constants() {
+        let mut code = vec![
+            Instr::NewArray,
+            Instr::Const(4),
+            Instr::ArrayAppend,
+            Instr::Const(0),
+            Instr::Const(1),
+            Instr::ArrayInsert,
+            Instr::Pop,
+            Instr::Return,
+        ];
+        let mut lines = table(&[(0, 1)]);
+        let mut pool = pool();
+        fuse(&mut code, &mut lines, &mut pool);
+        let [Instr::Const(id), Instr::Pop, Instr::Return] = code.as_slice() else {
+            panic!("{code:?}");
+        };
+        let mut expected = Array::new();
+        let _ = expected.push(1);
+        expected.insert("name", "html");
+        assert!(matches!(pool.constant(*id), Value::Array(array) if array.identical(&expected)));
+    }
+}
