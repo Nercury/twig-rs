@@ -29,7 +29,9 @@ data, registering extensions) is Rust-native; running inside PHP is out of scope
 - **Pipeline** (the original twig-rs vision, kept): lexer → parser (static AST mirroring Twig node classes) →
   node visitors (Correctness −255, Escaper 0, Sandbox 0, Optimizer 255; YieldNotReady is a no-op here) → codegen to
   LLTL (low-level template language: per-template instruction streams for body, blocks and macros, constant pool,
-  run-length line table) → in-tree VM. The `little` crate is retired; its role is taken by `src/lltl` + `src/vm`.
+  run-length line table) → in-tree VM. The `little` crate is retired; its role is taken by `src/lltl` + `src/vm`,
+  which stay in-tree (owner's decision: the VM is tied to PHP values and Twig's line rules, so it is not published
+  as `little` 0.4 or any other crate).
 - **Line attribution** follows Twig's `Compiler::addDebugInfo` points: the line table gets an entry exactly where
   Twig emits a debug marker, in Twig's compile order, so "last marker at or before the failing instruction"
   reproduces `Error::guess()`.
