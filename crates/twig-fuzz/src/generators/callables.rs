@@ -1250,10 +1250,13 @@ const ATTRIBUTE_ARGS: &[&str] = &[
     "null",
 ];
 
+/// The template source of [`TEMPLATE_SOURCES`] that prints the template's name.
+const SELF_SOURCE: &str = "'{{ _self }}'";
+
 const TEMPLATE_SOURCES: &[&str] = &[
     "'{{ 1 + 1 }}'",
     r#"'Hello {{ v|default("x") }}'"#,
-    "'{{ _self }}'",
+    SELF_SOURCE,
     "'{% if %}'",
     "'{{ undef }}'",
     "''",
@@ -1264,6 +1267,22 @@ const TEMPLATE_SOURCES: &[&str] = &[
     "'{{ include(\"b.twig\") }}'",
     "'{% extends \"p.twig\" %}'",
     "'{{ parent() }}'",
+];
+
+/// Names for a string template that prints `_self`: valid UTF-8 (see
+/// [`Generator::template_from_string_arguments`]).
+const TEMPLATE_LABELS: &[&str] = &[
+    "'n.twig'",
+    "'x'",
+    "''",
+    "'0'",
+    "'été'",
+    "'日本 語'",
+    "'😀'",
+    "'<b>&amp;'",
+    r"'it\'s'",
+    "'b.twig'",
+    "null",
 ];
 
 const ENUM_NAMES: &[&str] = &[
@@ -2337,6 +2356,9 @@ struct Generator<'r> {
     utf8_inputs: bool,
     /// [`Options::d2`]: the `\r` escapes of the literal pools stay (see [`Generator::pool`]).
     d2: bool,
+    /// Generating the arguments of `include()` or `include_only()`: [`Generator::special`] gives no
+    /// `_self` (see [`Generator::function_spec`]).
+    no_self: bool,
     profile: Profile,
     focus: Option<Focus>,
 }
@@ -2354,6 +2376,7 @@ impl<'r> Generator<'r> {
             dump_allowed: true,
             utf8_inputs: false,
             d2: false,
+            no_self: false,
             profile: Profile::Mixed,
             focus: None,
         }
@@ -2844,7 +2867,11 @@ impl<'r> Generator<'r> {
         let entry = self.fixed_date;
         self.fixed_date = false;
         let input = self.input(spec.input, depth);
-        let args = self.arguments(&spec, depth, true);
+        let args = if spec.name == "sort" {
+            self.sort_arguments(&spec, &input, depth)
+        } else {
+            self.arguments(&spec, depth, true)
+        };
         let mut out = format!("{input}|{}{args}", spec.name);
         // a date that depends on "now": its microseconds are not replayed
         if spec.name == "date_modify" && !self.fixed_date {
@@ -2855,7 +2882,11 @@ impl<'r> Generator<'r> {
             let next = FILTERS[self.rng.weighted(&weights)];
             // (`date_modify` of a date that may depend on "now" is only printed through `date`)
             if next.name != "shuffle" && next.name != "date_modify" {
-                let args = self.arguments(&next, depth + 1, true);
+                let args = if next.name == "sort" {
+                    self.sort_arguments(&next, &out, depth + 1)
+                } else {
+                    self.arguments(&next, depth + 1, true)
+                };
                 out = format!("{out}|{}{args}", next.name);
             }
         }
@@ -2924,7 +2955,7 @@ impl<'r> Generator<'r> {
             "template_from_string" => {
                 let call = format!(
                     "template_from_string{}",
-                    self.arguments(&spec, depth, false)
+                    self.template_from_string_arguments(&spec, depth)
                 );
                 match self.rng.below(4) {
                     0 | 1 => format!("include({call})"),
@@ -2987,7 +3018,13 @@ impl<'r> Generator<'r> {
             }
             "include" | "include_only" | "source" | "constant" | "cycle" | "attribute" | "max"
             | "min" => {
+                // a template that includes `_self` includes itself until PHP dies at its memory
+                // limit, while twig-rs stops at its depth limit (`reference/deviations.md`,
+                // "Recursion depth"): not comparable
+                let outer = self.no_self;
+                self.no_self |= matches!(spec.name, "include" | "include_only");
                 let args = self.arguments(&spec, depth, false);
+                self.no_self = outer;
                 let call = format!("{}{args}", spec.name);
                 if matches!(spec.name, "include" | "include_only" | "source") {
                     self.wrap_string(&call)
@@ -3383,6 +3420,38 @@ impl<'r> Generator<'r> {
         }
     }
 
+    /// The arguments of `sort` on `input`. Without a closure `sort` calls `asort()`, whose
+    /// `SORT_REGULAR` comparison orders two distinct enum cases by their heap addresses
+    /// (`php_array_data_compare_unstable_i()`; `reference/deviations.md`, "Enum ordering in
+    /// `SORT_REGULAR`": twig-rs stands in with the reverse declaration order), so the order depends
+    /// on what the PHP process allocated before. An input that may hold enum cases
+    /// ([`may_hold_enum_cases`]) is sorted with an arrow instead: `uasort()` compares with it.
+    fn sort_arguments(&mut self, spec: &Spec, input: &str, depth: usize) -> String {
+        if may_hold_enum_cases(input) {
+            return format!("({})", self.pool(ARROW2));
+        }
+        self.arguments(spec, depth, true)
+    }
+
+    /// The arguments of `template_from_string()`. A template that prints `_self` prints its own
+    /// name, which twig-rs keeps as lossy UTF-8 when it is not valid UTF-8, where PHP prints or
+    /// escapes the bytes (`reference/deviations.md`, "Non-UTF-8 template names given to
+    /// `template_from_string()`": the diff accepts lossy names in messages and `templateName`, not
+    /// in output). Such a template gets no name or one of [`TEMPLATE_LABELS`].
+    fn template_from_string_arguments(&mut self, spec: &Spec, depth: usize) -> String {
+        let args = self.arguments(spec, depth, false);
+        if !args.contains(SELF_SOURCE) {
+            return args;
+        }
+        let name = self.pool(TEMPLATE_LABELS);
+        match self.rng.below(6) {
+            0 => format!("({SELF_SOURCE})"),
+            1 => format!("(template={SELF_SOURCE}, name={name})"),
+            2 => format!("(name={name}, template={SELF_SOURCE})"),
+            _ => format!("({SELF_SOURCE}, {name})"),
+        }
+    }
+
     /// The name a named argument is given (usually the PHP name in snake case) and what its value
     /// prefers (another parameter's name takes that parameter's kind of value).
     fn argument_name(&mut self, param: Param, spec: &Spec) -> (String, Fl) {
@@ -3496,7 +3565,8 @@ impl<'r> Generator<'r> {
         }
     }
 
-    /// Markup and other values only templates make.
+    /// Markup and other values only templates make. `_self` (the name of the main template) is left
+    /// out of the arguments of `include()` and `include_only()` ([`Generator::no_self`]).
     fn special(&mut self) -> String {
         match self.rng.below(7) {
             0 | 1 => {
@@ -3513,7 +3583,7 @@ impl<'r> Generator<'r> {
                 "_self.mke()".to_owned()
             }
             4 => "include('b.twig')".to_owned(),
-            5 => "_self".to_owned(),
+            5 if !self.no_self => "_self".to_owned(),
             _ => "_charset".to_owned(),
         }
     }
@@ -3875,6 +3945,13 @@ impl<'r> Generator<'r> {
     }
 }
 
+/// Whether the value of `input` (Twig source) may hold several enum cases: what `enum_cases()` or
+/// an enum's `cases()` returns (the variables `en` and `enu` hold one case each, and no other
+/// variable holds one).
+fn may_hold_enum_cases(input: &str) -> bool {
+    input.contains("enum_cases") || input.contains(".cases")
+}
+
 /// Whether the main template names a helper class of `tests/IntegrationTest.php`.
 fn index_source_names_test_class(fields: &[(String, Json)]) -> bool {
     fields
@@ -4011,6 +4088,204 @@ mod tests {
         };
         assert_eq!(with_cr(&Options::default()), 0);
         assert!(with_cr(&Options { d2: true }) > 10);
+    }
+
+    /// The main templates of `count` cases of each of `seeds`.
+    fn main_templates(seeds: std::ops::RangeInclusive<u64>, count: usize) -> Vec<String> {
+        seeds
+            .flat_map(|seed| generate(seed, count))
+            .map(|json| {
+                json.get("templates")
+                    .and_then(|t| t.get("index.twig"))
+                    .and_then(Json::as_str)
+                    .unwrap_or_default()
+                    .to_owned()
+            })
+            .collect()
+    }
+
+    /// The length of the bracket group `text` starts with (string literals skipped).
+    fn group_len(text: &str) -> Option<usize> {
+        let mut depth = 0usize;
+        let mut quote = None;
+        let mut escaped = false;
+        for (i, c) in text.char_indices() {
+            if let Some(q) = quote {
+                if escaped {
+                    escaped = false;
+                } else if c == '\\' {
+                    escaped = true;
+                } else if c == q {
+                    quote = None;
+                }
+                continue;
+            }
+            match c {
+                '\'' | '"' => quote = Some(c),
+                '(' | '[' | '{' => depth += 1,
+                ')' | ']' | '}' => {
+                    depth = depth.checked_sub(1)?;
+                    if depth == 0 {
+                        return Some(i + 1);
+                    }
+                }
+                _ => {}
+            }
+        }
+        None
+    }
+
+    /// Where each call of the function `name` in `source` starts and ends (its argument list
+    /// included).
+    fn calls(source: &str, name: &str) -> Vec<(usize, usize)> {
+        let pattern = format!("{name}(");
+        let mut out = Vec::new();
+        let mut from = 0;
+        while let Some(found) = source[from..].find(&pattern) {
+            let start = from + found;
+            from = start + pattern.len();
+            let before = source[..start].chars().next_back();
+            if before.is_some_and(|c| c.is_ascii_alphanumeric() || c == '_' || c == '.') {
+                continue;
+            }
+            let open = start + name.len();
+            if let Some(len) = group_len(&source[open..]) {
+                out.push((start, open + len));
+            }
+        }
+        out
+    }
+
+    /// Whether `text` names `_self` outside string literals, other than as `_self.macro()` and as
+    /// the subject of a test (`_self is defined`).
+    fn names_self(text: &str) -> bool {
+        let mut quote = None;
+        let mut escaped = false;
+        for (i, c) in text.char_indices() {
+            if let Some(q) = quote {
+                if escaped {
+                    escaped = false;
+                } else if c == '\\' {
+                    escaped = true;
+                } else if c == q {
+                    quote = None;
+                }
+                continue;
+            }
+            if c == '\'' || c == '"' {
+                quote = Some(c);
+                continue;
+            }
+            let rest = &text[i..];
+            let before = text[..i].chars().next_back();
+            if rest.starts_with("_self")
+                && !before.is_some_and(|b| b.is_ascii_alphanumeric() || b == '_')
+            {
+                let after = &rest["_self".len()..];
+                if !(after.starts_with(|a: char| a.is_ascii_alphanumeric() || a == '_')
+                    || after.starts_with('.')
+                    || after.starts_with(" is "))
+                {
+                    return true;
+                }
+            }
+        }
+        false
+    }
+
+    /// `asort()` orders distinct enum cases by heap address: `sort` gets an arrow for whatever may
+    /// hold enum cases (T19, round 5's `c11002-01066v`: `dump(enum_cases('...')|sort)`).
+    #[test]
+    fn enum_cases_are_sorted_with_an_arrow() {
+        let spec = *FILTERS.iter().find(|s| s.name == "sort").expect("sort");
+        let mut rng = Rng::new(3);
+        let mut generator = Generator::new(&mut rng);
+        let mut plain = 0;
+        for _ in 0..300 {
+            for input in [
+                r"enum_cases('Twig\\Tests\\DummyBackedEnum')",
+                "al|merge(enum_cases(n))",
+                r"enum('Twig\\Tests\\DummyUnitEnum').cases",
+            ] {
+                let args = generator.sort_arguments(&spec, input, 0);
+                assert!(args.starts_with('(') && args.contains("=>"), "{args}");
+            }
+            if !generator.sort_arguments(&spec, "al", 0).contains("=>") {
+                plain += 1;
+            }
+        }
+        assert!(
+            plain > 0,
+            "other inputs still get every kind of argument list"
+        );
+        // `enum_cases(...)` followed by filters up to a `sort`: always with an arrow
+        let mut chains = 0;
+        for source in main_templates(1..=6, 3000) {
+            for (_, end) in calls(&source, "enum_cases") {
+                let mut rest = &source[end..];
+                while let Some(after) = rest.strip_prefix('|') {
+                    let name_len = after
+                        .find(|c: char| !(c.is_ascii_alphanumeric() || c == '_'))
+                        .unwrap_or(after.len());
+                    let (name, tail) = after.split_at(name_len);
+                    let args_len = if tail.starts_with('(') {
+                        group_len(tail).unwrap_or(0)
+                    } else {
+                        0
+                    };
+                    if name == "sort" {
+                        chains += 1;
+                        assert!(tail[..args_len].contains("=>"), "{source}");
+                    }
+                    rest = &tail[args_len..];
+                }
+            }
+        }
+        assert!(chains > 0, "no enum_cases(...)|sort was generated");
+    }
+
+    /// A string template that prints `_self` gets a name that is valid UTF-8 (T19, round 6's
+    /// `c15013-00123v`: `include(template_from_string('{{_self}}', "\xe9"))`), and `_self` is never
+    /// the template of `include()` or `include_only()` (T19, round 6's `c15010-00326m`:
+    /// `include_only(_self, {'v': '<b>'})`, an endless self-include).
+    #[test]
+    fn self_printing_templates_get_utf8_names_and_no_template_includes_itself() {
+        let mut forms: Vec<String> = vec![format!("({SELF_SOURCE})")];
+        for label in TEMPLATE_LABELS {
+            forms.push(format!("({SELF_SOURCE}, {label})"));
+            forms.push(format!("(template={SELF_SOURCE}, name={label})"));
+            forms.push(format!("(name={label}, template={SELF_SOURCE})"));
+        }
+        let (mut self_sources, mut includes) = (0, 0);
+        for source in main_templates(1..=6, 3000) {
+            for (start, end) in calls(&source, "template_from_string") {
+                let args = &source[start + "template_from_string".len()..end];
+                if args.contains(SELF_SOURCE) {
+                    self_sources += 1;
+                    assert!(forms.iter().any(|f| f == args), "{source}");
+                }
+            }
+            for name in ["include", "include_only"] {
+                for (start, end) in calls(&source, name) {
+                    let args = &source[start + name.len()..end];
+                    // (how a string template is rendered: `template_from_string(_self)` is a
+                    // template whose source is the name of the main template)
+                    if args.starts_with("(template_from_string(") {
+                        continue;
+                    }
+                    includes += 1;
+                    assert!(!names_self(args), "{source}");
+                }
+            }
+        }
+        assert!(
+            self_sources > 20 && includes > 100,
+            "{self_sources} {includes}"
+        );
+        assert!(names_self("include(_self)") && names_self("(x, _self|trim)"));
+        assert!(!names_self(
+            "include('{{ _self }}', _self.mk(1), (_self is defined), x_self)"
+        ));
     }
 
     #[test]

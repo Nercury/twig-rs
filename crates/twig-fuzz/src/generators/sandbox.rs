@@ -35,9 +35,10 @@
 //! lines (error lines, `{% line %}`, newlines inside expressions and tags).
 //!
 //! Generated cases avoid what differs by design: no template recursion (`inc.twig` and the templates only it refers
-//! to never include anything), no `dump()` of objects, no unseeded randomness. Known mismatches are generated only
-//! rarely, so that new batches still show new clusters: numeric policy class keys, `{% deprecated %}` arguments
-//! that are not strings (see `tests/vectors/fuzz/sandbox/known-mismatches.json`).
+//! to never include anything), no `dump()` of objects, no unseeded randomness, no `sort` without an arrow when the
+//! data holds enum cases of its own (`asort()` orders distinct cases by heap address). Known mismatches are
+//! generated only rarely, so that new batches still show new clusters: numeric policy class keys,
+//! `{% deprecated %}` arguments that are not strings (see `tests/vectors/fuzz/sandbox/known-mismatches.json`).
 //!
 //! [`generate`] is deterministic: case `i` of seed `s` only depends on `(s, i)`. Run its cases with
 //! `"isolation": "process"` ([`batch`]).
@@ -1757,7 +1758,7 @@ impl<'r> Gen<'r> {
             32 => {
                 let m = self.filter("sort");
                 let j = self.filter("join");
-                if self.rng.chance(0.5) {
+                if self.rng.chance(0.5) && !self.has_enum_variable() {
                     format!("{a}|{m}|{j}")
                 } else {
                     format!("{a}|{m}((x, y) => x <=> y)|{j}")
@@ -1934,6 +1935,15 @@ impl<'r> Gen<'r> {
                 }
             }
         }
+    }
+
+    /// Whether the data holds an enum case of its own (kinds 18 and 19), which is what lets an expression hold two
+    /// distinct cases (`[en, ue]`, `en.cases`; the elements of arrays are always `DummyBackedEnum::BAR`). `sort`
+    /// without an arrow calls `asort()`, whose `SORT_REGULAR` comparison orders distinct enum cases by heap address
+    /// (`reference/deviations.md`, "Enum ordering in `SORT_REGULAR`"; also in a PHP process of its own the oracle
+    /// gives `[en, ue]|sort` another order than twig-rs's stand-in): such data is only sorted with an arrow.
+    fn has_enum_variable(&self) -> bool {
+        self.kinds.contains(&18) || self.kinds.contains(&19)
     }
 
     /// Whether to spread `v` itself (an array or a `Traversable`, or now and then anything, for the `TypeError`).
@@ -2996,6 +3006,43 @@ mod tests {
     fn is_deterministic() {
         assert_eq!(generate(7, 20), generate(7, 20));
         assert_ne!(case(7, 1), case(7, 2));
+    }
+
+    /// Data with enum cases of its own is only sorted with an arrow (T19: `asort()` orders distinct cases by heap
+    /// address).
+    #[test]
+    fn no_plain_sort_of_enum_data() {
+        let (mut enum_data, mut plain_sorts) = (0, 0);
+        let cases = generate(5, 1500);
+        for c in &cases {
+            let data = c.get("data_php").and_then(Json::as_str).unwrap_or_default();
+            let sorts = c
+                .get("templates")
+                .map(Json::entries)
+                .unwrap_or_default()
+                .iter()
+                .filter(|(_, source)| source.as_str().unwrap_or_default().contains("|sort|"))
+                .count();
+            // a variable holding an enum case (not one inside an array, and not `iv`, an element like those of the
+            // arrays: always `DummyBackedEnum::BAR`)
+            let has_enum = data.lines().any(|line| {
+                line.starts_with("    '")
+                    && !line.starts_with("    'iv'")
+                    && line
+                        .split_once("' => ")
+                        .is_some_and(|(_, value)| value.starts_with("\\Twig\\Tests\\Dummy"))
+            });
+            if has_enum {
+                enum_data += 1;
+                assert_eq!(sorts, 0, "{}", c.to_compact());
+            } else {
+                plain_sorts += sorts;
+            }
+        }
+        assert!(
+            enum_data > 20 && plain_sorts > 5,
+            "{enum_data} {plain_sorts}"
+        );
     }
 
     #[test]
