@@ -2522,7 +2522,12 @@ impl Codegen {
                 Ok(())
             }
             TestKind::Even | TestKind::Odd => {
+                // EvenTest/OddTest::compile(): `(node % 2 == 0)` / `(node % 2 != 0)`. The `%` reports the line of the
+                // literal `2` written right after the node, which compiling it makes `CG(zend_lineno)`
+                // (zend_compile_expr_inner(), PHPSRC/Zend/zend_compile.c), not the line state the node left (inside
+                // an array literal, the literal's line after a constant PHP folded there)
                 self.expr(&test.node)?;
+                self.leaf();
                 self.emit_const(Value::Int(2));
                 self.emit(Instr::Binary(BinaryOp::Mod));
                 self.emit_const(Value::Int(0));
