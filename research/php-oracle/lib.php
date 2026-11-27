@@ -421,26 +421,37 @@ final class RichEncoder
 
 /**
  * Whether add() and sub() of the interval take its time part in wall-clock time: php_interval_obj's civil_or_wall
- * is PHP_DATE_WALL, which only `new DateInterval()` sets (diff(), createFromDateString(), __set_state() and
- * unserialize() give PHP_DATE_CIVIL), and PHP shows it nowhere (PHPSRC/ext/date/php_date.c: php_date_add(),
- * php_date_sub()). The modes differ only for an interval with a time part, where the arithmetic crosses a change of
- * the UTC offset: the interval is added to and subtracted from instants around the end of DST in New York
- * (2021-11-07 06:00 UTC) and compared with an unserialize()d copy, which has the civil mode.
+ * is PHP_DATE_WALL, which `new DateInterval()` sets (diff(), createFromDateString(), and __set_state() and
+ * unserialize() without a `civil_or_wall` key give PHP_DATE_CIVIL; a clone keeps the mode), and PHP shows it nowhere
+ * (PHPSRC/ext/date/php_date.c: php_date_add(), php_date_sub()). The modes differ only for an interval with a time
+ * part, where the arithmetic crosses a change of the UTC offset after the date part. A clone of the interval keeps
+ * its mode; with its date part dropped and its time part set to one second, it is added to the last second of DST in
+ * New York (2021-11-07 05:59:59 UTC), subtracted from the first second after it, and compared with an unserialize()d
+ * copy of itself, which has the civil mode. Probing the interval itself missed the mode when its date part or a long
+ * time part kept the arithmetic from crossing the offset change (T23). A createFromDateString() interval (and a copy
+ * made from its `date_string`) is civil; it is not probed, since its unserialize()d copy would be parsed from
+ * `date_string` again.
  */
 function interval_is_wall(\DateInterval $interval): bool
 {
     try {
+        if (true === (get_object_vars($interval)['from_string'] ?? false)) {
+            return false;
+        }
         if (0 === $interval->h && 0 === $interval->i && 0 === $interval->s && 0.0 === (float) $interval->f) {
             return false;
         }
-        $civil = unserialize(serialize($interval));
+        $probe = clone $interval;
+        $probe->y = $probe->m = $probe->d = $probe->h = $probe->i = 0;
+        $probe->s = 1;
+        $probe->f = 0.0;
+        $probe->invert = 0;
+        $civil = unserialize(serialize($probe));
         $zone = new \DateTimeZone('America/New_York');
-        foreach ([-3599, -1800, -1, 1, 1800, 3599] as $offset) {
-            $probe = (new \DateTimeImmutable('@'.(1636264800 + $offset)))->setTimezone($zone);
-            if ($probe->add($interval) != $probe->add($civil) || $probe->sub($interval) != $probe->sub($civil)) {
-                return true;
-            }
-        }
+        $last = (new \DateTimeImmutable('@1636264799'))->setTimezone($zone);
+        $first = (new \DateTimeImmutable('@1636264800'))->setTimezone($zone);
+
+        return $last->add($probe) != $last->add($civil) || $first->sub($probe) != $first->sub($civil);
     } catch (\Throwable) {
         // an interval that is not initialised: nothing to rebuild either
     }

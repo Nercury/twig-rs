@@ -34,7 +34,9 @@ instead of stopping the data phase without typed data), and `tests`/`strict` in 
 such container running); `--heartbeat` reports each finished case on stderr. The typed data trees also carry `props`
 (`get_object_vars()`) for date objects (and, like for any other object, for `DatePeriod`), and `"wall": true` for a
 `DateInterval` whose `add()`/`sub()` use wall-clock time (what `new DateInterval()` gives; PHP shows the mode nowhere
-else, so `interval_is_wall()` probes it across a DST end). The protocol is at the top of `runner.php`.
+else, so `interval_is_wall()` probes a clone of it, which keeps the mode, with one second as its whole length across a
+DST end). Rebuild the image after a change to `lib.php` or `runner.php`: `oracle.sh` only builds it when it is missing.
+The protocol is at the top of `runner.php`.
 
 | File | Role |
 |---|---|
