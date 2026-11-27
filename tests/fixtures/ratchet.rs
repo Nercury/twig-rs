@@ -16,14 +16,11 @@ use super::runner::Outcome;
 pub const UPDATE_VARIABLE: &str = "TWIG_FIXTURES_UPDATE";
 
 /// The fixture trials that fail in this build only, by build: without the `glibc-iconv` feature, the conversions
-/// through charsets beyond the default iconv backend (reference/deviations.md: the default build converts the Unicode
-/// charsets, ASCII, ISO-8859-1 and the common single-byte codepages). They count as known failures of this build, and the ratchet applies: once one
-/// passes, the run fails until it is removed here.
+/// through charsets beyond the default iconv backend (reference/deviations.md: the iconv charsets of the default
+/// build; none of the fixtures needs one now). They count as known failures of this build, and the ratchet applies:
+/// once one passes, the run fails until it is removed here.
 #[cfg(not(feature = "glibc-iconv"))]
-pub const BUILD_KNOWN_FAILURES: &[&str] = &[
-    // "愛していますか？"|convert_encoding('ISO-2022-JP', 'UTF-8')|convert_encoding('UTF-8', 'ISO-2022-JP')
-    "filters/convert_encoding.test#0",
-];
+pub const BUILD_KNOWN_FAILURES: &[&str] = &[];
 /// The fixture trials that fail in this build only (none with the `glibc-iconv` feature).
 #[cfg(feature = "glibc-iconv")]
 pub const BUILD_KNOWN_FAILURES: &[&str] = &[];

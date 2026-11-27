@@ -1,10 +1,17 @@
-//! The single-byte charsets converted with tables: the ISO-8859 family (2 to 16), the Windows codepages 1250 to
-//! 1258, KOI8-R, KOI8-U, KOI8-RU, the DOS codepages 437, 850, 852 and 866, and MACINTOSH (Mac OS Roman).
+//! The single-byte charsets converted with tables, every one of glibc's whose bytes below 0x80 are ASCII (95): the
+//! ISO-8859 family (2 to 16 and 9E), the Windows codepages 874 and 1250 to 1258, the KOI8 family (KOI8-R, KOI8-U,
+//! KOI8-RU, KOI8-T, KOI8), the IBM PC and OS/2 codepages (437, 737, 770 to 775, 850 to 869, 874, 901 to 922, 1004,
+//! 1008, 1046, 1124 to 1163, 4909, 5347), the Mac charsets (MACINTOSH, MAC-CENTRALEUROPE, MAC-CYRILLIC, MAC-IS,
+//! MAC-SAMI, CP10007) and ARMSCII-8, CWI, DEC-MCS, ECMA-CYRILLIC, GEORGIAN-ACADEMY, GEORGIAN-PS, GOST_19768-74,
+//! HP-GREEK8, HP-ROMAN8, HP-ROMAN9, HP-TURKISH8, IEC_P27-1, ISIRI-3342, ISO_10367-BOX, ISO-IR-197, ISO-IR-209, MIK,
+//! PT154, RK1048, TIS-620 and WIN-SAMI-2.
 //!
 //! The tables (`codepage_table.rs`) are what glibc 2.41's iconv does in the oracle, measured black-box by
 //! `codepage.gen.php`: every byte decoded and every code point encoded with one PHP `iconv()` call each. They agree
-//! with the Unicode Consortium's mapping files (<https://www.unicode.org/Public/MAPPINGS/>) except where the
-//! documentation of each charset says otherwise.
+//! with the Unicode Consortium's mapping files (<https://www.unicode.org/Public/MAPPINGS/>) where there is one,
+//! except where the documentation of each charset says otherwise. A few bytes decode to a character the encoder
+//! writes as another byte, and a few characters are written as a byte that decodes to another one (U+2022 as 0x07 in
+//! CP901), as each charset's documentation lists.
 //!
 //! CP1255 (Hebrew) and CP1258 (Vietnamese) also combine characters, as the oracle shows: their encoders write
 //! characters without a byte of their own as a letter followed by its marks ([`Table::decompose`]), and their decoders
@@ -129,10 +136,11 @@ mod tests {
                 cp.name()
             );
             assert_eq!(t.compose.is_empty(), t.hold.is_empty(), "{}", cp.name());
-            // every byte the decoder accepts encodes back to itself
+            // every character the decoder gives encodes to one byte (itself but in a few codepages, see their
+            // documentation)
             for b in 0..=255u8 {
                 if let Some(c) = cp.decode(b) {
-                    assert_eq!(cp.encode(c), Some(([b, 0, 0], 1)), "{} {b:#x}", cp.name());
+                    assert!(matches!(cp.encode(c), Some((_, 1))), "{} {b:#x}", cp.name());
                 }
             }
             assert_eq!(cp.encode(0x1_0000), None);

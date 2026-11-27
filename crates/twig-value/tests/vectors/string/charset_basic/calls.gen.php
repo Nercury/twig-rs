@@ -118,7 +118,9 @@ foreach (run($seq) as $i => $r) {
 $chars = [0xFFFF, 0x300, 0xA0, 0x3226, 0x1F600, 0x20AC, 0xE9, 0x3042, 0xAC00, 0x4E00, 0x2460, 0xFF61, 0x10000, 0x80,
     0x85, 0x8E, 0x8F, 0x9F, 0xA5, 0x203E, 0xFF71, 0x4E02, 0x554A, 0x3B1, 0xE0041, 0x226D, 0x3395, 0x20AB, 0x309B];
 $rooms = [];
-foreach (array_merge(['ASCII', 'ISO-8859-1', 'UTF-8'], CODEPAGES, MULTIBYTES) as $t) {
+// (every fourth codepage: they all want a byte)
+$someCodepages = array_values(array_filter(CODEPAGES, static fn (int $i): bool => $i % 4 === 0, ARRAY_FILTER_USE_KEY));
+foreach (array_merge(['ASCII', 'ISO-8859-1', 'UTF-8'], $someCodepages, MULTIBYTES) as $t) {
     $rooms[] = [$t, [0x61], 1];
 }
 foreach (['UTF-16' => 4, 'UTF-16LE' => 2, 'UCS-2' => 4, 'UTF-32' => 8, 'UCS-4' => 4] as $t => $first) {

@@ -89,8 +89,14 @@ function measure(string $target, array $enc): array
 {
     $iso = in_array($target, ISO2022S, true);
     $unit = $target === 'UCS-2LE' ? 2 : 1;
-    // ISO-2022: a line feed, which also makes ISO-2022-JP-2 designate G2 again for each character
-    $sep = $unit === 2 ? "\x01\x00" : ($iso ? "\x0a" : "\x01");
+    // ISO-2022: a line feed, which also makes ISO-2022-JP-2 designate G2 again for each character; else a control
+    // character no other character encodes to (some IBM codepages write U+263A and others as control bytes)
+    $control = 1;
+    while (!$iso && $unit === 1 && array_filter($enc, static fn (?string $b, int $cp): bool => $cp >= 0x80 && $b !== null
+        && str_contains($b, chr($control)), ARRAY_FILTER_USE_BOTH) !== []) {
+        $control++;
+    }
+    $sep = $unit === 2 ? "\x01\x00" : ($iso ? "\x0a" : chr($control));
     $out = [];
     for ($start = 0x80; $start <= 0x10FFFF; $start += 4096) {
         $cps = [];
@@ -100,7 +106,7 @@ function measure(string $target, array $enc): array
                 continue;
             }
             $cps[] = $cp;
-            $in .= mb_chr($cp, 'UTF-8') . ($iso ? "\x0a" : "\x01");
+            $in .= mb_chr($cp, 'UTF-8') . ($iso ? "\x0a" : ($unit === 2 ? "\x01" : $sep));
         }
         $converted = iconv('UTF-8', "$target//TRANSLIT", $in);
         if ($converted === false) {
@@ -198,9 +204,16 @@ foreach ($targets as $target) {
 $results = []; // code point => target => list of code points
 $deferred = [];
 foreach ($targets as $target) {
+    // (also a codepage that writes several characters as one byte, U+2190 and U+001B as 0x1B: its bytes say less
+    // than the other targets)
     $multi = in_array($target, MULTIBYTES, true);
+    $writers = [];
     foreach ($enc[$target] as $b) {
         $multi = $multi || ($b !== null && strlen($b) > 1 && $target !== 'UCS-2LE');
+        if ($b !== null && strlen($b) === 1) {
+            $writers[$b] = ($writers[$b] ?? 0) + 1;
+            $multi = $multi || $writers[$b] > 1;
+        }
     }
     foreach ($measured[$target] as $cp => $bytes) {
         if (in_array($target, ISO2022S, true)) {
@@ -233,7 +246,29 @@ foreach ($deferred as [$target, $cp, $bytes]) {
             fail(sprintf('%s: U+%04X becomes %s, which does not decode back', $target, $cp, bin2hex($bytes)));
         }
     }
-    $results[$cp][$target] = $match ?? array_map(static fn (string $b): int => $decode[$target][$b], str_split($bytes));
+    if ($match === null && !in_array($target, MULTIBYTES, true)) {
+        // a byte several characters are written as: the one no target that gives "?" could write
+        $match = [];
+        foreach (str_split($bytes) as $byte) {
+            $candidates = [];
+            foreach ($enc[$target] as $c => $b) {
+                if ($b !== $byte) {
+                    continue;
+                }
+                foreach ($targets as $t) {
+                    if (($enc[$t][$cp] ?? null) === null && !isset($measured[$t][$cp]) && ($enc[$t][$c] ?? null) !== null) {
+                        continue 2;
+                    }
+                }
+                $candidates[] = $c;
+            }
+            if ($candidates === []) {
+                fail(sprintf('%s: U+%04X becomes %s, which no character explains', $target, $cp, bin2hex($bytes)));
+            }
+            $match[] = $candidates[0];
+        }
+    }
+    $results[$cp][$target] = $match;
 }
 ksort($results);
 

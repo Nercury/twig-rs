@@ -160,7 +160,7 @@ foreach (CODEPAGES as $variant => [$cs, $file]) {
             }
         } elseif ($cps === null) {
             $high[] = null;
-        } elseif (count($cps) === 1 && $cps[0] >= 0x80 && $cps[0] < 0xFFFF) {
+        } elseif (count($cps) === 1 && $cps[0] < 0xFFFF) {
             $high[] = $cps[0];
         } else {
             fail("$cs: byte $b decodes to " . json_encode($cps));
@@ -202,16 +202,24 @@ foreach (CODEPAGES as $variant => [$cs, $file]) {
     // single-byte encodings and decodings are each other's inverse, but for a few more code points the encoder takes
     $oneWay = [];
     foreach ($single as $cp => $b) {
-        if ($high[$b - 0x80] !== $cp) {
-            if ($high[$b - 0x80] === null) {
+        // (some IBM codepages write a few characters as an ASCII byte: U+2022 as 0x07 in CP901)
+        $back = $b < 0x80 ? $b : $high[$b - 0x80];
+        if ($back !== $cp) {
+            if ($back === null) {
                 fail("$cs: " . u($cp) . " encodes to byte $b, which does not decode");
             }
-            $oneWay[] = sprintf('%s as 0x%02X (%s)', u($cp), $b, u($high[$b - 0x80]));
+            $oneWay[] = sprintf('%s as 0x%02X (%s)', u($cp), $b, u($back));
         }
     }
+    // (a few bytes decode to a character the encoder writes as another byte: two bytes for one character)
+    $decodeOnly = [];
     foreach ($high as $i => $cp) {
-        if ($cp !== null && ($single[$cp] ?? null) !== 0x80 + $i) {
-            fail("$cs: byte " . (0x80 + $i) . ' does not round-trip');
+        $written = $cp !== null && $cp < 0x80 ? $cp : ($single[$cp] ?? null);
+        if ($cp !== null && $written !== 0x80 + $i) {
+            if ($written === null) {
+                fail("$cs: byte " . (0x80 + $i) . ' decodes to ' . u($cp) . ', which does not encode');
+            }
+            $decodeOnly[] = sprintf('0x%02X as %s (written 0x%02X)', 0x80 + $i, u($cp), $written);
         }
     }
 
@@ -312,6 +320,9 @@ foreach (CODEPAGES as $variant => [$cs, $file]) {
     }
     if ($oneWay !== []) {
         $doc .= ' Encoding also takes ' . implode(', ', $oneWay) . '.';
+    }
+    if ($decodeOnly !== []) {
+        $doc .= ' Decoding also takes ' . implode(', ', $decodeOnly) . '.';
     }
     $tables[$variant] = [$cs, $doc, $high, $single, $multi, $compose, $hold, $holdCombined];
 }

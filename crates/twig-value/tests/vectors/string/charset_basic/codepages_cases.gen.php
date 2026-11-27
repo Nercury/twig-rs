@@ -1,7 +1,7 @@
 <?php
 // codepages_cases.json: conversions from and into the codepages (the single-byte charsets with tables):
-//   - every codepage into every codepage, UTF-8, UTF-16, ISO-8859-1 and ASCII, plain, //TRANSLIT and //IGNORE, on a
-//     pool of inputs per source (all its characters, invalid bytes, seeded random strings);
+//   - every codepage into itself, six other codepages, UTF-8, UTF-16, ISO-8859-1 and ASCII, plain, //TRANSLIT and
+//     //IGNORE, on a pool of inputs per source (all its characters, invalid bytes, seeded random strings);
 //   - UTF-8 into every codepage on a pool of characters (transliterations, unrepresentable and tag characters, values
 //     beyond Unicode), with every suffix;
 //   - the decoders of CP1255 and CP1258, which hold back each character that a following one may combine with:
@@ -48,9 +48,13 @@ function encode_cps(string $cs, array $cps): ?string
 
 mt_srand(20261127);
 
-// every codepage into every codepage and the main Unicode charsets
-$targets = array_merge(CODEPAGES, ['UTF-8', 'UTF-16', 'ISO-8859-1', 'ASCII']);
-foreach (CODEPAGES as $from) {
+// every codepage into itself, six others (at distances 1, 3, 7, 15, 31 and 63 in the list) and the main Unicode
+// charsets
+foreach (CODEPAGES as $i => $from) {
+    $targets = ['UTF-8', 'UTF-16', 'ISO-8859-1', 'ASCII'];
+    foreach ([0, 1, 3, 7, 15, 31, 63] as $d) {
+        $targets[] = CODEPAGES[($i + $d) % count(CODEPAGES)];
+    }
     $rep = repertoire($from);
     $valid = array_keys($rep);
     $invalid = array_values(array_diff(range(0, 255), $valid));
