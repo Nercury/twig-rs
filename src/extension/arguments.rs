@@ -4,6 +4,8 @@
 //! `Twig\Util\ReflectionCallable::getTwigParameters()`, on top of the parameter lists registered with
 //! [`PhpCallable`](super::PhpCallable).
 
+use std::collections::HashMap;
+
 use super::callable::{CallableParameter, TwigCallable};
 use crate::ast::{ArgumentKey, Arguments, ArrayExpr, ConstantValue, Expr, ExprKind, Lossy};
 use crate::deprecation::{Deprecation, DeprecationSink};
@@ -82,16 +84,26 @@ impl<'a> CallableArgumentsExtractor<'a> {
     ) -> Result<Vec<Expr>> {
         let callable_type = self.callable.callable_type().as_str();
         let callable_name = Lossy(self.callable.name());
-        let mut extracted: Vec<(Normalized, Expr)> = Vec::new();
+        let mut extracted: Vec<(Normalized, Expr)> = Vec::with_capacity(arguments.len());
         let mut name_map: Vec<(Vec<u8>, Vec<u8>)> = Vec::new();
+        // `$extracted[$name] = $node`: where each normalised name is in `extracted`. The int keys of `Arguments` are
+        // distinct and come before every name, so only names can repeat (`foo_bar` and `fooBar`), and a lookup in
+        // this index stands for PHP's hash lookup instead of a scan of every argument.
+        let mut named_at: HashMap<Vec<u8>, usize> = HashMap::new();
         let mut named = false;
         for (key, node) in arguments.entries() {
-            let normalized = match key {
+            match key {
                 ArgumentKey::Name(name) => {
                     named = true;
                     let normalized = normalize_name(name);
                     set_name(&mut name_map, normalized.clone(), name.clone());
-                    Normalized::Name(normalized)
+                    match named_at.get(&normalized) {
+                        Some(&at) => extracted[at].1 = node.clone(),
+                        None => {
+                            named_at.insert(normalized.clone(), extracted.len());
+                            extracted.push((Normalized::Name(normalized), node.clone()));
+                        }
+                    }
                 }
                 ArgumentKey::Index(i) => {
                     if named {
@@ -99,10 +111,9 @@ impl<'a> CallableArgumentsExtractor<'a> {
                             "Positional arguments cannot be used after named arguments for {callable_type} \"{callable_name}\"."
                         )));
                     }
-                    Normalized::Index(*i)
+                    extracted.push((Normalized::Index(*i), node.clone()));
                 }
-            };
-            set_extracted(&mut extracted, normalized, node.clone());
+            }
         }
 
         // The constructor checked that there is a PHP callable.
@@ -302,14 +313,6 @@ fn normalize_name(name: &[u8]) -> Vec<u8> {
         .filter(|&&b| b != b'_')
         .map(u8::to_ascii_lowercase)
         .collect()
-}
-
-/// `$extracted[$key] = $node` (an existing key keeps its position).
-fn set_extracted(extracted: &mut Vec<(Normalized, Expr)>, key: Normalized, node: Expr) {
-    match extracted.iter_mut().find(|(k, _)| *k == key) {
-        Some(slot) => slot.1 = node,
-        None => extracted.push((key, node)),
-    }
 }
 
 fn set_name(map: &mut Vec<(Vec<u8>, Vec<u8>)>, normalized: Vec<u8>, original: Vec<u8>) {

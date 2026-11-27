@@ -246,3 +246,74 @@ fn argument_keys_are_positions_or_names() {
         ]
     );
 }
+
+/// `$args[] = $value` takes one more than the greatest int key of the remaining entries; names leave it alone.
+#[test]
+fn positional_keys_follow_the_greatest_int_key() {
+    let keys = |arguments: &Arguments| -> Vec<ArgumentKey> {
+        arguments
+            .entries()
+            .iter()
+            .map(|(key, _)| key.clone())
+            .collect()
+    };
+    let mut arguments = Arguments::new();
+    arguments.push(Expr::constant(0, 1));
+    arguments.push(Expr::constant(1, 1));
+    arguments.set_named(b"x".to_vec(), Expr::constant(2, 1));
+    arguments.push(Expr::constant(3, 1));
+    assert_eq!(
+        keys(&arguments),
+        [
+            ArgumentKey::Index(0),
+            ArgumentKey::Index(1),
+            ArgumentKey::Name(b"x".to_vec()),
+            ArgumentKey::Index(2),
+        ]
+    );
+    // without the greatest int key, the next one is that key again
+    arguments.remove(&ArgumentKey::Index(2));
+    arguments.push(Expr::constant(4, 1));
+    assert_eq!(keys(&arguments).last(), Some(&ArgumentKey::Index(2)));
+    // a smaller one does not change it
+    arguments.remove(&ArgumentKey::Index(0));
+    arguments.push(Expr::constant(5, 1));
+    assert_eq!(keys(&arguments).last(), Some(&ArgumentKey::Index(3)));
+    // with no int key left, it starts over
+    for i in 1..=3 {
+        arguments.remove(&ArgumentKey::Index(i));
+    }
+    arguments.push(Expr::constant(6, 1));
+    assert_eq!(
+        keys(&arguments),
+        [ArgumentKey::Name(b"x".to_vec()), ArgumentKey::Index(0)]
+    );
+    // equal containers compare equal however they were built
+    let mut built = Arguments::new();
+    built.set_named(b"x".to_vec(), Expr::constant(2, 1));
+    built.push(Expr::constant(6, 1));
+    assert_eq!(arguments, built);
+}
+
+/// Names that normalise alike (`time_zone`, `timeZone`) are one key: the later value replaces the earlier one at the
+/// earlier position, as `$extracted[$name] = $node` does.
+#[test]
+fn names_that_normalise_alike_are_one_argument() {
+    use Arg::*;
+    let alike = extract(
+        "filter",
+        "date",
+        &[Named("timezone", 1), Named("format", 2), Named("Format", 3)],
+    )
+    .unwrap();
+    let once = extract(
+        "filter",
+        "date",
+        &[Named("format", 3), Named("timezone", 1)],
+    )
+    .unwrap();
+    assert_eq!(
+        alike.iter().map(dump_expr).collect::<Vec<_>>(),
+        once.iter().map(dump_expr).collect::<Vec<_>>()
+    );
+}

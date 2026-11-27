@@ -598,6 +598,9 @@ pub enum ArgumentKey {
 pub struct Arguments {
     entries: Vec<(ArgumentKey, Expr)>,
     empty_node: bool,
+    /// The key [`push`](Self::push) gives: one more than the greatest int key of `entries`, 0 without one (a function
+    /// of `entries`, kept so that building a call with many arguments stays linear).
+    next_index: i64,
 }
 
 impl Arguments {
@@ -611,6 +614,7 @@ impl Arguments {
         Arguments {
             entries: Vec::new(),
             empty_node: true,
+            next_index: 0,
         }
     }
 
@@ -621,17 +625,10 @@ impl Arguments {
 
     /// Appends a positional argument: `$args[] = $value` (the key is the next int key).
     pub fn push(&mut self, value: Expr) {
-        let next = self
-            .entries
-            .iter()
-            .filter_map(|(key, _)| match key {
-                ArgumentKey::Index(i) => Some(*i + 1),
-                ArgumentKey::Name(_) => None,
-            })
-            .max()
-            .unwrap_or(0);
+        let next = self.next_index;
         self.empty_node = false;
         self.entries.push((ArgumentKey::Index(next), value));
+        self.next_index = next + 1;
     }
 
     /// Sets a named argument: `$args[$name] = $value` (a repeated name keeps its first position).
@@ -666,7 +663,19 @@ impl Arguments {
     /// Removes the argument with the given key (`removeNode()`).
     pub fn remove(&mut self, key: &ArgumentKey) -> Option<Expr> {
         let index = self.entries.iter().position(|(k, _)| k == key)?;
-        Some(self.entries.remove(index).1)
+        let removed = self.entries.remove(index).1;
+        if matches!(key, ArgumentKey::Index(i) if *i + 1 == self.next_index) {
+            self.next_index = self
+                .entries
+                .iter()
+                .filter_map(|(key, _)| match key {
+                    ArgumentKey::Index(i) => Some(*i + 1),
+                    ArgumentKey::Name(_) => None,
+                })
+                .max()
+                .unwrap_or(0);
+        }
+        Some(removed)
     }
 
     /// The number of arguments (`count()`).

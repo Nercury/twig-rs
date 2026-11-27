@@ -2927,16 +2927,19 @@ impl Codegen {
     /// Aliases the copies `CallableArgumentsExtractor` returned to the argument nodes they copy (each to the first
     /// unused argument equal to it; the elements of a variadic array likewise).
     fn alias_arguments(&mut self, bound: &[Expr], arguments: &Arguments) {
-        let mut used = vec![false; arguments.len()];
+        let entries = arguments.entries();
+        let mut used = vec![false; entries.len()];
+        // every entry before `first_unused` is used, so the search for the first unused match starts there (copies
+        // usually come in the order of the arguments, which keeps calls with many arguments linear)
+        let mut first_unused = 0;
         let mut alias = |this: &mut Self, copy: &Expr| {
-            let found = arguments
-                .entries()
-                .iter()
-                .enumerate()
-                .find(|(i, (_, original))| !used[*i] && *original == *copy);
-            if let Some((i, (_, original))) = found {
+            let found = (first_unused..entries.len()).find(|&i| !used[i] && entries[i].1 == *copy);
+            if let Some(i) = found {
                 used[i] = true;
-                this.alias_tree(copy, original);
+                while first_unused < entries.len() && used[first_unused] {
+                    first_unused += 1;
+                }
+                this.alias_tree(copy, &entries[i].1);
             }
         };
         for copy in bound {

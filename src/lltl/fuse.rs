@@ -118,8 +118,9 @@ struct Flow {
     lines: Vec<i64>,
     /// Whether a jump lands on each instruction (and on the end of the unit).
     targets: Vec<bool>,
-    /// Every jump: the jumping instruction and its target.
-    jumps: Vec<(u32, u32)>,
+    /// For each instruction (and the end of the unit), the first and the last instruction that jump to it
+    /// (`(u32::MAX, 0)` when none does), so that [`is_closed`](Self::is_closed) need not look at every jump.
+    sources: Vec<(u32, u32)>,
 }
 
 impl Flow {
@@ -143,19 +144,21 @@ impl Flow {
     /// The flow of `code`, whose instructions have the lines `lines`.
     fn with_lines(code: &[Instr], lines: Vec<i64>) -> Flow {
         let mut targets = vec![false; code.len() + 1];
-        let mut jumps = Vec::new();
+        let mut sources = vec![(u32::MAX, 0); code.len() + 1];
         for (ip, instr) in code.iter().enumerate() {
-            if let Some(target) = label(instr) {
-                if let Some(slot) = targets.get_mut(target as usize) {
-                    *slot = true;
-                }
-                jumps.push((ip as u32, target));
+            if let Some(target) = label(instr)
+                && let Some(slot) = targets.get_mut(target as usize)
+            {
+                *slot = true;
+                let (first, last) = &mut sources[target as usize];
+                *first = (*first).min(ip as u32);
+                *last = (*last).max(ip as u32);
             }
         }
         Flow {
             lines,
             targets,
-            jumps,
+            sources,
         }
     }
 
@@ -172,11 +175,10 @@ impl Flow {
             .iter()
             .filter_map(label)
             .any(|target| !inside(target as usize));
+        // a source outside `start + 1 .. end` is at or before `start`, or at or after `end`
         let jumped_into = (start + 1..=end).any(|ip| {
-            self.targets[ip]
-                && self.jumps.iter().any(|&(source, target)| {
-                    target as usize == ip && !(source as usize > start && (source as usize) < end)
-                })
+            let (first, last) = self.sources[ip];
+            self.targets[ip] && (first as usize <= start || last as usize >= end)
         });
         !jumps_out && !jumped_into
     }
@@ -249,7 +251,9 @@ fn rewrite(
     }
     for instr in &mut fused {
         if let Some(target) = label_mut(instr) {
-            *target = index[*target as usize];
+            // a label past the end (which neither the code generator nor `lltl::Compiler` makes) keeps ending the
+            // unit, as it did before the fusion
+            *target = index.get(*target as usize).copied().unwrap_or(next);
         }
     }
     *flow = Flow::with_lines(&fused, lines);
