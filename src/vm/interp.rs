@@ -629,10 +629,14 @@ fn step_operators(
         } => {
             let left = frame.pop();
             let right = program.constant(*value);
-            let result = if *commuted {
-                binary(*op, right, &left, state)?
+            let (a, b) = if *commuted {
+                (right, &left)
             } else {
-                binary(*op, &left, right, state)?
+                (&left, right)
+            };
+            let result = match int_arith(*op, a, b) {
+                Some(result) => result,
+                None => binary(*op, a, b, state)?,
             };
             frame.push(result);
         }
@@ -646,19 +650,27 @@ fn step_operators(
                 Some(value) => {
                     let left = frame.pop();
                     let right = program.constant(*value);
-                    if *commuted {
-                        binary(*op, right, &left, state)?
+                    let (a, b) = if *commuted {
+                        (right, &left)
                     } else {
-                        binary(*op, &left, right, state)?
+                        (&left, right)
+                    };
+                    match int_arith(*op, a, b) {
+                        Some(result) => result,
+                        None => binary(*op, a, b, state)?,
                     }
                 }
                 None => {
                     let right = frame.pop();
                     let left = frame.pop();
-                    if *commuted {
-                        binary(*op, &right, &left, state)?
+                    let (a, b) = if *commuted {
+                        (&right, &left)
                     } else {
-                        binary(*op, &left, &right, state)?
+                        (&left, &right)
+                    };
+                    match int_arith(*op, a, b) {
+                        Some(result) => result,
+                        None => binary(*op, a, b, state)?,
                     }
                 }
             };
@@ -680,12 +692,18 @@ fn step_operators(
                     &null
                 }
             };
-            let result = if *commuted {
-                binary(*op, right, left, state)?
+            let (a, b) = if *commuted {
+                (right, left)
             } else {
-                binary(*op, left, right, state)?
+                (left, right)
             };
-            store_name(frame, program, *name, result);
+            // the int result goes to the store without passing through the stack frame
+            if let Some(result) = int_arith(*op, a, b) {
+                store_name(frame, program, *name, result);
+            } else {
+                let result = binary(*op, a, b, state)?;
+                store_name(frame, program, *name, result);
+            }
         }
         Instr::JumpIfCompare {
             op,
@@ -1698,6 +1716,23 @@ fn callee_params<'a>(
             _ => FunctionKind::User,
         },
     }
+}
+
+/// `a op b` for two ints when PHP's result is an int: `+`, `-` and `*` that do not overflow
+/// (`fast_long_add_function()` and its siblings), which report nothing. `None` for everything else, which [`binary`]
+/// evaluates.
+#[inline(always)]
+fn int_arith(op: BinaryOp, a: &Value, b: &Value) -> Option<Value> {
+    let (Value::Int(a), Value::Int(b)) = (a, b) else {
+        return None;
+    };
+    match op {
+        BinaryOp::Add => a.checked_add(*b),
+        BinaryOp::Sub => a.checked_sub(*b),
+        BinaryOp::Mul => a.checked_mul(*b),
+        _ => None,
+    }
+    .map(Value::Int)
 }
 
 /// Evaluates a PHP binary operator.
