@@ -3,8 +3,9 @@
 //
 // Black-box only: every code point is converted with PHP's iconv() in the oracle (glibc 2.41, LC_CTYPE=C.UTF-8,
 // the locale PHP runs with there), one character between \x01 separators per slot of a batch, for every target with
-// a smaller repertoire than Unicode: ANSI_X3.4-1968, ISO-8859-1, UCS-2 (U+10000 and up) and the codepages of
-// codepages.inc.php. Characters that come out as "?" (glibc's replacement when it knows no transliteration) and the
+// a smaller repertoire than Unicode: ANSI_X3.4-1968, ISO-8859-1, UCS-2 (U+10000 and up), the codepages of
+// codepages.inc.php and the multi-byte charsets of multibytes.inc.php (but GB18030, which represents every
+// character). Characters that come out as "?" (glibc's replacement when it knows no transliteration) and the
 // tag characters (which vanish) are left out. Pairs of characters were checked to transliterate like the two
 // characters on their own (no multi-character rules in this locale).
 //
@@ -18,6 +19,7 @@
 //       php /t/translit.gen.php > translit_table.rs
 
 require __DIR__ . '/codepages.inc.php';
+require __DIR__ . '/multibytes.inc.php';
 ini_set('memory_limit', '-1');
 
 if (setlocale(LC_CTYPE, '0') !== 'C.UTF-8') {
@@ -35,13 +37,35 @@ $targets = ['ANSI_X3.4-1968', 'ISO-8859-1', 'UCS-2LE'];
 foreach (CODEPAGES as [$cs]) {
     $targets[] = $cs;
 }
+foreach (MULTIBYTES as $cs) {
+    if ($cs !== 'GB18030') {
+        $targets[] = $cs;
+    }
+}
 
-/** What each BMP code point encodes to in $target, null when it cannot be represented (nothing above the BMP is). */
+/** What each code point encodes to in $target, null when it cannot be represented. */
 function repertoire(string $target): array
 {
     $enc = [];
     for ($cp = 0; $cp < 0x10000; $cp++) {
         $enc[$cp] = $cp >= 0xD800 && $cp <= 0xDFFF ? null : encode_cp($target, $cp);
+    }
+    // above the BMP, blocks that hold nothing the target can represent are skipped (the tag characters vanish)
+    for ($start = 0x10000; $start < 0x110000; $start += 4096) {
+        $in = '';
+        for ($cp = $start; $cp < $start + 4096; $cp++) {
+            if ($cp < 0xE0000 || $cp > 0xE007F) {
+                $in .= pack('N', $cp);
+            }
+        }
+        if ($target === 'UCS-2LE' || iconv('UCS-4BE', "$target//IGNORE", $in) === '') {
+            continue;
+        }
+        for ($cp = $start; $cp < $start + 4096; $cp++) {
+            if ($cp < 0xE0000 || $cp > 0xE007F) {
+                $enc[$cp] = encode_cp($target, $cp);
+            }
+        }
     }
     return $enc;
 }
@@ -82,6 +106,9 @@ function measure(string $target, array $enc): array
         }
         foreach ($cps as $k => $cp) {
             $direct = $enc[$cp] ?? null;
+            if ($direct === null && $target !== 'UCS-2LE' && $cp >= 0x10000 && isset($enc[$cp])) {
+                $direct = $enc[$cp];
+            }
             if ($direct !== null) {
                 if ($parts[$k] !== $direct) {
                     fail(sprintf('%s: U+%04X is %s alone, %s in a batch', $target, $cp, bin2hex($direct), bin2hex($parts[$k])));
@@ -131,7 +158,7 @@ foreach ($targets as $target) {
 $results = []; // code point => target => list of code points
 $deferred = [];
 foreach ($targets as $target) {
-    $multi = false;
+    $multi = in_array($target, MULTIBYTES, true);
     foreach ($enc[$target] as $b) {
         $multi = $multi || ($b !== null && strlen($b) > 1 && $target !== 'UCS-2LE');
     }
@@ -155,6 +182,13 @@ foreach ($deferred as [$target, $cp, $bytes]) {
             break;
         }
     }
+    if ($match === null && in_array($target, MULTIBYTES, true)) {
+        // a replacement no byte-wise target gave: its code points as the target decodes them
+        $match = array_values(unpack('N*', iconv($target, 'UCS-4BE', $bytes)) ?: []);
+        if (encode_all($enc[$target], $match) !== $bytes) {
+            fail(sprintf('%s: U+%04X becomes %s, which does not decode back', $target, $cp, bin2hex($bytes)));
+        }
+    }
     $results[$cp][$target] = $match ?? array_map(static fn (string $b): int => $decode[$target][$b], str_split($bytes));
 }
 ksort($results);
@@ -170,7 +204,7 @@ foreach ($results as $cp => $byTarget) {
     $after = [];
     $before = array_fill_keys(array_keys($alternatives), 0);
     foreach ($targets as $target) {
-        if ($cp < 0x10000 && $enc[$target][$cp] !== null) {
+        if (($enc[$target][$cp] ?? null) !== null) {
             continue;
         }
         $chosen = isset($byTarget[$target]) ? 'u' . implode(',', $byTarget[$target]) : null;
@@ -207,7 +241,7 @@ foreach ($results as $cp => $byTarget) {
 // check: the first representable alternative is every target's result
 foreach ($targets as $target) {
     for ($cp = 0x80; $cp <= 0x10FFFF; $cp++) {
-        if (($cp < 0x10000 && $enc[$target][$cp] !== null) || ($cp >= 0xD800 && $cp <= 0xDFFF)
+        if (($enc[$target][$cp] ?? null) !== null || ($cp >= 0xD800 && $cp <= 0xDFFF)
             || ($cp >= 0xE0000 && $cp <= 0xE007F)) {
             continue;
         }
@@ -230,11 +264,6 @@ $data = [];
 $index = [];
 foreach ($table as $cp => $order) {
     foreach ($order as $r) {
-        foreach ($r as $c) {
-            if ($c > 0xFFFF) {
-                fail(sprintf('U+%04X: a replacement beyond the BMP', $cp));
-            }
-        }
         $k = implode(',', $r);
         if (!isset($index[$k])) {
             // reuse an identical earlier replacement
@@ -261,7 +290,7 @@ foreach (array_chunk($spans, 10) as $chunk) {
     echo '    ', implode(', ', $chunk), ",\n";
 }
 echo "];\n\n";
-printf("/// The alternatives, concatenated.\npub(super) static DATA: [u16; %d] = [\n", count($data));
+printf("/// The alternatives, concatenated.\npub(super) static DATA: [u32; %d] = [\n", count($data));
 foreach (array_chunk($data, 12) as $chunk) {
     echo '    ', implode(', ', array_map(static fn (int $c): string => sprintf('0x%04X', $c), $chunk)), ",\n";
 }

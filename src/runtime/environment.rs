@@ -568,13 +568,13 @@ impl Environment {
     /// let env = Environment::with_options(
     ///     ArrayLoader::new([
     ///         ("utf16", "{{ 'é'|convert_encoding('UTF-16BE', 'UTF-8')|url_encode }}"),
-    ///         ("eucjp", "{{ 'é'|convert_encoding('EUC-JP', 'UTF-8') }}"),
+    ///         ("ebcdic", "{{ 'é'|convert_encoding('IBM930', 'UTF-8') }}"),
     ///     ]),
     ///     EnvironmentOptions { iconv_backend: Arc::new(BasicIconv), ..Default::default() },
     /// );
     /// assert_eq!(env.render("utf16", Array::new())?, "%00%E9");
-    /// let error = env.render("eucjp", Array::new()).unwrap_err().to_string();
-    /// assert!(error.contains(r#"iconv(): conversion of charset "EUC-JP" is not supported by twig-rs"#));
+    /// let error = env.render("ebcdic", Array::new()).unwrap_err().to_string();
+    /// assert!(error.contains(r#"iconv(): conversion of charset "IBM930" is not supported by twig-rs"#));
     /// # Ok::<(), twig::Error>(())
     /// ```
     pub fn iconv_backend(&self) -> Arc<dyn IconvBackend> {

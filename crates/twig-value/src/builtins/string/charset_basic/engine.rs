@@ -83,6 +83,9 @@ pub(crate) struct Converter {
     decode_state: DecodeState,
     /// The encoder has run (once a round reached it with room for the byte order mark).
     encoder_started: bool,
+    /// The character an encoder that composes holds back until the next one shows whether the two make one code
+    /// (BIG5-HKSCS).
+    encode_held: Option<u32>,
     /// The characters of the current round.
     chars: Vec<RoundChar>,
 }
@@ -97,6 +100,7 @@ impl Converter {
             ignore,
             decode_state: DecodeState::default(),
             encoder_started: false,
+            encode_held: None,
             chars: Vec::new(),
         }
     }
@@ -138,7 +142,28 @@ impl Converter {
             }
             let held_at_start = self.decode_state.held;
             while stop.is_none() && chars.len() < CHUNK && p < input.len() {
-                match self.from.decode(&input[p..], &self.decode_state) {
+                match self
+                    .from
+                    .decode(&input[p..], &self.decode_state, self.ignore)
+                {
+                    Decoded::Pair(a, b, len) => {
+                        if chars.len() + 2 > CHUNK {
+                            // no room for both: the next round reads the sequence again
+                            break;
+                        }
+                        // the call stops before the sequence when the encoder stops after the first of the two
+                        chars.push(RoundChar {
+                            c: a,
+                            resume: p,
+                            held: None,
+                        });
+                        p += len;
+                        chars.push(RoundChar {
+                            c: b,
+                            resume: p,
+                            held: None,
+                        });
+                    }
                     Decoded::Char(c, len) => match self.from.composing() {
                         Some(cp) => p = self.compose(cp, c, p, p + len, chars),
                         None => {
@@ -250,10 +275,10 @@ impl Converter {
     }
 
     /// `iconv(cd, NULL, NULL, ...)`, which PHP calls after converting: writes the character a combining decoder still
-    /// holds, as a round of its own (`TooBig` keeps it for the next try).
+    /// holds, as a round of its own, then the one a composing encoder holds (`TooBig` keeps them for the next try).
     pub(crate) fn flush(&mut self, out: &mut Vec<u8>, mut space: usize) -> Status {
         let Some(held) = self.decode_state.held else {
-            return Status::Done;
+            return self.flush_encoder(out, space);
         };
         let first_run = !self.encoder_started;
         let bom = self.to.bom();
@@ -271,15 +296,30 @@ impl Converter {
         }
         self.decode_state.held = None;
         if skipped.output {
-            Status::Illegal
-        } else {
-            Status::Done
+            return Status::Illegal;
         }
+        self.flush_encoder(out, space)
+    }
+
+    /// The flush of a composing encoder: writes the character it holds.
+    fn flush_encoder(&mut self, out: &mut Vec<u8>, space: usize) -> Status {
+        let Some(held) = self.encode_held else {
+            return Status::Done;
+        };
+        let Encoded::Bytes(bytes, len) = self.to.encode(held) else {
+            unreachable!("an encoder holds characters it can write")
+        };
+        if len > space {
+            return Status::TooBig;
+        }
+        out.extend_from_slice(&bytes[..len]);
+        self.encode_held = None;
+        Status::Done
     }
 
     /// Encodes one character of a round; `first_run`: the encoder's first run (see the module documentation).
     fn encode(
-        &self,
+        &mut self,
         c: u32,
         first_run: bool,
         out: &mut Vec<u8>,
@@ -288,6 +328,35 @@ impl Converter {
     ) -> Result<(), Status> {
         if *space < self.to.unit() {
             return Err(Status::TooBig);
+        }
+        if let Some(held) = self.encode_held {
+            // a composing encoder: the held character and this one make one code, or the held one is written first
+            // and this one needs room for a unit again
+            if let Some((bytes, len)) = self.to.encode_pair(held, c) {
+                if len > *space {
+                    return Err(Status::TooBig);
+                }
+                out.extend_from_slice(&bytes[..len]);
+                *space -= len;
+                self.encode_held = None;
+                return Ok(());
+            }
+            let Encoded::Bytes(bytes, len) = self.to.encode(held) else {
+                unreachable!("an encoder holds characters it can write")
+            };
+            if len > *space {
+                return Err(Status::TooBig);
+            }
+            out.extend_from_slice(&bytes[..len]);
+            *space -= len;
+            self.encode_held = None;
+            if *space < self.to.unit() {
+                return Err(Status::TooBig);
+            }
+        }
+        if self.to.encoder_holds(c) {
+            self.encode_held = Some(c);
+            return Ok(());
         }
         match self.to.encode(c) {
             Encoded::Bytes(bytes, len) => {
@@ -309,7 +378,7 @@ impl Converter {
                 let mut replacement = [0u8; 24];
                 let mut len = 0;
                 for &r in translit::replacement(self.to, c) {
-                    let Encoded::Bytes(bytes, n) = self.to.encode(u32::from(r)) else {
+                    let Encoded::Bytes(bytes, n) = self.to.encode(r) else {
                         unreachable!("transliterations are representable in their target")
                     };
                     replacement[len..len + n].copy_from_slice(&bytes[..n]);

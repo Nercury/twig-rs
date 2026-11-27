@@ -8,10 +8,10 @@ use super::codec::{Charset, Encoded};
 use super::translit_table::{DATA, KEYS, SPANS};
 
 /// glibc's replacement when it knows no transliteration the target can represent.
-const QUESTION_MARK: &[u16] = &[0x3F];
+const QUESTION_MARK: &[u32] = &[0x3F];
 
 /// The alternatives of `c`, in the order glibc tries them.
-fn alternatives(c: u32) -> impl Iterator<Item = &'static [u16]> {
+fn alternatives(c: u32) -> impl Iterator<Item = &'static [u32]> {
     let first = KEYS.partition_point(|&k| k < c);
     KEYS[first..]
         .iter()
@@ -24,7 +24,7 @@ fn alternatives(c: u32) -> impl Iterator<Item = &'static [u16]> {
 }
 
 /// The //TRANSLIT replacement of `c` for `target`, which cannot represent it: code points `target` can represent.
-pub(crate) fn replacement(target: Charset, c: u32) -> &'static [u16] {
+pub(crate) fn replacement(target: Charset, c: u32) -> &'static [u32] {
     if c > KEYS[KEYS.len() - 1] {
         // most of the code space
         return QUESTION_MARK;
@@ -33,7 +33,7 @@ pub(crate) fn replacement(target: Charset, c: u32) -> &'static [u16] {
         .find(|alternative| {
             alternative
                 .iter()
-                .all(|&u| matches!(target.encode(u32::from(u)), Encoded::Bytes(..)))
+                .all(|&u| matches!(target.encode(u), Encoded::Bytes(..)))
         })
         .unwrap_or(QUESTION_MARK)
 }
@@ -47,7 +47,7 @@ mod tests {
     fn text(target: Charset, c: u32) -> String {
         replacement(target, c)
             .iter()
-            .map(|&u| char::from_u32(u32::from(u)).unwrap())
+            .map(|&u| char::from_u32(u).unwrap())
             .collect()
     }
 
@@ -90,7 +90,7 @@ mod tests {
                 let offset = usize::from(offset);
                 let bytes: Option<usize> = DATA[offset..offset + usize::from(len)]
                     .iter()
-                    .map(|&u| match target.encode(u32::from(u)) {
+                    .map(|&u| match target.encode(u) {
                         Encoded::Bytes(_, n) => Some(n),
                         _ => None,
                     })

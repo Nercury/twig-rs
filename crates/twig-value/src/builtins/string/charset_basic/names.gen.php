@@ -8,7 +8,9 @@
 // charset_basic implements. A name that matches a single-byte charset of codepages.inc.php must also match it on a
 // deeper print: the astral planes, every two-byte input and every byte after each composing pair. A name whose
 // fingerprint matches no canonical name (for example WCHAR_T, which differs from UCS-4LE in what it lets through, or
-// TIS-620, which lacks the no-break space of ISO-8859-11) is "not supported".
+// TIS-620, which lacks the no-break space of ISO-8859-11) is "not supported". A name that matches a multi-byte charset
+// of multibytes.inc.php must match its deeper print too: every one- and two-byte input, the three- and four-byte
+// inputs of EUC-JP, EUC-TW and GB18030, and the astral planes.
 //
 // Regenerate (from crates/twig-value/src/builtins/string/charset_basic, Git Bash):
 //   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
@@ -17,6 +19,7 @@
 declare(strict_types=1);
 
 require __DIR__ . '/codepages.inc.php';
+require __DIR__ . '/multibytes.inc.php';
 ini_set('memory_limit', '-1');
 
 const BASIC = [
@@ -163,6 +166,48 @@ function deep_fingerprint(string $name): string
     return md5(implode(',', $r));
 }
 
+/** The deeper print of a multi-byte charset. */
+function deep_multibyte_fingerprint(string $name): string
+{
+    $r = [];
+    for ($start = 0x10000; $start < 0x110000; $start += 4096) {
+        $in = '';
+        for ($cp = $start; $cp < $start + 4096; $cp++) {
+            $in .= pack('N', $cp);
+        }
+        $r[] = probe('UCS-4BE', $name . '//IGNORE', $in);
+    }
+    $row = static function (string $prefix, int $lo, int $hi) use ($name): string {
+        $out = '';
+        for ($b = $lo; $b <= $hi; $b++) {
+            $out .= probe($name, 'UCS-4BE', $prefix . chr($b)) . ',';
+            $out .= probe($name, 'UCS-4BE//IGNORE', $prefix . chr($b) . '!!') . ';';
+        }
+        return md5($out);
+    };
+    for ($a = 0; $a < 256; $a++) {
+        $r[] = $row(chr($a), 0, 255);
+    }
+    foreach ([0x8E, 0x8F] as $lead) {
+        for ($b = 0xA1; $b <= 0xFE; $b++) {
+            $r[] = $row(chr($lead) . chr($b), 0xA1, 0xFE);
+        }
+    }
+    for ($p = 0xA1; $p <= 0xB0; $p++) {
+        for ($b = 0xA1; $b <= 0xFE; $b += 7) {
+            $r[] = $row("\x8e" . chr($p) . chr($b), 0xA1, 0xFE);
+        }
+    }
+    foreach ([0x81, 0x82, 0x84, 0x85, 0x90, 0xA0, 0xE3, 0xE4, 0xFE] as $l) {
+        for ($d = 0x30; $d <= 0x39; $d++) {
+            for ($b = 0x81; $b <= 0xFE; $b += 5) {
+                $r[] = $row(chr($l) . chr($d) . chr($b), 0x2F, 0x3A);
+            }
+        }
+    }
+    return md5(implode(',', $r));
+}
+
 $canonical = [];
 foreach (BASIC as $variant => $name) {
     $canonical[$variant] = $name;
@@ -170,12 +215,17 @@ foreach (BASIC as $variant => $name) {
 foreach (CODEPAGES as $variant => [$name]) {
     $canonical["Codepage(Codepage::$variant)"] = $name;
 }
+foreach (MULTIBYTES as $variant => $name) {
+    $canonical["Multibyte(Multibyte::$variant)"] = $name;
+}
 $canonicalPrints = [];
 $deepPrints = [];
 foreach ($canonical as $variant => $name) {
     $canonicalPrints[fingerprint($name)] = $variant;
     if (str_starts_with($variant, 'Codepage')) {
         $deepPrints[$variant] = deep_fingerprint($name);
+    } elseif (str_starts_with($variant, 'Multibyte')) {
+        $deepPrints[$variant] = deep_multibyte_fingerprint($name);
     }
 }
 if (count($canonicalPrints) !== count($canonical)) {
@@ -188,7 +238,9 @@ foreach (preg_split('/\s+/', trim((string) shell_exec('iconv -l'))) as $listed) 
     // `iconv -l` prints NAME// or, for names with a slash inside, A/B/
     $key = str_ends_with($listed, '//') ? substr($listed, 0, -2) : rtrim($listed, '/');
     $variant = $canonicalPrints[fingerprint($key)] ?? null;
-    if ($variant !== null && isset($deepPrints[$variant]) && deep_fingerprint($key) !== $deepPrints[$variant]) {
+    $deep = static fn (string $v, string $key): string => str_starts_with($v, 'Multibyte')
+        ? deep_multibyte_fingerprint($key) : deep_fingerprint($key);
+    if ($variant !== null && isset($deepPrints[$variant]) && $deep($variant, $key) !== $deepPrints[$variant]) {
         fwrite(STDERR, "$key: only the deeper print differs from $canonical[$variant]\n");
         $variant = null;
     }
@@ -202,7 +254,8 @@ echo "//! Every charset name glibc 2.41's iconv knows in the oracle image, as `i
 echo "//! slashes, sorted bytewise, with the charset_basic converter it behaves exactly like (`None`: a charset twig-rs\n";
 echo "//! does not convert).\n\n";
 echo "use super::codec::Charset;\n";
-echo "use super::codepage::Codepage;\n\n";
+echo "use super::codepage::Codepage;\n";
+echo "use super::multibyte::Multibyte;\n\n";
 echo "/// The known charset names (upper case, `A` or `A/B`) and their converters.\n";
 printf("pub(super) static NAMES: [(&str, Option<Charset>); %d] = [\n", count($entries));
 foreach ($entries as $key => $variant) {

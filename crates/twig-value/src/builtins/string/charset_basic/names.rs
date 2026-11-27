@@ -102,6 +102,7 @@ fn normalize(part: &[u8]) -> Vec<u8> {
 
 #[cfg(test)]
 mod tests {
+    use super::super::multibyte::Multibyte;
     use super::*;
 
     fn lookup(name: &[u8]) -> Lookup {
@@ -130,7 +131,11 @@ mod tests {
         assert_eq!(lookup(b"UTF-8/\x80/"), Lookup::Supported(Charset::Utf8));
         assert_eq!(lookup(b"latin1"), Lookup::Supported(Charset::Latin1));
         assert_eq!(lookup(b"UCS-2LE"), Lookup::Supported(Charset::Ucs2));
-        assert_eq!(lookup(b"EUC-JP"), Lookup::Unsupported);
+        assert_eq!(
+            lookup(b"EUC-JP"),
+            Lookup::Supported(Charset::Multibyte(Multibyte::EucJp))
+        );
+        assert_eq!(lookup(b"IBM930"), Lookup::Unsupported);
         assert_eq!(lookup(b"WCHAR_T"), Lookup::Unsupported);
         assert_eq!(lookup(b"NOPE"), Lookup::Unknown);
     }

@@ -9,6 +9,7 @@
 //! oracle (`codepage`).
 
 use super::codepage::Codepage;
+use super::multibyte::Multibyte;
 
 /// A charset this module converts. Every name glibc maps to the same behaviour shares one variant (`UCS-2LE` is
 /// `UCS-2`, `UCS-4BE` is `UCS-4`; see `name_table.rs`).
@@ -43,6 +44,8 @@ pub(crate) enum Charset {
     Latin1,
     /// A single-byte charset converted with tables.
     Codepage(Codepage),
+    /// A multi-byte charset converted with tables.
+    Multibyte(Multibyte),
 }
 
 /// One step of decoding.
@@ -50,6 +53,8 @@ pub(crate) enum Charset {
 pub(crate) enum Decoded {
     /// A character of `len` bytes.
     Char(u32, usize),
+    /// Two characters of `len` bytes together (BIG5-HKSCS).
+    Pair(u32, u32, usize),
     /// An invalid sequence; //IGNORE skips `len` bytes. `silent`: the decoder skips it without making the call
     /// report `EILSEQ` afterwards.
     Invalid { len: usize, silent: bool },
@@ -107,8 +112,9 @@ impl Charset {
         }
     }
 
-    /// Decodes the next character of `input` (not empty), after [`Charset::read_bom`].
-    pub(crate) fn decode(self, input: &[u8], state: &DecodeState) -> Decoded {
+    /// Decodes the next character of `input` (not empty), after [`Charset::read_bom`]; `ignore`: the target has
+    /// //IGNORE (a few multi-byte sequences decode differently then).
+    pub(crate) fn decode(self, input: &[u8], state: &DecodeState, ignore: bool) -> Decoded {
         match self {
             Charset::Utf8 => decode_utf8(input),
             Charset::Utf16 => decode_utf16(input, state.big_endian),
@@ -136,6 +142,7 @@ impl Charset {
                     silent: false,
                 },
             },
+            Charset::Multibyte(m) => m.decode(input, ignore),
         }
     }
 
@@ -196,13 +203,21 @@ impl Charset {
                 Some((b, len)) => Encoded::Bytes([b[0], b[1], b[2], 0, 0, 0], len),
                 None => Encoded::Unmappable,
             },
+            Charset::Multibyte(m) => match m.encode(c) {
+                Some((b, len)) => Encoded::Bytes([b[0], b[1], b[2], b[3], 0, 0], len),
+                None => Encoded::Unmappable,
+            },
         }
     }
 
     /// The output space glibc wants to have left before it converts the next character (even one it then skips).
     pub(crate) fn unit(self) -> usize {
         match self {
-            Charset::Utf8 | Charset::Ascii | Charset::Latin1 | Charset::Codepage(_) => 1,
+            Charset::Utf8
+            | Charset::Ascii
+            | Charset::Latin1
+            | Charset::Codepage(_)
+            | Charset::Multibyte(_) => 1,
             Charset::Utf16
             | Charset::Utf16Be
             | Charset::Utf16Le
@@ -221,6 +236,19 @@ impl Charset {
     pub(crate) fn composing(self) -> Option<Codepage> {
         match self {
             Charset::Codepage(cp) if cp.composes() => Some(cp),
+            _ => None,
+        }
+    }
+
+    /// Whether the encoder holds `c` back until the next character shows whether the two make one code (BIG5-HKSCS).
+    pub(crate) fn encoder_holds(self, c: u32) -> bool {
+        matches!(self, Charset::Multibyte(m) if m.encoder_holds(c))
+    }
+
+    /// The code a held character `held` and the next character `c` make together.
+    pub(crate) fn encode_pair(self, held: u32, c: u32) -> Option<([u8; 4], usize)> {
+        match self {
+            Charset::Multibyte(m) => m.encode_pair(held, c),
             _ => None,
         }
     }
@@ -423,7 +451,7 @@ mod tests {
     use super::*;
 
     fn dec(cs: Charset, input: &[u8]) -> Decoded {
-        cs.decode(input, &DecodeState::default())
+        cs.decode(input, &DecodeState::default(), false)
     }
 
     #[test]
@@ -473,7 +501,7 @@ mod tests {
             Some(2)
         );
         assert_eq!(
-            Charset::Utf16.decode(b"\x00a", &state),
+            Charset::Utf16.decode(b"\x00a", &state, false),
             Decoded::Char(0x61, 2)
         );
         assert_eq!(Charset::Utf16.read_bom(b"\xfe\xff", &mut state), Some(0));
@@ -481,7 +509,7 @@ mod tests {
         assert_eq!(Charset::Utf16.read_bom(b"\xfe", &mut fresh), None);
         assert_eq!(Charset::Utf16.read_bom(b"a\x00", &mut fresh), Some(0));
         assert_eq!(
-            Charset::Utf16.decode(b"a\x00", &fresh),
+            Charset::Utf16.decode(b"a\x00", &fresh, false),
             Decoded::Char(0x61, 2)
         );
     }

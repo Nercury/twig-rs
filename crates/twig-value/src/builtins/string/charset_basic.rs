@@ -32,6 +32,9 @@ mod codepage;
 #[rustfmt::skip]
 mod codepage_table;
 mod engine;
+mod multibyte;
+#[rustfmt::skip]
+mod multibyte_table;
 #[rustfmt::skip]
 mod name_table;
 mod names;
@@ -330,19 +333,19 @@ mod tests {
     #[test]
     fn unsupported_charsets() {
         let mut diag: Vec<Diagnostic> = Vec::new();
-        let e = iconv_bytes(b"EUC-JP", b"UTF-8", b"a", &mut diag).unwrap_err();
+        let e = iconv_bytes(b"IBM930", b"UTF-8", b"a", &mut diag).unwrap_err();
         assert_eq!(
             e.to_string(),
-            "Error: iconv(): conversion of charset \"EUC-JP\" is not supported by twig-rs"
+            "Error: iconv(): conversion of charset \"IBM930\" is not supported by twig-rs"
         );
-        let e = iconv_bytes(b"UTF-8", b"utf-7//TRANSLIT", b"", &mut diag).unwrap_err();
+        let e = iconv_bytes(b"UTF-8", b"ibm-930//TRANSLIT", b"", &mut diag).unwrap_err();
         assert_eq!(
             e.message_lossy(),
-            "iconv(): conversion of charset \"utf-7//TRANSLIT\" is not supported by twig-rs"
+            "iconv(): conversion of charset \"ibm-930//TRANSLIT\" is not supported by twig-rs"
         );
         // a name glibc does not know wins: PHP's warning
         assert_eq!(
-            iconv_bytes(b"EUC-JP", b"NOPE", b"a", &mut diag).unwrap(),
+            iconv_bytes(b"IBM930", b"NOPE", b"a", &mut diag).unwrap(),
             None
         );
         assert_eq!(diag.len(), 1);

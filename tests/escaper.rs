@@ -371,20 +371,14 @@ fn guesses_strategies_from_file_names() {
 // ---- oracle vectors -------------------------------------------------------------------------------------------------
 
 /// Charsets of the vectors whose `iconv()` conversions the build's default backend does not convert (it throws
-/// `iconv(): conversion of charset "X" is not supported by twig-rs`, reference/deviations.md): none with the
-/// `glibc-iconv` feature; without it, the charsets the clean-room converter does not handle (multi-byte CJK, MacRoman's
-/// non-glibc alias).
-#[cfg(feature = "glibc-iconv")]
+/// `iconv(): conversion of charset "X" is not supported by twig-rs`, reference/deviations.md): none, with the
+/// `glibc-iconv` feature and without it (the clean-room converter handles the vectors' Big5, Shift_JIS, EUC-JP and
+/// GB 2312 too; MacRoman is a name glibc does not know).
 const UNSUPPORTED_ICONV_CHARSETS: &[&str] = &[];
-#[cfg(not(feature = "glibc-iconv"))]
-const UNSUPPORTED_ICONV_CHARSETS: &[&str] = &["MACROMAN", "BIG5", "SJIS", "EUC-JP", "GB2312"];
 
 /// How many cases of the vectors the build's default backend cannot convert (see
 /// [`UNSUPPORTED_ICONV_CHARSETS`]).
-#[cfg(feature = "glibc-iconv")]
 const UNSUPPORTED_CASES: usize = 0;
-#[cfg(not(feature = "glibc-iconv"))]
-const UNSUPPORTED_CASES: usize = 2288;
 
 #[test]
 fn strategy_vectors() {

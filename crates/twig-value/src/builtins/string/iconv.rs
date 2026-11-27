@@ -160,14 +160,14 @@ mod tests {
         let error = backend
             .iconv(
                 &Value::from("UTF-8"),
-                &Value::from("SJIS"),
+                &Value::from("IBM930"),
                 &Value::from("a"),
                 &mut diag,
             )
             .unwrap_err();
         assert_eq!(
             error.to_string(),
-            "Error: iconv(): conversion of charset \"SJIS\" is not supported by twig-rs"
+            "Error: iconv(): conversion of charset \"IBM930\" is not supported by twig-rs"
         );
         assert!(diag.is_empty());
     }
