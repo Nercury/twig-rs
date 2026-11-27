@@ -141,21 +141,22 @@ fn the_default_backend_follows_the_glibc_iconv_feature() {
         "BasicIconv"
     };
     assert_eq!(format!("{:?}", default_iconv_backend()), expected);
-    let env = Environment::new(ArrayLoader::new([(
-        "index",
-        "{{ 'é'|convert_encoding('ISO-2022-JP', 'UTF-8')|url_encode }}",
-    )]));
+    let env = Environment::new(ArrayLoader::new([
+        (
+            "index",
+            "{{ 'é'|convert_encoding('ISO-2022-JP', 'UTF-8')|url_encode }}",
+        ),
+        ("ebcdic", "{{ 'é'|convert_encoding('IBM930', 'UTF-8') }}"),
+    ]));
     assert_eq!(format!("{:?}", env.iconv_backend()), expected);
-    let rendered = env.render("index", Array::new());
-    if cfg!(feature = "glibc-iconv") {
-        // é is not in JIS X 0208: glibc's notice, and `false` turned into ''
-        assert_eq!(rendered.unwrap(), "");
-    } else {
-        let error = rendered.unwrap_err().to_string();
+    // é is not in JIS X 0208: glibc's notice, and `false` turned into '' (both backends convert ISO-2022-JP)
+    assert_eq!(env.render("index", Array::new()).unwrap(), "");
+    if !cfg!(feature = "glibc-iconv") {
+        // a charset beyond the default backend
+        let error = env.render("ebcdic", Array::new()).unwrap_err().to_string();
         assert!(
-            error.contains(
-                r#"iconv(): conversion of charset "ISO-2022-JP" is not supported by twig-rs"#
-            ),
+            error
+                .contains(r#"iconv(): conversion of charset "IBM930" is not supported by twig-rs"#),
             "{error}"
         );
     }
