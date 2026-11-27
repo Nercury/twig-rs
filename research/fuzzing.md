@@ -2,7 +2,7 @@
 
 How twig-rs is checked against the PHP oracle with generated templates: how a round runs, how its clusters are
 triaged, what the six rounds of roadmap phase 5 and the confirmation round of the second performance pass (round 7)
-found, what the harness fixed after them, and what it still cannot reach. The tool is documented in its crate
+found, what was fixed after them, and what the harness still cannot reach. The tool is documented in its crate
 (`crates/twig-fuzz`: `cargo doc -p twig-fuzz`, `twig-fuzz help`), the regression vectors in
 `tests/vectors/fuzz/README.md`, and the differences the diff accepts in `reference/deviations.md`.
 
@@ -14,11 +14,17 @@ found, what the harness fixed after them, and what it still cannot reach. The to
   <batch.json>`, then `twig-fuzz drive <batch.json> --out <dir> --timeout-ms 15000`, with minimisation on and without
   `--d2`, on a release build with `--features glibc-iconv` (the unicode family converts glibc's other charsets too).
 - Seeds used so far: 7001-7005 (round 2), 9001-9010 (round 3), 9201-9215 (round 4), 11001-14015 (round 5),
-  15001-18015 (round 6), 19001-22015 (round 7) and 25001-25013 (the smoke round of the harness fixes after round 6,
-  below). Rounds 5 to 7 gave each group of three families a block of its own: 11001-11015 for expressions, callables
-  and control, 12001-12015 for composition, escaping and errors, 13001-13015 for formats, sandbox and whitespace,
-  14001-14015 for unicode, dynamic and structure, and the same layout 4000 higher in round 6 and 8000 higher in round
-  7. A new round takes seeds nobody used (the next block in this layout starts at 23001).
+  15001-18015 (round 6), 19001-22015 (round 7), 25001-25013 (the smoke round of the harness fixes after round 6) and
+  23501-23512 (the sample after round 7's fixes; both below). Rounds 5 to 7 gave each group of three families a block
+  of its own: 11001-11015 for expressions, callables and control, 12001-12015 for composition, escaping and errors,
+  13001-13015 for formats, sandbox and whitespace, 14001-14015 for unicode, dynamic and structure, and the same layout
+  4000 higher in round 6 and 8000 higher in round 7. A new round takes seeds nobody used: the next blocks in this
+  layout start at 23001, but the third of them would repeat the smoke round's formats (25007), sandbox (25008, 25013)
+  and whitespace (25009) seeds.
+- The oracle image is not rebuilt by itself: `oracle.sh` and twig-fuzz build `twig-oracle:3.31.1` only when it is
+  missing. After a change to `research/php-oracle` (T23 changed `lib.php` after round 7), rebuild it (`docker build -t
+  twig-oracle:3.31.1 research/php-oracle`), and before a round check that it holds the files of the tree (`docker run
+  --rm twig-oracle:3.31.1 md5sum /oracle/lib.php /oracle/runner.php` against `md5sum` of the files).
 - Drives run in parallel: round 7 ran 8 at a time with `--jobs 4` on a 24-core machine, the 180 drives in 16 minutes.
   A drive of 2,000 cases took 13 to 115 s; the families whose batches run a PHP process per case (composition,
   escaping, sandbox, whitespace, unicode, dynamic, structure) take the longest.
@@ -70,8 +76,8 @@ found, what the harness fixed after them, and what it still cannot reach. The to
   owner group that leads: G1 codegen and VM (`src/lltl`, `src/vm`), G2 runtime (`src/runtime`, `src/escaper`), G3
   callables (`src/extension`), G4 syntax (`src/lexer`, `src/parser`, `src/token_parser`, `src/visitor`, `src/ast`),
   G5 library crates, G6 fuzz tooling (`crates/twig-fuzz`, `research/php-oracle`). Commit messages, test headers and
-  vector descriptions cite its item numbers; round 7 continued them with P44, T21 and T22 (below), so the next item
-  numbers are P45, D6 and T23.
+  vector descriptions cite its item numbers; round 7 continued them with P44, T21 and T22, and the sample after its
+  fixes with T23 (below), so the next item numbers are P45, D6 and T24.
 - A fix ports the upstream code path and cites it (`reference/conventions.md`). It is done when its vectors replay
   identically; `twig-fuzz replay --update <files> --id ID...` then removes the markers of exactly those vectors.
 
@@ -88,7 +94,7 @@ found, what the harness fixed after them, and what it still cannot reach. The to
 | 7 | the second performance pass (`dc83b8b`) merged with the harness fixes after round 6 (`080d932`): `1cd373e` | 360,000 | 3 in 3 clusters | P44 (1, older than the pass), T21 (1), T22 (1): nothing from the performance pass |
 
 Items the table does not name came from the fixers' reports and from the rounds' cases that were not comparable.
-Every P item up to P43 is fixed and P44 is open (below); D1-D4 are rows of `reference/deviations.md` (D5 was not
+Every P item up to P44 is fixed (P44 after round 7, below); D1-D4 are rows of `reference/deviations.md` (D5 was not
 needed); of the T items, the gaps below are left.
 
 Round 7, the confirmation round of the second performance pass and the baseline for the next round, with the
@@ -200,22 +206,28 @@ The confirmation round of the second performance pass ran on `1cd373e`: the pass
 fixes above (`080d932`). Seeds 19001-22015, 360,000 cases, 3 raw mismatches in 3 clusters. Every minimised case also
 ran against the tree before the pass (`a258816`, release build with `glibc-iconv`): none of them comes from the pass.
 
-- **P44. The `odd` and `even` tests inside array literals report an earlier line than PHP** (parity, G1; older than
-  the pass, whose base reports the same lines). Minimised from `x19005-00668-logic`: `{{dump(([]??\ns)is\nodd)}}`
-  makes PHP report `Unsupported operand types: array % int` at line 2, twig-rs at line 1.
+- **P44. The `odd` and `even` tests inside array literals reported an earlier line than PHP** (parity, G1; older than
+  the pass, whose base reports the same lines; fixed after the round, `68dd222`). Minimised from
+  `x19005-00668-logic`: `{{dump(([]??\ns)is\nodd)}}` makes PHP report `Unsupported operand types: array % int` at
+  line 2; twig-rs reported line 1.
   - Twig compiles the tests inline (`OddTest`, `EvenTest`: `(node % 2 != 0)`, `(node % 2 == 0)`). PHP's `ZEND_MOD`
     carries `CG(zend_lineno)` as its last compiled operand left it: the literal `2`, which Twig writes right after the
-    node, after the last debug marker inside it (the `// line 2` of the name `s`).
-  - twig-rs has the line right outside literals. Inside an array or hash literal (also the variadic arguments of
-    `dump()`, which Twig passes as `...[...]`) it reports the line of the literal or of the node's first token. The
-    `%` operator written out, `divisible by`, `same as` and `is null` in the same places match.
-  - Cause: `Codegen::test()` (`src/lltl/codegen.rs`, `TestKind::Even | TestKind::Odd`) emits the `2` without
-    `Codegen::leaf()`, so the `Mod` takes the `php_marker` the node's compilation left, which inside a literal need not
-    be the marker in effect. An uncommitted experiment with `self.leaf()` after `emit_const(Value::Int(2))` made every
-    P44 vector match and kept the other 4,795 vectors passing.
-  - Vectors: `tests/vectors/fuzz/expressions/round7-odd-even-literal-lines.json`: 12 marked (the minimised case,
-    `dump()` arguments, list and hash literals, `even`, a name two lines down, a constant conditional, a name or a
-    concatenation left of the name, a later element, `not`) and 9 controls.
+    node, after the last debug marker inside it (the `// line 2` of the name `s`). `zend_compile_expr_inner()` sets
+    `CG(zend_lineno)` to the line the scanner gave the literal.
+  - twig-rs had the line right outside literals. Inside an array or hash literal (also the variadic arguments of
+    `dump()`, which Twig passes as `...[...]`, and the arguments of a macro call) it reported the line of the literal
+    or of the node's first token. The `%` operator written out, `divisible by`, `same as` and `is null` in the same
+    places matched.
+  - Cause: `Codegen::test()` (`src/lltl/codegen.rs`, `TestKind::Even | TestKind::Odd`) emitted the `2` without
+    `Codegen::leaf()`, so the `Mod` took the `php_marker` the node's compilation left, which inside a literal need not
+    be the marker in effect (after a constant PHP folds there, it is the literal's line). The fix makes the `2` a leaf,
+    like the right operand of the `%` operator written out.
+  - Vectors: `tests/vectors/fuzz/expressions/round7-odd-even-literal-lines.json`: the 12 that were marked until the fix
+    (the minimised case, `dump()` arguments, list and hash literals, `even`, a name two lines down, a constant
+    conditional, a name or a concatenation left of the name, a later element, `not`), 7 variants recorded with the fix
+    (a macro call's arguments, `{% set %}`, `include ... with`, a `for` sequence, a concatenation over three lines, a
+    test after one PHP folds, `even` in a hash two lines down: the tree before the fix reports line 1 for each) and 17
+    controls.
 - **T21. A template that comes back in a batch sharing one PHP process loses its compile-time deprecations**
   (harness). `esc-20003-1154`, `{{ v|spaceless }}`, came after `esc-20003-270` with the same template. Twig names
   the template class after the template's name and source, the extensions, `debug`, `strict_variables`, `use_yield`,
@@ -239,10 +251,79 @@ ran against the tree before the pass (`a258816`, release build with `glibc-iconv
   three containers each, which the drive's log now reports as oracle incidents. No container was left, and `twig-fuzz
   replay` passed before and after the round (4,795 vectors, then 4,816).
 
+## After round 7
+
+P44 was fixed (`68dd222`, above), and a fresh sample checked the fix and the tree once more: release build with
+`glibc-iconv`, `--timeout-ms 15000`, minimisation on, 6 drives at a time with `--jobs 4` (11 to 132 s a drive).
+
+- The three batches of round 7 that had mismatches, driven again on `68dd222`: expressions 19005 gave 1,985
+  identical, 15 deviations and no mismatch (round 7: 1,984, 15 and P44's case); escaping 20003 (1,958 and 42) and
+  formats 21006 (1,987 and 13) gave their counts of round 7 after T21 and T22 again.
+- A fresh sample of 5,000 cases per family, one seed each (23501-23512 in the order of the table), 60,000 cases on
+  `68dd222`, 1 raw mismatch (T23, below):
+
+| family | seed | cases | identical | deviations | mismatches | not comparable |
+|---|---|---|---|---|---|---|
+| expressions | 23501 | 5000 | 4975 | 25 | 0 | 0 |
+| callables | 23502 | 5000 | 4830 | 170 | 0 | 0 |
+| control | 23503 | 5000 | 4974 | 26 | 0 | 0 |
+| composition | 23504 | 5000 | 4823 | 177 | 0 | 0 |
+| escaping | 23505 | 5000 | 4912 | 88 | 0 | 0 |
+| errors | 23506 | 5000 | 4919 | 81 | 0 | 0 |
+| formats | 23507 | 5000 | 4952 | 47 | 1 (T23) | 0 |
+| sandbox | 23508 | 5000 | 4770 | 230 | 0 | 0 |
+| whitespace | 23509 | 5000 | 5000 | 0 | 0 | 0 |
+| unicode | 23510 | 5000 | 4688 | 312 | 0 | 0 |
+| dynamic | 23511 | 5000 | 4667 | 333 | 0 | 0 |
+| structure | 23512 | 5000 | 4649 | 351 | 0 | 0 |
+| total | | 60000 | 58159 | 1840 | 1 | 0 |
+
+- Deviations by rule: `called in` suffixes 1,201, `passed in` locations 113 (84 of them with a closure name), closure
+  names 3 more, object handles 167 (expressions 17, callables 83, control 20, formats 47), and the `not supported by
+  twig-rs` errors of mbstring encodings 356 (unicode 312, escaping 43, callables 1). No case was unsupported, none
+  ran a second time, no harness error, no container left.
+- Per 1,000 cases every family's deviations stay within the noise of a 5,000-case sample around round 7's rate (the
+  largest gap, dynamic: 66.6 against 72.8, 1.6 standard deviations of a Poisson count).
+- **T23. The oracle's probe of the wall-clock mode missed intervals with a date part or a long time part** (harness,
+  G6). `formats-23507-841`, `{{ date(v0, 'Europe/Dublin').sub(v2)|date(v1, false) }}` with `v2 = new
+  \DateInterval('P9MT62825H6M7S')`, came out one hour later in twig-rs than in PHP (minimised to the same subtraction
+  from `date(0, 'Europe/Dublin')`: PHP 06:53:53, twig-rs 07:53:53, GMT).
+  - `new DateInterval()` gives an interval whose `add()`/`sub()` take the time part in wall-clock time
+    (`timelib_sub_wall()`: the date part on the local time, then the time part on the timestamp), the other ways of
+    making one give civil time (unless `__set_state()` is given `civil_or_wall`; a clone keeps the mode), and PHP
+    shows the mode nowhere. `interval_is_wall()` (`research/php-oracle/lib.php`) probed it by adding and subtracting
+    the interval around the end of DST in New York and comparing with a civil copy. Here the nine months moved that
+    arithmetic away from the end of DST, and the hours, about seven years, ended in the offset they started in, so the
+    typed tree had no `"wall": true`; twig-fuzz rebuilt the interval in civil mode, and twig-rs took the hours on the
+    local time (`timelib_sub()`), as PHP does with a civil copy (PHP gives 07:53:53 for
+    `unserialize(serialize($v2))`). The engine was right, and so was the tree before the performance pass
+    (`a258816`), which gives the same output.
+  - The probe now takes a clone of the interval, which keeps the mode (`date_object_clone_interval()`), with its date
+    part dropped and one second as its time part, adds it to the last second of DST in New York, subtracts it from
+    the first second after it, and compares with an unserialize()d copy of the clone. A createFromDateString()
+    interval (`from_string`) is civil and is not probed: its unserialize()d copy would be parsed from `date_string`
+    again. Of 24 kinds of intervals (`new`, cloned, unserialize()d, `__set_state()` with and without `civil_or_wall`,
+    `diff()`, createFromDateString(), properties written afterwards), the old probe missed 6 of the 10 wall-clock ones
+    with a time part; the new one marks those 10 and none of the 10 civil ones.
+  - Re-check with an image built from the new `lib.php` under a tag of its own (`twig-oracle:3.31.1-t23`, so that the
+    work running beside this one kept round 7's image): the 45 round-7 batches of the families whose data holds
+    intervals (formats and sandbox 21001-21015, callables 19001-19015) and the sample's formats, callables and sandbox
+    batches, 105,000 cases, gave the counts of their first drives again but for `formats-23507-841`, which matches
+    now. Their typed trees hold 1,151 wall marks (the sample's three batches 149, against 25 with the old probe).
+  - Vectors: `tests/vectors/fuzz/formats/t23-wall-intervals.json`, recorded with the new probe: 6 wall-clock intervals
+    (the minimised and the raw case, the offsets printed, add() into the Irish offset of 1968-1971, a clone, a date part
+    that lands in the last hour of DST in New York), each of which twig-rs got one hour wrong with the old probe's
+    tree, and 4 controls without the mark (an unserialize()d copy, createFromDateString(), diff(), and a `new
+    DateInterval()` without a time part). The probe itself is checked by
+    `the_typed_data_marks_every_wall_clock_interval` in `crates/twig-fuzz/tests/oracle.rs` (needs Docker), which
+    fails on an image built before T23.
+  - The default image `twig-oracle:3.31.1` still has the old probe: rebuild it once this is merged ("Running a
+    round").
+- `twig-fuzz replay` of the 4,841 vectors passed (4,816 after round 7, P44's 15 new ones and T23's 10).
+
 ## Vectors that stay marked
 
-P44's 12 vectors (`expressions/round7-odd-even-literal-lines.json`, above) stay marked until it is fixed. Besides them
-the only marked vectors are D2's 9 (`reference/deviations.md`, "Lone CR bytes in the generated PHP"), marked by design
+The only marked vectors are D2's 9 (`reference/deviations.md`, "Lone CR bytes in the generated PHP"), marked by design
 because the diff cannot accept a different line. Under `tests/vectors/fuzz/`: `escaping/round2-cr-escape-lines.json`
 (4, with 8 controls), `escaping/round3-d2-cr-escape-lines.json` (`\xd`: 2, minimised from `esc-9001-1578` and
 `esc-9007-1471`, 2 controls), `errors/round3-d2-debug-cr-lines.json` (`debug` and an embed: 1, from
