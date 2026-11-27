@@ -33,6 +33,8 @@ indexmap.workspace = true
 foldhash.workspace = true
 memchr.workspace = true
 xxhash-rust = { version = "0.8", features = ["xxh3"] }
+# The copy-on-write tables of arrays (an `Arc` without weak references: an unshared table is told by a load).
+triomphe = { version = "0.1.17", default-features = false, features = ["std"] }
 # Optional (feature `serde`). Not the workspace entry, which adds `derive`: the library only needs the traits.
 serde = { version = "1", optional = true }
 

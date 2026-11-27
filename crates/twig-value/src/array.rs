@@ -21,7 +21,12 @@
 
 use std::fmt;
 use std::hash::{BuildHasher, Hasher};
-use std::sync::{Arc, LazyLock};
+use std::sync::LazyLock;
+
+// The table of an array is shared copy-on-write. A table is never referenced weakly, so triomphe's `Arc` (no weak
+// count) checks that a table is unshared with a load, where `std::sync::Arc::make_mut()` needs a compare-and-swap:
+// every write to an array (every `{% set %}`, every loop variable) makes that check.
+use triomphe::Arc;
 
 use crate::error::PhpError;
 use crate::key::{ArrayKey, KeyRef};
@@ -734,7 +739,7 @@ impl Array {
     /// The address of the shared table: an identity for recursion guards (`GC_PROTECT_RECURSION`
     /// on a `HashTable`), equal for arrays that are [`Array::ptr_eq`].
     pub(crate) fn table_id(&self) -> usize {
-        Arc::as_ptr(&self.0) as usize
+        self.0.as_ptr() as usize
     }
 
     /// Looks up a normalised key.
