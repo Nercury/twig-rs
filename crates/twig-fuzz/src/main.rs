@@ -775,7 +775,7 @@ fn cmd_generate(args: &Args) -> Result<ExitCode, String> {
             count,
             ..Default::default()
         }),
-        "escaping" => Json::Array(g::escaping::generate_with(seed, count, &options)),
+        "escaping" => g::escaping::batch_with(seed, count, &options),
         "errors" => Json::Array(g::errors::generate_with(seed, count, &options)),
         "formats" => Json::Array(g::formats::generate_with(seed, count, &options)),
         "sandbox" => g::sandbox::batch(seed, count),

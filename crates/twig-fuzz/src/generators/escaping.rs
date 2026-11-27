@@ -18,7 +18,8 @@
 //!
 //! [`generate`] is deterministic: case `i` of a seed only depends on the seed and `i`. The cases use
 //! the oracle's plain environment (format: the crate documentation), `data_json` when the data fits
-//! JSON and `data_php` otherwise (Markup and other objects, invalid UTF-8).
+//! JSON and `data_php` otherwise (Markup and other objects, invalid UTF-8). `twig-fuzz generate
+//! escaping` writes them as a batch whose cases run in a PHP process each ([`batch_with`]).
 //!
 //! # Scenarios
 //!
@@ -60,6 +61,21 @@ pub fn generate_with(seed: u64, count: usize, options: &Options) -> Vec<Json> {
     (0..count as u64)
         .map(|index| case_with(seed, index, options))
         .collect()
+}
+
+/// [`generate_with`] as a batch object whose cases run in a PHP process each (`"isolation": "process"`):
+/// the family's short templates come back within a batch (`{{ v }}` hundreds of times in 30,000 cases),
+/// and in a shared process PHP compiles an identical template with the same options once, so a later
+/// copy does not raise its compile-time deprecations again (round 7: `{{ v|spaceless }}` twice in
+/// seed 20003, the second without the deprecation of `spaceless`).
+pub fn batch_with(seed: u64, count: usize, options: &Options) -> Json {
+    Json::Object(vec![
+        (
+            "cases".to_owned(),
+            Json::Array(generate_with(seed, count, options)),
+        ),
+        ("isolation".to_owned(), Json::str("process")),
+    ])
 }
 
 /// Case `index` of the cases of `seed` (id `esc-<seed>-<index>`).
@@ -2883,6 +2899,16 @@ mod tests {
             assert!(case.unsupported_reason().is_none(), "{json:?}");
         }
         assert_ne!(generate(8, 5), generate(7, 5));
+    }
+
+    /// The batch holds the generated cases and runs each in a PHP process of its own.
+    #[test]
+    fn batches_run_isolated() {
+        let options = Options::default();
+        let batch = batch_with(7, 40, &options);
+        let (cases, isolation) = crate::kit::case::batch_cases(&batch);
+        assert_eq!(isolation.as_deref(), Some("process"));
+        assert_eq!(cases, generate_with(7, 40, &options));
     }
 
     /// No CR byte reaches a compiled string literal unless asked for (accepted deviation D2).
