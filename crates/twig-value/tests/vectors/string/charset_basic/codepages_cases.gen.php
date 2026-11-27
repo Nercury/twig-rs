@@ -1,7 +1,8 @@
 <?php
 // codepages_cases.json: conversions from and into the codepages (the single-byte charsets with tables):
 //   - every codepage into itself, six other codepages, UTF-8, UTF-16, ISO-8859-1 and ASCII, plain, //TRANSLIT and
-//     //IGNORE, on a pool of inputs per source (all its characters, invalid bytes, seeded random strings);
+//     //IGNORE, on a pool of inputs per source (all its characters (into UTF-8 and itself), invalid bytes, seeded
+//     random strings);
 //   - UTF-8 into every codepage on a pool of characters (transliterations, unrepresentable and tag characters, values
 //     beyond Unicode), with every suffix;
 //   - the decoders of CP1255 and CP1258, which hold back each character that a following one may combine with:
@@ -73,7 +74,8 @@ foreach (CODEPAGES as $i => $from) {
     $pool[] = $s;
     foreach ($targets as $to) {
         foreach (['', '//TRANSLIT', '//IGNORE'] as $suffix) {
-            foreach ($pool as $input) {
+            // (all its characters into UTF-8 and itself only)
+            foreach ($to === 'UTF-8' || $to === $from ? $pool : array_slice($pool, 1) as $input) {
                 $add($from, $to . $suffix, $hex($input));
             }
         }

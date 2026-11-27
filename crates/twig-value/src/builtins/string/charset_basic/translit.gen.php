@@ -38,7 +38,10 @@ function fail(string $message): never
 
 $targets = ['ANSI_X3.4-1968', 'ISO-8859-1', 'UCS-2LE'];
 foreach (CODEPAGES as [$cs]) {
-    $targets[] = $cs;
+    // (not the few without "?", ARABIC7 and others, where glibc's //TRANSLIT fails without a replacement they have)
+    if (encode_cp($cs, 0x3F) !== null) {
+        $targets[] = $cs;
+    }
 }
 foreach (MULTIBYTES as $cs) {
     if ($cs !== 'GB18030') {
@@ -60,9 +63,13 @@ function iso_cps(string $target, string $bytes): array
 /** What each code point encodes to in $target, null when it cannot be represented. */
 function repertoire(string $target): array
 {
+    // (only what it represents: the arrays of 200 and more targets stay small)
     $enc = [];
     for ($cp = 0; $cp < 0x10000; $cp++) {
-        $enc[$cp] = $cp >= 0xD800 && $cp <= 0xDFFF ? null : encode_cp($target, $cp);
+        $b = $cp >= 0xD800 && $cp <= 0xDFFF ? null : encode_cp($target, $cp);
+        if ($b !== null) {
+            $enc[$cp] = $b;
+        }
     }
     // above the BMP, blocks that hold nothing the target can represent are skipped (the tag characters vanish)
     for ($start = 0x10000; $start < 0x110000; $start += 4096) {
@@ -76,8 +83,9 @@ function repertoire(string $target): array
             continue;
         }
         for ($cp = $start; $cp < $start + 4096; $cp++) {
-            if ($cp < 0xE0000 || $cp > 0xE007F) {
-                $enc[$cp] = encode_cp($target, $cp);
+            $b = $cp < 0xE0000 || $cp > 0xE007F ? encode_cp($target, $cp) : null;
+            if ($b !== null) {
+                $enc[$cp] = $b;
             }
         }
     }
@@ -92,11 +100,11 @@ function measure(string $target, array $enc): array
     // ISO-2022: a line feed, which also makes ISO-2022-JP-2 designate G2 again for each character; else a control
     // character no other character encodes to (some IBM codepages write U+263A and others as control bytes)
     $control = 1;
-    while (!$iso && $unit === 1 && array_filter($enc, static fn (?string $b, int $cp): bool => $cp >= 0x80 && $b !== null
-        && str_contains($b, chr($control)), ARRAY_FILTER_USE_BOTH) !== []) {
+    while (!$iso && $unit === 1 && (strlen($enc[$control] ?? '') !== 1 || array_filter($enc, static fn (?string $b,
+        int $cp): bool => $cp !== $control && $b !== null && str_contains($b, $enc[$control]), ARRAY_FILTER_USE_BOTH) !== [])) {
         $control++;
     }
-    $sep = $unit === 2 ? "\x01\x00" : ($iso ? "\x0a" : chr($control));
+    $sep = $unit === 2 ? "\x01\x00" : ($iso ? "\x0a" : (string) $enc[$control]);
     $out = [];
     for ($start = 0x80; $start <= 0x10FFFF; $start += 4096) {
         $cps = [];
@@ -106,7 +114,7 @@ function measure(string $target, array $enc): array
                 continue;
             }
             $cps[] = $cp;
-            $in .= mb_chr($cp, 'UTF-8') . ($iso ? "\x0a" : ($unit === 2 ? "\x01" : $sep));
+            $in .= mb_chr($cp, 'UTF-8') . ($iso ? "\x0a" : ($unit === 2 ? "\x01" : chr($control)));
         }
         $converted = iconv('UTF-8', "$target//TRANSLIT", $in);
         if ($converted === false) {
@@ -153,7 +161,8 @@ function measure(string $target, array $enc): array
                 }
             } elseif ($iso && $parts[$k] !== [0x3F]) {
                 $out[$cp] = $parts[$k];
-            } elseif (!$iso && $parts[$k] !== ($unit === 2 ? "?\x00" : '?')) {
+            } elseif (!$iso && $parts[$k] !== ($unit === 2 ? "?\x00" : $enc[0x3F])) {
+                // (not glibc's "?", which EBCDIC writes as 0x6F)
                 $out[$cp] = $parts[$k];
             }
         }
@@ -414,25 +423,31 @@ function measured_kmin(string $probe, string $target, int $base): array
 }
 // ASCII wants a byte before every character; EUC-JP two before every one it does not write as one byte (see
 // Charset::room in codec.rs). Where an alternative no target shows starts with characters a target has, the room the
-// target needs shows them: ASCII shows one it has (taken as "("), EUC-JP longer ones, of which the first character of
-// one of the character's alternatives is taken where it explains what EUC-JP needs.
-$ascii = $enc['ANSI_X3.4-1968'];
-$eucjp = $enc['EUC-JP'];
-$asciiRoom = static fn (int $c): int => 1;
-$eucjpRoom = static fn (int $c): int => strlen($eucjp[$c] ?? '') === 1 ? 1 : 2;
-$asciiKmin = measured_kmin($probe, 'ANSI_X3.4-1968', 1);
-$eucjpKmin = measured_kmin($probe, 'EUC-JP', 2);
+// target needs shows them: ASCII shows one it has, the single-byte charsets that lack some of ASCII which (the first
+// printable character that explains them all is taken: "(" by preference), EUC-JP longer ones, of which the first
+// character of one of the character's alternatives is taken where it explains what EUC-JP needs.
+$oneByte = static fn (int $c): int => 1;
+$kminTargets = [['ANSI_X3.4-1968', $oneByte, 1]];
+foreach (['EBCDIC-AT-DE-A', 'EBCDIC-ES-A', 'ISO646-DE', 'ISO646-FR', 'ISO646-ES', 'ISO646-JP', 'ISO646-CN'] as $t) {
+    if (isset($enc[$t])) {
+        $kminTargets[] = [$t, $oneByte, 1];
+    }
+}
+$kminTargets[] = ['EUC-JP', static fn (int $c): int => strlen($enc['EUC-JP'][$c] ?? '') === 1 ? 1 : 2, 2];
+$measuredKmin = [];
+foreach ($kminTargets as [$t, , $first]) {
+    $measuredKmin[$t] = measured_kmin($probe, $t, $first);
+}
 $unresolved = [];
 for ($cp = 0x80; $cp <= 0x10FFFF; $cp++) {
     if (($cp >= 0xD800 && $cp <= 0xDFFF) || ($cp >= 0xE0000 && $cp <= 0xE007F)) {
         continue;
     }
     $checks = [];
-    if (($ascii[$cp] ?? null) === null) {
-        $checks[] = [$ascii, $asciiRoom, 1, $asciiKmin[$cp] ?? 1];
-    }
-    if (($eucjp[$cp] ?? null) === null) {
-        $checks[] = [$eucjp, $eucjpRoom, 2, $eucjpKmin[$cp] ?? 2];
+    foreach ($kminTargets as [$t, $room, $first]) {
+        if (($enc[$t][$cp] ?? null) === null) {
+            $checks[] = [$enc[$t], $room, $first, $measuredKmin[$t][$cp] ?? $first];
+        }
     }
     $fits = static function (array $order) use ($checks): bool {
         foreach ($checks as [$e, $room, $first, $want]) {
@@ -449,7 +464,7 @@ for ($cp = 0x80; $cp <= 0x10FFFF; $cp++) {
     if (($order[0] ?? null) === [PHANTOM]) {
         array_shift($order);
     }
-    $candidates = [0x28];
+    $candidates = array_merge([0x28], range(0x21, 0x27), range(0x29, 0x7E));
     foreach ($order as $r) {
         if ($r !== [] && $r[0] !== PHANTOM && !in_array($r[0], $candidates, true)) {
             $candidates[] = $r[0];

@@ -454,7 +454,8 @@ impl Converter {
             }
             // the tag characters vanish when the target cannot hold them, without //TRANSLIT or //IGNORE too
             Encoded::Unmappable if (0xE_0000..=0xE_007F).contains(&c) => {}
-            Encoded::Unmappable if self.translit => {
+            // (a target without `?` has no default: where no alternative works either, as without //TRANSLIT)
+            Encoded::Unmappable if self.translit && translit::possible(self.to, c) => {
                 if first_run {
                     // the unit check above left room for the mark
                     let bom = self.to.bom();
@@ -566,7 +567,7 @@ impl Converter {
             return Ok(());
         }
         let Encoded::Bytes(b, n) = self.to.encode(0x3F) else {
-            unreachable!("every target has `?`")
+            unreachable!("translit::possible() checks that the target has `?`")
         };
         if n > *space {
             return Err(Status::TooBig);

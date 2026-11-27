@@ -29,9 +29,12 @@ pub(super) const INVALID: u16 = 0xFFFF;
 /// How glibc converts one codepage.
 #[derive(Debug)]
 pub(crate) struct Table {
-    /// The code points of bytes 0x80..=0xFF ([`INVALID`]: glibc rejects the byte). Bytes below 0x80 are ASCII.
+    /// The code points of bytes 0x00..=0x7F ([`INVALID`]: glibc rejects the byte); `None`: bytes and code points below
+    /// 0x80 are ASCII.
+    pub(super) low: Option<&'static [u16; 128]>,
+    /// The code points of bytes 0x80..=0xFF ([`INVALID`]: glibc rejects the byte).
     pub(super) high: [u16; 128],
-    /// The code points from U+0080 up that encode to one byte, sorted.
+    /// The code points that encode to one byte (from U+0080 up where `low` is `None`), sorted.
     pub(super) encode: &'static [(u16, u8)],
     /// The code points that encode to two or three bytes (a letter and its marks), sorted; unused bytes are 0.
     pub(super) decompose: &'static [(u16, [u8; 3])],
@@ -46,23 +49,23 @@ pub(crate) struct Table {
 impl Codepage {
     /// The code point of byte `b`, `None` when glibc rejects it.
     pub(super) fn decode(self, b: u8) -> Option<u32> {
-        if b < 0x80 {
-            return Some(u32::from(b));
-        }
-        match self.table().high[usize::from(b - 0x80)] {
-            INVALID => None,
-            c => Some(u32::from(c)),
-        }
+        let table = self.table();
+        let c = match (b, table.low) {
+            (0..0x80, None) => return Some(u32::from(b)),
+            (0..0x80, Some(low)) => low[usize::from(b)],
+            _ => table.high[usize::from(b - 0x80)],
+        };
+        (c != INVALID).then_some(u32::from(c))
     }
 
     /// The bytes `c` encodes to (one to three, in the first `len` of the array), `None` when the charset cannot
     /// represent it.
     pub(super) fn encode(self, c: u32) -> Option<([u8; 3], usize)> {
-        if c < 0x80 {
+        let table = self.table();
+        if c < 0x80 && table.low.is_none() {
             return Some(([c as u8, 0, 0], 1));
         }
         let c = u16::try_from(c).ok()?;
-        let table = self.table();
         if let Ok(i) = table.encode.binary_search_by_key(&c, |&(cp, _)| cp) {
             return Some(([table.encode[i].1, 0, 0], 1));
         }

@@ -232,11 +232,8 @@ fn pairs_ignore() {
 
 #[test]
 fn names() {
-    let unsupported = run_conversions("names.json", true);
-    assert!(
-        unsupported > 1000,
-        "{unsupported} cases use a charset twig-rs does not convert"
-    );
+    // the cases that use one of the 87 names twig-rs does not convert (ISO-2022-CN, UTF-7, ...)
+    assert_eq!(run_conversions("names.json", true), 512);
 }
 
 #[test]
@@ -874,8 +871,7 @@ fn iso2022_translit_ignore() {
 
 #[test]
 fn iso2022_cases() {
-    // the character whose //TRANSLIT replacement twig-rs refuses (U+20AB into ISO-2022-JP-2, see translit_table.rs)
-    assert_eq!(run_conversions("iso2022_cases.json", true), 1);
+    assert_eq!(run_conversions("iso2022_cases.json", false), 0);
 }
 
 #[test]

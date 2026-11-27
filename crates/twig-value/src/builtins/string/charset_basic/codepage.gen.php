@@ -148,24 +148,26 @@ function describe_differences(array $glibc, array $file): array
 
 $tables = [];
 foreach (CODEPAGES as $variant => [$cs, $file]) {
-    // decoding: one byte per call
+    // decoding: one byte per call; $dec: the code point of each byte (null: invalid)
     $decoded = [];
-    $high = [];
+    $dec = [];
     for ($b = 0; $b < 256; $b++) {
         $cps = decode_byte($cs, $b);
         $decoded[$b] = $cps;
-        if ($b < 0x80) {
-            if ($cps !== [$b]) {
-                fail("$cs: byte $b is not ASCII");
-            }
-        } elseif ($cps === null) {
-            $high[] = null;
+        if ($cps === null) {
+            $dec[] = null;
         } elseif (count($cps) === 1 && $cps[0] < 0xFFFF) {
-            $high[] = $cps[0];
+            $dec[] = $cps[0];
         } else {
             fail("$cs: byte $b decodes to " . json_encode($cps));
         }
     }
+    // whether bytes and code points below 0x80 are ASCII (else the tables cover them: EBCDIC, ISO 646, ...)
+    $ascii = true;
+    for ($b = 0; $b < 0x80; $b++) {
+        $ascii = $ascii && $dec[$b] === $b && encode_cp($cs, $b) === chr($b);
+    }
+    $high = array_slice($dec, 0x80);
 
     // encoding: one BMP code point per call
     $single = [];
@@ -175,10 +177,8 @@ foreach (CODEPAGES as $variant => [$cs, $file]) {
             continue;
         }
         $r = encode_cp($cs, $cp);
-        if ($cp < 0x80) {
-            if ($r !== chr($cp)) {
-                fail("$cs: " . u($cp) . ' is not ASCII');
-            }
+        if ($cp < 0x80 && $ascii) {
+            continue;
         } elseif ($r === null) {
             continue;
         } elseif (strlen($r) === 1) {
@@ -203,7 +203,7 @@ foreach (CODEPAGES as $variant => [$cs, $file]) {
     $oneWay = [];
     foreach ($single as $cp => $b) {
         // (some IBM codepages write a few characters as an ASCII byte: U+2022 as 0x07 in CP901)
-        $back = $b < 0x80 ? $b : $high[$b - 0x80];
+        $back = $b < 0x80 && $ascii ? $b : $dec[$b];
         if ($back !== $cp) {
             if ($back === null) {
                 fail("$cs: " . u($cp) . " encodes to byte $b, which does not decode");
@@ -213,13 +213,16 @@ foreach (CODEPAGES as $variant => [$cs, $file]) {
     }
     // (a few bytes decode to a character the encoder writes as another byte: two bytes for one character)
     $decodeOnly = [];
-    foreach ($high as $i => $cp) {
-        $written = $cp !== null && $cp < 0x80 ? $cp : ($single[$cp] ?? null);
-        if ($cp !== null && $written !== 0x80 + $i) {
+    foreach ($dec as $b => $cp) {
+        if ($b < 0x80 && $ascii) {
+            continue;
+        }
+        $written = $cp !== null && $cp < 0x80 && $ascii ? $cp : ($single[$cp] ?? null);
+        if ($cp !== null && $written !== $b) {
             if ($written === null) {
-                fail("$cs: byte " . (0x80 + $i) . ' decodes to ' . u($cp) . ', which does not encode');
+                fail("$cs: byte $b decodes to " . u($cp) . ', which does not encode');
             }
-            $decodeOnly[] = sprintf('0x%02X as %s (written 0x%02X)', 0x80 + $i, u($cp), $written);
+            $decodeOnly[] = sprintf('0x%02X as %s (written 0x%02X)', $b, u($cp), $written);
         }
     }
 
@@ -300,7 +303,7 @@ foreach (CODEPAGES as $variant => [$cs, $file]) {
     // the comparison with the published mapping
     $glibc = [];
     for ($b = 0; $b < 256; $b++) {
-        $glibc[$b] = $b < 0x80 ? [$b] : ($high[$b - 0x80] === null ? null : [$high[$b - 0x80]]);
+        $glibc[$b] = $dec[$b] === null ? null : [$dec[$b]];
     }
     $doc = "`$cs`: ";
     if ($file !== null) {
@@ -324,7 +327,8 @@ foreach (CODEPAGES as $variant => [$cs, $file]) {
     if ($decodeOnly !== []) {
         $doc .= ' Decoding also takes ' . implode(', ', $decodeOnly) . '.';
     }
-    $tables[$variant] = [$cs, $doc, $high, $single, $multi, $compose, $hold, $holdCombined];
+    $tables[$variant] = [$cs, $doc, $ascii ? null : array_slice($dec, 0, 0x80), $high, $single, $multi, $compose, $hold,
+        $holdCombined];
 }
 
 function wrap(string $text, string $indent): string
@@ -342,8 +346,9 @@ echo "//! mapping files); do not edit.\n";
 echo "//!\n";
 echo "//! The single-byte charsets of `codepage.rs` as glibc 2.41's iconv converts them in the oracle: every byte decoded\n";
 echo "//! and every code point encoded with one iconv() call each, and the compositions of the decoders found by decoding\n";
-echo "//! every sequence that extends a character. Bytes and code points below 0x80 are ASCII in all of them. Each\n";
-echo "//! charset's documentation compares its bytes with the unicode.org mapping file (glibc's mapping is the table).\n\n";
+echo "//! every sequence that extends a character. Bytes and code points below 0x80 are ASCII but in the charsets with a\n";
+echo "//! `low` table (EBCDIC, the ISO 646 variants, ...). Each charset's documentation compares its bytes with the\n";
+echo "//! unicode.org mapping file (glibc's mapping is the table).\n\n";
 echo "use super::codepage::{INVALID, Table};\n\n";
 echo "/// A single-byte charset converted with tables: glibc's name for it and how it compares with the published mapping.\n";
 echo "#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]\n";
@@ -378,8 +383,17 @@ echo "        }\n";
 echo "    }\n";
 echo "}\n";
 
-foreach ($tables as $variant => [$cs, $doc, $high, $single, $multi, $compose, $hold, $holdCombined]) {
+foreach ($tables as $variant => [$cs, $doc, $low, $high, $single, $multi, $compose, $hold, $holdCombined]) {
     printf("\n/// `%s`.\nstatic %s: Table = Table {\n", $cs, static_name($cs));
+    if ($low === null) {
+        echo "    low: None,\n";
+    } else {
+        echo "    low: Some(&[\n";
+        foreach (array_chunk($low, 8) as $chunk) {
+            echo '        ', implode(', ', array_map(static fn (?int $c): string => $c === null ? 'INVALID' : sprintf('0x%04X', $c), $chunk)), ",\n";
+        }
+        echo "    ]),\n";
+    }
     echo "    high: [\n";
     foreach (array_chunk($high, 8) as $chunk) {
         echo '        ', implode(', ', array_map(static fn (?int $c): string => $c === null ? 'INVALID' : sprintf('0x%04X', $c), $chunk)), ",\n";

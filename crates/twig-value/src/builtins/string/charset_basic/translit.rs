@@ -8,6 +8,7 @@
 //! no target has; measured with `translit_probe.c`): they make glibc want room for their first characters, and change
 //! designations in the ISO-2022 charsets.
 
+use super::codec::{Charset, Encoded};
 use super::iso2022::Iso2022;
 use super::translit_table::{
     DATA, ISO_2022_JP_2_UNMODELLED, ISO_2022_JP_UNMODELLED, ISO_2022_KR_UNMODELLED, KEYS, SPANS,
@@ -26,10 +27,21 @@ pub(crate) fn alternatives(c: u32) -> impl Iterator<Item = &'static [u32]> {
         })
 }
 
+/// Whether //TRANSLIT can replace `c` in `target`: always but in the few charsets without `?` (ARABIC7, BRF, ...),
+/// where glibc's default fails and only an alternative the charset can represent does.
+pub(crate) fn possible(target: Charset, c: u32) -> bool {
+    matches!(target.encode(0x3F), Encoded::Bytes(..))
+        || alternatives(c).any(|alternative| {
+            alternative
+                .iter()
+                .all(|&u| matches!(target.encode(u), Encoded::Bytes(..)))
+        })
+}
+
 /// Whether the //TRANSLIT replacement of `c` in an ISO-2022 charset is beyond the table: glibc tries an alternative
 /// that fails partway in that charset and keeps the designations the attempt reached, and the table lacks it (no
-/// target shows it; measured by translit.gen.php from a few states). twig-rs does not convert such a character (four
-/// into ISO-2022-JP, one into ISO-2022-JP-2).
+/// target shows it; measured by translit.gen.php from a few states). twig-rs does not convert such a character (there
+/// is none at present: the alternatives the targets show and those the table keeps of the others explain them all).
 pub(crate) fn unmodelled(target: Iso2022, c: u32) -> bool {
     let list: &[u32] = match target {
         Iso2022::Jp => &ISO_2022_JP_UNMODELLED,
@@ -41,7 +53,6 @@ pub(crate) fn unmodelled(target: Iso2022, c: u32) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::super::codec::{Charset, Encoded};
     use super::super::codepage::Codepage;
     use super::*;
 
