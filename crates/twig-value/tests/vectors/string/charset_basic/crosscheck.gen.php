@@ -1938,6 +1938,17 @@ foreach (['ja', 'ko', 'zh'] as $lang) {
     }
 }
 
+section('BIG5-HKSCS: composed pairs when PHP\'s buffer runs out with no input left');
+// A pair code makes two characters; when the second no longer fits and the input is all read, PHP stops with its
+// "Buffer length exceeded" warning (E2BIG with nothing left to convert).
+foreach (["\x88\x62", "\x88\x64", "\x88\xa3", "\x88\xa5", "\x88\x62A", "A\x88\xa5"] as $unit) {
+    foreach (['UCS-4LE', 'UTF-8', 'UTF-16LE', 'UTF-32'] as $to) {
+        for ($n = 1; $n <= 24; $n++) {
+            add('BIG5-HKSCS', $to, recipe([[$unit, $n]]));
+        }
+    }
+}
+
 // ---------------------------------------------------------------------------------------------------------------
 // Running the cases
 
