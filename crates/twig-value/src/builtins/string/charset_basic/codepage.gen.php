@@ -358,7 +358,8 @@ foreach ($tables as $variant => [$cs, $doc]) {
     echo "    $variant,\n";
 }
 echo "}\n\n";
-printf("/// Every codepage.\n#[cfg(test)]\npub(super) const ALL: [Codepage; %d] = [\n", count($tables));
+printf("/// The number of codepages.\npub(super) const COUNT: usize = %d;\n\n", count($tables));
+echo "/// Every codepage.\n#[cfg(test)]\npub(super) const ALL: [Codepage; COUNT] = [\n";
 foreach (array_chunk(array_keys($tables), 5) as $chunk) {
     echo '    ', implode(', ', array_map(static fn (string $v): string => "Codepage::$v", $chunk)), ",\n";
 }
@@ -401,9 +402,17 @@ foreach ($tables as $variant => [$cs, $doc, $low, $high, $single, $multi, $compo
     echo "    ],\n";
     echo "    encode: &[\n";
     ksort($single);
+    // only where the encoder does not take the first byte that decodes to the character (the engine builds the
+    // inverse of the decoder)
+    $first = [];
+    foreach (array_merge($low ?? [], $high) as $b => $cp) {
+        $first[$cp] ??= $low === null ? $b + 0x80 : $b;
+    }
     $pairs = [];
     foreach ($single as $cp => $b) {
-        $pairs[] = sprintf('(0x%04X, 0x%02X)', $cp, $b);
+        if (($first[$cp] ?? null) !== $b) {
+            $pairs[] = sprintf('(0x%04X, 0x%02X)', $cp, $b);
+        }
     }
     foreach (array_chunk($pairs, 6) as $chunk) {
         echo '        ', implode(', ', $chunk), ",\n";

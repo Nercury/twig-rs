@@ -21,7 +21,13 @@
 //! does not combine with it or when the caller flushes the descriptor (PHP does after converting); the engine models
 //! what that means for where a call stops.
 
+use std::sync::OnceLock;
+
+use super::codepage_table::COUNT;
 pub(crate) use super::codepage_table::Codepage;
+
+/// The inverse of a decoder: code points and the first byte that decodes to each, sorted.
+type Inverse = Box<[(u16, u8)]>;
 
 /// A byte the charset does not define, in [`Table::high`].
 pub(super) const INVALID: u16 = 0xFFFF;
@@ -34,7 +40,8 @@ pub(crate) struct Table {
     pub(super) low: Option<&'static [u16; 128]>,
     /// The code points of bytes 0x80..=0xFF ([`INVALID`]: glibc rejects the byte).
     pub(super) high: [u16; 128],
-    /// The code points that encode to one byte (from U+0080 up where `low` is `None`), sorted.
+    /// The code points that encode to one byte other than the first one that decodes to them (or that no byte decodes
+    /// to), sorted; the others encode to the first byte that decodes to them ([`Codepage::inverse`]).
     pub(super) encode: &'static [(u16, u8)],
     /// The code points that encode to two or three bytes (a letter and its marks), sorted; unused bytes are 0.
     pub(super) decompose: &'static [(u16, [u8; 3])],
@@ -69,12 +76,31 @@ impl Codepage {
         if let Ok(i) = table.encode.binary_search_by_key(&c, |&(cp, _)| cp) {
             return Some(([table.encode[i].1, 0, 0], 1));
         }
+        let inverse = self.inverse();
+        if let Ok(i) = inverse.binary_search_by_key(&c, |&(cp, _)| cp) {
+            return Some(([inverse[i].1, 0, 0], 1));
+        }
         let i = table
             .decompose
             .binary_search_by_key(&c, |&(cp, _)| cp)
             .ok()?;
         let bytes = table.decompose[i].1;
         Some((bytes, if bytes[2] == 0 { 2 } else { 3 }))
+    }
+
+    /// The inverse of the decoder, built on first use: each code point a byte decodes to and the first such byte,
+    /// sorted.
+    fn inverse(self) -> &'static [(u16, u8)] {
+        static INVERSES: [OnceLock<Inverse>; COUNT] = [const { OnceLock::new() }; COUNT];
+        INVERSES[self as usize].get_or_init(|| {
+            let mut cells: Vec<(u16, u8)> = (0..=255u8)
+                .filter_map(|b| self.decode(b).map(|c| (c as u16, b)))
+                .collect();
+            // a stable sort keeps the first byte of a code point first
+            cells.sort_by_key(|&(c, _)| c);
+            cells.dedup_by_key(|&mut (c, _)| c);
+            cells.into_boxed_slice()
+        })
     }
 
     /// Whether the decoder combines characters (CP1255, CP1258).
