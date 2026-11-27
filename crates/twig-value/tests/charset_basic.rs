@@ -15,7 +15,8 @@
 //!
 //! The `codepages*` files cover the single-byte charsets with tables (`codepage.rs`): every byte and every code
 //! point of each (`codepages.json`), conversions between them and everything else, the characters CP1255 and CP1258
-//! combine and hold back, long inputs (`codepages_cases.json`) and random conversions (`codepages_fuzz.json`).
+//! combine and hold back, IBM420 and CP1008, which glibc converts into each other with a module of its own, long
+//! inputs (`codepages_cases.json`) and random conversions (`codepages_fuzz.json`).
 //!
 //! The `multibytes*` files cover the multi-byte charsets (`multibyte.rs`) the same way: every byte sequence their
 //! structure allows (also how many bytes //IGNORE skips and whether glibc reports it) and every code point of each

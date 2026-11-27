@@ -10,7 +10,9 @@
 //     a byte order mark, as a transliteration, or failing), E2BIG during the flush;
 //   - long inputs: held characters, combinations and unrepresentable characters around the rounds of 8160 characters
 //     and around the points where PHP's output buffer grows (E2BIG), where //IGNORE ends a call early and PHP skips
-//     an input byte, and codepages as targets of //TRANSLIT replacements and of letters written with their marks.
+//     an input byte, and codepages as targets of //TRANSLIT replacements and of letters written with their marks;
+//   - IBM420 and CP1008, which glibc converts into each other with a module of its own (direct_table.rs): every byte
+//     with every suffix, and all bytes in a row under every name of the two.
 // Inputs are recipes (see common.inc.php); the outputs of inputs longer than 64 bytes are [length, fnv1a64].
 
 require __DIR__ . '/common.inc.php';
@@ -214,6 +216,24 @@ foreach ([['ISO-8859-1', 'CP1258', 'c3'], ['ISO-8859-1', 'CP1258', bin2hex("\xc3
     }
     for ($i = 0; $i < 10; $i++) {
         $add($from, $to, [['rep', '61', mt_rand(0, 9000)], ['rep', $unit, mt_rand(1, 9000)], ['rep', '62', mt_rand(0, 100)]]);
+    }
+}
+
+// IBM420 and CP1008 (the module glibc has for them maps every byte, also those neither charset's own conversion
+// takes): every byte with every suffix, all of them in a long input, and all bytes in a row under every name
+$all = implode('', array_map('chr', range(0, 255)));
+foreach ([['IBM420', 'CP1008'], ['CP1008', 'IBM420']] as [$from, $to]) {
+    foreach (['', '//TRANSLIT', '//IGNORE', '//TRANSLIT//IGNORE'] as $suffix) {
+        for ($b = 0; $b < 256; $b++) {
+            $add($from, $to . $suffix, $hex(chr($b)));
+        }
+        $add($from, $to . $suffix, [['rep', bin2hex($all), 40]]);
+    }
+}
+foreach (['IBM420', 'CP420', 'CSIBM420', 'EBCDIC-CP-AR1', 'OSF100201A4'] as $a) {
+    foreach (['CP1008', 'IBM1008', 'IBM-1008', 'CSIBM1008'] as $b) {
+        $add($a, $b, $hex($all));
+        $add($b, "$a//TRANSLIT//IGNORE", $hex($all));
     }
 }
 

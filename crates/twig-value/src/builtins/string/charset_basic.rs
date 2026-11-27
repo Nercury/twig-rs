@@ -12,8 +12,9 @@
 //! - the stateful ISO-2022-JP, ISO-2022-JP-2 and ISO-2022-KR (`iso2022.rs`).
 //!
 //! Any other charset glibc knows (ISO-2022-CN, UTF-7, JIS X 0213, the EBCDIC double-byte codepages, ...) raises
-//! `Error: iconv(): conversion of charset "X" is not supported by twig-rs`, and so do the conversions glibc does with
-//! modules of their own (`direct_module`); a name glibc does not know behaves as in PHP.
+//! `Error: iconv(): conversion of charset "X" is not supported by twig-rs`, and so do the conversions between GB 2312
+//! and GBK or BIG5, which glibc does with modules of their own (`direct_module`; its module for IBM420 and CP1008 is
+//! the byte table `direct_table.rs`); a name glibc does not know behaves as in PHP.
 //!
 //! Clean room: the PHP layer ports `PHP_FUNCTION(iconv)` and `php_iconv_string()` (PHPSRC/ext/iconv/iconv.c), the
 //! Unicode charsets follow their published specifications (RFC 3629, RFC 2781, ISO/IEC 10646, ISO/IEC 8859-1), and
@@ -21,10 +22,11 @@
 //! single-byte and multi-byte charsets (compared with the Unicode Consortium's mapping files and the WHATWG Encoding
 //! Standard's indexes, whose differences they record), which sequences each decoder skips, which characters CP1255,
 //! CP1258 and TCVN-5712 combine, the ISO-2022 designations, charset names and their aliases, the //TRANSLIT and
-//! //IGNORE suffixes, the transliteration tables, how a call reports errors and where it stops — was learned black-box
-//! from the oracle (`twig-oracle:3.31.1`, PHP 8.5.13 on glibc 2.41, `LC_CTYPE=C.UTF-8`) through PHP and through the
-//! public `iconv_open()`/`iconv()` interface (the probes `multibyte_probe.c` and `translit_probe.c`). No glibc source
-//! was read. The vectors in tests/vectors/string/charset_basic and their generators show the observations.
+//! //IGNORE suffixes, the transliteration tables, how a call reports errors and where it stops, which pairs of
+//! charsets it converts with a module of their own — was learned black-box from the oracle (`twig-oracle:3.31.1`, PHP
+//! 8.5.13 on glibc 2.41, `LC_CTYPE=C.UTF-8`) through PHP and through the public `iconv_open()`/`iconv()` interface
+//! (the probes `multibyte_probe.c` and `translit_probe.c`). No glibc source was read. The vectors in
+//! tests/vectors/string/charset_basic and their generators show the observations.
 //!
 //! - `names`: how glibc parses a charset name, and the names it knows (`name_table.rs`, from `iconv -l`);
 //! - `codec`: decoding and encoding each charset;
@@ -34,12 +36,15 @@
 //! - `engine`: one `iconv(3)` call (rounds of 8160 characters, errors, `E2BIG`, //TRANSLIT and //IGNORE, the
 //!   characters decoders hold back, the room glibc wants before a character) and the flush;
 //! - `translit`: the //TRANSLIT replacements (`translit_table.rs`);
-//! - this module: PHP's loop around `iconv(3)`, its notices and its `false`.
+//! - this module: PHP's loop around `iconv(3)`, its notices and its `false`, and the conversions glibc does with a
+//!   module of their own (`direct_table.rs`).
 
 mod codec;
 mod codepage;
 #[rustfmt::skip]
 mod codepage_table;
+#[rustfmt::skip]
+mod direct_table;
 mod engine;
 mod iso2022;
 mod multibyte;
@@ -142,8 +147,14 @@ pub fn iconv_bytes(
         (_, Lookup::Unsupported) => return Err(unsupported(out_charset)),
         (Lookup::Supported(f), Lookup::Supported(t)) => (f, t),
     };
-    if direct_module(from_charset, to_charset) {
-        return Err(unsupported(in_charset));
+    match direct_module(from_charset, to_charset) {
+        Some(Direct::Refused) => return Err(unsupported(in_charset)),
+        // every byte converts: one iconv(3) call with room to spare, whatever the suffixes
+        Some(Direct::Bytes(bytes)) => {
+            let out: Vec<u8> = string.iter().map(|&b| bytes[usize::from(b)]).collect();
+            return Ok(Some(PhpString::from(out)));
+        }
+        None => {}
     }
     let mut converter = Converter::new(from_charset, to_charset, target.translit, target.ignore);
     match php_iconv_string(string, &mut converter, php_check_ignore(out_charset)) {
@@ -213,17 +224,33 @@ fn php_check_ignore(charset: &[u8]) -> bool {
         || (charset.len() >= 19 && charset.ends_with(b"//IGNORE//TRANSLIT"))
 }
 
-/// Whether glibc converts between the two charsets with a module of their own instead of through its internal UCS-4,
-/// with tables and rules this module does not model (reference/deviations.md): GB 2312 (`EUC-CN`) and `GBK`, GB 2312
-/// and `BIG5` (whose table maps simplified characters to traditional ones and back), in both directions. Found
-/// black-box: their conversions differ from the composition of the two charsets' conversions.
-fn direct_module(from: Charset, to: Charset) -> bool {
+/// A conversion glibc does with a module of its own instead of through its internal UCS-4. Found black-box: its
+/// results differ from the composition of the two charsets' conversions.
+#[derive(Clone, Copy, Debug)]
+enum Direct {
+    /// Byte for byte, every byte converting under every suffix (`direct_table.rs`, measured by `direct.gen.php`, which
+    /// compares every byte of each pair of single-byte charsets): IBM420 and CP1008, in both directions.
+    Bytes(&'static [u8; 256]),
+    /// With tables and rules this module does not model, so not converted (reference/deviations.md): GB 2312
+    /// (`EUC-CN`) and `GBK`, GB 2312 and `BIG5` (whose table maps simplified characters to traditional ones and back),
+    /// in both directions.
+    Refused,
+}
+
+/// Whether glibc converts from `from` to `to` with a module of its own, and how.
+fn direct_module(from: Charset, to: Charset) -> Option<Direct> {
     use multibyte::Multibyte::{Big5, EucCn, Gbk};
-    matches!(
+    if matches!(
         (from, to),
         (Charset::Multibyte(EucCn), Charset::Multibyte(Gbk | Big5))
             | (Charset::Multibyte(Gbk | Big5), Charset::Multibyte(EucCn))
-    )
+    ) {
+        return Some(Direct::Refused);
+    }
+    direct_table::DIRECT
+        .iter()
+        .find(|&&(f, t, _)| f == from && t == to)
+        .map(|(_, _, bytes)| Direct::Bytes(bytes))
 }
 
 /// The bytes before the first NUL.
@@ -356,6 +383,26 @@ mod tests {
                 "iconv(): Detected an illegal character in input string"
             )]
         );
+    }
+
+    #[test]
+    fn modules_of_their_own() {
+        // IBM420 and CP1008: bytes neither charset's own conversion takes, under any suffix and name
+        assert_eq!(
+            conv("IBM420", "CP1008", b"\x45\xfa").0.unwrap(),
+            b"\xa9\xff"
+        );
+        assert_eq!(
+            conv("IBM-1008", "EBCDIC-CP-AR1//TRANSLIT", b"\xff\x5b")
+                .0
+                .unwrap(),
+            b"\xfa\x53"
+        );
+        let (r, d) = conv("IBM420", "UTF-8", b"\x45");
+        assert_eq!((r, d.len()), (None, 1));
+        // GB 2312 and GBK
+        let mut diag: Vec<Diagnostic> = Vec::new();
+        assert!(iconv_bytes(b"GB2312", b"GBK", b"a", &mut diag).is_err());
     }
 
     #[test]
