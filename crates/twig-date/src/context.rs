@@ -166,8 +166,10 @@ impl DateContext {
     }
 
     /// Port of `php_date_get_current_time_with_fraction()` (PHPSRC/ext/date/php_date.c): seconds and microseconds.
+    /// The clock runs after the lock is released, so a host clock may use this context (even
+    /// [`set_clock`](Self::set_clock)) without deadlocking.
     pub fn current_time(&self) -> (i64, i64) {
-        read(&self.0.clock).now()
+        self.clock().now()
     }
 
     /// Port of `php_time()` (PHPSRC/ext/date/php_date.c): `time()`.
