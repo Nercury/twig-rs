@@ -742,6 +742,7 @@ fn do_posix(out: &mut String, f: &[&str]) {
             location: Default::default(),
             posix_string: None,
             posix_info: Some(p),
+            posix_cache: Default::default(),
         };
         let mut tr = PosixTransitions::default();
         get_transitions_for_year(&tz, atoll(f[2]), &mut tr);

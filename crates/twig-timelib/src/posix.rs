@@ -437,30 +437,35 @@ pub fn get_transitions_for_year(tz: &TzInfo, year: i64, transitions: &mut PosixT
     if transitions.count + 2 > transitions.times.len() {
         return;
     }
-    let year_begin_ts = ts_at_start_of_year(year);
+    let [first, first_type, second, second_type] = tz.posix_cache.year(year, || {
+        let year_begin_ts = ts_at_start_of_year(year);
 
-    let mut trans_begin = year_begin_ts;
-    trans_begin = trans_begin.wrapping_add(calc_transition(begin, year));
-    trans_begin = trans_begin.wrapping_add(i64::from(begin.hour));
-    trans_begin = trans_begin.wrapping_sub(pi.std_offset);
+        let mut trans_begin = year_begin_ts;
+        trans_begin = trans_begin.wrapping_add(calc_transition(begin, year));
+        trans_begin = trans_begin.wrapping_add(i64::from(begin.hour));
+        trans_begin = trans_begin.wrapping_sub(pi.std_offset);
 
-    let mut trans_end = year_begin_ts;
-    trans_end = trans_end.wrapping_add(calc_transition(end, year));
-    trans_end = trans_end.wrapping_add(i64::from(end.hour));
-    trans_end = trans_end.wrapping_sub(pi.dst_offset);
+        let mut trans_end = year_begin_ts;
+        trans_end = trans_end.wrapping_add(calc_transition(end, year));
+        trans_end = trans_end.wrapping_add(i64::from(end.hour));
+        trans_end = trans_end.wrapping_sub(pi.dst_offset);
+
+        let (dst, std) = (
+            i64::from(pi.type_index_dst_type),
+            i64::from(pi.type_index_std_type),
+        );
+        if trans_begin < trans_end {
+            [trans_begin, dst, trans_end, std]
+        } else {
+            [trans_end, std, trans_begin, dst]
+        }
+    });
 
     let n = transitions.count;
-    if trans_begin < trans_end {
-        transitions.times[n] = trans_begin;
-        transitions.times[n + 1] = trans_end;
-        transitions.types[n] = i64::from(pi.type_index_dst_type);
-        transitions.types[n + 1] = i64::from(pi.type_index_std_type);
-    } else {
-        transitions.times[n + 1] = trans_begin;
-        transitions.times[n] = trans_end;
-        transitions.types[n + 1] = i64::from(pi.type_index_dst_type);
-        transitions.types[n] = i64::from(pi.type_index_std_type);
-    }
+    transitions.times[n] = first;
+    transitions.types[n] = first_type;
+    transitions.times[n + 1] = second;
+    transitions.types[n + 1] = second_type;
     transitions.count += 2;
 }
 

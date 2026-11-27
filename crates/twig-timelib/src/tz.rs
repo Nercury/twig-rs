@@ -174,6 +174,55 @@ pub struct TzInfo {
     pub posix_string: Option<String>,
     /// The parsed POSIX footer.
     pub posix_info: Option<PosixStr>,
+    /// The DST transitions of the POSIX footer, computed once per year (see [`PosixCache`]).
+    pub posix_cache: PosixCache,
+}
+
+/// The first year whose POSIX transitions [`PosixCache`] keeps, and the number of years it keeps.
+const POSIX_CACHE_FIRST_YEAR: i64 = 1970;
+const POSIX_CACHE_YEARS: usize = 136;
+
+/// The DST transitions a zone's POSIX footer gives each year from 1970 to 2105, computed the first time a year is
+/// needed: `timelib_get_transitions_for_year()` is a function of the footer and the year, and the rules of a zone do
+/// not change once it is read (the footer of a [`TzInfo`] is not meant to be changed after it was used). A copy of
+/// the cache is empty, and every cache compares equal.
+#[derive(Default)]
+pub struct PosixCache(OnceLock<Box<[OnceLock<[i64; 4]>]>>);
+
+impl PosixCache {
+    /// The transitions of `year` (`[first time, its type, second time, its type]`), computed by `compute` unless they
+    /// are known.
+    pub(crate) fn year(&self, year: i64, compute: impl FnOnce() -> [i64; 4]) -> [i64; 4] {
+        let Some(slot) = year
+            .checked_sub(POSIX_CACHE_FIRST_YEAR)
+            .and_then(|i| usize::try_from(i).ok())
+            .filter(|&i| i < POSIX_CACHE_YEARS)
+        else {
+            return compute();
+        };
+        let years = self
+            .0
+            .get_or_init(|| (0..POSIX_CACHE_YEARS).map(|_| OnceLock::new()).collect());
+        *years[slot].get_or_init(compute)
+    }
+}
+
+impl Clone for PosixCache {
+    fn clone(&self) -> Self {
+        PosixCache::default()
+    }
+}
+
+impl PartialEq for PosixCache {
+    fn eq(&self, _: &Self) -> bool {
+        true
+    }
+}
+
+impl std::fmt::Debug for PosixCache {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("PosixCache")
+    }
 }
 
 /// Reads a big-endian `u32`; out-of-range reads yield zero bytes instead of C's buffer overrun.
@@ -213,6 +262,7 @@ impl TzInfo {
             location: TzLocation::default(),
             posix_string: None,
             posix_info: None,
+            posix_cache: PosixCache::default(),
         }
     }
 
