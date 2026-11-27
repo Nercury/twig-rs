@@ -224,12 +224,13 @@ fn php_check_ignore(charset: &[u8]) -> bool {
         || (charset.len() >= 19 && charset.ends_with(b"//IGNORE//TRANSLIT"))
 }
 
-/// A conversion glibc does with a module of its own instead of through its internal UCS-4. Found black-box: its
-/// results differ from the composition of the two charsets' conversions.
+/// A conversion glibc does with a module of its own instead of through its internal UCS-4. Found black-box by
+/// `direct.gen.php`, which compares the conversions between every two charsets converted with tables with the
+/// composition of the two charsets' conversions.
 #[derive(Clone, Copy, Debug)]
 enum Direct {
-    /// Byte for byte, every byte converting under every suffix (`direct_table.rs`, measured by `direct.gen.php`, which
-    /// compares every byte of each pair of single-byte charsets): IBM420 and CP1008, in both directions.
+    /// Byte for byte, every byte converting under every suffix (`direct_table.rs`): IBM420 and CP1008, in both
+    /// directions.
     Bytes(&'static [u8; 256]),
     /// With tables and rules this module does not model, so not converted (reference/deviations.md): GB 2312
     /// (`EUC-CN`) and `GBK`, GB 2312 and `BIG5` (whose table maps simplified characters to traditional ones and back),
