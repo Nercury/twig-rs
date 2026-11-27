@@ -1,9 +1,12 @@
-"""Prints the comparison table of research/benchmarks/README.md from the results of run-rust.sh and run-php.sh.
+"""Prints the comparison tables of research/benchmarks/README.md from the results of run-rust.sh and run-php.sh.
 
-    python research/benchmarks/compare.py [results dir, default: research/benchmarks/results] [--before <dir>]
+    python research/benchmarks/compare.py [<results dir>...] [--before <dir>]...
 
-With `--before`, a copy of another run's `results` directory (run-rust.sh of an earlier commit), the table also
-shows that run's twig-rs times and the speed-up.
+A results directory is research/benchmarks/results (the default) or a copy of it kept after a run. Given several (a
+copy kept after each round of run-rust.sh and run-php.sh), the table shows the median of their times per benchmark.
+With `--before`, a copy of the results of run-rust.sh on an earlier commit (repeated, one per round), the table also
+shows those twig-rs times and the speed-up. Without PHP results (on Windows, where run-php.sh does not run) the PHP
+columns are left out.
 
 Inputs: <results>/criterion/<group>/<scenario>/new/estimates.json (criterion's median, run-rust.sh) and
 <results>/php.jsonl, <results>/php-jit.jsonl (bench.php's median, run-php.sh). Both are medians of per-iteration
@@ -12,6 +15,7 @@ sample means.
 
 import json
 import pathlib
+import statistics
 import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -36,54 +40,63 @@ def rust_results(root):
     return results
 
 
+def median_of(runs):
+    """Per benchmark, the median of the runs that measured it."""
+    keys = set().union(*runs)
+    return {key: statistics.median(run[key] for run in runs if key in run) for key in keys}
+
+
 def fmt(ns):
     if ns is None:
         return "-"
     if ns >= 1e6:
         return f"{ns / 1e6:.2f} ms"
-    return f"{ns / 1e3:.1f} µs"
+    if ns >= 1e4:
+        return f"{ns / 1e3:.1f} µs"
+    return f"{ns / 1e3:.2f} µs"
 
 
 def ratio(php, rust):
     if php is None or rust is None:
         return "-"
     if php >= rust:
-        return f"{php / rust:.1f}x faster"
-    return f"{rust / php:.1f}x slower"
+        return f"{php / rust:.2f}x faster"
+    return f"{rust / php:.2f}x slower"
 
 
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     args = sys.argv[1:]
-    before = None
-    if "--before" in args:
+    before_dirs = []
+    while "--before" in args:
         i = args.index("--before")
-        before = rust_results(pathlib.Path(args[i + 1]) / "criterion")
+        before_dirs.append(pathlib.Path(args[i + 1]))
         del args[i : i + 2]
-    results = pathlib.Path(args[0]) if args else HERE / "results"
-    rust = rust_results(results / "criterion")
-    php = php_results(results / "php.jsonl")
-    jit = php_results(results / "php-jit.jsonl")
-    keys = sorted(set(rust) | set(php) | set(jit))
-    if before is None:
-        print("| benchmark | twig-rs | PHP Twig | PHP Twig, OPcache + JIT | twig-rs vs PHP Twig | twig-rs vs OPcache + JIT |")
-        print("|---|---:|---:|---:|---:|---:|")
-        for key in keys:
-            r, p, j = rust.get(key), php.get(key), jit.get(key)
-            print(f"| {key[0]}/{key[1]} | {fmt(r)} | {fmt(p)} | {fmt(j)} | {ratio(p, r)} | {ratio(j, r)} |")
-        return
-    print(
-        "| benchmark | twig-rs before | twig-rs | speed-up | PHP Twig | PHP Twig, OPcache + JIT"
-        " | twig-rs vs PHP Twig | twig-rs vs OPcache + JIT |"
-    )
-    print("|---|---:|---:|---:|---:|---:|---:|---:|")
-    for key in keys:
-        b, r, p, j = before.get(key), rust.get(key), php.get(key), jit.get(key)
-        speedup = f"{b / r:.2f}x" if b is not None and r is not None else "-"
-        print(
-            f"| {key[0]}/{key[1]} | {fmt(b)} | {fmt(r)} | {speedup} | {fmt(p)} | {fmt(j)}"
-            f" | {ratio(p, r)} | {ratio(j, r)} |"
-        )
+    dirs = [pathlib.Path(arg) for arg in args] or [HERE / "results"]
+    rust = median_of([rust_results(d / "criterion") for d in dirs])
+    php = median_of([php_results(d / "php.jsonl") for d in dirs])
+    jit = median_of([php_results(d / "php-jit.jsonl") for d in dirs])
+    before = median_of([rust_results(d / "criterion") for d in before_dirs]) if before_dirs else None
+    with_php = bool(php or jit)
+
+    head = ["benchmark"]
+    head += ["twig-rs before", "twig-rs", "speed-up"] if before is not None else ["twig-rs"]
+    if with_php:
+        head += ["PHP Twig", "PHP Twig, OPcache + JIT", "twig-rs vs PHP Twig", "twig-rs vs OPcache + JIT"]
+    print("| " + " | ".join(head) + " |")
+    print("|---" + "|---:" * (len(head) - 1) + "|")
+    for key in sorted(set(rust) | set(php) | set(jit) | set(before or {})):
+        r = rust.get(key)
+        cells = [f"{key[0]}/{key[1]}"]
+        if before is not None:
+            b = before.get(key)
+            cells += [fmt(b), fmt(r), f"{b / r:.2f}x" if b is not None and r is not None else "-"]
+        else:
+            cells.append(fmt(r))
+        if with_php:
+            p, j = php.get(key), jit.get(key)
+            cells += [fmt(p), fmt(j), ratio(p, r), ratio(j, r)]
+        print("| " + " | ".join(cells) + " |")
 
 
 if __name__ == "__main__":
