@@ -54,11 +54,12 @@
 //! Charset conversions (the `convert_encoding` filter, escaping under a `charset` other than UTF-8, and `reverse`,
 //! `shuffle` and `random` under such a charset) are PHP's `iconv()`, which an environment's
 //! [`iconv_backend`](Environment::iconv_backend) implements. The default backend converts UTF-8, UTF-16, UTF-32,
-//! UCS-2, UCS-4 (with their byte-order variants), ASCII, ISO-8859-1 and the single-byte codepages (ISO-8859-2 to -16, Windows-1250 to -1258, KOI8-R/U/RU, CP437/850/852/866, MACINTOSH)
-//! exactly like PHP on glibc 2.41, and fails with
-//! `iconv(): conversion of charset "X" is not supported by twig-rs` for the other charsets glibc knows. The
-//! **`glibc-iconv`** cargo feature makes the backend of the `twig-iconv` crate the default instead: it converts nearly
-//! every charset glibc does (single-byte codepages, the CJK charsets, the ISO-2022 family). That crate follows glibc's
+//! UCS-2, UCS-4 (with their byte-order variants), ASCII, ISO-8859-1, 218 single-byte charsets (ISO-8859, Windows,
+//! IBM PC, EBCDIC, KOI8, Mac, ISO 646, ...), the CJK multi-byte charsets (Shift_JIS, CP932, EUC-JP, GBK, GB18030,
+//! GB 2312, Big5, Big5-HKSCS, EUC-KR, UHC, ...) and ISO-2022-JP, ISO-2022-JP-2 and ISO-2022-KR exactly like PHP on
+//! glibc 2.41, and fails with `iconv(): conversion of charset "X" is not supported by twig-rs` for the other charsets
+//! glibc knows (ISO-2022-CN, UTF-7, JIS X 0213, ...). The **`glibc-iconv`** cargo feature makes the backend of the
+//! `twig-iconv` crate the default instead: it converts nearly every charset glibc does. That crate follows glibc's
 //! sources and is licensed under the GNU LGPL 2.1 or later, unlike the rest of twig-rs, so the feature puts LGPL code
 //! into the program. [`EnvironmentOptions::iconv_backend`] chooses a backend for one environment.
 //!

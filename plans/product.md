@@ -23,20 +23,21 @@ the README.
 The default build is permissively licensed. glibc's exact `iconv()` (code that follows glibc's LGPL sources) is the
 opt-in crate `twig-iconv` (LGPL-2.1-or-later), which twig's `glibc-iconv` feature makes the default iconv backend of
 environments (`EnvironmentOptions::iconv_backend` sets one explicitly). Without it, environments use twig-value's
-clean-room converter (`charset_basic`: the Unicode charsets, ASCII, ISO-8859-1 and the codepages ISO-8859-2 to -16,
-CP1250 to CP1258, KOI8-R/-U/-RU, CP437, CP850, CP852, CP866 and MACINTOSH, all learned black-box from the oracle and
-compared with the Unicode Consortium's mapping files; other charsets throw twig-rs's "not supported" error, a
-deviation of the default build). Done; open:
+clean-room converter (`charset_basic`: the Unicode charsets, ASCII, ISO-8859-1, every single-byte charset of glibc
+(218 tables, EBCDIC and ISO 646 included), the CJK multi-byte charsets (SJIS, CP932, EUC-JP, EUC-JP-MS, GBK, GB18030,
+EUC-CN, BIG5, BIG5-HKSCS, EUC-KR, UHC, JOHAB, EUC-TW) and ISO-2022-JP, -JP-2 and -KR, 1,093 of glibc's 1,180 names,
+all learned black-box from the oracle and compared with the Unicode Consortium's and WHATWG's mapping files; other
+charsets throw twig-rs's "not supported" error, a deviation of the default build). Done; open:
 
 - a legal review of the combination inside `twig-iconv`: its port of PHP's ext/iconv layer is PHP-3.01 code in an
   LGPL crate, and the FSF regards the PHP License as incompatible with the GPL family;
 - whether `twig-iconv` is published: its vector tests compile twig-value's test support with `#[path]`, so they only
   run in the workspace;
-- the clean-room converter could grow further, shrinking the default build's deviation: the other single-byte
-  charsets of glibc (the rest of the IBM, Mac and Windows codepages, ISO-8859-9E, TIS-620, KOI8-T) are the likely
-  next ones (`codepage.gen.php` measures any charset whose bytes below 0x80 are ASCII; the EBCDIC codepages would
-  need tables for the whole byte range); the multi-byte and stateful charsets (EUC-JP, Shift_JIS, GBK, BIG5,
-  ISO-2022-JP, ...) would need models of their own.
+- the clean-room converter could grow further, shrinking the default build's deviation: ISO-2022-CN and
+  ISO-2022-CN-EXT (GB 2312 and the CNS 11643 planes are there, ISO-IR-165 is not), UTF-7 and UTF-7-IMAP, JIS X 0213
+  (EUC-JISX0213, SHIFT_JISX0213, ISO-2022-JP-3), the EBCDIC double-byte codepages (IBM930 to IBM1399, stateful),
+  IBM932 and IBM943, and the charsets with combining prefixes (ISO_6937, T.61, ANSI_X3.110); each needs a model of
+  its own, measured like `multibyte.gen.php` and `iso2022.rs` do.
 
 ## Release
 

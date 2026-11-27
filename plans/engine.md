@@ -234,7 +234,9 @@ Environment::load(name)
 ## Remaining work
 
 1. Non-UTF-8 charsets beyond the single-byte ones in the mbstring functions (`upper`, `length`, `slice`, ...: tables
-   for multi-byte and table-based encodings). iconv covers every charset only with the `glibc-iconv` feature.
+   for multi-byte and table-based encodings). iconv's default backend converts the Unicode, single-byte and CJK
+   multi-byte charsets and ISO-2022-JP, -JP-2 and -KR (1,093 of glibc's 1,180 names); the rest (ISO-2022-CN, UTF-7,
+   JIS X 0213, the EBCDIC double-byte codepages, ...) only the `glibc-iconv` feature converts.
 2. Compiled-template caching across processes (optional, roadmap phase 6).
 3. Public API review and publishing (roadmap phase 6).
 

@@ -7,13 +7,18 @@
 //! `Environment` holds one.
 //!
 //! - [`BasicIconv`], the default, is the clean-room converter of [`charset_basic`](super::charset_basic): UTF-8,
-//!   UTF-16, UTF-32, UCS-2 and UCS-4 with their byte-order variants, ASCII, ISO-8859-1 and the single-byte codepages (ISO-8859-2 to -16, Windows-1250 to -1258, KOI8-R/U/RU, CP437/850/852/866, MACINTOSH), under every name glibc
-//!   gives them, byte for byte like the oracle. Any other charset glibc knows throws
-//!   `Error: iconv(): conversion of charset "X" is not supported by twig-rs`; a name glibc does not know behaves as in
-//!   PHP (the `Wrong encoding` warning, then `false`). It contains no glibc code.
-//! - The `twig-iconv` crate provides `GlibcIconv`, glibc's behaviour for every charset it converts (the single-byte
-//!   codepages, the CJK charsets, the ISO-2022 family, ...). It follows glibc's iconv sources and is therefore
-//!   licensed under the LGPL (2.1 or later); twig uses it as the default backend with its `glibc-iconv` feature.
+//!   UTF-16, UTF-32, UCS-2 and UCS-4 with their byte-order variants, ASCII, ISO-8859-1, 218 single-byte charsets
+//!   (ISO-8859, Windows, IBM PC, EBCDIC, KOI8, Mac, the ISO 646 variants, ...), the CJK multi-byte charsets
+//!   (Shift_JIS, CP932, EUC-JP, EUC-JP-MS, GBK, GB18030, GB 2312, Big5, Big5-HKSCS, EUC-KR, UHC, Johab, EUC-TW) and
+//!   ISO-2022-JP, ISO-2022-JP-2 and ISO-2022-KR, under every name glibc gives them (1,093 of its 1,180), byte for
+//!   byte like the oracle. Any other charset glibc knows (ISO-2022-CN, UTF-7, JIS X 0213, the EBCDIC double-byte
+//!   charsets, ...) throws `Error: iconv(): conversion of charset "X" is not supported by twig-rs`, and so do the
+//!   conversions between GB 2312 and GBK or Big5, which glibc does with modules of their own (reference/deviations.md);
+//!   a name glibc does not know behaves as in PHP (the `Wrong encoding` warning, then `false`). It contains no glibc
+//!   code.
+//! - The `twig-iconv` crate provides `GlibcIconv`, glibc's behaviour for every charset it converts. It follows glibc's
+//!   iconv sources and is therefore licensed under the LGPL (2.1 or later); twig uses it as the default backend with
+//!   its `glibc-iconv` feature.
 //!
 //! [`iconv`] and [`iconv_bytes`] are PHP's `iconv()` through the default backend.
 
@@ -74,7 +79,8 @@ pub trait IconvBackend: fmt::Debug + Send + Sync {
 }
 
 /// The default backend: [`charset_basic`](super::charset_basic), the clean-room `iconv()` for the Unicode charsets,
-/// ASCII, ISO-8859-1 and the single-byte codepages (ISO-8859-2 to -16, Windows-1250 to -1258, KOI8-R/U/RU, CP437/850/852/866, MACINTOSH) (see the module documentation).
+/// ASCII, ISO-8859-1, the single-byte charsets, the CJK multi-byte charsets and three ISO-2022 charsets (see the
+/// module documentation).
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash)]
 pub struct BasicIconv;
 

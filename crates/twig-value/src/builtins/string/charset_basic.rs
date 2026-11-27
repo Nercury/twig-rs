@@ -1,29 +1,38 @@
-//! `iconv()` for the common charsets, written without glibc code, under every name glibc gives them:
+//! `iconv()` for most of glibc's charsets, written without glibc code, under every name glibc gives them (1,093 of
+//! the 1,180 names `iconv -l` lists in the oracle):
 //!
 //! - the Unicode charsets: UTF-8, UTF-16, UTF-16BE, UTF-16LE, UTF-32, UTF-32BE, UTF-32LE, UCS-2, UCS-2BE, UCS-2LE,
 //!   UCS-4, UCS-4BE, UCS-4LE;
 //! - ANSI_X3.4-1968 (ASCII) and ISO-8859-1;
-//! - the codepages: ISO-8859-2 to ISO-8859-16 (glibc has no ISO-8859-12), CP1250 to CP1258 (with the letters and
-//!   marks that CP1255 and CP1258 combine), KOI8-R, KOI8-U, KOI8-RU, CP437, CP850, CP852, CP866 and MACINTOSH.
+//! - the 218 single-byte charsets with tables (`codepage.rs`): ISO-8859-2 to ISO-8859-16 and ISO-8859-9E, the
+//!   Windows, IBM PC, OS/2 and EBCDIC codepages, KOI8, the Mac charsets, the ISO 646 variants and more (CP1255,
+//!   CP1258 and TCVN-5712 with the letters and marks they combine);
+//! - the multi-byte charsets (`multibyte.rs`): SJIS, CP932, EUC-JP, EUC-JP-MS, GBK, GB18030, EUC-CN (GB 2312),
+//!   BIG5, BIG5-HKSCS, EUC-KR, UHC, JOHAB and EUC-TW;
+//! - the stateful ISO-2022-JP, ISO-2022-JP-2 and ISO-2022-KR (`iso2022.rs`).
 //!
-//! Any other charset glibc knows raises `Error: iconv(): conversion of charset "X" is not supported by twig-rs`; a
-//! name glibc does not know behaves as in PHP.
+//! Any other charset glibc knows (ISO-2022-CN, UTF-7, JIS X 0213, the EBCDIC double-byte codepages, ...) raises
+//! `Error: iconv(): conversion of charset "X" is not supported by twig-rs`, and so do the conversions glibc does with
+//! modules of their own (`direct_module`); a name glibc does not know behaves as in PHP.
 //!
 //! Clean room: the PHP layer ports `PHP_FUNCTION(iconv)` and `php_iconv_string()` (PHPSRC/ext/iconv/iconv.c), the
 //! Unicode charsets follow their published specifications (RFC 3629, RFC 2781, ISO/IEC 10646, ISO/IEC 8859-1), and
-//! everything glibc 2.41 decides on its own — which values each charset rejects, byte order marks, the codepage
-//! tables (compared with the Unicode Consortium's mapping files, whose differences they record), which characters
-//! CP1255 and CP1258 combine, charset names and their aliases, the //TRANSLIT and //IGNORE suffixes, the
-//! transliteration tables, how a call reports errors and where it stops — was learned black-box from the oracle
-//! (`twig-oracle:3.31.1`, PHP 8.5.13 on glibc 2.41, `LC_CTYPE=C.UTF-8`) through PHP and through the public
-//! `iconv_open()`/`iconv()` interface. No glibc source was read. The vectors in tests/vectors/string/charset_basic
-//! and their generators show the observations.
+//! everything glibc 2.41 decides on its own — which values each charset rejects, byte order marks, the tables of the
+//! single-byte and multi-byte charsets (compared with the Unicode Consortium's mapping files and the WHATWG Encoding
+//! Standard's indexes, whose differences they record), which sequences each decoder skips, which characters CP1255,
+//! CP1258 and TCVN-5712 combine, the ISO-2022 designations, charset names and their aliases, the //TRANSLIT and
+//! //IGNORE suffixes, the transliteration tables, how a call reports errors and where it stops — was learned black-box
+//! from the oracle (`twig-oracle:3.31.1`, PHP 8.5.13 on glibc 2.41, `LC_CTYPE=C.UTF-8`) through PHP and through the
+//! public `iconv_open()`/`iconv()` interface (the probes `multibyte_probe.c` and `translit_probe.c`). No glibc source
+//! was read. The vectors in tests/vectors/string/charset_basic and their generators show the observations.
 //!
 //! - `names`: how glibc parses a charset name, and the names it knows (`name_table.rs`, from `iconv -l`);
 //! - `codec`: decoding and encoding each charset;
-//! - `codepage`: the tables of the codepages (`codepage_table.rs`);
+//! - `codepage`: the tables of the single-byte charsets (`codepage_table.rs`);
+//! - `multibyte`: the multi-byte charsets (`multibyte_table.rs`, `multibyte_differences.md`);
+//! - `iso2022`: the ISO-2022 charsets, their designations and shifts;
 //! - `engine`: one `iconv(3)` call (rounds of 8160 characters, errors, `E2BIG`, //TRANSLIT and //IGNORE, the
-//!   characters CP1255 and CP1258 hold back) and the flush;
+//!   characters decoders hold back, the room glibc wants before a character) and the flush;
 //! - `translit`: the //TRANSLIT replacements (`translit_table.rs`);
 //! - this module: PHP's loop around `iconv(3)`, its notices and its `false`.
 
@@ -404,13 +413,9 @@ mod tests {
             .map(|h| unhex(h.as_str().unwrap()))
             .collect();
         let cases = file["cases"].as_array().unwrap();
-        // alternatives no target shows of which more than what translit.gen.php measures shows here, where the room
-        // runs out (reference/deviations.md): U+20AB DONG SIGN into EUC-JP, U+33A8 SQUARE M OVER S SQUARED into
-        // ISO-2022-JP after JIS X 0208
-        const KNOWN: [&str; 2] = [
-            "EUC-JP//TRANSLIT 00000061000020ab00000061",
-            "ISO-2022-JP//TRANSLIT 00003042000033a800000061",
-        ];
+        // an alternative no target shows of which more than what translit.gen.php measures shows here, where the room
+        // runs out (reference/deviations.md): U+33A8 SQUARE M OVER S SQUARED into ISO-2022-JP after JIS X 0208
+        const KNOWN: [&str; 1] = ["ISO-2022-JP//TRANSLIT 00003042000033a800000061"];
         let mut known = 0;
         let mut failures = Vec::new();
         for case in cases {

@@ -15,7 +15,7 @@
 //!
 //! Charset conversions go through the build's default iconv backend. Without twig's `glibc-iconv`
 //! feature, a vector that converts through a charset the clean-room converter does not handle
-//! (anything but the Unicode charsets, ASCII, ISO-8859-1 and the common single-byte codepages: Shift_JIS, GB2312, ...) ends
+//! (ISO-2022-CN, UTF-7, JIS X 0213, the EBCDIC double-byte codepages, ...) ends
 //! in `iconv(): conversion of charset "X" is not supported by twig-rs`, which twig-fuzz's diff
 //! accepts as the `unsupported-by-twig-rs` deviation (reference/deviations.md: the iconv charsets of
 //! the default build). With the feature (`--features glibc-iconv`, or `--all-features` as in the

@@ -110,6 +110,12 @@ Part 1: Third-party sources
       UCD (translit_combining, see entry 18).
     - twig-value (src/builtins/string/charset_basic/translit_table.rs): the //TRANSLIT replacements of the
       clean-room iconv, measured black-box in the oracle; most of them are UCD decompositions.
+    - twig-value (src/builtins/string/charset_basic/codepage_table.rs and multibyte_table.rs): the single-byte and
+      multi-byte charset mappings of the clean-room iconv, measured black-box in the oracle and compared with the
+      mapping files and with the index files of the WHATWG Encoding Standard (https://encoding.spec.whatwg.org/,
+      Copyright (c) WHATWG (Apple, Google, Mozilla, Microsoft), licensed under the Creative Commons Attribution 4.0
+      International License, https://creativecommons.org/licenses/by/4.0/); multibyte_differences.md lists where
+      glibc differs from them.
     - twig-value (src/builtins/string/charset_basic/codepage_table.rs): the codepage mappings of the clean-room
       iconv, measured black-box in the oracle; they agree with the mapping files except where the table's
       documentation records glibc's difference.

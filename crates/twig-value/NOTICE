@@ -69,9 +69,16 @@ Part 1: Third-party sources
 12. Unicode Character Database 17.0 (https://www.unicode.org/ucd/) and the Unicode Consortium's mapping files
     (https://www.unicode.org/Public/MAPPINGS/)
     Licence L (Unicode License v3). Copyright (c) 1991-2025 Unicode, Inc.
-    - src/builtins/string/charset_basic/codepage_table.rs: the codepage mappings of the clean-room iconv, measured
-      black-box in the oracle; they agree with the mapping files except where the table's documentation records
-      glibc's difference.
+    - src/builtins/string/charset_basic/codepage_table.rs: the mappings of the 218 single-byte charsets of the
+      clean-room iconv, measured black-box in the oracle; they agree with the mapping files (ISO8859, VENDORS/MICSFT,
+      VENDORS/APPLE, VENDORS/MISC) except where the table's documentation records glibc's difference.
+    - src/builtins/string/charset_basic/multibyte_table.rs: the mappings of the multi-byte charsets of the
+      clean-room iconv (Shift_JIS, CP932, EUC-JP, GBK, GB18030, GB 2312, Big5, Big5-HKSCS, EUC-KR, UHC, Johab,
+      EUC-TW, ...), measured black-box in the oracle and compared with the mapping files (OBSOLETE/EASTASIA,
+      VENDORS/MICSFT/WINDOWS) and with the index files of the WHATWG Encoding Standard
+      (https://encoding.spec.whatwg.org/, Copyright (c) WHATWG (Apple, Google, Mozilla, Microsoft), licensed under
+      the Creative Commons Attribution 4.0 International License, https://creativecommons.org/licenses/by/4.0/);
+      multibyte_differences.md lists where glibc differs from them.
     - src/builtins/string/charset_basic/translit_table.rs: the //TRANSLIT replacements of the clean-room iconv,
       measured black-box in the oracle; most of them are UCD decompositions.
 

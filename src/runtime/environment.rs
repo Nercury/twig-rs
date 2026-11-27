@@ -125,9 +125,9 @@ pub const DEFAULT_MAX_DEPTH: usize = 200;
 /// feature, `twig_iconv::GlibcIconv`, glibc 2.41's behaviour for every charset it converts (the twig-iconv crate,
 /// LGPL-2.1-or-later); otherwise twig-value's clean-room
 /// [`BasicIconv`](twig_value::builtins::string::BasicIconv), which converts UTF-8, UTF-16, UTF-32, UCS-2, UCS-4,
-/// ASCII, ISO-8859-1 and the single-byte codepages (ISO-8859-2 to -16, Windows-1250 to -1258, KOI8-R/U/RU, CP437/850/852/866, MACINTOSH), and throws
-/// `Error: iconv(): conversion of charset "X" is not supported by twig-rs` for the
-/// other charsets glibc knows (reference/deviations.md).
+/// ASCII, ISO-8859-1, the single-byte charsets, the CJK multi-byte charsets and ISO-2022-JP, -JP-2 and -KR, and throws
+/// `Error: iconv(): conversion of charset "X" is not supported by twig-rs` for the other charsets glibc knows
+/// (reference/deviations.md).
 pub fn default_iconv_backend() -> Arc<dyn IconvBackend> {
     #[cfg(feature = "glibc-iconv")]
     let backend = Arc::new(twig_iconv::GlibcIconv);

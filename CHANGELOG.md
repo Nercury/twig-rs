@@ -38,8 +38,11 @@ bug.
     data.
   - `glibc-iconv`: twig-iconv becomes the default charset converter of environments (the `convert_encoding` filter,
     escaping with a non-UTF-8 charset). Without it, environments use twig-value's clean-room converter for UTF-8,
-    UTF-16, UTF-32, UCS-2, UCS-4, ASCII, ISO-8859-1 and the common single-byte codepages (ISO-8859, Windows, KOI8, DOS,
-    MACINTOSH), and other charsets fail with twig-rs's "not supported" error.
+    UTF-16, UTF-32, UCS-2, UCS-4, ASCII, ISO-8859-1, 218 single-byte charsets (ISO-8859, Windows, IBM PC, EBCDIC,
+    KOI8, Mac, ISO 646, ...), the CJK multi-byte charsets (Shift_JIS, CP932, EUC-JP, EUC-JP-MS, GBK, GB18030, GB2312,
+    BIG5, BIG5-HKSCS, EUC-KR, UHC, JOHAB, EUC-TW) and ISO-2022-JP, ISO-2022-JP-2 and ISO-2022-KR (1,093 of glibc's
+    1,180 charset names), and other charsets (ISO-2022-CN, UTF-7, JIS X 0213, ...) fail with twig-rs's "not
+    supported" error.
 - The host API of Twig's public PHP classes: `Environment::load()` and the render methods take names or
   `TemplateWrapper`s (checked against their environment, `TemplateWrapper::unwrap()`), `BlockChain` (Twig 3.31's block
   composition), macro namespaces (`TemplateWrapper::macro_namespace()`, `MacroNamespace::call()`/`has()`,
