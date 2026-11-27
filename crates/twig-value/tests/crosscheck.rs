@@ -342,9 +342,9 @@ fn replay(skip: &[usize]) {
 
 /// The cases (indexes into "cases") where twig-rs differs from PHP, 302 conversions, each for one of the three
 /// behaviours of glibc that the clean-room converter lacks (the reason on `crosscheck`):
-/// - ISO-2022-JP-2's encoder reads the letters of a Unicode language tag regardless of case: after U+E0001 U+E004B
-///   U+E004F ("KO"), "Ko", "kO", and the same for "ja" and "zh", 中 is KS C 5601 (`ESC $ ( C 71 69`), not JIS X 0208
-///   (`ESC $ B 43 66`); twig-rs reads only lowercase tags (cases 66777, 74145 and on);
+/// - ISO-2022-JP-2's encoder reads the two letters of a Unicode language tag regardless of case ("KO", "Ko" and "kO"
+///   act as "ko", and so for "ja" and "zh"): after U+E0001 U+E004B U+E004F, 中 is KS C 5601 (`ESC $ ( C 71 69`), not
+///   JIS X 0208 (`ESC $ B 43 66`); twig-rs reads only lowercase letters (cases 66777, 74145 and on);
 /// - //TRANSLIT replaces U+0476 and U+0477 with U+0474 and U+0475 in CSISO5427CYRILLIC1981 (bytes 72, 52); twig-rs has
 ///   no replacement for them (cases 73070 to 73072);
 /// - glibc converts between IBM420 and CP1008 with a module of its own, which maps bytes neither charset's own
