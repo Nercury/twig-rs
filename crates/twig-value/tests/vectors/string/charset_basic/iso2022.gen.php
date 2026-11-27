@@ -8,7 +8,10 @@
 //   translit  every code point U+0000..U+10FFFF (surrogates aside, and those of "skip": the characters whose
 //             replacement twig-rs refuses, see iso2022_cases.json), 4096 per call, each followed by a line feed,
 //             encoded with //TRANSLIT;
-//   ignore    the same code points, 4096 per call, without line feeds, encoded with //IGNORE.
+//   ignore    the same code points, 4096 per call, without line feeds, encoded with //IGNORE;
+//   tags      after the code points "prefix", U+E0001 LANGUAGE TAG and every one or two tag characters
+//             (U+E0000..U+E007F), and every three of TAG_ALPHABET, each followed by TAG_PROBE (ISO-2022-JP-2 reads the
+//             language of a tag from its first two characters, letters of either case).
 // A set is {"from", "to", "kind", "prefix" (hex), "blocks": [fnv1a64 of the concatenated tokens of each block]};
 // tests/charset_basic.rs builds the same inputs and tokens. Mount the crate (the skip lists come from
 // src/builtins/string/charset_basic/translit_table.rs):
@@ -32,6 +35,15 @@ function unmodelled(string $cs): array
     preg_match_all('/0x[0-9A-F]+/', $m[1], $cps);
     return array_map('hexdec', $cps[0]);
 }
+
+/**
+ * The tag characters (minus U+E0000) of the three-character tags of the tags kind: U+E0000, U+E0001, controls, the
+ * hyphen, a digit, the punctuation next to the letters, the letters of ja, ko and zh and x in both cases, CANCEL TAG.
+ */
+const TAG_ALPHABET = [0x00, 0x01, 0x02, 0x1F, 0x20, 0x2D, 0x30, 0x40, 0x41, 0x48, 0x4A, 0x4B, 0x4F, 0x58, 0x5A, 0x5B,
+    0x5F, 0x60, 0x61, 0x68, 0x6A, 0x6B, 0x6F, 0x78, 0x7A, 0x7B, 0x7E, 0x7F];
+/** What follows each tag of the tags kind: characters that each language (or none) writes in other sets. */
+const TAG_PROBE = [0x4E2D, 0x6C49, 0xE9, 0xAC00, 0x3B1];
 
 /** @return list<list<string>> the inputs of a kind after a prefix (without the code points $skip), in blocks */
 function iso2022_inputs(string $kind, string $prefix, array $skip = []): array
@@ -90,6 +102,27 @@ function iso2022_inputs(string $kind, string $prefix, array $skip = []): array
                 $blocks[] = [$in];
             }
             break;
+        case 'tags':
+            $tag = static fn (int ...$t): string => $prefix . implode('', array_map(static fn (int $c): string =>
+                pack('N', 0xE0000 + $c), [0x01, ...$t])) . implode('', array_map(static fn (int $c): string =>
+                pack('N', $c), TAG_PROBE));
+            for ($t0 = 0; $t0 < 0x80; $t0++) {
+                $block = [$tag($t0)];
+                for ($t1 = 0; $t1 < 0x80; $t1++) {
+                    $block[] = $tag($t0, $t1);
+                }
+                $blocks[] = $block;
+            }
+            foreach (TAG_ALPHABET as $t0) {
+                $block = [];
+                foreach (TAG_ALPHABET as $t1) {
+                    foreach (TAG_ALPHABET as $t2) {
+                        $block[] = $tag($t0, $t1, $t2);
+                    }
+                }
+                $blocks[] = $block;
+            }
+            break;
         default:
             throw new RuntimeException("unknown kind $kind");
     }
@@ -128,6 +161,12 @@ foreach (['ISO-2022-JP' => $jp, 'ISO-2022-JP-2' => $jp2, 'ISO-2022-KR' => $kr] a
         $plan[] = ['UCS-4BE', $cs, 'bmp', $prefix];
     }
     array_push($plan, ['UCS-4BE', "$cs//TRANSLIT", 'translit', ''], ['UCS-4BE', "$cs//IGNORE", 'ignore', '']);
+    if ($cs === 'ISO-2022-JP-2') {
+        // language tags after none, after one for ko (in capitals) and after one for zh and a line feed
+        foreach (['', tag('KO') . pack('N', 0x4E2D), tag('zh') . pack('N', 0x0A)] as $prefix) {
+            $plan[] = ['UCS-4BE', $cs, 'tags', $prefix];
+        }
+    }
     foreach ($plan as [$from, $to, $kind, $prefix]) {
         $skip = $kind === 'translit' ? unmodelled($cs) : [];
         $hashes = [];

@@ -74,9 +74,10 @@ pub(crate) struct State {
     tag: Tag,
 }
 
-/// The language of an ISO-2022-JP-2 language tag (U+E0001 and tag letters, of which the first two count): once one is
-/// selected the encoder keeps the set designated only when it is one of that language's (and has the character),
-/// else it takes the first set that has the character in the language's order.
+/// The language of an ISO-2022-JP-2 language tag (U+E0001 and tag characters, of which the first two count, as
+/// letters of either case: `ja-JP`, `JA` and `jA` are `ja`, `j-a` and ` ja` none): once one is selected the encoder
+/// keeps the set designated only when it is one of that language's (and has the character), else it takes the first
+/// set that has the character in the language's order.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash)]
 enum Lang {
     /// No tag (or one for another language, or U+E007F CANCEL TAG): the set designated first, then the default order.
@@ -105,7 +106,8 @@ impl Lang {
     }
 }
 
-/// A language tag being read: `Letters(n, letters)` after U+E0001 and `n` tag letters `a`..`z`.
+/// A language tag being read: `Letters(n, first)` after U+E0001 and `n` tag characters (U+E0000..U+E007E but
+/// U+E0001), the first two of them in `first` (their low byte).
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash)]
 enum Tag {
     #[default]
@@ -314,7 +316,9 @@ impl Iso2022 {
         self != Iso2022::Jp
     }
 
-    /// The state after the tag character `c` (ISO-2022-JP-2 reads language tags; the others ignore it).
+    /// The state after the tag character `c` (ISO-2022-JP-2 reads language tags; the others ignore it). U+E0001
+    /// starts a tag (again), U+E007F CANCEL TAG ends it and the language; what follows a tag's first two characters
+    /// does not count, and the tag characters outside a tag do nothing.
     pub(crate) fn tag(self, c: u32, st: State) -> State {
         if self != Iso2022::Jp2 {
             return st;
@@ -329,7 +333,7 @@ impl Iso2022 {
                 tag: Tag::None,
                 ..st
             },
-            (0xE_0061..=0xE_007A, Tag::Letters(n, mut letters)) => {
+            (_, Tag::Letters(n, mut letters)) => {
                 if usize::from(n) < letters.len() {
                     letters[usize::from(n)] = (c - 0xE_0000) as u8;
                 }
@@ -338,7 +342,6 @@ impl Iso2022 {
                     ..st
                 }
             }
-            (0xE_002D, Tag::Letters(..)) => commit(st),
             _ => st,
         }
     }
@@ -364,9 +367,9 @@ impl Iso2022 {
 
 /// The language of the tag being read.
 fn commit(st: State) -> State {
-    // the first two letters (`jax` is `ja`)
+    // the first two tag characters, letters in either case (`jax` and `JA` are `ja`, `j-a` is none)
     let lang = match st.tag {
-        Tag::Letters(2.., letters) => match &letters {
+        Tag::Letters(2.., letters) => match &letters.map(|b| b.to_ascii_lowercase()) {
             b"ja" => Lang::Ja,
             b"ko" => Lang::Ko,
             b"zh" => Lang::Zh,
@@ -634,5 +637,26 @@ mod tests {
         );
         let s = Iso2022::Kr.encode(0xAC00, st).unwrap();
         assert_eq!((s.shift, &s.bytes[..s.len]), (&[SO][..], &b"0!"[..]));
+    }
+
+    #[test]
+    fn language_tags() {
+        // the set U+4E2D goes into after a tag
+        let shift = |tag: &str| {
+            let mut st = State::default();
+            for c in std::iter::once(0xE_0001).chain(tag.bytes().map(|b| 0xE_0000 + u32::from(b))) {
+                st = Iso2022::Jp2.tag(c, st);
+            }
+            let st = Iso2022::Jp2.untag(st);
+            Iso2022::Jp2.encode(0x4E2D, st).unwrap().shift
+        };
+        // the first two tag characters, letters in either case
+        for tag in ["ko", "KO", "Ko", "kO", "ko-KR", "kox"] {
+            assert_eq!(shift(tag), b"\x1b$(C", "{tag}");
+        }
+        assert_eq!(shift("ZH"), b"\x1b$A");
+        for tag in ["", "k", "k-o", "-ko", " ko", "en"] {
+            assert_eq!(shift(tag), b"\x1b$B", "{tag}");
+        }
     }
 }

@@ -748,6 +748,16 @@ fn multibytes_fuzz() {
     assert_eq!(run_conversions("multibytes_fuzz.json", false), 0);
 }
 
+/// The tag characters (minus U+E0000) of the three-character tags of the `tags` kind of `iso2022.json` (`TAG_ALPHABET`
+/// in `iso2022.gen.php`).
+const TAG_ALPHABET: [u32; 28] = [
+    0x00, 0x01, 0x02, 0x1F, 0x20, 0x2D, 0x30, 0x40, 0x41, 0x48, 0x4A, 0x4B, 0x4F, 0x58, 0x5A, 0x5B,
+    0x5F, 0x60, 0x61, 0x68, 0x6A, 0x6B, 0x6F, 0x78, 0x7A, 0x7B, 0x7E, 0x7F,
+];
+
+/// What follows each tag of the `tags` kind (`TAG_PROBE` in `iso2022.gen.php`).
+const TAG_PROBE: [u32; 5] = [0x4E2D, 0x6C49, 0xE9, 0xAC00, 0x3B1];
+
 /// The inputs of an `iso2022.json` kind after a prefix, without the code points `skip`, in blocks (see
 /// `iso2022_inputs()` in `iso2022.gen.php`).
 fn iso2022_inputs(kind: &str, prefix: &[u8], skip: &[u32]) -> Vec<Vec<Vec<u8>>> {
@@ -803,6 +813,30 @@ fn iso2022_inputs(kind: &str, prefix: &[u8], skip: &[u32]) -> Vec<Vec<Vec<u8>>> 
                     }
                 }
                 blocks.push(vec![input]);
+            }
+        }
+        "tags" => {
+            let tag = |t: &[u32]| {
+                let mut input = prefix.to_vec();
+                for c in [&[1][..], t].concat() {
+                    input.extend((0xE_0000 + c).to_be_bytes());
+                }
+                for c in TAG_PROBE {
+                    input.extend(c.to_be_bytes());
+                }
+                input
+            };
+            for t0 in 0..0x80 {
+                let mut block = vec![tag(&[t0])];
+                block.extend((0..0x80).map(|t1| tag(&[t0, t1])));
+                blocks.push(block);
+            }
+            for t0 in TAG_ALPHABET {
+                let mut block = Vec::new();
+                for t1 in TAG_ALPHABET {
+                    block.extend(TAG_ALPHABET.map(|t2| tag(&[t0, t1, t2])));
+                }
+                blocks.push(block);
             }
         }
         other => panic!("unknown iso2022 kind {other}"),
@@ -867,6 +901,12 @@ fn iso2022_encode() {
 #[test]
 fn iso2022_translit_ignore() {
     iso2022_sets(&["translit", "ignore"]);
+}
+
+/// ISO-2022-JP-2's language tags: every tag of one or two characters and many of three.
+#[test]
+fn iso2022_tags() {
+    iso2022_sets(&["tags"]);
 }
 
 #[test]
