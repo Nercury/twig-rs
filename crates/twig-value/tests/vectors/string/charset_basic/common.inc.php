@@ -113,6 +113,10 @@ const CODEPAGES = ['ISO-8859-2', 'ISO-8859-3', 'ISO-8859-4', 'ISO-8859-5', 'ISO-
 /** The codepages whose decoders combine characters. */
 const COMPOSING = ['CP1255', 'CP1258'];
 
+/** The multi-byte charsets charset_basic converts with tables (multibyte.rs), under one of glibc's names each. */
+const MULTIBYTES = ['SJIS', 'CP932', 'EUC-JP', 'EUC-JP-MS', 'GBK', 'GB18030', 'EUC-CN', 'BIG5', 'BIG5-HKSCS', 'EUC-KR',
+    'UHC', 'JOHAB', 'EUC-TW'];
+
 /** The UTF-8 form of a code point, also beyond U+10FFFF (five- and six-byte forms) and for surrogates. */
 function utf8(int $cp): string
 {

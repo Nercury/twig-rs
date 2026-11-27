@@ -6,7 +6,8 @@
 //!
 //! ```text
 //! cd crates/twig-value/tests/vectors
-//! for t in pairs pairs_ignore names long sweep codepoints fuzz php codepages codepages_cases codepages_fuzz; do
+//! for t in pairs pairs_ignore names long sweep codepoints fuzz php codepages codepages_cases codepages_fuzz \
+//!          multibytes multibytes_cases multibytes_fuzz; do
 //!   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
 //!       php /t/string/charset_basic/$t.gen.php > string/charset_basic/$t.json
 //! done
@@ -15,6 +16,11 @@
 //! The `codepages*` files cover the single-byte charsets with tables (`codepage.rs`): every byte and every code
 //! point of each (`codepages.json`), conversions between them and everything else, the characters CP1255 and CP1258
 //! combine and hold back, long inputs (`codepages_cases.json`) and random conversions (`codepages_fuzz.json`).
+//!
+//! The `multibytes*` files cover the multi-byte charsets (`multibyte.rs`) the same way: every byte sequence their
+//! structure allows (also how many bytes //IGNORE skips and whether glibc reports it) and every code point of each
+//! (`multibytes.json`); conversions between them and everything else, their irregular sequences, BIG5-HKSCS's pairs
+//! and held characters, long inputs (`multibytes_cases.json`) and random conversions (`multibytes_fuzz.json`).
 //!
 //! The tables the module embeds have their own generators in `src/builtins/string/charset_basic/`; `probe.c` next
 //! to the vectors is the black-box `iconv(3)` tracer used while modelling glibc's calls (no vector depends on it).
@@ -586,4 +592,161 @@ fn codepages_cases() {
 #[test]
 fn codepages_fuzz() {
     assert_eq!(run_conversions("codepages_fuzz.json", false), 0);
+}
+
+/// The follower of the `follow` and `bytes3` kinds of `multibytes.json`.
+const FOLLOWER: &[u8] = b"\xa1\x41!";
+
+/// The inputs of a `multibytes.json` kind, in blocks (see `multibyte_inputs()` in `multibytes.gen.php`).
+fn multibyte_inputs(kind: &str) -> Vec<Vec<Vec<u8>>> {
+    let mut blocks = Vec::new();
+    match kind {
+        "bytes1" | "bmp" | "translit" | "ignore" => blocks = codepage_inputs(kind),
+        "bytes12" => blocks = sweep_inputs("bytes12"),
+        "follow" => {
+            for b0 in 0..=255u8 {
+                blocks.push(
+                    (0..=255u8)
+                        .map(|b1| [&[b0, b1][..], FOLLOWER].concat())
+                        .collect(),
+                );
+            }
+        }
+        "bytes3" => {
+            for b1 in 0..=255u8 {
+                let mut block = Vec::new();
+                for b2 in 0..=255u8 {
+                    block.push(vec![0x8F, b1, b2]);
+                    block.push([&[0x8F, b1, b2][..], FOLLOWER].concat());
+                }
+                blocks.push(block);
+            }
+        }
+        "bytes4" => {
+            for p in 0xA0..=0xB1u8 {
+                for b1 in 0xA0..=0xFFu8 {
+                    blocks.push((0..=255u8).map(|b2| vec![0x8E, p, b1, b2]).collect());
+                }
+            }
+        }
+        "gb4" => {
+            for b0 in [0x81, 0x82, 0x84, 0x85, 0x8F, 0x90, 0x99, 0xE3, 0xE4, 0xFE] {
+                for b1 in 0x30..=0x39u8 {
+                    let mut block = Vec::new();
+                    for b2 in 0..=255u8 {
+                        for b3 in [
+                            0x2F, 0x30, 0x35, 0x39, 0x3A, 0x40, 0x7F, 0x80, 0x81, 0xFE, 0xFF,
+                        ] {
+                            block.push(vec![b0, b1, b2, b3]);
+                        }
+                    }
+                    blocks.push(block);
+                }
+            }
+        }
+        "gb4all" => {
+            for b0 in (0x81..=0x84u8).chain(0x90..=0xE3) {
+                for b1 in 0x30..=0x39u8 {
+                    let mut block = Vec::new();
+                    for b2 in (0x81..=0xFEu8).step_by(if b0 >= 0x90 { 5 } else { 1 }) {
+                        for b3 in 0x30..=0x39u8 {
+                            block.push(vec![b0, b1, b2, b3]);
+                        }
+                    }
+                    blocks.push(block);
+                }
+            }
+        }
+        "astral" => {
+            let mut cps: Vec<u32> = (0x1_0000..=0x2_FFFF).collect();
+            cps.extend((0x3_0000..=0x10_FFFF).step_by(31));
+            cps.extend(0x11_0000..=0x11_00FF);
+            for chunk in cps.chunks(256) {
+                blocks.push(chunk.iter().map(|c| c.to_be_bytes().to_vec()).collect());
+            }
+        }
+        other => panic!("unknown multibyte kind {other}"),
+    }
+    blocks
+}
+
+/// Runs the sets of `multibytes.json` whose kind is one of `kinds`: of those, the ones whose index modulo `groups` is
+/// `group`.
+fn multibyte_sets(kinds: &[&str], group: usize, groups: usize) {
+    let v = load("string/charset_basic/multibytes.json");
+    let mut m = Mismatches::new("multibytes.json");
+    let mut sets = 0;
+    let selected = v["sets"]
+        .as_array()
+        .expect("sets")
+        .iter()
+        .filter(|set| kinds.contains(&s(&set["kind"])))
+        .enumerate()
+        .filter(|(i, _)| i % groups == group);
+    for (_, set) in selected {
+        let (from, to, kind) = (s(&set["from"]), s(&set["to"]), s(&set["kind"]));
+        sets += 1;
+        let blocks = multibyte_inputs(kind);
+        let expected = set["blocks"].as_array().expect("blocks");
+        assert_eq!(blocks.len(), expected.len(), "{from} -> {to} {kind}");
+        for (i, (block, want)) in blocks.iter().zip(expected).enumerate() {
+            let mut t = Vec::new();
+            for input in block {
+                t.extend(token(from.as_bytes(), to.as_bytes(), input));
+            }
+            m.check(
+                || format!("{from} -> {to} {kind} block {i}"),
+                fnv1a64(&t),
+                s(want).to_string(),
+            );
+        }
+    }
+    assert!(sets > 0, "no sets of kinds {kinds:?}");
+    m.finish();
+}
+
+#[test]
+fn multibytes_decode() {
+    multibyte_sets(&["bytes1", "bytes12"], 0, 1);
+}
+
+#[test]
+fn multibytes_follow() {
+    multibyte_sets(&["follow"], 0, 1);
+}
+
+#[test]
+fn multibytes_long_sequences() {
+    multibyte_sets(&["bytes3", "bytes4", "gb4", "gb4all"], 0, 1);
+}
+
+#[test]
+fn multibytes_bmp() {
+    multibyte_sets(&["bmp", "astral"], 0, 1);
+}
+
+#[test]
+fn multibytes_translit_0() {
+    multibyte_sets(&["translit"], 0, 2);
+}
+
+#[test]
+fn multibytes_translit_1() {
+    multibyte_sets(&["translit"], 1, 2);
+}
+
+#[test]
+fn multibytes_ignore() {
+    multibyte_sets(&["ignore"], 0, 1);
+}
+
+#[test]
+fn multibytes_cases() {
+    // the conversions between GB 2312 and GBK or BIG5, which glibc converts with modules of their own
+    assert_eq!(run_conversions("multibytes_cases.json", true), 84);
+}
+
+#[test]
+fn multibytes_fuzz() {
+    assert_eq!(run_conversions("multibytes_fuzz.json", false), 0);
 }
