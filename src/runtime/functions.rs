@@ -215,7 +215,7 @@ fn render_included(
     };
     let mut buffer: Vec<u8> = Vec::new();
     {
-        let mut out = Output::new(&mut buffer, false);
+        let mut out = Output::buffer(&mut buffer);
         yield_template(
             call.state(),
             &mut out,

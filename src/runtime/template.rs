@@ -523,7 +523,7 @@ impl TemplateWrapper {
     fn render_array(&self, context: Array) -> Result<Vec<u8>> {
         let mut buffer: Vec<u8> = Vec::new();
         {
-            let mut out = Output::new(&mut buffer, false);
+            let mut out = Output::buffer(&mut buffer);
             let mut state = self.state();
             yield_template(&mut state, &mut out, &self.template, context)
                 .map_err(Exception::into_error)?;
@@ -590,7 +590,7 @@ impl TemplateWrapper {
     fn render_block_array(&self, name: &str, context: Array) -> Result<Vec<u8>> {
         let mut buffer: Vec<u8> = Vec::new();
         {
-            let mut out = Output::new(&mut buffer, false);
+            let mut out = Output::buffer(&mut buffer);
             self.yield_block_into(name, context, &mut out)?;
         }
         Ok(buffer)
@@ -1139,7 +1139,7 @@ impl Object for WrapperObject {
                 let bytes = self.with_state(diag, |state| {
                     let mut buffer: Vec<u8> = Vec::new();
                     {
-                        let mut out = Output::new(&mut buffer, false);
+                        let mut out = Output::buffer(&mut buffer);
                         yield_template(state, &mut out, &template, context)?;
                     }
                     Ok(buffer)

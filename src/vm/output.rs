@@ -64,10 +64,20 @@ impl<W: io::Write> Sink for IoSink<W> {
     }
 }
 
+/// Where the output of a render goes when nothing is captured.
+enum Target<'a> {
+    /// The caller's sink.
+    Sink(&'a mut dyn Sink),
+    /// The buffer of a render to a string (written without a dynamic call).
+    Buffer(&'a mut Vec<u8>),
+    /// Nowhere (code that cannot write outside a capture).
+    None,
+}
+
 /// The output of a running render: the sink plus the stack of active captures (`CoreExtension::captureOutput()`'s
 /// output buffers). Writes go to the innermost capture, or to the sink when nothing is captured.
 pub(crate) struct Output<'a> {
-    sink: Option<&'a mut dyn Sink>,
+    target: Target<'a>,
     captures: Vec<Vec<u8>>,
     flushes: bool,
 }
@@ -76,21 +86,31 @@ impl<'a> Output<'a> {
     /// An output writing to `sink`; `flushes` passes `{% flush %}` on to the sink (display) or not (render).
     pub(crate) fn new(sink: &'a mut dyn Sink, flushes: bool) -> Self {
         Output {
-            sink: Some(sink),
+            target: Target::Sink(sink),
             captures: Vec::new(),
             flushes,
+        }
+    }
+
+    /// An output collecting the bytes in `buffer` (a render to a string: `{% flush %}` does nothing).
+    pub(crate) fn buffer(buffer: &'a mut Vec<u8>) -> Self {
+        Output {
+            target: Target::Buffer(buffer),
+            captures: Vec::new(),
+            flushes: false,
         }
     }
 
     /// An output without sink, for code that cannot write outside a capture (arrow functions).
     pub(crate) fn detached() -> Output<'static> {
         Output {
-            sink: None,
+            target: Target::None,
             captures: Vec::new(),
             flushes: false,
         }
     }
 
+    #[inline]
     pub(crate) fn write(&mut self, bytes: &[u8]) -> io::Result<()> {
         if bytes.is_empty() {
             return Ok(());
@@ -100,9 +120,13 @@ impl<'a> Output<'a> {
                 capture.extend_from_slice(bytes);
                 Ok(())
             }
-            None => match &mut self.sink {
-                Some(sink) => sink.write(bytes),
-                None => Ok(()),
+            None => match &mut self.target {
+                Target::Buffer(buffer) => {
+                    buffer.extend_from_slice(bytes);
+                    Ok(())
+                }
+                Target::Sink(sink) => sink.write(bytes),
+                Target::None => Ok(()),
             },
         }
     }
@@ -111,9 +135,9 @@ impl<'a> Output<'a> {
         if !self.flushes || !self.captures.is_empty() {
             return Ok(());
         }
-        match &mut self.sink {
-            Some(sink) => sink.flush(),
-            None => Ok(()),
+        match &mut self.target {
+            Target::Sink(sink) => sink.flush(),
+            Target::Buffer(_) | Target::None => Ok(()),
         }
     }
 
