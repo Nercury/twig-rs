@@ -7,7 +7,11 @@
 //   bmp       every BMP code point on its own, encoded from UCS-4BE (one call each, no flags);
 //   translit  every code point U+0000..U+10FFFF (surrogates aside), 4096 per call, each followed by a line feed,
 //             encoded with //TRANSLIT;
-//   ignore    the same code points, 4096 per call, without line feeds, encoded with //IGNORE.
+//   ignore    the same code points, 4096 per call, without line feeds, encoded with //IGNORE;
+//   translit_ignore
+//             every code point (surrogates aside), 2048 per call (one round), each followed by a line feed, encoded
+//             with //TRANSLIT//IGNORE: for the codepages without "?", where //TRANSLIT fails at a character none of
+//             whose alternatives is representable.
 // A set is {"from", "to", "kind", "blocks": [fnv1a64 of the concatenated tokens of each block]}; tests/charset_basic.rs
 // builds the same inputs and tokens.
 
@@ -46,10 +50,12 @@ function codepage_inputs(string $kind): array
             break;
         case 'translit':
         case 'ignore':
-            $sep = $kind === 'translit' ? pack('N', 0x0A) : '';
-            for ($start = 0; $start < 0x110000; $start += 4096) {
+        case 'translit_ignore':
+            $sep = $kind === 'ignore' ? '' : pack('N', 0x0A);
+            $per = $kind === 'translit_ignore' ? 2048 : 4096;
+            for ($start = 0; $start < 0x110000; $start += $per) {
                 $in = '';
-                for ($c = $start; $c < $start + 4096; $c++) {
+                for ($c = $start; $c < $start + $per; $c++) {
                     if ($c < 0xD800 || $c > 0xDFFF) {
                         $in .= pack('N', $c) . $sep;
                     }
@@ -85,6 +91,22 @@ foreach (CODEPAGES as $cs) {
         }
         $sets[] = ['from' => $from, 'to' => $to, 'kind' => $kind, 'blocks' => $hashes];
     }
+}
+
+// the codepages without "?"
+foreach (CODEPAGES as $cs) {
+    if (iconv('UCS-4BE', $cs, pack('N', 0x3F)) !== false) {
+        continue;
+    }
+    $hashes = [];
+    foreach (codepage_inputs('translit_ignore') as $block) {
+        $t = '';
+        foreach ($block as $input) {
+            $t .= token('UCS-4BE', "$cs//TRANSLIT//IGNORE", $input);
+        }
+        $hashes[] = hash('fnv1a64', $t);
+    }
+    $sets[] = ['from' => 'UCS-4BE', 'to' => "$cs//TRANSLIT//IGNORE", 'kind' => 'translit_ignore', 'blocks' => $hashes];
 }
 
 echo '{"generator":"codepages.gen.php","php":"', PHP_VERSION, "\",\n\"sets\":[\n";

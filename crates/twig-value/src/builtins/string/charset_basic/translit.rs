@@ -87,6 +87,10 @@ mod tests {
         assert_eq!(text(Charset::Latin1, 0x20BD), "RUB");
         assert_eq!(text(Charset::Codepage(Codepage::Iso8859_7), 0x1F00), "α");
         assert_eq!(text(Charset::Ascii, 0x1F00), "?");
+        // only a charset without "?" shows it
+        let iso5427 = Charset::Codepage(Codepage::Csiso5427Cyrillic1981);
+        assert_eq!(text(iso5427, 0x476), "\u{474}");
+        assert!(possible(iso5427, 0x477) && !possible(iso5427, 0x4E00));
     }
 
     /// The table's stand-in for a character of an alternative that no charset can represent.

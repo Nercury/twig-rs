@@ -482,13 +482,18 @@ fn codepage_inputs(kind: &str) -> Vec<Vec<Vec<u8>>> {
                 blocks.push(chunk.iter().map(|c| c.to_be_bytes().to_vec()).collect());
             }
         }
-        "translit" | "ignore" => {
-            for start in (0..0x11_0000u32).step_by(4096) {
+        "translit" | "ignore" | "translit_ignore" => {
+            let per = if kind == "translit_ignore" {
+                2048
+            } else {
+                4096
+            };
+            for start in (0..0x11_0000u32).step_by(per) {
                 let mut input = Vec::new();
-                for c in start..start + 4096 {
+                for c in start..start + per as u32 {
                     if !(0xD800..=0xDFFF).contains(&c) {
                         input.extend(c.to_be_bytes());
-                        if kind == "translit" {
+                        if kind != "ignore" {
                             input.extend(0x0Au32.to_be_bytes());
                         }
                     }
@@ -579,6 +584,13 @@ fn codepages_ignore_0() {
 #[test]
 fn codepages_ignore_1() {
     codepage_sets(&["ignore"], 1, 2);
+}
+
+/// The codepages without "?" (where //TRANSLIT fails at a character none of whose alternatives is representable),
+/// every code point with //TRANSLIT//IGNORE.
+#[test]
+fn codepages_translit_ignore() {
+    codepage_sets(&["translit_ignore"], 0, 1);
 }
 
 #[test]

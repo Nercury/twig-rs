@@ -4,11 +4,13 @@
 // Black-box only: every code point is converted with PHP's iconv() in the oracle (glibc 2.41, LC_CTYPE=C.UTF-8,
 // the locale PHP runs with there), one character between \x01 separators per slot of a batch, for every target with
 // a smaller repertoire than Unicode: ANSI_X3.4-1968, ISO-8859-1, UCS-2 (U+10000 and up), the codepages of
-// codepages.inc.php, the multi-byte charsets of multibytes.inc.php (but GB18030, which represents every character)
-// and the ISO-2022 charsets (whose results are compared as the characters they decode to: each one in a batch
-// carries its designations). Characters that come out as "?" (glibc's replacement when it knows no transliteration) and the
-// tag characters (which vanish) are left out. Pairs of characters were checked to transliterate like the two
-// characters on their own (no multi-character rules in this locale).
+// codepages.inc.php (one character per call in the few without "?", where //TRANSLIT fails when no alternative is
+// representable: CSISO5427CYRILLIC1981 alone shows those of U+0476 and U+0477), the multi-byte charsets of
+// multibytes.inc.php (but GB18030, which represents every character) and the ISO-2022 charsets (whose results are
+// compared as the characters they decode to: each one in a batch carries its designations). Characters that come out
+// as "?" (glibc's replacement when it knows no transliteration) and the tag characters (which vanish) are left out.
+// Pairs of characters were checked to transliterate like the two characters on their own (no multi-character rules
+// in this locale).
 //
 // The targets disagree where a character has several alternatives (U+339F is "mm²" where the target has "²", else
 // "mm^2"): the table lists, for each character, the replacements seen in the targets in an order under which taking
@@ -38,10 +40,9 @@ function fail(string $message): never
 
 $targets = ['ANSI_X3.4-1968', 'ISO-8859-1', 'UCS-2LE'];
 foreach (CODEPAGES as [$cs]) {
-    // (not the few without "?", ARABIC7 and others, where glibc's //TRANSLIT fails without a replacement they have)
-    if (encode_cp($cs, 0x3F) !== null) {
-        $targets[] = $cs;
-    }
+    // (also the few without "?", ARABIC7 and others, where glibc's //TRANSLIT fails without a replacement they have:
+    // measure() converts their characters one per call)
+    $targets[] = $cs;
 }
 foreach (MULTIBYTES as $cs) {
     if ($cs !== 'GB18030') {
@@ -97,6 +98,22 @@ function measure(string $target, array $enc): array
 {
     $iso = in_array($target, ISO2022S, true);
     $unit = $target === 'UCS-2LE' ? 2 : 1;
+    if (!$iso && $unit === 1 && !isset($enc[0x3F])) {
+        // a codepage without "?" (ARABIC7, CSISO5427CYRILLIC1981, ...): glibc's //TRANSLIT fails where none of a
+        // character's alternatives is representable (a batch would stop there), so one call per character tells the
+        // replacements, also an empty one, from the failures
+        $out = [];
+        for ($cp = 0x80; $cp <= 0x10FFFF; $cp++) {
+            if (isset($enc[$cp]) || ($cp >= 0xD800 && $cp <= 0xDFFF) || ($cp >= 0xE0000 && $cp <= 0xE007F)) {
+                continue;
+            }
+            $r = iconv('UCS-4BE', "$target//TRANSLIT", pack('N', $cp));
+            if ($r !== false) {
+                $out[$cp] = $r;
+            }
+        }
+        return $out;
+    }
     // ISO-2022: a line feed, which also makes ISO-2022-JP-2 designate G2 again for each character; else a control
     // character no other character encodes to (some IBM codepages write U+263A and others as control bytes)
     $control = 1;
