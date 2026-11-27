@@ -19,6 +19,7 @@
 
 mod builder;
 mod codegen;
+mod fuse;
 mod instr;
 mod php;
 mod program;

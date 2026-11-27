@@ -26,6 +26,18 @@ pub(crate) struct Frame {
     pub(crate) args: Vec<ArgList>,
     pub(crate) saved_macros: Vec<Array>,
     pub(crate) handlers: Vec<Handler>,
+    /// The positions where the frame's variables were last found in its context, by slot ([`hint_slot`]): each name
+    /// is looked up there first (`Array::get_prepared_hinted`).
+    pub(crate) hints: [u32; HINTS],
+}
+
+/// The number of slots of [`Frame::hints`].
+const HINTS: usize = 16;
+
+/// The slot of [`Frame::hints`] for a name.
+#[inline]
+pub(crate) fn hint_slot(key: &twig_value::array::PreparedKey) -> usize {
+    key.hash() as usize & (HINTS - 1)
 }
 
 /// The vectors of a frame that its unit fills while it runs: the operand stack, the argument lists and the saved
@@ -73,6 +85,7 @@ impl Frame {
             args: Vec::new(),
             saved_macros: Vec::new(),
             handlers: Vec::new(),
+            hints: [0; HINTS],
         }
     }
 
@@ -257,7 +270,7 @@ pub(crate) enum LoopIter {
 impl LoopIter {
     /// `FE_RESET_R` (PHPSRC/Zend/zend_vm_def.h, `zend_fe_reset_iterator()`): arrays are snapshot; objects get their
     /// iterator, `rewind()` and a first `valid()`.
-    pub(crate) fn start(seq: &Value, diag: &mut dyn Diagnostics) -> Result<LoopIter, Exception> {
+    pub(crate) fn start(seq: Value, diag: &mut dyn Diagnostics) -> Result<LoopIter, Exception> {
         match seq {
             Value::Object(object) => {
                 let Some(mut iter) = object.get_iterator(diag)? else {
@@ -278,7 +291,7 @@ impl LoopIter {
                     empty,
                 })
             }
-            Value::Array(array) => Ok(LoopIter::Array(array.clone().into_iter())),
+            Value::Array(array) => Ok(LoopIter::Array(array.into_iter())),
             // ensureTraversable() made the sequence iterable; anything else iterates zero times
             _ => Ok(LoopIter::Array(Array::new().into_iter())),
         }

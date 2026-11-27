@@ -19,7 +19,7 @@
 //! that need no character table ([`mb`]).
 
 mod case;
-mod escaper;
+pub(crate) mod escaper;
 pub(crate) mod mb;
 mod split;
 #[cfg(test)]
@@ -35,7 +35,10 @@ use super::{Call, CallResult, RuntimeTable};
 
 /// Registers the runtimes of the string group.
 pub(crate) fn register(table: &mut RuntimeTable) {
-    table.register("Twig\\Runtime\\EscaperRuntime::escape", escaper::escape);
+    table.register_runtime(
+        "Twig\\Runtime\\EscaperRuntime::escape",
+        escaper::ESCAPE_RUNTIME.clone(),
+    );
     table.register("Twig\\Extension\\CoreExtension::upper", case::upper);
     table.register("Twig\\Extension\\CoreExtension::lower", case::lower);
     table.register(

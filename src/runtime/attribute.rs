@@ -178,6 +178,38 @@ pub(crate) fn get_attribute(
     get_attribute_in(state, program.source(), object, item, arguments, op)
 }
 
+/// [`get_attribute`] of the constant attribute `item` of `program` without arguments (`Instr::GetAttrConst`). An
+/// existing element of an array under a string attribute is found with the attribute's prepared key (the key
+/// [`get_attribute_in`] builds from it).
+pub(crate) fn get_attribute_const(
+    state: &mut VmState,
+    program: &Program,
+    object: Value,
+    item: crate::lltl::ConstId,
+    op: &GetAttrOp,
+) -> Result<Value, Exception> {
+    if op.call_type != CallType::Method
+        && let Value::Array(array) = &object
+        && let Value::String(_) = program.constant(item)
+        && let Some(value) = array.get_prepared(program.key(item))
+    {
+        return Ok(if op.defined_test {
+            Value::Bool(true)
+        } else {
+            value.clone()
+        });
+    }
+    let item = program.constant(item).clone();
+    get_attribute_in(
+        state,
+        program.source(),
+        object,
+        item,
+        Value::Array(twig_value::Array::new()),
+        op,
+    )
+}
+
 /// [`get_attribute`] for the template whose source is `source` (`$this->source` of the compiled call).
 pub(crate) fn get_attribute_in(
     state: &mut VmState,

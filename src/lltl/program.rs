@@ -446,6 +446,99 @@ impl Program {
             Instr::CallRuntime { runtime, argc } => {
                 write!(out, "CallRuntime #{runtime} argc={argc}")
             }
+            Instr::CallStack {
+                callable,
+                argc,
+                consts,
+                print,
+            } => {
+                match self.callables.get(*callable as usize) {
+                    Some(callable) => write!(out, "CallStack {callable} argc={argc}")?,
+                    None => write!(out, "CallStack #{callable}? argc={argc}")?,
+                }
+                if let Some(consts) = consts {
+                    write!(out, " consts={}", constant(*consts))?;
+                }
+                if *print {
+                    out.push_str(" print");
+                }
+                Ok(())
+            }
+            Instr::CallName {
+                name,
+                always_defined,
+                callable,
+                consts,
+                print,
+            } => {
+                write!(out, "CallName {}", constant(*name))?;
+                if *always_defined {
+                    out.push_str(" AlwaysDefined");
+                }
+                match self.callables.get(*callable as usize) {
+                    Some(callable) => write!(out, " {callable}")?,
+                    None => write!(out, " #{callable}?")?,
+                }
+                if let Some(consts) = consts {
+                    write!(out, " consts={}", constant(*consts))?;
+                }
+                if *print {
+                    out.push_str(" print");
+                }
+                Ok(())
+            }
+            Instr::BinaryConst {
+                op,
+                commuted,
+                value,
+            } => write!(
+                out,
+                "BinaryConst({op:?}{}) {}",
+                if *commuted { ", commuted" } else { "" },
+                constant(*value)
+            ),
+            Instr::BinaryStore {
+                op,
+                commuted,
+                value,
+                name,
+            } => {
+                write!(out, "BinaryStore({op:?}")?;
+                if *commuted {
+                    out.push_str(", commuted");
+                }
+                out.push(')');
+                if let Some(value) = value {
+                    write!(out, " {}", constant(*value))?;
+                }
+                write!(out, " -> {}", constant(*name))
+            }
+            Instr::JumpIfCompare {
+                op,
+                value,
+                jump_if,
+                target,
+            } => {
+                write!(out, "JumpIfCompare({op:?})")?;
+                if let Some(value) = value {
+                    write!(out, " {}", constant(*value))?;
+                }
+                write!(out, " {jump_if} -> {target}")
+            }
+            Instr::CopyName { from, to } => {
+                write!(out, "CopyName {} -> {}", constant(*from), constant(*to))
+            }
+            Instr::StoreConst { value, name } => {
+                write!(
+                    out,
+                    "StoreConst {} -> {}",
+                    constant(*value),
+                    constant(*name)
+                )
+            }
+            Instr::GetAttrConst { op, item } => {
+                write!(out, "GetAttrConst {} {op:?}", constant(*item))
+            }
             Instr::IterNext { exit, key, value } => write!(
                 out,
                 "IterNext exit={exit} key={} value={}",

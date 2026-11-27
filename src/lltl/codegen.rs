@@ -21,6 +21,7 @@ use twig_value::object::{ClassRef, ObjectRef, StdClass};
 use twig_value::{Array, ArrayKey, PhpError, PhpString, ThrowableClass, Value};
 
 use super::builder::{Compiler, Produces};
+use super::fuse::{self, ArrayConstants};
 use super::instr::{
     BinaryOp, BlockOp, ConstId, GetAttrOp, Instr, Label, LocalId, NameMode, UnitId, YieldArgs,
 };
@@ -209,6 +210,23 @@ struct ProgramBuilder {
     security: Option<SecurityLists>,
     /// The number of `ZEND_RECV_INIT` cache slots.
     recv_cache: u32,
+    /// The constant arrays the fusion pass added.
+    array_constants: ArrayConstants,
+}
+
+impl fuse::Constants for ProgramBuilder {
+    fn constant(&self, id: ConstId) -> &Value {
+        &self.constants[id as usize]
+    }
+
+    fn array_constant(&mut self, ids: &[ConstId]) -> ConstId {
+        self.array_constants.get(&mut self.constants, ids)
+    }
+
+    fn add_constant(&mut self, value: Value) -> ConstId {
+        self.constants.push(value);
+        (self.constants.len() - 1) as ConstId
+    }
 }
 
 /// The `$macros` slot a `MacroVariable` names.
@@ -605,11 +623,12 @@ impl Codegen {
     }
 
     fn finish_unit(&mut self) -> UnitId {
-        let unit = self
+        let mut unit = self
             .units
             .pop()
             .expect("finish_unit() matches begin_unit()");
         let program = self.program();
+        fuse::fuse(&mut unit.code, &mut unit.lines, program);
         program.units.push(Unit {
             kind: unit.kind,
             code: unit.code,
@@ -639,6 +658,7 @@ impl Codegen {
             units: Vec::new(),
             security: None,
             recv_cache: 0,
+            array_constants: ArrayConstants::default(),
         });
         let result = self.module_body(module);
         let builder = std::mem::replace(&mut self.program, saved)

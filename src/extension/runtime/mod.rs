@@ -40,6 +40,7 @@ pub(crate) mod misc;
 pub(crate) mod strings;
 
 pub use arrays::mt_srand;
+pub(crate) use strings::escaper;
 pub use strings::{EscaperCallback, EscaperRuntime};
 
 use std::collections::HashMap;
@@ -104,6 +105,11 @@ impl CallableRuntime {
     /// What the implementation throws.
     pub fn call(&self, call: &mut Call<'_>) -> CallResult {
         (self.function)(call)
+    }
+
+    /// Whether both are the same implementation (clones of one runtime).
+    pub(crate) fn same(&self, other: &CallableRuntime) -> bool {
+        Arc::ptr_eq(&self.function, &other.function)
     }
 }
 
@@ -343,6 +349,11 @@ impl RuntimeTable {
         RuntimeTable {
             runtimes: HashMap::new(),
         }
+    }
+
+    /// Registers a runtime made beforehand (one the VM recognizes, see [`CallableRuntime::same`]).
+    pub(crate) fn register_runtime(&mut self, name: &'static str, runtime: CallableRuntime) {
+        self.runtimes.insert(name, runtime);
     }
 
     /// Registers the implementation of a callable.

@@ -10,11 +10,11 @@ use twig_value::{
 };
 
 use super::exception::Exception;
-use super::frame::{ArgList, Frame, FrameVecs, Handler, LoopIter, array_unpack};
+use super::frame::{ArgList, Frame, FrameVecs, Handler, LoopIter, array_unpack, hint_slot};
 use super::output::Output;
 use super::state::VmState;
 use crate::error::Error;
-use crate::extension::runtime::call_callable;
+use crate::extension::runtime::{call_callable, escaper};
 use crate::lltl::{
     BinaryOp, BlockOp, Instr, NameMode, NodeCall, Program, UnitId, UnitKind, YieldArgs,
 };
@@ -22,11 +22,12 @@ use crate::runtime::macros::{self, MacroNamespace};
 use crate::runtime::sandbox::{sandbox_end, sandbox_start};
 use crate::runtime::{Blocks, Markup, Template, TemplateObject, attribute, composition, core};
 
-/// What an instruction does to the control flow.
+/// What an instruction does to the control flow. Small enough to come back in registers with the exception of a
+/// failed instruction: `Return` leaves the value it returns on the stack.
 enum Flow {
     Next,
     Jump(u32),
-    Return(Value),
+    Return,
 }
 
 /// Runs unit `unit` of `program` on `frame` and returns what the unit returns (arrow functions: their value;
@@ -87,9 +88,9 @@ fn execute(
         match step(state, out, frame, program, instr) {
             Ok(Flow::Next) => ip += 1,
             Ok(Flow::Jump(target)) => ip = target as usize,
-            Ok(Flow::Return(value)) => {
+            Ok(Flow::Return) => {
                 frame.handlers.truncate(handlers);
-                return Ok(value);
+                return Ok(frame.stack.pop().unwrap_or_default());
             }
             Err(mut exception) => {
                 if !exception.has_trace() {
@@ -200,6 +201,24 @@ fn store_constant_key(array: &mut Array, program: &Program, id: u32, value: Valu
     array.insert_prepared(program.key(id), value);
 }
 
+/// `$context["name"] = $value` with the name constant `id`, at the position where the frame last found the name.
+#[inline]
+fn store_name(frame: &mut Frame, program: &Program, id: u32, value: Value) {
+    let key = program.key(id);
+    frame
+        .context
+        .insert_prepared_hinted(key, value, &mut frame.hints[hint_slot(key)]);
+}
+
+/// `$context["name"]`, looked up where the frame last found the name.
+#[inline]
+fn load_name<'f>(frame: &'f mut Frame, program: &Program, id: u32) -> Option<&'f Value> {
+    let key = program.key(id);
+    frame
+        .context
+        .get_prepared_hinted(key, &mut frame.hints[hint_slot(key)])
+}
+
 /// The array key of the name constant `id` (normalised like a PHP string offset), sharing the constant's string.
 fn constant_key(program: &Program, id: u32) -> ArrayKey {
     program.key(id).key().clone()
@@ -273,7 +292,9 @@ fn step(
         | Instr::LoadContext
         | Instr::LoadCharset
         | Instr::StoreName(..)
-        | Instr::SetContext => step_context(state, out, frame, program, instr),
+        | Instr::SetContext
+        | Instr::CopyName { .. }
+        | Instr::StoreConst { .. } => step_context(state, out, frame, program, instr),
         Instr::Jump(..) | Instr::JumpIfFalse(..) | Instr::JumpIfTrue(..) | Instr::Return => {
             step_control(state, out, frame, program, instr)
         }
@@ -297,11 +318,15 @@ fn step(
         | Instr::HasSome
         | Instr::HasEvery
         | Instr::EnsureTraversable
-        | Instr::PhpConstant { .. } => step_operators(state, out, frame, program, instr),
+        | Instr::PhpConstant { .. }
+        | Instr::BinaryConst { .. }
+        | Instr::BinaryStore { .. }
+        | Instr::JumpIfCompare { .. } => step_operators(state, out, frame, program, instr),
         Instr::NewArray | Instr::ArrayAppend | Instr::ArrayInsert | Instr::ArraySpread => {
             step_arrays(state, out, frame, program, instr)
         }
         Instr::GetAttr(..)
+        | Instr::GetAttrConst { .. }
         | Instr::ArrayLike { .. }
         | Instr::StringableKey { .. }
         | Instr::DimIsset => step_attributes(state, out, frame, program, instr),
@@ -309,7 +334,9 @@ fn step(
         | Instr::Arg
         | Instr::ArgSpread { .. }
         | Instr::Call(..)
-        | Instr::CallRuntime { .. } => step_calls(state, out, frame, program, instr),
+        | Instr::CallRuntime { .. }
+        | Instr::CallStack { .. }
+        | Instr::CallName { .. } => step_calls(state, out, frame, program, instr),
         Instr::SeqDestructure(..) | Instr::ListAssign(..) => {
             step_assignment(state, out, frame, program, instr)
         }
@@ -449,7 +476,7 @@ fn step_context(
             mode,
         } => {
             let name = constant_bytes(program, *name_id);
-            let found = frame.context.get_prepared(program.key(*name_id));
+            let found = load_name(frame, program, *name_id);
             match mode {
                 NameMode::Lenient => {
                     let value = found.cloned().unwrap_or_default();
@@ -494,12 +521,22 @@ fn step_context(
         Instr::LoadCharset => frame.push(Value::String(state.env.charset_value())),
         Instr::StoreName(name) => {
             let value = frame.pop();
-            store_constant_key(&mut frame.context, program, *name, value);
+            store_name(frame, program, *name, value);
         }
         Instr::SetContext => match frame.pop() {
             Value::Array(context) => frame.context = context,
             other => frame.context = convert::to_array(&other, state)?,
         },
+        Instr::CopyName { from, to } => {
+            let value = load_name(frame, program, *from)
+                .cloned()
+                .unwrap_or_default();
+            store_name(frame, program, *to, value);
+        }
+        Instr::StoreConst { value, name } => {
+            let value = program.constant(*value).clone();
+            store_name(frame, program, *name, value);
+        }
 
         _ => unreachable!("step() dispatches by instruction group"),
     }
@@ -529,13 +566,7 @@ fn step_control(
                 return Ok(Flow::Jump(*target));
             }
         }
-        Instr::Return => {
-            let value = match frame.stack.pop() {
-                Some(value) => value,
-                None => Value::Null,
-            };
-            return Ok(Flow::Return(value));
-        }
+        Instr::Return => return Ok(Flow::Return),
 
         _ => unreachable!("step() dispatches by instruction group"),
     }
@@ -589,6 +620,69 @@ fn step_operators(
             let left = frame.pop();
             let result = binary(*op, &right, &left, state)?;
             frame.push(result);
+        }
+        Instr::BinaryConst {
+            op,
+            commuted,
+            value,
+        } => {
+            let left = frame.pop();
+            let right = program.constant(*value);
+            let result = if *commuted {
+                binary(*op, right, &left, state)?
+            } else {
+                binary(*op, &left, right, state)?
+            };
+            frame.push(result);
+        }
+        Instr::BinaryStore {
+            op,
+            commuted,
+            value,
+            name,
+        } => {
+            let result = match value {
+                Some(value) => {
+                    let left = frame.pop();
+                    let right = program.constant(*value);
+                    if *commuted {
+                        binary(*op, right, &left, state)?
+                    } else {
+                        binary(*op, &left, right, state)?
+                    }
+                }
+                None => {
+                    let right = frame.pop();
+                    let left = frame.pop();
+                    if *commuted {
+                        binary(*op, &right, &left, state)?
+                    } else {
+                        binary(*op, &left, &right, state)?
+                    }
+                }
+            };
+            store_name(frame, program, *name, result);
+        }
+        Instr::JumpIfCompare {
+            op,
+            value,
+            jump_if,
+            target,
+        } => {
+            let result = match value {
+                Some(value) => {
+                    let left = frame.pop();
+                    compare_op(*op, &left, program.constant(*value), state)?
+                }
+                None => {
+                    let right = frame.pop();
+                    let left = frame.pop();
+                    compare_op(*op, &left, &right, state)?
+                }
+            };
+            if result == *jump_if {
+                return Ok(Flow::Jump(*target));
+            }
         }
         Instr::Neg => {
             let value = frame.pop();
@@ -759,6 +853,11 @@ fn step_attributes(
             let value = attribute::get_attribute(state, program, object, item, arguments, op)?;
             frame.push(value);
         }
+        Instr::GetAttrConst { op, item } => {
+            let object = frame.pop();
+            let value = attribute::get_attribute_const(state, program, object, *item, op)?;
+            frame.push(value);
+        }
         Instr::ArrayLike { sandboxed } => {
             // ($v && is_array($v)) || $v instanceof ArrayAccess [&& in_array($v::class, ARRAY_LIKE_CLASSES)]
             let value = frame.pop();
@@ -868,10 +967,140 @@ fn step_calls(
         Instr::CallRuntime { runtime, argc } => {
             call_runtime(state, out, frame, program, *runtime, *argc)?;
         }
+        Instr::CallStack {
+            callable,
+            argc,
+            consts,
+            print,
+        } => call_stack(
+            state, out, frame, program, *callable, *argc, *consts, *print,
+        )?,
+        Instr::CallName {
+            name,
+            always_defined,
+            callable,
+            consts,
+            print,
+        } => call_name(
+            state,
+            out,
+            frame,
+            program,
+            *name,
+            *always_defined,
+            *callable,
+            *consts,
+            *print,
+        )?,
 
         _ => unreachable!("step() dispatches by instruction group"),
     }
     Ok(Flow::Next)
+}
+
+/// `CallStack`: the callable `callable` with the top `argc` values and the constants `consts` as its positional
+/// arguments, the result printed with `print`. The `escape` filter of the core runtime with constant arguments it
+/// takes as they are is called without an argument list.
+#[allow(clippy::too_many_arguments)]
+fn call_stack(
+    state: &mut VmState,
+    out: &mut Output<'_>,
+    frame: &mut Frame,
+    program: &Arc<Program>,
+    callable: u32,
+    argc: u32,
+    consts: Option<crate::lltl::ConstId>,
+    print_result: bool,
+) -> Result<(), Exception> {
+    let twig_callable = &program.callables()[callable as usize];
+    let constants = match consts {
+        Some(id) => match program.constant(id) {
+            Value::Array(values) => Some(values),
+            _ => None,
+        },
+        None => None,
+    };
+    if argc == 1
+        && let Some(constants) = constants
+        && let Some(escape) = escaper::EscapeConstants::of(twig_callable, constants)
+    {
+        let value = frame.pop();
+        let value = escape.call(state, value)?;
+        return if print_result {
+            print(state, out, &value)
+        } else {
+            frame.push(value);
+            Ok(())
+        };
+    }
+    let first = frame.stack.len().saturating_sub(argc as usize);
+    let mut positional = state.arg_vec();
+    positional.extend(frame.stack.drain(first..));
+    if let Some(constants) = constants {
+        positional.extend(constants.values().cloned());
+    }
+    let value = call_callable(
+        state,
+        program,
+        twig_callable,
+        ArgList::with_positional(positional, None),
+    )?;
+    if print_result {
+        print(state, out, &value)
+    } else {
+        frame.push(value);
+        Ok(())
+    }
+}
+
+/// `CallName`: `LoadName` (lenient, or always defined) then [`call_stack`] with the value as the only stack argument.
+/// The `escape` filter of the core runtime with constant arguments it takes as they are gets the value where it is in
+/// the context, and a value it returns unchanged is printed (or copied) from there.
+#[allow(clippy::too_many_arguments)]
+fn call_name(
+    state: &mut VmState,
+    out: &mut Output<'_>,
+    frame: &mut Frame,
+    program: &Arc<Program>,
+    name: crate::lltl::ConstId,
+    always_defined: bool,
+    callable: u32,
+    consts: Option<crate::lltl::ConstId>,
+    print_result: bool,
+) -> Result<(), Exception> {
+    let key = program.key(name);
+    let found = frame
+        .context
+        .get_prepared_hinted(key, &mut frame.hints[hint_slot(key)]);
+    if found.is_none() && always_defined {
+        dim::undefined_key(key.key(), state)?;
+    }
+    if let Some(id) = consts
+        && let Value::Array(constants) = program.constant(id)
+        && let Some(escape) =
+            escaper::EscapeConstants::of(&program.callables()[callable as usize], constants)
+    {
+        let value = found.unwrap_or(&Value::Null);
+        let escaped = escape.call_ref(state, value)?;
+        return if print_result {
+            print(state, out, &escaped)
+        } else {
+            frame.push(escaped.into_owned());
+            Ok(())
+        };
+    }
+    let value = found.cloned().unwrap_or_default();
+    frame.push(value);
+    call_stack(
+        state,
+        out,
+        frame,
+        program,
+        callable,
+        1,
+        consts,
+        print_result,
+    )
 }
 
 /// `CallRuntime`: the runtime closure `runtime` of a node class of an extension with the top `argc` values. A function
@@ -943,7 +1172,7 @@ fn step_loops(
         Instr::LoopInit => loop_init(state, frame)?,
         Instr::IterStart => {
             let seq = read_context(state, frame, &names::SEQ)?;
-            let iter = LoopIter::start(&seq, state)?;
+            let iter = LoopIter::start(seq, state)?;
             frame.iterators.push(iter);
         }
         Instr::IterNext { exit, key, value } => {
@@ -953,8 +1182,10 @@ fn step_loops(
             match iter.next(state)? {
                 None => return Ok(Flow::Jump(*exit)),
                 Some((k, v)) => {
-                    store_constant_key(&mut frame.context, program, *value, v);
-                    store_constant_key(&mut frame.context, program, *key, k);
+                    let mut context = frame.context.edit();
+                    let (value, key) = (program.key(*value), program.key(*key));
+                    context.insert_prepared_hinted(value, v, &mut frame.hints[hint_slot(value)]);
+                    context.insert_prepared_hinted(key, k, &mut frame.hints[hint_slot(key)]);
                 }
             }
         }
@@ -1480,6 +1711,29 @@ pub(crate) fn binary(
     })
 }
 
+/// A comparison operator ([`binary`] gives its boolean as a value).
+fn compare_op(
+    op: BinaryOp,
+    left: &Value,
+    right: &Value,
+    diag: &mut dyn Diagnostics,
+) -> Result<bool, Exception> {
+    Ok(match op {
+        BinaryOp::Equal => compare::equals(left, right, diag)?,
+        BinaryOp::NotEqual => compare::not_equals(left, right, diag)?,
+        BinaryOp::Less => compare::less(left, right, diag)?,
+        BinaryOp::Greater => compare::greater(left, right, diag)?,
+        BinaryOp::LessEqual => compare::less_or_equal(left, right, diag)?,
+        BinaryOp::GreaterEqual => compare::greater_or_equal(left, right, diag)?,
+        BinaryOp::Identical => compare::identical(left, right),
+        BinaryOp::NotIdentical => !compare::identical(left, right),
+        other => match binary(other, left, right, diag)? {
+            Value::Bool(b) => b,
+            value => convert::to_bool(&value, diag)?,
+        },
+    })
+}
+
 /// `$context['name']` read with `BP_VAR_R`: a missing key warns `Undefined array key "name"` and reads as `null`.
 fn read_context(
     state: &mut VmState,
@@ -1550,6 +1804,17 @@ fn loop_init(state: &mut VmState, frame: &mut Frame) -> Result<(), Exception> {
     if countable {
         let length = dim::count(&seq, 0, state)?;
         let revindex0 = ops::sub(&Value::Int(length), &Value::Int(1), state)?;
+        // `$context['loop']` is the array made above: its fields are set in one edit of the context and of the array
+        // (each `$context['loop'][...] = ...` writes the same fields in the same order)
+        if let Some(Value::Array(loop_array)) = frame.context.edit().get_mut_prepared(&names::LOOP)
+        {
+            let mut fields = loop_array.edit();
+            fields.insert_prepared(&names::REVINDEX0, revindex0);
+            fields.insert_prepared(&names::REVINDEX, Value::Int(length));
+            fields.insert_prepared(&names::LENGTH, Value::Int(length));
+            fields.insert_prepared(&names::LAST, Value::Bool(length == 1));
+            return Ok(());
+        }
         assign_loop_field(state, frame, &names::REVINDEX0, revindex0)?;
         assign_loop_field(state, frame, &names::REVINDEX, Value::Int(length))?;
         assign_loop_field(state, frame, &names::LENGTH, Value::Int(length))?;
@@ -1693,6 +1958,9 @@ fn incdec_loop_field(
 
 /// `ForLoopNode::compile()` with `with_loop`, statement by statement.
 fn loop_update(state: &mut VmState, frame: &mut Frame) -> Result<(), Exception> {
+    if loop_update_array(state, frame)? {
+        return Ok(());
+    }
     incdec_loop_field(state, frame, &names::INDEX0, true)?;
     incdec_loop_field(state, frame, &names::INDEX, true)?;
     assign_loop_field(state, frame, &names::FIRST, Value::Bool(false))?;
@@ -1729,6 +1997,51 @@ fn loop_update(state: &mut VmState, frame: &mut Frame) -> Result<(), Exception> 
     Ok(())
 }
 
+/// [`loop_update`] when `$context['loop']` is an array holding `index0` and `index` (what `LoopInit` made): the same
+/// statements on the fields of the array, which is separated once (as its first write separates it), as the context
+/// is; `false` when the slow path is needed (nothing done then).
+fn loop_update_array(state: &mut VmState, frame: &mut Frame) -> Result<bool, Exception> {
+    let mut context = frame.context.edit();
+    let Some(Value::Array(loop_array)) = context.get_mut_prepared(&names::LOOP) else {
+        return Ok(false);
+    };
+    if loop_array.get_prepared(&names::INDEX0).is_none()
+        || loop_array.get_prepared(&names::INDEX).is_none()
+    {
+        return Ok(false);
+    }
+    let mut fields = loop_array.edit();
+    for field in [&*names::INDEX0, &*names::INDEX] {
+        if let Some(current) = fields.get_mut_prepared(field) {
+            let updated = core::increment(current, true, state)?;
+            *current = updated;
+        }
+    }
+    fields.insert_prepared(&names::FIRST, Value::Bool(false));
+    // isset($context['loop']['revindex0'], $context['loop']['revindex'])
+    let both_set = [&*names::REVINDEX0, &*names::REVINDEX]
+        .into_iter()
+        .all(|field| {
+            fields
+                .get_prepared(field)
+                .is_some_and(|value| !value.is_null())
+        });
+    if both_set {
+        for field in [&*names::REVINDEX0, &*names::REVINDEX] {
+            if let Some(current) = fields.get_mut_prepared(field) {
+                let updated = core::increment(current, false, state)?;
+                *current = updated;
+            }
+        }
+        // `$context['loop']['last'] = 0 === $context['loop']['revindex0'];`
+        let last = fields
+            .get_prepared(&names::REVINDEX0)
+            .is_some_and(|revindex0| compare::identical(&Value::Int(0), revindex0));
+        fields.insert_prepared(&names::LAST, Value::Bool(last));
+    }
+    Ok(true)
+}
+
 /// `isset($context['loop'][$field])`.
 fn loop_field_isset(
     loop_value: &Value,
@@ -1753,14 +2066,15 @@ fn for_restore(
     with_loop: bool,
 ) -> Result<(), Exception> {
     let parent = read_context(state, frame, &names::PARENT)?;
+    let mut context = frame.context.edit();
     for name in [&*names::SEQ, key, value, &*names::PARENT] {
-        frame.context.remove_prepared(name);
+        context.remove_prepared(name);
     }
     if has_else {
-        frame.context.remove_prepared(&names::ITERATED);
+        context.remove_prepared(&names::ITERATED);
     }
     if with_loop {
-        frame.context.remove_prepared(&names::LOOP);
+        context.remove_prepared(&names::LOOP);
     }
     let context = std::mem::take(&mut frame.context);
     frame.context = restore_parent_context(context, parent)?;
@@ -1774,6 +2088,22 @@ fn for_restore(
 /// parent has, in order, then the parent's entries whose keys the context lacks: an unshared context becomes exactly
 /// that in place.
 fn restore_parent_context(mut context: Array, parent: Value) -> Result<Array, Exception> {
+    if let Value::Array(parent) = &parent
+        && !parent.is_empty()
+        && parent.next_free().is_none()
+        && context.next_free().is_none()
+    {
+        // the loop added no variable (and replaced none it removed): the context has the parent's keys in the
+        // parent's order, which is what the restore gives it
+        if context.len() == parent.len()
+            && context
+                .keys()
+                .zip(parent.keys())
+                .all(|(key, parent_key)| matches!(key, ArrayKey::Str(_)) && key == parent_key)
+        {
+            return Ok(context);
+        }
+    }
     if let Value::Array(parent) = &parent
         && !parent.is_empty()
         && parent.next_free().is_none()

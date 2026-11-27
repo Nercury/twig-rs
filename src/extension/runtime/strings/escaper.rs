@@ -1,6 +1,7 @@
 //! `Twig\Runtime\EscaperRuntime` (TWIG/src/Runtime/EscaperRuntime.php): the runtime of the `escape` and `e`
 //! filters, with the custom escapers and the safe classes of an environment.
 
+use std::borrow::Cow;
 use std::collections::{HashMap, HashSet};
 use std::fmt;
 use std::sync::{Arc, LazyLock, PoisonError, RwLock};
@@ -13,7 +14,11 @@ use twig_value::{Diagnostics, PhpString, Value, convert};
 use super::{Call, CallResult};
 use crate::error::Error;
 use crate::escaper::{self, BUILTIN_STRATEGIES, EscapeError, Strategy, implied_strategies};
+use crate::extension::TwigCallable;
+use crate::extension::runtime::CallableRuntime;
 use crate::runtime::{Markup, default_iconv_backend};
+use crate::vm::VmState;
+use twig_value::Array;
 
 /// A custom escaper registered with [`EscaperRuntime::set_escaper`]: called with the value to escape and the
 /// charset (the `$charset` argument of the filter, or the runtime's charset), it returns the escaped value.
@@ -312,6 +317,57 @@ impl EscaperRuntime {
         state.is_listed(strategy, name) || state.is_listed(b"all", name)
     }
 
+    /// [`escape`](Self::escape) of a borrowed value: the value itself (borrowed) where `escape()` returns it
+    /// unchanged (a string a built-in strategy leaves alone, the empty string, a value that is neither a string nor an
+    /// object with a built-in strategy), else what `escape()` returns for a copy of it.
+    pub(crate) fn escape_ref<'v>(
+        &self,
+        value: &'v Value,
+        strategy: &[u8],
+        charset: Option<&[u8]>,
+        autoescape: bool,
+        diag: &mut dyn Diagnostics,
+    ) -> CallResult<Cow<'v, Value>> {
+        match value {
+            Value::String(string) => {
+                if string.is_empty() {
+                    return Ok(Cow::Borrowed(value));
+                }
+                let Some(builtin) = Strategy::from_name(strategy) else {
+                    return self
+                        .escape(value.clone(), strategy, charset, autoescape, diag)
+                        .map(Cow::Owned);
+                };
+                // `$charset ?: $this->charset`: null, '' and '0' fall back
+                let charset = match charset {
+                    Some(charset) if !charset.is_empty() && charset != b"0" => charset,
+                    _ => self.charset.as_bytes(),
+                };
+                if escapes_to_itself(builtin, charset, string) {
+                    return Ok(Cow::Borrowed(value));
+                }
+                match escaper::escape(string, builtin, charset, &*self.iconv, diag) {
+                    Ok(Some(escaped)) => Ok(Cow::Owned(Value::String(escaped))),
+                    // a failed `iconv()` returned `false` (after its warning or notice)
+                    Ok(None) => Ok(Cow::Owned(Value::Bool(false))),
+                    Err(EscapeError::InvalidUtf8) => {
+                        Err(Error::runtime(escaper::INVALID_UTF8_MESSAGE).into())
+                    }
+                    Err(EscapeError::Php(error)) => Err(error.into()),
+                }
+            }
+            // we return the input as is (which can be of any type)
+            Value::Null | Value::Bool(_) | Value::Int(_) | Value::Float(_) | Value::Array(_)
+                if is_builtin(strategy) =>
+            {
+                Ok(Cow::Borrowed(value))
+            }
+            _ => self
+                .escape(value.clone(), strategy, charset, autoescape, diag)
+                .map(Cow::Owned),
+        }
+    }
+
     /// The escaper of a custom strategy.
     fn escaper(&self, strategy: &[u8]) -> Option<EscaperCallback> {
         self.read()
@@ -431,10 +487,75 @@ mod tests;
 /// The PHP name of the escape runtime method, used in its argument errors.
 const ESCAPE: &str = "Twig\\Runtime\\EscaperRuntime::escape";
 
+/// The runtime of the `escape` and `e` filters (the VM recognizes it, see [`EscapeConstants`]).
+pub(crate) static ESCAPE_RUNTIME: LazyLock<CallableRuntime> =
+    LazyLock::new(|| CallableRuntime::new(escape));
+
+/// A call of the `escape` filter of the core runtime ([`ESCAPE_RUNTIME`]) with a value and constant arguments that
+/// bind to `escape(string $strategy = 'html', ?string $charset = null, bool $autoescape = false)` as they are (see
+/// [`binds_unchanged`]), which compiled templates make for every auto-escaped print: the VM calls
+/// [`EscaperRuntime::escape`] directly, without an argument list.
+pub(crate) struct EscapeConstants<'a> {
+    strategy: &'a [u8],
+    charset: Option<&'a [u8]>,
+    autoescape: bool,
+}
+
+impl<'a> EscapeConstants<'a> {
+    /// The call of `callable` with the arguments `constants` after the value, when it is such a call.
+    pub(crate) fn of(callable: &TwigCallable, constants: &'a Array) -> Option<EscapeConstants<'a>> {
+        let runtime = callable.callable().and_then(CallableRuntime::of)?;
+        if !runtime.same(&ESCAPE_RUNTIME) || constants.len() > 3 {
+            return None;
+        }
+        let mut values = constants.values();
+        let strategy = match values.next() {
+            None => b"html".as_slice(),
+            Some(Value::String(strategy)) => strategy.as_bytes(),
+            Some(_) => return None,
+        };
+        let charset = match values.next() {
+            None | Some(Value::Null) => None,
+            Some(Value::String(charset)) => Some(charset.as_bytes()),
+            Some(_) => return None,
+        };
+        let autoescape = match values.next() {
+            None => false,
+            Some(Value::Bool(autoescape)) => *autoescape,
+            Some(_) => return None,
+        };
+        Some(EscapeConstants {
+            strategy,
+            charset,
+            autoescape,
+        })
+    }
+
+    /// `escape($value, ...)`: what [`escape`] does for these arguments.
+    pub(crate) fn call(&self, state: &mut VmState, value: Value) -> CallResult {
+        let runtime = state.take_escaper_runtime();
+        let result = runtime.escape(value, self.strategy, self.charset, self.autoescape, state);
+        state.restore_escaper_runtime(runtime);
+        result
+    }
+
+    /// [`call`](Self::call) of a borrowed value: a value the runtime returns unchanged comes back borrowed.
+    pub(crate) fn call_ref<'v>(
+        &self,
+        state: &mut VmState,
+        value: &'v Value,
+    ) -> CallResult<Cow<'v, Value>> {
+        let runtime = state.take_escaper_runtime();
+        let result = runtime.escape_ref(value, self.strategy, self.charset, self.autoescape, state);
+        state.restore_escaper_runtime(runtime);
+        result
+    }
+}
+
 /// The runtime of the `escape` and `e` filters: Twig's `EscaperRuntime::escape()` called on the environment's
 /// runtime (`$this->env->getRuntime(EscaperRuntime::class)`, created with the charset of the environment when a
 /// template first escapes).
-pub(super) fn escape(call: &mut Call<'_>) -> CallResult {
+fn escape(call: &mut Call<'_>) -> CallResult {
     // the runtime (and its charset) exists before the arguments are checked
     let runtime = call.state().take_escaper_runtime();
     let result = escape_with(&runtime, call);

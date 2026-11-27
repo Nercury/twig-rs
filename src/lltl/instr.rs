@@ -161,7 +161,11 @@ pub enum BlockOp {
 }
 
 /// One instruction. The stack effect is given as `[before] -> [after]` (top of the stack last).
+///
+/// New instructions may be added (fused instructions among them), so matches on instructions outside this crate need
+/// a wildcard arm.
 #[derive(Debug, Clone, PartialEq)]
+#[non_exhaustive]
 pub enum Instr {
     // ---- stack, constants, locals -------------------------------------------------------------------------------
     /// `[] -> [constant]`.
@@ -560,4 +564,104 @@ pub enum Instr {
         /// The runtime cache slot.
         cache: u32,
     },
+
+    // ---- fused instructions -------------------------------------------------------------------------------------
+    // The code generator does not emit these: the fusion pass that ends the compilation of every unit replaces
+    // frequent sequences of the instructions above with them (see `plans/engine.md`, "Instruction fusion").
+    /// A call of the filter, function or test `callables[callable]` whose arguments are on the stack: `ArgsStart`
+    /// (without context), the arguments each followed by `Arg`, and `Call` fused. The `argc` values on top of the
+    /// stack are the first positional arguments, the elements of the constant array `consts` the ones after them
+    /// (trailing constant arguments fused); with `print`, the result is printed (`Print` fused): `[arg1 ... argN] ->
+    /// [result]` (`[arg1 ... argN] -> []` with `print`).
+    CallStack {
+        /// The callable called (an index into the program's callables).
+        callable: u32,
+        /// The number of arguments on the stack.
+        argc: u32,
+        /// The constant array of the arguments after those on the stack.
+        consts: Option<ConstId>,
+        /// The result is printed.
+        print: bool,
+    },
+    /// `LoadName { name, mode }` (lenient or always defined) and a [`Instr::CallStack`] of one stack argument fused:
+    /// `[] -> [result]` (`[] -> []` with `print`). The `escape` filter of the core runtime gets the value where it is
+    /// in the context, and a value it returns unchanged is printed in place.
+    CallName {
+        /// The constant holding the name read.
+        name: ConstId,
+        /// `NameMode::AlwaysDefined` (else `NameMode::Lenient`).
+        always_defined: bool,
+        /// The callable called (an index into the program's callables).
+        callable: u32,
+        /// The constant array of the arguments after the value.
+        consts: Option<ConstId>,
+        /// The result is printed.
+        print: bool,
+    },
+    /// `[a] -> [a op constant]` (`[a] -> [constant op a]` when `commuted`): `Const(value)` and `Binary(op)` (or
+    /// `CommutedBinary(op)`) fused.
+    BinaryConst {
+        /// The operator.
+        op: BinaryOp,
+        /// `CommutedBinary`.
+        commuted: bool,
+        /// The constant right operand.
+        value: ConstId,
+    },
+    /// `$context[name] = a op b`: `Binary(op)` (or `CommutedBinary(op)`, or a [`Instr::BinaryConst`] when `value` is
+    /// the constant right operand) and `StoreName(name)` fused: `[a b] -> []` (`[a] -> []`).
+    BinaryStore {
+        /// The operator.
+        op: BinaryOp,
+        /// `CommutedBinary`.
+        commuted: bool,
+        /// The constant right operand, when it is not on the stack.
+        value: Option<ConstId>,
+        /// The constant holding the name assigned.
+        name: ConstId,
+    },
+    /// A comparison and the conditional jump on its result: `Binary(op)` (or a [`Instr::BinaryConst`] when `value` is
+    /// the constant right operand) and `JumpIfTrue(target)` (`jump_if`) or `JumpIfFalse(target)` fused: `[a b] -> []`
+    /// (`[a] -> []`). The comparisons give booleans, whose truthiness reports nothing.
+    JumpIfCompare {
+        /// The comparison (`==`, `!=`, `<`, `>`, `<=`, `>=`, `===`, `!==`).
+        op: BinaryOp,
+        /// The constant right operand, when it is not on the stack.
+        value: Option<ConstId>,
+        /// Jump when the comparison is true (`JumpIfTrue`) rather than false.
+        jump_if: bool,
+        /// Where to jump.
+        target: Label,
+    },
+    /// `$context[to] = ($context[from] ?? null)`: `LoadName { name: from, mode: Lenient }` and `StoreName(to)` fused.
+    CopyName {
+        /// The constant holding the name read.
+        from: ConstId,
+        /// The constant holding the name assigned.
+        to: ConstId,
+    },
+    /// `$context[name] = <constant>`: `Const(value)` and `StoreName(name)` fused.
+    StoreConst {
+        /// The constant stored.
+        value: ConstId,
+        /// The constant holding the name assigned.
+        name: ConstId,
+    },
+    /// `CoreExtension::getAttribute()` of a constant attribute without arguments: `Const(item)`, `NewArray` and
+    /// `GetAttr(op)` fused: `[object] -> [value]`.
+    GetAttrConst {
+        /// The compile-time operands.
+        op: GetAttrOp,
+        /// The constant attribute.
+        item: ConstId,
+    },
+}
+
+#[cfg(test)]
+mod tests {
+    /// Instructions stay four words long (`LoadTemplate` is): the fused instructions fit in the size of the others.
+    #[test]
+    fn instructions_are_four_words() {
+        assert!(std::mem::size_of::<super::Instr>() <= 32);
+    }
 }
