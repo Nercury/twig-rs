@@ -14,8 +14,10 @@ The implementation settled several open items and recommendations below; where t
 - Float digit generation (§2 item 14a), `hash('xxh128')` (14b) and `pow` for `round()` (14c) are verified by
   `twig-value` oracle vectors. `pow` ports the ARM optimized-routines/musl `pow` (MIT) in the configuration glibc 2.41 uses on FMA CPUs
   (2.05M oracle cases, 0 mismatches).
-- iconv (§7, items 12/P3): `twig-value`'s default backend is a clean-room converter for the UTF/UCS charsets, ASCII
-  and ISO-8859-1 (black-box oracle vectors; other charsets raise an explicit error). The optional LGPL crate
+- iconv (§7, items 12/P3): `twig-value`'s default backend is a clean-room converter, learned black-box from the
+  oracle, for 1,093 of glibc's 1,180 charset names: the UTF/UCS charsets, ASCII, ISO-8859-1, every single-byte
+  charset of glibc, the multi-byte CJK charsets and ISO-2022-JP/-JP-2/-KR (the rest raise an explicit error; the list
+  is in `reference/deviations.md`). The optional LGPL crate
   `twig-iconv` (feature `glibc-iconv`) reproduces glibc for every module except a short list (UTF-7, EUC-TW,
   ISO-2022-CN, JOHAB, IBM932/943, stateful EBCDIC DBCS, TSCII, ISO 6937), including stateful ISO-2022 encodings,
   TRANSLIT and the IGNORE quirks (`reference/deviations.md`). mbstring-based callables support UTF-8 and single-byte
