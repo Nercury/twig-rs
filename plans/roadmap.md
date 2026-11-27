@@ -125,10 +125,14 @@ Plan: [product.md](product.md). Remaining:
   `glibc-iconv` feature.
 - Licensing: a legal review of `twig-iconv` (PHP-3.01 code inside an LGPL crate); the clean-room iconv converter of
   the default build could grow.
-- Performance: after the first profiling pass rendering ranges from 3.1× faster (escaping) to 1.2× slower (dates,
-  filters) than PHP Twig, and compiling is 11.5–13.5× faster; the remaining hot spots are in
-  `research/benchmarks/README.md`. The SecurityChecker walk P43 added costs about 3 ns per element of every wrapped
-  array once the SandboxExtension is registered (PHP walks them too).
+- Performance: after two profiling passes rendering ranges from 4.8× faster (escaping) to level (filters, 1.02×
+  slower) than PHP Twig without OPcache, and from 4.2× faster to 1.2× slower (filters) than PHP with OPcache and the
+  JIT; compiling is 10–11.4× faster (the instruction fusion of the second pass costs about 9% of it). Of the micro
+  templates only an empty `for` loop is still clearly slower (2.2×): copying the context into `_parent` and dropping
+  the copy costs an atomic increment and decrement per string or array (template values are `Send + Sync`), and the
+  loop variables are written and removed again; the remaining hot spots are in `research/benchmarks/README.md`. The
+  SecurityChecker walk P43 added costs about 3 ns per element of every wrapped array once the SandboxExtension is
+  registered (PHP walks them too).
 - API ergonomics: a derive macro for `Object` once someone needs one.
 - Engine gaps ([engine.md](engine.md), "Remaining work"): multi-byte and table-based encodings in the mbstring
   functions, compiled-template caching across processes (optional).

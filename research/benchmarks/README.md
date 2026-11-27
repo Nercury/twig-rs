@@ -168,33 +168,136 @@ usable call graphs (v0 symbols need `rustfilt` to read). A scratch harness rende
 the profiled program, and the same harness with a counting `#[global_allocator]` reported allocations per render and
 their call sites. Neither is part of the repository.
 
+## The second pass
+
+A second round over the remaining hot spots, starting from `a258816`, profiled the same way (`perf` on the criterion
+binaries run with `--profile-time`) and decided by interleaved A/B runs: each candidate was built next to its
+predecessor (`cargo bench --no-run` in `rust:1.100-slim-trixie`, the binaries kept side by side) and the two were run
+alternately, round by round (3 to 6 rounds of criterion with 1 s of warm-up and 2-3 s of measurement). The ratios
+below are medians of the per-round ratios, new / old (below 1 is faster). Other work ran on the machine, so single
+rounds varied by up to ±10%; only changes that measured faster in most rounds were kept. By area, in the order they
+were made:
+
+- **Per-render fixed costs**: `Environment::load()` built the class key by copying the loader's cache key (for an
+  `ArrayLoader`, the whole template code) three times and looked it up with SipHash; the key is now built in place and
+  looked up with foldhash: `text` 0.79, `hello` 0.91, `set` 0.92.
+- **Array lookups**: keys of up to 16 bytes are compared with word loads instead of a `memcmp` call (most comparisons
+  of a linear search fail on the length or the first bytes): `set` 0.94, `empty_loop` 0.95. twig-value's hot array,
+  comparison and arithmetic functions are `#[inline]` (no call from `twig` into twig-value is inlined without it), and
+  int comparisons have a fast path: `set` 0.84, `set_add` 0.85, `loops` 0.91 (with the first date changes). Frames
+  remember where they last found each variable in their context (16 slots by key hash; the hint is checked inline and
+  the search is out of line; the entries of a context mostly keep their positions): `for` 0.81, `set` 0.88, `set_add`
+  0.88 against the same code without hints.
+- **Instruction fusion** (`lltl::fuse`, see `plans/engine.md`): a pass at the end of the compilation of every unit
+  replaces frequent sequences with fused instructions. Calls take their arguments from the operand stack, and their
+  trailing constant arguments and the `Print` of their result become part of the call (`CallStack`); the auto-escaped
+  print of a variable is one instruction that hands the value to the `escape` filter where it is in the context
+  (`CallName`: a value the filter returns unchanged is printed in place); the core `escape` runtime is called without
+  an argument list; `Const`/`LoadName` then `StoreName`, attribute reads without arguments, an operator with a constant
+  operand, an operator then `StoreName`, and a comparison then a jump are single instructions; jumps to jumps are
+  threaded. Only instructions that cannot fail, warn or run other code are removed, and the line table is rebuilt
+  from the lines of the remaining ones: `attribute` 0.40, `print_escaped` 0.56, `inheritance` 0.58, `filter` 0.58,
+  `for` 0.59, `escaping` 0.74, `loops` 0.75, `filters` 0.84, `macros` 0.85, then `set_add` 0.81 (the operators).
+  Last, a lenient read of a variable joins the operator and store after it (`NameBinaryStore`, `{% set x = a + 1 %}`):
+  `set_add` 0.68; and the fused operators add, subtract and multiply two ints inline (the copy of the generic
+  operator's result out of its `Result` was the hottest code of the `set_add` profile): `set_add` 0.68 again, `loops`
+  0.97.
+- **Constant arrays**: the constant prefix of an array literal is built once, as `zend_try_ct_eval_array()` does in
+  PHP (an array holding `NAN` is left alone: the same-array shortcut of the comparisons would make sharing it
+  observable): `empty_loop` 0.76 (with the restore below).
+- **Loops and context writes**: several writes in a row separate an array once (`Array::edit()`): the two loop
+  variables of an iteration, the removals after a loop, the `loop` fields; the restore after a loop keeps a context
+  whose keys are the parent's, in order; copies of an array get room for a few more entries; and twig-value's array
+  tables are `triomphe::Arc`s, whose uniqueness check before every write is a load instead of the compare-and-swap of
+  `std::sync::Arc::make_mut()` (about 5 ns on this machine): `loops` 0.93 and `for` 0.86 (with the hints), then
+  `set` 0.69, `set_add` 0.90, `macro` 0.92, `for` 0.93, `loops` 0.95 for triomphe (`empty_loop` 1.04).
+- **Output**: a render to a string writes into its buffer without the dynamic call of the sink: `text` 0.85
+  (`escaping` 0.92 together with the loop changes).
+- **Dates**: `@<timestamp>` is parsed without the scanner and without allocating (a test checks the result against
+  the scanner's over many inputs), and the date of an int timestamp is built without its string; `DateTime::modify()`
+  is called directly; zone names are parsed from a stack copy; the default timezone's data, the clock and the POSIX
+  transitions of each year (twig-timelib's `PosixCache`) are not looked up or computed again; `format()` formats the
+  time where it is and computes the zone offset only for the format letters that print it: `dates` 0.95, 0.86 and
+  0.88.
+- **Measured and dropped**: remembering positions for attribute reads as well, together with fusing
+  `StoreName('_seq')` with `IterStart`, measured slower (`escaping` 1.24, `attribute` 1.09, `filters` 1.07).
+
+The whole pass, `a258816` against the code before its last two commits (the name-operand fusion and the inline int
+arithmetic, which took `set_add` on to 11.7 µs), in one interleaved run of 5 rounds with 3 s of measurement each:
+
+| benchmark | before (`a258816`) | after | ratio |
+|---|---:|---:|---:|
+| render/dates | 724.0 µs | 488.4 µs | 0.68 |
+| render/escaping | 444.8 µs | 285.1 µs | 0.64 |
+| render/filters | 771.4 µs | 653.9 µs | 0.84 |
+| render/inheritance | 59.2 µs | 40.1 µs | 0.68 |
+| render/loops | 515.7 µs | 319.5 µs | 0.62 |
+| render/macros | 696.4 µs | 536.0 µs | 0.76 |
+| micro/attribute | 145.3 µs | 52.4 µs | 0.37 |
+| micro/empty_loop | 574.3 µs | 374.9 µs | 0.66 |
+| micro/filter | 165.1 µs | 89.3 µs | 0.55 |
+| micro/for | 130.1 µs | 50.1 µs | 0.39 |
+| micro/hello | 0.64 µs | 0.46 µs | 0.71 |
+| micro/macro | 682.0 µs | 607.0 µs | 0.89 |
+| micro/print_escaped | 86.1 µs | 28.5 µs | 0.33 |
+| micro/print_int | 15.0 µs | 13.7 µs | 0.92 |
+| micro/print_raw | 20.0 µs | 16.6 µs | 0.82 |
+| micro/set | 26.9 µs | 10.2 µs | 0.37 |
+| micro/set_add | 46.3 µs | 24.4 µs | 0.52 |
+| micro/text | 6.53 µs | 4.36 µs | 0.68 |
+
+Against PHP Twig, measured on the same host right after that run (`bench.php --time=4`), the six scenarios render
+1.3x (`dates`) to 4.8x (`escaping`) faster, except `filters`, which is level (1.02x slower, within the noise); with
+OPcache and the JIT, 1.2x to 4.2x faster, `filters` 1.2x slower. Of the micro templates, only `empty_loop` (2.2x)
+is still clearly slower than PHP without OPcache; `set_add` is level (11.7 ns against 11.5 ns, 11.2 ns with the
+JIT), `set` faster, and `filter` is 1.03x slower than with the JIT. [Remaining hot spots](#remaining-hot-spots) says
+why.
+
+Compiling became 7-18% slower (`compile/*` against `a258816`: the fusion passes are about 9% of the `compile/filters`
+profile; the rest of the pass costs 2-4%, measured with the passes switched off), and is 10.0-11.4x faster than PHP
+Twig (6.7-7.6x faster than with OPcache and the JIT).
+
+Allocations per render, counted with a counting global allocator in a scratch harness (reallocations counted as
+allocations, so not comparable with the table of the first pass), before / after: `dates` 12,936 / 6,626 (596 /
+455 KB), `loops` 1,247 / 841, `inheritance` 476 / 354, `filters` 9,211 / 8,648, `macros` 6,644 / 6,424, `escaping`
+1,539 / 1,531.
+
 ## Remaining hot spots
 
-From the profiles after the pass (Linux, `perf`), in order of weight:
+From the profiles after the second pass (Linux, `perf`), in order of weight. They are why `empty_loop` is still 2.2x
+slower than PHP Twig without OPcache (1.9x with the JIT), why `filters` is only level with it (1.02x slower) and 1.22x
+slower than PHP with OPcache and the JIT, and why `filter` is 1.03x slower than with the JIT:
 
-- **The interpreter loop** (20-28% self time in the `loops`, `macros` and `filters` profiles): each instruction costs
-  roughly 5-10 ns of dispatch, operand-stack traffic and `Result`-based control flow, and simple statements take
-  several instructions (`{% set x = a + 1 %}` is four; an auto-escaped print is eleven plus a call). Instruction
-  fusion would need new `Instr` variants (a public type). Recording the current instruction only when its line run
-  changes was measured and gave nothing.
-- **Atomic reference counts**: strings and arrays are `Arc`s, so pushing a string constant or reading a string or
-  array variable costs an atomic increment and later a decrement (about 8.6 ns per pair on this machine), and every
-  array write goes through `Arc::make_mut` (about 4.7 ns): every context write (`set`, the loop variables) pays it.
-  PHP's reference counts are plain integers. This is most of the difference in the `set` and `set_add` rows.
-- **`for` loops**: setting up a loop copies the context into `_parent` (as PHP does) and inserts and removes the loop
-  variables; an empty loop costs about 3.5 times PHP's. The context copy is a copy of the entry vector with an atomic
-  increment per key and value.
-- **Date filters**: what remains is `twig-date` itself: `DateTime::modify()` and `setTimezone()` on immutable dates
-  still go through dynamic method calls with argument binding (their implementations are private to `twig-date`),
-  then timelib parses `@<timestamp>` and computes timezone transitions on every call.
-- **Markup** (macros, captures, `include()`): creating a `Twig\Markup` builds a `PropertyStore` (a lock and a slot
-  vector) and reading its content locks it again, about 0.2 µs per object; the captured output is collected in a
-  buffer of `Output` (`src/vm/output.rs`, not changed in this pass) and copied into the string.
-- **Per-render fixed costs**: `Environment::load()` hashes the template name with SipHash and builds class keys on
-  every render (visible in tiny templates such as `hello`); `src/runtime/environment.rs` was not changed in this pass.
-- **Windows**: the system allocator is still slower than glibc's for what remains (mostly the strings that templates
-  build: escaped output, filter results); hosts that render a lot on Windows can make `mimalloc` their global
-  allocator (twig-rs does not choose an allocator).
+- **Atomic reference counts of context copies**: template values must be `Send + Sync`, so strings and arrays are
+  `Arc`s with atomic counts where PHP increments plain integers. Every `for` loop copies the context into `_parent`
+  (as PHP does); the first write of the loop then copies the context's table, with an atomic increment for every
+  string key and every string or array value, and the restore after the loop drops the copy with as many atomic
+  decrements (about 5 ns each on this machine), on top of allocating and freeing the copy and the `loop` array with
+  glibc's `malloc` (PHP's allocator serves these from per-size free lists). In the `empty_loop` profile, copying the
+  context's table is 16%, dropping it 10%, and writing, finding and removing the loop variables (`_parent`, `_seq`,
+  `loop`, `_key`, `i`) about 37%: most of its 375 ns per loop (PHP: 172 ns). The same copy and drop is a large part
+  of every call of an arrow function in `filters` (dropping and cloning array tables are 8% of its profile).
+  `triomphe::Arc` took the compare-and-swap out of the uniqueness check before each write; the counts themselves
+  cannot become plain integers while values are `Send + Sync`.
+- **Filters**: spread over the filters themselves: case conversion goes through code points also for ASCII strings
+  (`twig_unicode::case::convert_case` and `from_wchar`, 4.5% of the `filters` profile; `twig-unicode` was outside
+  this pass), userland-typed methods bind and check their arguments, calls of several arguments still collect them
+  in a vector, and every call of an arrow function copies the captured context to assign its parameters (PHP copies
+  it too).
+- **The interpreter loop**: code that fusion does not cover still pays about 2-3 ns of dispatch per instruction (the
+  instruction pointer for traces, the match, a call per instruction group; recording the instruction pointer only
+  when its line run changes gave nothing in the first pass) and moves its values through the operand stack; the
+  set-up and the end of a `for` loop take several instructions each. `{% set x = a %}` and `{% set x = a
+  + 1 %}` are single instructions now and cost what PHP's assignments cost (10.2 and 11.7 ns; 11.0 and 11.5 ns in
+  PHP).
+- **Markup** (macros, captures, `include()`): unchanged: creating a `Twig\Markup` builds a `PropertyStore` (a lock and
+  a slot vector) and reading its content locks it again.
+- **Dates**: what remains is the work PHP also does (a `DateTime` and a `DateTimeZone` per filter with their property
+  stores, the conversion between zones, formatting), in Rust instead of C.
+- **Compiling**: the fusion passes rebuild the code, the line table and the jump flow of a unit once per pass that
+  changes something (about 9% of compiling); fewer, merged passes would win part of it back.
+- **Windows**: the system allocator is still slower than glibc's; hosts that render a lot on Windows can make
+  `mimalloc` their global allocator (twig-rs does not choose an allocator).
 
 ## Setup
 
