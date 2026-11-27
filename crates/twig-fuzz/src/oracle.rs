@@ -660,8 +660,8 @@ impl Oracle {
     fn serve_line(&mut self, batch: &str, idle: Duration) -> Result<Exchange, String> {
         // a server that died after its previous batch is started again once, and a container name
         // that is taken is given up for the next one once
-        let mut renamed = false;
-        'attempt: for _ in 0..3 {
+        let (mut restarted, mut renamed) = (false, false);
+        'attempt: loop {
             if self.server.is_none() || self.served >= 400 {
                 self.server = None;
                 self.start_server()?;
@@ -677,6 +677,10 @@ impl Oracle {
             if sent.is_err() {
                 // the server died after its previous batch: start another one
                 self.server = None;
+                if restarted {
+                    return Err("the oracle server could not be started".to_owned());
+                }
+                restarted = true;
                 continue;
             }
             loop {
@@ -741,7 +745,6 @@ impl Oracle {
                 }
             }
         }
-        Err("the oracle server could not be started".to_owned())
     }
 }
 
