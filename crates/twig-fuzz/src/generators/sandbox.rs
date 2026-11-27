@@ -19,7 +19,8 @@
 //! the fixtures' code, guarded by `class_exists()`), `ArrayObject` (also one containing itself), `ArrayIterator`,
 //! `SplObjectStorage`, `SplFileInfo`, `CallbackFilterIterator` (constant callbacks only; its parents
 //! `FilterIterator`/`IteratorIterator` serve as policy classes), `SimpleXMLElement`, `stdClass`, `Twig\Markup`,
-//! dates, enum cases and a `TemplateWrapper`, plus nested arrays mixing objects with falsy values. No class of the
+//! dates, enum cases and a `TemplateWrapper`, plus nested arrays mixing objects with falsy values and with `NAN`,
+//! `INF` and `-INF` (the walk of wrapped arrays warns for each `NAN` element, sandboxed or not). No class of the
 //! ports is a non-array-like `ArrayAccess`, so the sandbox's property check of array keys (`getAttribute()` on such
 //! objects) is out of reach.
 //!
@@ -951,6 +952,12 @@ const SCALARS: &[&str] = &[
     "0", "1", "''", "'0'", "'abc'", "null", "false", "true", "[]", "2.5", "'a,b'", "'<b>'",
 ];
 
+/// Floats that are not finite, for array elements. With the `SandboxExtension` registered, sandboxed or not,
+/// `SecurityChecker::ensureToStringAllowedForArray()` walks every array that reaches a wrapped node and tests `!$v`
+/// on each element, where PHP 8.5 warns `unexpected NAN value was coerced to bool` (P43); `INF` is truthy without a
+/// warning. Their conversions to strings, ints and keys warn too.
+const NON_FINITE: &[&str] = &["NAN", "NAN", "INF", "-INF"];
+
 const STRINGS: &[&str] = &["'abc'", "''", "'0'", "'<b>x</b>'", "'a,b'", "'ABC'", "'é'"];
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -1211,7 +1218,9 @@ impl<'r> Gen<'r> {
         }
     }
 
-    /// A PHP value for an array element.
+    /// A PHP value for an array element (also the elements of the `Traversable` objects, a property of the
+    /// `stdClass` object and the leaf of `nest`): an object, a scalar or a float that is not finite
+    /// ([`NON_FINITE`]).
     fn php_element(&mut self) -> String {
         if self.rng.chance(0.45) {
             let (code, prelude, kind) = *self.rng.pick(ELEMENT_OBJECTS);
@@ -1220,6 +1229,8 @@ impl<'r> Gen<'r> {
             }
             self.element_kinds.insert(kind);
             code.to_owned()
+        } else if self.rng.chance(0.12) {
+            (*self.rng.pick(NON_FINITE)).to_owned()
         } else {
             (*self.rng.pick(SCALARS)).to_owned()
         }
@@ -3006,6 +3017,28 @@ mod tests {
     fn is_deterministic() {
         assert_eq!(generate(7, 20), generate(7, 20));
         assert_ne!(case(7, 1), case(7, 2));
+    }
+
+    /// NAN and INF elements reach the data (P43: the walk of wrapped arrays).
+    #[test]
+    fn non_finite_elements() {
+        let cases = generate(5, 1500);
+        let with = |what: &str| {
+            cases
+                .iter()
+                .filter(|c| {
+                    c.get("data_php")
+                        .and_then(Json::as_str)
+                        .unwrap_or_default()
+                        .contains(what)
+                })
+                .count()
+        };
+        let (nan, inf) = (with("NAN"), with("INF"));
+        assert!(
+            nan > cases.len() / 20 && inf > cases.len() / 20,
+            "{nan} {inf}"
+        );
     }
 
     /// Data with enum cases of its own is only sorted with an arrow (T19: `asort()` orders distinct cases by heap
