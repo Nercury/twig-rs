@@ -373,12 +373,9 @@ impl DateObject {
 
     /// `DateTimeInterface::format()` (`date_format()` with the object's `is_localtime`).
     pub fn format(&self, format: &[u8]) -> PhpResult<PhpString> {
-        let t = self.initialized_time()?;
-        Ok(PhpString::from(date_format(
-            format,
-            &t,
-            t.is_localtime != 0,
-        )))
+        // formatted where the time is, without copying it
+        let formatted = self.with_time(|t| date_format(format, t, t.is_localtime != 0))?;
+        Ok(PhpString::from(formatted))
     }
 
     /// Port of `PHP_FUNCTION(date_timestamp_get)`: `getTimestamp()` (recomputes a stale timestamp in place).
@@ -446,7 +443,7 @@ impl DateObject {
         report: WarningMode<'_>,
         diag: &mut dyn Diagnostics,
     ) -> PhpResult<bool> {
-        if self.time().is_none() {
+        if self.lock().is_none() {
             return Err(errors::uninitialized(&self.class));
         }
         let cache = self.ctx.tz_cache();

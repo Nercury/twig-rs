@@ -181,7 +181,16 @@ pub fn date_format(format: &[u8], t: &Time, localtime: bool) -> Vec<u8> {
     if format.is_empty() {
         return out;
     }
-    let offset = if localtime {
+    // the zone's offset and abbreviation, which only the timezone letters and the full formats print (computing
+    // them has no effect, so a format without such a letter skips it)
+    let needs_offset = localtime
+        && format.iter().any(|c| {
+            matches!(
+                c,
+                b'I' | b'p' | b'P' | b'O' | b'T' | b'e' | b'Z' | b'c' | b'r'
+            )
+        });
+    let offset = if needs_offset {
         time_offset(t)
     } else {
         TimeOffset {

@@ -94,6 +94,8 @@ struct Inner {
     last_errors: Mutex<Option<ErrorContainer>>,
     /// `DATEG(tzcache)` in front of the timezone database.
     tz_cache: &'static TzCache,
+    /// The zone data of the default timezone last asked for, with its name ([`DateContext::timezone_info`]).
+    default_info: RwLock<Option<(String, Arc<TzInfo>)>>,
 }
 
 /// The state PHP keeps in `ext/date` module globals, owned by the embedding code.
@@ -149,6 +151,7 @@ impl DateContext {
             timezone: RwLock::new(None),
             last_errors: Mutex::new(None),
             tz_cache: TzCache::builtin(),
+            default_info: RwLock::new(None),
         }))
     }
 
@@ -164,7 +167,7 @@ impl DateContext {
 
     /// Port of `php_date_get_current_time_with_fraction()` (PHPSRC/ext/date/php_date.c): seconds and microseconds.
     pub fn current_time(&self) -> (i64, i64) {
-        self.clock().now()
+        read(&self.0.clock).now()
     }
 
     /// Port of `php_time()` (PHPSRC/ext/date/php_date.c): `time()`.
@@ -224,10 +227,32 @@ impl DateContext {
         "UTC".to_owned()
     }
 
-    /// Port of `get_timezone_info()` (PHPSRC/ext/date/php_date.c): the default timezone's data.
+    /// Port of `get_timezone_info()` (PHPSRC/ext/date/php_date.c): the default timezone's data. The data of the
+    /// zone named like the one asked for last is that zone's again (zone data never changes).
     pub fn timezone_info(&self) -> PhpResult<Arc<TzInfo>> {
+        {
+            // guess_timezone() without copying the name
+            let set = read(&self.0.timezone);
+            let ini;
+            let name: &str = match set.as_deref() {
+                Some(tz) if !tz.is_empty() => tz,
+                _ => {
+                    ini = read(&self.0.ini_timezone);
+                    if ini.is_empty() { "UTC" } else { ini.as_str() }
+                }
+            };
+            if let Some((cached, info)) = read(&self.0.default_info).as_ref()
+                && cached == name
+            {
+                return Ok(Arc::clone(info));
+            }
+        }
         let tz = self.guess_timezone();
-        self.parse_tzfile(tz.as_bytes()).ok_or_else(|| {
+        let info = self.parse_tzfile(tz.as_bytes());
+        if let Some(info) = &info {
+            *write(&self.0.default_info) = Some((tz, Arc::clone(info)));
+        }
+        info.ok_or_else(|| {
             PhpError::new(
                 errors::date_error(),
                 "Timezone database is corrupt. Please file a bug report as this should never happen",
