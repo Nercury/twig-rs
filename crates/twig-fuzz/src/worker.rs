@@ -7,6 +7,11 @@
 //! schema, or `{"unsupported": "why"}`). After a timeout it prints the timeout result and exits, so
 //! the stuck thread dies with it; the parent starts a new child for the next case. A child that dies
 //! without answering gives a result in phase `crash` ([`CRASH`]).
+//!
+//! A case that times out although the oracle finished it runs once more with as long as PHP was
+//! allowed ([`Executor::run`]): the time limit is meant to catch hangs, and a case that is only
+//! slow on a loaded machine (round 6's `ctl-15014-925-sbx` took twig-rs 14 s of the drive's 15)
+//! would otherwise be reported as a mismatch.
 
 use std::io::{BufRead, BufReader, Write};
 use std::path::PathBuf;
@@ -18,9 +23,15 @@ use crate::kit::case::Case;
 use crate::kit::json::Json;
 use crate::kit::result::{CaseResult, ErrorDesc};
 use crate::kit::run::{Outcome, run_guarded};
+use crate::minimize::DEFAULT_TIME_LIMIT;
 
 /// The class of the error reported when the worker process died while running a case.
 pub const CRASH: &str = "TwigFuzz\\Crash";
+
+/// The field of a twig-rs result that comes from the second run of a case that timed out
+/// ([`Executor::run`]): that run's time limit in milliseconds. Results keep it in `twig-rs.json`;
+/// the diff does not compare it.
+pub const SECOND_RUN: &str = "second_run_timeout_ms";
 
 /// Runs cases in process (threads with a timeout) or in a worker process.
 pub enum Executor {
@@ -40,13 +51,55 @@ impl Executor {
         })
     }
 
-    /// Runs one case.
+    /// Runs one case, within `timeout`. A run that times out while the oracle finished the case
+    /// (`oracle` is a result that is not an oracle failure) is run once more with the case's PHP
+    /// time limit ([`second_chance`]), and its result carries [`SECOND_RUN`].
     pub fn run(&mut self, case: &Case, oracle: Option<&CaseResult>, timeout: Duration) -> Outcome {
+        let outcome = self.run_once(case, oracle, timeout);
+        let Some(longer) = second_chance(case, oracle, timeout, &outcome) else {
+            return outcome;
+        };
+        let mut again = self.run_once(case, oracle, longer);
+        if let Outcome::Ran(result) = &mut again {
+            let ms = i64::try_from(longer.as_millis()).unwrap_or(i64::MAX);
+            result.extra.push((SECOND_RUN.to_owned(), Json::int(ms)));
+        }
+        again
+    }
+
+    fn run_once(&mut self, case: &Case, oracle: Option<&CaseResult>, timeout: Duration) -> Outcome {
         match self {
             Executor::InProcess => run_guarded(case, oracle, timeout),
             Executor::Worker(worker) => worker.run(case, oracle, timeout),
         }
     }
+}
+
+/// The time limit of the second run of a case whose run gave `outcome` within `timeout`: when it
+/// timed out while the oracle finished the case, as long as PHP was allowed to compute (the case's
+/// `time_limit` in seconds, which the tools set to [`DEFAULT_TIME_LIMIT`]; for 0, PHP's "no limit",
+/// the runner's default of 120), if that is longer than `timeout`.
+pub fn second_chance(
+    case: &Case,
+    oracle: Option<&CaseResult>,
+    timeout: Duration,
+    outcome: &Outcome,
+) -> Option<Duration> {
+    let timed_out =
+        matches!(outcome, Outcome::Ran(result) if result.phase.as_deref() == Some("timeout"));
+    if !timed_out || !oracle.is_some_and(|o| !o.is_oracle_failure()) {
+        return None;
+    }
+    let seconds = match case.field("time_limit") {
+        None => DEFAULT_TIME_LIMIT,
+        Some(value) => value
+            .as_i64()
+            .or_else(|| value.as_str().and_then(|s| s.trim().parse().ok()))
+            .unwrap_or(DEFAULT_TIME_LIMIT),
+    };
+    let seconds = if seconds > 0 { seconds } else { 120 };
+    let limit = Duration::from_secs(u64::try_from(seconds).unwrap_or(120));
+    (limit > timeout).then_some(limit)
 }
 
 /// A `twig-fuzz worker` child process.
@@ -230,5 +283,68 @@ pub fn serve_worker() {
             // a timed-out case leaves a thread running: end the process with it
             std::process::exit(0);
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn case(json: &str) -> Case {
+        Case::from_json(&Json::parse(json).expect("JSON")).expect("a case")
+    }
+
+    /// A case that times out where PHP finished it runs once more with the PHP time limit; where
+    /// the oracle failed, or gave nothing, the timeout stands.
+    #[test]
+    fn a_timeout_where_php_finished_runs_again_with_the_php_time_limit() {
+        let case = case(
+            r#"{"id":"t","env":"plain","templates":{"index.twig":"{{ 1 + 1 }}"},"time_limit":3}"#,
+        );
+        let php = CaseResult::success(Json::str("t"), b"2".to_vec());
+        let mut executor = Executor::InProcess;
+        // (no run finishes in no time)
+        let Outcome::Ran(result) = executor.run(&case, Some(&php), Duration::ZERO) else {
+            panic!("unsupported");
+        };
+        assert!(result.ok, "{result:?}");
+        assert_eq!(result.output.as_deref(), Some(&b"2"[..]));
+        assert_eq!(result.extra(SECOND_RUN), Some(&Json::int(3000)));
+        let fatal = CaseResult::failure(
+            Json::str("t"),
+            "fatal",
+            ErrorDesc {
+                class: "FatalError".to_owned(),
+                message: b"Maximum execution time of 3 seconds exceeded".to_vec(),
+                twig: None,
+                code: None,
+                previous: None,
+            },
+        );
+        for oracle in [Some(&fatal), None] {
+            let Outcome::Ran(result) = executor.run(&case, oracle, Duration::ZERO) else {
+                panic!("unsupported");
+            };
+            assert_eq!(result.phase.as_deref(), Some("timeout"));
+            assert!(result.extra(SECOND_RUN).is_none());
+        }
+        // the PHP time limit (30 s unless the case sets one; 120 s for PHP's "no limit") only when
+        // it is longer than the timeout
+        let timeout = run_guarded(&case, None, Duration::ZERO);
+        let limit = |json: &str, after: u64| {
+            second_chance(
+                &self::case(json),
+                Some(&php),
+                Duration::from_secs(after),
+                &timeout,
+            )
+        };
+        let plain = r#"{"env":"plain","templates":{"index.twig":"x"}}"#;
+        let zero = r#"{"env":"plain","templates":{"index.twig":"x"},"time_limit":"0"}"#;
+        assert_eq!(limit(plain, 15), Some(Duration::from_secs(30)));
+        assert_eq!(limit(plain, 30), None);
+        assert_eq!(limit(zero, 15), Some(Duration::from_secs(120)));
+        let ok = Outcome::Ran(Box::new(php.clone()));
+        assert_eq!(second_chance(&case, Some(&php), Duration::ZERO, &ok), None);
     }
 }

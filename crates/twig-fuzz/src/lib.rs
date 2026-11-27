@@ -81,7 +81,9 @@
 //!
 //! twig-rs runs in a child process (`twig-fuzz worker`) restarted after a timeout (`--timeout-ms`,
 //! default 5 s) or a crash, which become results in phase `timeout` / `crash`; a panic becomes a
-//! result in phase `panic`. Build with `--release` for long runs.
+//! result in phase `panic`. A case that times out while the oracle finished it runs once more with
+//! its PHP time limit (30 s unless it sets one, [`worker::second_chance`]), so that a case that is
+//! only slow on a loaded machine is compared. Build with `--release` for long runs.
 //!
 //! `drive` writes `report.md` (one section per mismatch cluster with its minimised reproduction),
 //! `report.json`, the raw `oracle.json` / `twig-rs.json` and `vectors.json` (one vector per cluster,

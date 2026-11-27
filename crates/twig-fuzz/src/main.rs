@@ -66,7 +66,8 @@ USAGE:
 
   twig-rs runs in a child process (`twig-fuzz worker`, internal) that is restarted after a timeout
   or a crash; --in-process runs it on threads of this process instead. --timeout-ms (default 5000)
-  bounds one twig-rs run. Cases sent to the oracle get \"memory_limit\": \"512M\", \"time_limit\": 30
+  bounds one twig-rs run; a run that times out where PHP finished the case runs once more with the
+  case's PHP time limit. Cases sent to the oracle get \"memory_limit\": \"512M\", \"time_limit\": 30
   and \"clock\": true unless they set them. Isolated oracle batches run --jobs cases at a time
   (default 8). A chunk whose container dies (PHP's hard memory limit, a crash) or stops making
   progress is run again case by case in PHP processes of their own. drive, diff and replay exit

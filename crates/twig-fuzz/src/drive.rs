@@ -6,7 +6,7 @@
 //! | file | contents |
 //! |---|---|
 //! | `report.md` | counts, then one section per mismatch cluster: signature, raw count, minimised reproduction, both results, differing fields |
-//! | `report.json` | the same, machine readable (`clusters[]` with `signature`, `count`, `ids`, `minimized`, `oracle`, `twig_rs`, `fields`) |
+//! | `report.json` | the same, machine readable (`clusters[]` with `signature`, `count`, `ids`, `minimized`, `oracle`, `twig_rs`, `fields`; `second_runs`: the cases twig-rs ran again after a timeout, [`Summary::second_runs`]) |
 //! | `oracle.json`, `twig-rs.json` | the raw results of every case, in batch order |
 //! | `vectors.json` | one regression vector per cluster (the minimised case and its oracle result), marked `known_mismatch` |
 
@@ -23,7 +23,7 @@ use crate::kit::run::Outcome;
 use crate::kit::vectors::{KnownMismatch, Vector, VectorFile};
 use crate::minimize::{self, SameSignature, oracle_request};
 use crate::oracle::Oracle;
-use crate::worker::Executor;
+use crate::worker::{Executor, SECOND_RUN};
 
 /// Driver settings.
 #[derive(Clone, Debug)]
@@ -133,6 +133,23 @@ impl Summary {
             }
         }
         counts
+    }
+
+    /// The ids of the cases twig-rs ran a second time, with the PHP time limit, because they timed
+    /// out while the oracle finished them ([`SECOND_RUN`]).
+    pub fn second_runs(&self) -> Vec<String> {
+        self.cases
+            .iter()
+            .filter(|c| {
+                c.twig_rs
+                    .as_ref()
+                    .is_some_and(|r| r.extra(SECOND_RUN).is_some())
+            })
+            .map(|c| {
+                let id = c.case.get("id").map(Json::to_compact).unwrap_or_default();
+                id.trim_matches('"').to_owned()
+            })
+            .collect()
     }
 }
 
@@ -248,6 +265,20 @@ pub fn drive(
         let request = oracle_request(&compared[i].case);
         let case = Case::from_json(&request).expect("parsed above");
         let outcome = executor.run(&case, Some(&expected), options.timeout);
+        if let Some(result) = outcome.result()
+            && let Some(limit) = result.extra(SECOND_RUN)
+        {
+            log(
+                options,
+                &format!(
+                    "twig-rs: {} took longer than {} ms, ran again within {} ms: {}",
+                    case.id,
+                    options.timeout.as_millis(),
+                    limit.to_compact(),
+                    result.phase.as_deref().unwrap_or("finished")
+                ),
+            );
+        }
         compared[i].verdict = match &outcome {
             Outcome::Ran(actual) => Ok(compare(&expected, actual)),
             Outcome::Unsupported(reason) => Err(reason.clone()),
@@ -528,6 +559,14 @@ pub fn markdown(summary: &Summary) -> String {
         summary.seconds,
         summary.clusters.len()
     );
+    let second = summary.second_runs();
+    if !second.is_empty() {
+        let _ = writeln!(
+            out,
+            "Ran a second time in twig-rs, with the PHP time limit, after timing out: {}.\n",
+            second.join(", ")
+        );
+    }
     let mut reasons: BTreeMap<String, usize> = BTreeMap::new();
     for c in &summary.cases {
         match &c.verdict {
@@ -702,6 +741,10 @@ fn report_json(summary: &Summary) -> Json {
         ("mismatches".to_owned(), Json::int(mismatch as i64)),
         ("skipped".to_owned(), Json::int(skipped as i64)),
         ("unsupported".to_owned(), Json::int(unsupported as i64)),
+        (
+            "second_runs".to_owned(),
+            Json::Array(summary.second_runs().iter().map(Json::str).collect()),
+        ),
         ("clusters".to_owned(), Json::Array(clusters)),
     ])
 }
