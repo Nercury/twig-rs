@@ -125,14 +125,17 @@ Plan: [product.md](product.md). Remaining:
   `glibc-iconv` feature.
 - Licensing: a legal review of `twig-iconv` (PHP-3.01 code inside an LGPL crate); the clean-room iconv converter of
   the default build could grow.
-- Performance: after two profiling passes rendering ranges from 4.8× faster (escaping) to level (filters, 1.02×
-  slower) than PHP Twig without OPcache, and from 4.2× faster to 1.2× slower (filters) than PHP with OPcache and the
-  JIT; compiling is 10–11.4× faster (the instruction fusion of the second pass costs about 9% of it). Of the micro
-  templates only an empty `for` loop is still clearly slower (2.2×): copying the context into `_parent` and dropping
-  the copy costs an atomic increment and decrement per string or array (template values are `Send + Sync`), and the
-  loop variables are written and removed again; the remaining hot spots are in `research/benchmarks/README.md`. The
-  SecurityChecker walk P43 added costs about 3 ns per element of every wrapped array once the SandboxExtension is
-  registered (PHP walks them too).
+- Performance: after two profiling passes (final numbers of 2026-11-27 in `research/benchmarks/README.md`) rendering
+  ranges from 4.7× faster (escaping) to 1.02× slower (filters) than PHP Twig without OPcache, and from 4.1× faster to
+  1.21× slower (filters) than PHP with OPcache and the JIT; compiling is 10.3–11.8× faster (the second pass made it
+  7–16% slower, mostly through its instruction fusion). Of the micro templates only an empty `for` loop is still
+  clearly slower (2.4×): copying the context into `_parent` and dropping the copy costs an atomic increment and
+  decrement per string or array (template values are `Send + Sync`), and the loop variables are written and removed
+  again. The profiles also show name hints that collide in some processes (their 16 slots are chosen by the key
+  hash, whose seed is random per process: `{% set x = a %}` ran 1.8× slower in 4 of 16 processes), the charset that
+  callables such as `length` read under a lock and clone on every call, case conversion of ASCII through code points
+  and SipHash maps in the code generator; the list is in the benchmarks README. The SecurityChecker walk P43 added
+  costs about 3 ns per element of every wrapped array once the SandboxExtension is registered (PHP walks them too).
 - API ergonomics: a derive macro for `Object` once someone needs one.
 - Engine gaps ([engine.md](engine.md), "Remaining work"): multi-byte and table-based encodings in the mbstring
   functions, compiled-template caching across processes (optional).

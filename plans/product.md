@@ -13,8 +13,8 @@ the README.
 
 - Benchmarks (`criterion`, root `benches/`): parsing+compiling, rendering loops/inheritance/macros/escaping, compared
   over time; a one-off comparison against PHP Twig through the oracle for the README.
-- Profiling pass on the VM and `twig-value` hot paths, with the fixture suite and fuzz vectors as the safety net: a
-  first pass is done (`research/benchmarks/README.md`: what changed, before/after numbers, the remaining hot spots).
+- Profiling pass on the VM and `twig-value` hot paths, with the fixture suite and fuzz vectors as the safety net: two
+  passes are done (`research/benchmarks/README.md`: what changed, before/after numbers, the remaining hot spots).
 - No hosted CI for now (owner's decision): the local check list in `reference/conventions.md` (stable, MSRV 1.88,
   all features, docs, `cargo deny check`) replaces it.
 

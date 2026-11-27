@@ -171,11 +171,12 @@ cargo run --example parse_nodes -- '{% for user in users %}{{ user.name|upper }}
 ## Performance
 
 [`research/benchmarks/README.md`](research/benchmarks/README.md) compares twig-rs with PHP Twig over the scenarios
-of the criterion benchmarks in [`benches/`](benches/README.md) (measured on 2026-11-26, both engines producing
-identical output): twig-rs compiles templates 11.5 to 13.5 times faster than PHP Twig; with warm caches it renders
-the escaping-heavy scenario 3 times faster, inheritance and macros 1.1 to 1.4 times faster, and dates, filters and
-loops 1.1 to 1.2 times slower, after a first profiling pass that made rendering 1.9 to 3.4 times faster. twig-rs
-does not choose a global allocator; on Windows, hosts that render a lot gain from a fast one such as `mimalloc`.
+of the criterion benchmarks in [`benches/`](benches/README.md) (measured on 2026-11-27, both engines producing
+identical output): twig-rs compiles templates 10.3 to 11.8 times faster than PHP Twig; with warm caches it renders
+the escaping-heavy scenario 4.7 times faster, inheritance 2.1 times, loops, macros and dates 1.2 to 1.5 times
+faster, and the filters scenario 1.02 times slower (against PHP with OPcache and the tracing JIT: 1.1 to 4.1 times
+faster, filters 1.21 times slower). Two profiling passes made rendering about 2.4 to 5.2 times faster. twig-rs does
+not choose a global allocator; on Windows, hosts that render a lot gain from a fast one such as `mimalloc`.
 
 ## Layout
 
