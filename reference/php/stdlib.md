@@ -20,7 +20,8 @@ The implementation settled several open items and recommendations below; where t
   is in `reference/deviations.md`). The optional LGPL crate
   `twig-iconv` (feature `glibc-iconv`) reproduces glibc for every module except a short list (UTF-7, EUC-TW,
   ISO-2022-CN, JOHAB, IBM932/943, stateful EBCDIC DBCS, TSCII, ISO 6937), including stateful ISO-2022 encodings,
-  TRANSLIT and the IGNORE quirks (`reference/deviations.md`). mbstring-based callables support UTF-8 and single-byte
+  TRANSLIT and the IGNORE quirks (`reference/deviations.md`); with the feature, the default backend converts EUC-TW
+  and JOHAB with the clean-room converter. mbstring-based callables support UTF-8 and single-byte
   charsets only.
 - Unicode case mapping (14e) uses tables converted from php-src's `unicode_data.h` (`twig-unicode`), checked per code
   point against the oracle.

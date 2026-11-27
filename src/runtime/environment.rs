@@ -123,17 +123,57 @@ pub const DEFAULT_MAX_DEPTH: usize = 200;
 
 /// The default of [`EnvironmentOptions::iconv_backend`] (and of [`EscaperRuntime::new`]): with the `glibc-iconv`
 /// feature, `twig_iconv::GlibcIconv`, glibc 2.41's behaviour for every charset it converts (the twig-iconv crate,
-/// LGPL-2.1-or-later); otherwise twig-value's clean-room
+/// LGPL-2.1-or-later), and for a conversion twig-iconv refuses as not supported (EUC-TW and JOHAB, which it does not
+/// port) the clean-room converter below when that converts both charsets; otherwise twig-value's clean-room
 /// [`BasicIconv`](twig_value::builtins::string::BasicIconv), which converts UTF-8, UTF-16, UTF-32, UCS-2, UCS-4,
 /// ASCII, ISO-8859-1, the single-byte charsets, the CJK multi-byte charsets and ISO-2022-JP, -JP-2 and -KR, and throws
 /// `Error: iconv(): conversion of charset "X" is not supported by twig-rs` for the other charsets glibc knows
 /// (reference/deviations.md).
 pub fn default_iconv_backend() -> Arc<dyn IconvBackend> {
     #[cfg(feature = "glibc-iconv")]
-    let backend = Arc::new(twig_iconv::GlibcIconv);
+    let backend = Arc::new(GlibcIconvWithFallback);
     #[cfg(not(feature = "glibc-iconv"))]
     let backend = Arc::new(twig_value::builtins::string::BasicIconv);
     backend
+}
+
+/// The default iconv backend with the `glibc-iconv` feature: twig-iconv's `GlibcIconv`, and for a conversion it refuses
+/// with twig-rs's "not supported" error, twig-value's clean-room
+/// [`BasicIconv`](twig_value::builtins::string::BasicIconv) when that converts both charsets. Both throw that error
+/// before they convert anything or report a diagnostic; when both refuse, the error is twig-iconv's.
+#[cfg(feature = "glibc-iconv")]
+#[derive(Debug)]
+struct GlibcIconvWithFallback;
+
+#[cfg(feature = "glibc-iconv")]
+impl IconvBackend for GlibcIconvWithFallback {
+    fn iconv_bytes(
+        &self,
+        from: &[u8],
+        to: &[u8],
+        string: &[u8],
+        diag: &mut dyn twig_value::Diagnostics,
+    ) -> PhpResult<Option<PhpString>> {
+        match twig_iconv::GlibcIconv.iconv_bytes(from, to, string, diag) {
+            Err(refused) if is_unsupported_charset(&refused) => {
+                match twig_value::builtins::string::BasicIconv.iconv_bytes(from, to, string, diag) {
+                    Err(error) if is_unsupported_charset(&error) => Err(refused),
+                    result => result,
+                }
+            }
+            result => result,
+        }
+    }
+}
+
+/// Whether `error` is the `Error` an iconv backend throws for a charset it does not convert
+/// (`iconv(): conversion of charset "X" is not supported by twig-rs`, reference/deviations.md).
+#[cfg(feature = "glibc-iconv")]
+fn is_unsupported_charset(error: &PhpError) -> bool {
+    let message = error.message().as_bytes();
+    matches!(error.class(), ThrowableClass::Error)
+        && message.starts_with(b"iconv(): conversion of charset \"")
+        && message.ends_with(b"\" is not supported by twig-rs")
 }
 
 impl Default for EnvironmentOptions {

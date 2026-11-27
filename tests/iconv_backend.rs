@@ -136,7 +136,7 @@ fn the_escaper_runtime_of_an_environment_has_its_backend() {
 #[test]
 fn the_default_backend_follows_the_glibc_iconv_feature() {
     let expected = if cfg!(feature = "glibc-iconv") {
-        "GlibcIconv"
+        "GlibcIconvWithFallback"
     } else {
         "BasicIconv"
     };
@@ -160,4 +160,54 @@ fn the_default_backend_follows_the_glibc_iconv_feature() {
             "{error}"
         );
     }
+}
+
+/// With the `glibc-iconv` feature, the default backend converts the charsets twig-iconv does not port (EUC-TW, JOHAB)
+/// with the clean-room converter: the same result and the same diagnostics as `BasicIconv`; a charset neither
+/// converts keeps twig-iconv's error.
+#[cfg(feature = "glibc-iconv")]
+#[test]
+fn the_glibc_backend_falls_back_to_the_clean_room_converter() {
+    use twig::value::Diagnostic;
+    let backend = default_iconv_backend();
+    let cases: [(&[u8], &[u8], &[u8]); 9] = [
+        (b"UTF-8", b"EUC-TW", "中文".as_bytes()),
+        (b"UTF-8", b"EUC-TW//TRANSLIT", "é中".as_bytes()),
+        (b"UTF-8", b"EUC-TW//IGNORE", "é中".as_bytes()),
+        (b"UTF-8", b"EUC-TW", "é".as_bytes()),
+        (b"EUC-TW", b"UTF-8", b"\xc4\xa1\xff"),
+        (b"UTF-8", b"JOHAB", "한글".as_bytes()),
+        (b"JOHAB", b"UTF-8", b"\xd0\x65\x80"),
+        (b"UTF-8", b"CP1361", "한".as_bytes()),
+        (b"EUC-TW", b"JOHAB", b"\xc4\xa1"),
+    ];
+    for (from, to, input) in cases {
+        let (mut ours, mut basic) = (Vec::<Diagnostic>::new(), Vec::<Diagnostic>::new());
+        let result = backend.iconv_bytes(from, to, input, &mut ours);
+        let expected = BasicIconv.iconv_bytes(from, to, input, &mut basic);
+        assert_eq!(
+            format!("{result:?}"),
+            format!("{expected:?}"),
+            "{from:?} > {to:?}"
+        );
+        assert_eq!(
+            format!("{ours:?}"),
+            format!("{basic:?}"),
+            "{from:?} > {to:?}"
+        );
+        assert!(
+            !format!("{result:?}").contains("not supported"),
+            "{result:?}"
+        );
+    }
+    // UTF-7: neither backend converts it, and the error is twig-iconv's
+    let mut diagnostics = Vec::<Diagnostic>::new();
+    let error = backend
+        .iconv_bytes(b"UTF-8", b"UTF-7", b"a", &mut diagnostics)
+        .unwrap_err();
+    assert_eq!(
+        error.message_lossy(),
+        r#"iconv(): conversion of charset "UTF-7" is not supported by twig-rs"#
+    );
+    assert!(diagnostics.is_empty());
 }

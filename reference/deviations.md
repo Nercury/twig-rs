@@ -39,7 +39,7 @@ does instead, and why. Anything not listed here is expected to match exactly; a 
 
 | Area | PHP | twig-rs | Why |
 |---|---|---|---|
-| iconv charsets | glibc converts UTF-7, EUC-TW, ISO-2022-CN(-EXT), JOHAB, IBM932/943, the stateful EBCDIC double-byte codepages, TSCII and the ISO 6937 family | `Error: iconv(): conversion of charset "X" is not supported by twig-rs`; unknown names behave like PHP | Not ported; every other glibc module (single-byte, CJK, ISO-2022-JP/-JP-2/-JP-3/-KR, GB18030, BIG5-HKSCS, …) is converted with tables measured from the oracle's glibc |
+| iconv charsets | glibc converts UTF-7, ISO-2022-CN(-EXT), IBM932/943, the stateful EBCDIC double-byte codepages, TSCII and the ISO 6937 family | `Error: iconv(): conversion of charset "X" is not supported by twig-rs`; unknown names behave like PHP | Not ported; every other glibc module (single-byte, CJK, ISO-2022-JP/-JP-2/-JP-3/-KR, GB18030, BIG5-HKSCS, …) is converted with tables measured from the oracle's glibc. twig-iconv does not port EUC-TW and JOHAB either: the feature's default backend (`default_iconv_backend()`) converts them with the clean-room converter of the default build, and so do conversions twig-iconv refuses that the clean-room converter models |
 | iconv UHC `A2 E8` under `//IGNORE` at the end of input | glibc reads past the input buffer (undefined behaviour) | The "incomplete multibyte character" notice the oracle shows | No UB |
 | iconv GB2312→BIG5 at `F7 FF` | glibc reads one entry past its table | The value measured on the oracle | No out-of-bounds read |
 
