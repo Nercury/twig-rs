@@ -31,20 +31,40 @@
 //! dies gets a `fatal` result saying so. A container that cannot be started at all (Docker's own
 //! exit statuses 125 to 127) is an error.
 //!
-//! Containers are named (`twig-fuzz-<pid>-<n>`, with the default command) so that they can be
-//! killed: the runner is started with `--heartbeat` and reports each finished case on stderr, and a
-//! container that reports nothing for longer than the slowest case of its batch may take (its
-//! `wall_limit`, see runner.php, plus a minute) is killed and treated like one that died. The
-//! runner itself kills isolated children that exceed their `wall_limit`, so this only catches
-//! runners stuck outside a child.
+//! Containers are named so that they can be removed: the runner is started with `--heartbeat` and
+//! reports each finished case on stderr, and a container that reports nothing for longer than the
+//! slowest case of its batch may take (its `wall_limit`, see runner.php, plus a minute) is removed
+//! (`docker rm -f`) and treated like one that died. The runner itself kills isolated children that
+//! exceed their `wall_limit`, so this only catches runners stuck outside a child. A runner that has
+//! not announced its heartbeats (nor printed anything) [`START_LIMIT`] after `docker run` started is
+//! removed too, and the oracle counts as not started.
+//!
+//! # Container names and leftovers
+//!
+//! With the default command a container is named `<prefix>-<n>` ([`Oracle::container_prefix`]:
+//! `twig-fuzz-<pid>-<random>`, `n` counting the client's containers from 1). The random part keeps
+//! a later process that gets the same id (Windows reuses ids quickly) from colliding with a
+//! container an earlier one left: Docker keeps the name of a container that was created but never
+//! started, `--rm` notwithstanding. Should a name be taken all the same (`docker run` exits with
+//! status 125, "... is already in use ..."), the container of that name is removed if it is not
+//! running (`docker rm` without `-f`) and the batch goes to a container with the next name, once.
+//!
+//! Every container is started with `--rm`, so one that ends goes away by itself. A client that
+//! gives up on a container (stuck, an error, a panic that unwinds, the [`Oracle`] dropped) removes
+//! it with `docker rm -f`, which also removes one that was created but did not start. A client that
+//! is killed outright cannot: its `docker run` processes then see their input end, so a runner
+//! finishes its batch (or, serving, stops at once) and `--rm` removes the container, but one that
+//! was created and never started stays (`docker ps -a --filter name=twig-fuzz- --filter
+//! status=created` lists such leftovers; `docker rm` removes them).
 
+use std::hash::{BuildHasher, Hasher};
 use std::io::{BufRead, BufReader, Read, Write};
 use std::path::{Path, PathBuf};
 use std::process::{Child, ChildStdin, Command, Stdio};
-use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{Receiver, RecvTimeoutError, channel};
 use std::sync::{Arc, Mutex};
-use std::time::{Duration, Instant};
+use std::time::{Duration, Instant, SystemTime};
 
 use crate::kit::json::Json;
 
@@ -53,6 +73,10 @@ pub const DEFAULT_IMAGE: &str = "twig-oracle:3.31.1";
 
 /// Parallel children of an isolated batch unless `TWIG_FUZZ_ORACLE_JOBS` says otherwise.
 pub const DEFAULT_JOBS: usize = 8;
+
+/// How long a started oracle may take to announce its heartbeats (with nothing printed meanwhile)
+/// before it counts as not started: Docker hanging while it creates or starts the container.
+pub const START_LIMIT: Duration = Duration::from_secs(300);
 
 /// The repository's `research/php-oracle` directory (build context of the image).
 pub fn oracle_dir() -> PathBuf {
@@ -75,6 +99,12 @@ pub struct Oracle {
     pub incidents: Vec<String>,
     /// Print each incident to stderr as it happens.
     pub verbose: bool,
+    /// What the names of the containers start with (default command only): container `n` is
+    /// `<container_prefix>-<n>`. A new client gets `twig-fuzz-<pid>-<random>` (see the module
+    /// documentation).
+    pub container_prefix: String,
+    /// Containers named so far.
+    named: usize,
 }
 
 /// What a container gave for a batch.
@@ -107,12 +137,20 @@ impl Activity {
 
     /// Whether the runner announced heartbeats and has been silent for longer than `idle`.
     fn stuck(&self, idle: Duration) -> bool {
-        self.armed.load(Ordering::Acquire)
-            && self
-                .last
-                .lock()
-                .unwrap_or_else(|e| e.into_inner())
-                .is_some_and(|last| last.elapsed() > idle)
+        self.armed.load(Ordering::Acquire) && self.silent_for(idle)
+    }
+
+    /// Whether the runner has not announced its heartbeats and nothing was printed for longer than
+    /// `limit` (since the process started, or since its last line).
+    fn not_starting(&self, limit: Duration) -> bool {
+        !self.armed.load(Ordering::Acquire) && self.silent_for(limit)
+    }
+
+    fn silent_for(&self, time: Duration) -> bool {
+        self.last
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .is_some_and(|last| last.elapsed() > time)
     }
 
     fn text(&self) -> String {
@@ -123,7 +161,8 @@ impl Activity {
 /// A started oracle command.
 struct Process {
     child: Child,
-    /// The container's name (default command only), for `docker kill`.
+    /// The container's name (default command only), for `docker rm -f`; `None` once the name turned
+    /// out to be another container's.
     name: Option<String>,
     activity: Arc<Activity>,
     /// The thread reading stderr (it ends when the process has closed it).
@@ -146,16 +185,29 @@ impl Process {
         self.activity.armed.load(Ordering::Acquire)
     }
 
+    /// Ends the process and removes its container, running or not: the `docker run` client dying
+    /// does not stop a container, and `--rm` does not remove one that was created but never started.
     fn kill(&mut self) {
-        if let Some(name) = &self.name {
-            let _ = Command::new("docker")
-                .args(["kill", name])
-                .stdout(Stdio::null())
-                .stderr(Stdio::null())
-                .status();
-        }
+        self.remove_container();
         let _ = self.child.kill();
         let _ = self.child.wait();
+    }
+
+    /// `docker rm -f` of the container (default command only); nothing when it is gone already.
+    fn remove_container(&self) {
+        if let Some(name) = &self.name {
+            docker_rm(name, true);
+        }
+    }
+}
+
+impl Drop for Process {
+    /// A process given up while it still runs (an error, a panic, the [`Oracle`] dropped) takes its
+    /// container with it.
+    fn drop(&mut self) {
+        if matches!(self.child.try_wait(), Ok(None)) {
+            self.kill();
+        }
     }
 }
 
@@ -163,12 +215,6 @@ struct Server {
     process: Process,
     stdin: ChildStdin,
     lines: Receiver<String>,
-}
-
-impl Drop for Server {
-    fn drop(&mut self) {
-        self.process.kill();
-    }
 }
 
 impl Default for Oracle {
@@ -222,6 +268,8 @@ impl Oracle {
             containers: 0,
             incidents: Vec::new(),
             verbose: false,
+            container_prefix: format!("twig-fuzz-{}-{:08x}", std::process::id(), random_u32()),
+            named: 0,
         }
     }
 
@@ -445,16 +493,12 @@ impl Oracle {
     fn spawn(&mut self, extra: &[&str]) -> Result<Process, String> {
         self.containers += 1;
         let mut args: Vec<String> = self.command[1..].to_vec();
-        // name the container so that a stuck one can be killed (the docker client dying does not
+        // name the container so that a stuck one can be removed (the docker client dying does not
         // stop it)
         let name = if self.command[0] == "docker" && args.first().map(String::as_str) == Some("run")
         {
-            static NEXT: AtomicUsize = AtomicUsize::new(1);
-            let name = format!(
-                "twig-fuzz-{}-{}",
-                std::process::id(),
-                NEXT.fetch_add(1, Ordering::Relaxed)
-            );
+            self.named += 1;
+            let name = format!("{}-{}", self.container_prefix, self.named);
             args.splice(1..1, ["--name".to_owned(), name.clone()]);
             Some(name)
         } else {
@@ -501,6 +545,17 @@ impl Oracle {
     }
 
     fn run_container(&mut self, batch: &str, idle: Duration) -> Result<Exchange, String> {
+        self.run_named_container(batch, idle, true)
+    }
+
+    /// [`Oracle::run_container`]; `rename`: a container name that is taken is given up for the
+    /// next one (see the module documentation).
+    fn run_named_container(
+        &mut self,
+        batch: &str,
+        idle: Duration,
+        rename: bool,
+    ) -> Result<Exchange, String> {
         let mut process = self.spawn(&[])?;
         let mut stdin = process.child.stdin.take().ok_or("no stdin")?;
         let input = batch.to_owned();
@@ -523,9 +578,17 @@ impl Oracle {
                 process.kill();
                 let _ = reader.join();
                 return Ok(Exchange::Died(format!(
-                    "no progress for {} s, container killed",
+                    "no progress for {} s, container removed",
                     idle.as_secs()
                 )));
+            }
+            if process.activity.not_starting(START_LIMIT) {
+                process.kill();
+                let _ = reader.join();
+                return Err(format!(
+                    "the oracle did not start within {} s",
+                    START_LIMIT.as_secs()
+                ));
             }
             std::thread::sleep(Duration::from_millis(20));
         };
@@ -536,7 +599,23 @@ impl Oracle {
         if stdout.trim().is_empty() {
             if !process.runner_started() || matches!(code, Some(125..=127)) {
                 // the runner never ran: Docker could not start the container (no daemon, no
-                // image, bad command)
+                // image, bad command, a name in use)
+                if name_in_use(&stderr) {
+                    // the container of that name is not this client's
+                    if let Some(name) = process.name.take()
+                        && rename
+                    {
+                        docker_rm(&name, false);
+                        self.incident(format!(
+                            "the container name {name} is in use ({}): removed that container unless it runs, using the next name",
+                            head(&stderr, 300)
+                        ));
+                        return self.run_named_container(batch, idle, false);
+                    }
+                } else {
+                    // a container Docker created but could not start stays despite `--rm`
+                    process.remove_container();
+                }
                 return Err(format!(
                     "the oracle could not be started (exit {code:?}): {}",
                     head(&stderr, 600)
@@ -579,7 +658,10 @@ impl Oracle {
     }
 
     fn serve_line(&mut self, batch: &str, idle: Duration) -> Result<Exchange, String> {
-        for _ in 0..2 {
+        // a server that died after its previous batch is started again once, and a container name
+        // that is taken is given up for the next one once
+        let mut renamed = false;
+        'attempt: for _ in 0..3 {
             if self.server.is_none() || self.served >= 400 {
                 self.server = None;
                 self.start_server()?;
@@ -610,9 +692,16 @@ impl Oracle {
                         if server.process.activity.stuck(idle) {
                             self.server = None;
                             return Ok(Exchange::Died(format!(
-                                "no progress for {} s, server killed",
+                                "no progress for {} s, server removed",
                                 idle.as_secs()
                             )));
+                        }
+                        if server.process.activity.not_starting(START_LIMIT) {
+                            self.server = None;
+                            return Err(format!(
+                                "the oracle server did not start within {} s",
+                                START_LIMIT.as_secs()
+                            ));
                         }
                     }
                     Err(RecvTimeoutError::Disconnected) => {
@@ -623,6 +712,22 @@ impl Oracle {
                         if !server.process.runner_started()
                             || (self.served == 1 && matches!(status, Some(125..=127)))
                         {
+                            if name_in_use(&stderr) {
+                                // the container of that name is not this client's
+                                if let Some(name) = server.process.name.take()
+                                    && !renamed
+                                {
+                                    renamed = true;
+                                    docker_rm(&name, false);
+                                    self.incident(format!(
+                                        "the container name {name} is in use ({}): removed that container unless it runs, using the next name",
+                                        head(&stderr, 300)
+                                    ));
+                                    continue 'attempt;
+                                }
+                            } else {
+                                server.process.remove_container();
+                            }
                             return Err(format!(
                                 "the oracle server could not be started (exit {status:?}): {}",
                                 head(&stderr, 600)
@@ -694,6 +799,41 @@ fn phase_list_has_fatal(line: &str) -> bool {
     line.contains("\"phase\":\"fatal\"") || line.contains("\"phase\":\"lost\"")
 }
 
+/// 32 bits that differ between clients: the time hashed with the random keys the standard library
+/// gives every `RandomState`.
+fn random_u32() -> u32 {
+    let mut hasher = std::collections::hash_map::RandomState::new().build_hasher();
+    let now = SystemTime::now()
+        .duration_since(SystemTime::UNIX_EPOCH)
+        .map_or(0, |d| d.as_nanos());
+    hasher.write_u128(now);
+    hasher.write_u32(std::process::id());
+    let hash = hasher.finish();
+    (hash ^ (hash >> 32)) as u32
+}
+
+/// Whether `docker run` refused the container's name: `Conflict. The container name "/x" is
+/// already in use by container "...". You have to remove (or rename) that container to be able to
+/// reuse that name.`
+fn name_in_use(stderr: &str) -> bool {
+    stderr.contains("is already in use")
+}
+
+/// `docker rm` of the container `name` (`-f`: also a running one); failures (no such container, a
+/// running one without `-f`, no daemon) are ignored.
+fn docker_rm(name: &str, force: bool) {
+    let mut command = Command::new("docker");
+    command.arg("rm");
+    if force {
+        command.arg("-f");
+    }
+    let _ = command
+        .arg(name)
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .status();
+}
+
 fn head(text: &str, limit: usize) -> String {
     let text = text.trim();
     if text.chars().count() > limit {
@@ -706,6 +846,46 @@ fn head(text: &str, limit: usize) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Container names have a part of their own per client, so that a process that gets the id of
+    /// an earlier one does not run into a container that one left (T20).
+    #[test]
+    fn every_client_names_its_containers_apart() {
+        let command = |s: &str| s.split(' ').map(str::to_owned).collect::<Vec<_>>();
+        let a = Oracle::with_command(command("docker run --rm -i image php runner.php"));
+        let b = Oracle::with_command(command("docker run --rm -i image php runner.php"));
+        let pid = format!("twig-fuzz-{}-", std::process::id());
+        for prefix in [&a.container_prefix, &b.container_prefix] {
+            let random = prefix.strip_prefix(&pid).expect(prefix);
+            assert!(
+                random.len() == 8 && random.bytes().all(|b| b.is_ascii_hexdigit()),
+                "{prefix}"
+            );
+        }
+        assert_ne!(a.container_prefix, b.container_prefix);
+        assert!(name_in_use(
+            "docker: Error response from daemon: Conflict. The container name \"/twig-fuzz-20628-1\" \
+             is already in use by container \"6f1e\". You have to remove (or rename) that container \
+             to be able to reuse that name."
+        ));
+        assert!(!name_in_use(
+            "docker: Error response from daemon: No such image: x."
+        ));
+    }
+
+    /// A runner that announced its heartbeats is stuck once it is silent; one that did not counts as
+    /// not starting once nothing at all came for the start limit.
+    #[test]
+    fn silence_before_and_after_the_heartbeats() {
+        let activity = Activity::default();
+        *activity.last.lock().unwrap() = Some(Instant::now() - Duration::from_secs(10));
+        assert!(activity.not_starting(Duration::from_secs(5)));
+        assert!(!activity.not_starting(Duration::from_secs(20)));
+        assert!(!activity.stuck(Duration::from_secs(5)));
+        activity.armed.store(true, Ordering::Release);
+        assert!(activity.stuck(Duration::from_secs(5)));
+        assert!(!activity.not_starting(Duration::from_secs(5)));
+    }
 
     #[test]
     fn idle_timeouts_follow_the_wall_limits() {

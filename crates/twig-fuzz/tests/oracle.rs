@@ -5,6 +5,7 @@
 //! cargo test -p twig-fuzz --test oracle -- --ignored
 //! ```
 
+use std::process::Command;
 use std::time::{Duration, Instant};
 
 use twig_fuzz::kit::case::Case;
@@ -12,13 +13,32 @@ use twig_fuzz::kit::diff::{Verdict, compare};
 use twig_fuzz::kit::json::Json;
 use twig_fuzz::kit::result::CaseResult;
 use twig_fuzz::minimize::{self, Options, SameSignature, minimize, oracle_request};
-use twig_fuzz::oracle::Oracle;
+use twig_fuzz::oracle::{DEFAULT_IMAGE, Oracle};
 use twig_fuzz::worker::Executor;
 
 fn oracle() -> Oracle {
     let oracle = Oracle::from_env();
     oracle.ensure_image().expect("the oracle image");
     oracle
+}
+
+/// The containers (in any state) whose names start with the client's prefix.
+fn containers(oracle_prefix: &str) -> Vec<String> {
+    let output = Command::new("docker")
+        .args([
+            "ps",
+            "-a",
+            "--filter",
+            &format!("name={oracle_prefix}-"),
+            "--format",
+            "{{.Names}}",
+        ])
+        .output()
+        .expect("docker ps");
+    String::from_utf8_lossy(&output.stdout)
+        .lines()
+        .map(str::to_owned)
+        .collect()
 }
 
 fn cases(json: &str) -> Vec<Json> {
@@ -109,6 +129,56 @@ fn a_silent_runner_is_killed_and_its_cases_run_again() {
         "{:?}",
         oracle.incidents
     );
+    // the silent container was removed, the others removed themselves (`--rm`)
+    assert_eq!(containers(&oracle.container_prefix), Vec::<String>::new());
+}
+
+/// A container under the name the client is about to use, left in state `Created` (which `--rm`
+/// never removes), is removed, and the batch goes to the next name (T20).
+#[test]
+#[ignore = "needs Docker"]
+fn a_stale_container_with_the_next_name_is_removed_and_the_name_skipped() {
+    let mut oracle = oracle();
+    let prefix = oracle.container_prefix.clone();
+    let image = std::env::var("TWIG_ORACLE_IMAGE").unwrap_or_else(|_| DEFAULT_IMAGE.to_owned());
+    let stale = format!("{prefix}-1");
+    let created = Command::new("docker")
+        .args(["create", "--name", &stale, &image, "php", "-v"])
+        .output()
+        .expect("docker create");
+    assert!(created.status.success(), "{created:?}");
+    assert_eq!(containers(&prefix), [stale.as_str()]);
+    let results = oracle
+        .run(
+            &cases(r#"[{"id":"a","env":"plain","templates":{"index.twig":"a"}}]"#),
+            None,
+        )
+        .unwrap();
+    assert_eq!(results[0].get("output"), Some(&Json::str("a")));
+    assert!(
+        oracle.incidents.len() == 1 && oracle.incidents[0].contains(&stale),
+        "{:?}",
+        oracle.incidents
+    );
+    assert_eq!(containers(&prefix), Vec::<String>::new());
+}
+
+/// A client that is dropped while its server runs removes the server's container.
+#[test]
+#[ignore = "needs Docker"]
+fn a_dropped_client_leaves_no_container() {
+    let mut oracle = oracle();
+    let prefix = oracle.container_prefix.clone();
+    let results = oracle
+        .run_served(
+            &cases(r#"[{"id":"a","env":"plain","templates":{"index.twig":"a"}}]"#),
+            Some("process"),
+        )
+        .unwrap();
+    assert_eq!(results[0].get("output"), Some(&Json::str("a")));
+    assert_eq!(containers(&prefix).len(), 1, "the server runs");
+    drop(oracle);
+    assert_eq!(containers(&prefix), Vec::<String>::new());
 }
 
 /// The runner empties a case's filesystem cache directory first: a second run of the same case in
