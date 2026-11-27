@@ -7,9 +7,15 @@
 //!
 //! - an error stops the call where it happened, the first one in input order winning: a character the encoder rejects
 //!   (`EILSEQ`), an invalid input sequence (`EILSEQ`) or a character cut short by the end of the input (`EINVAL`);
-//! - the call stops with `E2BIG` before a character when less than the target's unit is left in the output buffer
-//!   (checked before every character, also one that is then skipped), or less than the character needs; a
-//!   //TRANSLIT replacement is written whole or not at all;
+//! - the call stops with `E2BIG` before a character when less room is left in the output buffer than glibc wants
+//!   before it ([`Charset::room`]: the target's unit, but two bytes in EUC-JP for a character it does not write as
+//!   one byte and in ISO-2022-JP while JIS X 0208 is designated), checked before every character, also one that is
+//!   then skipped, or less than the character needs;
+//! - //TRANSLIT tries the alternatives of a character in turn (`translit.rs`), wanting that room before each of their
+//!   characters too (also before one it then cannot represent: `E2BIG`); an alternative with a character the target
+//!   cannot represent fails, one that does not fit ends the call with `E2BIG` (an alternative is written whole or not
+//!   at all), and when every one fails, glibc writes its default `?`. In the ISO-2022 charsets an attempt that fails
+//!   or does not fit keeps the designations it reached (not its bytes), and what fits of the default `?` stays;
 //! - with //IGNORE, invalid input and characters the target cannot represent are skipped. A round in which the
 //!   encoder skipped something ends the call with `EILSEQ` right after that round, before the rest of the input
 //!   (at the end of the input too); input the decoder skipped only makes the call end with `EILSEQ` when it was
@@ -22,7 +28,8 @@
 //! - UTF-16 and UTF-32 write their byte order mark when the encoder runs for the first time (a run that finds less
 //!   room than the mark does not count), and during that first run again before every //TRANSLIT replacement (glibc
 //!   converts the replacement as if it were the start of a stream); that second mark stays in the output even when
-//!   the replacement then does not fit;
+//!   the replacement then does not fit. ISO-2022-KR writes its header the same way, but before each alternative glibc
+//!   tries (staying only with one that fits) and before its default `?` (staying);
 //! - the decoders of CP1255 and CP1258 hold characters back (see `codepage.rs`). A round needs room for a character
 //!   before each byte it reads, and a held character only takes room once written: a byte that makes the decoder
 //!   write the held character and then its own ends the round in between when only the first fits (the next round
@@ -33,6 +40,7 @@
 
 use super::codec::{Charset, DecodeState, Decoded, Encoded};
 use super::codepage::Codepage;
+use super::iso2022::{self, Iso2022};
 use super::translit;
 
 /// Characters per round: the size of glibc's buffer between the two steps.
@@ -49,6 +57,9 @@ pub(crate) enum Status {
     Illegal,
     /// `EINVAL`: the input ends inside a character.
     Incomplete,
+    /// A //TRANSLIT replacement into an ISO-2022 charset this module does not model ([`translit::unmodelled`]): the
+    /// conversion is not supported.
+    Unsupported,
 }
 
 /// What //IGNORE skipped in the current round (silent skips aside).
@@ -70,8 +81,10 @@ struct RoundChar {
     /// Where the call ends when the encoder stops right after this character: the input offset after the byte that
     /// gave it (before that byte when the byte gives a second character, which does not fit then) ...
     resume: usize,
-    /// ... and what a combining decoder holds back at that point.
+    /// ... and what a combining decoder holds back at that point ...
     held: Option<u32>,
+    /// ... and the designations of an ISO-2022 decoder.
+    iso: iso2022::State,
 }
 
 /// A conversion descriptor (`iconv_t`): the two charsets, the target's //TRANSLIT and //IGNORE flags and the state
@@ -88,6 +101,8 @@ pub(crate) struct Converter {
     /// The character an encoder that composes holds back until the next one shows whether the two make one code
     /// (BIG5-HKSCS).
     encode_held: Option<u32>,
+    /// The designations of an ISO-2022 encoder.
+    encode_state: iso2022::State,
     /// The characters of the current round.
     chars: Vec<RoundChar>,
 }
@@ -103,6 +118,7 @@ impl Converter {
             decode_state: DecodeState::default(),
             encoder_started: false,
             encode_held: None,
+            encode_state: iso2022::State::default(),
             chars: Vec::new(),
         }
     }
@@ -143,6 +159,7 @@ impl Converter {
                 None => stop = Some(Status::Incomplete),
             }
             let held_at_start = self.decode_state.held;
+            let iso_at_start = self.decode_state.iso;
             if self.from.composing().is_none()
                 && let Some(c) = self.decode_state.held.take()
             {
@@ -151,6 +168,7 @@ impl Converter {
                     c,
                     resume: round_start,
                     held: None,
+                    iso: iso_at_start,
                 });
             }
             let mut past_end = false;
@@ -169,6 +187,7 @@ impl Converter {
                             c: a,
                             resume: p,
                             held: Some(b),
+                            iso: self.decode_state.iso,
                         });
                         if chars.len() == chunk {
                             self.decode_state.held = Some(b);
@@ -177,6 +196,7 @@ impl Converter {
                                 c: b,
                                 resume: p,
                                 held: None,
+                                iso: self.decode_state.iso,
                             });
                         }
                     }
@@ -188,9 +208,15 @@ impl Converter {
                                 c,
                                 resume: p,
                                 held: None,
+                                iso: self.decode_state.iso,
                             });
                         }
                     },
+                    Decoded::Shift(len, st) => {
+                        // an escape sequence or a shift: no character
+                        p += len;
+                        self.decode_state.iso = st;
+                    }
                     Decoded::Invalid { len, silent } if self.ignore => {
                         p += len;
                         skipped.input |= !silent;
@@ -216,6 +242,7 @@ impl Converter {
                 if first_run && !bom.is_empty() {
                     if *space < bom.len() {
                         self.decode_state.held = held_at_start;
+                        self.decode_state.iso = iso_at_start;
                         return (round_start, Status::TooBig);
                     }
                     out.extend_from_slice(bom);
@@ -227,11 +254,12 @@ impl Converter {
                         self.encode(chars[i].c, first_run, out, space, &mut skipped)
                     {
                         // the call stops after the last character written
-                        let (resume, held) = match i {
-                            0 => (round_start, held_at_start),
-                            _ => (chars[i - 1].resume, chars[i - 1].held),
+                        let (resume, held, iso) = match i {
+                            0 => (round_start, held_at_start, iso_at_start),
+                            _ => (chars[i - 1].resume, chars[i - 1].held, chars[i - 1].iso),
                         };
                         self.decode_state.held = held;
+                        self.decode_state.iso = iso;
                         return (resume, status);
                     }
                 }
@@ -274,7 +302,13 @@ impl Converter {
         end: usize,
         chars: &mut Vec<RoundChar>,
     ) -> usize {
-        let at = |c, resume, held| RoundChar { c, resume, held };
+        let iso = self.decode_state.iso;
+        let at = |c, resume, held| RoundChar {
+            c,
+            resume,
+            held,
+            iso,
+        };
         let Some(held) = self.decode_state.held.take() else {
             if cp.holds(c) {
                 self.decode_state.held = Some(c);
@@ -332,19 +366,37 @@ impl Converter {
         self.flush_encoder(out, space)
     }
 
-    /// The flush of a composing encoder: writes the character it holds.
-    fn flush_encoder(&mut self, out: &mut Vec<u8>, space: usize) -> Status {
-        let Some(held) = self.encode_held else {
-            return Status::Done;
-        };
-        let Encoded::Bytes(bytes, len) = self.to.encode(held) else {
-            unreachable!("an encoder holds characters it can write")
-        };
-        if len > space {
-            return Status::TooBig;
+    /// The flush of the encoder: writes the character a composing encoder holds, and the shift or designation that
+    /// returns an ISO-2022 encoder to its initial state (ISO-2022-KR's header first if nothing was encoded).
+    fn flush_encoder(&mut self, out: &mut Vec<u8>, mut space: usize) -> Status {
+        if let Some(held) = self.encode_held {
+            let Encoded::Bytes(bytes, len) = self.to.encode(held) else {
+                unreachable!("an encoder holds characters it can write")
+            };
+            if len > space {
+                return Status::TooBig;
+            }
+            out.extend_from_slice(&bytes[..len]);
+            space -= len;
+            self.encode_held = None;
         }
-        out.extend_from_slice(&bytes[..len]);
-        self.encode_held = None;
+        if let Charset::Iso2022(cs) = self.to {
+            if !self.encoder_started {
+                let header = self.to.bom();
+                if header.len() > space {
+                    return Status::TooBig;
+                }
+                out.extend_from_slice(header);
+                space -= header.len();
+                self.encoder_started = true;
+            }
+            let reset = cs.reset(self.encode_state);
+            if reset.len() > space {
+                return Status::TooBig;
+            }
+            out.extend_from_slice(reset);
+            self.encode_state = iso2022::State::default();
+        }
         Status::Done
     }
 
@@ -357,7 +409,10 @@ impl Converter {
         space: &mut usize,
         skipped: &mut Skipped,
     ) -> Result<(), Status> {
-        if *space < self.to.unit() {
+        if let Charset::Iso2022(cs) = self.to {
+            return self.encode_iso2022(cs, c, first_run, out, space, skipped);
+        }
+        if *space < self.to.room(c) {
             return Err(Status::TooBig);
         }
         if let Some(held) = self.encode_held {
@@ -381,7 +436,7 @@ impl Converter {
             out.extend_from_slice(&bytes[..len]);
             *space -= len;
             self.encode_held = None;
-            if *space < self.to.unit() {
+            if *space < self.to.room(c) {
                 return Err(Status::TooBig);
             }
         }
@@ -406,20 +461,7 @@ impl Converter {
                     out.extend_from_slice(bom);
                     *space -= bom.len();
                 }
-                let mut replacement = [0u8; 24];
-                let mut len = 0;
-                for &r in translit::replacement(self.to, c) {
-                    let Encoded::Bytes(bytes, n) = self.to.encode(r) else {
-                        unreachable!("transliterations are representable in their target")
-                    };
-                    replacement[len..len + n].copy_from_slice(&bytes[..n]);
-                    len += n;
-                }
-                if len > *space {
-                    return Err(Status::TooBig);
-                }
-                out.extend_from_slice(&replacement[..len]);
-                *space -= len;
+                self.transliterate(c, out, space)?;
                 // a replacement makes the round forget what //IGNORE skipped before it
                 *skipped = Skipped {
                     translit: true,
@@ -432,6 +474,186 @@ impl Converter {
             Encoded::Illegal { silent: true } if self.ignore => {}
             Encoded::Unmappable | Encoded::Illegal { .. } => return Err(Status::Illegal),
         }
+        Ok(())
+    }
+}
+
+impl Converter {
+    /// Encodes one character into an ISO-2022 charset: its designation or shift first (which holds once written,
+    /// even when the character does not fit then), then its bytes. See [`Converter::transliterate_iso2022`] for
+    /// //TRANSLIT.
+    fn encode_iso2022(
+        &mut self,
+        cs: Iso2022,
+        c: u32,
+        first_run: bool,
+        out: &mut Vec<u8>,
+        space: &mut usize,
+        skipped: &mut Skipped,
+    ) -> Result<(), Status> {
+        if *space < self.to.unit() {
+            return Err(Status::TooBig);
+        }
+        if (0xE_0000..=0xE_007F).contains(&c) && cs.tags_vanish() {
+            self.encode_state = cs.tag(c, self.encode_state);
+            return Ok(());
+        }
+        if *space < cs.room(self.encode_state) {
+            return Err(Status::TooBig);
+        }
+        self.encode_state = cs.untag(self.encode_state);
+        if let Some(step) = cs.encode(c, self.encode_state) {
+            if !step.shift.is_empty() {
+                if step.shift.len() > *space {
+                    return Err(Status::TooBig);
+                }
+                out.extend_from_slice(step.shift);
+                *space -= step.shift.len();
+                self.encode_state = step.shifted;
+            }
+            if step.len > *space {
+                return Err(Status::TooBig);
+            }
+            out.extend_from_slice(&step.bytes[..step.len]);
+            *space -= step.len;
+            self.encode_state = step.after;
+            return Ok(());
+        }
+        if self.translit {
+            if translit::unmodelled(cs, c) {
+                return Err(Status::Unsupported);
+            }
+            self.transliterate_iso2022(cs, c, first_run, out, space)?;
+            // a replacement makes the round forget what //IGNORE skipped before it
+            *skipped = Skipped {
+                translit: true,
+                ..Skipped::default()
+            };
+            return Ok(());
+        }
+        if self.ignore {
+            skipped.output = true;
+            return Ok(());
+        }
+        Err(Status::Illegal)
+    }
+}
+
+impl Converter {
+    /// Writes the //TRANSLIT replacement of `c`, which the target cannot represent. glibc converts each alternative
+    /// of the table in turn: before each of its characters it wants room ([`Charset::room`]), else the call ends with
+    /// `E2BIG` (also when the character then turns out not to be representable); an alternative with a character the
+    /// target cannot represent fails and the next one is tried, one that does not fit ends the call with `E2BIG`;
+    /// when every alternative fails (or the table has none), its default `?`.
+    fn transliterate(&self, c: u32, out: &mut Vec<u8>, space: &mut usize) -> Result<(), Status> {
+        let mut bytes = Vec::new();
+        'alternatives: for alternative in translit::alternatives(c) {
+            bytes.clear();
+            for &r in alternative {
+                if *space - bytes.len() < self.to.room(r) {
+                    return Err(Status::TooBig);
+                }
+                let Encoded::Bytes(b, n) = self.to.encode(r) else {
+                    continue 'alternatives;
+                };
+                if bytes.len() + n > *space {
+                    return Err(Status::TooBig);
+                }
+                bytes.extend_from_slice(&b[..n]);
+            }
+            out.extend_from_slice(&bytes);
+            *space -= bytes.len();
+            return Ok(());
+        }
+        let Encoded::Bytes(b, n) = self.to.encode(0x3F) else {
+            unreachable!("every target has `?`")
+        };
+        if n > *space {
+            return Err(Status::TooBig);
+        }
+        out.extend_from_slice(&b[..n]);
+        *space -= n;
+        Ok(())
+    }
+
+    /// Writes the //TRANSLIT replacement of `c`, which the ISO-2022 charset `cs` cannot represent. glibc converts each
+    /// alternative of the table in turn from the encoder's state (after ISO-2022-KR's header during the encoder's
+    /// first run, like the byte order mark of UTF-16):
+    ///
+    /// - before each character it needs room for a unit, else the call ends with `E2BIG` (also when the character
+    ///   then turns out not to be representable);
+    /// - an alternative with a character the charset cannot represent fails and the next one is tried;
+    /// - one that does not fit ends the call with `E2BIG`, discarded, but the designations it wrote before stay in
+    ///   the encoder's state (not in the output);
+    /// - when every alternative fails (or the table has none), its default `?` goes the same way, except that what
+    ///   fits of it stays in the output (the header, a shift).
+    fn transliterate_iso2022(
+        &mut self,
+        cs: Iso2022,
+        c: u32,
+        first_run: bool,
+        out: &mut Vec<u8>,
+        space: &mut usize,
+    ) -> Result<(), Status> {
+        let header = if first_run { self.to.bom() } else { &[] };
+        for alternative in translit::alternatives(c) {
+            let mut st = self.encode_state;
+            let mut bytes = header.to_vec();
+            if bytes.len() > *space {
+                return Err(Status::TooBig);
+            }
+            let mut representable = true;
+            for &r in alternative {
+                if *space - bytes.len() < cs.room(st) {
+                    self.encode_state = st;
+                    return Err(Status::TooBig);
+                }
+                let Some(step) = cs.encode(r, st) else {
+                    representable = false;
+                    break;
+                };
+                if bytes.len() + step.shift.len() > *space {
+                    self.encode_state = st;
+                    return Err(Status::TooBig);
+                }
+                bytes.extend_from_slice(step.shift);
+                st = step.shifted;
+                if bytes.len() + step.len > *space {
+                    self.encode_state = st;
+                    return Err(Status::TooBig);
+                }
+                bytes.extend_from_slice(&step.bytes[..step.len]);
+                st = step.after;
+            }
+            // a failed attempt is discarded, but the designations it wrote before stay in the encoder's state
+            self.encode_state = st;
+            if representable {
+                out.extend_from_slice(&bytes);
+                *space -= bytes.len();
+                return Ok(());
+            }
+        }
+        // the default `?`: each piece stays once written
+        let step = cs
+            .encode(0x3F, self.encode_state)
+            .expect("ASCII is representable");
+        if header.len() > *space {
+            return Err(Status::TooBig);
+        }
+        out.extend_from_slice(header);
+        *space -= header.len();
+        if step.shift.len() > *space {
+            return Err(Status::TooBig);
+        }
+        out.extend_from_slice(step.shift);
+        *space -= step.shift.len();
+        self.encode_state = step.shifted;
+        if step.len > *space {
+            return Err(Status::TooBig);
+        }
+        out.extend_from_slice(&step.bytes[..step.len]);
+        *space -= step.len;
+        self.encode_state = step.after;
         Ok(())
     }
 }

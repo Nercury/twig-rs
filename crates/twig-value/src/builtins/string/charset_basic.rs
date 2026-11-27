@@ -32,6 +32,7 @@ mod codepage;
 #[rustfmt::skip]
 mod codepage_table;
 mod engine;
+mod iso2022;
 mod multibyte;
 #[rustfmt::skip]
 mod multibyte_table;
@@ -146,6 +147,7 @@ pub fn iconv_bytes(
             diag.notice("iconv(): Detected an illegal character in input string")?;
             Ok(None)
         }
+        Err(Status::Unsupported) => Err(unsupported(out_charset)),
         Err(Status::TooBig | Status::Done) => {
             // "should not happen" in PHP: glibc never reports E2BIG with the input used up
             diag.warn("iconv(): Buffer length exceeded")?;
@@ -366,5 +368,132 @@ mod tests {
             None
         );
         assert_eq!(diag.len(), 1);
+    }
+
+    /// The call vectors (tests/vectors/string/charset_basic/calls.json, see calls.gen.php there): single calls of
+    /// glibc's `iconv()` from UCS-4BE, with the output space of each set, against `engine::Converter`.
+    #[test]
+    fn calls() {
+        fn unhex(h: &str) -> Vec<u8> {
+            (0..h.len() / 2)
+                .map(|i| u8::from_str_radix(&h[2 * i..2 * i + 2], 16).unwrap())
+                .collect()
+        }
+        fn hex(b: &[u8]) -> String {
+            b.iter().map(|x| format!("{x:02x}")).collect()
+        }
+        fn status(s: Status) -> &'static str {
+            match s {
+                Status::Done => "OK",
+                Status::TooBig => "E2BIG",
+                Status::Illegal => "EILSEQ",
+                Status::Incomplete => "EINVAL",
+                Status::Unsupported => "UNSUPPORTED",
+            }
+        }
+        let path = concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/tests/vectors/string/charset_basic/calls.json"
+        );
+        let file: serde_json::Value =
+            serde_json::from_str(&std::fs::read_to_string(path).expect("calls.json")).unwrap();
+        let names: Vec<Vec<u8>> = file["names"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|h| unhex(h.as_str().unwrap()))
+            .collect();
+        let cases = file["cases"].as_array().unwrap();
+        // alternatives no target shows of which more than what translit.gen.php measures shows here, where the room
+        // runs out (reference/deviations.md): U+20AB DONG SIGN into EUC-JP, U+33A8 SQUARE M OVER S SQUARED into
+        // ISO-2022-JP after JIS X 0208
+        const KNOWN: [&str; 2] = [
+            "EUC-JP//TRANSLIT 00000061000020ab00000061",
+            "ISO-2022-JP//TRANSLIT 00003042000033a800000061",
+        ];
+        let mut known = 0;
+        let mut failures = Vec::new();
+        for case in cases {
+            let case = case.as_array().unwrap();
+            let to = &names[case[1].as_u64().unwrap() as usize];
+            let input = unhex(case[2].as_str().unwrap());
+            let target = names::parse(to);
+            let Lookup::Supported(t) = target.lookup else {
+                panic!("{}: not supported", String::from_utf8_lossy(to));
+            };
+            let new = || Converter::new(Charset::Ucs4, t, target.translit, target.ignore);
+            let mut got = String::new();
+            if case[0] == "seq" {
+                let mut conv = new();
+                let mut pos = 0;
+                for size in case[3].as_str().unwrap().split(',') {
+                    let mut out = Vec::new();
+                    if size == "f" {
+                        let s = conv.flush(&mut out, 64);
+                        got += &format!(" [flush {} out={}]", status(s), hex(&out));
+                    } else {
+                        let (consumed, s) =
+                            conv.call(&input[pos..], &mut out, size.parse().unwrap());
+                        pos += consumed;
+                        got += &format!(" [{} c={consumed} out={}]", status(s), hex(&out));
+                    }
+                }
+            } else {
+                let first = case[3].as_u64().unwrap() as usize;
+                for k in 1..=12 {
+                    let mut conv = new();
+                    let mut out = Vec::new();
+                    let (c1, s1) = conv.call(&input, &mut out, first);
+                    if k == 1 {
+                        got += &format!(" first={},{c1},{}", status(s1), hex(&out));
+                    }
+                    out.clear();
+                    let (c2, s2) = conv.call(&input[c1..], &mut out, k);
+                    if c2 > 0 || s2 != Status::TooBig || !out.is_empty() {
+                        got += &format!(" {k}:{}:{c2}:{}", status(s2), hex(&out));
+                    }
+                    if c2 > 0 || s2 != Status::TooBig {
+                        break;
+                    }
+                }
+            }
+            if got.len() > 64 {
+                // fnv1a64
+                let h = got.bytes().fold(0xcbf2_9ce4_8422_2325_u64, |h, b| {
+                    (h ^ u64::from(b)).wrapping_mul(0x0100_0000_01b3)
+                });
+                got = format!("#{h:016x}");
+            }
+            let line = format!(
+                "{} {}",
+                String::from_utf8_lossy(to),
+                case[2].as_str().unwrap()
+            );
+            if KNOWN.contains(&line.as_str()) {
+                assert_ne!(got, case[4].as_str().unwrap(), "{line} is modelled now");
+                known += 1;
+            } else if got != case[4].as_str().unwrap() {
+                failures.push(format!(
+                    "{} {} {}: got{got}, want{}",
+                    case[0],
+                    String::from_utf8_lossy(to),
+                    case[2],
+                    case[4]
+                ));
+            }
+        }
+        assert!(cases.len() > 10_000);
+        assert_eq!(known, KNOWN.len());
+        assert!(
+            failures.is_empty(),
+            "{} of {} calls differ:
+{}",
+            failures.len(),
+            cases.len(),
+            failures[..failures.len().min(20)].join(
+                "
+"
+            )
+        );
     }
 }

@@ -6,6 +6,7 @@
 
 use super::codec::Charset;
 use super::codepage::Codepage;
+use super::iso2022::Iso2022;
 use super::multibyte::Multibyte;
 
 /// The known charset names (upper case, `A` or `A/B`) and their converters.
@@ -368,9 +369,9 @@ pub(super) static NAMES: [(&str, Option<Charset>); 1180] = [
     ("CSISO18GREEK7OLD", None),
     ("CSISO19LATINGREEK", None),
     ("CSISO2022CN", None),
-    ("CSISO2022JP", None),
-    ("CSISO2022JP2", None),
-    ("CSISO2022KR", None),
+    ("CSISO2022JP", Some(Charset::Iso2022(Iso2022::Jp))),
+    ("CSISO2022JP2", Some(Charset::Iso2022(Iso2022::Jp2))),
+    ("CSISO2022KR", Some(Charset::Iso2022(Iso2022::Kr))),
     ("CSISO2033", None),
     ("CSISO21GERMAN", None),
     ("CSISO25FRENCH", None),
@@ -754,10 +755,10 @@ pub(super) static NAMES: [(&str, Option<Charset>); 1180] = [
     ("ISO-10646/UTF8", Some(Charset::Utf8)),
     ("ISO-2022-CN", None),
     ("ISO-2022-CN-EXT", None),
-    ("ISO-2022-JP", None),
-    ("ISO-2022-JP-2", None),
+    ("ISO-2022-JP", Some(Charset::Iso2022(Iso2022::Jp))),
+    ("ISO-2022-JP-2", Some(Charset::Iso2022(Iso2022::Jp2))),
     ("ISO-2022-JP-3", None),
-    ("ISO-2022-KR", None),
+    ("ISO-2022-KR", Some(Charset::Iso2022(Iso2022::Kr))),
     ("ISO-8859-1", Some(Charset::Latin1)),
     ("ISO-8859-10", Some(Charset::Codepage(Codepage::Iso8859_10))),
     ("ISO-8859-11", Some(Charset::Codepage(Codepage::Iso8859_11))),
@@ -843,9 +844,9 @@ pub(super) static NAMES: [(&str, Option<Charset>); 1180] = [
     ("ISO11548-1", None),
     ("ISO2022CN", None),
     ("ISO2022CNEXT", None),
-    ("ISO2022JP", None),
-    ("ISO2022JP2", None),
-    ("ISO2022KR", None),
+    ("ISO2022JP", Some(Charset::Iso2022(Iso2022::Jp))),
+    ("ISO2022JP2", Some(Charset::Iso2022(Iso2022::Jp2))),
+    ("ISO2022KR", Some(Charset::Iso2022(Iso2022::Kr))),
     ("ISO646-CA", None),
     ("ISO646-CA2", None),
     ("ISO646-CN", None),

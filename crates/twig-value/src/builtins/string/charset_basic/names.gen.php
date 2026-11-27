@@ -208,6 +208,33 @@ function deep_multibyte_fingerprint(string $name): string
     return md5(implode(',', $r));
 }
 
+/** The deeper print of an ISO-2022 charset: every two-byte input after each designation, and every BMP code point
+ * after a character of each set. */
+function deep_iso2022_fingerprint(string $name): string
+{
+    $r = [];
+    foreach (['', "\x1b(B", "\x1b(J", "\x1b\$@", "\x1b\$B", "\x1b\$A", "\x1b\$(C", "\x1b\$(D", "\x1b(I", "\x1b.A\x1bN",
+        "\x1b.F\x1bN", "\x0e", "\x1b\$)C\x0e"] as $prefix) {
+        for ($a = 0; $a < 256; $a++) {
+            $row = '';
+            for ($b = 0; $b < 256; $b++) {
+                $row .= probe($name, 'UCS-4BE', $prefix . chr($a) . chr($b)) . ',';
+            }
+            $r[] = md5($row);
+        }
+    }
+    foreach ([0x61, 0xA5, 0x3042, 0x4E02, 0x554A, 0xAC00, 0xFF61, 0xA0, 0x386] as $x) {
+        $row = '';
+        for ($cp = 0; $cp < 0x10000; $cp++) {
+            if ($cp < 0xD800 || $cp > 0xDFFF) {
+                $row .= probe('UCS-4BE', $name, pack('N', $x) . pack('N', $cp)) . ',';
+            }
+        }
+        $r[] = md5($row);
+    }
+    return md5(implode(',', $r));
+}
+
 $canonical = [];
 foreach (BASIC as $variant => $name) {
     $canonical[$variant] = $name;
@@ -218,6 +245,9 @@ foreach (CODEPAGES as $variant => [$name]) {
 foreach (MULTIBYTES as $variant => $name) {
     $canonical["Multibyte(Multibyte::$variant)"] = $name;
 }
+foreach (ISO2022S as $variant => $name) {
+    $canonical["Iso2022(Iso2022::$variant)"] = $name;
+}
 $canonicalPrints = [];
 $deepPrints = [];
 foreach ($canonical as $variant => $name) {
@@ -226,6 +256,8 @@ foreach ($canonical as $variant => $name) {
         $deepPrints[$variant] = deep_fingerprint($name);
     } elseif (str_starts_with($variant, 'Multibyte')) {
         $deepPrints[$variant] = deep_multibyte_fingerprint($name);
+    } elseif (str_starts_with($variant, 'Iso2022')) {
+        $deepPrints[$variant] = deep_iso2022_fingerprint($name);
     }
 }
 if (count($canonicalPrints) !== count($canonical)) {
@@ -238,8 +270,11 @@ foreach (preg_split('/\s+/', trim((string) shell_exec('iconv -l'))) as $listed) 
     // `iconv -l` prints NAME// or, for names with a slash inside, A/B/
     $key = str_ends_with($listed, '//') ? substr($listed, 0, -2) : rtrim($listed, '/');
     $variant = $canonicalPrints[fingerprint($key)] ?? null;
-    $deep = static fn (string $v, string $key): string => str_starts_with($v, 'Multibyte')
-        ? deep_multibyte_fingerprint($key) : deep_fingerprint($key);
+    $deep = static fn (string $v, string $key): string => match (true) {
+        str_starts_with($v, 'Multibyte') => deep_multibyte_fingerprint($key),
+        str_starts_with($v, 'Iso2022') => deep_iso2022_fingerprint($key),
+        default => deep_fingerprint($key),
+    };
     if ($variant !== null && isset($deepPrints[$variant]) && $deep($variant, $key) !== $deepPrints[$variant]) {
         fwrite(STDERR, "$key: only the deeper print differs from $canonical[$variant]\n");
         $variant = null;
@@ -255,6 +290,7 @@ echo "//! slashes, sorted bytewise, with the charset_basic converter it behaves 
 echo "//! does not convert).\n\n";
 echo "use super::codec::Charset;\n";
 echo "use super::codepage::Codepage;\n";
+echo "use super::iso2022::Iso2022;\n";
 echo "use super::multibyte::Multibyte;\n\n";
 echo "/// The known charset names (upper case, `A` or `A/B`) and their converters.\n";
 printf("pub(super) static NAMES: [(&str, Option<Charset>); %d] = [\n", count($entries));

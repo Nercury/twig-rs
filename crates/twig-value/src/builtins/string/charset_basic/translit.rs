@@ -2,16 +2,19 @@
 //! measured in the oracle by `translit.gen.php`: glibc 2.41 under `LC_CTYPE=C.UTF-8`, one character at a time (the
 //! locale has no multi-character rules, also checked there), for every target with a smaller repertoire than
 //! Unicode. A character may have several alternatives (U+339F SQUARE MM SQUARED is "mm²", or "mm^2" where the target
-//! has no "²"): the target gets the first one it can represent. Everything else becomes `?`.
+//! has no "²"): glibc tries them in order and writes the first one the target can represent, or its default `?` (see
+//! `engine.rs` for what happens when the output space runs out meanwhile). Some alternatives fail in every target;
+//! the table keeps what shows of them (the code point 0xFFFF_FFFF, which no charset has, for their first character
+//! no target has; measured with `translit_probe.c`): they make glibc want room for their first characters, and change
+//! designations in the ISO-2022 charsets.
 
-use super::codec::{Charset, Encoded};
-use super::translit_table::{DATA, KEYS, SPANS};
-
-/// glibc's replacement when it knows no transliteration the target can represent.
-const QUESTION_MARK: &[u32] = &[0x3F];
+use super::iso2022::Iso2022;
+use super::translit_table::{
+    DATA, ISO_2022_JP_2_UNMODELLED, ISO_2022_JP_UNMODELLED, ISO_2022_KR_UNMODELLED, KEYS, SPANS,
+};
 
 /// The alternatives of `c`, in the order glibc tries them.
-fn alternatives(c: u32) -> impl Iterator<Item = &'static [u32]> {
+pub(crate) fn alternatives(c: u32) -> impl Iterator<Item = &'static [u32]> {
     let first = KEYS.partition_point(|&k| k < c);
     KEYS[first..]
         .iter()
@@ -23,29 +26,34 @@ fn alternatives(c: u32) -> impl Iterator<Item = &'static [u32]> {
         })
 }
 
-/// The //TRANSLIT replacement of `c` for `target`, which cannot represent it: code points `target` can represent.
-pub(crate) fn replacement(target: Charset, c: u32) -> &'static [u32] {
-    if c > KEYS[KEYS.len() - 1] {
-        // most of the code space
-        return QUESTION_MARK;
-    }
-    alternatives(c)
-        .find(|alternative| {
-            alternative
-                .iter()
-                .all(|&u| matches!(target.encode(u), Encoded::Bytes(..)))
-        })
-        .unwrap_or(QUESTION_MARK)
+/// Whether the //TRANSLIT replacement of `c` in an ISO-2022 charset is beyond the table: glibc tries an alternative
+/// that fails partway in that charset and keeps the designations the attempt reached, and the table lacks it (no
+/// target shows it; measured by translit.gen.php from a few states). twig-rs does not convert such a character (four
+/// into ISO-2022-JP, one into ISO-2022-JP-2).
+pub(crate) fn unmodelled(target: Iso2022, c: u32) -> bool {
+    let list: &[u32] = match target {
+        Iso2022::Jp => &ISO_2022_JP_UNMODELLED,
+        Iso2022::Jp2 => &ISO_2022_JP_2_UNMODELLED,
+        Iso2022::Kr => &ISO_2022_KR_UNMODELLED,
+    };
+    list.binary_search(&c).is_ok()
 }
 
 #[cfg(test)]
 mod tests {
+    use super::super::codec::{Charset, Encoded};
     use super::super::codepage::Codepage;
-    use super::super::codepage_table::ALL;
     use super::*;
 
+    /// What a conversion with room to spare writes for `c`.
     fn text(target: Charset, c: u32) -> String {
-        replacement(target, c)
+        alternatives(c)
+            .find(|alternative| {
+                alternative
+                    .iter()
+                    .all(|&u| matches!(target.encode(u), Encoded::Bytes(..)))
+            })
+            .unwrap_or(&[0x3F])
             .iter()
             .map(|&u| char::from_u32(u).unwrap())
             .collect()
@@ -70,33 +78,44 @@ mod tests {
         assert_eq!(text(Charset::Ascii, 0x1F00), "?");
     }
 
+    /// The table's stand-in for a character of an alternative that no charset can represent.
+    const PHANTOM: u32 = 0xFFFF_FFFF;
+
+    #[test]
+    fn no_charset_has_the_phantom() {
+        use super::super::iso2022;
+        let charsets = [
+            Charset::Utf8,
+            Charset::Utf16,
+            Charset::Utf16Be,
+            Charset::Utf16Le,
+            Charset::Utf32,
+            Charset::Utf32Be,
+            Charset::Utf32Le,
+            Charset::Ucs2,
+            Charset::Ucs2Be,
+            Charset::Ucs4,
+            Charset::Ucs4Le,
+            Charset::Ascii,
+            Charset::Latin1,
+        ]
+        .into_iter()
+        .chain(super::super::codepage_table::ALL.map(Charset::Codepage))
+        .chain(super::super::multibyte_table::ALL.map(Charset::Multibyte));
+        for cs in charsets {
+            assert!(!matches!(cs.encode(PHANTOM), Encoded::Bytes(..)), "{cs:?}");
+        }
+        for cs in [Iso2022::Jp, Iso2022::Jp2, Iso2022::Kr] {
+            assert!(cs.encode(PHANTOM, iso2022::State::default()).is_none());
+        }
+        assert!(KEYS.iter().zip(&SPANS).any(|(_, &(offset, len))| {
+            DATA[usize::from(offset)..usize::from(offset) + usize::from(len)].contains(&PHANTOM)
+        }));
+    }
+
     #[test]
     fn table_is_sorted() {
         assert!(KEYS.windows(2).all(|w| w[0] <= w[1]));
         assert_eq!(KEYS.len(), SPANS.len());
-    }
-
-    #[test]
-    fn replacements_fit_the_encoder_buffer() {
-        // engine.rs encodes a replacement into 24 bytes: the longest alternative in its longest form (three bytes per
-        // character in CP1255 and CP1258, two in UCS-2) must fit
-        let targets = ALL.iter().map(|&cp| Charset::Codepage(cp)).chain([
-            Charset::Ascii,
-            Charset::Latin1,
-            Charset::Ucs2,
-        ]);
-        for target in targets {
-            for &(offset, len) in &SPANS {
-                let offset = usize::from(offset);
-                let bytes: Option<usize> = DATA[offset..offset + usize::from(len)]
-                    .iter()
-                    .map(|&u| match target.encode(u) {
-                        Encoded::Bytes(_, n) => Some(n),
-                        _ => None,
-                    })
-                    .sum();
-                assert!(bytes.unwrap_or(0) <= 24, "{target:?}");
-            }
-        }
     }
 }

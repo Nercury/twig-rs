@@ -750,3 +750,135 @@ fn multibytes_cases() {
 fn multibytes_fuzz() {
     assert_eq!(run_conversions("multibytes_fuzz.json", false), 0);
 }
+
+/// The inputs of an `iso2022.json` kind after a prefix, without the code points `skip`, in blocks (see
+/// `iso2022_inputs()` in `iso2022.gen.php`).
+fn iso2022_inputs(kind: &str, prefix: &[u8], skip: &[u32]) -> Vec<Vec<Vec<u8>>> {
+    let with = |rest: &[u8]| [prefix, rest].concat();
+    let mut blocks = Vec::new();
+    match kind {
+        "state12" => {
+            let mut block = Vec::new();
+            for b in 0..=255u8 {
+                block.push(with(&[b]));
+                block.push(with(&[b, b'!', b'!']));
+            }
+            blocks.push(block);
+            for b0 in 0..=255u8 {
+                let mut block = Vec::new();
+                for b1 in 0..=255u8 {
+                    block.push(with(&[b0, b1]));
+                    block.push(with(&[b0, b1, b'!', b'!']));
+                }
+                blocks.push(block);
+            }
+        }
+        "esc" => {
+            for b0 in 0..=255u8 {
+                blocks.push((0..=255u8).map(|b1| with(&[0x1B, b0, b1])).collect());
+            }
+            for start in [&b"\x1b$("[..], b"\x1b$)", b"\x1b.", b"\x1bN"] {
+                let mut block = Vec::new();
+                for b in 0..=255u8 {
+                    block.push(with(&[start, &[b]].concat()));
+                    block.push(with(&[start, &[b, b'a']].concat()));
+                }
+                blocks.push(block);
+            }
+        }
+        "bmp" => {
+            for chunk in (0..=0xFFFFu32).collect::<Vec<_>>().chunks(256) {
+                blocks.push(chunk.iter().map(|c| with(&c.to_be_bytes())).collect());
+            }
+        }
+        "translit" | "ignore" => {
+            let sep = if kind == "translit" {
+                &[0, 0, 0, 0x0A][..]
+            } else {
+                &[]
+            };
+            for start in (0..0x11_0000u32).step_by(4096) {
+                let mut input = Vec::new();
+                for c in start..start + 4096 {
+                    if !(0xD800..=0xDFFF).contains(&c) && !skip.contains(&c) {
+                        input.extend(c.to_be_bytes());
+                        input.extend_from_slice(sep);
+                    }
+                }
+                blocks.push(vec![input]);
+            }
+        }
+        other => panic!("unknown iso2022 kind {other}"),
+    }
+    blocks
+}
+
+/// Runs the sets of `iso2022.json` whose kind is one of `kinds`.
+fn iso2022_sets(kinds: &[&str]) {
+    let v = load("string/charset_basic/iso2022.json");
+    let mut m = Mismatches::new("iso2022.json");
+    let mut sets = 0;
+    for set in v["sets"].as_array().expect("sets") {
+        let (from, to, kind) = (s(&set["from"]), s(&set["to"]), s(&set["kind"]));
+        if !kinds.contains(&kind) {
+            continue;
+        }
+        sets += 1;
+        let prefix = unhex(s(&set["prefix"]));
+        let skip: Vec<u32> = set["skip"]
+            .as_array()
+            .map(|a| {
+                a.iter()
+                    .map(|c| c.as_u64().expect("code point") as u32)
+                    .collect()
+            })
+            .unwrap_or_default();
+        let blocks = iso2022_inputs(kind, &prefix, &skip);
+        let expected = set["blocks"].as_array().expect("blocks");
+        assert_eq!(blocks.len(), expected.len(), "{from} -> {to} {kind}");
+        for (i, (block, want)) in blocks.iter().zip(expected).enumerate() {
+            let mut t = Vec::new();
+            for input in block {
+                t.extend(token(from.as_bytes(), to.as_bytes(), input));
+            }
+            m.check(
+                || {
+                    format!(
+                        "{from} -> {to} {kind} prefix {} block {i}",
+                        s(&set["prefix"])
+                    )
+                },
+                fnv1a64(&t),
+                s(want).to_string(),
+            );
+        }
+    }
+    assert!(sets > 0, "no sets of kinds {kinds:?}");
+    m.finish();
+}
+
+#[test]
+fn iso2022_decode() {
+    iso2022_sets(&["state12", "esc"]);
+}
+
+#[test]
+fn iso2022_encode() {
+    iso2022_sets(&["bmp"]);
+}
+
+#[test]
+fn iso2022_translit_ignore() {
+    iso2022_sets(&["translit", "ignore"]);
+}
+
+#[test]
+fn iso2022_cases() {
+    // the character whose //TRANSLIT replacement twig-rs refuses (U+20AB into ISO-2022-JP-2, see translit_table.rs)
+    assert_eq!(run_conversions("iso2022_cases.json", true), 1);
+}
+
+#[test]
+fn iso2022_fuzz() {
+    assert_eq!(run_conversions("iso2022_fuzz.json", false), 0);
+}

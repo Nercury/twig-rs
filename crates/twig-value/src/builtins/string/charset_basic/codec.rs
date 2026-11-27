@@ -10,6 +10,7 @@
 
 use super::codepage::Codepage;
 use super::engine::CHUNK;
+use super::iso2022::{self, Iso2022};
 use super::multibyte::Multibyte;
 
 /// A charset this module converts. Every name glibc maps to the same behaviour shares one variant (`UCS-2LE` is
@@ -47,6 +48,8 @@ pub(crate) enum Charset {
     Codepage(Codepage),
     /// A multi-byte charset converted with tables.
     Multibyte(Multibyte),
+    /// A stateful ISO-2022 charset.
+    Iso2022(Iso2022),
 }
 
 /// One step of decoding.
@@ -61,6 +64,8 @@ pub(crate) enum Decoded {
     Invalid { len: usize, silent: bool },
     /// The input ends inside a character (`EINVAL`).
     Incomplete,
+    /// An escape sequence or shift of `len` bytes: no character, the decoder's designations are now these.
+    Shift(usize, iso2022::State),
     /// UHC's A2 E8 under //IGNORE with fewer than four bytes left: glibc skips past the end of the input, and the call
     /// ends with `EINVAL` (what the oracle's PHP shows), whatever else the round skipped.
     PastEnd,
@@ -78,8 +83,11 @@ pub(crate) struct DecodeState {
     started: bool,
     /// The marked form turned out to be big endian.
     big_endian: bool,
-    /// The character CP1255 or CP1258 holds back (see [`Charset::composing`]).
+    /// The character CP1255 or CP1258 holds back (see [`Charset::composing`]), or the second character of a pair
+    /// BIG5-HKSCS could not deliver yet.
     pub(crate) held: Option<u32>,
+    /// The designations of an ISO-2022 decoder.
+    pub(crate) iso: iso2022::State,
 }
 
 /// What a character looks like in the target charset.
@@ -151,6 +159,7 @@ impl Charset {
                 },
             },
             Charset::Multibyte(m) => m.decode(input, ignore),
+            Charset::Iso2022(cs) => cs.decode(input, state.iso),
         }
     }
 
@@ -159,7 +168,8 @@ impl Charset {
         let surrogate = (0xD800..=0xDFFF).contains(&c);
         match self {
             Charset::Utf8 => {
-                if surrogate {
+                // (beyond six bytes: no decoder gives such a value, only the 0xFFFF_FFFF of the transliteration table)
+                if surrogate || c > 0x7FFF_FFFF {
                     return Encoded::Unmappable;
                 }
                 encode_utf8(c)
@@ -203,6 +213,8 @@ impl Charset {
                     Encoded::Unmappable
                 }
             }
+            // (beyond U+7FFFFFFF: only the 0xFFFF_FFFF of the transliteration table)
+            Charset::Ucs4 | Charset::Ucs4Le if c > 0x7FFF_FFFF => Encoded::Unmappable,
             Charset::Ucs4 => unit32(c, true),
             Charset::Ucs4Le => unit32(c, false),
             Charset::Ascii => byte_if(c, 0x80),
@@ -213,6 +225,15 @@ impl Charset {
             },
             Charset::Multibyte(m) => match m.encode(c) {
                 Some((b, len)) => Encoded::Bytes([b[0], b[1], b[2], b[3], 0, 0], len),
+                None => Encoded::Unmappable,
+            },
+            // what it is from the initial state (the engine encodes with the designations of the moment)
+            Charset::Iso2022(cs) => match cs.encode(c, iso2022::State::default()) {
+                Some(step) => {
+                    let mut b = [0; 6];
+                    b[..step.len].copy_from_slice(&step.bytes[..step.len]);
+                    Encoded::Bytes(b, step.len)
+                }
                 None => Encoded::Unmappable,
             },
         }
@@ -235,7 +256,8 @@ impl Charset {
             | Charset::Ascii
             | Charset::Latin1
             | Charset::Codepage(_)
-            | Charset::Multibyte(_) => 1,
+            | Charset::Multibyte(_)
+            | Charset::Iso2022(_) => 1,
             Charset::Utf16
             | Charset::Utf16Be
             | Charset::Utf16Le
@@ -246,6 +268,19 @@ impl Charset {
             | Charset::Utf32Le
             | Charset::Ucs4
             | Charset::Ucs4Le => 4,
+        }
+    }
+
+    /// The output space glibc wants to have left before it converts the character `c` (even one it then skips or
+    /// transliterates): the unit, but two bytes in EUC-JP for every character it does not write as one byte.
+    pub(crate) fn room(self, c: u32) -> usize {
+        match self {
+            Charset::Multibyte(Multibyte::EucJp)
+                if !matches!(self.encode(c), Encoded::Bytes(_, 1)) =>
+            {
+                2
+            }
+            _ => self.unit(),
         }
     }
 
@@ -276,6 +311,8 @@ impl Charset {
         match self {
             Charset::Utf16 => &[0xFF, 0xFE],
             Charset::Utf32 => &[0xFF, 0xFE, 0x00, 0x00],
+            // ISO-2022-KR's header behaves like a byte order mark
+            Charset::Iso2022(Iso2022::Kr) => iso2022::KR_PREFIX,
             _ => &[],
         }
     }

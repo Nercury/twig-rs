@@ -4,15 +4,18 @@
 // Black-box only: every code point is converted with PHP's iconv() in the oracle (glibc 2.41, LC_CTYPE=C.UTF-8,
 // the locale PHP runs with there), one character between \x01 separators per slot of a batch, for every target with
 // a smaller repertoire than Unicode: ANSI_X3.4-1968, ISO-8859-1, UCS-2 (U+10000 and up), the codepages of
-// codepages.inc.php and the multi-byte charsets of multibytes.inc.php (but GB18030, which represents every
-// character). Characters that come out as "?" (glibc's replacement when it knows no transliteration) and the
+// codepages.inc.php, the multi-byte charsets of multibytes.inc.php (but GB18030, which represents every character)
+// and the ISO-2022 charsets (whose results are compared as the characters they decode to: each one in a batch
+// carries its designations). Characters that come out as "?" (glibc's replacement when it knows no transliteration) and the
 // tag characters (which vanish) are left out. Pairs of characters were checked to transliterate like the two
 // characters on their own (no multi-character rules in this locale).
 //
 // The targets disagree where a character has several alternatives (U+339F is "mm²" where the target has "²", else
 // "mm^2"): the table lists, for each character, the replacements seen in the targets in an order under which taking
 // the first one the target can represent gives every target's result; the generator checks that it does, byte for
-// byte. The tests in tests/charset_basic.rs compare the table with oracle vectors.
+// byte. Then what shows only at the level of single iconv() calls, measured with translit_probe.c (compiled here):
+// alternatives that fail in every target, and the characters whose replacement into an ISO-2022 charset the table
+// cannot give (see the end). The tests in tests/charset_basic.rs compare the table with oracle vectors.
 //
 // Regenerate (from crates/twig-value/src/builtins/string/charset_basic, Git Bash):
 //   MSYS_NO_PATHCONV=1 docker run --rm -v "$(pwd -W 2>/dev/null || pwd):/t" twig-oracle:3.31.1 \
@@ -41,6 +44,17 @@ foreach (MULTIBYTES as $cs) {
     if ($cs !== 'GB18030') {
         $targets[] = $cs;
     }
+}
+// the ISO-2022 charsets are checked against the table afterwards (see the end)
+
+/** The code points of an ISO-2022 result (the bytes of one character of a batch, with its designations). */
+function iso_cps(string $target, string $bytes): array
+{
+    $r = iconv($target, 'UCS-4BE', $bytes);
+    if ($r === false) {
+        fail("$target: " . bin2hex($bytes) . ' does not decode');
+    }
+    return array_values(unpack('N*', $r) ?: []);
 }
 
 /** What each code point encodes to in $target, null when it cannot be represented. */
@@ -73,8 +87,10 @@ function repertoire(string $target): array
 /** The output of every character that $target cannot represent and does not turn into "?". */
 function measure(string $target, array $enc): array
 {
+    $iso = in_array($target, ISO2022S, true);
     $unit = $target === 'UCS-2LE' ? 2 : 1;
-    $sep = $unit === 2 ? "\x01\x00" : "\x01";
+    // ISO-2022: a line feed, which also makes ISO-2022-JP-2 designate G2 again for each character
+    $sep = $unit === 2 ? "\x01\x00" : ($iso ? "\x0a" : "\x01");
     $out = [];
     for ($start = 0x80; $start <= 0x10FFFF; $start += 4096) {
         $cps = [];
@@ -84,7 +100,7 @@ function measure(string $target, array $enc): array
                 continue;
             }
             $cps[] = $cp;
-            $in .= mb_chr($cp, 'UTF-8') . "\x01";
+            $in .= mb_chr($cp, 'UTF-8') . ($iso ? "\x0a" : "\x01");
         }
         $converted = iconv('UTF-8', "$target//TRANSLIT", $in);
         if ($converted === false) {
@@ -92,7 +108,19 @@ function measure(string $target, array $enc): array
         }
         $parts = [];
         $cur = '';
-        for ($i = 0; $i < strlen($converted); $i += $unit) {
+        if ($iso) {
+            // the characters the batch decodes to, split at the line feeds (a G2 byte of ISO-2022-JP-2 may be 0A)
+            $cur = [];
+            foreach (iso_cps($target, $converted) as $c) {
+                if ($c === 0x0A) {
+                    $parts[] = $cur;
+                    $cur = [];
+                } else {
+                    $cur[] = $c;
+                }
+            }
+        }
+        for ($i = 0; !$iso && $i < strlen($converted); $i += $unit) {
             $u = substr($converted, $i, $unit);
             if ($u === $sep) {
                 $parts[] = $cur;
@@ -109,16 +137,28 @@ function measure(string $target, array $enc): array
             if ($direct === null && $target !== 'UCS-2LE' && $cp >= 0x10000 && isset($enc[$cp])) {
                 $direct = $enc[$cp];
             }
-            if ($direct !== null) {
+            if ($iso && $direct !== null) {
+                if ($parts[$k] !== [$cp]) {
+                    fail(sprintf('%s: U+%04X is %s in a batch', $target, $cp, json_encode($parts[$k])));
+                }
+            } elseif ($direct !== null) {
                 if ($parts[$k] !== $direct) {
                     fail(sprintf('%s: U+%04X is %s alone, %s in a batch', $target, $cp, bin2hex($direct), bin2hex($parts[$k])));
                 }
-            } elseif ($parts[$k] !== ($unit === 2 ? "?\x00" : '?')) {
+            } elseif ($iso && $parts[$k] !== [0x3F]) {
+                $out[$cp] = $parts[$k];
+            } elseif (!$iso && $parts[$k] !== ($unit === 2 ? "?\x00" : '?')) {
                 $out[$cp] = $parts[$k];
             }
         }
     }
     return $out;
+}
+
+/** Code points in UCS-4BE. */
+function ucs4_of(array $cps): string
+{
+    return implode('', array_map(static fn (int $c): string => pack('N', $c), $cps));
 }
 
 /** The bytes of code points $cps in a target, null when one of them cannot be represented. */
@@ -163,6 +203,10 @@ foreach ($targets as $target) {
         $multi = $multi || ($b !== null && strlen($b) > 1 && $target !== 'UCS-2LE');
     }
     foreach ($measured[$target] as $cp => $bytes) {
+        if (in_array($target, ISO2022S, true)) {
+            $results[$cp][$target] = $bytes;
+            continue;
+        }
         if ($target === 'UCS-2LE') {
             $results[$cp][$target] = array_values(unpack('v*', $bytes));
             continue;
@@ -249,13 +293,244 @@ foreach ($targets as $target) {
         foreach ($table[$cp] ?? [] as $r) {
             $got = encode_all($enc[$target], $r);
             if ($got !== null) {
+                if (in_array($target, ISO2022S, true)) {
+                    $got = $r;
+                }
                 break;
             }
+        }
+        if (in_array($target, ISO2022S, true)) {
+            if ($got !== ($measured[$target][$cp] ?? null)) {
+                fail(sprintf('%s: U+%04X would be %s instead of %s', $target, $cp, json_encode($got), json_encode($measured[$target][$cp] ?? null)));
+            }
+            continue;
         }
         if ($got !== ($measured[$target][$cp] ?? null)) {
             fail(sprintf('%s: U+%04X would be %s instead of %s', $target, $cp, bin2hex((string) $got), bin2hex($measured[$target][$cp] ?? '?')));
         }
     }
+}
+
+// Alternatives no target shows: glibc has alternatives for some characters that fail in every target (they hold a
+// character none of them can represent). They matter where the output space runs out (glibc wants room for a byte
+// before each character of an alternative, also before one it then cannot represent) and in the ISO-2022 charsets
+// (an attempt that fails partway keeps the designations it reached). translit_probe.c measures what shows of them:
+// the characters ISO-2022-KR cannot represent that have alternatives ("entries"), and the least room ASCII needs for
+// each character ("kmin": two bytes where an alternative starts with a character ASCII has). The table stands for such
+// an alternative by PHANTOM, a code point no charset has, after "(" in the second case (all that shows of its first
+// character: one every ISO 646 variant has, and that JIS-Roman has in ISO-2022-JP, as it has no space).
+const PHANTOM = 0xFFFFFFFF;
+/** repertoire(), computed once per target. */
+function repertoire_cached(string $target): array
+{
+    static $cache = [];
+    return $cache[$target] ??= repertoire($target);
+}
+$probe = '/tmp/translit_probe';
+shell_exec('gcc -O2 -o ' . $probe . ' ' . escapeshellarg(__DIR__ . '/translit_probe.c'));
+if (!is_executable($probe)) {
+    fail('cannot build translit_probe.c');
+}
+$phantoms = 0;
+foreach (array_filter(explode("\n", (string) shell_exec("$probe entries"))) as $h) {
+    $cp = (int) hexdec($h);
+    if (!isset($table[$cp])) {
+        $table[$cp] = [[PHANTOM]];
+        $phantoms++;
+    }
+}
+/**
+ * The least output space in which the attempts at $alternatives write one of them (or the default "?"), glibc wanting
+ * room for $room($c) bytes before each character $c, and $first before the character transliterated.
+ */
+function kmin_of(array $enc, array $alternatives, callable $room, int $first): int
+{
+    for ($k = $first; ; $k++) {
+        foreach ($alternatives as $r) {
+            $used = 0;
+            foreach ($r as $c) {
+                if ($k - $used < $room($c)) {
+                    continue 3; // no room for the next character
+                }
+                if (($enc[$c] ?? null) === null) {
+                    continue 2; // the next alternative
+                }
+                $used += strlen($enc[$c]);
+                if ($used > $k) {
+                    continue 3;
+                }
+            }
+            return $k;
+        }
+        return $k;
+    }
+}
+/** The least room glibc's probe measured for the characters of $target that need more than $base: code point => K. */
+function measured_kmin(string $probe, string $target, int $base): array
+{
+    $kmin = [];
+    foreach (array_filter(explode("\n", (string) shell_exec("$probe kmin $target"))) as $l) {
+        [$h, $k] = explode(' ', $l);
+        if ((int) $k > $base) {
+            $kmin[(int) hexdec($h)] = (int) $k;
+        }
+    }
+    return $kmin;
+}
+// ASCII wants a byte before every character; EUC-JP two before every one it does not write as one byte (see
+// Charset::room in codec.rs). Where an alternative no target shows starts with characters a target has, the room the
+// target needs shows them: ASCII shows one it has (taken as "("), EUC-JP longer ones, of which the first character of
+// one of the character's alternatives is taken where it explains what EUC-JP needs.
+$ascii = $enc['ANSI_X3.4-1968'];
+$eucjp = $enc['EUC-JP'];
+$asciiRoom = static fn (int $c): int => 1;
+$eucjpRoom = static fn (int $c): int => strlen($eucjp[$c] ?? '') === 1 ? 1 : 2;
+$asciiKmin = measured_kmin($probe, 'ANSI_X3.4-1968', 1);
+$eucjpKmin = measured_kmin($probe, 'EUC-JP', 2);
+$unresolved = [];
+for ($cp = 0x80; $cp <= 0x10FFFF; $cp++) {
+    if (($cp >= 0xD800 && $cp <= 0xDFFF) || ($cp >= 0xE0000 && $cp <= 0xE007F)) {
+        continue;
+    }
+    $checks = [];
+    if (($ascii[$cp] ?? null) === null) {
+        $checks[] = [$ascii, $asciiRoom, 1, $asciiKmin[$cp] ?? 1];
+    }
+    if (($eucjp[$cp] ?? null) === null) {
+        $checks[] = [$eucjp, $eucjpRoom, 2, $eucjpKmin[$cp] ?? 2];
+    }
+    $fits = static function (array $order) use ($checks): bool {
+        foreach ($checks as [$e, $room, $first, $want]) {
+            if (kmin_of($e, $order, $room, $first) !== $want) {
+                return false;
+            }
+        }
+        return true;
+    };
+    $order = $table[$cp] ?? [];
+    if ($fits($order)) {
+        continue;
+    }
+    if (($order[0] ?? null) === [PHANTOM]) {
+        array_shift($order);
+    }
+    $candidates = [0x28];
+    foreach ($order as $r) {
+        if ($r !== [] && $r[0] !== PHANTOM && !in_array($r[0], $candidates, true)) {
+            $candidates[] = $r[0];
+        }
+    }
+    foreach ($candidates as $c) {
+        $try = array_merge([[$c, PHANTOM]], $order);
+        if ($fits($try)) {
+            $table[$cp] = $try;
+            $phantoms++;
+            continue 2;
+        }
+    }
+    $unresolved[] = sprintf('U+%04X', $cp);
+}
+// glibc's own "?" as an alternative of a character, which the targets show as its default "?": it is written whole
+// or not at all, where the default "?" keeps what fits of it (translit_probe.c "whole": after a character of JIS X 0208,
+// three bytes in ISO-2022-JP are enough for the escape sequence of ASCII but not for "?" as well)
+$explicit = 0;
+$jp = repertoire_cached('ISO-2022-JP');
+foreach (array_filter(explode("\n", (string) shell_exec("$probe whole"))) as $h) {
+    $cp = (int) hexdec($h);
+    $order = $table[$cp] ?? [];
+    if (in_array(sprintf('U+%04X', $cp), $unresolved, true)) {
+        continue;
+    }
+    // only where every alternative fails at its first character: what an attempt writes first would explain it too
+    foreach ($order as $r) {
+        if ($r !== [] && ($jp[$r[0]] ?? null) !== null) {
+            continue 2;
+        }
+    }
+    $table[$cp] = $order === [[PHANTOM]] ? [[0x3F]] : array_merge($order, [[0x3F]]);
+    $explicit++;
+}
+ksort($table);
+fwrite(STDERR, sprintf("%d alternatives no target shows and %d \"?\"; the room needed unexplained for %s\n", $phantoms,
+    $explicit, $unresolved === [] ? 'none' : implode(' ', $unresolved)));
+
+// The ISO-2022 targets: glibc encodes the alternatives with the designations of the moment, and an attempt that fails
+// partway is discarded but keeps the designations it reached, as the engine does. translit_probe.c ("stale") gives
+// what that makes of the table's alternatives from a few states; every character whose replacement glibc writes
+// otherwise from one of them (the table misses an alternative that changes designations) is listed: twig-rs refuses
+// to transliterate it into that charset.
+function tag_ucs4(string $lang): string
+{
+    $s = pack('N', 0xE0001);
+    foreach (str_split($lang) as $ch) {
+        $s .= pack('N', 0xE0000 + ord($ch));
+    }
+    return $s;
+}
+$isoStates = [
+    'ISO-2022-JP' => ['', pack('N', 0x3042), pack('N', 0xA5)],
+    'ISO-2022-JP-2' => ['', pack('N', 0x3042), pack('N', 0xAC00), pack('N', 0x4E02), pack('N', 0xA0), tag_ucs4('zh'),
+        tag_ucs4('ko') . pack('N', 0x3042), pack('N', 0x3B1) . tag_ucs4('ja'), pack('N', 0x20AC)],
+    // the header comes with the first character (a state of its own here)
+    'ISO-2022-KR' => [pack('N', 0x61), pack('N', 0xAC00)],
+];
+$unmodelled = [];
+foreach (ISO2022S as $target) {
+    $enc[$target] = repertoire_cached($target);
+    $unmodelled[$target] = [];
+    // the attempts at each character: the characters before the first one the charset cannot represent of each
+    // alternative that fails (glibc writes them and discards them), then the one that works (or the default "?")
+    $attempts = [-1 => [[], [0x3F]]]; // -1: the characters without alternatives
+    for ($cp = 0x80; $cp <= 0x10FFFF; $cp++) {
+        if (($enc[$target][$cp] ?? null) !== null || !isset($table[$cp])) {
+            continue;
+        }
+        $p = [];
+        $w = [0x3F];
+        foreach ($table[$cp] as $r) {
+            $prefix = [];
+            foreach ($r as $c) {
+                if (($enc[$target][$c] ?? null) === null) {
+                    array_push($p, ...$prefix);
+                    continue 2;
+                }
+                $prefix[] = $c;
+            }
+            $w = $r;
+            break;
+        }
+        $attempts[$cp] = [$p, $w];
+    }
+    $lines = '';
+    $order = [];
+    foreach ($isoStates[$target] as $si => $x) {
+        foreach ($attempts as $cp => [$p, $w]) {
+            $lines .= ($x === '' ? '-' : bin2hex($x)) . ' ' . ($p === [] ? '-' : bin2hex(ucs4_of($p))) . ' '
+                . ($w === [] ? '-' : bin2hex(ucs4_of($w))) . "\n";
+            $order[] = [$si, $cp];
+        }
+    }
+    file_put_contents('/tmp/stale.txt', $lines);
+    $predicted = [];
+    foreach (explode("\n", trim((string) shell_exec("$probe stale $target < /tmp/stale.txt"))) as $i => $l) {
+        [$si, $cp] = $order[$i];
+        $bytes = array_map(static fn (string $h): string => $h === '-' ? '' : (string) hex2bin($h), explode(' ', $l));
+        // ISO-2022-KR writes its header again before a replacement during the encoder's first run
+        $predicted[$si][$cp] = $bytes[0] . ($target === 'ISO-2022-KR' ? "\x1b\$)C" : '') . $bytes[1] . $bytes[2];
+    }
+    for ($cp = 0x80; $cp <= 0x10FFFF; $cp++) {
+        if (($enc[$target][$cp] ?? null) !== null || ($cp >= 0xD800 && $cp <= 0xDFFF) || ($cp >= 0xE0000 && $cp <= 0xE007F)) {
+            continue;
+        }
+        foreach ($isoStates[$target] as $si => $x) {
+            $got = iconv('UCS-4BE', "$target//TRANSLIT", $x . pack('N', $cp));
+            if ($got !== $predicted[$si][isset($attempts[$cp]) ? $cp : -1]) {
+                $unmodelled[$target][] = $cp;
+                break;
+            }
+        }
+    }
+    fwrite(STDERR, sprintf("%s: %d characters whose transliteration the table does not model\n", $target, count($unmodelled[$target])));
 }
 
 $keys = [];
@@ -275,11 +550,13 @@ foreach ($table as $cp => $order) {
     }
 }
 
-echo "//! Generated by translit.gen.php (black-box: PHP iconv() with //TRANSLIT in the oracle); do not edit.\n";
+echo "//! Generated by translit.gen.php (black-box: PHP iconv() with //TRANSLIT and translit_probe.c in the oracle); do\n";
+echo "//! not edit.\n";
 echo "//!\n";
 echo "//! glibc 2.41 transliteration under LC_CTYPE=C.UTF-8, measured for every target with a smaller repertoire than\n";
 echo "//! Unicode: the alternatives of each character in the order in which glibc tries them, as far as the targets show\n";
-echo "//! it. Characters that are not listed become \"?\".\n\n";
+echo "//! it; 0xFFFFFFFF stands for a character of an alternative no target can represent. Characters that are not listed\n";
+echo "//! become \"?\".\n\n";
 printf("/// The code points with replacements, sorted; one entry per alternative, in order.\npub(super) static KEYS: [u32; %d] = [\n", count($keys));
 foreach (array_chunk($keys, 12) as $chunk) {
     echo '    ', implode(', ', array_map(static fn (int $c): string => sprintf('0x%04X', $c), $chunk)), ",\n";
@@ -295,3 +572,11 @@ foreach (array_chunk($data, 12) as $chunk) {
     echo '    ', implode(', ', array_map(static fn (int $c): string => sprintf('0x%04X', $c), $chunk)), ",\n";
 }
 echo "];\n";
+foreach ($unmodelled as $target => $cps) {
+    printf("\n/// The characters whose //TRANSLIT replacement in %s the table does not model (glibc keeps the designations\n/// of an alternative it tries and rejects that no target shows), sorted.\npub(super) static %s: [u32; %d] = [\n", $target,
+        strtoupper(str_replace('-', '_', $target)) . '_UNMODELLED', count($cps));
+    foreach (array_chunk($cps, 12) as $chunk) {
+        echo '    ', implode(', ', array_map(static fn (int $c): string => sprintf('0x%04X', $c), $chunk)), ",\n";
+    }
+    echo "];\n";
+}

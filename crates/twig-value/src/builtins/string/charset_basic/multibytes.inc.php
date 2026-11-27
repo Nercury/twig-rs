@@ -10,3 +10,6 @@ const MULTIBYTES = [
     'Gb18030' => 'GB18030', 'EucCn' => 'EUC-CN', 'Big5' => 'BIG5', 'Big5Hkscs' => 'BIG5-HKSCS', 'EucKr' => 'EUC-KR',
     'Uhc' => 'UHC', 'Johab' => 'JOHAB', 'EucTw' => 'EUC-TW',
 ];
+
+/** The stateful ISO-2022 charsets charset_basic converts (iso2022.rs): the `Iso2022` variant and glibc's name. */
+const ISO2022S = ['Jp' => 'ISO-2022-JP', 'Jp2' => 'ISO-2022-JP-2', 'Kr' => 'ISO-2022-KR'];

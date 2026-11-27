@@ -378,6 +378,45 @@ fn grid(plane: u8) -> &'static Grid {
     GRIDS[usize::from(plane)].get_or_init(|| Grid::build(&PLANES[usize::from(plane)]))
 }
 
+/// The cell of a plane (the coded character sets of the ISO-2022 charsets, `iso2022.rs`): 0 when there is none.
+pub(super) fn set_decode(plane: u8, lead: u8, trail: u8) -> u32 {
+    grid(plane).get(lead, trail)
+}
+
+/// The inverse of a plane: code points and their cells, sorted.
+type SetEncoder = Box<[(u32, u16)]>;
+
+/// The inverses of the planes, built on first use.
+static SET_ENCODERS: [OnceLock<SetEncoder>; PLANE_COUNT] = [const { OnceLock::new() }; PLANE_COUNT];
+
+/// The cell of a plane that decodes to `c` (the first in grid order), `None` when there is none.
+pub(super) fn set_encode(plane: u8, c: u32) -> Option<(u8, u8)> {
+    let inverse = SET_ENCODERS[usize::from(plane)].get_or_init(|| {
+        let g = grid(plane);
+        let p = &PLANES[usize::from(plane)];
+        let mut cells: Vec<(u32, u16)> = Vec::new();
+        for &(llo, lhi) in p.leads {
+            for lead in llo..=lhi {
+                for &(tlo, thi) in p.trails {
+                    for trail in tlo..=thi {
+                        let cp = g.get(lead, trail);
+                        if cp != 0 && cp & PAIR == 0 {
+                            cells.push((cp, u16::from_be_bytes([lead, trail])));
+                        }
+                    }
+                }
+            }
+        }
+        // a stable sort keeps the first cell of a code point first
+        cells.sort_by_key(|&(cp, _)| cp);
+        cells.dedup_by_key(|&mut (cp, _)| cp);
+        cells.into_boxed_slice()
+    });
+    let i = inverse.binary_search_by_key(&c, |&(cp, _)| cp).ok()?;
+    let [lead, trail] = inverse[i].1.to_be_bytes();
+    Some((lead, trail))
+}
+
 /// An encoder: the code points it writes, sorted, and their codes; and the pairs of code points it writes as one code
 /// (sorted), the first of which it holds back until it sees the second.
 #[derive(Debug)]
