@@ -9,6 +9,7 @@
 //! oracle (`codepage`).
 
 use super::codepage::Codepage;
+use super::engine::CHUNK;
 use super::multibyte::Multibyte;
 
 /// A charset this module converts. Every name glibc maps to the same behaviour shares one variant (`UCS-2LE` is
@@ -60,6 +61,13 @@ pub(crate) enum Decoded {
     Invalid { len: usize, silent: bool },
     /// The input ends inside a character (`EINVAL`).
     Incomplete,
+    /// UHC's A2 E8 under //IGNORE with fewer than four bytes left: glibc skips past the end of the input, and the call
+    /// ends with `EINVAL` (what the oracle's PHP shows), whatever else the round skipped.
+    PastEnd,
+    /// An invalid sequence of `len` bytes the decoder has already moved past (UHC's A2 E8 without //IGNORE): the call
+    /// ends with `EILSEQ` after it, unless the round wrote a //TRANSLIT replacement, which makes glibc forget the
+    /// error and go on.
+    IllegalPast(usize),
 }
 
 /// The decoder state that lives as long as the conversion descriptor: whether the byte order mark of UTF-16 and
@@ -207,6 +215,16 @@ impl Charset {
                 Some((b, len)) => Encoded::Bytes([b[0], b[1], b[2], b[3], 0, 0], len),
                 None => Encoded::Unmappable,
             },
+        }
+    }
+
+    /// The characters of a round (see engine.rs): glibc's buffer between the two steps holds [`CHUNK`] times the most
+    /// characters one sequence decodes to, so BIG5-HKSCS, whose cells may decode to two characters, has rounds of
+    /// twice as many.
+    pub(crate) fn chunk(self) -> usize {
+        match self {
+            Charset::Multibyte(Multibyte::Big5Hkscs) => 2 * CHUNK,
+            _ => CHUNK,
         }
     }
 

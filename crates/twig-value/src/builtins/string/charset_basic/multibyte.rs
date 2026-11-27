@@ -54,7 +54,8 @@ pub(super) enum Quirk {
     /// None.
     None,
     /// Under //IGNORE this two-byte sequence skips four bytes and needs them (UHC's A2 E8, where glibc reads past the
-    /// end of a shorter input; the oracle's PHP reports the incomplete character).
+    /// end of a shorter input; the oracle's PHP reports the incomplete character); without //IGNORE it is invalid,
+    /// but glibc has moved past it ([`Decoded::IllegalPast`]).
     IgnoreSkip4(u8, u8),
     /// Under //IGNORE `lead` followed by a byte of `trails` decodes to `cp` (EUC-JP-MS: U+FFFD), without //IGNORE it
     /// is invalid.
@@ -72,6 +73,8 @@ pub(super) struct Spec {
     pub(super) lead: [u32; 8],
     /// The plane of the two-byte sequences (an index into [`PLANES`]).
     pub(super) plane: u8,
+    /// //IGNORE skips invalid input without making the call report `EILSEQ` (CP932).
+    pub(super) silent: bool,
     /// The irregular sequences.
     pub(super) quirk: Quirk,
     /// The planes of the encoder's inverse, in order, with the bytes before their lead and trail bytes.
@@ -386,11 +389,6 @@ struct Encoder {
 /// The encoders, built on first use.
 static ENCODERS: [OnceLock<Encoder>; ALL.len()] = [const { OnceLock::new() }; ALL.len()];
 
-const INVALID1: Decoded = Decoded::Invalid {
-    len: 1,
-    silent: false,
-};
-
 /// The decoding of a cell of `len` bytes.
 fn cell(cp: u32, len: usize) -> Decoded {
     if cp & PAIR != 0 {
@@ -415,6 +413,10 @@ impl Multibyte {
     /// sequences depend on.
     pub(super) fn decode(self, input: &[u8], ignore: bool) -> Decoded {
         let spec = self.spec();
+        let invalid = |len: usize| Decoded::Invalid {
+            len,
+            silent: spec.silent,
+        };
         let b0 = input[0];
         if let Some(&(lo, _, base)) = spec
             .single
@@ -424,7 +426,7 @@ impl Multibyte {
             return Decoded::Char(base + u32::from(b0 - lo), 1);
         }
         if spec.lead[usize::from(b0 >> 5)] & (1 << (b0 & 31)) == 0 {
-            return INVALID1;
+            return invalid(1);
         }
         let Some(&b1) = input.get(1) else {
             return Decoded::Incomplete;
@@ -432,22 +434,19 @@ impl Multibyte {
         match spec.family {
             Family::EucJp { plane, wait, skip3 } if b0 == 0x8F => {
                 if !(wait.0..=wait.1).contains(&b1) {
-                    return INVALID1;
+                    return invalid(1);
                 }
                 let Some(&b2) = input.get(2) else {
                     return Decoded::Incomplete;
                 };
                 return match grid(plane).get(b1, b2) {
-                    0 => Decoded::Invalid {
-                        len: usize::from(skip3),
-                        silent: false,
-                    },
+                    0 => invalid(usize::from(skip3)),
                     cp => cell(cp, 3),
                 };
             }
             Family::EucTw { planes } if b0 == 0x8E => {
                 if !(0xA1..=0xB0).contains(&b1) {
-                    return INVALID1;
+                    return invalid(1);
                 }
                 if input.len() < 4 {
                     return Decoded::Incomplete;
@@ -458,18 +457,24 @@ impl Multibyte {
                     planes.iter().find(|&&(b, _)| b == b1).map(|&(_, p)| p)
                 };
                 return match plane.map_or(0, |p| grid(p).get(input[2], input[3])) {
-                    0 => INVALID1,
+                    0 => invalid(1),
                     cp => cell(cp, 4),
                 };
             }
-            Family::Gb18030 if (0x30..=0x39).contains(&b1) => return decode_gb18030_four(input),
+            Family::Gb18030 if (0x30..=0x39).contains(&b1) => {
+                return decode_gb18030_four(input).unwrap_or_else(invalid);
+            }
             _ => {}
         }
         match spec.quirk {
-            Quirk::IgnoreSkip4(lead, trail) if ignore && b0 == lead && b1 == trail => {
+            Quirk::IgnoreSkip4(lead, trail) if !ignore && b0 == lead && b1 == trail => {
+                return Decoded::IllegalPast(2);
+            }
+            Quirk::IgnoreSkip4(lead, trail) if b0 == lead && b1 == trail => {
                 return if input.len() < 4 {
-                    Decoded::Incomplete
+                    Decoded::PastEnd
                 } else {
+                    // reported, unlike the other skips of a charset that skips silently
                     Decoded::Invalid {
                         len: 4,
                         silent: false,
@@ -490,10 +495,7 @@ impl Multibyte {
                 let row = usize::from(g.row[usize::from(b0)]);
                 let window = plane.windows[plane.window_of.get(row).map_or(0, |&w| usize::from(w))];
                 let both = window.iter().any(|&(lo, hi)| (lo..=hi).contains(&b1));
-                Decoded::Invalid {
-                    len: if both { 2 } else { 1 },
-                    silent: false,
-                }
+                invalid(if both { 2 } else { 1 })
             }
             cp => cell(cp, 2),
         }
@@ -597,34 +599,27 @@ fn gb18030_linear(b: &[u8]) -> u32 {
     (((b0 - 0x81) * 10 + (b1 - 0x30)) * 126 + (b2 - 0x81)) * 10 + (b3 - 0x30)
 }
 
-/// GB18030 from a lead byte and a second byte 30..39.
-fn decode_gb18030_four(input: &[u8]) -> Decoded {
+/// GB18030 from a lead byte and a second byte 30..39: the character, or the number of bytes //IGNORE skips.
+fn decode_gb18030_four(input: &[u8]) -> Result<Decoded, usize> {
     if input.len() < 4 {
-        return Decoded::Incomplete;
+        return Ok(Decoded::Incomplete);
     }
     if !(0x81..=0xFE).contains(&input[2]) {
-        return Decoded::Invalid {
-            len: 3,
-            silent: false,
-        };
+        return Err(3);
     }
-    const INVALID4: Decoded = Decoded::Invalid {
-        len: 4,
-        silent: false,
-    };
     if !(0x30..=0x39).contains(&input[3]) {
-        return INVALID4;
+        return Err(4);
     }
     let i = gb18030_linear(input);
     if i <= GB18030_BMP_END {
         let r = GB18030_RANGES.partition_point(|&(first, _)| u32::from(first) <= i) - 1;
         let (first, cp) = GB18030_RANGES[r];
-        return Decoded::Char(u32::from(cp) + i - u32::from(first), 4);
+        return Ok(Decoded::Char(u32::from(cp) + i - u32::from(first), 4));
     }
     // U+10000.. from 90 30 81 30 (linear index 189000)
     match i.checked_sub(189_000) {
-        Some(n) if n <= 0x10_FFFF - 0x1_0000 => Decoded::Char(0x1_0000 + n, 4),
-        _ => INVALID4,
+        Some(n) if n <= 0x10_FFFF - 0x1_0000 => Ok(Decoded::Char(0x1_0000 + n, 4)),
+        _ => Err(4),
     }
 }
 
@@ -764,10 +759,7 @@ mod tests {
             Decoded::Char(0x4E42, 4)
         );
         assert_eq!(dec(Multibyte::Uhc, b"\x81\x41"), Decoded::Char(0xAC02, 2));
-        assert_eq!(
-            Multibyte::Uhc.decode(b"\xa2\xe8", true),
-            Decoded::Incomplete
-        );
+        assert_eq!(Multibyte::Uhc.decode(b"\xa2\xe8", true), Decoded::PastEnd);
         assert_eq!(
             Multibyte::EucJpMs.decode(b"\x8e\xe0", true),
             Decoded::Char(0xFFFD, 2)

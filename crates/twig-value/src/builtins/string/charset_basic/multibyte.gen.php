@@ -701,6 +701,10 @@ foreach (CHARSETS as $variant => $cs) {
                     fail('UHC: A2 E8 under //IGNORE in PHP: ' . bin2hex($in) . ' gives ' . var_export($r, true));
                 }
             }
+            // and glibc reports the skip
+            if (iconv('UHC', 'UTF-8//ignore', "\xA2\xE8ABC") !== false) {
+                fail('UHC: A2 E8 skips silently');
+            }
             restore_error_handler();
             break;
         case 'fffd':
@@ -854,7 +858,26 @@ foreach (CHARSETS as $variant => $cs) {
             $extra = ['ranges' => $bmp];
             break;
     }
-    $specs[$variant] = ['single' => $single, 'leads' => $leads, 'windows' => $windows, 'quirk' => $quirk] + $extra;
+    // whether //IGNORE skips invalid input silently: glibc's EILSEQ after a skip shows through a suffix PHP does not
+    // know (//ignore); every invalid sequence of a charset must agree (every 97th of them is tried, the irregular ones
+    // aside)
+    $silent = null;
+    $k = 0;
+    set_error_handler(static fn (): bool => true);
+    foreach ($seq as $hex => $v) {
+        $hex = (string) $hex;
+        if ($v[0] !== 'X' || isset($irregular[$hex]) || $k++ % 97 !== 0) {
+            continue;
+        }
+        $r = iconv($cs, 'UTF-8//ignore', hex2bin($hex) . 'zz');
+        if ($silent !== null && $silent !== ($r !== false)) {
+            fail("$cs: //IGNORE skips $hex " . ($silent ? 'loudly' : 'silently') . ', unlike the others');
+        }
+        $silent = $r !== false;
+    }
+    restore_error_handler();
+    $specs[$variant] = ['single' => $single, 'leads' => $leads, 'windows' => $windows, 'quirk' => $quirk,
+        'silent' => $silent] + $extra;
 }
 
 // ---------------------------------------------------------------------------------------------------------------
@@ -1362,6 +1385,7 @@ foreach (CHARSETS as $variant => $cs) {
     }
     $out .= '    lead: [' . implode(', ', array_map(static fn (int $w): string => sprintf('0x%08X', $w), $bits)) . "],\n";
     $out .= sprintf("    plane: %d,\n", $planeIds[0]);
+    $out .= sprintf("    silent: %s,\n", $spec['silent'] ? 'true' : 'false');
     $quirk = $spec['quirk'];
     $out .= '    quirk: ' . match ($quirk[0] ?? null) {
         null => 'Quirk::None',

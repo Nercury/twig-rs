@@ -58,6 +58,8 @@ struct Skipped {
     input: bool,
     /// The encoder skipped a character the target rejects or cannot represent.
     output: bool,
+    /// The encoder wrote a //TRANSLIT replacement.
+    translit: bool,
 }
 
 /// A character of the current round.
@@ -128,7 +130,7 @@ impl Converter {
     ) -> (usize, Status) {
         let mut round_start = 0;
         loop {
-            // step 1: decode up to CHUNK characters
+            // step 1: decode up to a round of characters
             chars.clear();
             let mut p = round_start;
             let mut skipped = Skipped::default();
@@ -141,28 +143,42 @@ impl Converter {
                 None => stop = Some(Status::Incomplete),
             }
             let held_at_start = self.decode_state.held;
-            while stop.is_none() && chars.len() < CHUNK && p < input.len() {
+            if self.from.composing().is_none()
+                && let Some(c) = self.decode_state.held.take()
+            {
+                // the second character of a pair (BIG5-HKSCS) the last call or round could not take comes first
+                chars.push(RoundChar {
+                    c,
+                    resume: round_start,
+                    held: None,
+                });
+            }
+            let mut past_end = false;
+            let mut moved_past = false;
+            let chunk = self.from.chunk();
+            while stop.is_none() && chars.len() < chunk && p < input.len() {
                 match self
                     .from
                     .decode(&input[p..], &self.decode_state, self.ignore)
                 {
                     Decoded::Pair(a, b, len) => {
-                        if chars.len() + 2 > CHUNK {
-                            // no room for both: the next round reads the sequence again
-                            break;
-                        }
-                        // the call stops before the sequence when the encoder stops after the first of the two
+                        // the decoder takes the sequence whole and keeps the second character for later when the
+                        // round has room for the first only, or when the encoder stops after the first
+                        p += len;
                         chars.push(RoundChar {
                             c: a,
                             resume: p,
-                            held: None,
+                            held: Some(b),
                         });
-                        p += len;
-                        chars.push(RoundChar {
-                            c: b,
-                            resume: p,
-                            held: None,
-                        });
+                        if chars.len() == chunk {
+                            self.decode_state.held = Some(b);
+                        } else {
+                            chars.push(RoundChar {
+                                c: b,
+                                resume: p,
+                                held: None,
+                            });
+                        }
                     }
                     Decoded::Char(c, len) => match self.from.composing() {
                         Some(cp) => p = self.compose(cp, c, p, p + len, chars),
@@ -181,6 +197,15 @@ impl Converter {
                     }
                     Decoded::Invalid { .. } => stop = Some(Status::Illegal),
                     Decoded::Incomplete => stop = Some(Status::Incomplete),
+                    Decoded::PastEnd => {
+                        stop = Some(Status::Incomplete);
+                        past_end = true;
+                    }
+                    Decoded::IllegalPast(len) => {
+                        p += len;
+                        stop = Some(Status::Illegal);
+                        moved_past = true;
+                    }
                 }
             }
 
@@ -213,9 +238,15 @@ impl Converter {
             }
 
             if let Some(status) = stop {
+                if moved_past && skipped.translit {
+                    // a replacement makes glibc forget the error of a decoder that has moved on: the next round
+                    // goes on after the sequence
+                    round_start = p;
+                    continue;
+                }
                 return (
                     p,
-                    if skipped.output {
+                    if skipped.output && !past_end {
                         Status::Illegal
                     } else {
                         status
@@ -390,7 +421,10 @@ impl Converter {
                 out.extend_from_slice(&replacement[..len]);
                 *space -= len;
                 // a replacement makes the round forget what //IGNORE skipped before it
-                *skipped = Skipped::default();
+                *skipped = Skipped {
+                    translit: true,
+                    ..Skipped::default()
+                };
             }
             Encoded::Unmappable | Encoded::Illegal { silent: false } if self.ignore => {
                 skipped.output = true

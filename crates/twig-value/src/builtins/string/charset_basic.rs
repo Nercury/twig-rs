@@ -42,6 +42,7 @@ mod translit;
 #[rustfmt::skip]
 mod translit_table;
 
+use codec::Charset;
 use engine::{Converter, Status};
 use names::Lookup;
 
@@ -131,6 +132,9 @@ pub fn iconv_bytes(
         (_, Lookup::Unsupported) => return Err(unsupported(out_charset)),
         (Lookup::Supported(f), Lookup::Supported(t)) => (f, t),
     };
+    if direct_module(from_charset, to_charset) {
+        return Err(unsupported(in_charset));
+    }
     let mut converter = Converter::new(from_charset, to_charset, target.translit, target.ignore);
     match php_iconv_string(string, &mut converter, php_check_ignore(out_charset)) {
         Ok(out) => Ok(Some(PhpString::from(out))),
@@ -196,6 +200,19 @@ fn php_iconv_string(
 fn php_check_ignore(charset: &[u8]) -> bool {
     (charset.len() >= 9 && charset.ends_with(b"//IGNORE"))
         || (charset.len() >= 19 && charset.ends_with(b"//IGNORE//TRANSLIT"))
+}
+
+/// Whether glibc converts between the two charsets with a module of their own instead of through its internal UCS-4,
+/// with tables and rules this module does not model (reference/deviations.md): GB 2312 (`EUC-CN`) and `GBK`, GB 2312
+/// and `BIG5` (whose table maps simplified characters to traditional ones and back), in both directions. Found
+/// black-box: their conversions differ from the composition of the two charsets' conversions.
+fn direct_module(from: Charset, to: Charset) -> bool {
+    use multibyte::Multibyte::{Big5, EucCn, Gbk};
+    matches!(
+        (from, to),
+        (Charset::Multibyte(EucCn), Charset::Multibyte(Gbk | Big5))
+            | (Charset::Multibyte(Gbk | Big5), Charset::Multibyte(EucCn))
+    )
 }
 
 /// The bytes before the first NUL.
