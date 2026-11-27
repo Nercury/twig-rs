@@ -16,8 +16,6 @@
 //!
 //! twig-rs may refuse (with its `Error`) only the conversions between EUC-CN and GBK or BIG5, which glibc does with
 //! modules of their own (reference/deviations.md); every other result must be PHP's, byte for byte, notices included.
-//! `crosscheck` replays every case; it is ignored while some cases differ (`KNOWN`, with what they show), and
-//! `crosscheck_without_the_known_differences` replays all the others meanwhile.
 
 use std::collections::BTreeMap;
 use std::fmt::{self, Write as _};
@@ -261,20 +259,15 @@ impl Vectors {
     }
 }
 
-/// Replays the vector file, but the cases (indexes into "cases") in `skip`; panics with a report of the differences.
-fn replay(skip: &[usize]) {
+/// Replays the vector file; panics with a report of the differences.
+fn replay() {
     let v = Vectors::load();
     let mut run = 0u64;
-    let mut skipped = 0u64;
     let mut refused = 0u64;
     let mut mismatches: Vec<String> = Vec::new();
     let mut groups: BTreeMap<String, usize> = BTreeMap::new();
     let mut differing: Vec<usize> = Vec::new();
     for (i, case) in v.cases.iter().enumerate() {
-        if skip.binary_search(&i).is_ok() {
-            skipped += v.flags.len() as u64;
-            continue;
-        }
         let (from, to) = (Vectors::index(&case[0]), Vectors::index(&case[1]));
         let data = input(&case[2]);
         let first = v.expected(&case[3], None);
@@ -321,7 +314,7 @@ fn replay(skip: &[usize]) {
             }
         }
     }
-    assert_eq!(run + skipped, v.total, "every case was run or skipped");
+    assert_eq!(run, v.total, "every case was run");
     let total: usize = groups.values().sum();
     if total > 0 {
         let mut report = format!(
@@ -335,40 +328,10 @@ fn replay(skip: &[usize]) {
         }
         panic!("{report}");
     }
-    eprintln!(
-        "crosscheck: {run} conversions match PHP ({refused} refused as documented, {skipped} skipped)"
-    );
+    eprintln!("crosscheck: {run} conversions match PHP ({refused} refused as documented)");
 }
 
-/// The cases (indexes into "cases") where twig-rs differs from PHP, 302 conversions, each for one of the three
-/// behaviours of glibc that the clean-room converter lacks (the reason on `crosscheck`):
-/// - ISO-2022-JP-2's encoder reads the two letters of a Unicode language tag regardless of case ("KO", "Ko" and "kO"
-///   act as "ko", and so for "ja" and "zh"): after U+E0001 U+E004B U+E004F, 中 is KS C 5601 (`ESC $ ( C 71 69`), not
-///   JIS X 0208 (`ESC $ B 43 66`); twig-rs reads only lowercase letters (cases 66777, 74145 and on);
-/// - //TRANSLIT replaces U+0476 and U+0477 with U+0474 and U+0475 in CSISO5427CYRILLIC1981 (bytes 72, 52); twig-rs has
-///   no replacement for them (cases 73070 to 73072);
-/// - glibc converts between IBM420 and CP1008 with a module of its own, which maps bytes neither charset's own
-///   conversion through Unicode takes (IBM420 45 is CP1008 A9, CP1008 5B is IBM420 53); twig-rs goes through Unicode
-///   (cases 70923 to 71030).
-const KNOWN: &[usize] = &[
-    66777, 70923, 70924, 70930, 70931, 70933, 70934, 71020, 71021, 71022, 71025, 71026, 71027,
-    71028, 71029, 71030, 73070, 73071, 73072, 74145, 74173, 74298, 74308, 74428, 74431, 74437,
-    74440, 74446, 74449, 74463, 74464, 74465, 74466, 74468, 74469, 74470, 74471, 74472, 74473,
-    74474, 74475, 74477, 74478, 74479, 74480, 74481, 74482, 74483, 74484, 74486, 74487, 74488,
-    74489, 74499, 74501, 74502, 74503, 74504, 74505, 74506, 74507, 74508, 74510, 74511, 74512,
-    74513, 74514, 74515, 74516, 74517, 74519, 74520, 74521, 74522, 74523, 74524, 74525,
-];
-
 #[test]
-#[ignore = "302 conversions differ from PHP (KNOWN): ISO-2022-JP-2 language tags in upper or mixed case \
-            (U+E0001 U+E004B U+E004F), //TRANSLIT of U+0476 and U+0477 into CSISO5427CYRILLIC1981, and IBM420 to and \
-            from CP1008, which glibc converts with a module of its own"]
 fn crosscheck() {
-    replay(&[]);
-}
-
-#[test]
-fn crosscheck_without_the_known_differences() {
-    assert!(KNOWN.is_sorted(), "KNOWN is sorted");
-    replay(KNOWN);
+    replay();
 }
