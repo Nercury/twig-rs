@@ -58,6 +58,16 @@ bug.
   extensions, tags and node classes, loaders, the sandbox, templates from Rust, errors and PHP diagnostics, threads),
   with runnable examples in `examples/`.
 - `NOTICE` files listing the third-party code and data each crate contains and their licences.
+- Instruction fusion: when a unit is compiled, frequent instruction sequences become fused instructions
+  (`lltl::Instr::CallStack`, `CallName`, `CopyName`, `StoreConst`, `GetAttrConst`, `BinaryConst`, `BinaryStore`,
+  `JumpIfCompare`) and constant array literals become constants; `Program::disassemble()` lists the fused code.
+  `lltl::Instr` is `#[non_exhaustive]`.
+- twig-value: `Array::edit()` (`ArrayEdit`), several writes to an array that is separated once;
+  `Array::get_prepared_hinted()` and `insert_prepared_hinted()`, lookups that try a remembered position first, and
+  `PreparedKey::hash()`. Array tables are `triomphe::Arc`s (a new dependency of twig-value), whose uniqueness check
+  before a write is a load.
+- twig-timelib: `TzInfo::posix_cache`, the DST transitions of a zone's POSIX rules computed once per year (a public
+  field, so code building a `TzInfo` with a struct literal adds `posix_cache: Default::default()`).
 
 ### Changed
 

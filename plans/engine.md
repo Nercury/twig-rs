@@ -82,12 +82,42 @@ Environment::load(name)
   - `CheckToString {spread, line}`.
 - `render_sandboxed()` compiles like `RenderSandboxedFunction` (the literal `output_strategy` is checked and dropped).
 
+### Instruction fusion
+
+`lltl::fuse` rewrites every unit when the code generator finishes it (`Codegen::finish_unit`, so the code of node
+classes of extensions written through `lltl::Compiler` is fused too), replacing frequent sequences with fused
+instructions (`instr.rs`, "fused instructions"; the code generator never emits them):
+
+- calls: `ArgsStart` (without context), the arguments each followed by `Arg`, `Call` → the arguments, `CallStack
+  {callable, argc}` (the arguments come from the operand stack); then trailing `Const`s become its constant array
+  (`consts`) and a following `Print` its `print` flag; a lenient or always-defined `LoadName` before a call of one
+  stack argument → `CallName` (the auto-escaped print of a variable is one instruction). The VM calls the `escape`
+  filter of the core runtime directly when its constant arguments bind as they are (`EscapeConstants`), and
+  `CallName` passes it the variable where it is in the context, printing a value the filter returns unchanged
+  without copying it;
+- array literals: the constant prefix of a literal (`NewArray`, `Const`/`ArrayAppend`, `Const`/`Const`/`ArrayInsert`)
+  becomes one constant array, built with the operations of those instructions, when building it cannot fail or
+  report anything (no `NAN`, which the same-array shortcut of the comparisons would make observable);
+- pairs: `LoadName` (lenient) or `Const` then `StoreName` → `CopyName`, `StoreConst`; `Const`, `NewArray`, `GetAttr`
+  → `GetAttrConst`; `Const` then a binary operator → `BinaryConst`; a binary operator then `StoreName` →
+  `BinaryStore`; a comparison then a conditional jump → `JumpIfCompare`; a `Jump` to the next instruction is removed,
+  and jumps to a `Jump` are threaded.
+
+The rewriting keeps every effect where it was: the instructions it removes can neither fail, report a diagnostic nor
+run other code; two that can are fused only when they have the same line; a fused instruction takes the line of the
+instruction it replaces that can fail (the call, the operator, the attribute read); the line table is rebuilt from
+the lines of the remaining instructions and the last instruction of a unit is kept (the sandbox reads its line);
+jumps are remapped, a jump to a removed instruction goes to the next remaining one only where that is the same, and
+sequences with a jump target inside are not fused. `Program::disassemble()` shows the fused instructions.
+
 ## VM (`src/vm`)
 
 - `VmState {env, frames, max_depth}` (template stack, depth limit, diagnostics sink, `host()` re-entry).
 - `Frame {context, macros, blocks: Option<Blocks>, template, stack, locals, iterators, args, saved_macros,
-  handlers}`: `Frame::new(context, template, macros, blocks)` for compiled methods, `Frame::arrow(...)` without
-  `$blocks` (PHP warns `Undefined variable $blocks` and the template method rejects `null`).
+  handlers, hints}` (`hints`: where the frame last found each variable in its context, 16 slots by key hash, checked
+  first by `Array::get_prepared_hinted()`): `Frame::new(context, template, macros, blocks)` for compiled methods,
+  `Frame::arrow(...)` without `$blocks` (PHP warns `Undefined variable $blocks` and the template method rejects
+  `null`).
 - `Handler::{Loader {catch, ...}, Sandbox {already}}`: `execute()` unwinds the regions of the unit on an exception
   (a `finally` runs, a `catch (LoaderError)` restores the frame, pushes `null` and continues).
 - `step()` dispatches to one function per instruction group, so each frame stays small: template recursion (blocks,
