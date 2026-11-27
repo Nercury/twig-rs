@@ -76,15 +76,24 @@ impl TzValue {
 /// (%s)`).
 pub fn timezone_initialize(ctx: &DateContext, tz: &[u8]) -> Result<TzValue, PhpString> {
     let shown = c_str(tz);
-    let mut b = shown.to_vec();
-    b.push(0);
+    // the NUL-terminated copy the parser reads (a zone name fits on the stack)
+    let mut stack = [0u8; 64];
+    let mut heap = Vec::new();
+    let b: &[u8] = if shown.len() < stack.len() {
+        stack[..shown.len()].copy_from_slice(shown);
+        &stack[..=shown.len()]
+    } else {
+        heap.extend_from_slice(shown);
+        heap.push(0);
+        &heap
+    };
     let mut dummy_t = Time::new();
     let mut ptr = 0usize;
     let mut dst = 0i32;
     let mut not_found = false;
     let cache = ctx.tz_cache();
     let z = parse_zone(
-        &b,
+        b,
         &mut ptr,
         &mut dst,
         &mut dummy_t,

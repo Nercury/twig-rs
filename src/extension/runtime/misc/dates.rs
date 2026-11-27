@@ -8,7 +8,7 @@
 
 use std::sync::{Arc, LazyLock};
 
-use twig_date::{DateContext, DateObject, TimeZoneObject, classes};
+use twig_date::{DateContext, DateObject, TimeZoneObject, WarningMode, classes};
 use twig_value::object::{CallArgs, ClassRef, FunctionKind, ObjectRef, Param};
 use twig_value::{Diagnostics, Value, convert, ops};
 
@@ -123,6 +123,21 @@ pub(super) fn modify_date(
     diag: &mut dyn Diagnostics,
 ) -> CallResult {
     let date = convert_date(settings, ctx, date, &Value::Bool(false), diag)?;
+    // `DateTime::modify(string $modifier)` with a string modifies the object itself and returns it
+    if let (Value::Object(object), Value::String(text)) = (&date, modifier)
+        && Arc::ptr_eq(object.class(), &DATETIME)
+        && let Some(date_object) = object.downcast_ref::<DateObject>()
+    {
+        date_object.modify(
+            text.as_bytes(),
+            WarningMode::Throw(
+                "DateTime::modify",
+                twig_date::errors::date_malformed_string_exception,
+            ),
+            diag,
+        )?;
+        return Ok(date);
+    }
     call_method_on(&date, "modify", vec![modifier.clone()], diag)
 }
 
@@ -185,6 +200,16 @@ pub(super) fn convert_date(
         )?));
     }
 
+    // an int is the timestamp `new \DateTime('@'.$date)` gets, written without building its string
+    if let Value::Int(seconds) = date {
+        let mut buf = [0u8; 24];
+        let at = at_timestamp(*seconds, &mut buf);
+        let date = Value::Object(DateObject::construct(ctx, DATETIME.clone(), at, None)?);
+        if let Some(timezone) = timezone {
+            set_timezone(&date, timezone, diag)?;
+        }
+        return Ok(date);
+    }
     let as_string = convert::to_string(date, diag)?;
     let bytes = as_string.as_bytes();
     let timestamp =
@@ -249,6 +274,27 @@ fn new_datetime(ctx: &DateContext, datetime: Value, diag: &mut dyn Diagnostics) 
     let object = ObjectRef::new(DateObject::new_uninitialized(ctx, classes::datetime()));
     object.invoke_method("__construct", CallArgs::from(vec![datetime]), diag)?;
     Ok(Value::Object(object))
+}
+
+/// `'@'.$seconds`, written at the end of `buf`.
+fn at_timestamp(seconds: i64, buf: &mut [u8; 24]) -> &[u8] {
+    let mut n = seconds.unsigned_abs();
+    let mut at = buf.len();
+    loop {
+        at -= 1;
+        buf[at] = b'0' + (n % 10) as u8;
+        n /= 10;
+        if n == 0 {
+            break;
+        }
+    }
+    if seconds < 0 {
+        at -= 1;
+        buf[at] = b'-';
+    }
+    at -= 1;
+    buf[at] = b'@';
+    &buf[at..]
 }
 
 /// PHP's `ctype_digit()` on a string (C locale): not empty, only `0`-`9`.
