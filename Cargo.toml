@@ -40,6 +40,7 @@ glibc-iconv = ["dep:twig-iconv"]
 [dependencies]
 regex.workspace = true
 memchr.workspace = true
+foldhash.workspace = true
 twig-value.workspace = true
 twig-pcre.workspace = true
 twig-unicode.workspace = true

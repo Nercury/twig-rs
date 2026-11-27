@@ -230,9 +230,9 @@ struct Inner {
     runtimes_installed: OnceLock<()>,
     globals: Mutex<Globals>,
     /// The compiled files (template class families) by class key.
-    programs: RwLock<HashMap<Vec<u8>, Arc<Program>>>,
+    programs: RwLock<KeyMap<Arc<Program>>>,
     /// The template instances by class key (`___N` appended for embedded templates).
-    templates: RwLock<HashMap<Vec<u8>, Arc<Template>>>,
+    templates: RwLock<KeyMap<Arc<Template>>>,
     notices: Mutex<Vec<Notice>>,
     /// The runtimes registered with `add_runtime()` or created by the runtime loaders (`$this->runtimes`).
     runtimes: RwLock<HashMap<String, Arc<dyn Any + Send + Sync>>>,
@@ -248,6 +248,10 @@ struct Inner {
     /// The charset converter ([`EnvironmentOptions::iconv_backend`]).
     iconv: Arc<dyn IconvBackend>,
 }
+
+/// A map by class key. A class key holds the loader's cache key, which for an `ArrayLoader` is the whole template code
+/// (`$name.':'.$template`), and every `load()` looks one up: the keys are hashed with foldhash rather than SipHash.
+type KeyMap<V> = HashMap<Vec<u8>, V, foldhash::fast::RandomState>;
 
 fn read<T>(lock: &RwLock<T>) -> RwLockReadGuard<'_, T> {
     lock.read().unwrap_or_else(|e| e.into_inner())
@@ -383,12 +387,15 @@ impl crate::source::PathResolver for TemplatePath {
 }
 
 /// The cache key of a template instance: the class key, plus `___N` for an embedded template.
-fn instance_key(key: &[u8], index: Option<i64>) -> Vec<u8> {
-    let mut instance = key.to_vec();
-    if let Some(index) = index {
-        instance.extend_from_slice(format!("___{index}").as_bytes());
+fn instance_key(key: &[u8], index: Option<i64>) -> std::borrow::Cow<'_, [u8]> {
+    match index {
+        None => std::borrow::Cow::Borrowed(key),
+        Some(index) => {
+            let mut instance = key.to_vec();
+            instance.extend_from_slice(format!("___{index}").as_bytes());
+            std::borrow::Cow::Owned(instance)
+        }
     }
-    instance
 }
 
 /// The block table of a trait while the constructor works on it (`$_trait_N_blocks`, a PHP array).
@@ -555,8 +562,8 @@ impl Environment {
                 runtime_initialized: AtomicBool::new(false),
                 runtimes_installed: OnceLock::new(),
                 globals: Mutex::new(Globals::default()),
-                programs: RwLock::new(HashMap::new()),
-                templates: RwLock::new(HashMap::new()),
+                programs: RwLock::new(KeyMap::default()),
+                templates: RwLock::new(KeyMap::default()),
                 notices: Mutex::new(Vec::new()),
                 runtimes: RwLock::new(HashMap::new()),
                 runtime_loaders: RwLock::new(Vec::new()),
@@ -1020,19 +1027,18 @@ impl Environment {
     ///
     /// The error of a default strategy callback, then (with the `SandboxExtension`) the `InvalidArgumentException`
     /// of an invalid optimizer mode.
-    fn class_key(&self, cache_key: &[u8], name: &str) -> Result<Vec<u8>> {
-        let mut key = cache_key.to_vec();
+    fn class_key(&self, cache_key: Vec<u8>, name: &str) -> Result<Vec<u8>> {
+        let mut key = cache_key;
         {
+            use std::io::Write as _;
             let options = read(&self.inner.options);
-            key.extend_from_slice(
-                format!(
-                    "\0{}:{}:{}:{}",
-                    u8::from(options.debug),
-                    u8::from(options.strict_variables),
-                    u8::from(options.use_yield),
-                    options.optimizations
-                )
-                .as_bytes(),
+            let _ = write!(
+                key,
+                "\0{}:{}:{}:{}",
+                u8::from(options.debug),
+                u8::from(options.strict_variables),
+                u8::from(options.use_yield),
+                options.optimizations
             );
         }
         let strategy = self.with_extensions(|set| {
@@ -1126,7 +1132,7 @@ impl Environment {
     ) -> Result<Arc<Template>> {
         let loader = self.loader();
         let cache_key = loader.get_cache_key(name)?;
-        let key = self.class_key(&cache_key, name)?;
+        let key = self.class_key(cache_key, name)?;
         self.load_class(key, name, index, |env| {
             let source = loader.get_source_context(name)?;
             env.compile_loaded(&source, &loader)
@@ -1149,8 +1155,7 @@ impl Environment {
         index: Option<i64>,
         compile: impl FnOnce(&Environment) -> Result<Arc<Program>>,
     ) -> Result<Arc<Template>> {
-        let instance = instance_key(&key, index);
-        if let Some(template) = read(&self.inner.templates).get(&instance) {
+        if let Some(template) = read(&self.inner.templates).get(&*instance_key(&key, index)) {
             let template = Arc::clone(template);
             self.init_runtime();
             return Ok(template);
@@ -1181,6 +1186,7 @@ impl Environment {
         };
         // `$this->extensionSet->initRuntime(); return $this->loadedTemplates[$cls] = new $cls($this);`
         self.init_runtime();
+        let instance = instance_key(&key, index).into_owned();
         let template = self.construct(program, family, key)?;
         Ok(Arc::clone(
             write(&self.inner.templates)
@@ -1508,7 +1514,7 @@ impl Environment {
         let mut cache_key = name.as_bytes().to_vec();
         cache_key.push(b':');
         cache_key.extend_from_slice(template);
-        let key = self.class_key(&cache_key, &name)?;
+        let key = self.class_key(cache_key, &name)?;
         let source = Source::new(template.to_vec(), name.clone());
         let template = self.load_class(key, &name, None, |env| env.compile_source(&source))?;
         Ok(TemplateWrapper::new(self.clone(), template))

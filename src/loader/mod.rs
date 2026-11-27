@@ -100,7 +100,9 @@ impl Loader for ArrayLoader {
 
     fn get_cache_key(&self, name: &str) -> Result<Vec<u8>> {
         let code = self.code(name)?;
-        let mut key = Vec::with_capacity(name.len() + 1 + code.len());
+        // room for what the environment appends to make the class key, so that the whole template is not copied
+        // once more
+        let mut key = Vec::with_capacity(name.len() + 1 + code.len() + 64);
         key.extend_from_slice(name.as_bytes());
         key.push(b':');
         key.extend_from_slice(&code);
