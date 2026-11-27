@@ -86,7 +86,7 @@ fn base64(s: &str) -> Vec<u8> {
         }
     }
     let s = s.as_bytes();
-    assert!(s.len() % 4 == 0, "base64 length");
+    assert!(s.len().is_multiple_of(4), "base64 length");
     let mut out = Vec::with_capacity(s.len() / 4 * 3);
     for quad in s.chunks(4) {
         let pad = quad.iter().rev().take_while(|&&c| c == b'=').count();
