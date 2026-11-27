@@ -37,7 +37,10 @@
 //! microsecond formats of the current time, string callables that name PHP functions, sizes that
 //! reach a memory limit (`number_format()` with a huge `decimals` allocates past PHP's hard memory
 //! limit and kills the oracle process with its whole batch), `dump()` of `TemplateWrapper`s and
-//! closures. Each main template ends
+//! closures, `sort` without an arrow of what may hold enum cases (`asort()` orders distinct cases by
+//! heap address), names that are not valid UTF-8 for string templates that print `_self`, and a
+//! template that includes itself (`include(_self)`: PHP recurses until its memory limit, twig-rs
+//! stops at its depth limit). Each main template ends
 //! with a comment naming its case: PHP compiles an identical source only once per process, and a
 //! second copy would not raise the compile-time deprecations again.
 //!
