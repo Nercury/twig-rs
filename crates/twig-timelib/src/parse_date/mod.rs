@@ -1013,6 +1013,61 @@ pub fn strtotime(
     tzdb: &TzDb,
     tz_get_wrapper: &mut TzGetWrapper<'_>,
 ) -> (Time, ErrorContainer) {
+    strtotime_with(input, tzdb, tz_get_wrapper, true)
+}
+
+/// The number of a `timestamp` token (`"@" "-"? [0-9]+`, scanner.re) of at most 18 digits that is all of `token`:
+/// `scan()` matches such an input with the `timestamp` rule (the longest match: `timestampms` needs a `.`), whose
+/// `timelib_get_signed_nr()` reads the sign and the digits, none of which can overflow.
+fn timestamp_number(token: &[u8]) -> Option<i64> {
+    let (negative, digits) = match token {
+        [b'@', b'-', digits @ ..] => (true, digits),
+        [b'@', digits @ ..] => (false, digits),
+        _ => return None,
+    };
+    if digits.is_empty() || digits.len() > 18 || !digits.iter().all(u8::is_ascii_digit) {
+        return None;
+    }
+    let number = digits
+        .iter()
+        .fold(0i64, |number, digit| number * 10 + i64::from(digit - b'0'));
+    Some(if negative { -number } else { number })
+}
+
+/// What scanning an input that is one `timestamp` token gives (`timestamp_number()`): the start time of `strtotime()`
+/// changed by the action of the rule (the NUL padding after the token changes nothing, and the time and date it
+/// leaves are not checked), without errors.
+fn timestamp_time(number: i64) -> (Time, ErrorContainer) {
+    let mut time = unset_time();
+    time.relative.days = UNSET;
+    time.have_relative = 1;
+    unhave_date(&mut time);
+    unhave_time(&mut time);
+    // TIMELIB_HAVE_TZ() of the first zone of the input
+    time.have_zone += 1;
+    time.y = 1970;
+    time.m = 1;
+    time.d = 1;
+    time.h = 0;
+    time.i = 0;
+    time.s = 0;
+    time.us = 0;
+    time.relative.s = time.relative.s.wrapping_add(number);
+    time.is_localtime = 1;
+    time.zone_type = ZONETYPE_OFFSET;
+    time.z = 0;
+    time.dst = 0;
+    (time, ErrorContainer::default())
+}
+
+/// [`strtotime`]; `timestamps` runs the action of the `timestamp` rule directly for an input that is one such
+/// token (Twig's date filters pass `'@'.$int` for every int), instead of scanning it.
+fn strtotime_with(
+    input: &[u8],
+    tzdb: &TzDb,
+    tz_get_wrapper: &mut TzGetWrapper<'_>,
+    timestamps: bool,
+) -> (Time, ErrorContainer) {
     let len = input.len();
     let mut s = 0usize;
     let mut e: isize = len as isize - 1;
@@ -1051,6 +1106,9 @@ pub fn strtotime(
         return (t, scanner.errors);
     }
     let e = (e + 1) as usize;
+    if timestamps && let Some(number) = timestamp_number(&input[s..e]) {
+        return timestamp_time(number);
+    }
 
     let mut buf = Vec::with_capacity(e - s + scanner::YYMAXFILL);
     buf.extend_from_slice(&input[s..e]);
