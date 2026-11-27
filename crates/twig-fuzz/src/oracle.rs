@@ -428,6 +428,11 @@ impl Oracle {
             ));
             return Ok(vec![died(case, why)]);
         }
+        self.incident(format!(
+            "{} cases: the oracle died even with process isolation ({}); running them again in halves",
+            cases.len(),
+            head(why, 300)
+        ));
         let (first, second) = cases.split_at(cases.len() / 2);
         let mut results = self.run_chunk(first, isolation, served)?;
         results.extend(self.run_chunk(second, isolation, served)?);
