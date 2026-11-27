@@ -202,7 +202,7 @@ fn store_constant_key(array: &mut Array, program: &Program, id: u32, value: Valu
 }
 
 /// `$context["name"] = $value` with the name constant `id`, at the position where the frame last found the name.
-#[inline]
+#[inline(always)]
 fn store_name(frame: &mut Frame, program: &Program, id: u32, value: Value) {
     let key = program.key(id);
     frame
@@ -211,7 +211,7 @@ fn store_name(frame: &mut Frame, program: &Program, id: u32, value: Value) {
 }
 
 /// `$context["name"]`, looked up where the frame last found the name.
-#[inline]
+#[inline(always)]
 fn load_name<'f>(frame: &'f mut Frame, program: &Program, id: u32) -> Option<&'f Value> {
     let key = program.key(id);
     frame
@@ -1033,9 +1033,13 @@ fn call_stack(
             Ok(())
         };
     }
-    let first = frame.stack.len().saturating_sub(argc as usize);
     let mut positional = state.arg_vec();
-    positional.extend(frame.stack.drain(first..));
+    if argc == 1 {
+        positional.push(frame.pop());
+    } else {
+        let first = frame.stack.len().saturating_sub(argc as usize);
+        positional.extend(frame.stack.drain(first..));
+    }
     if let Some(constants) = constants {
         positional.extend(constants.values().cloned());
     }

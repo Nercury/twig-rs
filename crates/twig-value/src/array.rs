@@ -468,6 +468,7 @@ impl ArrayData {
     }
 
     /// [`find_prepared`](Self::find_prepared) looking at position `hint` first; `hint` becomes the position found.
+    /// The check of the hint is small enough to be inlined; the search is not.
     #[inline]
     fn find_prepared_hinted(&self, key: &PreparedKey, hint: &mut u32) -> Option<usize> {
         let at = *hint as usize;
@@ -478,6 +479,12 @@ impl ArrayData {
         {
             return Some(at);
         }
+        self.find_prepared_missed(key, hint)
+    }
+
+    /// [`find_prepared_hinted`](Self::find_prepared_hinted) when the key is not at the hint.
+    #[inline(never)]
+    fn find_prepared_missed(&self, key: &PreparedKey, hint: &mut u32) -> Option<usize> {
         let pos = self.find_prepared(key)?;
         *hint = pos as u32;
         Some(pos)
@@ -492,7 +499,26 @@ impl ArrayData {
         value: Value,
         hint: &mut u32,
     ) -> Option<Value> {
-        if let Some(pos) = self.find_prepared_hinted(key, hint) {
+        let at = *hint as usize;
+        if let Some(entry) = self.entries.get_mut(at)
+            && prepared_matches(entry, key)
+            && let Some((_, slot)) = entry
+        {
+            return Some(std::mem::replace(slot, value));
+        }
+        self.insert_prepared_missed(key, value, hint)
+    }
+
+    /// [`insert_prepared_hinted`](Self::insert_prepared_hinted) when the key is not at the hint.
+    #[inline(never)]
+    fn insert_prepared_missed(
+        &mut self,
+        key: &PreparedKey,
+        value: Value,
+        hint: &mut u32,
+    ) -> Option<Value> {
+        if let Some(pos) = self.find_prepared(key) {
+            *hint = pos as u32;
             let slot = self.entries[pos].as_mut().map(|(_, v)| v);
             return slot.map(|v| std::mem::replace(v, value));
         }
