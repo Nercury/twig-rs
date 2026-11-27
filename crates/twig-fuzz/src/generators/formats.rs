@@ -2740,7 +2740,15 @@ impl Gen {
                 };
                 self.put(V::Str(format))
             }
-            1 => self.pick_str(DATE_FORMAT_CONSTANTS),
+            1 => {
+                let constant = self.pick_str(DATE_FORMAT_CONSTANTS);
+                // `RFC3339_EXTENDED` prints milliseconds (`v`): of "now" they cannot match
+                if micro_ok {
+                    constant
+                } else {
+                    constant.replace("RFC3339_EXTENDED", "RFC3339")
+                }
+            }
             2 => {
                 let bytes = self.date_format_bytes(micro_ok);
                 self.put(V::Str(bytes))
@@ -3145,7 +3153,9 @@ impl Gen {
             }
             1 => format!("{{{{ {p}|length }}}}"),
             2 => {
-                let format = self.date_format(true);
+                // an empty period (an end date at or before the first date after the start) has no
+                // `first` or `last`: `null|date` is "now", whose microseconds cannot match
+                let format = self.date_format(false);
                 format!("{{{{ {p}|first|date({format}) }}}}|{{{{ {p}|last|date({format}) }}}}")
             }
             3 => {
@@ -4214,6 +4224,33 @@ mod tests {
                 .and_then(Json::as_str)
                 .is_some_and(|code| code.contains("DateTimeZone(\"Etc/Unknown\")"))
         }));
+    }
+
+    /// What may print a date of "now" gets no format with microseconds or milliseconds: a format for
+    /// such a date never names an `RFC3339_EXTENDED` constant (`v`), and `first`/`last` of a period,
+    /// `null` (that is "now") when the period is empty, take such a format.
+    #[test]
+    fn no_micro_formats_where_now_can_print() {
+        let mut g = Gen::new(Rng::new(11));
+        let formats: Vec<String> = (0..20_000).map(|_| g.date_format(false)).collect();
+        assert!(!formats.iter().any(|f| f.contains("RFC3339_EXTENDED")));
+        assert!(formats.iter().any(|f| f.contains("RFC3339")));
+        let mut g = Gen::new(Rng::new(12));
+        let (mut checked, mut periods) = (0, 0);
+        for _ in 0..4_000 {
+            let statement = g.period_statement();
+            let Some(at) = statement.find("|first|date(") else {
+                continue;
+            };
+            periods += 1;
+            let rest = &statement[at + "|first|date(".len()..];
+            let format = &rest[..rest.find(") }}").expect("the end of the call")];
+            if let Some((_, V::Str(bytes))) = g.vars.iter().find(|(name, _)| name == format) {
+                checked += 1;
+                assert_eq!(strip_micro(bytes), *bytes, "{statement}");
+            }
+        }
+        assert!(periods > 300 && checked > 100, "{periods} {checked}");
     }
 
     #[test]
