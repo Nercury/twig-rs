@@ -248,3 +248,62 @@ fn the_minimiser_shrinks_a_known_mismatch() {
     assert!(source.contains('*') && source.len() < 20, "{source:?}");
     assert!(predicate.oracle_errors.is_empty());
 }
+
+/// The typed data marks an interval made by `new DateInterval()` as one with wall-clock arithmetic also when its
+/// date part or a long time part keeps adding it from crossing a change of the UTC offset, or when it has only
+/// microseconds, and marks no civil interval and no interval without a time part (T23: `interval_is_wall()` in
+/// research/php-oracle/lib.php). Fails on an image built before T23.
+#[test]
+#[ignore = "needs Docker"]
+fn the_typed_data_marks_every_wall_clock_interval() {
+    let mut oracle = oracle();
+    let data_php = "return [\
+        'marked' => [new \\DateInterval('PT1H'), new \\DateInterval('P9MT62825H6M7S'), \
+            new \\DateInterval('P1Y2M3DT4H5M6S'), clone new \\DateInterval('P2MT1H'), \
+            (function () { $i = new \\DateInterval('PT0S'); $i->f = 0.5; return $i; })()], \
+        'unmarked' => [unserialize(serialize(new \\DateInterval('P9MT62825H6M7S'))), \
+            \\DateInterval::createFromDateString('9 months 62825 hours'), \
+            (new \\DateTime('2020-01-01'))->diff(new \\DateTime('2021-03-05 10:20:30')), \
+            new \\DateInterval('P9M')]]";
+    let case = Json::Object(vec![
+        ("id".to_owned(), Json::str("wall")),
+        ("env".to_owned(), Json::str("plain")),
+        (
+            "templates".to_owned(),
+            Json::Object(vec![("index.twig".to_owned(), Json::str(""))]),
+        ),
+        ("data_php".to_owned(), Json::str(data_php)),
+    ]);
+    let results = oracle
+        .run(&[oracle_request(&case)], Some("process"))
+        .unwrap();
+    let data = results[0]
+        .get("data")
+        .unwrap_or_else(|| panic!("no typed data: {}", results[0].to_compact()));
+    // an array node's items are `[key, node]` pairs
+    let list = |key: &str| -> Vec<bool> {
+        let node = data
+            .get("v")
+            .map(Json::items)
+            .unwrap_or_default()
+            .iter()
+            .find(|item| item.items().first().and_then(Json::as_str) == Some(key))
+            .and_then(|item| item.items().get(1))
+            .unwrap_or_else(|| panic!("no {key}: {}", data.to_compact()));
+        node.get("v")
+            .map(Json::items)
+            .unwrap_or_default()
+            .iter()
+            .map(|item| {
+                let interval = &item.items()[1];
+                assert_eq!(
+                    interval.get("class").and_then(Json::as_str),
+                    Some("DateInterval")
+                );
+                interval.get("wall").is_some_and(Json::truthy)
+            })
+            .collect()
+    };
+    assert_eq!(list("marked"), [true; 5]);
+    assert_eq!(list("unmarked"), [false; 4]);
+}
